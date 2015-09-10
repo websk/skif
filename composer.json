@@ -1,0 +1,8 @@
+{
+  "name": "websk/skif",
+  "autoload": {
+    "psr-0": {
+      "Skif" : "src/"
+    }
+  }
+}
