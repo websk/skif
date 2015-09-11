@@ -5,9 +5,11 @@
       "Skif" : "src/"
     }
   },
+  "homepage": "http://websk.ru",
   "require": {
     "php": ">=5.3.0",
     "imagine/Imagine": "dev-master",
-    "ckeditor/ckeditor": "dev-full/stable"
+    "ckeditor/ckeditor": "dev-full/stable",
+    "twbs/bootstrap": "dev-master"
   }
 }
