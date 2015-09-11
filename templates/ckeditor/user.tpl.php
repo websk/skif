@@ -19,7 +19,7 @@
             { name: 'others', items: [ '-' ] }
         ],
         pasteFilter: 'plain-text',
-        customConfig: '/skif/templates/ckeditor/ckeditor_config.js',
+        customConfig: '/vendor/websk/skif/templates/ckeditor/ckeditor_config.js',
         height: <?php echo $height ?>
     });
 </script>
