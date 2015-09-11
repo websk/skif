@@ -5,7 +5,7 @@ class PhpTemplate
 {
     protected static function getRootSitePath()
     {
-        return dirname(dirname(dirname(__DIR__)));
+        return dirname(dirname(dirname(dirname(dirname(__DIR__)))));
     }
 
     protected static function getSkifTemplatePath()
