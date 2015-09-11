@@ -23,26 +23,26 @@ if (!$user_id || !\Skif\Users\AuthUtils::currentUserIsAdmin()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>СКИФ - Система управления сайтом</title>
-    <link rel="icon" href="/skif/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/vedor/websk/skif/favicon.ico" type="image/x-icon">
 
-    <script type="text/javascript" src="/skif/js/jquery-1.11.1.min.js"></script>
-    <link rel="stylesheet" href="/skif/js/ui/jquery-ui.min.css">
-    <script type="text/javascript" src="/skif/js/ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/vedor/websk/skif/js/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="/vedor/websk/skif/js/ui/jquery-ui.min.css">
+    <script type="text/javascript" src="/vedor/websk/skif/js/ui/jquery-ui.min.js"></script>
 
-    <link type="text/css" rel="stylesheet" media="all" href="/skif/css/bootstrap.min.css"/>
-    <link type="text/css" rel="stylesheet" media="all" href="/skif/css/bootstrap-theme.min.css"/>
-    <script type="text/javascript" src="/skif/js/bootstrap.min.js"></script>
+    <link type="text/css" rel="stylesheet" media="all" href="/vedor/websk/skif/css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="/vedor/websk/skif/css/bootstrap-theme.min.css"/>
+    <script type="text/javascript" src="/vedor/websk/skif/js/bootstrap.min.js"></script>
 
-    <script type="text/javascript" src="/skif/js/fancybox/jquery.fancybox.pack.js"></script>
-    <link rel="stylesheet" type="text/css" href="/skif/js/fancybox/jquery.fancybox.css" media="screen"/>
+    <script type="text/javascript" src="/vedor/websk/skif/js/fancybox/jquery.fancybox.pack.js"></script>
+    <link rel="stylesheet" type="text/css" href="/vedor/websk/skif/js/fancybox/jquery.fancybox.css" media="screen"/>
 
-    <script type="text/javascript" src="/skif/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/vedor/websk/skif/js/jquery.validate.min.js"></script>
 
-    <link rel="stylesheet" href="/skif/css/admin.css" type="text/css">
+    <link rel="stylesheet" href="/vedor/websk/skif/css/admin.css" type="text/css">
 
-    <link type="text/css" rel="stylesheet" media="all" href="/skif/css/bootstrap-datetimepicker.min.css"/>
-    <script type="text/javascript" src="/skif/js/moment-with-locales.min.js"></script>
-    <script type="text/javascript" src="/skif/js/bootstrap-datetimepicker.min.js"></script>
+    <link type="text/css" rel="stylesheet" media="all" href="/vedor/websk/skif/css/bootstrap-datetimepicker.min.css"/>
+    <script type="text/javascript" src="/vedor/websk/skif/js/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/vedor/websk/skif/js/bootstrap-datetimepicker.min.js"></script>
 
     <script type="text/javascript" src="/vendor/ckeditor/ckeditor/ckeditor.js"></script>
 </head>
@@ -87,7 +87,7 @@ if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <a href="/admin/"><img src="/skif/images/admin/logo.gif" border="0" width="250" height="86" alt="СКИФ"
+            <a href="/admin/"><img src="/vedor/websk/skif/images/admin/logo.gif" border="0" width="250" height="86" alt="СКИФ"
                                    class="img-responsive"></a>
         </div>
         <div class="col-md-9">
@@ -144,7 +144,7 @@ if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
                target="_blank"><?php echo \Skif\Conf\ConfWrapper::value('site_name'); ?></a>
         </div>
         <div class="col-md-6" align="right">
-            <a href="http://www.websk.ru" target="_blank"><img src="/skif/images/admin/skif.gif" alt="СКИФ" border="0"
+            <a href="http://www.websk.ru" target="_blank"><img src="/vedor/websk/skif/images/admin/skif.gif" alt="СКИФ" border="0"
                                                                width="88" height="30"></a>
         </div>
     </div>
