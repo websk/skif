@@ -3,17 +3,17 @@ namespace Skif;
 
 class PhpTemplate
 {
-    protected static function getRootSitePath()
+    public static function getRootSitePath()
     {
         return dirname(dirname(dirname(dirname(dirname(__DIR__)))));
     }
 
-    protected static function getSkifTemplatePath()
+    public static function getSkifTemplatePath()
     {
         return dirname(dirname(__DIR__));
     }
 
-    protected static function getSkifPath()
+    public static function getSkifPath()
     {
         return dirname(__DIR__);
     }
