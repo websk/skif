@@ -38,7 +38,7 @@ CKEDITOR.editorConfig = function( config ) {
     config.removeDialogTabs = 'image:advanced;link:advanced';
 
     config.skin = 'moonocolor';
-    config.contentsCss = ['/vendor/websk/skif/css/bootstrap.min.css', '/css/main.css'];
+    config.contentsCss = ['/vendor/websk/skif/assets/libraries/bootstrap/css/bootstrap.min.css', '/css/main.css'];
 
     // при нажатии enter добавляем br
     config.enterMode = CKEDITOR.ENTER_BR;

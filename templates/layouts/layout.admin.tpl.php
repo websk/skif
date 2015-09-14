@@ -33,8 +33,8 @@ if (!$user_id || !\Skif\Users\AuthUtils::currentUserIsAdmin()) {
     <link type="text/css" rel="stylesheet" media="all" href="/vendor/websk/skif/assets/libraries/bootstrap/css/bootstrap-theme.min.css"/>
     <script type="text/javascript" src="/vendor/websk/skif/assets/libraries/bootstrap/js/bootstrap.min.js"></script>
 
-    <script type="text/javascript" src="/vendor/websk/skif/assets/js/fancybox/jquery.fancybox.pack.js"></script>
-    <link rel="stylesheet" type="text/css" href="/vendor/websk/skif/assets/js/fancybox/jquery.fancybox.css" media="screen"/>
+    <script type="text/javascript" src="/vendor/websk/skif/assets/libraries/fancybox/jquery.fancybox.pack.js"></script>
+    <link rel="stylesheet" type="text/css" href="/vendor/websk/skif/assets/libraries/fancybox/jquery.fancybox.css" media="screen"/>
 
     <script type="text/javascript" src="/vendor/websk/skif/assets/js/jquery.validate.min.js"></script>
 
