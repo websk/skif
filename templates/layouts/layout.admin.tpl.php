@@ -25,24 +25,24 @@ if (!$user_id || !\Skif\Users\AuthUtils::currentUserIsAdmin()) {
     <title>СКИФ - Система управления сайтом</title>
     <link rel="icon" href="/vendor/websk/skif/favicon.ico" type="image/x-icon">
 
-    <script type="text/javascript" src="/vendor/websk/skif/js/jquery-1.11.1.min.js"></script>
-    <link rel="stylesheet" href="/vendor/websk/skif/js/ui/jquery-ui.min.css">
-    <script type="text/javascript" src="/vendor/websk/skif/js/ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/vendor/websk/skif/assets/js/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="/vendor/websk/skif/assets/js/ui/jquery-ui.min.css">
+    <script type="text/javascript" src="/vendor/websk/skif/assets/js/ui/jquery-ui.min.js"></script>
 
-    <link type="text/css" rel="stylesheet" media="all" href="/vendor/websk/skif/css/bootstrap.min.css"/>
-    <link type="text/css" rel="stylesheet" media="all" href="/vendor/websk/skif/css/bootstrap-theme.min.css"/>
-    <script type="text/javascript" src="/vendor/websk/skif/js/bootstrap.min.js"></script>
+    <link type="text/css" rel="stylesheet" media="all" href="/vendor/websk/skif/assets/libraries/bootstrap/css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="/vendor/websk/skif/assets/libraries/bootstrap/css/bootstrap-theme.min.css"/>
+    <script type="text/javascript" src="/vendor/websk/skif/assets/libraries/bootstrap/js/bootstrap.min.js"></script>
 
-    <script type="text/javascript" src="/vendor/websk/skif/js/fancybox/jquery.fancybox.pack.js"></script>
-    <link rel="stylesheet" type="text/css" href="/vendor/websk/skif/js/fancybox/jquery.fancybox.css" media="screen"/>
+    <script type="text/javascript" src="/vendor/websk/skif/assets/js/fancybox/jquery.fancybox.pack.js"></script>
+    <link rel="stylesheet" type="text/css" href="/vendor/websk/skif/assets/js/fancybox/jquery.fancybox.css" media="screen"/>
 
-    <script type="text/javascript" src="/vendor/websk/skif/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/vendor/websk/skif/assets/js/jquery.validate.min.js"></script>
 
-    <link rel="stylesheet" href="/vendor/websk/skif/css/admin.css" type="text/css">
+    <link rel="stylesheet" href="/vendor/websk/skif/assets/css/admin.css" type="text/css">
 
-    <link type="text/css" rel="stylesheet" media="all" href="/vendor/websk/skif/css/bootstrap-datetimepicker.min.css"/>
-    <script type="text/javascript" src="/vendor/websk/skif/js/moment-with-locales.min.js"></script>
-    <script type="text/javascript" src="/vendor/websk/skif/js/bootstrap-datetimepicker.min.js"></script>
+    <link type="text/css" rel="stylesheet" media="all" href="/vendor/websk/skif/assets/css/bootstrap-datetimepicker.min.css"/>
+    <script type="text/javascript" src="/vendor/websk/skif/assets/js/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/vendor/websk/skif/assets/js/bootstrap-datetimepicker.min.js"></script>
 
     <script type="text/javascript" src="/vendor/ckeditor/ckeditor/ckeditor.js"></script>
 </head>
@@ -87,7 +87,7 @@ if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <a href="/admin/"><img src="/vendor/websk/skif/images/admin/logo.gif" border="0" width="250" height="86" alt="СКИФ"
+            <a href="/admin/"><img src="/vendor/websk/skif/assets/images/admin/logo.gif" border="0" width="250" height="86" alt="СКИФ"
                                    class="img-responsive"></a>
         </div>
         <div class="col-md-9">
@@ -144,7 +144,7 @@ if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
                target="_blank"><?php echo \Skif\Conf\ConfWrapper::value('site_name'); ?></a>
         </div>
         <div class="col-md-6" align="right">
-            <a href="http://www.websk.ru" target="_blank"><img src="/vendor/websk/skif/images/admin/skif.gif" alt="СКИФ" border="0"
+            <a href="http://www.websk.ru" target="_blank"><img src="/vendor/websk/skif/assets/images/admin/skif.gif" alt="СКИФ" border="0"
                                                                width="88" height="30"></a>
         </div>
     </div>
