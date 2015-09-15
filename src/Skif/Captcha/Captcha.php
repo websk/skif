@@ -55,7 +55,7 @@ class Captcha
         $C_HEIGHT = 40; // Высота изображения
         $C_NUM_GENSIGN = 5; // Количество символов, которые нужно набрать
         $C_FONT_SIZE = 14;
-        $path_fonts = __DIR__ . '/fonts/'; // Путь к шрифтам
+        $path_fonts = \Skif\PhpTemplate::getSkifPath() . '/assets/fonts/'; // Путь к шрифтам
         $numeric = 1; // Только цифры
 
         session_start();

@@ -7,8 +7,9 @@ class CKEditor
 
     public static function createFullCKEditor($editor_name, $text, $height = 300, $dir = null)
     {
-        return  \Skif\PhpTemplate::renderTemplate(
-            'templates/ckeditor/full.tpl.php',
+        return  \Skif\PhpTemplate::renderTemplateByModule(
+            'CKEditor',
+            'full.tpl.php',
             array(
                 'editor_name' => $editor_name,
                 'text' => $text,
@@ -20,8 +21,9 @@ class CKEditor
 
     public static function createBasicCKEditor($editor_name, $text, $height = 300, $dir = null)
     {
-        return  \Skif\PhpTemplate::renderTemplate(
-            'templates/ckeditor/basic.tpl.php',
+        return  \Skif\PhpTemplate::renderTemplateByModule(
+            'CKEditor',
+            'basic.tpl.php',
             array(
                 'editor_name' => $editor_name,
                 'text' => $text,
@@ -33,8 +35,9 @@ class CKEditor
 
     public static function createUserCKEditor($editor_name, $text, $height = 300, $dir = null)
     {
-        return  \Skif\PhpTemplate::renderTemplate(
-            'templates/ckeditor/user.tpl.php',
+        return  \Skif\PhpTemplate::renderTemplateByModule(
+            'CKEditor',
+            'user.tpl.php',
             array(
                 'editor_name' => $editor_name,
                 'text' => $text,
