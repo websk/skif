@@ -7,7 +7,7 @@ class PhpTemplate
 
     public static function getBasePath()
     {
-        return dirname($_SERVER["DOCUMENT_ROOT"]);
+        return realpath(__DIR__);
     }
 
     public static function getRootSitePath()
