@@ -5,6 +5,11 @@ class PhpTemplate
 {
     const VIEWS_DIR_NAME = 'views';
 
+    public static function getBasePath()
+    {
+        return dirname($_SERVER["DOCUMENT_ROOT"]);
+    }
+
     public static function getRootSitePath()
     {
         return dirname(dirname(dirname(dirname(dirname(__DIR__)))));
