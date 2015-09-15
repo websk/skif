@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif;
+namespace Skif\CKEditor;
 
 class CKEditor
 {
