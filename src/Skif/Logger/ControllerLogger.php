@@ -66,7 +66,7 @@ class ControllerLogger
             array($entity_id)
         );
 
-        $html = \Skif\PhpTemplate::template('Skif/Logger/templates/object_log.tpl.php', array(
+        $html = \Skif\PhpTemplate::template('Skif/Logger/views/object_log.tpl.php', array(
                 'logger_objs_arr' => $logger_objs_arr
             )
         );

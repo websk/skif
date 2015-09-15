@@ -12,7 +12,7 @@ $dir_str = ($dir ? "'&dir=". $dir . "'" : '');
 
 <script>
     CKEDITOR.replace('<?php echo $editor_name ?>', {
-        customConfig: '/vendor/websk/skif/templates/ckeditor/ckeditor_config.js',
+        customConfig:  <?php echo \Skif\PhpTemplate::getSkifPath()?> + '/CKEditor/views/ckeditor_config.js',
         filebrowserBrowseUrl: '/libraries/kcfinder/browse.php?opener=ckeditor&type=content' + <?php echo ($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
         filebrowserImageBrowseUrl: '/libraries/kcfinder/browse.php?opener=ckeditor&type=images' + <?php echo ($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
         filebrowserFlashBrowseUrl: '/libraries/kcfinder/browse.php?opener=ckeditor&type=flash',

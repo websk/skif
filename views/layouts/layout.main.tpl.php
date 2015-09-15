@@ -66,7 +66,7 @@
                     $breadcrumbs_arr
                 );
 
-                echo \Skif\PhpTemplate::renderTemplate('Skif/templates/breadcrumbs.tpl.php', array('breadcrumbs_arr' => $breadcrumbs_arr));
+                echo \Skif\PhpTemplate::renderTemplate('views/breadcrumbs.tpl.php', array('breadcrumbs_arr' => $breadcrumbs_arr));
 
                 $current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
                 if ($current_url_no_query != '/') {
@@ -88,7 +88,7 @@
 
                 <?php
                 if (isset($admin_nav_arr)) {
-                    echo \Skif\PhpTemplate::renderTemplate('Skif/templates/admin_nav.tpl.php', array('admin_nav_arr' => $admin_nav_arr));
+                    echo \Skif\PhpTemplate::renderTemplate('views/admin_nav.tpl.php', array('admin_nav_arr' => $admin_nav_arr));
                 }
                 ?>
 
