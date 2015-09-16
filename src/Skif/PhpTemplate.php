@@ -5,22 +5,17 @@ class PhpTemplate
 {
     const VIEWS_DIR_NAME = 'views';
 
-    public static function getBasePath()
-    {
-        return realpath(__DIR__);
-    }
-
-    public static function getRootSitePath()
+    protected static function getRootSitePath()
     {
         return dirname(dirname(dirname(dirname(dirname(__DIR__)))));
     }
 
-    public static function getSkifTemplatePath()
+    protected static function getSkifTemplatePath()
     {
         return dirname(dirname(__DIR__));
     }
 
-    public static function getSkifPath()
+    protected static function getSkifPath()
     {
         return dirname(__DIR__);
     }
