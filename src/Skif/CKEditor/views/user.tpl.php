@@ -19,7 +19,7 @@
             { name: 'others', items: [ '-' ] }
         ],
         pasteFilter: 'plain-text',
-        customConfig:  <?php echo \Skif\PhpTemplate::getSkifPath()?> + '/CKEditor/views/ckeditor_config.js',
+        customConfig:  '/vendor/websk/skif/src/Skif/CKEditor/views/ckeditor_config.js',
         height: <?php echo $height ?>
     });
 </script>
