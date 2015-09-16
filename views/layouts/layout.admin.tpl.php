@@ -23,7 +23,7 @@ if (!$user_id || !\Skif\Users\AuthUtils::currentUserIsAdmin()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>СКИФ - Система управления сайтом</title>
-    <link rel="icon" href="<?php echo \Skif\PhpTemplate::getBasePath(); ?>/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <script type="text/javascript" src="/vendor/websk/skif/assets/js/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" href="/vendor/websk/skif/assets/js/ui/jquery-ui.min.css">
