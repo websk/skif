@@ -22,7 +22,7 @@
             { name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar' ] },
             { name: 'others', items: [ '-' ] }
         ],
-        customConfig: '/vendor/websk/skif/src/Skif/CKEditor/views/ckeditor_config.js',
+        customConfig: '/vendor/websk/skif/assets/js/ckeditor_config.js',
         filebrowserBrowseUrl: '/libraries/kcfinder/browse.php?opener=ckeditor&type=content' + <?php echo ($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
         filebrowserImageBrowseUrl: '/libraries/kcfinder/browse.php?opener=ckeditor&type=images' + <?php echo ($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
         filebrowserFlashBrowseUrl: '/libraries/kcfinder/browse.php?opener=ckeditor&type=flash',
