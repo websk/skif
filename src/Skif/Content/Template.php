@@ -94,7 +94,7 @@ class Template implements
 
     public function getLayoutTemplateFilePath()
     {
-        return 'views/layouts/' . $this->layout_template_file;
+        return 'layouts/' . $this->layout_template_file;
     }
 
     /**
