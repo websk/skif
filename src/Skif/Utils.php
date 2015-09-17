@@ -11,7 +11,7 @@ class Utils
 
     public static function getSkifAssetsPath()
     {
-        return dirname(dirname(__DIR__)) . \Skif\Utils::ASSETS_DIR_NAME;
+        return dirname(dirname(dirname(__DIR__))) . \Skif\Utils::ASSETS_DIR_NAME;
     }
 
     public static function getSkifViewsPath()
