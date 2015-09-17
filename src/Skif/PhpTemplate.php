@@ -22,7 +22,7 @@ class PhpTemplate
             return \Skif\PhpTemplate::renderTemplateRelativeToRootSitePath($template_file, $variables);
         }
 
-        return \Skif\PhpTemplate::renderTemplate($template_file, $variables);
+        return \Skif\PhpTemplate::renderSkifTemplate($template_file, $variables);
     }
 
     public static function renderTemplateRelativeToRootSitePath($template_file, $variables = array()) {
