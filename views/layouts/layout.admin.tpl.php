@@ -119,7 +119,7 @@ if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
             $breadcrumbs_arr
         );
 
-        echo \Skif\PhpTemplate::renderSkifTemplate(\Skif\PhpTemplate::VIEWS_DIR_NAME . '/breadcrumbs.tpl.php', array('breadcrumbs_arr' => $breadcrumbs_arr));
+        echo \Skif\PhpTemplate::renderSkifTemplate('/breadcrumbs.tpl.php', array('breadcrumbs_arr' => $breadcrumbs_arr));
 
         if (!empty($title)) {
             echo '<h1>' . $title . '</h1>';
