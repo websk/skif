@@ -55,11 +55,10 @@ class PhpTemplate
     }
 
     public static function renderTemplateByModule($module, $template_file, $variables = array()) {
-        $relative_to_root_site_file_path = \Skif\Path::VIEWS_DIR_NAME . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file;
-
-        if (file_exists(\Skif\Path::getRootSitePath() . DIRECTORY_SEPARATOR . $relative_to_root_site_file_path)) {
-            return \Skif\PhpTemplate::renderTemplateRelativeToRootSitePath($relative_to_root_site_file_path, $variables);
+        if (file_exists(\Skif\Path::getSiteViewsPath() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file)) {
+            return \Skif\PhpTemplate::renderTemplateRelativeToRootSitePath('modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file, $variables);
         }
+
 
         $relative_to_root_site_file_path = 'modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . \Skif\Path::VIEWS_DIR_NAME . DIRECTORY_SEPARATOR . $template_file;
 
