@@ -11,9 +11,9 @@ class DefaultConf
         $conf = array();
 
         $conf['layout'] = array(
-            'admin' => 'views/layouts/layout.admin.tpl.php',
-            'empty' => 'views/layouts/layout.empty.tpl.php',
-            'main' => 'views/layouts/layout.main.tpl.php'
+            'admin' => 'layouts/layout.admin.tpl.php',
+            'empty' => 'layouts/layout.empty.tpl.php',
+            'main' => 'layouts/layout.main.tpl.php'
         );
 
         $conf['admin_menu'] = array(
