@@ -7,6 +7,18 @@ class Utils
 {
     protected static $countries_arr;
 
+    const ASSETS_DIR_NAME = 'assets';
+
+    public static function getSkifAssetsPath()
+    {
+        return dirname(dirname(__DIR__)) . \Skif\Utils::ASSETS_DIR_NAME;
+    }
+
+    public static function getSkifViewsPath()
+    {
+        return dirname(dirname(__DIR__)) . \Skif\PhpTemplate::VIEWS_DIR_NAME;
+    }
+
     public static function renderPagination($current_page, $count_records, $messages_to_page)
     {
         $url = $_SERVER['REQUEST_URI'];
