@@ -26,7 +26,7 @@ class Path
 
     public static function getSkifViewsPath()
     {
-        return dirname(dirname(__DIR__)) . self::VIEWS_DIR_NAME;
+        return dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . self::VIEWS_DIR_NAME;
     }
 
     public static function getSiteViewsPath()
