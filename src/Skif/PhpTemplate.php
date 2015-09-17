@@ -15,7 +15,7 @@ class PhpTemplate
         return dirname(dirname(__DIR__));
     }
 
-    protected static function getSkifPath()
+    public static function getSkifPath()
     {
         return dirname(__DIR__);
     }
