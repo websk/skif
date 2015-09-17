@@ -62,7 +62,16 @@ class PhpTemplate
         }
 
         $relative_to_root_site_file_path = 'modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . \Skif\Path::VIEWS_DIR_NAME . DIRECTORY_SEPARATOR . $template_file;
-        return \Skif\PhpTemplate::renderTemplateRelativeToRootSitePath($relative_to_root_site_file_path, $variables);
+
+        extract($variables, EXTR_SKIP);
+        ob_start();
+
+        require \Skif\Path::getRootSitePath() . DIRECTORY_SEPARATOR . $relative_to_root_site_file_path;
+        $contents = ob_get_contents();
+
+        ob_end_clean();
+
+        return $contents;
     }
 
     public static function existsTemplateByModuleRelativeToRootSitePath($module, $template_file)
