@@ -10,7 +10,7 @@ class PhpTemplate
         return dirname(dirname(dirname(dirname(dirname(__DIR__)))));
     }
 
-    protected static function getSkifTemplatePath()
+    public static function getSkifTemplatePath()
     {
         return dirname(dirname(__DIR__));
     }
