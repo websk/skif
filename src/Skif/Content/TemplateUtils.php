@@ -16,7 +16,7 @@ class TemplateUtils
     {
         $template_obj = \Skif\Content\Template::factory($template_id, false);
         if (!$template_obj) {
-            return 'views/layouts/layout.main.tpl.php';
+            return 'layouts/layout.main.tpl.php';
         }
 
         return $template_obj->getLayoutTemplateFilePath();

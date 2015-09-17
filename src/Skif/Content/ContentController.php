@@ -83,7 +83,7 @@ class ContentController extends \Skif\BaseController
         \Skif\Utils::assert($content_type_obj);
 
         echo \Skif\PhpTemplate::renderTemplate(
-            'views/layouts/layout.main.tpl.php',
+            'layouts/layout.main.tpl.php',
             array(
                 'content' => $content,
                 'title' => $content_type_obj->getName(),
