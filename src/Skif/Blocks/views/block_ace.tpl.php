@@ -17,7 +17,7 @@ $block_obj = \Skif\Blocks\ControllerBlocks::getBlockObj($block_id);
         </ul>
     </div>
 
-    <script src="/js/ace/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/vendor/websk/skif/assets/libraries/ace/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
 
 <?php
 echo \Skif\Util\CHtml::beginForm(\Skif\UrlManager::getUriNoQueryString(), 'post', array(
