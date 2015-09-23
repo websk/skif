@@ -3,7 +3,13 @@ namespace Skif;
 
 class PhpTemplate
 {
-    public static function renderSkifTemplate($template_file, $variables = array()) {
+    public static function renderTemplate($template_file, $variables = array()) {
+        $relative_to_root_site_file_path = \Skif\Path::getSiteViewsPath() . DIRECTORY_SEPARATOR . $template_file;
+
+        if (file_exists($relative_to_root_site_file_path)) {
+            return \Skif\PhpTemplate::renderTemplateRelativeToRootSitePath($template_file, $variables);
+        }
+
         extract($variables, EXTR_SKIP);
         ob_start();
 
@@ -13,16 +19,6 @@ class PhpTemplate
         ob_end_clean();
 
         return $contents;
-    }
-
-    public static function renderTemplate($template_file, $variables = array()) {
-        $relative_to_root_site_file_path = \Skif\Path::getSiteViewsPath() . DIRECTORY_SEPARATOR . $template_file;
-
-        if (file_exists($relative_to_root_site_file_path)) {
-            return \Skif\PhpTemplate::renderTemplateRelativeToRootSitePath($template_file, $variables);
-        }
-
-        return \Skif\PhpTemplate::renderSkifTemplate($template_file, $variables);
     }
 
     public static function renderTemplateRelativeToRootSitePath($template_file, $variables = array()) {
