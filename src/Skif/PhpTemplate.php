@@ -39,7 +39,8 @@ class PhpTemplate
 
     public static function renderTemplateBySkifModule($module, $template_file, $variables = array()) {
         if (\Skif\PhpTemplate::existsTemplateByModuleRelativeToRootSitePath($module, $template_file)) {
-            $relative_to_root_site_file_path = 'Skif' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file;
+            $relative_to_root_site_file_path = 'modules' . DIRECTORY_SEPARATOR . 'Skif' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file;
+
             return \Skif\PhpTemplate::renderTemplateRelativeToRootSitePath($relative_to_root_site_file_path, $variables);
         }
 
@@ -75,7 +76,7 @@ class PhpTemplate
 
     public static function existsTemplateByModuleRelativeToRootSitePath($module, $template_file)
     {
-        $relative_to_root_site_file_path = \Skif\Path::getSiteViewsPath() . DIRECTORY_SEPARATOR . 'Skif' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file;
+        $relative_to_root_site_file_path = \Skif\Path::getSiteViewsPath() . DIRECTORY_SEPARATOR  . 'modules' . DIRECTORY_SEPARATOR . 'Skif' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file;
 
         return file_exists($relative_to_root_site_file_path);
     }
