@@ -21,7 +21,7 @@ class SiteMenuRender
             );
         }
 
-        return \Skif\PhpTemplate::renderTemplateRelativeToRootSitePath($template, array('site_menu_id' => $site_menu_id));
+        return \Skif\PhpTemplate::renderTemplate($template, array('site_menu_id' => $site_menu_id));
     }
 
     public static function renderSiteSubMenu($site_menu_id, $parent_item_id, $template = '')
@@ -40,6 +40,6 @@ class SiteMenuRender
             );
         }
 
-        return \Skif\PhpTemplate::renderTemplateRelativeToRootSitePath($template, array('parent_item_id' => $parent_item_id));
+        return \Skif\PhpTemplate::renderTemplate($template, array('parent_item_id' => $parent_item_id));
     }
 }

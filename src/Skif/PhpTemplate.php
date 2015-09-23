@@ -3,25 +3,38 @@ namespace Skif;
 
 class PhpTemplate
 {
+    /**
+     * Вывод шаблона относительно views
+     * @param $template_file
+     * @param array $variables
+     * @return string
+     */
     public static function renderTemplate($template_file, $variables = array()) {
-        $relative_to_root_site_file_path = \Skif\Path::getSiteViewsPath() . DIRECTORY_SEPARATOR . $template_file;
+        $relative_to_site_views_file_path = \Skif\Path::getSiteViewsPath() . DIRECTORY_SEPARATOR . $template_file;
 
-        if (file_exists($relative_to_root_site_file_path)) {
+        if (file_exists($relative_to_site_views_file_path)) {
             return \Skif\PhpTemplate::renderTemplateRelativeToRootSitePath($template_file, $variables);
         }
 
-        extract($variables, EXTR_SKIP);
-        ob_start();
 
-        require \Skif\Path::getSkifViewsPath() . DIRECTORY_SEPARATOR . $template_file;
+        $relative_to_skif_views_file_path = \Skif\Path::getSkifViewsPath() . DIRECTORY_SEPARATOR . $template_file;
 
-        $contents = ob_get_contents();
-        ob_end_clean();
+        if (file_exists($relative_to_skif_views_file_path)) {
+            extract($variables, EXTR_SKIP);
+            ob_start();
 
-        return $contents;
+            require $relative_to_skif_views_file_path;
+
+            $contents = ob_get_contents();
+            ob_end_clean();
+
+            return $contents;
+        }
+
+        return  '';
     }
 
-    public static function renderTemplateRelativeToRootSitePath($template_file, $variables = array()) {
+    protected static function renderTemplateRelativeToRootSitePath($template_file, $variables = array()) {
         extract($variables, EXTR_SKIP);
         ob_start();
 

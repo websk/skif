@@ -103,7 +103,7 @@ class ContentUtils
             );
         }
 
-        return \Skif\PhpTemplate::renderTemplateRelativeToRootSitePath($template, array('contents_ids_arr' => $contents_ids_arr));
+        return \Skif\PhpTemplate::renderTemplate($template, array('contents_ids_arr' => $contents_ids_arr));
     }
 
     /**
