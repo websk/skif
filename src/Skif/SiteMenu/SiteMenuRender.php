@@ -10,7 +10,7 @@ class SiteMenuRender
         if (!$template) {
             $template_file = 'site_menu_' . $site_menu_id . '.tpl.php';
 
-            if (!\Skif\PhpTemplate::existsTemplateByModuleRelativeToRootSitePath('SiteMenu', $template_file)) {
+            if (!\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('SiteMenu', $template_file)) {
                 $template_file = 'site_menu_default.tpl.php';
             }
 
@@ -29,7 +29,7 @@ class SiteMenuRender
         if (!$template) {
             $template_file = 'site_menu_' . $site_menu_id . '_sub.tpl.php';
 
-            if (!\Skif\PhpTemplate::existsTemplateByModuleRelativeToRootSitePath('SiteMenu', $template_file)) {
+            if (!\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('SiteMenu', $template_file)) {
                 $template_file = 'site_sub_menu_default.tpl.php';
             }
 
