@@ -51,6 +51,13 @@ class PhpTemplate
         return $contents;
     }
 
+    public static function existsTemplateBySkifModuleRelativeToRootSitePath($module, $template_file)
+    {
+        $relative_to_root_site_file_path = \Skif\Path::getSiteViewsPath() . DIRECTORY_SEPARATOR  . 'modules' . DIRECTORY_SEPARATOR . 'Skif' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file;
+
+        return file_exists($relative_to_root_site_file_path);
+    }
+
     public static function renderTemplateByModule($module, $template_file, $variables = array()) {
         if (file_exists(\Skif\Path::getSiteViewsPath() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file)) {
             return \Skif\PhpTemplate::renderTemplateRelativeToRootSitePath('modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file, $variables);
@@ -68,13 +75,6 @@ class PhpTemplate
         ob_end_clean();
 
         return $contents;
-    }
-
-    public static function existsTemplateBySkifModuleRelativeToRootSitePath($module, $template_file)
-    {
-        $relative_to_root_site_file_path = \Skif\Path::getSiteViewsPath() . DIRECTORY_SEPARATOR  . 'modules' . DIRECTORY_SEPARATOR . 'Skif' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file;
-
-        return file_exists($relative_to_root_site_file_path);
     }
 
 }
