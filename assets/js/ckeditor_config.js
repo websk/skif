@@ -37,7 +37,7 @@ CKEDITOR.editorConfig = function( config ) {
     // Simplify the dialog windows.
     config.removeDialogTabs = 'image:advanced;link:advanced';
 
-    config.skin = 'moonocolor';
+    config.skin = 'moono';
     config.contentsCss = ['/vendor/websk/skif/assets/libraries/bootstrap/css/bootstrap.min.css', '/css/main.css'];
 
     // при нажатии enter добавляем br
