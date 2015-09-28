@@ -189,7 +189,7 @@ class SiteMenuController
 
         $name = array_key_exists('name', $_REQUEST) ? $_REQUEST['name'] : '';
         $url = array_key_exists('url', $_REQUEST) ? $_REQUEST['url'] : '';
-        $content_id = array_key_exists('content_id', $_REQUEST) ? $_REQUEST['content_id'] : null;
+        $content_id = array_key_exists('content_id', $_REQUEST) ? intval($_REQUEST['content_id']) : null;
         $parent_id = array_key_exists('parent_id', $_REQUEST) ? $_REQUEST['parent_id'] : 0;
         $weight = array_key_exists('weight', $_REQUEST) ? $_REQUEST['weight'] : 0;
         $is_published = array_key_exists('is_published', $_REQUEST) ? $_REQUEST['is_published'] : 0;
