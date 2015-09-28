@@ -248,7 +248,7 @@ class UserController
 
         if ($user_obj->getEmail()) {
             $message = "Добрый день, " . $user_obj->getName() . "\n";
-            $message .= "Ваш новый пароль на " . \Skif\Conf\ConfWrapper::value('site_name'). " " . $new_password .". Ваш логин ".  $user_obj->getLogin() . "\n";
+            $message .= "Ваш новый пароль на " . \Skif\Conf\ConfWrapper::value('site_name'). " " . $new_password .". Ваш email для входа".  $user_obj->getEmail() . "\n";
             $message .= 'http://' . \Skif\Conf\ConfWrapper::value('site_url');
 
             $subj = "Смена пароля на " . \Skif\Conf\ConfWrapper::value('site_name');

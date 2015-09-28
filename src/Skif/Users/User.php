@@ -12,7 +12,6 @@ class User implements
 
     protected $id;
     protected $name;
-    protected $login;
     protected $birthday;
     protected $phone;
     protected $email;
@@ -88,23 +87,6 @@ class User implements
     public function setName($name)
     {
         $this->name = $name;
-    }
-
-    /**
-     * Логин
-     * @return string
-     */
-    public function getLogin()
-    {
-        return $this->login;
-    }
-
-    /**
-     * @param mixed $login
-     */
-    public function setLogin($login)
-    {
-        $this->login = $login;
     }
 
     /**

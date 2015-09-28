@@ -18,15 +18,10 @@ class AuthUtils
      */
     public static function doLogin($email, $password, $save_auth = false)
     {
-        $salt = self::getHash($password);
+        $salt_password = self::getHash($password);
 
         $query = "SELECT id FROM users WHERE confirm=1 AND email=? AND passw=?";
-        $user_id = \Skif\DB\DBWrapper::readField($query, array($email, $salt));
-
-        if (!$user_id) {
-            $query = "SELECT id FROM users WHERE confirm=1 AND login=? AND passw=?";
-            $user_id = \Skif\DB\DBWrapper::readField($query, array($email, $salt));
-        }
+        $user_id = \Skif\DB\DBWrapper::readField($query, array($email, $salt_password));
 
         if (!$user_id) {
             return false;
