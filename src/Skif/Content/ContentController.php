@@ -162,27 +162,31 @@ class ContentController extends \Skif\BaseController
         }
 
         $title = array_key_exists('title', $_REQUEST) ? $_REQUEST['title'] : '';
-        $annotation = array_key_exists('annotation', $_REQUEST) ? $_REQUEST['annotation'] : '';
-        $body = array_key_exists('body', $_REQUEST) ? $_REQUEST['body'] : '';
-        $url = array_key_exists('url', $_REQUEST) ? $_REQUEST['url'] : '';
-        $published_at = array_key_exists('published_at', $_REQUEST) ? $_REQUEST['published_at'] : null;
-        if (empty($published_at)) {
-            $published_at = null;
-        }
-        $unpublished_at = array_key_exists('unpublished_at', $_REQUEST) ? $_REQUEST['unpublished_at'] : null;
-        if (empty($unpublished_at)) {
-            $unpublished_at = null;
-        }
-        $is_published = array_key_exists('is_published', $_REQUEST) ? $_REQUEST['is_published'] : 0;
-        $created_at = array_key_exists('created_at', $_REQUEST) ? $_REQUEST['created_at'] : date('Y-m-d H:i:s');
-        $description = array_key_exists('description', $_REQUEST) ? $_REQUEST['description'] : '';
-        $keywords = array_key_exists('keywords', $_REQUEST) ? $_REQUEST['keywords'] : '';
-        $template_id = array_key_exists('template_id', $_REQUEST) ? $_REQUEST['template_id'] : null;
 
         if (!$title){
             \Skif\Messages::setError('Отсутствует заголовок');
             \Skif\Http::redirect('/admin/content/' . $content_type . '/edit/' . $content_id);
         }
+
+        $annotation = array_key_exists('annotation', $_REQUEST) ? $_REQUEST['annotation'] : '';
+        $body = array_key_exists('body', $_REQUEST) ? $_REQUEST['body'] : '';
+        $url = array_key_exists('url', $_REQUEST) ? $_REQUEST['url'] : '';
+
+        $published_at = array_key_exists('published_at', $_REQUEST) ? $_REQUEST['published_at'] : null;
+        if (empty($published_at)) {
+            $published_at = null;
+        }
+
+        $unpublished_at = array_key_exists('unpublished_at', $_REQUEST) ? $_REQUEST['unpublished_at'] : null;
+        if (empty($unpublished_at)) {
+            $unpublished_at = null;
+        }
+
+        $is_published = array_key_exists('is_published', $_REQUEST) ? $_REQUEST['is_published'] : 0;
+        $created_at = array_key_exists('created_at', $_REQUEST) ? $_REQUEST['created_at'] : date('Y-m-d H:i:s');
+        $description = array_key_exists('description', $_REQUEST) ? $_REQUEST['description'] : '';
+        $keywords = array_key_exists('keywords', $_REQUEST) ? $_REQUEST['keywords'] : '';
+        $template_id = array_key_exists('template_id', $_REQUEST) ? $_REQUEST['template_id'] : null;
 
         if ($is_published && empty($published_at)) {
             $published_at = $created_at;
