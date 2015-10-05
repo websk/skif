@@ -143,6 +143,26 @@ class AuthUtils
     }
 
     /**
+     * Есть ли у пользователя роль, по обозначению роли
+     * @param $role_designation
+     * @return bool
+     */
+    protected static function currentUserHasAccessByRoleDesignation($role_designation)
+    {
+        $user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+
+        if ($user_id) {
+            $user_obj = \Skif\Users\User::factory($user_id);
+
+            if ($user_obj->hasRoleByDesignation($role_designation)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * @param $provider_name
      * @param $destination
      * @return \Hybrid_Provider_Adapter|null
