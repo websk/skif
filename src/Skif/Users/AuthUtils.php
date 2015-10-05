@@ -147,7 +147,7 @@ class AuthUtils
      * @param $role_designation
      * @return bool
      */
-    protected static function currentUserHasAccessByRoleDesignation($role_designation)
+    public static function currentUserHasAccessByRoleDesignation($role_designation)
     {
         $user_id = \Skif\Users\AuthUtils::getCurrentUserId();
 
