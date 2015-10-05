@@ -19,6 +19,13 @@ if ($role_id == 'new') {
         </div>
     </div>
     <div class="form-group">
+        <label class="col-md-4 control-label">Обозначение</label>
+
+        <div class="col-md-8">
+            <input type="text" name="designation" value="<?= $users_role_obj->getDesignation() ?>" class="form-control">
+        </div>
+    </div>
+    <div class="form-group">
         <div class="col-md-offset-4 col-md-8">
             <input type="submit" value="Сохранить изменения" class="btn btn-primary">
         </div>

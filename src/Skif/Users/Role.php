@@ -12,6 +12,7 @@ class Role implements
 
     protected $id;
     protected $name;
+    protected $designation;
 
     const DB_TABLE_NAME = 'roles';
 
@@ -37,6 +38,22 @@ class Role implements
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDesignation()
+    {
+        return $this->designation;
+    }
+
+    /**
+     * @param mixed $designation
+     */
+    public function setDesignation($designation)
+    {
+        $this->designation = $designation;
     }
 
     public function save()

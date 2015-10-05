@@ -420,8 +420,10 @@ class UserController
         }
 
         $name = array_key_exists('name', $_REQUEST) ? $_REQUEST['name'] : '';
+        $designation = array_key_exists('designation', $_REQUEST) ? $_REQUEST['designation'] : '';
 
         $users_role_obj->setName($name);
+        $users_role_obj->setDesignation($designation);
         $users_role_obj->save();
 
         \Skif\Messages::setMessage('Изменения сохранены');
