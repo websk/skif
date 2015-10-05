@@ -281,6 +281,21 @@ class User implements
         return false;
     }
 
+    public function hasRoleByDesignation($designation)
+    {
+        $roles_ids_arr = $this->getRolesIdsArr();
+
+        foreach ($roles_ids_arr as $role_id) {
+            $role_obj = \Skif\Users\Role::factory($role_id);
+
+            if ($role_obj->getDesignation() == $designation) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * @return mixed
      */
