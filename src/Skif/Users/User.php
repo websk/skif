@@ -281,6 +281,11 @@ class User implements
         return false;
     }
 
+    /**
+     * Есть ли у пользователя роль, по обозначению роли
+     * @param $designation
+     * @return bool
+     */
     public function hasRoleByDesignation($designation)
     {
         $roles_ids_arr = $this->getRolesIdsArr();
