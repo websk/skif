@@ -293,7 +293,7 @@ class User implements
         foreach ($roles_ids_arr as $role_id) {
             $role_obj = \Skif\Users\Role::factory($role_id);
 
-            if ($role_obj->getDesignation() == $designation) {
+            if (trim($role_obj->getDesignation()) == trim($designation)) {
                 return true;
             }
         }
