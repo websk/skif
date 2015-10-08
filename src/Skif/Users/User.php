@@ -397,6 +397,17 @@ class User implements
         $this->created_at = $created_at;
     }
 
+    public function deleteRoles()
+    {
+        $roles_ids_arr = $this->getRolesIdsArr();
+
+        foreach ($roles_ids_arr as $role_id) {
+            $role_obj = \Skif\Users\Role::factory($role_id);
+
+            $role_obj->delete();
+        }
+    }
+
     public function save()
     {
         \Skif\Util\ActiveRecordHelper::saveModelObj($this);
@@ -408,6 +419,9 @@ class User implements
 
     public function delete()
     {
+        $this->deletePhoto();
+        $this->deleteRoles();
+
         \Skif\Util\ActiveRecordHelper::deleteModelObj($this);
 
         self::removeObjFromCacheById($this->getId());

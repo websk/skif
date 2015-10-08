@@ -348,7 +348,6 @@ class UserController
 
         $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : '/';
 
-        $user_obj->deletePhoto();
         $user_obj->delete();
 
         \Skif\Messages::setMessage('Пользователь ' . $user_obj->getName() . ' был успешно удален');
