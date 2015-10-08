@@ -438,7 +438,7 @@ class UserController
 
         $users_role_obj = \Skif\Users\Role::factory($role_id);
 
-        $query = "SELECT id FROM users WHERE role_id=? LIMIT 1";
+        $query = "SELECT user_id FROM users_roles WHERE role_id=? LIMIT 1";
         $has_users = \Skif\DB\DBWrapper::readField($query, array($role_id));
 
         if ($has_users) {
