@@ -7,7 +7,7 @@ $requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id
 ?>
 <div class="jumbotron">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <form action="/admin/users" class="form-inline">
                 <div class="form-group">
                     <label>Роль</label>
@@ -26,7 +26,7 @@ $requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id
                 <input type="submit" value="Выбрать" class="btn btn-default">
             </form>
         </div>
-        <div class="col-md-6"><a href="/admin/users/roles" class="btn btn-default"><span class="glyphicon glyphicon-wrench"></span> Редактировать роли</a></div>
+        <div class="col-md-4"><a href="/admin/users/roles" class="btn btn-default"><span class="glyphicon glyphicon-wrench"></span> Редактировать роли</a></div>
     </div>
 
 </div>
