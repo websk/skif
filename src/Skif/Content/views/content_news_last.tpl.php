@@ -19,7 +19,7 @@ foreach ($contents_ids_arr as $content_id) {
             <div class="news_image"><img
                     src="<?php echo \Skif\Image\ImageManager::getImgUrlByPreset($content_obj->getImagePath(), '200_auto'); ?>"
                     alt="<?php $content_obj->getTitle() ?>" title="<?php echo $content_obj->getTitle() ?>"
-                    class="img-responsive"></div>
+                    class="img-responsive img-thumbnail"></div>
             <?php
         }
         ?>
