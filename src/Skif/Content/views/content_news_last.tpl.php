@@ -13,18 +13,8 @@ foreach ($contents_ids_arr as $content_id) {
         <div class="news_title">
             <a href="<?php echo $content_obj->getUrl(); ?>"><?php echo $content_obj->getTitle(); ?></a>
         </div>
-        <div class="row">
-            <?php
-            $col = 12;
-            if ($content_obj->getImage()) {
-                $col = 9;
-                ?>
-                <div class="col-md-3 news_image"><img src="<?php echo \Skif\Image\ImageManager::getImgUrlByPreset($content_obj->getImagePath(), '160_auto'); ?>" alt="<?php $content_obj->getTitle() ?>" title="<?php echo $content_obj->getTitle() ?>" class="img-responsive"></div>
-            <?php
-            }
-            ?>
-            <div class="col-md-<?php echo $col; ?>"><?= \Skif\Content\ContentUtils::filterContent($content_obj->getAnnotation()) ?></div>
-        </div>
+        <div class="news_image"><img src="<?php echo \Skif\Image\ImageManager::getImgUrlByPreset($content_obj->getImagePath(), '200_auto'); ?>" alt="<?php $content_obj->getTitle() ?>" title="<?php echo $content_obj->getTitle() ?>" class="img-responsive"></div>
+        <div><?= \Skif\Content\ContentUtils::filterContent($content_obj->getAnnotation()) ?></div>
     </div>
 <?php
 }
