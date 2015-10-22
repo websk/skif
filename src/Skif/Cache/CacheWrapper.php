@@ -57,4 +57,17 @@ class CacheWrapper
 
         return $cache_obj->set($key, $value, $expire);
     }
+
+    /**
+     * Обновляет время жизни кеша
+     * @param $cache_key
+     * @param $expire
+     */
+    public static function updateExpireByCacheKey($cache_key, $expire)
+    {
+        $cached = self::get($cache_key);
+        if ($cached !== false) {
+            self::set($cache_key, $cached, $expire);
+        }
+    }
 }
