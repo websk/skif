@@ -44,6 +44,13 @@ trait ActiveRecord
     public function save()
     {
         \Skif\Util\ActiveRecordHelper::saveModelObj($this);
+
+        if (
+            ($this instanceof \Skif\Model\InterfaceLoad) &&
+            ($this instanceof \Skif\Model\InterfaceFactory)
+        ) {
+            $this::afterUpdate($this->getId());
+        }
     }
 
     public function load($id)
@@ -54,5 +61,12 @@ trait ActiveRecord
     public function delete()
     {
         \Skif\Util\ActiveRecordHelper::deleteModelObj($this);
+
+        if (
+            ($this instanceof \Skif\Model\InterfaceLoad) &&
+            ($this instanceof \Skif\Model\InterfaceFactory)
+        ) {
+            $this->afterDelete();
+        }
     }
 }

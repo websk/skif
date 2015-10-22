@@ -5,6 +5,7 @@ namespace Skif\Content;
 
 class Template implements
     \Skif\Model\InterfaceLoad,
+    \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
     \Skif\Model\InterfaceDelete
 {
@@ -105,19 +106,17 @@ class Template implements
         $this->layout_template_file = $layout_template_file;
     }
 
-    public function save()
+    public static function afterUpdate($template_id)
     {
-        \Skif\Util\ActiveRecordHelper::saveModelObj($this);
+        $template_obj = \Skif\Content\Template::factory($template_id);
 
-        self::removeObjFromCacheById($this->getId());
+        self::removeObjFromCacheById($template_id);
 
-        \Skif\Logger\Logger::logObjectEvent($this, 'изменение');
+        \Skif\Logger\Logger::logObjectEvent($template_obj, 'изменение');
     }
 
-    public function delete()
+    public function afterDelete()
     {
-        \Skif\Util\ActiveRecordHelper::deleteModelObj($this);
-
         self::removeObjFromCacheById($this->getId());
 
         \Skif\Logger\Logger::logObjectEvent($this, 'удаление');

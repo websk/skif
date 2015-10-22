@@ -4,6 +4,7 @@ namespace Skif\Users;
 
 class User implements
     \Skif\Model\InterfaceLoad,
+    \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
     \Skif\Model\InterfaceDelete
 {
@@ -408,21 +409,19 @@ class User implements
         }
     }
 
-    public function save()
+    public static function afterUpdate($user_id)
     {
-        \Skif\Util\ActiveRecordHelper::saveModelObj($this);
+        $user_obj = \Skif\Users\User::factory($user_id);
 
-        self::removeObjFromCacheById($this->getId());
+        self::removeObjFromCacheById($user_id);
 
-        \Skif\Logger\Logger::logObjectEvent($this, 'изменение');
+        \Skif\Logger\Logger::logObjectEvent($user_obj, 'изменение');
     }
 
-    public function delete()
+    public function afterDelete()
     {
         $this->deletePhoto();
         $this->deleteRoles();
-
-        \Skif\Util\ActiveRecordHelper::deleteModelObj($this);
 
         self::removeObjFromCacheById($this->getId());
 

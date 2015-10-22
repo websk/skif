@@ -1,4 +1,7 @@
 <?php
+/**
+ * Базовая реализация интерфейса \Sportbox\Model\InterfaceFactory
+ */
 
 namespace Skif\Model;
 

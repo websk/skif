@@ -5,6 +5,7 @@ namespace Skif\Content;
 
 class ContentType implements
     \Skif\Model\InterfaceLoad,
+    \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
     \Skif\Model\InterfaceDelete
 {

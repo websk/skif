@@ -4,6 +4,7 @@ namespace Skif\SiteMenu;
 
 class SiteMenu implements
     \Skif\Model\InterfaceLoad,
+    \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
     \Skif\Model\InterfaceDelete
 {
@@ -62,20 +63,6 @@ class SiteMenu implements
     public function setUrl($url)
     {
         $this->url = $url;
-    }
-
-    public function save()
-    {
-        \Skif\Util\ActiveRecordHelper::saveModelObj($this);
-
-        self::removeObjFromCacheById($this->getId());
-    }
-
-    public function delete()
-    {
-        \Skif\Util\ActiveRecordHelper::deleteModelObj($this);
-
-        self::removeObjFromCacheById($this->getId());
     }
 
 }

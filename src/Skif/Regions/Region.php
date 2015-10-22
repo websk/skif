@@ -16,6 +16,7 @@ namespace Skif\Regions;
 
 class Region implements
     \Skif\Model\InterfaceLoad,
+    \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
     \Skif\Model\InterfaceDelete
 {
@@ -76,17 +77,4 @@ class Region implements
         $this->vk_id = $vk_id;
     }
 
-    public function save()
-    {
-        \Skif\Util\ActiveRecordHelper::saveModelObj($this);
-
-        self::removeObjFromCacheById($this->getId());
-    }
-
-    public function delete()
-    {
-        \Skif\Util\ActiveRecordHelper::deleteModelObj($this);
-
-        self::removeObjFromCacheById($this->getId());
-    }
 }

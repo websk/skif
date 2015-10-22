@@ -19,6 +19,7 @@ namespace Skif\KeyValue;
 class KeyValue
     implements
     \Skif\Model\InterfaceLoad,
+    \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
     \Skif\Model\InterfaceDelete
 {
@@ -96,13 +97,6 @@ class KeyValue
         $this->description = $description;
     }
 
-    public function save()
-    {
-        \Skif\Util\ActiveRecordHelper::saveModelObj($this);
-
-        self::afterUpdate($this->getId());
-    }
-
     public static function afterUpdate($key_value_id)
     {
         $key_value_obj = \Skif\KeyValue\KeyValue::factory($key_value_id);
@@ -111,13 +105,6 @@ class KeyValue
         \Skif\Cache\CacheWrapper::delete($cache_key);
 
         self::removeObjFromCacheById($key_value_id);
-    }
-
-    public function delete()
-    {
-        \Skif\Util\ActiveRecordHelper::deleteModelObj($this);
-
-        $this->afterDelete();
     }
 
     public function afterDelete()

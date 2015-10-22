@@ -4,6 +4,7 @@ namespace Skif\Users;
 
 class Role implements
     \Skif\Model\InterfaceLoad,
+    \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
     \Skif\Model\InterfaceDelete
 {
@@ -56,19 +57,17 @@ class Role implements
         $this->designation = $designation;
     }
 
-    public function save()
+    public static function afterUpdate($role_id)
     {
-        \Skif\Util\ActiveRecordHelper::saveModelObj($this);
+        $role_obj = \Skif\Users\Role::factory($role_id);
 
-        self::removeObjFromCacheById($this->getId());
+        self::removeObjFromCacheById($role_id);
 
-        \Skif\Logger\Logger::logObjectEvent($this, 'изменение');
+        \Skif\Logger\Logger::logObjectEvent($role_obj, 'изменение');
     }
 
-    public function delete()
+    public function afterDelete()
     {
-        \Skif\Util\ActiveRecordHelper::deleteModelObj($this);
-
         self::removeObjFromCacheById($this->getId());
 
         \Skif\Logger\Logger::logObjectEvent($this, 'удаление');

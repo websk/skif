@@ -31,6 +31,7 @@ namespace Skif\Content;
 
 class Content implements
     \Skif\Model\InterfaceLoad,
+    \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
     \Skif\Model\InterfaceDelete
 {
@@ -392,19 +393,17 @@ class Content implements
         $this->template_id = $template_id;
     }
 
-    public function save()
+    public static function afterUpdate($content_id)
     {
-        \Skif\Util\ActiveRecordHelper::saveModelObj($this);
+        $content_obj = \Skif\Content\Content::factory($content_id);
 
-        self::removeObjFromCacheById($this->getId());
+        self::removeObjFromCacheById($content_id);
 
-        \Skif\Logger\Logger::logObjectEvent($this, 'изменение');
+        \Skif\Logger\Logger::logObjectEvent($content_obj, 'изменение');
     }
 
-    public function delete()
+    public function afterDelete()
     {
-        \Skif\Util\ActiveRecordHelper::deleteModelObj($this);
-
         self::removeObjFromCacheById($this->getId());
 
         \Skif\Logger\Logger::logObjectEvent($this, 'удаление');

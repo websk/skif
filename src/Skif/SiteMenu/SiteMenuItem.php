@@ -4,6 +4,7 @@ namespace Skif\SiteMenu;
 
 class SiteMenuItem implements
     \Skif\Model\InterfaceLoad,
+    \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
     \Skif\Model\InterfaceDelete
 {
@@ -223,25 +224,25 @@ class SiteMenuItem implements
         return $ancestors_ids_arr;
     }
 
-    public function save()
+    public static function afterUpdate($item_id)
     {
-        \Skif\Util\ActiveRecordHelper::saveModelObj($this);
+        $item_obj = \Skif\SiteMenu\SiteMenuItem::factory($item_id);
 
-        self::removeObjFromCacheById($this->getId());
-        self::removeObjFromCacheById($this->getParentId());
+        self::removeObjFromCacheById($item_id);
+        self::removeObjFromCacheById($item_obj->getParentId());
     }
 
-    public function delete()
+    public function afterDelete()
     {
-        \Skif\Util\ActiveRecordHelper::deleteModelObj($this);
-
         $children_ids_arr = $this->getChildrenIdsArr();
 
         foreach ($children_ids_arr as $children_site_menu_item_id) {
             $children_site_menu_item_obj = \Skif\SiteMenu\SiteMenuItem::factory($children_site_menu_item_id);
             $children_site_menu_item_obj->delete();
         }
+
         self::removeObjFromCacheById($this->getId());
+
         self::removeObjFromCacheById($this->getParentId());
     }
 }
