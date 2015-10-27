@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Кульков
- * Date: 19.02.14
- * Time: 10:51
- */
 
 namespace Skif;
 
@@ -14,9 +8,7 @@ class Image
 
     public static function uploadAndResizeImage($destination_file_path, $resize_value, $prefix, $index, $quality, $to_width = true)
     {
-        $site_path = \Skif\Conf\ConfWrapper::value('site_path');
-
-        $tmp_dir = $site_path . '/admin/tmp';
+        $tmp_dir = \Skif\Conf\ConfWrapper::value('tmp_path');
 
         if (!is_dir($tmp_dir)) {
             $tmp_dir = '';
