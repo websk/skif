@@ -25,24 +25,23 @@ if (!$user_id || !\Skif\Users\AuthUtils::currentUserIsAdmin()) {
     <title>СКИФ - Система управления сайтом</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-    <script type="text/javascript" src="/vendor/websk/skif/assets/js/jquery-1.11.1.min.js"></script>
-    <link rel="stylesheet" href="/vendor/websk/skif/assets/js/ui/jquery-ui.min.css">
-    <script type="text/javascript" src="/vendor/websk/skif/assets/js/ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/vendor/bower/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="/vendor/bower/jquery-ui/themes/base/jquery-ui.min.css">
+    <script type="text/javascript" src="/vendor/bower/jquery-ui/jquery-ui.min.js"></script>
 
-    <link type="text/css" rel="stylesheet" media="all" href="/vendor/websk/skif/assets/libraries/bootstrap/css/bootstrap.min.css"/>
-    <link type="text/css" rel="stylesheet" media="all" href="/vendor/websk/skif/assets/libraries/bootstrap/css/bootstrap-theme.min.css"/>
-    <script type="text/javascript" src="/vendor/websk/skif/assets/libraries/bootstrap/js/bootstrap.min.js"></script>
-
-    <script type="text/javascript" src="/vendor/websk/skif/assets/libraries/fancybox/jquery.fancybox.pack.js"></script>
-    <link rel="stylesheet" type="text/css" href="/vendor/websk/skif/assets/libraries/fancybox/jquery.fancybox.css" media="screen"/>
-
-    <script type="text/javascript" src="/vendor/websk/skif/assets/js/jquery.validate.min.js"></script>
+    <link type="text/css" rel="stylesheet" media="all" href="/vendor/bower/bootstrap/dist/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="/vendor/bower/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="/vendor/websk/skif/assets/css/admin.css" type="text/css">
 
-    <link type="text/css" rel="stylesheet" media="all" href="/vendor/websk/skif/assets/css/bootstrap-datetimepicker.min.css"/>
-    <script type="text/javascript" src="/vendor/websk/skif/assets/js/moment-with-locales.min.js"></script>
-    <script type="text/javascript" src="/vendor/websk/skif/assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="/vendor/bower/jquery-validation/dist/jquery.validate.min.js"></script>
+
+    <script type="text/javascript" src="/vendor/bower/fancybox/source/jquery.fancybox.pack.js"></script>
+    <link rel="stylesheet" type="text/css" href="/vendor/bower/fancybox/source/jquery.fancybox.css" media="screen"/>
+
+    <script type="text/javascript" src="/vendor/bower/moment/min/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/vendor/bower/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <link type="text/css" rel="stylesheet" media="all" href="/vendor/bower/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css"/>
 
     <script type="text/javascript" src="/vendor/ckeditor/ckeditor/ckeditor.js"></script>
 </head>

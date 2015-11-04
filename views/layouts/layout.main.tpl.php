@@ -16,20 +16,25 @@
 
     <title><?= $title ?></title>
 
-    <link href="http://lib.muctr.ru/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
-    <script type="text/javascript" src="/skif/js/jquery-1.11.1.min.js"></script>
-    <link rel="stylesheet" href="/skif/js/ui/jquery-ui.min.css">
-    <script type="text/javascript" src="/skif/js/ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/vendor/bower/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="/vendor/bower/jquery-ui/themes/base/jquery-ui.min.css">
+    <script type="text/javascript" src="/vendor/bower/jquery-ui/jquery-ui.min.js"></script>
 
-    <link type="text/css" rel="stylesheet" media="all" href="/skif/css/bootstrap.min.css"/>
-    <script type="text/javascript" src="/skif/js/bootstrap.min.js"></script>
+    <link type="text/css" rel="stylesheet" media="all" href="/vendor/bower/bootstrap/dist/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="/vendor/bower/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    <link type="text/css" rel="stylesheet" media="all" href="/skif/css/main.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="/vendor/websk/skif/assets/css/main.css"/>
 
-    <script type="text/javascript" src="/skif/js/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="/skif/js/fancybox/jquery.fancybox.pack.js"></script>
-    <link rel="stylesheet" type="text/css" href="/skif/js/fancybox/jquery.fancybox.css" media="screen"/>
+    <script type="text/javascript" src="/vendor/bower/jquery-validation/dist/jquery.validate.min.js"></script>
+
+    <script type="text/javascript" src="/vendor/bower/fancybox/source/jquery.fancybox.pack.js"></script>
+    <link rel="stylesheet" type="text/css" href="/vendor/bower/fancybox/source/jquery.fancybox.css" media="screen"/>
+
+    <script type="text/javascript" src="/vendor/bower/moment/min/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/vendor/bower/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <link type="text/css" rel="stylesheet" media="all" href="/vendor/bower/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css"/>
 
     <?php
     echo \Skif\Blocks\PageRegions::renderBlocksByRegion('inside_head', 'main');
