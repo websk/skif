@@ -50,6 +50,16 @@ class CommentsController
 
         $url = $_REQUEST['url'];
 
+
+        $user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+
+        if (array_key_exists('captcha', $_REQUEST)) {
+            if (!\Skif\Captcha\Captcha::checkWithMessage()) {
+                \Skif\Http::redirect($url);
+            }
+        }
+
+
         $comment = array_key_exists('comment', $_REQUEST) ? $_REQUEST['comment'] : '';
 
         if (!$comment) {
@@ -59,14 +69,6 @@ class CommentsController
         $comment = nl2br($comment);
 
         $query = "INSERT INTO comments SET parent_id=?, url=?, url_md5=?, user_id=?, user_name=?, user_email=?, comment=?, date_time=NOW()";
-
-        $user_id = \Skif\Users\AuthUtils::getCurrentUserId();
-
-        if (!$user_id) {
-            if (!\Skif\Captcha\Captcha::checkWithMessage()) {
-                \Skif\Http::redirect($url);
-            }
-        }
 
         $user_name = array_key_exists('user_name', $_REQUEST) ? $_REQUEST['user_name'] : '';
         $user_email = array_key_exists('user_email', $_REQUEST) ? $_REQUEST['user_email'] : '';
