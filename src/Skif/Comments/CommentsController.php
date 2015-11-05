@@ -79,6 +79,8 @@ class CommentsController
 
         $comment_id = \Skif\DB\DBWrapper::lastInsertId();
 
+        \Skif\Messages::setMessage('Ваше сообщение добавлено');
+
         if ($parent_id) {
             \Skif\Factory::removeObjectFromCache('\Skif\Comments\Comment', $parent_id);
 
