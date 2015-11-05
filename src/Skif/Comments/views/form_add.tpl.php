@@ -41,7 +41,6 @@ if (!\Skif\Users\AuthUtils::getCurrentUserId()) {
             </div>
         </div>
         <?php
-        if (!$reader_obj) {
         ?>
             <div class="form-group">
                 <label class="col-md-2">Введите код, изображенный на картинке</label>
@@ -51,7 +50,6 @@ if (!\Skif\Users\AuthUtils::getCurrentUserId()) {
                 </div>
             </div>
         <?php
-        }
         ?>
     <?php
     }
