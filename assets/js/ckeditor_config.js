@@ -41,7 +41,7 @@ CKEDITOR.editorConfig = function( config ) {
     config.contentsCss = ['/vendor/bower/bootstrap/dist/css/bootstrap.min.css', '/assets/css/main.css', '/assets/css/style.css'];
 
     // при нажатии enter добавляем br
-    config.enterMode = CKEDITOR.ENTER_BR;
+    config.enterMode = CKEDITOR.ENTER_P;
     config.shiftEnterMode = CKEDITOR.ENTER_BR;
     config.protectedSource.push( /<script[\s\S]*?script>/g ); /* script tags */
     config.allowedContent = true; /* all tags */
