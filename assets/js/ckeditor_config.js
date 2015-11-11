@@ -46,5 +46,21 @@ CKEDITOR.editorConfig = function( config ) {
     config.protectedSource.push( /<script[\s\S]*?script>/g ); /* script tags */
     config.allowedContent = true; /* all tags */
     config.entities = false;
-    config.autoParagraph = false;
 };
+
+CKEDITOR.on( 'instanceReady', function( ev ) {
+
+    var blockTags = ['div','h1','h2','h3','h4','h5','h6','p','pre','ul','li'];
+    var rules = {
+        indent : false,
+        breakBeforeOpen : false,
+        breakAfterOpen : false,
+        breakBeforeClose : false,
+        breakAfterClose : true
+    };
+
+    for (var i=0; i<blockTags.length; i++) {
+        ev.editor.dataProcessor.writer.setRules( blockTags[i], rules );
+    }
+
+});
