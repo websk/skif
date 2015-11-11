@@ -35,7 +35,7 @@ CKEDITOR.editorConfig = function( config ) {
     config.format_tags = 'p;h1;h2;h3;h4';
 
     // Simplify the dialog windows.
-    config.removeDialogTabs = 'image:advanced;link:advanced';
+    config.removeDialogTabs = 'link:advanced';
 
     config.skin = 'moono';
     config.contentsCss = ['/vendor/bower/bootstrap/dist/css/bootstrap.min.css', '/assets/css/main.css', '/assets/css/style.css'];
