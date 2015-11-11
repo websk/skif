@@ -46,4 +46,5 @@ CKEDITOR.editorConfig = function( config ) {
     config.protectedSource.push( /<script[\s\S]*?script>/g ); /* script tags */
     config.allowedContent = true; /* all tags */
     config.entities = false;
+    config.autoParagraph = false;
 };
