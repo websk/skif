@@ -18,6 +18,7 @@ class Rubric implements
     protected $comment;
     protected $content_type_id;
     protected $template_id;
+    protected $url;
     protected $content_ids_arr;
 
     public static $active_record_ignore_fields_arr = array(
@@ -145,6 +146,22 @@ class Rubric implements
         }
 
         return true;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param mixed $url
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
     }
 
     public static function afterUpdate($rubric_id)
