@@ -10,7 +10,7 @@ class RubricController
         return '/admin/content/' . $content_type . '/rubrics';
     }
 
-    public function listRubricsAction($content_type)
+    public function listAdminRubricsAction($content_type)
     {
         \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
 
