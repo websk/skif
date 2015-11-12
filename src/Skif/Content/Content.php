@@ -423,6 +423,14 @@ class Content implements
         \Skif\Logger\Logger::logObjectEvent($content_obj, 'изменение');
     }
 
+    /**
+     * @return mixed
+     */
+    public function getRubricIdsArr()
+    {
+        return $this->rubric_ids_arr;
+    }
+
     public function afterDelete()
     {
         self::removeObjFromCacheById($this->getId());
