@@ -7,7 +7,8 @@ class Rubric implements
     \Skif\Model\InterfaceLoad,
     \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete
+    \Skif\Model\InterfaceDelete,
+    \Skif\Model\InterfaceLogger
 {
     use \Skif\Util\ActiveRecord;
     use \Skif\Model\FactoryTrait;
@@ -153,13 +154,6 @@ class Rubric implements
         }
 
         return true;
-    }
-
-    public function afterDelete()
-    {
-        self::removeObjFromCacheById($this->getId());
-
-        \Skif\Logger\Logger::logObjectEvent($this, 'удаление');
     }
 
 }

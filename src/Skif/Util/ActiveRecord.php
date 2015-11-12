@@ -50,6 +50,10 @@ trait ActiveRecord
             ($this instanceof \Skif\Model\InterfaceFactory)
         ) {
             $this::afterUpdate($this->getId());
+
+            if ($this instanceof \Skif\Model\InterfaceLogger) {
+                \Skif\Logger\Logger::logObjectEvent($this, 'изменение');
+            }
         }
     }
 
@@ -74,6 +78,10 @@ trait ActiveRecord
             $this->afterDelete();
         } else {
             \Skif\Util\ActiveRecordHelper::deleteModelObj($this);
+        }
+
+        if ($this instanceof \Skif\Model\InterfaceLogger) {
+            \Skif\Logger\Logger::logObjectEvent($this, 'удаление');
         }
 
         return true;

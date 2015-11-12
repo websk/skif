@@ -412,21 +412,4 @@ class Content implements
         return $this->rubric_ids_arr;
     }
 
-
-    public static function afterUpdate($content_id)
-    {
-        $content_obj = \Skif\Content\Content::factory($content_id);
-
-        self::removeObjFromCacheById($content_id);
-
-        \Skif\Logger\Logger::logObjectEvent($content_obj, 'изменение');
-    }
-
-    public function afterDelete()
-    {
-        self::removeObjFromCacheById($this->getId());
-
-        \Skif\Logger\Logger::logObjectEvent($this, 'удаление');
-    }
-
 }
