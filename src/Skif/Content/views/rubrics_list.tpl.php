@@ -21,7 +21,7 @@ $content_type_obj = \Skif\Content\ContentType::factory($content_type_id);
             ?>
             <tr>
                 <td>
-                    <a href="/admin/users/roles/edit/<?php echo $rubric_id; ?>"><?php echo $rubric_obj->getName(); ?></a>
+                    <a href="<?php echo $rubric_obj->getEditorUrl(); ?>"><?php echo $rubric_obj->getName(); ?></a>
                 </td>
                 <td>
                     <?php echo $rubric_obj->getComment(); ?>
