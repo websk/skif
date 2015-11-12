@@ -4,6 +4,8 @@
  * @var $content_type
  */
 
+$content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
+
 if ($content_id == 'new') {
     $content_obj = new \Skif\Content\Content();
 } else {
@@ -185,6 +187,25 @@ if ($content_id == 'new') {
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="rubrics">
+                <div class="form-group">
+                    <label for="rubrics_arr" class="control-label">Рубрики</label>
+                    <div>
+                        <select id="rubrics_arr" name="regions[]" multiple="multiple" class="form-control">
+                            <?php
+                            $rubric_ids_arr = $content_type_obj->getRubricIdsArr();
+
+                            $content_rubrics_ids_arr = $content_obj->getRubricIdsArr();
+
+                            foreach ($rubric_ids_arr as $rubric_id) {
+                                $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
+                                ?>
+                                <option value="<?php echo $rubric_obj->getId(); ?>"<?php echo (in_array($rubric_id, $content_rubrics_ids_arr) ? ' selected' : ''); ?>><?php echo $rubric_obj->getName(); ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
             <div role="tabpanel" class="tab-pane" id="seo">
