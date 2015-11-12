@@ -6,13 +6,13 @@
 $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
 
 $page = array_key_exists('p', $_GET) ? $_GET['p'] : 1;
-$rubric_id = array_key_exists('rubric_id', $_GET) ? $_GET['rubric_id'] : 0;
+$requested_rubric_id = array_key_exists('rubric_id', $_GET) ? $_GET['rubric_id'] : 0;
 
 $limit_to_page = 100;
 
-if ($rubric_id) {
-    $contents_ids_arr = \Skif\Content\ContentUtils::getContentsIdsArrByRubricId($rubric_id, $limit_to_page, $page);
-    $count_all_articles = \Skif\Content\ContentUtils::getCountContentsByRubricId($rubric_id);
+if ($requested_rubric_id) {
+    $contents_ids_arr = \Skif\Content\ContentUtils::getContentsIdsArrByRubricId($requested_rubric_id, $limit_to_page, $page);
+    $count_all_articles = \Skif\Content\ContentUtils::getCountContentsByRubricId($requested_rubric_id);
 } else {
     $contents_ids_arr = \Skif\Content\ContentUtils::getContentsIdsArrByType($content_type, $limit_to_page, $page);
     $count_all_articles = \Skif\Content\ContentUtils::getCountContentsByType($content_type);
@@ -32,7 +32,7 @@ if ($rubric_id) {
                         foreach ($rubric_ids_arr as $rubric_id) {
                             $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
 
-                            echo '<option value="' . $rubric_id . '" ' . ($rubric_id == $requested_role_id ? 'selected' : '') . '>' . $rubric_obj->getName() . '</option>';
+                            echo '<option value="' . $rubric_id . '" ' . ($rubric_id == $requested_rubric_id ? 'selected' : '') . '>' . $rubric_obj->getName() . '</option>';
                         }
                         ?>
                     </select>
