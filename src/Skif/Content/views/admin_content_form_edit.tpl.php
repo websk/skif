@@ -190,7 +190,7 @@ if ($content_id == 'new') {
                 <div class="form-group">
                     <label for="rubrics_arr" class="control-label">Рубрики</label>
                     <div>
-                        <select id="rubrics_arr" name="regions[]" multiple="multiple" class="form-control">
+                        <select id="rubrics_arr" name="rubrics_arr[]" multiple="multiple" class="form-control">
                             <?php
                             $rubric_ids_arr = $content_type_obj->getRubricIdsArr();
 
