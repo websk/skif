@@ -6,7 +6,8 @@ class User implements
     \Skif\Model\InterfaceLoad,
     \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete
+    \Skif\Model\InterfaceDelete,
+    \Skif\Model\InterfaceLogger
 {
     use \Skif\Util\ActiveRecord;
     use \Skif\Model\FactoryTrait;
@@ -407,15 +408,6 @@ class User implements
 
             $role_obj->delete();
         }
-    }
-
-    public static function afterUpdate($user_id)
-    {
-        $user_obj = \Skif\Users\User::factory($user_id);
-
-        self::removeObjFromCacheById($user_id);
-
-        \Skif\Logger\Logger::logObjectEvent($user_obj, 'изменение');
     }
 
     public function afterDelete()

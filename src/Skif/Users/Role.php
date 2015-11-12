@@ -6,7 +6,8 @@ class Role implements
     \Skif\Model\InterfaceLoad,
     \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete
+    \Skif\Model\InterfaceDelete,
+    \Skif\Model\InterfaceLogger
 {
     use \Skif\Util\ActiveRecord;
     use \Skif\Model\FactoryTrait;
@@ -55,22 +56,6 @@ class Role implements
     public function setDesignation($designation)
     {
         $this->designation = $designation;
-    }
-
-    public static function afterUpdate($role_id)
-    {
-        $role_obj = \Skif\Users\Role::factory($role_id);
-
-        self::removeObjFromCacheById($role_id);
-
-        \Skif\Logger\Logger::logObjectEvent($role_obj, 'изменение');
-    }
-
-    public function afterDelete()
-    {
-        self::removeObjFromCacheById($this->getId());
-
-        \Skif\Logger\Logger::logObjectEvent($this, 'удаление');
     }
 
 }
