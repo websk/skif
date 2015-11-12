@@ -60,13 +60,22 @@ trait ActiveRecord
 
     public function delete()
     {
-        \Skif\Util\ActiveRecordHelper::deleteModelObj($this);
-
         if (
             ($this instanceof \Skif\Model\InterfaceLoad) &&
             ($this instanceof \Skif\Model\InterfaceFactory)
         ) {
+            $check_message = $this->checkBeforeDelete();
+
+            if ($check_message !== true) {
+                return $check_message;
+            }
+
+            \Skif\Util\ActiveRecordHelper::deleteModelObj($this);
             $this->afterDelete();
+        } else {
+            \Skif\Util\ActiveRecordHelper::deleteModelObj($this);
         }
+
+        return true;
     }
 }

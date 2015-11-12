@@ -47,6 +47,11 @@ trait FactoryTrait {
         self::removeObjFromCacheById($id);
     }
 
+    public function checkBeforeDelete()
+    {
+        return true;
+    }
+
     /**
      * Метод чистки после удаления объекта.
      * Поскольку модели уже нет в базе, этот метод должен использовать только данные объекта в памяти:

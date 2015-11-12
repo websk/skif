@@ -17,8 +17,29 @@ class Rubric implements
     protected $comment;
     protected $content_type_id;
     protected $template_id;
+    protected $content_ids_arr;
+
+    public static $active_record_ignore_fields_arr = array(
+        'content_ids_arr',
+    );
 
     const DB_TABLE_NAME = 'rubrics';
+
+    public function load($id)
+    {
+        $is_loaded = \Skif\Util\ActiveRecordHelper::loadModelObj($this, $id);
+        if (!$is_loaded) {
+            return false;
+        }
+
+        $query = "SELECT content_id FROM content_rubrics WHERE rubric_id = ?";
+        $this->content_ids_arr = \Skif\DB\DBWrapper::readColumn(
+            $query,
+            array($this->id)
+        );
+
+        return true;
+    }
 
     /**
      * @return mixed
@@ -56,6 +77,22 @@ class Rubric implements
     /**
      * @return mixed
      */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param mixed $comment
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getContentTypeId()
     {
         return $this->content_type_id;
@@ -83,6 +120,25 @@ class Rubric implements
     public function setTemplateId($template_id)
     {
         $this->template_id = $template_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContentIdsArr()
+    {
+        return $this->content_ids_arr;
+    }
+
+    public function beforeDelete()
+    {
+        $content_ids_arr = $this->getContentIdsArr();
+
+        if ($content_ids_arr) {
+            return 'Нельзя удалить рубрику ' . $this->getName() . ', т.к. она связана с материалами';
+        }
+
+        return true;
     }
 
     public function afterDelete()
