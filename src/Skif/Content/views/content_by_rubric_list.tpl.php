@@ -20,15 +20,6 @@ foreach ($content_ids_arr as $content_id) {
     if (!$content_obj->isPublished()) {
         continue;
     }
-    /*
-    if (strtotime($content_obj->getPublishedAt()) > $current_unix_time) {
-        continue;
-    }
-
-    if ($content_obj->getUnpublishedAt() && (strtotime($content_obj->getUnpublishedAt()) < $current_unix_time)) {
-        continue;
-    }
-    */
     ?>
     <div class="list_news">
         <div class="news_data"><?= date('d.m.Y', $content_obj->getUnixTime()) ?></div>
