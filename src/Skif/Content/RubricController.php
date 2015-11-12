@@ -20,7 +20,7 @@ class RubricController
         $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
             'Content',
             'rubrics_list.tpl.php',
-            array($content_type_obj->getId())
+            array('content_type_id' => $content_type_obj->getId())
         );
 
         $breadcrumbs_arr = array(
@@ -44,13 +44,13 @@ class RubricController
         \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
 
 
+        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
+
         $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
             'Content',
             'rubric_form_edit.tpl.php',
-            array('rubric_id' => $rubric_id)
+            array('content_type_id' => $content_type_obj->getId(), 'rubric_id' => $rubric_id)
         );
-
-        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
 
         $breadcrumbs_arr = array(
             $content_type_obj->getName() => '/admin/content/' . $content_type,
