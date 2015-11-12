@@ -26,7 +26,13 @@ class ContentUtils
         return \Skif\DB\DBWrapper::readColumn($query, $param_arr);
     }
 
-    public static function getContentsIdsArrByRubric($rubric_id, $limit_to_page = 0, $page = 0)
+    public static function getCountContentsByType($content_type)
+    {
+        $query = "SELECT count(id) FROM " . \Skif\Content\Content::DB_TABLE_NAME . " WHERE type=?";
+        return \Skif\DB\DBWrapper::readField($query, array($content_type));
+    }
+
+    public static function getContentsIdsArrByRubricId($rubric_id, $limit_to_page = 0, $page = 0)
     {
         $query = "SELECT cr.content_id FROM " . \Skif\Content\ContentRubrics::DB_TABLE_NAME . " cr
                 JOIN " . \Skif\Content\Content::DB_TABLE_NAME . " c ON (c.id=cr.content_id)
@@ -41,10 +47,10 @@ class ContentUtils
         return \Skif\DB\DBWrapper::readColumn($query, $param_arr);
     }
 
-    public static function getCountContentsByType($content_type)
+    public static function getCountContentsByRubricId($rubric_id)
     {
-        $query = "SELECT count(id) FROM " . \Skif\Content\Content::DB_TABLE_NAME . " WHERE type=?";
-        return \Skif\DB\DBWrapper::readField($query, array($content_type));
+        $query = "SELECT count(id) FROM " . \Skif\Content\ContentRubrics::DB_TABLE_NAME . " WHERE rubric_id=?";
+        return \Skif\DB\DBWrapper::readField($query, array($rubric_id));
     }
 
     /**

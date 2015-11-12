@@ -11,9 +11,11 @@ $rubric_id = array_key_exists('rubric_id', $_GET) ? $_GET['rubric_id'] : 0;
 $limit_to_page = 100;
 
 if ($rubric_id) {
-    $contents_ids_arr = \Skif\Content\ContentUtils::getContentsIdsArrByRubric($rubric_id, $limit_to_page, $page);
+    $contents_ids_arr = \Skif\Content\ContentUtils::getContentsIdsArrByRubricId($rubric_id, $limit_to_page, $page);
+    $count_all_articles = \Skif\Content\ContentUtils::getCountContentsByRubricId($rubric_id);
 } else {
     $contents_ids_arr = \Skif\Content\ContentUtils::getContentsIdsArrByType($content_type, $limit_to_page, $page);
+    $count_all_articles = \Skif\Content\ContentUtils::getCountContentsByType($content_type);
 }
 ?>
 <div class="jumbotron">
@@ -74,6 +76,5 @@ foreach ($contents_ids_arr as $content_id) {
     </table>
 </div>
 <?php
-$count_all_articles = \Skif\Content\ContentUtils::getCountContentsByType($content_type);
 echo \Skif\Utils::renderPagination($page, $count_all_articles, $limit_to_page);
 ?>
