@@ -33,7 +33,8 @@ class Content implements
     \Skif\Model\InterfaceLoad,
     \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete
+    \Skif\Model\InterfaceDelete,
+    \Skif\Model\InterfaceLogger
 {
     use \Skif\Util\ActiveRecord;
     use \Skif\Model\FactoryTrait;

@@ -7,7 +7,8 @@ class Template implements
     \Skif\Model\InterfaceLoad,
     \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete
+    \Skif\Model\InterfaceDelete,
+    \Skif\Model\InterfaceLogger
 {
     use \Skif\Util\ActiveRecord;
     use \Skif\Model\FactoryTrait;
@@ -106,19 +107,4 @@ class Template implements
         $this->layout_template_file = $layout_template_file;
     }
 
-    public static function afterUpdate($template_id)
-    {
-        $template_obj = \Skif\Content\Template::factory($template_id);
-
-        self::removeObjFromCacheById($template_id);
-
-        \Skif\Logger\Logger::logObjectEvent($template_obj, 'изменение');
-    }
-
-    public function afterDelete()
-    {
-        self::removeObjFromCacheById($this->getId());
-
-        \Skif\Logger\Logger::logObjectEvent($this, 'удаление');
-    }
 }
