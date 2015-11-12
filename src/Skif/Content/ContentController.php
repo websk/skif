@@ -231,7 +231,7 @@ class ContentController extends \Skif\BaseController
 
 
         // Рубрики
-        $rubrics_arr = array_key_exists('rubrics', $_REQUEST) ? $_REQUEST['rubrics'] : array();
+        $rubrics_arr = array_key_exists('rubrics_arr', $_REQUEST) ? $_REQUEST['rubrics_arr'] : array();
         if ($rubrics_arr) {
             $content_obj->deleteContentRubrics();
 
