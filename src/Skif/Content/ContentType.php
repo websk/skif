@@ -32,7 +32,7 @@ class ContentType implements
             return false;
         }
 
-        $query = "SELECT rubric_id FROM " . \Skif\Content\ContentRubrics::DB_TABLE_NAME ." WHERE content_type_id = ?";
+        $query = "SELECT id FROM " . \Skif\Content\Rubric::DB_TABLE_NAME ." WHERE content_type_id = ?";
         $this->rubric_ids_arr = \Skif\DB\DBWrapper::readColumn(
             $query,
             array($this->id)
