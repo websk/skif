@@ -58,5 +58,22 @@ class ContentRubrics implements
         $this->rubric_id = $rubric_id;
     }
 
+    public static function afterUpdate($content_rubrics_id)
+    {
+        $content_rubrics_obj = \Skif\Content\ContentRubrics::factory($content_rubrics_id);
+
+        \Skif\Content\Content::afterUpdate($content_rubrics_obj->getContentId());
+        \Skif\Content\Rubric::afterUpdate($content_rubrics_obj->getRubricId());
+
+        self::removeObjFromCacheById($content_rubrics_id);
+    }
+
+    public function afterDelete()
+    {
+        self::removeObjFromCacheById($this->getId());
+
+        \Skif\Content\Content::afterUpdate($this->getContentId());
+        \Skif\Content\Rubric::afterUpdate($this->getRubricId());
+    }
 
 }

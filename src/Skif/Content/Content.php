@@ -420,6 +420,15 @@ class Content implements
         $this->template_id = $template_id;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getRubricIdsArr()
+    {
+        return $this->rubric_ids_arr;
+    }
+
+
     public static function afterUpdate($content_id)
     {
         $content_obj = \Skif\Content\Content::factory($content_id);
@@ -427,14 +436,6 @@ class Content implements
         self::removeObjFromCacheById($content_id);
 
         \Skif\Logger\Logger::logObjectEvent($content_obj, 'изменение');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRubricIdsArr()
-    {
-        return $this->rubric_ids_arr;
     }
 
     public function afterDelete()
