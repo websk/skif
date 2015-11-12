@@ -12,11 +12,13 @@ class ContentController extends \Skif\BaseController
 
     public function indexAction()
     {
-        if (!$this->getRequestedId()) {
+        $requested_id = $this->getRequestedId();
+
+        if (!$requested_id) {
             return \Skif\UrlManager::CONTINUE_ROUTING;
         }
 
-        $content_id = $this->getRequestedId();
+        $content_id = $requested_id;
 
         $content_obj = \Skif\Content\Content::factory($content_id);
         if (!$content_obj) {

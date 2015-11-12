@@ -3,11 +3,49 @@
 namespace Skif\Content;
 
 
-class RubricController
+class RubricController extends \Skif\BaseController
 {
+    protected $url_table = "rubrics";
+
     public static function getRubricsListUrlByContentType($content_type)
     {
         return '/admin/content/' . $content_type . '/rubrics';
+    }
+
+    /**
+     * Список материалов в рубрике
+     * @return string
+     * @throws \Exception
+     */
+    public function listAction()
+    {
+        $requested_id = $this->getRequestedId();
+
+        if (!$requested_id) {
+            return \Skif\UrlManager::CONTINUE_ROUTING;
+        }
+
+        $rubric_id = $requested_id;
+
+        $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
+
+        $content_type_obj = \Skif\Content\ContentType::factory($rubric_obj->getContentTypeId());
+
+        $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
+            'Content',
+            'content_' . $content_type_obj->getType() . '_list.tpl.php',
+            array('content_type' => $content_type_obj->getType())
+        );
+
+        echo \Skif\PhpTemplate::renderTemplate(
+            'layouts/layout.main.tpl.php',
+            array(
+                'content' => $content,
+                'title' => $content_type_obj->getName(),
+                'keywords' => '',
+                'description' => ''
+            )
+        );
     }
 
     public function listAdminRubricsAction($content_type)
