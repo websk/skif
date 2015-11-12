@@ -86,7 +86,7 @@ class UrlManager {
      */
     public static function getUniqueUrl($url)
     {
-        $url_data_tables = array('content');
+        $url_data_tables = array('content', 'rubrics');
 
         $unique_id = '';
 

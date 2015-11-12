@@ -204,7 +204,7 @@ class ContentController extends \Skif\BaseController
         $content_obj->setTemplateId($template_id);
         $content_obj->setLastModifiedAt(date('Y-m-d H:i:s'));
 
-
+        // URL
         if (!$content_obj->isPublished()) {
             if (!$url) {
                 $url = $content_obj->generateUrl();

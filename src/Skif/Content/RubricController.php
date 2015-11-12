@@ -16,6 +16,7 @@ class RubricController
 
 
         $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
+        \Skif\Utils::assert($content_type_obj);
 
         $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
             'Content',
@@ -45,6 +46,7 @@ class RubricController
 
 
         $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
+        \Skif\Utils::assert($content_type_obj);
 
         $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
             'Content',
@@ -75,6 +77,7 @@ class RubricController
 
 
         $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
+        \Skif\Utils::assert($content_type_obj);
 
         if ($rubric_id == 'new') {
             $rubric_obj = new \Skif\Content\Rubric();
@@ -85,12 +88,31 @@ class RubricController
         $name = array_key_exists('name', $_REQUEST) ? $_REQUEST['name'] : '';
         $comment = array_key_exists('comment', $_REQUEST) ? $_REQUEST['comment'] : '';
         $template_id = array_key_exists('template_id', $_REQUEST) ? $_REQUEST['template_id'] : '';
+        $url = array_key_exists('url', $_REQUEST) ? $_REQUEST['url'] : '';
 
         $rubric_obj->setName($name);
         $rubric_obj->setComment($comment);
         $rubric_obj->setTemplateId($template_id);
         $rubric_obj->setContentTypeId($content_type_obj->getId());
         $rubric_obj->save();
+
+        if (!$url) {
+            $url = $rubric_obj->generateUrl();
+        }
+
+        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
+        \Skif\Utils::assert($content_type_obj);
+
+        $url = '/' . ltrim($url, '/');
+
+        $content_type_url_length = strlen($content_type_obj->getUrl());
+        if (substr($url, 0, $content_type_url_length+1) != $content_type_obj->getUrl() . '/') {
+            $url = $content_type_obj->getUrl() . $url;
+        }
+
+        $url = '/' . ltrim($url, '/');
+
+        $content_obj->setUrl($url);
 
         \Skif\Messages::setMessage('Изменения сохранены');
 

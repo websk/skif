@@ -164,6 +164,25 @@ class Rubric implements
         $this->url = $url;
     }
 
+    public function generateUrl()
+    {
+        if (!$this->getName()) {
+            return '';
+        }
+
+        $title_for_url = \Skif\Translit::translit($this->getName());
+
+        $new_url = $title_for_url;
+        $new_url = '/' . ltrim($new_url, '/');
+
+        $new_url = substr($new_url, 0, 255);
+
+        $unique_new_url = \Skif\UrlManager::getUniqueUrl($new_url);
+        \Skif\Utils::assert($unique_new_url);
+
+        return $unique_new_url;
+    }
+
     public static function afterUpdate($rubric_id)
     {
         $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
