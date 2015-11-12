@@ -27,16 +27,16 @@ if (strpos($current_url_no_query, '/admin') !== false) {
     \Skif\UrlManager::route('@^/admin/blocks/search$@i', '\Skif\Blocks\ControllerBlocks', 'searchAction', 0);
 
     // Материалы
+    \Skif\UrlManager::route('@^/admin/content/(.+)/rubrics$@', '\Skif\Content\RubricController', 'listRubricsAction');
+    \Skif\UrlManager::route('@^/admin/content/(.+)/rubrics/edit/(.+)@', '\Skif\Content\RubricController', 'editRubricAction');
+    \Skif\UrlManager::route('@^/admin/content/(.+)/rubrics/save/(.+)@', '\Skif\Content\RubricController', 'saveRubricAction');
+    \Skif\UrlManager::route('@^/admin/content/(.+)/rubrics/delete/(.+)@', '\Skif\Content\RubricController', 'deleteRubricAction');
     \Skif\UrlManager::route('@^/admin/content/autocomplete$@i', '\Skif\Content\ContentController', 'autoCompleteContentAction', 0);
     \Skif\UrlManager::route('@^/admin/content/(.+)/edit/(.+)$@i', '\Skif\Content\ContentController', 'editAdminAction', 0);
     \Skif\UrlManager::route('@^/admin/content/(.+)/save/(.+)$@i', '\Skif\Content\ContentController', 'saveAdminAction', 0);
     \Skif\UrlManager::route('@^/admin/content/(.+)/delete/(.+)$@i', '\Skif\Content\ContentController', 'deleteAction', 0);
     \Skif\UrlManager::route('@^/admin/content/(.+)/delete_image/(.+)$@i', '\Skif\Content\ContentController', 'deleteImageAction', 0);
     \Skif\UrlManager::route('@^/admin/content/(.+)$@i', '\Skif\Content\ContentController', 'listAdminAction', 0);
-    \Skif\UrlManager::route('@^/admin/content/(.+)/rubrics$@', '\Skif\Content\RubricController', 'listRubricsAction');
-    \Skif\UrlManager::route('@^/admin/content/(.+)/rubrics/edit/(.+)@', '\Skif\Content\RubricController', 'editRubricAction');
-    \Skif\UrlManager::route('@^/admin/content/(.+)/rubrics/save/(.+)@', '\Skif\Content\RubricController', 'saveRubricAction');
-    \Skif\UrlManager::route('@^/admin/content/(.+)/rubrics/delete/(.+)@', '\Skif\Content\RubricController', 'deleteRubricAction');
 
     // Меню сайта
     \Skif\UrlManager::route('@^/admin/site_menu$@i', '\Skif\SiteMenu\SiteMenuController', 'listAdminAction', 0);
