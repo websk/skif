@@ -88,17 +88,24 @@ class RubricController
         $name = array_key_exists('name', $_REQUEST) ? $_REQUEST['name'] : '';
         $comment = array_key_exists('comment', $_REQUEST) ? $_REQUEST['comment'] : '';
         $template_id = array_key_exists('template_id', $_REQUEST) ? $_REQUEST['template_id'] : '';
-        $url = array_key_exists('url', $_REQUEST) ? \Skif\UrlManager::getUniqueUrl($_REQUEST['url']) : '';
+        $url = array_key_exists('url', $_REQUEST) ? $_REQUEST['url'] : '';
 
         $rubric_obj->setName($name);
         $rubric_obj->setComment($comment);
         $rubric_obj->setTemplateId($template_id);
         $rubric_obj->setContentTypeId($content_type_obj->getId());
 
-        if (!$url) {
+        if ($url) {
+            $url = '/' . ltrim($url, '/');
+
+            if ($url != $rubric_obj->getUrl()) {
+                \Skif\UrlManager::getUniqueUrl($url);
+            }
+        } else {
             $url = $rubric_obj->generateUrl();
+            $url = '/' . ltrim($url, '/');
         }
-        $url = '/' . ltrim($url, '/');
+
         $rubric_obj->setUrl($url);
 
         $rubric_obj->save();
