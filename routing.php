@@ -107,3 +107,4 @@ if (strpos($current_url_no_query, '/admin') !== false) {
 
 \Skif\UrlManager::route('@^@', '\Skif\Content\ContentController', 'indexAction');
 \Skif\UrlManager::route('@^/(.+)$@i', '\Skif\Content\ContentController', 'listAction');
+\Skif\UrlManager::route('@^@', '\Skif\Content\RubricController', 'listAction');
