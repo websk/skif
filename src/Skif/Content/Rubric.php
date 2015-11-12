@@ -80,15 +80,6 @@ class Rubric implements
         $this->name = $name;
     }
 
-    public static function afterUpdate($rubric_id)
-    {
-        $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
-
-        self::removeObjFromCacheById($rubric_id);
-
-        \Skif\Logger\Logger::logObjectEvent($rubric_obj, 'изменение');
-    }
-
     /**
      * @return mixed
      */
@@ -154,6 +145,22 @@ class Rubric implements
         }
 
         return true;
+    }
+
+    public static function afterUpdate($rubric_id)
+    {
+        $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
+
+        self::removeObjFromCacheById($rubric_id);
+
+        \Skif\Content\ContentType::afterUpdate($rubric_obj->getContentTypeId());
+    }
+
+    public function afterDelete()
+    {
+        self::removeObjFromCacheById($this->getId());
+
+        \Skif\Content\ContentType::afterUpdate($this->getContentTypeId());
     }
 
 }
