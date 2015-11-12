@@ -432,14 +432,18 @@ class Content implements
         return $rubric_ids_arr;
     }
 
-    public function beforeDelete()
-    {
+    public function deleteContentRubrics() {
         $content_rubrics_ids_arr = $this->getContentRubricsIdsArr();
         foreach ($content_rubrics_ids_arr as $content_rubrics_id) {
             $content_rubrics_obj = \Skif\Content\ContentRubrics::factory($content_rubrics_id);
 
             $content_rubrics_obj->delete();
         }
+    }
+
+    public function beforeDelete()
+    {
+        $this->deleteContentRubrics();
 
         return true;
     }

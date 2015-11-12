@@ -230,6 +230,19 @@ class ContentController extends \Skif\BaseController
         $content_obj->save();
 
 
+        // Рубрики
+        $rubrics_arr = array_key_exists('rubrics', $_REQUEST) ? $_REQUEST['rubrics'] : array();
+        if ($rubrics_arr) {
+            $content_obj->deleteContentRubrics();
+
+            foreach ($rubrics_arr as $rubric_id) {
+                $content_rubrics_obj = new \Skif\Content\ContentRubrics();
+                $content_rubrics_obj->setContentId($content_obj->getId());
+                $content_rubrics_obj->setRubricId($rubric_id);
+                $content_rubrics_obj->save();
+            }
+        }
+
         if (array_key_exists('image_file', $_FILES) && !empty($_FILES['image_file']['name'])) {
             $root_images_folder = \Skif\Image\ImageConstants::IMG_ROOT_FOLDER;
             $file = $_FILES['image_file'];
