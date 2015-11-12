@@ -6,18 +6,18 @@ CREATE TABLE `content` (
     `short_title` VARCHAR(255) NOT NULL DEFAULT '',
     `annotation` TEXT NOT NULL,
     `body` MEDIUMTEXT NOT NULL,
-    `rubric_id` INT(11) NULL DEFAULT NULL,
     `published_at` DATE NULL DEFAULT NULL,
     `unpublished_at` DATE NULL DEFAULT NULL,
     `is_published` SMALLINT(6) NOT NULL DEFAULT '0',
     `created_at` DATETIME NULL DEFAULT NULL,
-    `image_path` VARCHAR(100) NOT NULL DEFAULT '',
+    `image` VARCHAR(100) NOT NULL DEFAULT '',
     `description` VARCHAR(255) NOT NULL DEFAULT '',
     `keywords` VARCHAR(255) NOT NULL DEFAULT '',
     `url` VARCHAR(1000) NOT NULL DEFAULT '',
     `type` CHAR(20) NOT NULL DEFAULT '',
     `last_modified_at` DATETIME NOT NULL,
     `redirect_url` VARCHAR(1000) NOT NULL DEFAULT '',
+    `template_id` INT(11) NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
     INDEX `rubric_id` (`rubric_id`),
     INDEX `type` (`type`)
@@ -57,10 +57,10 @@ class Content implements
     protected $last_modified_at;
     protected $redirect_url = '';
     protected $template_id;
-    protected $rubric_ids_arr;
+    protected $content_rubrics_ids_arr;
 
     public static $active_record_ignore_fields_arr = array(
-        'rubric_ids_arr',
+        'content_rubrics_ids_arr',
         'rubric_id'
     );
 
@@ -78,8 +78,8 @@ class Content implements
             return false;
         }
 
-        $query = "SELECT rubric_id FROM " . \Skif\Content\ContentRubrics::DB_TABLE_NAME ." WHERE content_id = ?";
-        $this->rubric_ids_arr = \Skif\DB\DBWrapper::readColumn(
+        $query = "SELECT id FROM " . \Skif\Content\ContentRubrics::DB_TABLE_NAME ." WHERE content_id = ?";
+        $this->content_rubrics_ids_arr = \Skif\DB\DBWrapper::readColumn(
             $query,
             array($this->id)
         );
@@ -408,9 +408,39 @@ class Content implements
     /**
      * @return mixed
      */
-    public function getRubricIdsArr()
+    public function getContentRubricsIdsArr()
     {
-        return $this->rubric_ids_arr;
+        return $this->content_rubrics_ids_arr;
     }
 
+    /**
+     * Array ContentRubrics ID
+     * @return array
+     */
+    public function getRubricIdsArr()
+    {
+        $content_rubrics_ids_arr = $this->getContentRubricsIdsArr();
+
+        $rubric_ids_arr = array();
+
+        foreach ($content_rubrics_ids_arr as $content_rubrics_id) {
+            $content_rubrics_obj = \Skif\Content\ContentRubrics::factory($content_rubrics_id);
+
+            $rubric_ids_arr[] = $content_rubrics_obj->getRubricId();
+        }
+
+        return $rubric_ids_arr;
+    }
+
+    public function beforeDelete()
+    {
+        $content_rubrics_ids_arr = $this->getContentRubricsIdsArr();
+        foreach ($content_rubrics_ids_arr as $content_rubrics_id) {
+            $content_rubrics_obj = \Skif\Content\ContentRubrics::factory($content_rubrics_id);
+
+            $content_rubrics_obj->delete();
+        }
+
+        return true;
+    }
 }

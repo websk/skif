@@ -68,8 +68,7 @@ trait ActiveRecord
             ($this instanceof \Skif\Model\InterfaceLoad) &&
             ($this instanceof \Skif\Model\InterfaceFactory)
         ) {
-            $check_message = $this->checkBeforeDelete();
-
+            $check_message = $this->BeforeDelete();
             if ($check_message !== true) {
                 return $check_message;
             }

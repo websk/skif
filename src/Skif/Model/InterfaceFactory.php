@@ -13,6 +13,6 @@ interface InterfaceFactory {
     public static function getMyGlobalizedClassName();
     static public function removeObjFromCacheById($id_to_remove);
     static public function afterUpdate($id);
-    public function checkBeforeDelete();
+    public function BeforeDelete();
     public function afterDelete();
 }

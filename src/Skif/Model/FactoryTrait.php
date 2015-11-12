@@ -47,7 +47,7 @@ trait FactoryTrait {
         self::removeObjFromCacheById($id);
     }
 
-    public function checkBeforeDelete()
+    public function BeforeDelete()
     {
         return true;
     }
