@@ -50,6 +50,7 @@ if ($content_id == 'new') {
         <ul id="contentTab" class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#content" id="content-tab" role="tab" data-toggle="tab" aria-controls="content">Контент</a></li>
             <li role="presentation"><a href="#publish" role="tab" id="publish-tab" data-toggle="tab" aria-controls="publish">Настройки публикации</a></li>
+            <li role="presentation"><a href="#rubrics" role="tab" id="rubrics-tab" data-toggle="tab" aria-controls="rubrics">Рубрики</a></li>
             <li role="presentation"><a href="#seo" role="tab" id="seo-tab" data-toggle="tab" aria-controls="seo">SEO</a></li>
             <li role="presentation"><a href="<?php echo $content_obj->getUrl(); ?>" role="tab" target="_blank">Просмотр&nbsp;<sup><span class="glyphicon glyphicon-new-window"></span></sup></a></li>
             <li role="presentation"><a href="/admin/logger/object_log/<?= urlencode(\Skif\Utils::getFullObjectId($content_obj));?>" target="_blank">Журнал&nbsp;<sup><span class="glyphicon glyphicon-new-window"></span></sup></a></li>
@@ -183,6 +184,9 @@ if ($content_id == 'new') {
                     </div>
                 </div>
             </div>
+            <div role="tabpanel" class="tab-pane" id="rubrics">
+            </div>
+        </div>
             <div role="tabpanel" class="tab-pane" id="seo">
                 <div class="form-group">
                     <label for="description" class="col-md-2 control-label">Описание</label>
