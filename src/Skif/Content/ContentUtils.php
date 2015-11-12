@@ -96,6 +96,47 @@ class ContentUtils
     }
 
     /**
+     * Id опубликованных материалов в рубрике
+     * @param $rubric_id
+     * @param int $limit_to_page
+     * @param int $page
+     * @return array
+     */
+    public static function getPublishedContentsIdsArrByRubricId($rubric_id, $limit_to_page = 0, $page = 0)
+    {
+        $date = date('Y-m-d');
+
+        $query = "SELECT cr.content_id FROM " . \Skif\Content\ContentRubrics::DB_TABLE_NAME . " cr
+                JOIN " . \Skif\Content\Content::DB_TABLE_NAME . " c ON (c.id=cr.content_id)
+                WHERE cr.rubric_id=:rubric_id
+                  AND c.is_published=1
+                  AND (c.published_at<=:date)
+                  AND (c.unpublished_at>=:date OR c.unpublished_at IS NULL)
+                ORDER BY c.created_at DESC";
+
+        if ($limit_to_page) {
+            $start_record = $limit_to_page * ($page - 1);
+            $query .= " LIMIT " . $start_record . ', ' . $limit_to_page;
+        }
+
+        return \Skif\DB\DBWrapper::readColumn($query, array(':rubric_id' => $rubric_id, ':date' => $date));
+    }
+
+    public static function getCountPublishedContentsByRubricId($rubric_id)
+    {
+        $date = date('Y-m-d');
+
+        $query = "SELECT count(cr.id) FROM " . \Skif\Content\ContentRubrics::DB_TABLE_NAME . " cr
+                JOIN " . \Skif\Content\Content::DB_TABLE_NAME . " c ON (c.id=cr.content_id)
+                WHERE cr.rubric_id=:rubric_id
+                  AND c.is_published=1
+                  AND (c.published_at<=:date)
+                  AND (c.unpublished_at>=:date OR c.unpublished_at IS NULL)";
+
+        return \Skif\DB\DBWrapper::readField($query, array(':rubric_id' => $rubric_id, ':date' => $date));
+    }
+
+    /**
      * ID последних статей
      * @param $content_type
      * @return array

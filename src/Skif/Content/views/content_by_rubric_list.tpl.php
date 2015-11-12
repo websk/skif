@@ -12,7 +12,7 @@ $limit_to_page = \Skif\Conf\ConfWrapper::value('content.' . $content_type_obj->g
 $current_date = date('Y-m-d');
 $current_unix_time = time();
 
-$content_ids_arr = \Skif\Content\ContentUtils::getPublishedContentsIdsArrByType($content_type, $limit_to_page, $page);
+$content_ids_arr = \Skif\Content\ContentUtils::getPublishedContentsIdsArrByRubricId($rubric_id, $limit_to_page, $page);
 
 foreach ($content_ids_arr as $content_id) {
     $content_obj = \Skif\Content\Content::factory($content_id);
@@ -51,6 +51,5 @@ foreach ($content_ids_arr as $content_id) {
 <?php
 }
 
-$count_all_articles = \Skif\Content\ContentUtils::getCountPublishedContentsByType($content_type);
+$count_all_articles = \Skif\Content\ContentUtils::getCountPublishedContentsByRubricId($rubric_id);
 echo \Skif\Utils::renderPagination($page, $count_all_articles, $limit_to_page);
-?>
