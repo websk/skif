@@ -50,6 +50,14 @@ if ($rubric_id == 'new') {
         </div>
     </div>
     <div class="form-group">
+        <label for="url" class="col-md-2 control-label">Адрес материала, URL</label>
+
+        <div class="col-md-10">
+            <input type="text" class="form-control" id="url" name="url" value="<?php echo $rubric_obj->getUrl(); ?>">
+        </div>
+    </div>
+
+    <div class="form-group">
         <div class="col-md-offset-4 col-md-8">
             <input type="submit" value="Сохранить изменения" class="btn btn-primary">
         </div>
