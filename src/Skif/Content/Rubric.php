@@ -46,7 +46,7 @@ class Rubric implements
             return false;
         }
 
-        $query = "SELECT content_id FROM content_rubrics WHERE rubric_id = ?";
+        $query = "SELECT content_id FROM " . \Skif\Content\ContentRubrics::DB_TABLE_NAME ." WHERE rubric_id = ?";
         $this->content_ids_arr = \Skif\DB\DBWrapper::readColumn(
             $query,
             array($this->id)
