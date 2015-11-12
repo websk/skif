@@ -33,15 +33,17 @@ class RubricController extends \Skif\BaseController
 
         $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
             'Content',
-            'content_' . $content_type_obj->getType() . '_list.tpl.php',
-            array('content_type' => $content_type_obj->getType())
+            'content_by_rubric_list.tpl.php',
+            array(
+                'rubric_id' => $rubric_id
+            )
         );
 
         echo \Skif\PhpTemplate::renderTemplate(
             'layouts/layout.main.tpl.php',
             array(
                 'content' => $content,
-                'title' => $content_type_obj->getName(),
+                'title' => $rubric_obj->getName(),
                 'keywords' => '',
                 'description' => ''
             )
