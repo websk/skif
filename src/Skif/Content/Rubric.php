@@ -15,29 +15,8 @@ class Rubric implements
     protected $id;
     protected $name;
     protected $comment;
-    protected $rubric_ids_arr;
-
-    public static $active_record_ignore_fields_arr = array(
-        'rubric_ids_arr',
-    );
 
     const DB_TABLE_NAME = 'rubrics';
-
-    public function load($id)
-    {
-        $is_loaded = \Skif\Util\ActiveRecordHelper::loadModelObj($this, $id);
-        if (!$is_loaded) {
-            return false;
-        }
-
-        $query = "SELECT rubric_id FROM content_rubrics WHERE content_id = ?";
-        $this->rubric_ids_arr = \Skif\DB\DBWrapper::readColumn(
-            $query,
-            array($this->id)
-        );
-
-        return true;
-    }
 
     /**
      * @return mixed
