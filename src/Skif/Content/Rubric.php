@@ -25,6 +25,20 @@ class Rubric implements
 
     const DB_TABLE_NAME = 'rubrics';
 
+    public function getEditorUrl()
+    {
+        $content_type_obj = \Skif\Content\ContentType::factory($this->getContentTypeId());
+
+        return '/admin/content/' . $content_type_obj->getType() . '/rubrics/edit/' . $this->getId();
+    }
+
+    public function getDeleteUrl()
+    {
+        $content_type_obj = \Skif\Content\ContentType::factory($this->getContentTypeId());
+
+        return '/admin/content/' . $content_type_obj->getType() . '/rubrics/delete/' . $this->getId();
+    }
+
     public function load($id)
     {
         $is_loaded = \Skif\Util\ActiveRecordHelper::loadModelObj($this, $id);

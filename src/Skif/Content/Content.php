@@ -64,6 +64,11 @@ class Content implements
 
     const DB_TABLE_NAME = 'content';
 
+    public function getEditorUrl()
+    {
+        return '/admin/content/' . $this->getType() . '/edit/' . $this->getId();
+    }
+
     public function load($id)
     {
         $is_loaded = \Skif\Util\ActiveRecordHelper::loadModelObj($this, $id);
@@ -438,8 +443,4 @@ class Content implements
         \Skif\Logger\Logger::logObjectEvent($this, 'удаление');
     }
 
-    public function getEditorUrl()
-    {
-        return '/admin/content/' . $this->getType() . '/edit/' . $this->getId();
-    }
 }

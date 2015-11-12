@@ -5,6 +5,11 @@ namespace Skif\Content;
 
 class RubricController
 {
+    public static function getRubricsListUrlByContentType($content_type)
+    {
+        return '/admin/content/' . $content_type . '/rubrics';
+    }
+
     public function listRubricsAction($content_type)
     {
         \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
@@ -49,7 +54,7 @@ class RubricController
 
         $breadcrumbs_arr = array(
             $content_type_obj->getName() => '/admin/content/' . $content_type,
-            'Рубрики' => '/admin/content/' . $content_type . '/rubrics',
+            'Рубрики' => \Skif\Content\RubricController::getRubricsListUrlByContentType($content_type),
         );
 
         echo \Skif\PhpTemplate::renderTemplate(
@@ -89,7 +94,7 @@ class RubricController
 
         \Skif\Messages::setMessage('Изменения сохранены');
 
-        \Skif\Http::redirect('/admin/content/' . $content_type . '/rubrics');
+        \Skif\Http::redirect(\Skif\Content\RubricController::getRubricsListUrlByContentType($content_type));
     }
 
     public function deleteRubricAction($content_type, $rubric_id)
@@ -107,7 +112,7 @@ class RubricController
             \Skif\Messages::setError($message);
         }
 
-        \Skif\Http::redirect('/admin/content/' . $content_type . '/rubrics');
+        \Skif\Http::redirect(\Skif\Content\RubricController::getRubricsListUrlByContentType($content_type));
     }
 
 }

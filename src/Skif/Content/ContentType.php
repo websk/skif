@@ -19,6 +19,27 @@ class ContentType implements
     protected $name;
     protected $url;
     protected $template_id;
+    protected $rubric_ids_arr;
+
+    public static $active_record_ignore_fields_arr = array(
+        'rubric_ids_arr',
+    );
+
+    public function load($id)
+    {
+        $is_loaded = \Skif\Util\ActiveRecordHelper::loadModelObj($this, $id);
+        if (!$is_loaded) {
+            return false;
+        }
+
+        $query = "SELECT rubric_id FROM content_rubrics WHERE content_type_id = ?";
+        $this->rubric_ids_arr = \Skif\DB\DBWrapper::readColumn(
+            $query,
+            array($this->id)
+        );
+
+        return true;
+    }
 
     /**
      * @return mixed
@@ -100,5 +121,12 @@ class ContentType implements
         $this->template_id = $template_id;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getRubricIdsArr()
+    {
+        return $this->rubric_ids_arr;
+    }
 
 }
