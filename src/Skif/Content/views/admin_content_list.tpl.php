@@ -6,8 +6,10 @@
 $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
 
 $page = array_key_exists('p', $_GET) ? $_GET['p'] : 1;
+$rubric_id = array_key_exists('rubric_id', $_GET) ? $_GET['rubric_id'] : 0;
+
 $limit_to_page = 100;
-$contents_ids_arr = \Skif\Content\ContentUtils::getContentsIdsArrByType($content_type, $limit_to_page, $page);
+$contents_ids_arr = \Skif\Content\ContentUtils::getContentsIdsArrByType($content_type, $rubric_id, $limit_to_page, $page);
 ?>
 <div class="jumbotron">
     <div class="row">

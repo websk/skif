@@ -15,19 +15,35 @@ class ContentUtils
      */
     public static function getContentsIdsArrByType($content_type, $limit_to_page = 0, $page = 0)
     {
-        $query = "SELECT id FROM content WHERE type=? ORDER BY created_at DESC";
+        $query = "SELECT id FROM " . \Skif\Content\Content::DB_TABLE_NAME . " WHERE type=? ORDER BY created_at DESC";
+        $param_arr = array($content_type);
 
         if ($limit_to_page) {
             $start_record = $limit_to_page * ($page - 1);
             $query .= " LIMIT " . $start_record . ', ' . $limit_to_page;
         }
 
-        return \Skif\DB\DBWrapper::readColumn($query, array($content_type));
+        return \Skif\DB\DBWrapper::readColumn($query, $param_arr);
+    }
+
+    public static function getContentsIdsArrByRubric($rubric_id, $limit_to_page = 0, $page = 0)
+    {
+        $query = "SELECT cr.content_id FROM " . \Skif\Content\ContentRubrics::DB_TABLE_NAME . " cr
+                JOIN " . \Skif\Content\Content::DB_TABLE_NAME . " c ON (c.id=cr.content_id)
+                WHERE cr.rubric_id=? ORDER BY c.created_at DESC";
+        $param_arr = array($rubric_id);
+
+        if ($limit_to_page) {
+            $start_record = $limit_to_page * ($page - 1);
+            $query .= " LIMIT " . $start_record . ', ' . $limit_to_page;
+        }
+
+        return \Skif\DB\DBWrapper::readColumn($query, $param_arr);
     }
 
     public static function getCountContentsByType($content_type)
     {
-        $query = "SELECT count(id) FROM content WHERE type=?";
+        $query = "SELECT count(id) FROM " . \Skif\Content\Content::DB_TABLE_NAME . " WHERE type=?";
         return \Skif\DB\DBWrapper::readField($query, array($content_type));
     }
 
@@ -42,7 +58,7 @@ class ContentUtils
     {
         $date = date('Y-m-d');
 
-        $query = "SELECT id FROM content
+        $query = "SELECT id FROM " . \Skif\Content\Content::DB_TABLE_NAME . "
             WHERE type=:content_type AND is_published=1
               AND (published_at<=:date)
               AND (unpublished_at>=:date OR unpublished_at IS NULL)
@@ -66,7 +82,7 @@ class ContentUtils
         $date = date('Y-m-d');
 
         $query = "SELECT count(id)
-            FROM content
+            FROM " . \Skif\Content\Content::DB_TABLE_NAME . "
             WHERE type=:content_type AND is_published=1
               AND (published_at<=:date)
               AND (unpublished_at>=:date OR unpublished_at IS NULL)";
@@ -83,7 +99,7 @@ class ContentUtils
         $date = date('Y-m-d');
 
         $query = "SELECT id
-            FROM content
+            FROM " . \Skif\Content\Content::DB_TABLE_NAME . "
             WHERE type=:content_type AND is_published=1
               AND (published_at<=:date)
               AND (unpublished_at>=:date OR unpublished_at IS NULL)
@@ -112,7 +128,7 @@ class ContentUtils
      */
     public static function getTemplatesIdsArr()
     {
-        $query = "SELECT id FROM template";
+        $query = "SELECT id FROM " . \Skif\Content\Template::DB_TABLE_NAME;
         return \Skif\DB\DBWrapper::readColumn($query);
     }
 
