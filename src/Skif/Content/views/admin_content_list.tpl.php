@@ -2,10 +2,42 @@
 /**
  * @var $content_type
  */
+
+$content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
+
 $page = array_key_exists('p', $_GET) ? $_GET['p'] : 1;
 $limit_to_page = 100;
 $contents_ids_arr = \Skif\Content\ContentUtils::getContentsIdsArrByType($content_type, $limit_to_page, $page);
 ?>
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-8">
+            <form action="/admin/content/<?php echo $content_type; ?>" class="form-inline">
+                <div class="form-group">
+                    <label>Рубрика</label>
+
+                    <select name="rubric_id" class="form-control">
+                        <option value="0">Все</option>
+                        <?php
+                        $rubric_ids_arr = $content_type_obj->getRubricIdsArr();
+                        foreach ($rubric_ids_arr as $rubric_id) {
+                            $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
+
+                            echo '<option value="' . $rubric_id . '" ' . ($rubric_id == $requested_role_id ? 'selected' : '') . '>' . $rubric_obj->getName() . '</option>';
+                        }
+                        ?>
+                    </select>
+                </div>
+                <input type="submit" value="Выбрать" class="btn btn-default">
+            </form>
+        </div>
+        <div class="col-md-4"><a href="<?php echo \Skif\Content\RubricController::getRubricsListUrlByContentType($content_type);?>" class="btn btn-default"><span class="glyphicon glyphicon-wrench"></span> Редактировать рубрики</a></div>
+    </div>
+
+</div>
+
+<p></p>
+
 <p><a href="/admin/content/<?php echo $content_type; ?>/edit/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить новый материал</a></p>
 <p></p>
 <div class="table-responsive">
