@@ -197,22 +197,6 @@ class Content implements
     /**
      * @return mixed
      */
-    public function getRubricId()
-    {
-        return $this->rubric_id;
-    }
-
-    /**
-     * @param mixed $rubric_id
-     */
-    public function setRubricId($rubric_id)
-    {
-        $this->rubric_id = $rubric_id;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getPublishedAt()
     {
         return $this->published_at;
