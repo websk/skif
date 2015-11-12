@@ -21,7 +21,7 @@ namespace Skif\Util;
  * - был нормальный доступ к данным объекта (в т.ч. защищенным)
  * - идешка видела методы ActiveRecord
  * Class ActiveRecord
- * @package Sportbox\Util
+ * @package Skif\Util
  */
 trait ActiveRecord
 {
