@@ -48,7 +48,7 @@ class ContentController extends \Skif\BaseController
             if ($main_rubric_id) {
                 $rubric_obj = \Skif\Content\Rubric::factory($main_rubric_id);
 
-                $breadcrumbs_arr = array($rubric_obj->getUrl() => $rubric_obj->getTitle());
+                $breadcrumbs_arr = array($rubric_obj->getUrl() => $rubric_obj->getName());
             }
 
             if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_obj->getType(). '_by_rubric.tpl.php')) {
