@@ -15,7 +15,29 @@ class ContentUtils
             return 0;
         }
 
+        $content_obj = \Skif\Content\Content::factory($content_id, false);
+        if (!$content_obj) {
+            return 0;
+        }
+
         return $content_id;
+    }
+
+    public static function getCurrentRubricId()
+    {
+        $content_page_obj = new \Skif\Content\RubricController();
+        $rubric_id = $content_page_obj->getRequestedId();
+
+        if (!$rubric_id) {
+            return 0;
+        }
+
+        $rubric_obj = \Skif\Content\Rubric::factory($rubric_id, false);
+        if (!$rubric_obj) {
+            return 0;
+        }
+
+        return $rubric_id;
     }
 
     /**
