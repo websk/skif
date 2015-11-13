@@ -44,7 +44,6 @@ class Content implements
     protected $short_title = '';
     protected $annotation = '';
     protected $body = '';
-    protected $rubric_id;
     protected $published_at;
     protected $unpublished_at;
     protected $is_published;
