@@ -440,9 +440,8 @@ class Content implements
     {
         $rubrics_ids_arr = $this->getRubricIdsArr();
 
-
-        foreach ($rubrics_ids_arr as $rubric_id) {
-            if (in_array($rubric_id, $param_rubrics_ids_arr)) {
+        foreach ($param_rubrics_ids_arr as $rubric_id) {
+            if (in_array($rubric_id, $rubrics_ids_arr)) {
                 return true;
             }
         }
