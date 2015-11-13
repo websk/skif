@@ -432,6 +432,17 @@ class Content implements
         return $rubric_ids_arr;
     }
 
+    public function hasRubrics($rubrics_ids_arr)
+    {
+        $content_rubrics_ids_arr = $this->getContentRubricsIdsArr();
+
+        if (array_intersect($rubrics_ids_arr, $content_rubrics_ids_arr) == $rubrics_ids_arr) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function deleteContentRubrics() {
         $content_rubrics_ids_arr = $this->getContentRubricsIdsArr();
         foreach ($content_rubrics_ids_arr as $content_rubrics_id) {
