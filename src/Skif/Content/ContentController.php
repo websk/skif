@@ -29,7 +29,7 @@ class ContentController extends \Skif\BaseController
             \Skif\Http::exit404If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
         }
 
-        \Skif\Http::exit404If(!$content_obj->getType());
+        \Skif\Http::exit404If(!$content_obj->getContentTypeId());
 
         $content = '';
 
