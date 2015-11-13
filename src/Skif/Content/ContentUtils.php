@@ -49,8 +49,10 @@ class ContentUtils
      */
     public static function getContentsIdsArrByType($content_type, $limit_to_page = 0, $page = 0)
     {
-        $query = "SELECT id FROM " . \Skif\Content\Content::DB_TABLE_NAME . " WHERE type=? ORDER BY created_at DESC";
-        $param_arr = array($content_type);
+        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
+
+        $query = "SELECT id FROM " . \Skif\Content\Content::DB_TABLE_NAME . " WHERE content_type_id=? ORDER BY created_at DESC";
+        $param_arr = array($content_type_obj->getId());
 
         if ($limit_to_page) {
             $start_record = $limit_to_page * ($page - 1);
@@ -62,8 +64,10 @@ class ContentUtils
 
     public static function getCountContentsByType($content_type)
     {
-        $query = "SELECT count(id) FROM " . \Skif\Content\Content::DB_TABLE_NAME . " WHERE type=?";
-        return \Skif\DB\DBWrapper::readField($query, array($content_type));
+        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
+
+        $query = "SELECT count(id) FROM " . \Skif\Content\Content::DB_TABLE_NAME . " WHERE content_type_id=?";
+        return \Skif\DB\DBWrapper::readField($query, array($content_type_obj->getId()));
     }
 
     public static function getContentsIdsArrByRubricId($rubric_id, $limit_to_page = 0, $page = 0)
