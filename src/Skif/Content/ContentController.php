@@ -38,9 +38,15 @@ class ContentController extends \Skif\BaseController
             $admin_nav_arr = array($content_obj->getEditorUrl() => 'Редактировать');
         }
 
+        $template_file = 'content_' . $content_obj->getType(). '.tpl.php';
+
+        if ($content_obj->getCountRubricIdsArr()) {
+            $template_file = 'content_' . $content_obj->getType(). '_by_rubric.tpl.php';
+        }
+
         $content .= \Skif\PhpTemplate::renderTemplateBySkifModule(
             'Content',
-            'content_' . $content_obj->getType(). '.tpl.php',
+            $template_file,
             array('content_id' => $content_id)
         );
 
