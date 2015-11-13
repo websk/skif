@@ -29,7 +29,11 @@ class ContentController extends \Skif\BaseController
             \Skif\Http::exit404If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
         }
 
-        \Skif\Http::exit404If(!$content_obj->getContentTypeId());
+        $content_type_id = $content_obj->getContentTypeId();
+
+        \Skif\Http::exit404If(!$content_type_id);
+
+        $content_type_obj = \Skif\Content\ContentType::factory($content_type_id);
 
         $content = '';
 
@@ -40,7 +44,7 @@ class ContentController extends \Skif\BaseController
 
         $breadcrumbs_arr = array();
 
-        $template_file = 'content_' . $content_obj->getType(). '.tpl.php';
+        $template_file = 'content_' . $content_type_obj->getType(). '.tpl.php';
 
         if ($content_obj->getCountRubricIdsArr()) {
             $main_rubric_id = $content_obj->getMainRubricId();
@@ -52,7 +56,7 @@ class ContentController extends \Skif\BaseController
             }
 
             if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_obj->getType(). '_by_rubric.tpl.php')) {
-                $template_file = 'content_' . $content_obj->getType(). '_by_rubric.tpl.php';
+                $template_file = 'content_' . $content_type_obj->getType(). '_by_rubric.tpl.php';
             }
         }
 
