@@ -57,6 +57,10 @@ trait ActiveRecord
         }
     }
 
+    public function getIdByFieldNamesArr($field_names_arr) {
+        return \Skif\Util\ActiveRecordHelper::getIdByFieldNamesArr($this, $field_names_arr);
+    }
+
     public function load($id)
     {
         return \Skif\Util\ActiveRecordHelper::loadModelObj($this, $id);

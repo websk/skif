@@ -117,6 +117,32 @@ class ActiveRecordHelper
         return true;
     }
 
+    public static function getIdByFieldNamesArr($model_obj, $field_names_arr)
+    {
+        $model_class_name = get_class($model_obj);
+        $db_table_name = $model_class_name::DB_TABLE_NAME;
+        $db_id_field_name = self::getIdFieldName($model_obj);
+
+        $query = "SELECT " . $db_id_field_name . " FROM " . $db_table_name . " WHERE";
+
+        $queries_arr = array();
+        $param_arr = array();
+
+        foreach ($field_names_arr as $field_name) {
+            $queries_arr[] = $field_name . "=?";
+            $param_arr[] = $model_obj->$$field_name;
+        }
+
+        $query .= " " . implode (' AND ', $queries_arr);
+
+        $id = \Skif\DB\DBWrapper::readField(
+            $query,
+            array($param_arr)
+        );
+
+        return $id;
+    }
+
 
     /**
      * Удаление записи

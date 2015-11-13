@@ -38,19 +38,19 @@ trait FactoryTrait
         return $obj;
     }
 
-    public static function factoryByField($field_name, $exception_if_not_loaded = true)
+    public static function factoryByFieldsArr($fields_arr, $exception_if_not_loaded = true)
     {
         $class_name = self::getMyGlobalizedClassName();
 
-        $id_to_load = 0;
+        $obj = new $class_name;
 
-        $obj = \Skif\Factory::createAndLoadObject($class_name, $id_to_load);
-
-        if ($exception_if_not_loaded) {
+        if (!($obj instanceof \Skif\Model\InterfaceCacheTtlSeconds)) {
             \Skif\Utils::assert($obj);
         }
 
-        return $obj;
+        $id_to_load = call_user_func_array(array($obj, "getIdByFieldNamesArr"), array(array($fields_arr)));
+
+        return \Skif\Model\FactoryTrait::factory($id_to_load, $exception_if_not_loaded);
     }
 
     public static function removeObjFromCacheById($id_to_remove)

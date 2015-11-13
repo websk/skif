@@ -14,4 +14,5 @@ namespace Skif\Model;
 interface InterfaceLoad {
     public function load($id);
     public function getId();
+    public function getIdByFieldNamesArr();
 }
