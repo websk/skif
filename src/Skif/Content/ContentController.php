@@ -182,6 +182,9 @@ class ContentController extends \Skif\BaseController
             $content_obj = \Skif\Content\Content::factory($content_id);
         }
 
+        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
+        \Skif\Utils::assert($content_type_obj);
+
         $title = array_key_exists('title', $_REQUEST) ? $_REQUEST['title'] : '';
 
         if (!$title){
@@ -217,6 +220,7 @@ class ContentController extends \Skif\BaseController
         $content_obj->setTitle($title);
         $content_obj->setAnnotation($annotation);
         $content_obj->setBody($body);
+        $content_obj->setContentTypeId($content_type_obj->getId());
         $content_obj->setType($content_type);
         $content_obj->setMainRubricId($main_rubric_id);
         $content_obj->setPublishedAt($published_at);
@@ -232,9 +236,6 @@ class ContentController extends \Skif\BaseController
             if (!$url) {
                 $url = $content_obj->generateUrl();
             }
-
-            $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
-            \Skif\Utils::assert($content_type_obj);
 
             $url = '/' . ltrim($url, '/');
 

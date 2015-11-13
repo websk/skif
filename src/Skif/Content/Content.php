@@ -53,6 +53,7 @@ class Content implements
     protected $keywords = '';
     protected $url = '';
     protected $type = 'page';
+    protected $content_type_id;
     protected $last_modified_at;
     protected $redirect_url = '';
     protected $template_id;
@@ -61,6 +62,7 @@ class Content implements
 
     public static $active_record_ignore_fields_arr = array(
         'content_rubrics_ids_arr',
+        'content_type_id'
     );
 
     const DB_TABLE_NAME = 'content';
@@ -84,6 +86,22 @@ class Content implements
         );
 
         return true;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContentTypeId()
+    {
+        return $this->content_type_id;
+    }
+
+    /**
+     * @param mixed $content_type_id
+     */
+    public function setContentTypeId($content_type_id)
+    {
+        $this->content_type_id = $content_type_id;
     }
 
     /**
