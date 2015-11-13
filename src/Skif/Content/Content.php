@@ -62,7 +62,6 @@ class Content implements
 
     public static $active_record_ignore_fields_arr = array(
         'content_rubrics_ids_arr',
-        'content_type_id'
     );
 
     const DB_TABLE_NAME = 'content';
