@@ -102,8 +102,10 @@ class ContentUtils
     {
         $date = date('Y-m-d');
 
+        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
+
         $query = "SELECT id FROM " . \Skif\Content\Content::DB_TABLE_NAME . "
-            WHERE type=:content_type AND is_published=1
+            WHERE content_type_id=:content_type_id AND is_published=1
               AND (published_at<=:date)
               AND (unpublished_at>=:date OR unpublished_at IS NULL)
             ORDER BY created_at DESC";
@@ -113,7 +115,7 @@ class ContentUtils
             $query .= " LIMIT " . $start_record . ', ' . $limit_to_page;
         }
 
-        return \Skif\DB\DBWrapper::readColumn($query, array(':content_type' => $content_type, ':date' => $date));
+        return \Skif\DB\DBWrapper::readColumn($query, array(':content_type_id' => $content_type_obj->getId(), ':date' => $date));
     }
 
     /**
@@ -125,12 +127,14 @@ class ContentUtils
     {
         $date = date('Y-m-d');
 
+        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
+
         $query = "SELECT count(id)
             FROM " . \Skif\Content\Content::DB_TABLE_NAME . "
-            WHERE type=:content_type AND is_published=1
+            WHERE content_type_id=:content_type AND is_published=1
               AND (published_at<=:date)
               AND (unpublished_at>=:date OR unpublished_at IS NULL)";
-        return \Skif\DB\DBWrapper::readField($query, array(':content_type' => $content_type, ':date' => $date));
+        return \Skif\DB\DBWrapper::readField($query, array(':content_type_id' => $content_type_obj->getId(), ':date' => $date));
     }
 
     /**
@@ -183,13 +187,15 @@ class ContentUtils
     {
         $date = date('Y-m-d');
 
+        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
+
         $query = "SELECT id
             FROM " . \Skif\Content\Content::DB_TABLE_NAME . "
-            WHERE type=:content_type AND is_published=1
+            WHERE content_type_id=:content_type_id AND is_published=1
               AND (published_at<=:date)
               AND (unpublished_at>=:date OR unpublished_at IS NULL)
             ORDER BY created_at DESC LIMIT " . $limit;
-        return \Skif\DB\DBWrapper::readColumn($query, array(':content_type' => $content_type, ':date' => $date, ':limit' => $limit));
+        return \Skif\DB\DBWrapper::readColumn($query, array(':content_type_id' => $content_type_obj->getId(), ':date' => $date, ':limit' => $limit));
     }
 
     public static function renderLastContentsBlock($content_type, $limit = 10, $template = '')
