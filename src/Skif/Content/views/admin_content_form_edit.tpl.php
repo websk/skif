@@ -206,6 +206,23 @@ if ($content_id == 'new') {
                         </select>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="main_rubric" class="control-label">Главная рубрика</label>
+                    <div>
+                        <select id="main_rubric" name="main_rubric" class="form-control">
+                            <?php
+                            $content_rubrics_ids_arr = $content_obj->getRubricIdsArr();
+
+                            foreach ($rubric_ids_arr as $rubric_id) {
+                                $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
+                                ?>
+                                <option value="<?php echo $rubric_obj->getId(); ?>"<?php echo ($rubric_id == $content_obj->getMainRubricId() ? ' selected' : ''); ?>><?php echo $rubric_obj->getName(); ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
             <div role="tabpanel" class="tab-pane" id="seo">

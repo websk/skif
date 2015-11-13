@@ -38,9 +38,13 @@ class ContentController extends \Skif\BaseController
             $admin_nav_arr = array($content_obj->getEditorUrl() => 'Редактировать');
         }
 
+        $breadcrumbs_arr = array();
+
         $template_file = 'content_' . $content_obj->getType(). '.tpl.php';
 
         if ($content_obj->getCountRubricIdsArr()) {
+            $breadcrumbs_arr = array();
+
             if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_obj->getType(). '_by_rubric.tpl.php')) {
                 $template_file = 'content_' . $content_obj->getType(). '_by_rubric.tpl.php';
             }
@@ -66,7 +70,8 @@ class ContentController extends \Skif\BaseController
                 'admin_nav_arr' => $admin_nav_arr,
                 'title' => $content_obj->getTitle(),
                 'keywords' => '',
-                'description' => ''
+                'description' => '',
+                'breadcrumbs_arr' => $breadcrumbs_arr
             )
         );
     }
@@ -197,6 +202,7 @@ class ContentController extends \Skif\BaseController
         $description = array_key_exists('description', $_REQUEST) ? $_REQUEST['description'] : '';
         $keywords = array_key_exists('keywords', $_REQUEST) ? $_REQUEST['keywords'] : '';
         $template_id = array_key_exists('template_id', $_REQUEST) ? $_REQUEST['template_id'] : null;
+        $main_rubric_id = array_key_exists('main_rubric_id', $_REQUEST) ? $_REQUEST['main_rubric_id'] : null;
 
         if ($is_published && empty($published_at)) {
             $published_at = $created_at;
@@ -206,6 +212,7 @@ class ContentController extends \Skif\BaseController
         $content_obj->setAnnotation($annotation);
         $content_obj->setBody($body);
         $content_obj->setType($content_type);
+        $content_obj->setMainRubricId($main_rubric_id);
         $content_obj->setPublishedAt($published_at);
         $content_obj->setUnpublishedAt($unpublished_at);
         $content_obj->setCreatedAt($created_at);

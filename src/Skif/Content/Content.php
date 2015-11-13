@@ -58,10 +58,12 @@ class Content implements
     protected $redirect_url = '';
     protected $template_id;
     protected $content_rubrics_ids_arr;
+    protected $main_rubric_id;
 
     public static $active_record_ignore_fields_arr = array(
         'content_rubrics_ids_arr',
-        'rubric_id'
+        'rubric_id',
+        'main_rubric_id'
     );
 
     const DB_TABLE_NAME = 'content';
@@ -434,6 +436,22 @@ class Content implements
 
     public function getCountRubricIdsArr() {
         return count($this->getContentRubricsIdsArr());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMainRubricId()
+    {
+        return $this->main_rubric_id;
+    }
+
+    /**
+     * @param mixed $main_rubric_id
+     */
+    public function setMainRubricId($main_rubric_id)
+    {
+        $this->main_rubric_id = $main_rubric_id;
     }
 
     public function hasRubrics($param_rubrics_ids_arr)
