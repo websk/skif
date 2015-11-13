@@ -44,7 +44,7 @@ trait FactoryTrait
 
         $obj = new $class_name;
 
-        if (!($obj instanceof \Skif\Model\InterfaceCacheTtlSeconds)) {
+        if (!($obj instanceof \Skif\Model\InterfaceLoad)) {
             \Skif\Utils::assert($obj);
         }
 
