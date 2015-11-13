@@ -432,6 +432,10 @@ class Content implements
         return $rubric_ids_arr;
     }
 
+    public function getCountRubricIdsArr() {
+        return count($this->getContentRubricsIdsArr());
+    }
+
     public function hasRubrics($rubrics_ids_arr)
     {
         $content_rubrics_ids_arr = $this->getContentRubricsIdsArr();
