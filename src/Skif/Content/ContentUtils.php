@@ -6,6 +6,18 @@ namespace Skif\Content;
 class ContentUtils
 {
 
+    public static function getCurrentContentId()
+    {
+        $content_page_obj = new \Skif\Content\ContentController();
+        $content_id = $content_page_obj->getRequestedId();
+
+        if (!$content_id) {
+            return 0;
+        }
+
+        return $content_id;
+    }
+
     /**
      * Id материалов
      * @param $content_type
