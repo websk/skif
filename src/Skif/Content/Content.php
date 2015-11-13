@@ -440,7 +440,7 @@ class Content implements
     {
         $content_rubrics_ids_arr = $this->getContentRubricsIdsArr();
 
-        if (array_intersect($rubrics_ids_arr, $content_rubrics_ids_arr) == $rubrics_ids_arr) {
+        if (array_intersect($content_rubrics_ids_arr, $rubrics_ids_arr) == $rubrics_ids_arr) {
             return true;
         }
 
