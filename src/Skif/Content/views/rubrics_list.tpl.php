@@ -10,7 +10,8 @@ $content_type_obj = \Skif\Content\ContentType::factory($content_type_id);
 <div class="table-responsive">
     <table class="table table-striped table-hover">
         <colgroup>
-            <col class="col-md-8">
+            <col class="col-md-1">
+            <col class="col-md-7">
             <col class="col-md-3">
             <col class="col-md-1">
         </colgroup>
@@ -20,6 +21,7 @@ $content_type_obj = \Skif\Content\ContentType::factory($content_type_id);
             $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
             ?>
             <tr>
+                <td><?php echo $rubric_obj->getId(); ?></td>
                 <td>
                     <a href="<?php echo $rubric_obj->getEditorUrl(); ?>"><?php echo $rubric_obj->getName(); ?></a>
                     <a href="<?php echo $rubric_obj->getEditorUrl(); ?>"><span class="glyphicon glyphicon-edit" title="Редактировать"></span></a>
