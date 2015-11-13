@@ -436,11 +436,11 @@ class Content implements
         return count($this->getContentRubricsIdsArr());
     }
 
-    public function hasRubrics($rubrics_ids_arr)
+    public function hasRubrics($param_rubrics_ids_arr)
     {
-        $content_rubrics_ids_arr = $this->getContentRubricsIdsArr();
+        $rubrics_ids_arr = $this->getRubricIdsArr();
 
-        if (array_intersect($content_rubrics_ids_arr, $rubrics_ids_arr) === $rubrics_ids_arr) {
+        if (array_intersect($rubrics_ids_arr, $param_rubrics_ids_arr) === $param_rubrics_ids_arr) {
             return true;
         }
 
@@ -449,9 +449,9 @@ class Content implements
 
     public function hasRubricId($rubric_id)
     {
-        $content_rubrics_ids_arr = $this->getContentRubricsIdsArr();
+        $rubrics_ids_arr = $this->getRubricIdsArr();
 
-        if (in_array($rubric_id, $content_rubrics_ids_arr)) {
+        if (in_array($rubric_id, $rubrics_ids_arr)) {
             return true;
         }
 
