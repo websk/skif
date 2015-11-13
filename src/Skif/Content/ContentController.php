@@ -264,6 +264,13 @@ class ContentController extends \Skif\BaseController
                 $content_rubrics_obj->setRubricId($rubric_id);
                 $content_rubrics_obj->save();
             }
+
+            if (!$main_rubric_id) {
+                $main_rubric_id = $rubrics_arr[0];
+
+                $content_obj->setMainRubricId($main_rubric_id);
+                $content_obj->save();
+            }
         }
 
         if (array_key_exists('image_file', $_FILES) && !empty($_FILES['image_file']['name'])) {
