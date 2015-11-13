@@ -202,7 +202,7 @@ class ContentController extends \Skif\BaseController
         $description = array_key_exists('description', $_REQUEST) ? $_REQUEST['description'] : '';
         $keywords = array_key_exists('keywords', $_REQUEST) ? $_REQUEST['keywords'] : '';
         $template_id = array_key_exists('template_id', $_REQUEST) ? $_REQUEST['template_id'] : null;
-        $main_rubric_id = array_key_exists('main_rubric_id', $_REQUEST) ? $_REQUEST['main_rubric_id'] : null;
+        $main_rubric_id = array_key_exists('main_rubric', $_REQUEST) ? $_REQUEST['main_rubric'] : null;
 
         if ($is_published && empty($published_at)) {
             $published_at = $created_at;
