@@ -62,13 +62,17 @@ class Content implements
 
     public static $active_record_ignore_fields_arr = array(
         'content_rubrics_ids_arr',
+        'type'
     );
 
     const DB_TABLE_NAME = 'content';
 
     public function getEditorUrl()
     {
-        return '/admin/content/' . $this->getType() . '/edit/' . $this->getId();
+        $content_type_id = $this->getContentTypeId();
+        $content_type_obj = \Skif\Content\ContentType::factory($content_type_id);
+
+        return '/admin/content/' . $content_type_obj->getType() . '/edit/' . $this->getId();
     }
 
     public function load($id)
@@ -128,7 +132,10 @@ class Content implements
             return '';
         }
 
-        return 'content/' . $this->getType() . '/' . $this->image;
+        $content_type_id = $this->getContentTypeId();
+        $content_type_obj = \Skif\Content\ContentType::factory($content_type_id);
+
+        return 'content/' . $content_type_obj->getType() . '/' . $this->image;
     }
 
     /**
@@ -333,12 +340,11 @@ class Content implements
             return '';
         }
 
-        $content_type = $this->getType();
 
         $title_for_url = \Skif\Translit::translit($this->getTitle());
 
-        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
-        \Skif\Utils::assert($content_type_obj);
+        $content_type_id = $this->getContentTypeId();
+        $content_type_obj = \Skif\Content\ContentType::factory($content_type_id);
 
         $new_url = $content_type_obj->getUrl() . '/' . $title_for_url;
         $new_url = '/' . ltrim($new_url, '/');
@@ -349,22 +355,6 @@ class Content implements
         \Skif\Utils::assert($unique_new_url);
 
         return $unique_new_url;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param mixed $type
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
     }
 
     /**

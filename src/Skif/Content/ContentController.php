@@ -221,7 +221,6 @@ class ContentController extends \Skif\BaseController
         $content_obj->setAnnotation($annotation);
         $content_obj->setBody($body);
         $content_obj->setContentTypeId($content_type_obj->getId());
-        $content_obj->setType($content_type);
         $content_obj->setMainRubricId($main_rubric_id);
         $content_obj->setPublishedAt($published_at);
         $content_obj->setUnpublishedAt($unpublished_at);
@@ -284,7 +283,7 @@ class ContentController extends \Skif\BaseController
 
         \Skif\Messages::setMessage('Изменения сохранены');
 
-        \Skif\Http::redirect('/admin/content/' . $content_obj->getType() . '/edit/' . $content_obj->getId());
+        \Skif\Http::redirect('/admin/content/' . $content_type_obj->getType() . '/edit/' . $content_obj->getId());
     }
 
     /**
