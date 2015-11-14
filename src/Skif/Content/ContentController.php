@@ -106,8 +106,7 @@ class ContentController extends \Skif\BaseController
             array('content_type' => $content_type)
         );
 
-        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
-        \Skif\Utils::assert($content_type_obj);
+        $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
 
         echo \Skif\PhpTemplate::renderTemplate(
             'layouts/layout.main.tpl.php',
@@ -136,8 +135,7 @@ class ContentController extends \Skif\BaseController
             array('content_id' => $content_id, 'content_type' => $content_type)
         );
 
-        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
-        \Skif\Utils::assert($content_type_obj);
+        $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
 
         echo \Skif\PhpTemplate::renderTemplate(
             \Skif\Conf\ConfWrapper::value('layout.admin'),
@@ -163,8 +161,7 @@ class ContentController extends \Skif\BaseController
             array('content_type' => $content_type)
         );
 
-        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
-        \Skif\Utils::assert($content_type_obj);
+        $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
 
         echo \Skif\PhpTemplate::renderTemplate(
             \Skif\Conf\ConfWrapper::value('layout.admin'),
@@ -188,8 +185,7 @@ class ContentController extends \Skif\BaseController
             $content_obj = \Skif\Content\Content::factory($content_id);
         }
 
-        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
-        \Skif\Utils::assert($content_type_obj);
+        $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
 
         $title = array_key_exists('title', $_REQUEST) ? $_REQUEST['title'] : '';
 
@@ -349,8 +345,7 @@ class ContentController extends \Skif\BaseController
         foreach ($content_ids_arr as $content_id) {
             $content_obj = \Skif\Content\Content::factory($content_id);
 
-            $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_obj->getType());
-            \Skif\Utils::assert($content_type_obj);
+            $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_obj->getType()));
 
             $output_arr[] = array(
                 'id' => $content_id,

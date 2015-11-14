@@ -48,9 +48,9 @@ trait FactoryTrait
             \Skif\Utils::assert($obj);
         }
 
-        $id_to_load = call_user_func_array(array($obj, "getIdByFieldNamesArr"), array(array($fields_arr)));
+        $id_to_load = call_user_func_array(array($obj, "getIdByFieldNamesArr"), array($fields_arr));
 
-        return \Skif\Model\FactoryTrait::factory($id_to_load, $exception_if_not_loaded);
+        return self::factory($id_to_load, $exception_if_not_loaded);
     }
 
     public static function removeObjFromCacheById($id_to_remove)

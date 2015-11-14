@@ -49,7 +49,7 @@ class ContentUtils
      */
     public static function getContentsIdsArrByType($content_type, $limit_to_page = 0, $page = 0)
     {
-        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
+        $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
 
         $query = "SELECT id FROM " . \Skif\Content\Content::DB_TABLE_NAME . " WHERE content_type_id=? ORDER BY created_at DESC";
         $param_arr = array($content_type_obj->getId());
@@ -64,7 +64,7 @@ class ContentUtils
 
     public static function getCountContentsByType($content_type)
     {
-        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
+        $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
 
         $query = "SELECT count(id) FROM " . \Skif\Content\Content::DB_TABLE_NAME . " WHERE content_type_id=?";
         return \Skif\DB\DBWrapper::readField($query, array($content_type_obj->getId()));
@@ -102,7 +102,7 @@ class ContentUtils
     {
         $date = date('Y-m-d');
 
-        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
+        $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
 
         $query = "SELECT id FROM " . \Skif\Content\Content::DB_TABLE_NAME . "
             WHERE content_type_id=:content_type_id AND is_published=1
@@ -127,7 +127,7 @@ class ContentUtils
     {
         $date = date('Y-m-d');
 
-        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
+        $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
 
         $query = "SELECT count(id)
             FROM " . \Skif\Content\Content::DB_TABLE_NAME . "
@@ -187,7 +187,7 @@ class ContentUtils
     {
         $date = date('Y-m-d');
 
-        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
+        $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
 
         $query = "SELECT id
             FROM " . \Skif\Content\Content::DB_TABLE_NAME . "

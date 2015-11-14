@@ -128,16 +128,16 @@ class ActiveRecordHelper
         $queries_arr = array();
         $param_arr = array();
 
-        foreach ($field_names_arr as $field_name) {
+        foreach ($field_names_arr as $field_name => $field_value) {
             $queries_arr[] = $field_name . "=?";
-            $param_arr[] = $model_obj->$$field_name;
+            $param_arr[] = $field_value;
         }
 
         $query .= " " . implode (' AND ', $queries_arr);
 
         $id = \Skif\DB\DBWrapper::readField(
             $query,
-            array($param_arr)
+            $param_arr
         );
 
         return $id;

@@ -3,7 +3,7 @@
  * @var $content_type
  */
 
-$content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
+$content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
 
 $page = array_key_exists('p', $_GET) ? $_GET['p'] : 1;
 $requested_rubric_id = array_key_exists('rubric_id', $_GET) ? $_GET['rubric_id'] : 0;

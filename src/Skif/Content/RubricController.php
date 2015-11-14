@@ -58,8 +58,7 @@ class RubricController extends \Skif\BaseController
         \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
 
 
-        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
-        \Skif\Utils::assert($content_type_obj);
+        $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
 
         $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
             'Content',
@@ -88,8 +87,7 @@ class RubricController extends \Skif\BaseController
         \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
 
 
-        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
-        \Skif\Utils::assert($content_type_obj);
+        $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
 
         $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
             'Content',
@@ -119,8 +117,7 @@ class RubricController extends \Skif\BaseController
         \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
 
 
-        $content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
-        \Skif\Utils::assert($content_type_obj);
+        $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
 
         if ($rubric_id == 'new') {
             $rubric_obj = new \Skif\Content\Rubric();

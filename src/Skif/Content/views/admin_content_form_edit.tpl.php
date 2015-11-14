@@ -4,7 +4,7 @@
  * @var $content_type
  */
 
-$content_type_obj = \Skif\Content\ContentTypeFactory::loadContentTypeByType($content_type);
+$content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
 
 if ($content_id == 'new') {
     $content_obj = new \Skif\Content\Content();
