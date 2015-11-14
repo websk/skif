@@ -46,4 +46,17 @@ class Factory
         return $obj;
     }
 
+    public static function createAndLoadObjectByFieldsArr($class_name, $fields_arr)
+    {
+        $obj = new $class_name;
+
+        if (!($obj instanceof \Skif\Model\InterfaceLoad)) {
+            \Skif\Utils::assert($obj);
+        }
+
+        $id_to_load = call_user_func_array(array($obj, "getIdByFieldNamesArr"), array($fields_arr));
+
+        return \Skif\Factory::createAndLoadObject($class_name, $id_to_load);
+    }
+
 }

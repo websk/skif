@@ -41,16 +41,13 @@ trait FactoryTrait
     public static function factoryByFieldsArr($fields_arr, $exception_if_not_loaded = true)
     {
         $class_name = self::getMyGlobalizedClassName();
+        $obj = \Skif\Factory::createAndLoadObjectByFieldsArr($class_name, $fields_arr);
 
-        $obj = new $class_name;
-
-        if (!($obj instanceof \Skif\Model\InterfaceLoad)) {
+        if ($exception_if_not_loaded) {
             \Skif\Utils::assert($obj);
         }
 
-        $id_to_load = call_user_func_array(array($obj, "getIdByFieldNamesArr"), array($fields_arr));
-
-        return self::factory($id_to_load, $exception_if_not_loaded);
+        return $obj;
     }
 
     public static function removeObjFromCacheById($id_to_remove)
