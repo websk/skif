@@ -36,7 +36,7 @@ class SiteMenuController
 
         $breadcrumbs_arr = array(
             'Менеджер меню' => '/admin/site_menu',
-            $site_menu_obj->getName() => $site_menu_item_parent_id ? '/admin/site_menu/' . $site_menu_id . '/items/list/0' : ''
+            $site_menu_obj->getName() => '/admin/site_menu/' . $site_menu_id . '/items/list/0'
         );
 
         if (!$site_menu_item_parent_id) {
