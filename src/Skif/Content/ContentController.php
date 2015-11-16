@@ -62,8 +62,8 @@ class ContentController extends \Skif\BaseController
                 $breadcrumbs_arr = array($rubric_obj->getName() => $rubric_obj->getUrl() );
             }
 
-            if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_' . $content_type. '_rubric_' . $main_rubric_id .'_view.tpl.php')) {
-                $template_file = 'content_by_rubric_' . $content_type. '_rubric_' . $main_rubric_id .'_view.tpl.php';
+            if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_' . $main_rubric_id .'_view.tpl.php')) {
+                $template_file = 'content_by_rubric_' . $main_rubric_id .'_view.tpl.php';
             } else if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_' . $content_type. '_view.tpl.php')) {
                 $template_file = 'content_by_rubric_' . $content_type. '_view.tpl.php';
             }
