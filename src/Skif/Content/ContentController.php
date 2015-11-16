@@ -77,12 +77,7 @@ class ContentController extends \Skif\BaseController
 
         $template_id = $content_obj->getTemplateId();
 
-        if (!$template_id) {
-            $template_id = 1;
-        }
-
-        $template_obj = \Skif\Content\Template::factory($template_id);
-        $layout_template_file = $template_obj->getLayoutTemplateFilePath();
+        $layout_template_file = \Skif\Content\TemplateUtils::getLayoutFileByTemplateId($template_id);
 
         echo \Skif\PhpTemplate::renderTemplate(
             $layout_template_file,
@@ -124,8 +119,7 @@ class ContentController extends \Skif\BaseController
 
         $template_id = $content_type_obj->getTemplateId();
 
-        $template_obj = \Skif\Content\Template::factory($template_id);
-        $layout_template_file = $template_obj->getLayoutTemplateFilePath();
+        $layout_template_file = \Skif\Content\TemplateUtils::getLayoutFileByTemplateId($template_id);
 
         echo \Skif\PhpTemplate::renderTemplate(
             $layout_template_file,
