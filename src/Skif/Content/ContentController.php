@@ -8,7 +8,7 @@ class ContentController extends \Skif\BaseController
     /**
      * @var string
      */
-    protected $url_table = "content";
+    protected $url_table = \Skif\Content\Content::DB_TABLE_NAME;
 
     public function viewAction()
     {
@@ -76,9 +76,7 @@ class ContentController extends \Skif\BaseController
         );
 
         $template_id = $content_obj->getTemplateId();
-        if (!$template_id) {
-            $template_id = 1;
-        }
+
         $template_obj = \Skif\Content\Template::factory($template_id);
         $layout_template_file = $template_obj->getLayoutTemplateFilePath();
 
@@ -120,8 +118,13 @@ class ContentController extends \Skif\BaseController
 
         $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
 
+        $template_id = $content_type_obj->getTemplateId();
+
+        $template_obj = \Skif\Content\Template::factory($template_id);
+        $layout_template_file = $template_obj->getLayoutTemplateFilePath();
+
         echo \Skif\PhpTemplate::renderTemplate(
-            'layouts/layout.main.tpl.php',
+            $layout_template_file,
             array(
                 'content' => $content,
                 'title' => $content_type_obj->getName(),

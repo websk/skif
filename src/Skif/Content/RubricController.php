@@ -42,8 +42,13 @@ class RubricController extends \Skif\BaseController
             )
         );
 
+        $template_id = $rubric_obj->getTemplateId();
+        $template_obj = \Skif\Content\Template::factory($template_id);
+
+        $layout_template_file = $template_obj->getLayoutTemplateFilePath();
+
         echo \Skif\PhpTemplate::renderTemplate(
-            'layouts/layout.main.tpl.php',
+            $layout_template_file,
             array(
                 'content' => $content,
                 'title' => $rubric_obj->getName(),
