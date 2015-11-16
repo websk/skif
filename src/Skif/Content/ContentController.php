@@ -10,7 +10,7 @@ class ContentController extends \Skif\BaseController
      */
     protected $url_table = "content";
 
-    public function indexAction()
+    public function viewAction()
     {
         $requested_id = $this->getRequestedId();
 

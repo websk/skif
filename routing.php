@@ -105,6 +105,6 @@ if (strpos($current_url_no_query, '/admin') !== false) {
 //\Skif\UrlManager::route('@^/images/upload_to_files$@', '\Skif\Image\ImageController', 'uploadToFilesAction');
 //\Skif\UrlManager::route('@^/images/upload_to_images$@', '\Skif\Image\ImageController', 'uploadToImagesAction');
 
-\Skif\UrlManager::route('@^@', '\Skif\Content\ContentController', 'indexAction');
+\Skif\UrlManager::route('@^@', '\Skif\Content\ContentController', 'viewAction');
 \Skif\UrlManager::route('@^@', '\Skif\Content\RubricController', 'listAction');
 \Skif\UrlManager::route('@^/(.+)$@i', '\Skif\Content\ContentController', 'listAction');
