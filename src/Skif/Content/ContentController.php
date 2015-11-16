@@ -267,9 +267,9 @@ class ContentController extends \Skif\BaseController
 
 
         // Рубрики
-        $main_rubric_id = array_key_exists('main_rubric', $_REQUEST) ? $_REQUEST['main_rubric'] : \Skif\Conf\ConfWrapper::value('content.' . $content_type_obj->getType() . '.main_rubric_default_id');
+        $main_rubric_id = !empty($_REQUEST['main_rubric']) ? $_REQUEST['main_rubric'] : \Skif\Conf\ConfWrapper::value('content.' . $content_type_obj->getType() . '.main_rubric_default_id');
 
-        $rubrics_arr = array_key_exists('rubrics_arr', $_REQUEST) ? $_REQUEST['rubrics_arr'] : array($main_rubric_id);
+        $rubrics_arr = !empty($_REQUEST['rubrics_arr']) ? $_REQUEST['rubrics_arr'] : array($main_rubric_id);
         if ($rubrics_arr) {
             $content_obj->deleteContentRubrics();
 
