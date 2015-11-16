@@ -65,7 +65,7 @@ foreach ($contents_ids_arr as $content_id) {
         <td><?php echo $content_obj->getId(); ?></td>
         <td><?php echo $content_obj->getCreatedAt(); ?></td>
         <td>
-            <a href="/admin/content/<?php echo $content_type; ?>/edit/<?php echo $content_id; ?>"><?php echo $content_obj->getTitle(); ?>&nbsp;<span class="glyphicon glyphicon-edit" title="Редактировать"></span></a>
+            <a href="/admin/content/<?php echo $content_type; ?>/edit/<?php echo $content_id; ?>"><?php echo $content_obj->getTitle(); ?>&nbsp;<span class="glyphicon glyphicon-edit text-warning" title="Редактировать"></span></a>
             <?php
             $rubric_ids_arr = $content_obj->getRubricIdsArr();
 
@@ -79,7 +79,7 @@ foreach ($contents_ids_arr as $content_id) {
         </td>
         <td align="right">
             <a href="<?php echo $content_obj->getUrl(); ?>" target="_blank"><span class="glyphicon glyphicon-new-window"></span></a>
-            <a href="/admin/content/<?php echo $content_type; ?>/delete/<?php echo $content_id; ?>" onClick="return confirm('Вы уверены, что хотите удалить?')"><span class="glyphicon glyphicon-remove" title="Удалить"></span></a>
+            <a href="/admin/content/<?php echo $content_type; ?>/delete/<?php echo $content_id; ?>" onClick="return confirm('Вы уверены, что хотите удалить?')"><span class="glyphicon glyphicon-remove text-danger" title="Удалить"></span></a>
         </td>
     </tr>
     <?php

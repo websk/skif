@@ -5,7 +5,7 @@ namespace Skif\SiteMenu;
 
 class SiteMenuController
 {
-    public function listItemsAdminAction($site_menu_id, $parent_id = 0)
+    public function listItemsAdminAction($site_menu_id, $site_menu_item_id = 0)
     {
         // Проверка прав доступа
         \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
@@ -15,10 +15,11 @@ class SiteMenuController
         $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
             'SiteMenu',
             'admin_site_menu_items_list.tpl.php',
-            array('site_menu_id' => $site_menu_id, 'parent_id' => $parent_id)
+            array('site_menu_id' => $site_menu_id, 'parent_id' => $site_menu_item_id)
         );
 
-        $breadcrumbs_arr = \Skif\SiteMenu\SiteMenuController::getBreadcrumbsArr($site_menu_id, $parent_id);
+
+        $breadcrumbs_arr = \Skif\SiteMenu\SiteMenuController::getBreadcrumbsArr($site_menu_id, $site_menu_item_id);
 
         echo \Skif\PhpTemplate::renderTemplate(\Skif\Conf\ConfWrapper::value('layout.admin'), array(
                 'title' => $site_menu_obj->getName(),
@@ -29,38 +30,38 @@ class SiteMenuController
         );
     }
 
-    public static function getBreadcrumbsArr($site_menu_id, $parent_id = 0)
+    public static function getBreadcrumbsArr($site_menu_id, $site_menu_item_parent_id = 0)
     {
         $site_menu_obj = \Skif\SiteMenu\SiteMenu::factory($site_menu_id);
 
         $breadcrumbs_arr = array(
             'Менеджер меню' => '/admin/site_menu',
-            $site_menu_obj->getName() => $parent_id ? '/admin/site_menu/' . $site_menu_id . '/items/list/0' : ''
+            $site_menu_obj->getName() => $site_menu_item_parent_id ? '/admin/site_menu/' . $site_menu_id . '/items/list/0' : ''
         );
 
-        if (!$parent_id) {
+        if (!$site_menu_item_parent_id) {
             return $breadcrumbs_arr;
         }
 
-        $site_menu_parent_item_obj = \Skif\SiteMenu\SiteMenuItem::factory($parent_id);
+        $site_menu_parent_item_obj = \Skif\SiteMenu\SiteMenuItem::factory($site_menu_item_parent_id);
 
         $ancestors_ids_arr = $site_menu_parent_item_obj->getAncestorsIdsArr();
         $ancestors_ids_arr = array_reverse($ancestors_ids_arr);
 
-        foreach ($ancestors_ids_arr as $site_menu_item_id) {
-            $site_menu_item_obj = \Skif\SiteMenu\SiteMenuItem::factory($site_menu_item_id);
+        foreach ($ancestors_ids_arr as $item_parent_id) {
+            $site_menu_item_obj = \Skif\SiteMenu\SiteMenuItem::factory($item_parent_id);
 
-            $breadcrumbs_arr[$site_menu_item_obj->getName()] = '/admin/site_menu/' . $site_menu_id . '/items/list/' . $site_menu_item_id;
+            $breadcrumbs_arr[$site_menu_item_obj->getName()] = '/admin/site_menu/' . $site_menu_id . '/items/list/' . $item_parent_id;
         }
 
-        if ($parent_id) {
-            $breadcrumbs_arr[$site_menu_parent_item_obj->getName()] = '/admin/site_menu/' . $site_menu_id . '/items/list/' . $parent_id;
+        if ($site_menu_item_parent_id) {
+            $breadcrumbs_arr[$site_menu_parent_item_obj->getName()] = '/admin/site_menu/' . $site_menu_id . '/items/list/' . $site_menu_item_parent_id;
         }
 
         return $breadcrumbs_arr;
     }
 
-    public function listForMoveItemsAdminAction($site_menu_id, $parent_id = 0)
+    public function listForMoveItemsAdminAction($site_menu_id, $site_menu_item_parent_id = 0)
     {
         // Проверка прав доступа
         \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
@@ -69,7 +70,7 @@ class SiteMenuController
 
         if (!$move_item_id) {
             \Skif\Messages::setError('Не выбран пункт меню');
-            \Skif\Http::redirect('/admin/site_menu/' . $site_menu_id . '/items/list/' . $parent_id);
+            \Skif\Http::redirect('/admin/site_menu/' . $site_menu_id . '/items/list/' . $site_menu_item_parent_id);
         }
 
         $site_menu_obj = \Skif\SiteMenu\SiteMenu::factory($site_menu_id);
@@ -77,10 +78,10 @@ class SiteMenuController
         $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
             'SiteMenu',
             'admin_site_menu_items_move_list.tpl.php',
-            array('site_menu_id' => $site_menu_id, 'parent_id' => $parent_id, 'move_item_id' => $move_item_id)
+            array('site_menu_id' => $site_menu_id, 'parent_id' => $site_menu_item_parent_id, 'move_item_id' => $move_item_id)
         );
 
-        $breadcrumbs_arr = \Skif\SiteMenu\SiteMenuController::getBreadcrumbsArr($site_menu_id, $parent_id);
+        $breadcrumbs_arr = \Skif\SiteMenu\SiteMenuController::getBreadcrumbsArr($site_menu_id, $site_menu_item_parent_id);
 
         echo \Skif\PhpTemplate::renderTemplate(\Skif\Conf\ConfWrapper::value('layout.admin'), array(
                 'title' => $site_menu_obj->getName(),
@@ -170,11 +171,15 @@ class SiteMenuController
         $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
             'SiteMenu',
             'admin_site_menu_item_form_edit.tpl.php',
-            array('site_menu_id' => $site_menu_id, 'site_menu_item_id' => $site_menu_item_id, 'site_menu_parent_item_id' => $site_menu_parent_item_id)
+            array(
+                'site_menu_id' => $site_menu_id,
+                'site_menu_item_id' => $site_menu_item_id,
+                'site_menu_parent_item_id' => $site_menu_parent_item_id
+            )
         );
 
         echo \Skif\PhpTemplate::renderTemplate(\Skif\Conf\ConfWrapper::value('layout.admin'), array(
-                'title' => 'Редактирование пункта меню',
+                'title' => ($site_menu_item_id == 'new') ? 'Добавление пункта меню' : 'Редактирование пункта меню',
                 'content' => $html,
                 'page_title_extra' => '',
                 'breadcrumbs_arr' => $breadcrumbs_arr
@@ -190,6 +195,12 @@ class SiteMenuController
         $name = array_key_exists('name', $_REQUEST) ? $_REQUEST['name'] : '';
         $url = array_key_exists('url', $_REQUEST) ? $_REQUEST['url'] : '';
         $content_id = array_key_exists('content_id', $_REQUEST) ? intval($_REQUEST['content_id']) : null;
+
+        $content_title = array_key_exists('content_title', $_REQUEST) ? $_REQUEST['content_title'] : '';
+        if (!$content_title) {
+            $content_id = null;
+        }
+
         $parent_id = array_key_exists('parent_id', $_REQUEST) ? $_REQUEST['parent_id'] : 0;
         $weight = array_key_exists('weight', $_REQUEST) ? $_REQUEST['weight'] : 0;
         $is_published = array_key_exists('is_published', $_REQUEST) ? $_REQUEST['is_published'] : 0;
@@ -217,15 +228,18 @@ class SiteMenuController
             $url = $content_obj->getUrl();
         }
 
+        if ($url) {
+            $url = '/' . ltrim($url, '/');
+        }
 
-        $url = '/' . ltrim($url, '/');
         $site_menu_item_obj->setUrl($url);
 
         $site_menu_item_obj->save();
 
+
         \Skif\Messages::setMessage('Изменения в &laquo;' . $site_menu_item_obj->getName() . '&raquo; сохранены');
 
-        \Skif\Http::redirect('/admin/site_menu/' . $site_menu_id . '/items/list/' . $parent_id);
+        \Skif\Http::redirect($site_menu_item_obj->getEditorUrl());
     }
 
     public function deleteItemAdminAction($site_menu_id, $site_menu_item_id)

@@ -17,8 +17,8 @@ foreach ($site_menu_ids_arr as $site_menu_id) {
         <td><?php echo $site_menu_id; ?></td>
         <td><a href="/admin/site_menu/<?php echo $site_menu_id; ?>/items/list/0"><?php echo $site_menu_obj->getName(); ?></a></td>
         <td align="right">
-            <a href="/admin/site_menu/edit/<?php echo $site_menu_id; ?>"><span class="glyphicon glyphicon-edit" title="Редактировать"></span></a>
-            <a href="/admin/site_menu/delete/<?php echo $site_menu_id; ?>" onClick="return confirm('Вы уверены, что хотите удалить?')"><span class="glyphicon glyphicon-remove" title="Удалить"></span></a>
+            <a href="/admin/site_menu/edit/<?php echo $site_menu_id; ?>"><span class="glyphicon glyphicon-edit text-warning" title="Редактировать"></span></a>
+            <a href="/admin/site_menu/delete/<?php echo $site_menu_id; ?>" onClick="return confirm('Вы уверены, что хотите удалить?')"><span class="glyphicon glyphicon-remove text-danger" title="Удалить"></span></a>
         </td>
     </tr>
 <?php

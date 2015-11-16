@@ -89,7 +89,7 @@ if ($site_menu_item_obj->getContentId()) {
     <div class="form-group">
         <label for="url" class="col-md-2 control-label">Ссылка</label>
         <div class="col-md-10">
-            <input type="text" class="form-control" id="url" name="url" value="<?php echo $url; ?>"<?php //echo (($site_menu_item_obj->getContentId() || $site_menu_item_obj->isPublished()) ? ' disabled' : ''); ?>>
+            <input type="text" class="form-control" id="url" name="url" value="<?php echo $url; ?>"<?php echo ($site_menu_item_obj->getContentId() ? ' disabled' : ''); ?>>
         </div>
     </div>
     <div class="form-group">

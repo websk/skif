@@ -387,7 +387,7 @@ class ContentController extends \Skif\BaseController
         foreach ($content_ids_arr as $content_id) {
             $content_obj = \Skif\Content\Content::factory($content_id);
 
-            $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_obj->getType()));
+            $content_type_obj = \Skif\Content\ContentType::factory($content_obj->getContentTypeId());
 
             $output_arr[] = array(
                 'id' => $content_id,

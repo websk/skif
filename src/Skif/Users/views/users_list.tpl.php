@@ -61,8 +61,8 @@ $requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id
             </td>
             <td><?php echo $user_obj->getEmail(); ?></td>
             <td align="right">
-                <a href="/admin/users/edit/<?php echo $user_id; ?>"><span class="glyphicon glyphicon-edit" title="Редактировать"></span></a>
-                <a href="/user/delete/<?php echo $user_id; ?>?destination=/admin/users" onClick="return confirm('Вы уверены, что хотите удалить?')"><span class="glyphicon glyphicon-remove" title="Удалить"></span></a>
+                <a href="/admin/users/edit/<?php echo $user_id; ?>"><span class="glyphicon glyphicon-edit text-warning" title="Редактировать"></span></a>
+                <a href="/user/delete/<?php echo $user_id; ?>?destination=/admin/users" onClick="return confirm('Вы уверены, что хотите удалить?')"><span class="glyphicon glyphicon-remove text-danger" title="Удалить"></span></a>
             </td>
         </tr>
     <?

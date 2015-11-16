@@ -12,7 +12,6 @@ body {margin: 0; background: #FCFCFC;}
 .vs1 {padding: 10px; position: absolute; visibility: hidden; top: 160px; left: 300px; border: 1px solid #B2BCD9; background-color: #E8FFE8;}
 .vs2 {padding: 10px; position: absolute; visibility: hidden; top: 10px; right: 30px; border: 1px solid #B2BCD9; background-color: #E8FFE8;}
 .cat_comment {padding: 10px; position: absolute; visibility: hidden; top: 5px; right: 10px; border: 1px solid #B2BCD9; background-color: #E8FFE8; height: 100px; overflow: auto;}
-.mb {font-size: 12px; border: 1px solid #C0C0C0; background: #EBEBEB; height: 24px; width: 150; cursor: pointer;}
 .me {font-size: 12px; background-color: #F9FAFD;}
 .mn {background : #F0F1FA; color: #676767; font-weight: bold; font-size: 12px; height: 22px;}
 .s {background: #E6E6E6; border: 1px solid #C0C0C0;}
@@ -24,12 +23,7 @@ body {margin: 0; background: #FCFCFC;}
 .icon {vertical-align: middle}
 .ram {border: 1px solid #C0C0C0;}
 .help {color: #616161; font-size: 10px;}
-.at {color: #FF0000; font-size: 12px;}
 
-hr {border: none; height: 1px; background-color: #E2E1E1; color: #E2E1E1;}
-.line {background-color: #B2BCD9;}
-
-.padd1 {padding: 0px 20px 10px 20px;}
 .title {background-color: #F0F1FA; color: #676767; font-weight: bold; font-size: 12px; height: 22px; padding: 0px 5px 0px 5px; position: relative; margin: 0 0 5px 0px;}
 
 .tbl table {border:1px solid #C0C0C0; border-width: 1px 0 1px 1px;}
@@ -54,25 +48,3 @@ label.error {
     font-weight: normal;
     color: #ee0000;
 }
-
-
-.icon-edit {
-    width: 16px;
-    height: 16px;
-    position: relative;
-    top: 1px;
-    display: inline-block;
-    background:url("/img/icons/16x16/document_editing.png") left top;
-}
-.icon-delete {
-    width: 16px;
-    height: 16px;
-    position: relative;
-    top: 1px;
-    display: inline-block;
-    background:url("/img/icons/16x16/cancel.png") left top;
-}
-
-.glyphicon-edit {color: #d5730d;}
-.glyphicon-move {color: #676767}
-.glyphicon-remove {color: #d9534f}

@@ -156,7 +156,7 @@ class RubricController extends \Skif\BaseController
 
         \Skif\Messages::setMessage('Изменения сохранены');
 
-        \Skif\Http::redirect(\Skif\Content\RubricController::getRubricsListUrlByContentType($content_type));
+        \Skif\Http::redirect($rubric_obj->getEditorUrl());
     }
 
     public function deleteRubricAction($content_type, $rubric_id)

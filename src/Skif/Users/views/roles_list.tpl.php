@@ -25,8 +25,8 @@
                 <?php echo $role_obj->getDesignation(); ?>
             </td>
             <td align="right">
-                <a href="/admin/users/roles/edit/<?php echo $role_id; ?>"><span class="glyphicon glyphicon-edit" title="Редактировать"></span></a>
-                <a href="/admin/users/roles/delete/<?php echo $role_id; ?>" onClick="return confirm('Вы уверены, что хотите удалить?')"><span class="glyphicon glyphicon-remove" title="Удалить"></span></a>
+                <a href="/admin/users/roles/edit/<?php echo $role_id; ?>"><span class="glyphicon glyphicon-edit text-warning" title="Редактировать"></span></a>
+                <a href="/admin/users/roles/delete/<?php echo $role_id; ?>" onClick="return confirm('Вы уверены, что хотите удалить?')"><span class="glyphicon glyphicon-remove text-danger" title="Удалить"></span></a>
             </td>
         </tr>
     <?

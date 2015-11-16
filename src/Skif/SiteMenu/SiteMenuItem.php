@@ -46,6 +46,11 @@ class SiteMenuItem implements
         return true;
     }
 
+    public function getEditorUrl()
+    {
+        return '/admin/site_menu/' . $this->getMenuId() . '/item/edit/' . $this->getId();
+    }
+
     /**
      * @return mixed
      */

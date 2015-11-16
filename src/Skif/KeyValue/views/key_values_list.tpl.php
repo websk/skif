@@ -23,8 +23,8 @@ $key_value_ids_arr = \Skif\KeyValue\KeyValueUtils::getKeyValueIdsArr();
                 <?= $key_value_obj->getDescription() ?>
             </td>
             <td align="right">
-                <a href="/admin/key_value/edit/<?php echo $key_value_id; ?>"><span class="glyphicon glyphicon-edit" title="Редактировать"></span></a>
-                <a href="/admin/key_value/delete/<?php echo $key_value_id; ?>" onClick="return confirm('Вы уверены, что хотите удалить?')"><span class="glyphicon glyphicon-remove" title="Удалить"></span></a>
+                <a href="/admin/key_value/edit/<?php echo $key_value_id; ?>"><span class="glyphicon glyphicon-edit text-warning" title="Редактировать"></span></a>
+                <a href="/admin/key_value/delete/<?php echo $key_value_id; ?>" onClick="return confirm('Вы уверены, что хотите удалить?')"><span class="glyphicon glyphicon-remove text-danger" title="Удалить"></span></a>
             </td>
         </tr>
         <?php

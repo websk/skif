@@ -17,6 +17,7 @@ class SiteMenu implements
 
     const DB_TABLE_NAME = 'site_menu';
 
+
     /**
      * @return mixed
      */
