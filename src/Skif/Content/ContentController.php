@@ -267,9 +267,18 @@ class ContentController extends \Skif\BaseController
 
 
         // Рубрики
-        $main_rubric_id = !empty($_REQUEST['main_rubric']) ? $_REQUEST['main_rubric'] : \Skif\Conf\ConfWrapper::value('content.' . $content_type_obj->getType() . '.main_rubric_default_id');
+        $main_rubric_id = !empty($_REQUEST['main_rubric']) ? $_REQUEST['main_rubric'] : null;
+        $rubrics_arr = !empty($_REQUEST['rubrics_arr']) ? $_REQUEST['rubrics_arr'] : array();
+        $require_main_rubric = \Skif\Conf\ConfWrapper::value('content.' . $content_type_obj->getType() . '.require_main_rubric');
 
-        $rubrics_arr = !empty($_REQUEST['rubrics_arr']) ? $_REQUEST['rubrics_arr'] : array($main_rubric_id);
+        if (!$main_rubric_id && $require_main_rubric) {
+            $main_rubric_id = \Skif\Conf\ConfWrapper::value('content.' . $content_type_obj->getType() . '.main_rubric_default_id');
+
+            if (!$rubrics_arr) {
+                $rubrics_arr = array($main_rubric_id);
+            }
+        }
+
         if ($rubrics_arr) {
             $content_obj->deleteContentRubrics();
 
@@ -286,12 +295,15 @@ class ContentController extends \Skif\BaseController
         }
 
         // Главная рубрика
-        if (!$main_rubric_id) {
-            $content_obj->setIsPublished(0);
-            $content_obj->save();
 
-            \Skif\Messages::setError('Не указана главная рубрика');
-            \Skif\Http::redirect('/admin/content/' . $content_type . '/edit/' . $content_obj->getId());
+        if ($require_main_rubric) {
+            if (!$main_rubric_id) {
+                $content_obj->setIsPublished(0);
+                $content_obj->save();
+
+                \Skif\Messages::setError('Не указана главная рубрика');
+                \Skif\Http::redirect('/admin/content/' . $content_type . '/edit/' . $content_obj->getId());
+            }
         }
 
         $content_obj->setMainRubricId($main_rubric_id);
