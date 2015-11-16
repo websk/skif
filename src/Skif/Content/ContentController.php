@@ -64,8 +64,8 @@ class ContentController extends \Skif\BaseController
 
             if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_' . $main_rubric_id .'_view.tpl.php')) {
                 $template_file = 'content_by_rubric_' . $main_rubric_id .'_view.tpl.php';
-            } else if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_' . $content_type. '_view.tpl.php')) {
-                $template_file = 'content_by_rubric_' . $content_type. '_view.tpl.php';
+            } else if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_view.tpl.php')) {
+                $template_file = 'content_by_rubric_view.tpl.php';
             }
         }
 
