@@ -129,6 +129,17 @@ class Rubric implements
         $this->template_id = $template_id;
     }
 
+    public function getRelativeTemplateId()
+    {
+        if ($this->getTemplateId()) {
+            return $this->getTemplateId();
+        }
+
+        $content_type_obj = \Skif\Content\ContentType::factory($this->getContentTypeId());
+
+        return $content_type_obj->getTemplateId();
+    }
+
     /**
      * @return mixed
      */

@@ -42,7 +42,7 @@ class RubricController extends \Skif\BaseController
             )
         );
 
-        $template_id = $rubric_obj->getTemplateId();
+        $template_id = $rubric_obj->getRelativeTemplateId();
 
         $layout_template_file = \Skif\Content\TemplateUtils::getLayoutFileByTemplateId($template_id);
 
