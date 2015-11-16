@@ -197,14 +197,14 @@ class ContentUtils
      * Блок последних материалов
      * @param $content_type
      * @param int $limit
-     * @param string $template
+     * @param string $template_file
      * @return string
      */
-    public static function renderLastContentsBlock($content_type, $limit = 10, $template = '')
+    public static function renderLastContentsBlock($content_type, $limit = 10, $template_file = '')
     {
         $contents_ids_arr = \Skif\Content\ContentUtils::getPublishedContentsIdsArrByType($content_type, $limit);
 
-        if (!$template) {
+        if (!$template_file) {
             $template_file = 'content_last_list.tpl.php';
 
             if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type . '_last_list.tpl.php')) {
@@ -218,21 +218,21 @@ class ContentUtils
             );
         }
 
-        return \Skif\PhpTemplate::renderTemplate($template, array('contents_ids_arr' => $contents_ids_arr));
+        return \Skif\PhpTemplate::renderTemplate($template_file, array('contents_ids_arr' => $contents_ids_arr));
     }
 
     /**
      * Блок последних материалов в рубрике
      * @param $rubric_id
      * @param int $limit
-     * @param string $template
+     * @param string $template_file
      * @return string
      */
-    public static function renderLastContentsBlockByRubric($rubric_id, $limit = 10, $template = '')
+    public static function renderLastContentsBlockByRubric($rubric_id, $limit = 10, $template_file = '')
     {
         $contents_ids_arr = \Skif\Content\ContentUtils::getPublishedContentsIdsArrByRubricId($rubric_id, $limit);
 
-        if (!$template) {
+        if (!$template_file) {
             $template_file = 'content_last_list.tpl.php';
 
             if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_' . $rubric_id . '_last_list.tpl.php')) {
@@ -256,7 +256,7 @@ class ContentUtils
             );
         }
 
-        return \Skif\PhpTemplate::renderTemplate($template, array('contents_ids_arr' => $contents_ids_arr));
+        return \Skif\PhpTemplate::renderTemplate($template_file, array('contents_ids_arr' => $contents_ids_arr));
     }
 
     /**
