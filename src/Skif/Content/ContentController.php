@@ -45,9 +45,6 @@ class ContentController extends \Skif\BaseController
         }
 
 
-        $template_id = $content_type_obj->getTemplateId();
-
-
         $breadcrumbs_arr = array();
 
         $main_rubric_id = $content_obj->getMainRubricId();
@@ -56,8 +53,6 @@ class ContentController extends \Skif\BaseController
             $main_rubric_obj = \Skif\Content\Rubric::factory($main_rubric_id);
 
             $breadcrumbs_arr = array($main_rubric_obj->getName() => $main_rubric_obj->getUrl() );
-
-            $template_id = $main_rubric_obj->getTemplateId();
         }
 
 
@@ -82,9 +77,7 @@ class ContentController extends \Skif\BaseController
         );
 
 
-        if ($content_obj->getTemplateId()) {
-            $template_id = $content_obj->getTemplateId();
-        }
+        $template_id = $content_obj->getRelativeTemplateId();
 
         $layout_template_file = \Skif\Content\TemplateUtils::getLayoutFileByTemplateId($template_id);
 

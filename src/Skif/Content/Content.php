@@ -409,6 +409,23 @@ class Content implements
         $this->template_id = $template_id;
     }
 
+    public function getRelativeTemplateId()
+    {
+        if ($this->getTemplateId()) {
+            return $this->getTemplateId();
+        }
+
+        if ($this->getMainRubricId()) {
+            $main_rubric_obj = \Skif\Content\Rubric::factory($this->getMainRubricId());
+
+            return $main_rubric_obj->getTemplateId();
+        }
+
+        $content_type_obj = \Skif\Content\ContentType::factory($this->getContentTypeId());
+
+        return $content_type_obj->getTemplateId();
+    }
+
     /**
      * @return mixed
      */
