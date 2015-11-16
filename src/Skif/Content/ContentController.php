@@ -77,6 +77,10 @@ class ContentController extends \Skif\BaseController
 
         $template_id = $content_obj->getTemplateId();
 
+        if (!$template_id) {
+            $template_id = 1;
+        }
+
         $template_obj = \Skif\Content\Template::factory($template_id);
         $layout_template_file = $template_obj->getLayoutTemplateFilePath();
 
