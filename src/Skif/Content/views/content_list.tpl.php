@@ -34,4 +34,3 @@ foreach ($content_ids_arr as $content_id) {
 
 $count_all_articles = \Skif\Content\ContentUtils::getCountPublishedContentsByType($content_type);
 echo \Skif\Utils::renderPagination($page, $count_all_articles, $limit_to_page);
-?>

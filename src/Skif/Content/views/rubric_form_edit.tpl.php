@@ -34,7 +34,7 @@ if ($rubric_id == 'new') {
 
         <div class="col-md-10">
             <?php
-            $templates_ids_arr = \Skif\Content\ContentUtils::getTemplatesIdsArr();
+            $templates_ids_arr = \Skif\Content\TemplateUtils::getTemplatesIdsArr();
             ?>
             <select id="template_id" name="template_id" class="form-control">
                 <option value="0">Шаблон по-умолчанию</option>

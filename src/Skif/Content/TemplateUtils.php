@@ -9,7 +9,16 @@ class TemplateUtils
     public static function getTemplateIdByUrl($url)
     {
 
+    }
 
+    /**
+     * Список ID шаблонов
+     * @return array
+     */
+    public static function getTemplatesIdsArr()
+    {
+        $query = "SELECT id FROM " . \Skif\Content\Template::DB_TABLE_NAME;
+        return \Skif\DB\DBWrapper::readColumn($query);
     }
 
     public static function getLayoutFileByTemplateId($template_id)

@@ -46,7 +46,12 @@ class ContentController extends \Skif\BaseController
 
         $breadcrumbs_arr = array();
 
-        $template_file = 'content_' . $content_type . '.tpl.php';
+
+        $template_file = 'content_view.tpl.php';
+
+        if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type . '_view.tpl.php')) {
+            $template_file = 'content_' . $content_type . '_view.tpl.php';
+        }
 
         if ($content_obj->getCountRubricIdsArr()) {
             $main_rubric_id = $content_obj->getMainRubricId();
@@ -57,8 +62,8 @@ class ContentController extends \Skif\BaseController
                 $breadcrumbs_arr = array($rubric_obj->getName() => $rubric_obj->getUrl() );
             }
 
-            if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type. '_by_rubric.tpl.php')) {
-                $template_file = 'content_' . $content_type. '_by_rubric.tpl.php';
+            if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_' . $content_type. '_view.tpl.php')) {
+                $template_file = 'content_by_rubric_' . $content_type. '_view.tpl.php';
             }
         }
 
@@ -92,7 +97,6 @@ class ContentController extends \Skif\BaseController
      * Список материалов
      * @param $content_type
      * @return string
-     * @throws \Exception
      */
     public function listAction($content_type)
     {
@@ -100,9 +104,15 @@ class ContentController extends \Skif\BaseController
             return \Skif\UrlManager::CONTINUE_ROUTING;
         }
 
+        $template_file = 'content_list.tpl.php';
+
+        if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type. '_list.tpl.php')) {
+            $template_file = 'content_' . $content_type. '_list.tpl.php';
+        }
+
         $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
             'Content',
-            'content_' . $content_type. '_list.tpl.php',
+            $template_file,
             array('content_type' => $content_type)
         );
 
