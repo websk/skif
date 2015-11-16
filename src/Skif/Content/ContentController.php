@@ -225,7 +225,6 @@ class ContentController extends \Skif\BaseController
         $description = array_key_exists('description', $_REQUEST) ? $_REQUEST['description'] : '';
         $keywords = array_key_exists('keywords', $_REQUEST) ? $_REQUEST['keywords'] : '';
         $template_id = array_key_exists('template_id', $_REQUEST) ? $_REQUEST['template_id'] : null;
-        $main_rubric_id = array_key_exists('main_rubric', $_REQUEST) ? $_REQUEST['main_rubric'] : null;
 
         if ($is_published && empty($published_at)) {
             $published_at = $created_at;
@@ -268,7 +267,9 @@ class ContentController extends \Skif\BaseController
 
 
         // Рубрики
-        $rubrics_arr = array_key_exists('rubrics_arr', $_REQUEST) ? $_REQUEST['rubrics_arr'] : array();
+        $main_rubric_id = array_key_exists('main_rubric', $_REQUEST) ? $_REQUEST['main_rubric'] : \Skif\Conf\ConfWrapper::value('content.' . $content_type_obj->getType() . '.main_rubric_default_id');
+
+        $rubrics_arr = array_key_exists('rubrics_arr', $_REQUEST) ? $_REQUEST['rubrics_arr'] : array($main_rubric_id);
         if ($rubrics_arr) {
             $content_obj->deleteContentRubrics();
 
@@ -284,12 +285,7 @@ class ContentController extends \Skif\BaseController
             }
         }
 
-
         // Главная рубрика
-        if (!$main_rubric_id) {
-            $main_rubric_id = \Skif\Conf\ConfWrapper::value('content.' . $content_type_obj->getType() . '.main_rubric_default_id');
-        }
-
         if (!$main_rubric_id) {
             $content_obj->setIsPublished(0);
             $content_obj->save();
