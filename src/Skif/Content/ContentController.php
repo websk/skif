@@ -44,7 +44,21 @@ class ContentController extends \Skif\BaseController
             $admin_nav_arr = array($content_obj->getEditorUrl() => 'Редактировать');
         }
 
+
+        $template_id = $content_type_obj->getTemplateId();
+
+
         $breadcrumbs_arr = array();
+
+        $main_rubric_id = $content_obj->getMainRubricId();
+
+        if ($main_rubric_id) {
+            $main_rubric_obj = \Skif\Content\Rubric::factory($main_rubric_id);
+
+            $breadcrumbs_arr = array($main_rubric_obj->getName() => $main_rubric_obj->getUrl() );
+
+            $template_id = $main_rubric_obj->getTemplateId();
+        }
 
 
         $template_file = 'content_view.tpl.php';
@@ -54,14 +68,6 @@ class ContentController extends \Skif\BaseController
         }
 
         if ($content_obj->getCountRubricIdsArr()) {
-            $main_rubric_id = $content_obj->getMainRubricId();
-
-            if ($main_rubric_id) {
-                $rubric_obj = \Skif\Content\Rubric::factory($main_rubric_id);
-
-                $breadcrumbs_arr = array($rubric_obj->getName() => $rubric_obj->getUrl() );
-            }
-
             if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_' . $main_rubric_id .'_view.tpl.php')) {
                 $template_file = 'content_by_rubric_' . $main_rubric_id .'_view.tpl.php';
             } else if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_view.tpl.php')) {
@@ -75,7 +81,10 @@ class ContentController extends \Skif\BaseController
             array('content_id' => $content_id)
         );
 
-        $template_id = $content_obj->getTemplateId();
+
+        if ($content_obj->getTemplateId()) {
+            $template_id = $content_obj->getTemplateId();
+        }
 
         $layout_template_file = \Skif\Content\TemplateUtils::getLayoutFileByTemplateId($template_id);
 
