@@ -228,7 +228,7 @@ class ContentUtils
      * @param string $template_file
      * @return string
      */
-    public static function renderLastContentsBlockByRubric($rubric_id, $limit = 10, $template_file = '')
+    public static function renderLastContentsBlockByRubricId($rubric_id, $limit = 10, $template_file = '')
     {
         $contents_ids_arr = \Skif\Content\ContentUtils::getPublishedContentsIdsArrByRubricId($rubric_id, $limit);
 
