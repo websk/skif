@@ -167,7 +167,7 @@ class ContentUtils
                   AND c.is_published=1
                   AND (c.published_at<=:date)
                   AND (c.unpublished_at>=:date OR c.unpublished_at IS NULL)
-                ORDER BY c.created_at DESC";
+                GROUP BY cr.content_id ORDER BY c.created_at DESC";
 
         if ($limit_to_page) {
             $start_record = $limit_to_page * ($page - 1);
