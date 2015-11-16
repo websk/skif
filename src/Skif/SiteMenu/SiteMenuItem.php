@@ -29,16 +29,9 @@ class SiteMenuItem implements
 
     public function load($id)
     {
-        $query = "SELECT * FROM site_menu_item WHERE id=?";
-        $raw_obj = \Skif\DB\DBWrapper::readObject($query, array($id));
-
-        if (!$raw_obj) {
+        $is_loaded = \Skif\Util\ActiveRecordHelper::loadModelObj($this, $id);
+        if (!$is_loaded) {
             return false;
-        }
-
-        $object_vars_arr = get_object_vars($raw_obj);
-        foreach ($object_vars_arr as $key => $value) {
-            $this->$key = $value;
         }
 
         $this->children_ids_arr = \Skif\SiteMenu\SiteMenuUtils::getSiteMenuItemIdsArr($this->getMenuId(), $this->getId());
