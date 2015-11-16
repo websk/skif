@@ -60,11 +60,23 @@ if ($requested_rubric_id) {
 <?php
 foreach ($contents_ids_arr as $content_id) {
     $content_obj = \Skif\Content\Content::factory($content_id);
+
+    $main_rubric_id = $content_obj->getMainRubricId();
     ?>
     <tr>
         <td><?php echo $content_obj->getId(); ?></td>
         <td><?php echo $content_obj->getCreatedAt(); ?></td>
-        <td><a href="/admin/content/<?php echo $content_type; ?>/edit/<?php echo $content_id; ?>"><?php echo $content_obj->getTitle(); ?>&nbsp;<span class="glyphicon glyphicon-edit" title="Редактировать"></span></a></td>
+        <td>
+            <a href="/admin/content/<?php echo $content_type; ?>/edit/<?php echo $content_id; ?>"><?php echo $content_obj->getTitle(); ?>&nbsp;<span class="glyphicon glyphicon-edit" title="Редактировать"></span></a>
+            <?php
+            if ($main_rubric_id) {
+                $rubric_obj = \Skif\Content\Rubric::factory($main_rubric_id);
+                ?>
+                <span class="badge"><?php echo $rubric_obj->getName(); ?></span>
+            <?php
+            }
+            ?>
+        </td>
         <td align="right">
             <a href="<?php echo $content_obj->getUrl(); ?>" target="_blank"><span class="glyphicon glyphicon-new-window"></span></a>
             <a href="/admin/content/<?php echo $content_type; ?>/delete/<?php echo $content_id; ?>" onClick="return confirm('Вы уверены, что хотите удалить?')"><span class="glyphicon glyphicon-remove" title="Удалить"></span></a>
