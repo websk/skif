@@ -67,15 +67,13 @@ foreach ($contents_ids_arr as $content_id) {
         <td>
             <a href="/admin/content/<?php echo $content_type; ?>/edit/<?php echo $content_id; ?>"><?php echo $content_obj->getTitle(); ?>&nbsp;<span class="glyphicon glyphicon-edit" title="Редактировать"></span></a>
             <?php
-            $rubrics_ids_arr = $content_obj->getRubricIdsArr();
+            $rubric_ids_arr = $content_obj->getRubricIdsArr();
 
-            if ($rubrics_ids_arr) {
-                foreach ($rubric_ids_arr as $rubric_id) {
-                    $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
-                    ?>
-                    <span class="badge"><?php echo $rubric_obj->getName(); ?></span>
+            foreach ($rubric_ids_arr as $rubric_id) {
+                $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
+                ?>
+                <span class="badge"><?php echo $rubric_obj->getName(); ?></span>
                 <?php
-                }
             }
             ?>
         </td>
