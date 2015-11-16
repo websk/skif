@@ -235,7 +235,6 @@ class ContentController extends \Skif\BaseController
         $content_obj->setAnnotation($annotation);
         $content_obj->setBody($body);
         $content_obj->setContentTypeId($content_type_obj->getId());
-        $content_obj->setMainRubricId($main_rubric_id);
         $content_obj->setPublishedAt($published_at);
         $content_obj->setUnpublishedAt($unpublished_at);
         $content_obj->setCreatedAt($created_at);
@@ -243,6 +242,7 @@ class ContentController extends \Skif\BaseController
         $content_obj->setKeywords($keywords);
         $content_obj->setTemplateId($template_id);
         $content_obj->setLastModifiedAt(date('Y-m-d H:i:s'));
+
 
         // URL
         if (!$content_obj->isPublished()) {
@@ -281,12 +281,28 @@ class ContentController extends \Skif\BaseController
 
             if (!$main_rubric_id) {
                 $main_rubric_id = $rubrics_arr[0];
-
-                $content_obj->setMainRubricId($main_rubric_id);
-                $content_obj->save();
             }
         }
 
+
+        // Главная рубрика
+        if (!$main_rubric_id) {
+            $main_rubric_id = \Skif\Conf\ConfWrapper::value('content.' . $content_type_obj->getType() . '.main_rubric_default_id');
+        }
+
+        if (!$main_rubric_id) {
+            $content_obj->setIsPublished(0);
+            $content_obj->save();
+
+            \Skif\Messages::setError('Не указана главная рубрика');
+            \Skif\Http::redirect('/admin/content/' . $content_type . '/edit/' . $content_obj->getId());
+        }
+
+        $content_obj->setMainRubricId($main_rubric_id);
+        $content_obj->save();
+
+
+        // Картинка
         if (array_key_exists('image_file', $_FILES) && !empty($_FILES['image_file']['name'])) {
             $root_images_folder = \Skif\Image\ImageConstants::IMG_ROOT_FOLDER;
             $file = $_FILES['image_file'];
@@ -294,6 +310,7 @@ class ContentController extends \Skif\BaseController
             $content_obj->setImage($file_name);
             $content_obj->save();
         }
+
 
         \Skif\Messages::setMessage('Изменения сохранены');
 
