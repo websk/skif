@@ -355,7 +355,9 @@ class ContentController extends \Skif\BaseController
 
         $content_obj->delete();
 
-        \Skif\Http::redirect('/admin/content/' . $content_obj->getType());
+        $content_type_obj = \Skif\Content\ContentType::factory($content_obj->getContentTypeId());
+
+        \Skif\Http::redirect('/admin/content/' . $content_type_obj->getType());
     }
 
     /**
