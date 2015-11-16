@@ -237,6 +237,16 @@ class ContentUtils
 
             if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_' . $rubric_id . '_last_list.tpl.php')) {
                 $template_file = 'content_by_rubric_' . $rubric_id . '_last_list.tpl.php';
+            } else {
+                $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
+
+                $content_type_id = $rubric_obj->getContentTypeId();
+                $content_type_obj = \Skif\Content\ContentType::factory($content_type_id);
+                $content_type = $content_type_obj->getType();
+
+                if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type . '_last_list.tpl.php')) {
+                    $template_file = 'content_' . $content_type . '_last_list.tpl.php';
+                }
             }
 
             return \Skif\PhpTemplate::renderTemplateBySkifModule(
