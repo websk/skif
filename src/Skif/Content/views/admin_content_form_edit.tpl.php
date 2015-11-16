@@ -210,6 +210,7 @@ if ($content_id == 'new') {
                     <label for="main_rubric" class="control-label">Главная рубрика</label>
                     <div>
                         <select id="main_rubric" name="main_rubric" class="form-control">
+                            <option></option>
                             <?php
                             $content_rubrics_ids_arr = $content_obj->getRubricIdsArr();
 
