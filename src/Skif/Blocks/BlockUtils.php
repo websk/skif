@@ -6,6 +6,66 @@ class BlockUtils
 {
 
     /**
+     * @param int $block_id
+     * @return string
+     */
+    public static function getContentByBlockId($block_id)
+    {
+        $block_obj = \Skif\Blocks\Block::factory($block_id);
+
+        $cache_key = \Skif\Blocks\BlockUtils::getBlockContentCacheKey($block_id);
+
+        $cache_enabled = true;
+
+        if ($block_obj->getCache() == \Skif\Constants::BLOCK_NO_CACHE) {
+            $cache_enabled = false;
+        }
+
+        if ($cache_enabled) {
+            $cached_content = \Skif\Cache\CacheWrapper::get($cache_key);
+
+            if ($cached_content !== false) {
+                return $cached_content;
+            }
+        }
+
+        $block_content = $block_obj->renderBlockContent();
+
+        if ($cache_enabled) {
+            \Skif\Cache\CacheWrapper::set($cache_key, $block_content);
+        }
+
+        return $block_content;
+    }
+
+    /**
+     * @param int $block_id
+     * @return string|null
+     */
+    protected static function getBlockContentCacheKey($block_id)
+    {
+        $block_obj = \Skif\Blocks\Block::factory($block_id);
+
+        $cid_parts = array('block_content');
+        $cid_parts[] = $block_obj->getId();
+
+        // Кешируем блоки по полному урлу $_SERVER['REQUEST_URI'], в т.ч. с $_GET параметрами.
+        // Т.к. содержимое блока может различаться. Например, страница телепрограммы по дням.
+        if ($block_obj->getCache() & \Skif\Constants::BLOCK_CACHE_PER_PAGE) {
+            $cid_parts[] = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        }
+
+        return implode(':', $cid_parts);
+    }
+
+    /**
+     * @return bool
+     */
+    public static function currentUserHasAccessToBlocksForAdministrators()
+    {
+        return \Skif\Users\AuthUtils::currentUserIsAdmin();
+    }
+    /**
      * @param string $theme
      * @return array
      */

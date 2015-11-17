@@ -1,15 +1,13 @@
 <?php
 /**
- * @var $block
+ * @var int $block_id
  */
 
-echo '
-<!-- block '. $block->id .' -->
-';
-
-if (is_string($block->content)) {
-    echo $block->content;
+$block_content = \Skif\Blocks\BlockUtils::getContentByBlockId($block_id);
+if ($block_content == '') {
+    return;
 }
-echo '
-<!-- /block -->
-';
+
+echo '<!-- ' . $block_id . ' -->';
+echo $block_content;
+echo '<!-- /' . $block_id . ' -->';

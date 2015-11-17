@@ -13,12 +13,12 @@ echo \Skif\PhpTemplate::renderTemplateBySkifModule(
 
 $items = array();
 ?>
-    <form role="form" action="/admin/blocks/edit/1" method="post" id="edit_form">
+    <form role="form" action="<?php echo $block_obj->getEditorUrl(); ?>" method="post" id="edit_form">
         <input type="hidden" value="save_content" name="_action" id="_action"/>
         <input type="hidden" value="" name="_redirect_to_on_success" id="_redirect_to_on_success"/>
 
         <div class="form-group">
-            <label>Название для админки (должно быть уникальным)</label>
+            <label>Название</label>
             <input class="form-control" type="text" value="<?php echo $block_obj->getInfo(); ?>" name="info" id="info"/>
 
             <p class="help-block">Описание выводится в админке блоков.</p>
@@ -27,7 +27,7 @@ $items = array();
         <style type="text/css" media="screen">
             #editor {
                 height: 500px;
-                font-size: 14px;
+                font-size: 100%;
             }
         </style>
 
@@ -178,10 +178,11 @@ $items = array();
 
     editor.setTheme("ace/theme/crimson_editor");
     editor.getSession().setMode("ace/mode/php");
-    editor.setValue(<?php echo $block_body_for_js = json_encode($block_obj->getBody()); ?>);
+    editor.setValue(<?php echo $block_body_for_js = json_encode($block_obj->getBody()); ?>, 1);
     editor.getSession().setUseWrapMode(true);
-
     editor.$blockScrolling = Infinity;
+    editor.blur();
+    editor.focus();
 
     $('#save-btn-js').on('click', function() {
         $('#body').val(editor.getValue());

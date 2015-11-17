@@ -89,7 +89,7 @@ class ControllerBlocks
             $region_for_title = 'отключен';
         }
 
-        $page_title .= ' <span style="color: silver">' . $region_for_title . '</span>';
+        $page_title .= ' <span class="badge">' . $region_for_title . '</span>';
 
         return $page_title;
     }
@@ -190,6 +190,186 @@ class ControllerBlocks
                 'content' => $html,
                 'page_title_extra' => '',
                 'breadcrumbs_arr' => array('Блоки' => \Skif\Blocks\ControllerBlocks::getBlocksListUrl())
+            )
+        );
+    }
+
+    /**
+     * Действия над блоком
+     * @param Block $block_id
+     */
+    public static function actions($block_id)
+    {
+        $action = '';
+
+        if (array_key_exists('_action', $_REQUEST)) {
+            $action = $_REQUEST['_action'];
+        }
+
+        if ($action == '') {
+            return;
+        }
+
+        if ($action == 'delete_block') {
+            self::deleteBlock($block_id);
+        }
+
+        if ($action == 'move_block') {
+            self::moveBlock($block_id);
+        }
+
+        if ($action == 'save_caching') {
+            \Skif\Blocks\ControllerBlocks::saveCaching($block_id);
+        }
+
+        if ($action == 'save_content') {
+            self::saveContent($block_id);
+        }
+    }
+
+    /**
+     * Сохранение содержимого блока
+     * @param $block_id
+     */
+    public static function saveContent($block_id)
+    {
+        // Проверка прав доступа
+        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+
+        $block_obj = self::getBlockObj($block_id);
+
+        $info = array_key_exists('info', $_POST) ? $_POST['info'] : '';
+        $block_obj->setInfo($info);
+
+        $body = array_key_exists('body', $_POST) ? $_POST['body'] : '';
+        $block_obj->setBody($body);
+
+        $format = array_key_exists('format', $_POST) ? $_POST['format'] : 3;
+        $block_obj->setFormat($format);
+
+        $pages = array_key_exists('pages', $_POST) ? $_POST['pages'] : '+ ^';
+        $block_obj->setPages($pages);
+
+        $is_new = !$block_obj->getId();
+
+        if ($is_new) {
+            $theme = \Skif\Blocks\ControllerBlocks::getEditorTheme();
+
+            $block_obj->setTheme($theme);
+        }
+
+        $block_obj->save();
+
+
+        // Roles
+        $block_obj->deleteBlocksRoles();
+
+        if (array_key_exists('roles', $_REQUEST)) {
+            foreach ($_REQUEST['roles'] as $role_id) {
+                $block_role_obj = new \Skif\Blocks\BlockRole();
+                $block_role_obj->setRoleId($role_id);
+                $block_role_obj->setBlockId($block_obj->getId());
+                $block_role_obj->save();
+            }
+        }
+
+        // Clear cache
+        if ($is_new) {
+            \Skif\Blocks\BlockUtils::clearBlocksIdsArrInRegionCache($block_obj->getRegion(), $block_obj->getTheme());
+        }
+
+
+        \Skif\Messages::setMessage('Изменения сохранены');
+
+        // Redirects
+        if (array_key_exists('_redirect_to_on_success', $_REQUEST) && $_REQUEST['_redirect_to_on_success'] != '') {
+            $redirect_to_on_success = $_REQUEST['_redirect_to_on_success'];
+
+            // block_id
+            if (strpos($redirect_to_on_success, 'block_id') !== false) {
+                $redirect_to_on_success = str_replace('block_id', $block_obj->getId(), $redirect_to_on_success);
+            }
+
+            \Skif\Http::redirect($redirect_to_on_success);
+        }
+
+        \Skif\Http::redirect($block_obj->getEditorUrl());
+    }
+
+    /**
+     * Выбор кеширования блока
+     * @param $block_id
+     */
+    public function cachingTabAction($block_id)
+    {
+        // Проверка прав доступа
+        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+
+        self::actions($block_id);
+
+        $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
+            'Blocks',
+            'block_caching.tpl.php',
+            array('block_id' => $block_id)
+        );
+
+        echo \Skif\PhpTemplate::renderTemplate(
+            \Skif\Conf\ConfWrapper::value('layout.admin'),
+            array(
+                'title' => self::getBlockEditorPageTitle($block_id),
+                'content' => $html,
+                'page_title_extra' => '',
+                'breadcrumbs_arr' => array('Блоки' => \Skif\Blocks\ControllerBlocks::getBlocksListUrl())
+            )
+        );
+    }
+
+    public static function saveCaching($block_id)
+    {
+        $block_obj = \Skif\Blocks\Block::factory($block_id);
+
+        $block_obj->setCache($_POST['cache']);
+        $block_obj->save();
+
+        \Skif\Messages::setMessage('Изменения сохранены');
+
+        \Skif\Http::redirect($block_obj->getEditorUrl() . '/caching');
+    }
+
+    /**
+     * Выбор расположения блока в регионе
+     * @param $block_id
+     */
+    public function placeInRegionTabAction($block_id)
+    {
+        // Проверка прав доступа
+        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+
+        $block_obj = self::getBlockObj($block_id);
+
+        self::actions($block_id);
+
+        $target_region = $block_obj->getRegion();
+
+        if (isset($_GET['target_region'])) {
+            $target_region = $_GET['target_region'];
+        }
+
+        $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
+            'Blocks',
+            'block_place_in_region.tpl.php',
+            array('block_id' => $block_id, 'target_region' => $target_region)
+        );
+
+        echo \Skif\PhpTemplate::renderTemplate(
+            \Skif\Conf\ConfWrapper::value('layout.admin'),
+            array(
+                'title' => self::getBlockEditorPageTitle($block_id),
+                'content' => $html,
+                'page_title_extra' => '',
+                'breadcrumbs_arr' => array(
+                    'Блоки' => \Skif\Blocks\ControllerBlocks::getBlocksListUrl()
+                )
             )
         );
     }
@@ -303,136 +483,15 @@ class ControllerBlocks
         }
         \Skif\Blocks\BlockUtils::clearBlocksIdsArrInRegionCache($block_obj->getRegion(), $block_obj->getTheme());
 
+        \Skif\Messages::setMessage('Блок &laquo;' . $block_obj->getInfo() . '&raquo; перемещен');
+
         \Skif\Http::redirect($block_obj->getEditorUrl() . '/position');
     }
 
     /**
-     * Действия над блоком
-     * @param Block $block_id
+     * Выбор региона
      */
-    static public function actions($block_id)
-    {
-        $action = '';
-
-        if (array_key_exists('_action', $_REQUEST)) {
-            $action = $_REQUEST['_action'];
-        }
-
-        if ($action == '') {
-            return;
-        }
-
-        if ($action == 'delete_block') {
-            self::deleteBlock($block_id);
-        }
-
-        if ($action == 'move_block') {
-            self::moveBlock($block_id);
-        }
-
-        if ($action == 'save_caching') {
-            $block_obj = \Skif\Blocks\Block::factory($block_id);
-
-            $block_obj->setCache($_POST['cache']);
-            $block_obj->save();
-
-            \Skif\Http::redirect($block_obj->getEditorUrl() . '/caching');
-        }
-
-        if ($action == 'save_content') {
-            self::saveContent($block_id);
-        }
-    }
-
-    /**
-     * Удаление блока
-     * @param $block_id
-     * @throws \Exception
-     */
-    static function deleteBlock($block_id)
-    {
-        // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
-
-        $block_obj = \Skif\Blocks\Block::factory($block_id);
-
-        $block_obj->delete();
-
-        \Skif\Http::redirect(\Skif\Blocks\ControllerBlocks::getBlocksListUrl());
-    }
-
-    /**
-     * Сохранение содержимого блока
-     * @param $block_id
-     */
-    public static function saveContent($block_id)
-    {
-        // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
-
-        $block_obj = self::getBlockObj($block_id);
-
-        $info = array_key_exists('info', $_POST) ? $_POST['info'] : '';
-        $block_obj->setInfo($info);
-
-        $body = array_key_exists('body', $_POST) ? $_POST['body'] : '';
-        $block_obj->setBody($body);
-
-        $format = array_key_exists('format', $_POST) ? $_POST['format'] : 3;
-        $block_obj->setFormat($format);
-
-        $pages = array_key_exists('pages', $_POST) ? $_POST['pages'] : '+ ^';
-        $block_obj->setPages($pages);
-
-        $is_new = !$block_obj->getId();
-
-        if ($is_new) {
-            $theme = \Skif\Blocks\ControllerBlocks::getEditorTheme();
-
-            $block_obj->setTheme($theme);
-        }
-
-        $block_obj->save();
-
-
-        // Roles
-        $block_obj->deleteBlocksRoles();
-
-        if (array_key_exists('roles', $_REQUEST)) {
-            foreach ($_REQUEST['roles'] as $role_id) {
-                $block_role_obj = new \Skif\Blocks\BlockRole();
-                $block_role_obj->setRoleId($role_id);
-                $block_role_obj->setBlockId($block_obj->getId());
-                $block_role_obj->save();
-            }
-        }
-
-        // Clear cache
-        if ($is_new) {
-            \Skif\Blocks\BlockUtils::clearBlocksIdsArrInRegionCache($block_obj->getRegion(), $block_obj->getTheme());
-        }
-
-
-        // Redirects
-        if (array_key_exists('_redirect_to_on_success', $_REQUEST) && $_REQUEST['_redirect_to_on_success'] != '') {
-            $redirect_to_on_success = $_REQUEST['_redirect_to_on_success'];
-
-            // block_id
-            if (strpos($redirect_to_on_success, 'block_id') !== false) {
-                $redirect_to_on_success = str_replace('block_id', $block_obj->getId(), $redirect_to_on_success);
-            }
-
-            \Skif\Http::redirect($redirect_to_on_success);
-        }
-
-        \Skif\Http::redirect($block_obj->getEditorUrl());
-    }
-
-    /**
-     * Выбор кеширования блока
-     * @param $block_id
-     */
-    public function cachingTabAction($block_id)
+    public function chooseRegionTabAction($block_id)
     {
         // Проверка прав доступа
         \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
@@ -441,44 +500,8 @@ class ControllerBlocks
 
         $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
             'Blocks',
-            'block_caching.tpl.php',
+            'block_choose_region.tpl.php',
             array('block_id' => $block_id)
-        );
-
-        echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.admin'),
-            array(
-                'title' => self::getBlockEditorPageTitle($block_id),
-                'content' => $html,
-                'page_title_extra' => '',
-                'breadcrumbs_arr' => array('Блоки' => \Skif\Blocks\ControllerBlocks::getBlocksListUrl())
-            )
-        );
-    }
-
-    /**
-     * Выбор расположения блока в регионе
-     * @param $block_id
-     */
-    public function placeInRegionTabAction($block_id)
-    {
-        // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
-
-        $block_obj = self::getBlockObj($block_id);
-
-        self::actions($block_id);
-
-        $target_region = $block_obj->getRegion();
-
-        if (isset($_GET['target_region'])) {
-            $target_region = $_GET['target_region'];
-        }
-
-        $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
-            'Blocks',
-            'block_place_in_region.tpl.php',
-            array('block_id' => $block_id, 'target_region' => $target_region)
         );
 
         echo \Skif\PhpTemplate::renderTemplate(
@@ -525,32 +548,24 @@ class ControllerBlocks
     }
 
     /**
-     * Выбор региона
+     * Удаление блока
+     * @param $block_id
+     * @throws \Exception
      */
-    public function chooseRegionTabAction($block_id)
+    public static function deleteBlock($block_id)
     {
         // Проверка прав доступа
         \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
 
-        self::actions($block_id);
+        $block_obj = \Skif\Blocks\Block::factory($block_id);
 
-        $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
-            'Blocks',
-            'block_choose_region.tpl.php',
-            array('block_id' => $block_id)
-        );
+        $block_name = $block_obj->getInfo();
 
-        echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.admin'),
-            array(
-                'title' => self::getBlockEditorPageTitle($block_id),
-                'content' => $html,
-                'page_title_extra' => '',
-                'breadcrumbs_arr' => array(
-                    'Блоки' => \Skif\Blocks\ControllerBlocks::getBlocksListUrl()
-                )
-            )
-        );
+        $block_obj->delete();
+
+        \Skif\Messages::setMessage('Блок &laquo;' . $block_name . '&raquo; удален');
+
+        \Skif\Http::redirect(\Skif\Blocks\ControllerBlocks::getBlocksListUrl());
     }
 
     /**
