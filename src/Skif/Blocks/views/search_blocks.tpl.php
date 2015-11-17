@@ -1,24 +1,32 @@
 <?php
 /**
  * @var $message
+ * @var $block_ids_arr
  */
 
-if ($message) {
-    echo '<div class="alert alert-danger">'. $message .'</div>';
-}
+$search_value = $_POST['search'];
 
-echo '<table class="table table-condensed table-striped">';
+echo \Skif\PhpTemplate::renderTemplateBySkifModule(
+    'Blocks',
+    'blocks_list_header.tpl.php',
+    array('search_value' => $search_value)
+);
+?>
+    <table class="table table-striped table-hover">
+        <colgroup>
+            <col class="col-md-1">
+            <col class="col-md-10">
+            <col class="col-md-1">
+        </colgroup>
 
-foreach ($blocks_arr as $block_id) {
-    $block_obj = \Skif\Blocks\BlockFactory::loadBlockObj($block_id);
-    if (!$block_obj) {
-        continue;
-    }
+<?php
+foreach ($block_ids_arr as $block_id) {
+    $block_obj = \Skif\Blocks\Block::factory($block_id);
 
     echo '<tr>';
-    echo '<td>' . $block_obj->getRegion() . '</td>';
     echo '<td>' . $block_obj->getId() . '</td>';
-    echo '<td> ' . \Skif\Util\CHtml::link($block_obj->getInfo(), '/admin/blocks/edit/' . $block_id) . '</td>';
+    echo '<td><a href="' . $block_obj->getEditorUrl() . '">' . $block_obj->getInfo() . ' <span class="glyphicon glyphicon-edit text-warning"></span></a></td>';
+    echo '<td>' . $block_obj->getRegion() . '</td>';
     echo '</tr>';
 }
 echo '</table>';

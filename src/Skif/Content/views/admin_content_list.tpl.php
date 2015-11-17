@@ -45,10 +45,10 @@ if ($requested_rubric_id) {
 
 </div>
 
-<p></p>
+<p class="padding_top_10 padding_bottom_10">
+    <a href="/admin/content/<?php echo $content_type; ?>/edit/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить материал</a>
+</p>
 
-<p><a href="/admin/content/<?php echo $content_type; ?>/edit/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить новый материал</a></p>
-<p></p>
 <div class="table-responsive">
     <table class="table table-striped table-hover">
         <colgroup>

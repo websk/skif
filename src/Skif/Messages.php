@@ -18,6 +18,11 @@ class Messages {
         self::setMessageValue('danger',  $message);
     }
 
+    public static function setWarning($message)
+    {
+        self::setMessageValue('warning',  $message);
+    }
+
     /**
      * @param $message
      */

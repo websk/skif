@@ -38,16 +38,9 @@ class User implements
 
     public function load($id)
     {
-        $query = "SELECT * FROM users WHERE id=?";
-        $raw_obj = \Skif\DB\DBWrapper::readObject($query, array($id));
-
-        if (!$raw_obj) {
+        $is_loaded = \Skif\Util\ActiveRecordHelper::loadModelObj($this, $id);
+        if (!$is_loaded) {
             return false;
-        }
-
-        $object_vars_arr = get_object_vars($raw_obj);
-        foreach ($object_vars_arr as $key => $value) {
-            $this->$key = $value;
         }
 
         $query = "SELECT role_id FROM users_roles WHERE user_id=?";

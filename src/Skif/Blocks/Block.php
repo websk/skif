@@ -3,60 +3,44 @@
 namespace Skif\Blocks;
 
 
-class Block
+class Block implements
+    \Skif\Model\InterfaceLoad,
+    \Skif\Model\InterfaceFactory,
+    \Skif\Model\InterfaceSave,
+    \Skif\Model\InterfaceDelete,
+    \Skif\Model\InterfaceLogger
 {
-    // default values for new block
-    //public $_original_obj; // what was loaded from database
-    public $id;
-    public $theme; // think over!!! theme is not attribute of block
-    public $status = 0;
-    public $weight = 1;
-    public $region = '';
-    public $custom = 0;
-    public $throttle = 0;
-    public $visibility = 3;
-    public $pages = '+ ^';
-    public $title = '';
-    public $cache = 8; // default for new blocks
-    public $body = '';
-    public $info = '';
-    public $format = 3;
-    public $is_loaded = false;
+    use \Skif\Util\ActiveRecord;
+    use \Skif\Model\FactoryTrait;
 
-    public function __construct()
+    protected $id;
+    protected $theme;
+    protected $status = 0;
+    protected $weight = 1;
+    protected $region = '';
+    protected $custom = 0;
+    protected $throttle = 0;
+    protected $visibility;
+    protected $pages = '+ ^';
+    protected $title = '';
+    protected $cache = 8;
+    protected $body = '';
+    protected $info = '';
+    protected $format = 3;
+
+    const DB_TABLE_NAME = 'blocks';
+
+    public static $active_record_ignore_fields_arr = array(
+        'visibility',
+    );
+
+    public function getEditorUrl()
     {
-
-    }
-
-    /**
-     * @param $block_id
-     * @throws \Exception
-     * @return bool|null|object|\stdClass
-     */
-    public function load($block_id)
-    {
-        if (!$block_id) {
-            return false;
+        if (!$this->getId()) {
+            return '/admin/blocks/edit/new';
         }
 
-        $original_obj= \Skif\DB\DBWrapper::readObject(
-            "SELECT * FROM blocks WHERE id = ?",
-            array($block_id)
-        );
-
-        foreach ($original_obj as $field => $value) {
-            $this->$field = $value;
-        }
-
-        // some drupal magic: 'no region' is stored as empty string, but processed as BLOCK_REGION_NONE (-1)
-
-        if ($this->region == '') {
-            $this->region = \Skif\Constants::BLOCK_REGION_NONE;
-        }
-
-        $this->is_loaded = true;
-
-        return true;
+        return '/admin/blocks/edit/' . $this->getId();
     }
 
     /**
@@ -65,49 +49,7 @@ class Block
      */
     public function isLoaded()
     {
-        return $this->is_loaded;
-    }
-
-    public function save()
-    {
-        if (($this->id == '')) { // new block
-
-            try {
-                $theme = $this->getTheme();
-
-                \Skif\DB\DBWrapper::query(
-                    'INSERT INTO blocks (theme, status, weight, region, custom, throttle, visibility, pages, title, cache, body, info, format)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                    array($theme, 0, 0, '', 0, 0, 0, $this->pages, '', 8, $this->body, $this->info, $this->format)
-                );
-            }
-            catch (\PDOException $e) {
-                $duplicate_block_pattern = "/Duplicate entry '.*' for key 'info'/";
-                if (preg_match($duplicate_block_pattern, $e->getMessage())) {
-                    return false;
-                } else {
-                    throw new \PDOException("\r\nUrl: ".$_SERVER['REQUEST_URI']."\r\n".$e->getMessage());
-                }
-            }
-            $this->id = \Skif\DB\DBWrapper::lastInsertId();
-            \Skif\Blocks\BlockFactory::removeFromCacheById($this->id);
-
-            \Skif\Logger\Logger::logObjectEvent($this, 'создание');
-        } else { // existing block
-            \Skif\DB\DBWrapper::query(
-                "UPDATE blocks
-                SET visibility = ?, pages = ?, weight = ?, status = ?, region = ?, cache = ?, body = ?, info = ?, format = ?
-                WHERE id = ?",
-                array($this->visibility, $this->pages, $this->weight, $this->status, $this->region, $this->cache,
-                    $this->body, $this->info, $this->format, $this->id)
-            );
-
-            \Skif\Logger\Logger::logObjectEvent($this, 'изменение');
-
-            \Skif\Blocks\BlockFactory::removeFromCacheById($this->id);
-        }
-
-        return true;
+        return !empty($this->id);
     }
 
     /**
@@ -125,8 +67,23 @@ class Block
      */
     public function getRegion()
     {
+        if ($this->region == '') {
+            return \Skif\Constants::BLOCK_REGION_NONE;
+        }
         return $this->region;
     }
+
+    /**
+     * @param string $region
+     */
+    public function setRegion($region)
+    {
+        if ($region == \Skif\Constants::BLOCK_REGION_NONE) {
+            $region = '';
+        }
+        $this->region = $region;
+    }
+
 
     /**
      * Вес блока
@@ -135,6 +92,14 @@ class Block
     public function getWeight()
     {
         return $this->weight;
+    }
+
+    /**
+     * @param int $weight
+     */
+    public function setWeight($weight)
+    {
+        $this->weight = $weight;
     }
 
     /**
@@ -147,12 +112,28 @@ class Block
     }
 
     /**
+     * @param string $info
+     */
+    public function setInfo($info)
+    {
+        $this->info = $info;
+    }
+
+    /**
      * Содержимое блока
      * @return string
      */
     public function getBody()
     {
         return $this->body;
+    }
+
+    /**
+     * @param string $body
+     */
+    public function setBody($body)
+    {
+        $this->body = $body;
     }
 
     /**
@@ -165,12 +146,28 @@ class Block
     }
 
     /**
+     * @param int $format
+     */
+    public function setFormat($format)
+    {
+        $this->format = $format;
+    }
+
+    /**
      * Условия видимости для блока
      * @return string
      */
     public function getPages()
     {
         return $this->pages;
+    }
+
+    /**
+     * @param string $pages
+     */
+    public function setPages($pages)
+    {
+        $this->pages = $pages;
     }
 
     /**
@@ -200,6 +197,56 @@ class Block
     }
 
     /**
+     * @param int $cache
+     */
+    public function setCache($cache)
+    {
+        $this->cache = $cache;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param int $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    public function getBlockRoleIdsArr()
+    {
+        $query = "SELECT id FROM blocks_roles WHERE block_id = ?";
+        $block_role_ids_arr = \Skif\DB\DBWrapper::readColumn(
+            $query,
+            array($this->getId())
+        );
+
+        return $block_role_ids_arr;
+    }
+
+    public function getRoleIdsArr()
+    {
+        $block_role_ids_arr = $this->getBlockRoleIdsArr();
+
+        $role_ids_arr = array();
+
+        foreach ($block_role_ids_arr as $block_role_id) {
+            $block_role_obj = \Skif\Blocks\BlockRole::factory($block_role_id);
+
+            $role_ids_arr[] = $block_role_obj->getRoleId();
+        }
+
+        return $role_ids_arr;
+    }
+
+    /**
      * Вывод содержимого блока с учетом PHP - кода
      * @return string
      */
@@ -226,18 +273,21 @@ class Block
         return $output;
     }
 
-    public function delete()
+    public function deleteBlocksRoles()
     {
-        $sql = "DELETE FROM blocks WHERE id=?";
-        \Skif\DB\DBWrapper::query( $sql, array($this->getId()));
+        $block_role_ids_arr = $this->getBlockRoleIdsArr();
 
-        $sql = "DELETE FROM blocks_roles WHERE block_id=?";
-        \Skif\DB\DBWrapper::query( $sql, array($this->getId()));
+        foreach ($block_role_ids_arr as $block_role_id) {
+            $block_role_obj = \Skif\Blocks\BlockRole::factory($block_role_id);
 
-        \Skif\Blocks\BlockFactory::removeFromCacheById($this->getId());
+            $block_role_obj->delete();
+        }
+    }
 
-        \Skif\Logger\Logger::logObjectEvent($this, 'удаление');
+    public function afterDelete()
+    {
+        $this->deleteBlocksRoles();
 
-        return true;
+        self::removeObjFromCacheById($this->getId());
     }
 }

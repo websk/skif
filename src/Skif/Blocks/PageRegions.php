@@ -170,8 +170,8 @@ class PageRegions
                 // oLog: profile
                 $_oLog_gen_start = microtime(TRUE);
 
-                $block_obj = \Skif\Blocks\BlockFactory::loadBlockObj($block_std_obj->id);
-                \Skif\Utils::assert($block_obj);
+                $block_obj = \Skif\Blocks\Block::factory($block_std_obj->id);
+
                 $content = $block_obj->renderBlockContent();
 
 
@@ -204,9 +204,6 @@ class PageRegions
                 }
 
                 if ($cid) {
-                    $block_obj = \Skif\Blocks\BlockFactory::loadBlockObj($block_std_obj->id);
-                    \Skif\Utils::assert($block_obj);
-
                     \Skif\Cache\CacheWrapper::set($cid, $content);
                 }
             }

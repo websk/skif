@@ -4,22 +4,23 @@
  */
 
 $block_obj = \Skif\Blocks\ControllerBlocks::getBlockObj($block_id);
+
+echo \Skif\PhpTemplate::renderTemplateBySkifModule(
+    'Blocks',
+    'block_edit_menu.tpl.php',
+    array('block_id' => $block_id)
+);
+
+if (!$block_obj->isLoaded()) {
+    echo '<div class="alert alert-warning">Во время создания блока вкладка недоступна.</div>';
+    return;
+}
 ?>
-<div class="tabs">
-    <ul class="nav nav-tabs" style="margin-bottom: 10px;">
-        <li><a href="/admin/blocks/edit/<?= $block_id ?>">Содержимое и видимость</a></li>
-        <li><a href="/admin/blocks/edit/<?= $block_id ?>/position">Позиция</a></li>
-        <li class="active"><a href="/admin/blocks/edit/<?= $block_id ?>/region" class="active">Регион</a></li>
-        <li><a href="/admin/blocks/edit/<?= $block_id ?>/caching">Кэширование</a></li>
-        <li><a href="/admin/blocks/edit/<?= $block_id ?>/delete">Удаление блока</a></li>
-        <li><a href="/admin/logger/object_log/<?= urlencode(\Skif\Utils::getFullObjectId($block_obj));?>" target="_blank">Журнал</a></li>
-    </ul>
-</div>
 
 <p>Выберите регион, в котором нужно вывести блок:</p>
 <?php
 $regions_arr = \Skif\Blocks\PageRegions::getRegionsArrByTheme($block_obj->getTheme());
-$regions_arr['-1'] = 'Выключенные блоки';
+$regions_arr[\Skif\Constants::BLOCK_REGION_NONE] = 'Выключенные блоки';
 ?>
 <table class="table table-condensed">
     <?php
@@ -31,7 +32,7 @@ $regions_arr['-1'] = 'Выключенные блоки';
         }
 
         echo '<tr ' . $tr_class . '>';
-        echo '<td>' . \Skif\Util\CHtml::link($region_title, '/' . \Skif\Blocks\ControllerBlocks::getEditorUrl($block_id) . '/position' . "?target_region=" . $region) . '</td>';
+        echo '<td><a href="' . $block_obj->getEditorUrl() . '/position?target_region=' . $region . '">' . $region_title .'</a></td>';
         echo '</tr>';
     }
     ?>

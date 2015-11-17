@@ -3,52 +3,48 @@
  * @var $block_id
  * @var $target_region
  */
+
 $block_obj = \Skif\Blocks\ControllerBlocks::getBlockObj($block_id);
+
+echo \Skif\PhpTemplate::renderTemplateBySkifModule(
+    'Blocks',
+    'block_edit_menu.tpl.php',
+    array('block_id' => $block_id)
+);
+
+if (!$block_obj->isLoaded()) {
+    echo '<div class="alert alert-warning">Во время создания блока вкладка недоступна.</div>';
+    return;
+}
 ?>
-<div class="tabs">
-    <ul class="nav nav-tabs" style="margin-bottom: 10px;">
-        <li><a href="/admin/blocks/edit/<?= $block_id ?>">Содержимое и видимость</a></li>
-        <li class="active"><a href="/admin/blocks/edit/<?= $block_id ?>/position" class="active">Позиция</a></li>
-        <li><a href="/admin/blocks/edit/<?= $block_id ?>/region">Регион</a></li>
-        <li><a href="/admin/blocks/edit/<?= $block_id ?>/caching">Кэширование</a></li>
-        <li><a href="/admin/blocks/edit/<?= $block_id ?>/delete">Удаление блока</a></li>
-        <li><a href="/admin/logger/object_log/<?= urlencode(\Skif\Utils::getFullObjectId($block_obj));?>" target="_blank">Журнал</a></li>
-    </ul>
-</div>
 
 <div class="tab-pane in active" id="place_in_region">
     <div class="container">
         <p>Выберите, после какого блока нужно поставить блок в регионе <?= $target_region ?></p>
-        <?php
-        $blocks_arr = \Skif\Blocks\ControllerBlocks::getBlocksIdsArrByTheme($block_obj->getTheme());
-        usort($blocks_arr, array('Skif\Blocks\ControllerBlocks', '_block_compare'));
-        ?>
         <table class="table table-condensed">
             <tr>
                 <td>---</td>
                 <td>---</td>
-                <td> <?= \Skif\Util\CHtml::link('начало региона', \Skif\UrlManager::getUriNoQueryString() . '?_action=move_block&target_region=' . $target_region . '&target_weight=FIRST') ?></td>
+                <td><a href="<?php echo \Skif\UrlManager::getUriNoQueryString() . '?_action=move_block&target_region=' . $target_region . '&target_weight=FIRST'; ?>">начало региона</a></td>
             </tr>
             <?php
-            foreach ($blocks_arr as $rblock) {
-                if ($rblock['theme'] != $block_obj->getTheme()) {
-                    continue;
-                }
+            $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlocksIdsArrInRegion($target_region, $block_obj->getTheme());
 
-                if ($rblock['region'] != $target_region) {
-                    continue;
-                }
+            foreach ($blocks_ids_arr as $other_block_id) {
+                $other_block_obj = \Skif\Blocks\Block::factory($other_block_id);
 
                 $tr_class = '';
-
-                if (\Skif\Blocks\ControllerBlocks::same_block($rblock, $block_obj)) {
+                if ($other_block_obj->getId() == $block_obj->getId()) {
                     $tr_class = ' class="active" ';
                 }
 
+                $move_block_url = \Skif\UrlManager::getUriNoQueryString() .
+                    '?_action=move_block&target_region=' . $target_region . '&target_weight=' . $other_block_obj->getWeight();
+
                 echo '<tr ' . $tr_class . '>';
-                echo '<td>' . $rblock['weight'] . '</td>';
-                echo '<td>' . $rblock['id'] . '</td>';
-                echo '<td> ' . \Skif\Util\CHtml::link($rblock['info'], \Skif\UrlManager::getUriNoQueryString() . '?_action=move_block&target_region=' . $target_region . '&target_weight=' . $rblock['weight']) . '</td>';
+                echo '<td>' . $other_block_obj->getWeight() . '</td>';
+                echo '<td>' . $other_block_obj->getId() . '</td>';
+                echo '<td><a href="' . $move_block_url . '">' . $other_block_obj->getInfo() . '</a></td>';
                 echo '</tr>';
             }
             ?>
