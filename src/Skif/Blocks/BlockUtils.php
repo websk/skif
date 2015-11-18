@@ -113,7 +113,7 @@ class BlockUtils
 
         $cache_enabled = true;
 
-        if ($block_obj->getCache() == \Skif\Constants::BLOCK_NO_CACHE) {
+        if ($block_obj->getCache() == \Skif\Blocks\Block::BLOCK_NO_CACHE) {
             $cache_enabled = false;
         }
 
@@ -146,8 +146,8 @@ class BlockUtils
         $cid_parts[] = $block_obj->getId();
 
         // Кешируем блоки по полному урлу $_SERVER['REQUEST_URI'], в т.ч. с $_GET параметрами.
-        // Т.к. содержимое блока может различаться. Например, страница телепрограммы по дням.
-        if ($block_obj->getCache() & \Skif\Constants::BLOCK_CACHE_PER_PAGE) {
+        // Т.к. содержимое блока может различаться в зависимости от $_GET параметров.
+        if ($block_obj->getCache() == \Skif\Blocks\Block::BLOCK_CACHE_PER_PAGE) {
             $cid_parts[] = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         }
 
@@ -204,7 +204,7 @@ class BlockUtils
 
     public static function getBlockIdsArrByPageRegionIdCacheKey($page_region_id)
     {
-        if ($page_region_id == \Skif\Constants::BLOCK_REGION_NONE) {
+        if ($page_region_id == \Skif\Blocks\Block::BLOCK_REGION_NONE) {
             return 'block_ids_arr_by_page_region_id_disabled';
         }
 
@@ -218,9 +218,9 @@ class BlockUtils
     public static function getFormatsArr()
     {
         return array(
-            3 => 'Текст',
-            4 => 'HTML',
-            5 => 'PHP code'
+            \Skif\Blocks\Block::BLOCK_FORMAT_TYPE_PLAIN => 'Текст',
+            \Skif\Blocks\Block::BLOCK_FORMAT_TYPE_HTML => 'HTML',
+            \Skif\Blocks\Block::BLOCK_FORMAT_TYPE_PHP => 'PHP code'
         );
     }
 
@@ -231,11 +231,11 @@ class BlockUtils
     public static function getCachesArr()
     {
         return array(
-            \Skif\Constants::BLOCK_REGION_NONE => 'не кэшировать',
-            1 => 'кэшировать для каждой роли',
-            2 => 'кэшировать для каждого пользователя',
-            4 => 'кэшировать для каждого урла',
-            8 => 'кэшировать глобально'
+            \Skif\Blocks\Block::BLOCK_NO_CACHE => 'не кэшировать',
+            \Skif\Blocks\Block::BLOCK_CACHE_PER_USER_ROLE => 'кэшировать для каждой роли',
+            \Skif\Blocks\Block::BLOCK_CACHE_PER_USER => 'кэшировать для каждого пользователя',
+            \Skif\Blocks\Block::BLOCK_CACHE_PER_PAGE => 'кэшировать для каждого урла',
+            \Skif\Blocks\Block::BLOCK_CACHE_GLOBAL => 'кэшировать глобально'
         );
     }
 }

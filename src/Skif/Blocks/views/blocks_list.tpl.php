@@ -28,7 +28,7 @@ foreach ($region_ids_arr as $page_region_id) {
             echo '<tr>';
             echo '<td>' . $block_obj->getId() . '</td>';
             echo '<td><a href="' . $block_obj->getEditorUrl() . '">' . $block_obj->getInfo() . ' <span class="glyphicon glyphicon-edit text-warning"></span></a></td>';
-            if ($page_region_id != \Skif\Constants::BLOCK_REGION_NONE) {
+            if ($page_region_id != \Skif\Blocks\Block::BLOCK_REGION_NONE) {
                 echo '<td align="right"> ';
                 echo '<a class="glyphicon glyphicon-off text-warning" href="/admin/blocks?a=disable&amp;block_id=' . $block_obj->getId() . '" title="Отключить"></a>';
                 echo '</td>';

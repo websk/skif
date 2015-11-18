@@ -86,10 +86,6 @@ class ControllerBlocks
             $page_title = $region_for_title . '.' . $block_obj->getId();
         }
 
-        if ($block_obj->getPageRegionId() == \Skif\Constants::BLOCK_REGION_NONE) {
-            $region_for_title = 'отключен';
-        }
-
         $page_title .= ' <span class="badge">' . $region_for_title . '</span>';
 
         return $page_title;
@@ -143,22 +139,22 @@ class ControllerBlocks
 
         $block_obj = \Skif\Blocks\Block::factory($block_id);
 
-        if ($block_obj->getRegion() == \Skif\Constants::BLOCK_REGION_NONE) {
+        if ($block_obj->getPageRegionId() == \Skif\Blocks\Block::BLOCK_REGION_NONE) {
             return;
         }
 
-        $prev_region = $block_obj->getRegion();
+        $prev_region = $block_obj->getPageRegionId();
         $prev_weight = $block_obj->getWeight();
 
         $restore_url = $block_obj->getEditorUrl();
         $restore_url .= '/position?_action=move_block&target_region=' . $prev_region . '&target_weight=' . $prev_weight;
 
-        $block_obj->setRegion(\Skif\Constants::BLOCK_REGION_NONE);
+        $block_obj->setPageRegionId(\Skif\Blocks\Block::BLOCK_REGION_NONE);
         $block_obj->setStatus(0);
         $block_obj->save();
 
         \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($prev_region);
-        \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache(\Skif\Constants::BLOCK_REGION_NONE);
+        \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache(\Skif\Blocks\Block::BLOCK_REGION_NONE);
 
         \Skif\Logger\Logger::logObjectEvent($block_obj, 'отключение');
 
@@ -464,16 +460,10 @@ class ControllerBlocks
         foreach ($arranged_blocks as $i => $other_block_obj) {
             $weight = $i + 1;
 
-            $status = 1;
             $region_to_store = $other_block_obj->getPageRegionId();
-
-            if ($region_to_store == \Skif\Constants::BLOCK_REGION_NONE) {
-                $status = 0;
-            }
 
             $other_block_obj->setWeight($weight);
             $other_block_obj->setPageRegionId($region_to_store);
-            $other_block_obj->setStatus($status);
             $other_block_obj->save();
         }
 

@@ -28,7 +28,7 @@ class PageRegion implements
 
     public function load($id)
     {
-        if ($id == \Skif\Constants::BLOCK_REGION_NONE) {
+        if ($id == \Skif\Blocks\Block::BLOCK_REGION_NONE) {
             $this->id = $id;
             $this->name = 'disabled';
             $this->title = 'Отключенные блоки';

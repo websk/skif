@@ -91,7 +91,7 @@ class PageRegionsUtils
             $page_region_ids_arr = \Skif\DB\DBWrapper::readColumn($query, array($template_id));
         }
 
-        $page_region_ids_arr[] = \Skif\Constants::BLOCK_REGION_NONE;
+        $page_region_ids_arr[] = \Skif\Blocks\Block::BLOCK_REGION_NONE;
 
         $static_page_region_ids_arr[$template_id] = $page_region_ids_arr;
 

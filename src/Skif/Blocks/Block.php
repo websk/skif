@@ -13,6 +13,18 @@ class Block implements
     use \Skif\Util\ActiveRecord;
     use \Skif\Model\FactoryTrait;
 
+    const BLOCK_REGION_NONE = -1;
+
+    const BLOCK_NO_CACHE = -1;
+    const BLOCK_CACHE_PER_USER_ROLE = 1;
+    const BLOCK_CACHE_PER_USER = 2;
+    const BLOCK_CACHE_PER_PAGE = 4;
+    const BLOCK_CACHE_GLOBAL = 8;
+
+    const BLOCK_FORMAT_TYPE_PLAIN = 3;
+    const BLOCK_FORMAT_TYPE_HTML = 4;
+    const BLOCK_FORMAT_TYPE_PHP = 5;
+
     protected $id;
     protected $theme;
     protected $template_id;
@@ -31,7 +43,7 @@ class Block implements
     const DB_TABLE_NAME = 'blocks';
 
     public static $active_record_ignore_fields_arr = array(
-        'region', 'theme'
+        'region', 'theme', 'status', 'custom'
     );
 
     public function getEditorUrl()
@@ -67,7 +79,7 @@ class Block implements
     public function getPageRegionId()
     {
         if ($this->region == null) {
-            return \Skif\Constants::BLOCK_REGION_NONE;
+            return self::BLOCK_REGION_NONE;
         }
 
         return $this->page_region_id;
@@ -78,10 +90,6 @@ class Block implements
      */
     public function setPageRegionId($page_region_id)
     {
-        if ($page_region_id == \Skif\Constants::BLOCK_REGION_NONE) {
-            $page_region_id = null;
-        }
-
         $this->page_region_id = $page_region_id;
     }
 
@@ -203,22 +211,6 @@ class Block implements
         $this->cache = $cache;
     }
 
-    /**
-     * @return int
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * @param int $status
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-    }
-
     public function getBlockRoleIdsArr()
     {
         $query = "SELECT id FROM blocks_roles WHERE block_id = ?";
@@ -251,7 +243,7 @@ class Block implements
      */
     public function renderBlockContent()
     {
-        if ($this->getFormat() == \Skif\Constants::BLOCK_FORMAT_TYPE_PHP) {
+        if ($this->getFormat() == self::BLOCK_FORMAT_TYPE_PHP) {
             return $this->evalContentPHPBlock();
         }
 
