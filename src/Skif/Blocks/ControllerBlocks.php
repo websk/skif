@@ -391,7 +391,7 @@ class ControllerBlocks
 
         \Skif\Logger\Logger::logObjectEvent($block_obj, 'перемещение');
 
-        $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByTemplateId($block_obj->getTemplateId());
+        $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionId($target_region, $block_obj->getTemplateId());
 
         /** @var \Skif\Blocks\Block[] $arranged_blocks */
         $arranged_blocks = array();
@@ -408,10 +408,6 @@ class ControllerBlocks
 
         foreach ($blocks_ids_arr as $other_block_id) {
             $other_block_obj = \Skif\Blocks\Block::factory($other_block_id);
-
-            if ($other_block_obj->getPageRegionId() != $target_region) {
-                continue;
-            }
 
             if ($other_block_obj->getId() != $block_obj->getId()) {
                 // if not our block - copy it to arranged blocks
@@ -442,8 +438,8 @@ class ControllerBlocks
         $block_found = false;
         foreach ($arranged_blocks as $other_block_obj) {
             if (
-                ($other_block_obj->getId() == $block_obj->getId()) &&
-                ($other_block_obj->getPageRegionId() == $target_region)
+                ($other_block_obj->getId() == $block_obj->getId())
+                && ($other_block_obj->getPageRegionId() == $target_region)
             ) {
                 $block_found = true;
             }
@@ -456,19 +452,16 @@ class ControllerBlocks
         foreach ($arranged_blocks as $i => $other_block_obj) {
             $weight = $i + 1;
 
-            $region_to_store = $other_block_obj->getPageRegionId();
-
             $other_block_obj->setWeight($weight);
-            $other_block_obj->setPageRegionId($region_to_store);
             $other_block_obj->save();
         }
 
-        \Skif\Blocks\Block::removeObjFromCacheById($block_obj->getId());
 
         if ($source_region != $block_obj->getPageRegionId()) {
             \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($source_region, $block_obj->getTemplateId());
         }
         \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId(), $block_obj->getTemplateId());
+
 
         \Skif\Messages::setMessage('Блок &laquo;' . $block_obj->getTitle() . '&raquo; перемещен');
 
