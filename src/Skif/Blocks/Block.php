@@ -32,13 +32,11 @@ class Block implements
     protected $title = '';
     protected $cache = self::BLOCK_CACHE_GLOBAL;
     protected $body = '';
-    protected $info = '';
     protected $format = self::BLOCK_FORMAT_TYPE_PLAIN;
 
     const DB_TABLE_NAME = 'blocks';
 
     public static $active_record_ignore_fields_arr = array(
-        'region', 'theme', 'status', 'custom'
     );
 
     public function getEditorUrl()
@@ -73,7 +71,7 @@ class Block implements
      */
     public function getPageRegionId()
     {
-        if ($this->region == null) {
+        if ($this->page_region_id == null) {
             return self::BLOCK_REGION_NONE;
         }
 
@@ -106,20 +104,19 @@ class Block implements
     }
 
     /**
-     * Заголовок блока
      * @return string
      */
-    public function getInfo()
+    public function getTitle()
     {
-        return $this->info;
+        return $this->title;
     }
 
     /**
-     * @param string $info
+     * @param string $title
      */
-    public function setInfo($info)
+    public function setTitle($title)
     {
-        $this->info = $info;
+        $this->title = $title;
     }
 
     /**
@@ -208,7 +205,7 @@ class Block implements
 
     public function getBlockRoleIdsArr()
     {
-        $query = "SELECT id FROM blocks_roles WHERE block_id = ?";
+        $query = "SELECT id FROM " . \Skif\Blocks\BlockRole::DB_TABLE_NAME . " WHERE block_id = ?";
         $block_role_ids_arr = \Skif\DB\DBWrapper::readColumn(
             $query,
             array($this->getId())

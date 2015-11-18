@@ -25,7 +25,7 @@ foreach ($block_ids_arr as $block_id) {
 
     echo '<tr>';
     echo '<td>' . $block_obj->getId() . '</td>';
-    echo '<td><a href="' . $block_obj->getEditorUrl() . '">' . $block_obj->getInfo() . ' <span class="glyphicon glyphicon-edit text-warning"></span></a></td>';
+    echo '<td><a href="' . $block_obj->getEditorUrl() . '">' . $block_obj->getTitle() . ' <span class="glyphicon glyphicon-edit text-warning"></span></a></td>';
     echo '<td>' . $block_obj->getRegion() . '</td>';
     echo '</tr>';
 }

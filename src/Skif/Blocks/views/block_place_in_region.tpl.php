@@ -47,7 +47,7 @@ $page_region_obj = \Skif\Blocks\PageRegion::factory($target_region);
                 echo '<tr ' . $tr_class . '>';
                 echo '<td>' . $other_block_obj->getWeight() . '</td>';
                 echo '<td>' . $other_block_obj->getId() . '</td>';
-                echo '<td><a href="' . $move_block_url . '">' . $other_block_obj->getInfo() . '</a></td>';
+                echo '<td><a href="' . $move_block_url . '">' . $other_block_obj->getTitle() . '</a></td>';
                 echo '</tr>';
             }
             ?>

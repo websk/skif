@@ -19,7 +19,7 @@ $items = array();
 
         <div class="form-group">
             <label>Название</label>
-            <input class="form-control" type="text" value="<?php echo $block_obj->getInfo(); ?>" name="info" id="info"/>
+            <input class="form-control" type="text" value="<?php echo $block_obj->getTitle(); ?>" name="title" id="title"/>
 
             <p class="help-block">Описание выводится в админке блоков.</p>
         </div>

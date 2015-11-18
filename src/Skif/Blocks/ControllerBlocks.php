@@ -81,7 +81,7 @@ class ControllerBlocks
         $page_region_obj = \Skif\Blocks\PageRegion::factory($block_obj->getPageRegionId());
         $region_for_title = $page_region_obj->getTitle();
 
-        $page_title = $block_obj->getInfo();
+        $page_title = $block_obj->getTitle();
         if ($page_title == '') {
             $page_title = $region_for_title . '.' . $block_obj->getId();
         }
@@ -158,7 +158,7 @@ class ControllerBlocks
 
         \Skif\Logger\Logger::logObjectEvent($block_obj, 'отключение');
 
-        \Skif\Messages::setWarning('Блок &laquo;' . $block_obj->getInfo() . '&raquo; был выключен. <a href="' . $restore_url . '">Отменить</a>');
+        \Skif\Messages::setWarning('Блок &laquo;' . $block_obj->getTitle() . '&raquo; был выключен. <a href="' . $restore_url . '">Отменить</a>');
 
         \Skif\Http::redirect(\Skif\Blocks\ControllerBlocks::getBlocksListUrl());
     }
@@ -235,8 +235,8 @@ class ControllerBlocks
 
         $block_obj = self::getBlockObj($block_id);
 
-        $info = array_key_exists('info', $_POST) ? $_POST['info'] : '';
-        $block_obj->setInfo($info);
+        $title = array_key_exists('title', $_POST) ? $_POST['title'] : '';
+        $block_obj->setTitle($title);
 
         $body = array_key_exists('body', $_POST) ? $_POST['body'] : '';
         $block_obj->setBody($body);
@@ -474,7 +474,7 @@ class ControllerBlocks
         }
         \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId());
 
-        \Skif\Messages::setMessage('Блок &laquo;' . $block_obj->getInfo() . '&raquo; перемещен');
+        \Skif\Messages::setMessage('Блок &laquo;' . $block_obj->getTitle() . '&raquo; перемещен');
 
         \Skif\Http::redirect($block_obj->getEditorUrl() . '/position');
     }
@@ -550,7 +550,7 @@ class ControllerBlocks
 
         $block_obj = \Skif\Blocks\Block::factory($block_id);
 
-        $block_name = $block_obj->getInfo();
+        $block_name = $block_obj->getTitle();
 
         $block_obj->delete();
 
