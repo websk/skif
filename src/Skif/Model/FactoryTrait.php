@@ -20,10 +20,10 @@ trait FactoryTrait
     }
 
     /**
-     * Базовая загрузка объекта
+     * Базовая загрузка объекта по Id
      * @param $id_to_load
      * @param bool|true $exception_if_not_loaded
-     * @return null|object
+     * @return $this
      * @throws \Exception
      */
     public static function factory($id_to_load, $exception_if_not_loaded = true)
@@ -38,6 +38,13 @@ trait FactoryTrait
         return $obj;
     }
 
+    /**
+     * Загрузка объекта по набору полей
+     * @param $fields_arr - array($field_name => $field_value)
+     * @param bool|true $exception_if_not_loaded
+     * @return $this
+     * @throws \Exception
+     */
     public static function factoryByFieldsArr($fields_arr, $exception_if_not_loaded = true)
     {
         $class_name = self::getMyGlobalizedClassName();
