@@ -19,7 +19,6 @@ class Block implements
     protected $weight = 1;
     protected $region = '';
     protected $custom = 0;
-    protected $throttle = 0;
     protected $pages = '+ ^';
     protected $title = '';
     protected $cache = 8;
@@ -30,8 +29,6 @@ class Block implements
     const DB_TABLE_NAME = 'blocks';
 
     public static $active_record_ignore_fields_arr = array(
-        'visibility',
-        'throttle'
     );
 
     public function getEditorUrl()
