@@ -94,7 +94,7 @@ class PageRegions
 
         foreach ($blocks_ids_arr as $block_id) {
             if (!self::blockIsVisibleOnPage($block_id, $page_url, $has_access_to_blocks_for_administrators)) {
-             //   continue;
+                continue;
             }
             $visible_blocks_ids_arr[] = $block_id;
         }
