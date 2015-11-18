@@ -100,7 +100,7 @@ if ($content_id == 'new') {
                             foreach ($templates_ids_arr as $template_id) {
                                 $template_obj = \Skif\Content\Template::factory($template_id);
                                 ?>
-                                <option value="<?php echo $template_id; ?>"<?php echo (($content_obj->getTemplateId() == $template_id) ? ' selected' : ''); ?>><?php echo $template_obj->getName(); ?></option>
+                                <option value="<?php echo $template_id; ?>"<?php echo (($content_obj->getTemplateId() == $template_id) ? ' selected' : ''); ?>><?php echo $template_obj->getTitle(); ?></option>
                             <?
                             }
                             ?>
