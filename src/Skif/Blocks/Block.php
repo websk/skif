@@ -16,7 +16,6 @@ class Block implements
     const BLOCK_REGION_NONE = -1;
 
     const BLOCK_NO_CACHE = -1;
-    const BLOCK_CACHE_PER_USER_ROLE = 1;
     const BLOCK_CACHE_PER_USER = 2;
     const BLOCK_CACHE_PER_PAGE = 4;
     const BLOCK_CACHE_GLOBAL = 8;
@@ -235,19 +234,6 @@ class Block implements
         }
 
         return $role_ids_arr;
-    }
-
-    /**
-     * Вывод содержимого блока с учетом PHP - кода
-     * @return string
-     */
-    public function renderBlockContent()
-    {
-        if ($this->getFormat() == self::BLOCK_FORMAT_TYPE_PHP) {
-            return $this->evalContentPHPBlock();
-        }
-
-        return $this->getBody();
     }
 
     /**

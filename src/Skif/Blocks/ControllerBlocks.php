@@ -576,7 +576,7 @@ class ControllerBlocks
 
         if ((mb_strlen($_POST["search"]) > 3)) {
             $blocks_ids_arr = \Skif\DB\DBWrapper::readColumn(
-                'SELECT id FROM blocks WHERE body LIKE ? AND theme = ? LIMIT 100',
+                "SELECT id FROM " . \Skif\Blocks\Block::DB_TABLE_NAME . " WHERE body LIKE ? AND theme = ? LIMIT 100",
                 array("%" . str_replace('\\', '\\\\', $search_value) . "%", $theme_key)
             );
 

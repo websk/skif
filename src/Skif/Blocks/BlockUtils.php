@@ -109,13 +109,14 @@ class BlockUtils
     {
         $block_obj = \Skif\Blocks\Block::factory($block_id);
 
-        $cache_key = \Skif\Blocks\BlockUtils::getBlockContentCacheKey($block_id);
-
         $cache_enabled = true;
 
         if ($block_obj->getCache() == \Skif\Blocks\Block::BLOCK_NO_CACHE) {
             $cache_enabled = false;
         }
+
+
+        $cache_key = \Skif\Blocks\BlockUtils::getBlockContentCacheKey($block_id);
 
         if ($cache_enabled) {
             $cached_content = \Skif\Cache\CacheWrapper::get($cache_key);
@@ -125,7 +126,11 @@ class BlockUtils
             }
         }
 
-        $block_content = $block_obj->renderBlockContent();
+        $block_content = $block_obj->getBody();
+
+        if ($block_obj->getFormat() == \Skif\Blocks\Block::BLOCK_FORMAT_TYPE_PHP) {
+            $block_content = $block_obj->evalContentPHPBlock();
+        }
 
         if ($cache_enabled) {
             \Skif\Cache\CacheWrapper::set($cache_key, $block_content);
@@ -151,6 +156,10 @@ class BlockUtils
             $cid_parts[] = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         }
 
+        if ($block_obj->getCache() == \Skif\Blocks\Block::BLOCK_CACHE_PER_USER) {
+            $cid_parts[] = \Skif\Network::getClientIpXff();
+        }
+
         return implode(':', $cid_parts);
     }
 
@@ -163,7 +172,7 @@ class BlockUtils
     public static function getBlockIdsArrByTemplateId($template_id)
     {
         $blocks_ids_arr = \Skif\DB\DBWrapper::readColumn(
-            "SELECT id FROM " . \Skif\Blocks\Block::DB_TABLE_NAME . " WHERE template_id = ? ORDER BY region, weight, info",
+            "SELECT id FROM " . \Skif\Blocks\Block::DB_TABLE_NAME . " WHERE template_id = ? ORDER BY page_region_id, weight, title",
             array($template_id)
         );
 
@@ -184,7 +193,7 @@ class BlockUtils
             return $blocks_ids_arr;
         }
 
-        $query = "SELECT id FROM " . \Skif\Blocks\Block::DB_TABLE_NAME . " WHERE page_region_id = ? ORDER BY weight, info";
+        $query = "SELECT id FROM " . \Skif\Blocks\Block::DB_TABLE_NAME . " WHERE page_region_id = ? ORDER BY weight, title";
 
         $blocks_ids_arr = \Skif\DB\DBWrapper::readColumn(
             $query,
@@ -232,7 +241,6 @@ class BlockUtils
     {
         return array(
             \Skif\Blocks\Block::BLOCK_NO_CACHE => 'не кэшировать',
-            \Skif\Blocks\Block::BLOCK_CACHE_PER_USER_ROLE => 'кэшировать для каждой роли',
             \Skif\Blocks\Block::BLOCK_CACHE_PER_USER => 'кэшировать для каждого пользователя',
             \Skif\Blocks\Block::BLOCK_CACHE_PER_PAGE => 'кэшировать для каждого урла',
             \Skif\Blocks\Block::BLOCK_CACHE_GLOBAL => 'кэшировать глобально'
