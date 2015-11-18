@@ -5,6 +5,8 @@ namespace Skif\Blocks;
 
 class ControllerBlocks
 {
+    const COOKIE_CURRENT_TEMPLATE_ID = 'skif_blocks_current_template_id';
+
     /**
      * URL страницы со списком блоков
      * @return string
@@ -32,37 +34,32 @@ class ControllerBlocks
      * Тема
      * @return string
      */
-    static public function getCurrentTemplateId()
+    public static function getCurrentTemplateId()
     {
-        if (array_key_exists('skif_blocks_current_template_id', $_COOKIE)) {
-            return $_COOKIE['skif_blocks_current_template_id'];
+        if (array_key_exists(self::COOKIE_CURRENT_TEMPLATE_ID, $_COOKIE)) {
+            return $_COOKIE[self::COOKIE_CURRENT_TEMPLATE_ID];
         }
 
         return 1;
     }
 
-    public static function setEditorTheme($period)
+    public static function setCurrentTemplateIde($period)
     {
         $delta = null;
-        setcookie('skif_blocks_theme', $period, $delta, '/');
-
-        return true;
+        setcookie(self::COOKIE_CURRENT_TEMPLATE_ID, $period, $delta, '/');
     }
 
     /**
-     * @param $block_id_str
+     * @param $block_id
      * @return \Skif\Blocks\Block
      */
-    static public function getBlockObj($block_id_str)
+    public static function getBlockObj($block_id)
     {
-        if (strpos($block_id_str, 'new') !== false) {
-            $block_obj = new \Skif\Blocks\Block();
-            return $block_obj;
+        if ($block_id == 'new') {
+            return new \Skif\Blocks\Block();
         }
 
-        $block_obj = \Skif\Blocks\Block::factory($block_id_str);
-
-        return $block_obj;
+        return \Skif\Blocks\Block::factory($block_id);
     }
 
     /**
@@ -83,7 +80,7 @@ class ControllerBlocks
 
         $page_title = $block_obj->getTitle();
         if ($page_title == '') {
-            $page_title = $region_for_title . '.' . $block_obj->getId();
+            $page_title = $region_for_title . '. ' . $block_obj->getId();
         }
 
         $page_title .= ' <span class="badge">' . $region_for_title . '</span>';
@@ -150,7 +147,6 @@ class ControllerBlocks
         $restore_url .= '/position?_action=move_block&target_region=' . $prev_region . '&target_weight=' . $prev_weight;
 
         $block_obj->setPageRegionId(\Skif\Blocks\Block::BLOCK_REGION_NONE);
-        $block_obj->setStatus(0);
         $block_obj->save();
 
         \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($prev_region);
