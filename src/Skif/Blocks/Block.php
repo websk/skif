@@ -15,6 +15,7 @@ class Block implements
 
     protected $id;
     protected $theme;
+    protected $template_id;
     protected $status = 0;
     protected $weight = 1;
     protected $region = '';
@@ -182,6 +183,22 @@ class Block implements
     public function setTheme($theme)
     {
         $this->theme = $theme;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTemplateId()
+    {
+        return $this->template_id;
+    }
+
+    /**
+     * @param mixed $template_id
+     */
+    public function setTemplateId($template_id)
+    {
+        $this->template_id = $template_id;
     }
 
     /**

@@ -2,7 +2,8 @@
 
 namespace Skif\Blocks;
 
-class PageRegions
+
+class PageRegionsUtils
 {
     protected static function checkBlockComplexVisibility($block_id, $real_path = '')
     {
@@ -48,24 +49,25 @@ class PageRegions
     }
 
     /**
+     * Вывод блоков региона в теме
      * @param string $region
-     * @param string $theme
+     * @param string $template_id
      * @param string $page_url
      * @return string
      */
-    public static function renderBlocksByRegion($region, $theme, $page_url = '')
+    public static function renderBlocksByRegion($region, $template_id, $page_url = '')
     {
         $output = '';
 
-        $blocks_ids_arr = self::getVisibleBlocksIdsArr($region, $theme, $page_url);
+        $blocks_ids_arr = self::getVisibleBlocksIdsArr($region, $template_id, $page_url);
 
         foreach ($blocks_ids_arr as $block_id) {
             $output .= \Skif\PhpTemplate::renderTemplateBySkifModule(
                 'Blocks',
                 'block.tpl.php',
                 array(
-                'block_id' => $block_id
-               )
+                    'block_id' => $block_id
+                )
             );
         }
 
@@ -73,12 +75,13 @@ class PageRegions
     }
 
     /**
+     * Список видимых блоков региона в теме
      * @param string $region
-     * @param string $theme
+     * @param string $template_id
      * @param string $page_url
      * @return array
      */
-    static function getVisibleBlocksIdsArr($region, $theme, $page_url = '')
+    static function getVisibleBlocksIdsArr($region, $template_id, $page_url = '')
     {
         if ($page_url == '') {
             // Берем url без $_GET параметров, т.к. это влияет на видимость блоков.
@@ -86,7 +89,7 @@ class PageRegions
             $page_url = \Skif\UrlManager::getUriNoQueryString();
         }
 
-        $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlocksIdsArrInRegion($region, $theme);
+        $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionIdAndTemplateId($region, $template_id);
 
         $visible_blocks_ids_arr = array();
 
@@ -144,4 +147,5 @@ class PageRegions
 
         return $regions_arr[$theme_key];
     }
+
 }
