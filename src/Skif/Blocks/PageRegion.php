@@ -15,15 +15,10 @@ class PageRegion implements
 
     protected $id;
     protected $name;
-    protected $theme;
     protected $template_id;
     protected $title;
 
     const DB_TABLE_NAME = 'page_regions';
-
-    public static $active_record_ignore_fields_arr = array(
-        'theme'
-    );
 
 
     public function load($id)
