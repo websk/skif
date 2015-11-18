@@ -188,7 +188,7 @@ class BlockUtils
      */
     public static function getBlockIdsArrByPageRegionId($page_region_id, $template_id)
     {
-        $cache_key = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionIdCacheKey($page_region_id, $template_id);
+        $cache_key = self::getBlockIdsArrByPageRegionIdCacheKey($page_region_id, $template_id);
 
         $blocks_ids_arr = \Skif\Cache\CacheWrapper::get($cache_key);
         if ($blocks_ids_arr !== false) {
@@ -212,7 +212,7 @@ class BlockUtils
 
     public static function clearBlockIdsArrByPageRegionIdCache($page_region_id, $template_id)
     {
-        $cache_key = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionIdCacheKey($page_region_id, $template_id);
+        $cache_key = self::getBlockIdsArrByPageRegionIdCacheKey($page_region_id, $template_id);
         \Skif\Cache\CacheWrapper::delete($cache_key);
     }
 

@@ -124,4 +124,21 @@ class Template implements
         $this->layout_template_file = $layout_template_file;
     }
 
+    public static function afterUpdate($template_id)
+    {
+        $template_obj = \Skif\Content\Template::factory($template_id);
+
+        $cache_key = \Skif\Content\TemplateUtils::getTemplateIdByNameCacheKey($template_obj->getName());
+        \Skif\Cache\CacheWrapper::delete($cache_key);
+
+        self::removeObjFromCacheById($template_id);
+    }
+
+    public function afterDelete()
+    {
+        $cache_key = \Skif\Content\TemplateUtils::getTemplateIdByNameCacheKey($this->getName());
+        \Skif\Cache\CacheWrapper::delete($cache_key);
+
+        self::removeObjFromCacheById($this->getId());
+    }
 }

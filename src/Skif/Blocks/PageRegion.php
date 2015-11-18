@@ -109,4 +109,22 @@ class PageRegion implements
         $this->title = $title;
     }
 
+    public static function afterUpdate($page_region_id)
+    {
+        $page_region_obj = \Skif\Blocks\PageRegion::factory($page_region_id);
+
+        $cache_key = \Skif\Blocks\PageRegionsUtils::getPageRegionIdByNameAndTemplateIdCacheKey($page_region_obj->getName(), $page_region_obj->getTemplateId());
+        \Skif\Cache\CacheWrapper::delete($cache_key);
+
+        self::removeObjFromCacheById($page_region_id);
+    }
+
+    public function afterDelete()
+    {
+        $cache_key = \Skif\Blocks\PageRegionsUtils::getPageRegionIdByNameAndTemplateIdCacheKey($this->getName(), $this->getTemplateId());
+        \Skif\Cache\CacheWrapper::delete($cache_key);
+
+        self::removeObjFromCacheById($this->getId());
+    }
+
 }

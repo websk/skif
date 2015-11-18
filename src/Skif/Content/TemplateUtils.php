@@ -8,9 +8,25 @@ class TemplateUtils
 
     public static function getTemplateIdByName($name)
     {
+        $cache_key = self::getTemplateIdByNameCacheKey($name);
+
+        $cache = \Skif\Cache\CacheWrapper::get($cache_key);
+        if ($cache !== false) {
+            return $cache;
+        }
+
         $query = "SELECT id FROM " . \Skif\Content\Template::DB_TABLE_NAME . " WHERE name=?";
 
-        return \Skif\DB\DBWrapper::readField($query, array($name));
+        $template_id = \Skif\DB\DBWrapper::readField($query, array($name));
+
+        \Skif\Cache\CacheWrapper::set($cache_key, $template_id, 3600);
+
+        return $template_id;
+    }
+
+    public static function getTemplateIdByNameCacheKey($name)
+    {
+        return 'template_id_by_name_' . $name;
     }
 
     /**

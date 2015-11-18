@@ -36,9 +36,25 @@ class PageRegionsUtils
 
     public static function getPageRegionIdByNameAndTemplateId($name, $template_id)
     {
+        $cache_key = self::getPageRegionIdByNameAndTemplateIdCacheKey($name, $template_id);
+
+        $cache = \Skif\Cache\CacheWrapper::get($cache_key);
+        if ($cache !== false) {
+            return $cache;
+        }
+
         $query = "SELECT id FROM " . \Skif\Blocks\PageRegion::DB_TABLE_NAME . " WHERE name=? AND template_id=?";
 
-        return \Skif\DB\DBWrapper::readField($query, array($name, $template_id));
+        $page_region_id = \Skif\DB\DBWrapper::readField($query, array($name, $template_id));
+
+        \Skif\Cache\CacheWrapper::set($cache_key, $page_region_id, 3600);
+
+        return $page_region_id;
+    }
+
+    public static function getPageRegionIdByNameAndTemplateIdCacheKey($name, $template_id)
+    {
+        return 'page_region_id_by_name_' . $name . '_and_template_id' . $template_id;
     }
 
     /**
