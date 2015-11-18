@@ -25,19 +25,15 @@ class Block implements
     const BLOCK_FORMAT_TYPE_PHP = 5;
 
     protected $id;
-    protected $theme;
-    protected $template_id;
-    protected $status = 0;
+    protected $template_id = 1;
     protected $weight = 1;
-    protected $region = '';
-    protected $page_region_id;
-    protected $custom = 0;
+    protected $page_region_id = self::BLOCK_REGION_NONE;
     protected $pages = '+ ^';
     protected $title = '';
-    protected $cache = 8;
+    protected $cache = self::BLOCK_CACHE_GLOBAL;
     protected $body = '';
     protected $info = '';
-    protected $format = 3;
+    protected $format = self::BLOCK_FORMAT_TYPE_PLAIN;
 
     const DB_TABLE_NAME = 'blocks';
 
