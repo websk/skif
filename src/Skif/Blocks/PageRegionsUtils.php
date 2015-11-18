@@ -19,7 +19,7 @@ class PageRegionsUtils
         $template_id = \Skif\Content\TemplateUtils::getTemplateIdByName($template_name);
         $page_region_id = self::getPageRegionIdByNameAndTemplateId($page_region_name, $template_id);
 
-        $blocks_ids_arr = self::getVisibleBlocksIdsArrByRegionId($page_region_id, $page_url);
+        $blocks_ids_arr = self::getVisibleBlocksIdsArrByRegionId($page_region_id, $template_id, $page_url);
 
         foreach ($blocks_ids_arr as $block_id) {
             $output .= \Skif\PhpTemplate::renderTemplateBySkifModule(
@@ -42,12 +42,13 @@ class PageRegionsUtils
     }
 
     /**
-     * Список видимых блоков региона в теме
-     * @param string $page_region_id
+     * Массив Id видимых блоков региона в теме
+     * @param $page_region_id
+     * @param $template_id
      * @param string $page_url
      * @return array
      */
-    protected static function getVisibleBlocksIdsArrByRegionId($page_region_id, $page_url = '')
+    protected static function getVisibleBlocksIdsArrByRegionId($page_region_id, $template_id, $page_url = '')
     {
         if ($page_url == '') {
             // Берем url без $_GET параметров, т.к. это влияет на видимость блоков.
@@ -55,7 +56,7 @@ class PageRegionsUtils
             $page_url = \Skif\UrlManager::getUriNoQueryString();
         }
 
-        $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionId($page_region_id);
+        $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionId($page_region_id, $template_id);
 
         $visible_blocks_ids_arr = array();
 

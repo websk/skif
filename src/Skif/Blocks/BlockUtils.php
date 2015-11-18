@@ -181,23 +181,28 @@ class BlockUtils
 
     /**
      * Массив Block Id в регионе
-     * @param string $page_region_id
-     * @return array
+     * @param $page_region_id
+     * @param $template_id
+     * @return array|bool|mixed
+     * @throws \Exception
      */
-    public static function getBlockIdsArrByPageRegionId($page_region_id)
+    public static function getBlockIdsArrByPageRegionId($page_region_id, $template_id)
     {
-        $cache_key = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionIdCacheKey($page_region_id);
+        $cache_key = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionIdCacheKey($page_region_id, $template_id);
 
         $blocks_ids_arr = \Skif\Cache\CacheWrapper::get($cache_key);
         if ($blocks_ids_arr !== false) {
             return $blocks_ids_arr;
         }
 
-        $query = "SELECT id FROM " . \Skif\Blocks\Block::DB_TABLE_NAME . " WHERE page_region_id = ? ORDER BY weight, title";
+        $query = "SELECT id FROM " . \Skif\Blocks\Block::DB_TABLE_NAME . " WHERE page_region_id = ? AND template_id=? ORDER BY weight, title";
 
         $blocks_ids_arr = \Skif\DB\DBWrapper::readColumn(
             $query,
-            array($page_region_id)
+            array(
+                $page_region_id,
+                $template_id
+            )
         );
 
         \Skif\Cache\CacheWrapper::set($cache_key, $blocks_ids_arr, 3600);
@@ -205,19 +210,21 @@ class BlockUtils
         return $blocks_ids_arr;
     }
 
-    public static function clearBlockIdsArrByPageRegionIdCache($region)
+    public static function clearBlockIdsArrByPageRegionIdCache($page_region_id, $template_id)
     {
-        $cache_key = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionIdCacheKey($region);
+        $cache_key = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionIdCacheKey($page_region_id, $template_id);
         \Skif\Cache\CacheWrapper::delete($cache_key);
     }
 
-    public static function getBlockIdsArrByPageRegionIdCacheKey($page_region_id)
+    protected static function getBlockIdsArrByPageRegionIdCacheKey($page_region_id, $template_id)
     {
+        $cache_key = 'template_id_' . $template_id . '_block_ids_arr_by_page_region_id_';
+
         if ($page_region_id == \Skif\Blocks\Block::BLOCK_REGION_NONE) {
-            return 'block_ids_arr_by_page_region_id_disabled';
+            return $cache_key . 'disabled';
         }
 
-        return 'block_ids_arr_by_page_region_id_' . $page_region_id;
+        return $cache_key . $page_region_id;
     }
 
     /**

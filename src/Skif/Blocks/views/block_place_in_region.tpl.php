@@ -31,7 +31,7 @@ $page_region_obj = \Skif\Blocks\PageRegion::factory($target_region);
                 <td><a href="<?php echo \Skif\UrlManager::getUriNoQueryString() . '?_action=move_block&target_region=' . $target_region . '&target_weight=FIRST'; ?>">начало региона</a></td>
             </tr>
             <?php
-            $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionId($target_region);
+            $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionId($target_region, $block_obj->getTemplateId());
 
             foreach ($blocks_ids_arr as $other_block_id) {
                 $other_block_obj = \Skif\Blocks\Block::factory($other_block_id);

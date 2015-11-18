@@ -11,7 +11,7 @@ $region_ids_arr = \Skif\Blocks\PageRegionsUtils::getPageRegionIdsArrByTemplateId
 foreach ($region_ids_arr as $page_region_id) {
     $page_region_obj = \Skif\Blocks\PageRegion::factory($page_region_id);
 
-    $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionId($page_region_id);
+    $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionId($page_region_id, $template_id);
     ?>
     <h4><?php echo $page_region_obj->getTitle() ?></h4>
 

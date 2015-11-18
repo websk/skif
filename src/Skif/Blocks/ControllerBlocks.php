@@ -149,8 +149,8 @@ class ControllerBlocks
         $block_obj->setPageRegionId(\Skif\Blocks\Block::BLOCK_REGION_NONE);
         $block_obj->save();
 
-        \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($prev_region);
-        \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache(\Skif\Blocks\Block::BLOCK_REGION_NONE);
+        \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($prev_region, $block_obj->getTemplateId());
+        \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache(\Skif\Blocks\Block::BLOCK_REGION_NONE, $block_obj->getTemplateId());
 
         \Skif\Logger\Logger::logObjectEvent($block_obj, 'отключение');
 
@@ -268,7 +268,7 @@ class ControllerBlocks
 
         // Clear cache
         if ($is_new) {
-            \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId());
+            \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId(), $block_obj->getTemplateId());
         }
 
 
@@ -466,9 +466,9 @@ class ControllerBlocks
         \Skif\Blocks\Block::removeObjFromCacheById($block_obj->getId());
 
         if ($source_region != $block_obj->getPageRegionId()) {
-            \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($source_region);
+            \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($source_region, $block_obj->getTemplateId());
         }
-        \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId());
+        \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId(), $block_obj->getTemplateId());
 
         \Skif\Messages::setMessage('Блок &laquo;' . $block_obj->getTitle() . '&raquo; перемещен');
 
