@@ -113,10 +113,11 @@ class PageRegions
         $block_obj = \Skif\Blocks\Block::factory($block_id);
 
         // Проверяем блок на видимость только для администраторов
+        /*
         if (!$has_access_to_blocks_for_administrators && $block_obj->isVisibleOnlyForAdministrators()) {
             return false;
         }
-
+        */
         // Match path if necessary
         if ($block_obj->getPages()) {
             return self::checkBlockComplexVisibility($block_id, $page_url);
