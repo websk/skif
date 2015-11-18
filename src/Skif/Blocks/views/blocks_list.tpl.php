@@ -4,16 +4,16 @@ echo \Skif\PhpTemplate::renderTemplateBySkifModule(
     'blocks_list_header.tpl.php'
 );
 
-$theme = \Skif\Blocks\ControllerBlocks::getEditorTheme();
+$template_id = \Skif\Blocks\ControllerBlocks::getCurrentTemplateId();
 
-$regions_arr = \Skif\Blocks\PageRegions::getRegionsArrByTheme($theme);
-$regions_arr[\Skif\Constants::BLOCK_REGION_NONE] = 'Отключенные блоки';
+$region_ids_arr = \Skif\Blocks\PageRegionsUtils::getPageRegionIdsArrByTemplateId($template_id);
 
-foreach ($regions_arr as $region => $region_title) {
-    $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlocksIdsArrInRegion($region, $theme);
+foreach ($region_ids_arr as $page_region_id) {
+    $page_region_obj = \Skif\Blocks\PageRegion::factory($page_region_id);
 
+    $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionId($page_region_id);
     ?>
-    <h4><?php echo $region_title ?></h4>
+    <h4><?php echo $page_region_obj->getTitle() ?></h4>
 
     <table class="table table-striped table-hover">
         <colgroup>
@@ -28,16 +28,15 @@ foreach ($regions_arr as $region => $region_title) {
             echo '<tr>';
             echo '<td>' . $block_obj->getId() . '</td>';
             echo '<td><a href="' . $block_obj->getEditorUrl() . '">' . $block_obj->getInfo() . ' <span class="glyphicon glyphicon-edit text-warning"></span></a></td>';
-
-            if ($region != \Skif\Constants::BLOCK_REGION_NONE) {
+            if ($page_region_id != \Skif\Constants::BLOCK_REGION_NONE) {
                 echo '<td align="right"> ';
                 echo '<a class="glyphicon glyphicon-off text-warning" href="/admin/blocks?a=disable&amp;block_id=' . $block_obj->getId() . '" title="Отключить"></a>';
                 echo '</td>';
             }
-
             echo '</tr>';
         }
         ?>
     </table>
     <?php
 }
+

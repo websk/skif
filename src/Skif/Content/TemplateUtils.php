@@ -6,9 +6,11 @@ namespace Skif\Content;
 class TemplateUtils
 {
 
-    public static function getTemplateIdByUrl($url)
+    public static function getTemplateIdByName($name)
     {
+        $query = "SELECT id FROM " . \Skif\Content\Template::DB_TABLE_NAME . " WHERE name=?";
 
+        return \Skif\DB\DBWrapper::readField($query, array($name));
     }
 
     /**

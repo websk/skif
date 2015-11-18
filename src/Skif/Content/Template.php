@@ -16,6 +16,7 @@ class Template implements
     protected $id;
 
     protected $name;
+    protected $title;
     protected $css;
     protected $def;
     protected $layout_template_file;
@@ -52,6 +53,22 @@ class Template implements
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param mixed $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
     }
 
     /**

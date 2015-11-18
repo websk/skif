@@ -26,6 +26,25 @@ class PageRegion implements
     );
 
 
+    public function load($id)
+    {
+        if ($id == \Skif\Constants::BLOCK_REGION_NONE) {
+            $this->id = $id;
+            $this->name = 'disabled';
+            $this->title = 'Отключенные блоки';
+
+            return true;
+        }
+
+        $is_loaded = \Skif\Util\ActiveRecordHelper::loadModelObj($this, $id);
+        if (!$is_loaded) {
+            return false;
+        }
+
+        return true;
+    }
+
+
     /**
      * @return mixed
      */

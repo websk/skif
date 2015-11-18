@@ -18,21 +18,22 @@ if (!$block_obj->isLoaded()) {
 ?>
 
 <p>Выберите регион, в котором нужно вывести блок:</p>
-<?php
-$regions_arr = \Skif\Blocks\PageRegions::getRegionsArrByTheme($block_obj->getTheme());
-$regions_arr[\Skif\Constants::BLOCK_REGION_NONE] = 'Выключенные блоки';
-?>
+
 <table class="table table-condensed">
     <?php
-    foreach ($regions_arr as $region => $region_title) {
+    $region_ids_arr = \Skif\Blocks\PageRegionsUtils::getPageRegionIdsArrByTemplateId($block_obj->getTemplateId());
+
+    foreach ($region_ids_arr as $page_region_id) {
+        $page_region_obj = \Skif\Blocks\PageRegion::factory($page_region_id);
+
         $tr_class = '';
 
-        if ($region == $block_obj->getRegion()) {
+        if ($page_region_id == $block_obj->getPageRegionId()) {
             $tr_class = ' class="active" ';
         }
 
         echo '<tr ' . $tr_class . '>';
-        echo '<td><a href="' . $block_obj->getEditorUrl() . '/position?target_region=' . $region . '">' . $region_title .'</a></td>';
+        echo '<td><a href="' . $block_obj->getEditorUrl() . '/position?target_region=' . $page_region_id . '">' . $page_region_obj->getTitle() .'</a></td>';
         echo '</tr>';
     }
     ?>

@@ -6,6 +6,102 @@ class BlockUtils
 {
 
     /**
+     * Видимость блока для пользователя
+     * @param $block_id
+     * @param $user_id
+     * @return bool
+     */
+    public static function blockIsVisibleByUserId($block_id, $user_id)
+    {
+        $block_obj = \Skif\Blocks\Block::factory($block_id);
+
+        // Проверяем блок на видимость для ролей
+        $block_role_ids_arr = $block_obj->getRoleIdsArr();
+
+        if (!$block_role_ids_arr) {
+            return true; // виден всем
+        }
+
+        if (!$user_id) {
+            return false;
+        }
+
+        $user_obj = \Skif\Users\User::factory($user_id, false);
+        if (!$user_obj) {
+            return false;
+        }
+
+        foreach ($block_role_ids_arr as $rubric_id) {
+            if (in_array($rubric_id, $user_obj->getRolesIdsArr())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Видимость блока на странице
+     * @param int $block_id
+     * @param string $page_url
+     * @return bool
+     */
+    public static function blockIsVisibleOnPage($block_id, $page_url)
+    {
+        $block_obj = \Skif\Blocks\Block::factory($block_id);
+
+        if ($block_obj->getPages()) {
+            return self::checkBlockComplexVisibility($block_id, $page_url);
+        }
+
+        return false;
+    }
+
+    protected static function checkBlockComplexVisibility($block_id, $real_path = '')
+    {
+        $block_obj = \Skif\Blocks\Block::factory($block_id);
+        $pages = $block_obj->getPages();
+
+        // parse pages
+
+        $pages = str_replace("\r", "\n", $pages);
+        $pages = str_replace("\n\n", "\n", $pages);
+
+        $pages_arr = explode("\n", $pages);
+
+        if (count($pages_arr) == 0) {
+            return false;
+        }
+
+        // check pages
+
+        $visible = false;
+
+        foreach ($pages_arr as $page_filter_str) {
+            $page_filter_str = trim($page_filter_str);
+
+            if (strlen($page_filter_str) > 2) {
+                // convert filter string to object
+                $filter_obj = \Skif\Util\FilterFactory::getFilter($page_filter_str);
+
+                if ($filter_obj->matchesPage($real_path)) {
+                    if ($filter_obj->is_positive) {
+                        $visible = true;
+                    }
+
+                    if ($filter_obj->is_negative) {
+                        $visible = false;
+                    }
+                }
+
+            }
+        }
+
+        return $visible;
+    }
+
+    /**
+     * Содержимое блока
      * @param int $block_id
      * @return string
      */
@@ -58,77 +154,67 @@ class BlockUtils
         return implode(':', $cid_parts);
     }
 
+
     /**
-     * @return bool
-     */
-    public static function currentUserHasAccessToBlocksForAdministrators()
-    {
-        return \Skif\Users\AuthUtils::currentUserIsAdmin();
-    }
-    /**
-     * @param string $theme
+     * Массив Block Id в теме
+     * @param string $template_id
      * @return array
      */
-    public static function getBlocksIdsArrByTheme($theme)
+    public static function getBlockIdsArrByTemplateId($template_id)
     {
         $blocks_ids_arr = \Skif\DB\DBWrapper::readColumn(
-            "SELECT id FROM blocks
-            WHERE theme = ?
-            ORDER BY region, weight, info",
-            array(
-                $theme
-            )
+            "SELECT id FROM " . \Skif\Blocks\Block::DB_TABLE_NAME . " WHERE template_id = ? ORDER BY region, weight, info",
+            array($template_id)
         );
 
         return $blocks_ids_arr;
     }
 
     /**
-     * @param string $region
-     * @param string $theme
+     * Массив Block Id в регионе
+     * @param string $page_region_id
      * @return array
      */
-    public static function getBlocksIdsArrInRegion($region, $theme)
+    public static function getBlockIdsArrByPageRegionId($page_region_id)
     {
-        $cache_key = \Skif\Blocks\BlockUtils::getBlocksIdsArrInRegionCacheKey($region, $theme);
+        $cache_key = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionIdCacheKey($page_region_id);
 
         $blocks_ids_arr = \Skif\Cache\CacheWrapper::get($cache_key);
         if ($blocks_ids_arr !== false) {
             return $blocks_ids_arr;
         }
 
-        if ($region == \Skif\Constants::BLOCK_REGION_NONE) {
-            $region = '';
-        }
+        $query = "SELECT id FROM " . \Skif\Blocks\Block::DB_TABLE_NAME . " WHERE page_region_id = ? ORDER BY weight, info";
 
         $blocks_ids_arr = \Skif\DB\DBWrapper::readColumn(
-            "SELECT id FROM blocks
-            WHERE region = ? AND theme = ?
-            ORDER BY weight, info",
-            array(
-                $region, $theme
-            )
+            $query,
+            array($page_region_id)
         );
+
         \Skif\Cache\CacheWrapper::set($cache_key, $blocks_ids_arr, 3600);
 
         return $blocks_ids_arr;
     }
 
-    public static function clearBlocksIdsArrInRegionCache($region, $theme)
+    public static function clearBlockIdsArrByPageRegionIdCache($region)
     {
-        $cache_key = \Skif\Blocks\BlockUtils::getBlocksIdsArrInRegionCacheKey($region, $theme);
+        $cache_key = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionIdCacheKey($region);
         \Skif\Cache\CacheWrapper::delete($cache_key);
     }
 
-    public static function getBlocksIdsArrInRegionCacheKey($region, $theme)
+    public static function getBlockIdsArrByPageRegionIdCacheKey($page_region_id)
     {
-        if ($region == \Skif\Constants::BLOCK_REGION_NONE) {
-            $region = '';
+        if ($page_region_id == \Skif\Constants::BLOCK_REGION_NONE) {
+            return 'block_ids_arr_by_page_region_id_disabled';
         }
 
-        return 'blocks_in_region_' . $theme . '_' . $region;
+        return 'block_ids_arr_by_page_region_id_' . $page_region_id;
     }
 
+    /**
+     * Массив возможных форматов блока
+     * @return array
+     */
     public static function getFormatsArr()
     {
         return array(
@@ -138,6 +224,10 @@ class BlockUtils
         );
     }
 
+    /**
+     * Массив способов кеширования блока
+     * @return array
+     */
     public static function getCachesArr()
     {
         return array(

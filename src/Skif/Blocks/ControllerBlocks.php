@@ -32,13 +32,13 @@ class ControllerBlocks
      * Тема
      * @return string
      */
-    static public function getEditorTheme()
+    static public function getCurrentTemplateId()
     {
-        if (array_key_exists('skif_blocks_theme', $_COOKIE)) {
-            return $_COOKIE['skif_blocks_theme'];
+        if (array_key_exists('skif_blocks_current_template_id', $_COOKIE)) {
+            return $_COOKIE['skif_blocks_current_template_id'];
         }
 
-        return 'main';
+        return 1;
     }
 
     public static function setEditorTheme($period)
@@ -78,14 +78,15 @@ class ControllerBlocks
             return 'Создание блока';
         }
 
+        $page_region_obj = \Skif\Blocks\PageRegion::factory($block_obj->getPageRegionId());
+        $region_for_title = $page_region_obj->getTitle();
+
         $page_title = $block_obj->getInfo();
         if ($page_title == '') {
-            $page_title = $block_obj->getTheme() . '.' . $block_obj->getId();
+            $page_title = $region_for_title . '.' . $block_obj->getId();
         }
 
-        $region_for_title = $block_obj->getRegion();
-
-        if ($block_obj->getRegion() == \Skif\Constants::BLOCK_REGION_NONE) {
+        if ($block_obj->getPageRegionId() == \Skif\Constants::BLOCK_REGION_NONE) {
             $region_for_title = 'отключен';
         }
 
@@ -156,8 +157,8 @@ class ControllerBlocks
         $block_obj->setStatus(0);
         $block_obj->save();
 
-        \Skif\Blocks\BlockUtils::clearBlocksIdsArrInRegionCache($prev_region, $block_obj->getTheme());
-        \Skif\Blocks\BlockUtils::clearBlocksIdsArrInRegionCache(\Skif\Constants::BLOCK_REGION_NONE, $block_obj->getTheme());
+        \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($prev_region);
+        \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache(\Skif\Constants::BLOCK_REGION_NONE);
 
         \Skif\Logger\Logger::logObjectEvent($block_obj, 'отключение');
 
@@ -253,9 +254,9 @@ class ControllerBlocks
         $is_new = !$block_obj->getId();
 
         if ($is_new) {
-            $theme = \Skif\Blocks\ControllerBlocks::getEditorTheme();
+            $template_id = \Skif\Blocks\ControllerBlocks::getCurrentTemplateId();
 
-            $block_obj->setTheme($theme);
+            $block_obj->setTemplateId($template_id);
         }
 
         $block_obj->save();
@@ -275,7 +276,7 @@ class ControllerBlocks
 
         // Clear cache
         if ($is_new) {
-            \Skif\Blocks\BlockUtils::clearBlocksIdsArrInRegionCache($block_obj->getRegion(), $block_obj->getTheme());
+            \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId());
         }
 
 
@@ -349,7 +350,7 @@ class ControllerBlocks
 
         self::actions($block_id);
 
-        $target_region = $block_obj->getRegion();
+        $target_region = $block_obj->getPageRegionId();
 
         if (isset($_GET['target_region'])) {
             $target_region = $_GET['target_region'];
@@ -393,12 +394,12 @@ class ControllerBlocks
 
         $block_obj = \Skif\Blocks\Block::factory($block_id);
 
-        $source_region = $block_obj->getRegion();
-        $block_obj->setRegion($target_region);
+        $source_region = $block_obj->getPageRegionId();
+        $block_obj->setPageRegionId($target_region);
 
         \Skif\Logger\Logger::logObjectEvent($block_obj, 'перемещение');
 
-        $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlocksIdsArrByTheme($block_obj->getTheme());
+        $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByTemplateId($block_obj->getTemplateId());
 
         /** @var \Skif\Blocks\Block[] $arranged_blocks */
         $arranged_blocks = array();
@@ -416,7 +417,7 @@ class ControllerBlocks
         foreach ($blocks_ids_arr as $other_block_id) {
             $other_block_obj = \Skif\Blocks\Block::factory($other_block_id);
 
-            if ($other_block_obj->getRegion() != $target_region) {
+            if ($other_block_obj->getPageRegionId() != $target_region) {
                 continue;
             }
 
@@ -450,7 +451,7 @@ class ControllerBlocks
         foreach ($arranged_blocks as $other_block_obj) {
             if (
                 ($other_block_obj->getId() == $block_obj->getId()) &&
-                ($other_block_obj->getRegion() == $target_region)
+                ($other_block_obj->getPageRegionId() == $target_region)
             ) {
                 $block_found = true;
             }
@@ -464,24 +465,24 @@ class ControllerBlocks
             $weight = $i + 1;
 
             $status = 1;
-            $region_to_store = $other_block_obj->getRegion();
+            $region_to_store = $other_block_obj->getPageRegionId();
 
             if ($region_to_store == \Skif\Constants::BLOCK_REGION_NONE) {
                 $status = 0;
             }
 
             $other_block_obj->setWeight($weight);
-            $other_block_obj->setRegion($region_to_store);
+            $other_block_obj->setPageRegionId($region_to_store);
             $other_block_obj->setStatus($status);
             $other_block_obj->save();
         }
 
         \Skif\Blocks\Block::removeObjFromCacheById($block_obj->getId());
 
-        if ($source_region != $block_obj->getRegion()) {
-            \Skif\Blocks\BlockUtils::clearBlocksIdsArrInRegionCache($source_region, $block_obj->getTheme());
+        if ($source_region != $block_obj->getPageRegionId()) {
+            \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($source_region);
         }
-        \Skif\Blocks\BlockUtils::clearBlocksIdsArrInRegionCache($block_obj->getRegion(), $block_obj->getTheme());
+        \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId());
 
         \Skif\Messages::setMessage('Блок &laquo;' . $block_obj->getInfo() . '&raquo; перемещен');
 
@@ -581,7 +582,7 @@ class ControllerBlocks
         $blocks_ids_arr = array();
         $search_value = $_POST["search"];
 
-        $theme_key = \Skif\Blocks\ControllerBlocks::getEditorTheme();
+        $theme_key = \Skif\Blocks\ControllerBlocks::getCurrentTemplateId();
 
         if ((mb_strlen($_POST["search"]) > 3)) {
             $blocks_ids_arr = \Skif\DB\DBWrapper::readColumn(

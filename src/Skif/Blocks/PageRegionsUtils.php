@@ -5,61 +5,21 @@ namespace Skif\Blocks;
 
 class PageRegionsUtils
 {
-    protected static function checkBlockComplexVisibility($block_id, $real_path = '')
-    {
-        $block_obj = \Skif\Blocks\Block::factory($block_id);
-        $pages = $block_obj->getPages();
-
-        // parse pages
-
-        $pages = str_replace("\r", "\n", $pages);
-        $pages = str_replace("\n\n", "\n", $pages);
-
-        $pages_arr = explode("\n", $pages);
-
-        if (count($pages_arr) == 0) {
-            return false;
-        }
-
-        // check pages
-
-        $visible = false;
-
-        foreach ($pages_arr as $page_filter_str) {
-            $page_filter_str = trim($page_filter_str);
-
-            if (strlen($page_filter_str) > 2) {
-                // convert filter string to object
-                $filter_obj = \Skif\Util\FilterFactory::getFilter($page_filter_str);
-
-                if ($filter_obj->matchesPage($real_path)) {
-                    if ($filter_obj->is_positive) {
-                        $visible = true;
-                    }
-
-                    if ($filter_obj->is_negative) {
-                        $visible = false;
-                    }
-                }
-
-            }
-        }
-
-        return $visible;
-    }
-
     /**
      * Вывод блоков региона в теме
-     * @param string $region
-     * @param string $template_id
+     * @param string $page_region_name
+     * @param string $template_name
      * @param string $page_url
      * @return string
      */
-    public static function renderBlocksByRegion($region, $template_id, $page_url = '')
+    public static function renderBlocksByPageRegionNameAndTemplateName($page_region_name, $template_name, $page_url = '')
     {
         $output = '';
 
-        $blocks_ids_arr = self::getVisibleBlocksIdsArr($region, $template_id, $page_url);
+        $template_id = \Skif\Content\TemplateUtils::getTemplateIdByName($template_name);
+        $page_region_id = self::getPageRegionIdByNameAndTemplateId($page_region_name, $template_id);
+
+        $blocks_ids_arr = self::getVisibleBlocksIdsArrByRegionId($page_region_id, $page_url);
 
         foreach ($blocks_ids_arr as $block_id) {
             $output .= \Skif\PhpTemplate::renderTemplateBySkifModule(
@@ -74,14 +34,20 @@ class PageRegionsUtils
         return $output;
     }
 
+    public static function getPageRegionIdByNameAndTemplateId($name, $template_id)
+    {
+        $query = "SELECT id FROM " . \Skif\Blocks\PageRegion::DB_TABLE_NAME . " WHERE name=? AND template_id=?";
+
+        return \Skif\DB\DBWrapper::readField($query, array($name, $template_id));
+    }
+
     /**
      * Список видимых блоков региона в теме
-     * @param string $region
-     * @param string $template_id
+     * @param string $page_region_id
      * @param string $page_url
      * @return array
      */
-    static function getVisibleBlocksIdsArr($region, $template_id, $page_url = '')
+    protected static function getVisibleBlocksIdsArrByRegionId($page_region_id, $page_url = '')
     {
         if ($page_url == '') {
             // Берем url без $_GET параметров, т.к. это влияет на видимость блоков.
@@ -89,16 +55,21 @@ class PageRegionsUtils
             $page_url = \Skif\UrlManager::getUriNoQueryString();
         }
 
-        $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionIdAndTemplateId($region, $template_id);
+        $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionId($page_region_id);
 
         $visible_blocks_ids_arr = array();
 
-        $has_access_to_blocks_for_administrators = \Skif\Blocks\BlockUtils::currentUserHasAccessToBlocksForAdministrators();
+        $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
 
         foreach ($blocks_ids_arr as $block_id) {
-            if (!self::blockIsVisibleOnPage($block_id, $page_url, $has_access_to_blocks_for_administrators)) {
+            if (!\Skif\Blocks\BlockUtils::blockIsVisibleByUserId($block_id, $current_user_id)) {
                 continue;
             }
+
+            if (!\Skif\Blocks\BlockUtils::blockIsVisibleOnPage($block_id, $page_url)) {
+                continue;
+            }
+
             $visible_blocks_ids_arr[] = $block_id;
         }
 
@@ -106,46 +77,25 @@ class PageRegionsUtils
     }
 
     /**
-     * @param int $block_id
-     * @param string $page_url
-     * @param $has_access_to_blocks_for_administrators
-     * @return bool
-     */
-    public static function blockIsVisibleOnPage($block_id, $page_url, $has_access_to_blocks_for_administrators = false)
-    {
-        $block_obj = \Skif\Blocks\Block::factory($block_id);
-
-        // Проверяем блок на видимость только для администраторов
-        if (!$has_access_to_blocks_for_administrators && $block_obj->isVisibleOnlyForAdministrators()) {
-            return false;
-        }
-
-        // Match path if necessary
-        if ($block_obj->getPages()) {
-            return self::checkBlockComplexVisibility($block_id, $page_url);
-        }
-
-        return false;
-    }
-
-    /**
-     * Массив регионов для темы
-     * @param $theme_key
+     * Массив PageRegionId для темы
+     * @param $template_id
      * @return mixed
      */
-    public static function getRegionsArrByTheme($theme_key)
+    public static function getPageRegionIdsArrByTemplateId($template_id)
     {
-        static $regions_arr = array();
+        static $static_page_region_ids_arr = array();
 
-        if (!array_key_exists($theme_key, $regions_arr)) {
-            $query = "SELECT name, title FROM page_regions WHERE theme = ?";
-            $regions_by_theme_arr = \Skif\DB\DBWrapper::readObjects($query, array($theme_key));
-            foreach ($regions_by_theme_arr as $region_std_obj) {
-                $regions_arr[$theme_key][$region_std_obj->name] = $region_std_obj->title;
-            }
+        if (!array_key_exists($template_id, $static_page_region_ids_arr)) {
+            $query = "SELECT id FROM " . \Skif\Blocks\PageRegion::DB_TABLE_NAME . " WHERE template_id = ?";
+
+            $page_region_ids_arr = \Skif\DB\DBWrapper::readColumn($query, array($template_id));
         }
 
-        return $regions_arr[$theme_key];
+        $page_region_ids_arr[] = \Skif\Constants::BLOCK_REGION_NONE;
+
+        $static_page_region_ids_arr[$template_id] = $page_region_ids_arr;
+
+        return $page_region_ids_arr;
     }
 
 }

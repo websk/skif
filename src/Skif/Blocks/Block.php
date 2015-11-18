@@ -19,6 +19,7 @@ class Block implements
     protected $status = 0;
     protected $weight = 1;
     protected $region = '';
+    protected $page_region_id;
     protected $custom = 0;
     protected $pages = '+ ^';
     protected $title = '';
@@ -30,6 +31,7 @@ class Block implements
     const DB_TABLE_NAME = 'blocks';
 
     public static $active_record_ignore_fields_arr = array(
+        'region', 'theme'
     );
 
     public function getEditorUrl()
@@ -60,28 +62,28 @@ class Block implements
     }
 
     /**
-     * Регион блока
-     * @return string
+     * @return mixed
      */
-    public function getRegion()
+    public function getPageRegionId()
     {
-        if ($this->region == '') {
+        if ($this->region == null) {
             return \Skif\Constants::BLOCK_REGION_NONE;
         }
-        return $this->region;
+
+        return $this->page_region_id;
     }
 
     /**
-     * @param string $region
+     * @param mixed $page_region_id
      */
-    public function setRegion($region)
+    public function setPageRegionId($page_region_id)
     {
-        if ($region == \Skif\Constants::BLOCK_REGION_NONE) {
-            $region = '';
+        if ($page_region_id == \Skif\Constants::BLOCK_REGION_NONE) {
+            $page_region_id = null;
         }
-        $this->region = $region;
-    }
 
+        $this->page_region_id = $page_region_id;
+    }
 
     /**
      * Вес блока
@@ -166,23 +168,6 @@ class Block implements
     public function setPages($pages)
     {
         $this->pages = $pages;
-    }
-
-    /**
-     * Тема
-     * @return mixed
-     */
-    public function getTheme()
-    {
-        return $this->theme;
-    }
-
-    /**
-     * @param mixed $theme
-     */
-    public function setTheme($theme)
-    {
-        $this->theme = $theme;
     }
 
     /**

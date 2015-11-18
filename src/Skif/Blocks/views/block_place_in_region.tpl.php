@@ -16,11 +16,14 @@ if (!$block_obj->isLoaded()) {
     echo '<div class="alert alert-warning">Во время создания блока вкладка недоступна.</div>';
     return;
 }
+
+$page_region_obj = \Skif\Blocks\PageRegion::factory($target_region);
+
 ?>
 
 <div class="tab-pane in active" id="place_in_region">
     <div class="container">
-        <p>Выберите, после какого блока нужно поставить блок в регионе <?= $target_region ?></p>
+        <p>Выберите, после какого блока нужно поставить блок в регионе &laquo;<?= $page_region_obj->getTitle() ?>&raquo;</p>
         <table class="table table-condensed">
             <tr>
                 <td>---</td>
@@ -28,7 +31,7 @@ if (!$block_obj->isLoaded()) {
                 <td><a href="<?php echo \Skif\UrlManager::getUriNoQueryString() . '?_action=move_block&target_region=' . $target_region . '&target_weight=FIRST'; ?>">начало региона</a></td>
             </tr>
             <?php
-            $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlocksIdsArrInRegion($target_region, $block_obj->getTheme());
+            $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionId($target_region);
 
             foreach ($blocks_ids_arr as $other_block_id) {
                 $other_block_obj = \Skif\Blocks\Block::factory($other_block_id);
