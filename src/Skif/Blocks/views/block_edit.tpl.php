@@ -38,12 +38,6 @@ $items = array();
         </div>
 
         <div class="form-group">
-            <button type="button" id="phpTestButton" data-toggle="modal" data-target="#phpTestModal" style="margin-bottom: 10px;" class="btn pull-right btn-default">
-                PHP Тест
-            </button>
-        </div>
-
-        <div class="form-group">
             <label>Формат ввода</label>
             <select class="form-control" name="format" id="format">
                 <?php
@@ -63,22 +57,6 @@ $items = array();
                 }
                 ?>
             </select>
-        </div>
-
-        <div class="modal fade" id="phpTestModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Результаты проверки PHP кода</h4>
-                    </div>
-                    <div class="modal-body" id="phpTestResult">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div class="panel panel-default">
@@ -145,33 +123,13 @@ $items = array();
             </div>
         </div>
 
-        <input class="btn btn-default" type="submit" id="save-btn-js" value="Сохранить" />
+        <input class="btn btn-primary" type="submit" id="save-btn-js" value="Сохранить" />
         &nbsp;&nbsp;<button class="btn" id="regions-btn-js" type="button">Сохранить и выбрать регион</button>
     </form>
 
 <script src="/vendor/bower/ace-builds/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
 
 <script>
-    $("#phpTestButton").click(function () {
-        var formBody = $("#body").val();
-
-        $("#phpTestResult").html("");
-
-        $.ajax({
-            type: "POST",
-            url: "/phptest",
-            data: {php: formBody},
-            success: function (data) {
-                $("#phpTestResult").html(data);
-            },
-            error: function () {
-                $("#phpTestResult").html("<div class='alert alert-danger'><strong>Ошибка!</strong> Проверьте код или обратитесь к разработчикам.</div>");
-            }
-        });
-
-    });
-
-
     var editor = ace.edit("editor");
 
     var form = $('#edit_form');

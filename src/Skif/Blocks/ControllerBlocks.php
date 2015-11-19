@@ -561,12 +561,12 @@ class ControllerBlocks
         $blocks_ids_arr = array();
         $search_value = $_POST["search"];
 
-        $theme_key = \Skif\Blocks\ControllerBlocks::getCurrentTemplateId();
+        $template_id = \Skif\Blocks\ControllerBlocks::getCurrentTemplateId();
 
         if ((mb_strlen($_POST["search"]) > 3)) {
             $blocks_ids_arr = \Skif\DB\DBWrapper::readColumn(
-                "SELECT id FROM " . \Skif\Blocks\Block::DB_TABLE_NAME . " WHERE body LIKE ? AND theme = ? LIMIT 100",
-                array("%" . str_replace('\\', '\\\\', $search_value) . "%", $theme_key)
+                "SELECT id FROM " . \Skif\Blocks\Block::DB_TABLE_NAME . " WHERE body LIKE ? AND template_id = ? LIMIT 100",
+                array("%" . str_replace('\\', '\\\\', $search_value) . "%", $template_id)
             );
 
             if (count($blocks_ids_arr) == 0) {

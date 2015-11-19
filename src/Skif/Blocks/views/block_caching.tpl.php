@@ -35,6 +35,6 @@ $cache_contexts_arr = \Skif\Blocks\BlockUtils::getCachesArr();
         </select>
     </div>
     <div class="form-group">
-        <input class="btn btn-default" type="submit" name="yt0" value="Сохранить" />
+        <input class="btn btn-primary" type="submit" name="yt0" value="Сохранить" />
     </div>
 </form>

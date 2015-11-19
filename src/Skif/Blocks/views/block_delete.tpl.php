@@ -25,7 +25,7 @@ if (!$block_obj->isLoaded()) {
         <form role="form" action="<?php echo $block_obj->getEditorUrl() ?>/delete" method="post">
             <input type="hidden" value="delete_block" name="_action" id="_action" />
             <div class="form-group">
-                <input class="btn btn-default" type="submit" name="yt0" value="Удалить блок" />
+                <input class="btn btn-primary" type="submit" name="yt0" value="Удалить блок" />
             </div>
         </form>
     </div>
