@@ -4,14 +4,14 @@ echo \Skif\PhpTemplate::renderTemplateBySkifModule(
     'blocks_list_header.tpl.php'
 );
 
-$template_id = \Skif\Blocks\ControllerBlocks::getCurrentTemplateId();
+$current_template_id = \Skif\Blocks\ControllerBlocks::getCurrentTemplateId();
 
-$region_ids_arr = \Skif\Blocks\PageRegionsUtils::getPageRegionIdsArrByTemplateId($template_id);
+$region_ids_arr = \Skif\Blocks\PageRegionsUtils::getPageRegionIdsArrByTemplateId($current_template_id);
 
 foreach ($region_ids_arr as $page_region_id) {
     $page_region_obj = \Skif\Blocks\PageRegion::factory($page_region_id);
 
-    $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionId($page_region_id, $template_id);
+    $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionId($page_region_id, $current_template_id);
     ?>
     <h4><?php echo $page_region_obj->getTitle() ?></h4>
 

@@ -43,10 +43,19 @@ class ControllerBlocks
         return 1;
     }
 
-    public static function setCurrentTemplateIde($period)
+    public static function setCurrentTemplateId($template_id)
     {
         $delta = null;
-        setcookie(self::COOKIE_CURRENT_TEMPLATE_ID, $period, $delta, '/');
+        setcookie(self::COOKIE_CURRENT_TEMPLATE_ID, $template_id, $delta, '/');
+    }
+
+    public function changeTemplateAction($template_id)
+    {
+        self::setCurrentTemplateId($template_id);
+
+        \Skif\Messages::setMessage('Тема изменена');
+
+        \Skif\Http::redirect(\Skif\Blocks\ControllerBlocks::getBlocksListUrl());
     }
 
     /**

@@ -25,6 +25,7 @@ if (strpos($current_url_no_query, '/admin') !== false) {
     \Skif\UrlManager::route('@^/admin/blocks/edit/(.+)/delete@i', '\Skif\Blocks\ControllerBlocks', 'deleteTabAction', 0);
     \Skif\UrlManager::route('@^/admin/blocks/edit/(.+)@i', '\Skif\Blocks\ControllerBlocks', 'editAction', 0);
     \Skif\UrlManager::route('@^/admin/blocks/search$@i', '\Skif\Blocks\ControllerBlocks', 'searchAction', 0);
+    \Skif\UrlManager::route('@^/admin/blocks/change_template/(\d+)@i', '\Skif\Blocks\ControllerBlocks', 'changeTemplateAction', 0);
 
     // Материалы
     \Skif\UrlManager::route('@^/admin/content/(.+)/rubrics$@', '\Skif\Content\RubricController', 'listAdminRubricsAction');
