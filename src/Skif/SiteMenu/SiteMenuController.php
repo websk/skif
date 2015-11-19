@@ -24,7 +24,6 @@ class SiteMenuController
         echo \Skif\PhpTemplate::renderTemplate(\Skif\Conf\ConfWrapper::value('layout.admin'), array(
                 'title' => $site_menu_obj->getName(),
                 'content' => $html,
-                'page_title_extra' => '',
                 'breadcrumbs_arr' => $breadcrumbs_arr
             )
         );
@@ -86,7 +85,6 @@ class SiteMenuController
         echo \Skif\PhpTemplate::renderTemplate(\Skif\Conf\ConfWrapper::value('layout.admin'), array(
                 'title' => $site_menu_obj->getName(),
                 'content' => $html,
-                'page_title_extra' => '',
                 'breadcrumbs_arr' => $breadcrumbs_arr
             )
         );
@@ -181,7 +179,6 @@ class SiteMenuController
         echo \Skif\PhpTemplate::renderTemplate(\Skif\Conf\ConfWrapper::value('layout.admin'), array(
                 'title' => ($site_menu_item_id == 'new') ? 'Добавление пункта меню' : 'Редактирование пункта меню',
                 'content' => $html,
-                'page_title_extra' => '',
                 'breadcrumbs_arr' => $breadcrumbs_arr
             )
         );
@@ -266,7 +263,6 @@ class SiteMenuController
         echo \Skif\PhpTemplate::renderTemplate(\Skif\Conf\ConfWrapper::value('layout.admin'), array(
                 'title' => 'Менеджер меню',
                 'content' => $html,
-                'page_title_extra' => '',
                 'breadcrumbs_arr' => array()
             )
         );
@@ -286,7 +282,6 @@ class SiteMenuController
         echo \Skif\PhpTemplate::renderTemplate(\Skif\Conf\ConfWrapper::value('layout.admin'), array(
                 'title' => 'Редактирование меню',
                 'content' => $html,
-                'page_title_extra' => '',
                 'breadcrumbs_arr' => array(
                     'Менеджер меню' => '/admin/site_menu'
                 )

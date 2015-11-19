@@ -65,7 +65,19 @@ if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
                     <?php
                     $current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
 
-                    $admin_menu_arr = \Skif\Conf\ConfWrapper::value('admin_menu');
+                    $config_admin_menu_arr = \Skif\Conf\ConfWrapper::value('admin_menu');
+
+                    $admin_menu_arr = array(
+                        '/admin/content/page' => 'Страницы',
+                        '/admin/site_menu' => 'Менеджер меню',
+                        '/admin/content/news' => 'Новости',
+                        '/admin/users' => 'Пользователи',
+                        '/admin/blocks' => 'Блоки',
+                        '/admin/redirect/list' => 'Редиректы',
+                        '/admin/key_value' => 'Переменные',
+                    );
+
+                    $admin_menu_arr = array_merge($config_admin_menu_arr, $admin_menu_arr);
 
                     foreach ($admin_menu_arr as $item_url => $item_title) {
                         ?>
@@ -86,8 +98,9 @@ if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <a href="/admin/"><img src="/vendor/websk/skif/assets/images/admin/logo.gif" border="0" width="250" height="86" alt="СКИФ"
-                                   class="img-responsive"></a>
+            <a href="/admin/">
+                <img src="/vendor/websk/skif/assets/images/admin/logo.gif" border="0" width="250" height="86" alt="СКИФ" class="img-responsive">
+            </a>
         </div>
         <div class="col-md-9">
             <?php
@@ -124,69 +137,27 @@ if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
             echo '<h1>' . $title . '</h1>';
         }
 
-        if (isset($page_title_extra)) {
-            print $page_title_extra;
-        }
         echo \Skif\Messages::renderMessages();
         ?>
-        <div class="clearfix"></div>
     </div>
 
-    <div><?= $content ?></div>
+    <div><?php echo $content; ?></div>
 
     <p></p>
     <hr>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-8 col-xs-8">
             <a href="<?php echo \Skif\Conf\ConfWrapper::value('site_url'); ?>"
                target="_blank"><?php echo \Skif\Conf\ConfWrapper::value('site_name'); ?></a>
         </div>
-        <div class="col-md-6" align="right">
-            <a href="http://www.websk.ru" target="_blank"><img src="/vendor/websk/skif/assets/images/admin/skif.gif" alt="СКИФ" border="0"
-                                                               width="88" height="30"></a>
+        <div class="col-md-4 col-xs-4" align="right">
+            <a href="http://www.websk.ru" target="_blank" title="Система управления сайтом СКИФ / websk.ru">
+                <img src="/vendor/websk/skif/assets/images/admin/skif.gif" alt="СКИФ" border="0" width="88" height="30">
+            </a>
         </div>
     </div>
-
     <p></p>
-    <?php
-    if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-        ?>
-        <div class="navbar navbar-default">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                            data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <span class="glyphicon glyphicon-wrench"></span>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <?php
-                        $admin_menu_arr = array(
-                            '/admin/redirect/list' => 'Редиректы',
-                            '/admin/key_value' => 'Переменные',
-                        );
-
-                        foreach ($admin_menu_arr as $item_url => $item_title) {
-                            ?>
-                            <li <?php echo(strpos($current_url_no_query, $item_url) !== false ? 'class="active"' : '') ?>>
-                                <a href="<?php echo $item_url; ?>"><?php echo $item_title; ?></a>
-                            </li>
-                        <?php
-                        }
-                        ?>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    <?php
-    }
-    ?>
 </div>
 
 </body>

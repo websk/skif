@@ -157,7 +157,6 @@ class ContentController extends \Skif\BaseController
             array(
                 'title' => 'Редактирование материала',
                 'content' => $html,
-                'page_title_extra' => '',
                 'breadcrumbs_arr' => array(
                     $content_type_obj->getName() => '/admin/content/' . $content_type
                 )
@@ -183,7 +182,6 @@ class ContentController extends \Skif\BaseController
             array(
                 'title' => $content_type_obj->getName(),
                 'content' => $html,
-                'page_title_extra' => '',
                 'breadcrumbs_arr' => array()
             )
         );

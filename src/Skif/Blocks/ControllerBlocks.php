@@ -190,7 +190,6 @@ class ControllerBlocks
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
                 'content' => $html,
-                'page_title_extra' => '',
                 'breadcrumbs_arr' => array('Блоки' => \Skif\Blocks\ControllerBlocks::getBlocksListUrl())
             )
         );
@@ -320,7 +319,6 @@ class ControllerBlocks
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
                 'content' => $html,
-                'page_title_extra' => '',
                 'breadcrumbs_arr' => array('Блоки' => \Skif\Blocks\ControllerBlocks::getBlocksListUrl())
             )
         );
@@ -368,7 +366,6 @@ class ControllerBlocks
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
                 'content' => $html,
-                'page_title_extra' => '',
                 'breadcrumbs_arr' => array(
                     'Блоки' => \Skif\Blocks\ControllerBlocks::getBlocksListUrl()
                 )
@@ -498,7 +495,6 @@ class ControllerBlocks
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
                 'content' => $html,
-                'page_title_extra' => '',
                 'breadcrumbs_arr' => array(
                     'Блоки' => \Skif\Blocks\ControllerBlocks::getBlocksListUrl()
                 )
@@ -528,7 +524,6 @@ class ControllerBlocks
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
                 'content' => $html,
-                'page_title_extra' => '',
                 'breadcrumbs_arr' => array(
                     'Блоки' => \Skif\Blocks\ControllerBlocks::getBlocksListUrl()
                 )
