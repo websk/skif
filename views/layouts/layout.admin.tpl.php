@@ -14,25 +14,50 @@ if (!$user_id || !\Skif\Users\AuthUtils::currentUserIsAdmin()) {
         'login_form.tpl.php',
         array('destination' => '/admin')
     );
+
+    return;
 }
+
+$user_obj = \Skif\Users\User::factory($user_id);
 ?>
 <!DOCTYPE html>
-<html lang="ru">
-<head xmlns:og="http://ogp.me/ns#">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
     <title>СКИФ - Система управления сайтом</title>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-    <script type="text/javascript" src="/vendor/bower/jquery/dist/jquery.min.js"></script>
+    <script src="/vendor/bower/jquery/dist/jquery.min.js"></script>
     <link rel="stylesheet" href="/vendor/bower/jquery-ui/themes/base/jquery-ui.min.css">
     <script type="text/javascript" src="/vendor/bower/jquery-ui/jquery-ui.min.js"></script>
 
-    <link type="text/css" rel="stylesheet" media="all" href="/vendor/bower/bootstrap/dist/css/bootstrap.min.css"/>
-    <script type="text/javascript" src="/vendor/bower/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Bootstrap Core CSS -->
+    <link href="/vendor/bower/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/vendor/bower/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="/vendor/websk/skif/assets/css/admin.css" type="text/css">
+    <!-- MetisMenu CSS -->
+    <link href="/vendor/bower/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/vendor/websk/skif/assets/libraries/sb-admin-2/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/vendor/bower/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="/vendor/websk/skif/assets/css/admin_new.css" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
     <script type="text/javascript" src="/vendor/bower/jquery-validation/dist/jquery.validate.min.js"></script>
 
@@ -45,120 +70,151 @@ if (!$user_id || !\Skif\Users\AuthUtils::currentUserIsAdmin()) {
 
     <script type="text/javascript" src="/vendor/ckeditor/ckeditor/ckeditor.js"></script>
 </head>
+
 <body>
-<?php
-if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-    ?>
-    <div class="navbar navbar-default navbar-static-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                        data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav nav-pills">
+
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/admin">
+                <img src="/vendor/websk/skif/assets/images/admin/logo.png" alt="СКИФ" border="0" height="59" title="Система управления сайтом СКИФ / websk.ru" class="img-responsive">
+            </a>
+        </div>
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a href="/" target="_blank">
+                    <i class="fa fa-external-link fa-fw"></i>  <?php echo \Skif\Conf\ConfWrapper::value('site_name'); ?>
+                </a>
+            </li>
+
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li></li>
+                    <li><a href="/admin/users/edit/<?php echo $user_id; ?>"><i class="fa fa-user fa-fw"></i> <?php echo $user_obj->getName(); ?></a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="/user/logout"><i class="fa fa-sign-out fa-fw"></i> Выход</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+        </ul>
+        <!-- /.navbar-top-links -->
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
                     <?php
                     $current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
 
                     $config_admin_menu_arr = \Skif\Conf\ConfWrapper::value('admin_menu');
 
                     $admin_menu_arr = array(
-                        '/admin/content/page' => 'Страницы',
-                        '/admin/site_menu' => 'Менеджер меню',
-                        '/admin/content/news' => 'Новости',
-                        '/admin/users' => 'Пользователи',
-                        '/admin/blocks' => 'Блоки',
-                        '/admin/redirect/list' => 'Редиректы',
-                        '/admin/key_value' => 'Переменные',
+                        array('link' => '/admin/content/page', 'name' => 'Страницы', 'icon' => '<i class="fa fa-files-o fa-fw"></i>'),
+                        array('link' => '/admin/site_menu', 'name' => 'Менеджер меню', 'icon' => '<i class="fa fa-bars fa-fw"></i>'),
+                        array('link' => '/admin/content/news', 'name' => 'Новости', 'icon' => '<i class="fa fa-newspaper-o fa-fw"></i>'),
+                        array('link' => '/admin/users', 'name' => 'Пользователи', 'icon' => '<i class="fa fa-users fa-fw"></i>'),
+                        array('link' => '/admin/blocks', 'name' => 'Блоки', 'icon' => '<i class="fa fa-table fa-fw"></i>'),
                     );
 
-                    $admin_menu_arr = array_merge($config_admin_menu_arr, $admin_menu_arr);
+                    $admin_menu_arr = array_merge($admin_menu_arr, $config_admin_menu_arr);
 
-                    foreach ($admin_menu_arr as $item_url => $item_title) {
+                    foreach ($admin_menu_arr as $menu_item_arr) {
+
+                        $class = ($current_url_no_query == $menu_item_arr['link']) ? ' active' : '';
+                        $target = array_key_exists('target', $menu_item_arr) ? 'target="' . $menu_item_arr['target'] .'""' : '';
                         ?>
-                        <li <?php echo(strpos($current_url_no_query, $item_url) !== false ? 'class="active"' : '') ?>>
-                            <a href="<?php echo $item_url; ?>"><?php echo $item_title; ?></a>
+                        <li <?php echo ( $class ? 'class="' . $class . '"' : ''); ?>>
+                            <a href="<?php echo $menu_item_arr['link']; ?>" <?php echo $target; ?>>
+                                <?php
+                                if (array_key_exists('icon', $menu_item_arr)) {
+                                    echo $menu_item_arr['icon'];
+                                }
+                                ?>
+                                <?php echo $menu_item_arr['name']; ?>
+                            </a>
                         </li>
-                    <?php
+                        <?php
                     }
                     ?>
+                    <li>
+                        <a href="#"><i class="fa fa-wrench fa-fw"></i> Настройки<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="/admin/redirect/list">Редиректы</a>
+                            </li>
+                            <li>
+                                <a href="/admin/key_value">Переменные</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
                 </ul>
             </div>
+            <!-- /.sidebar-collapse -->
         </div>
-    </div>
-<?php
-}
-?>
+        <!-- /.navbar-static-side -->
+    </nav>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-3">
-            <a href="/admin/">
-                <img src="/vendor/websk/skif/assets/images/admin/logo.gif" border="0" width="250" height="86" alt="СКИФ" class="img-responsive">
-            </a>
-        </div>
-        <div class="col-md-9">
-            <?php
-            if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-                $user_obj = \Skif\Users\User::factory($user_id);
-                ?>
-                <div>
-                    <a href="/admin/users/edit/<?= $user_id ?>"
-                       class="label label-default"><?= $user_obj->getName() ?></a>
-                    <a href="/user/logout" class="label label-default">Выход</a> /
-                    <a href="/" target="_blank"
-                       class="label label-primary"><b><?php echo \Skif\Conf\ConfWrapper::value('site_name'); ?></b></a>
+    <!-- Page Content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div>
+                        <?php
+                        if (!isset($breadcrumbs_arr)) {
+                            $breadcrumbs_arr = array();
+                        }
+
+                        $breadcrumbs_arr = array_merge(
+                            array('Главная' => '/admin'),
+                            $breadcrumbs_arr
+                        );
+
+                        echo \Skif\PhpTemplate::renderTemplate('/breadcrumbs.tpl.php', array('breadcrumbs_arr' => $breadcrumbs_arr));
+
+                        if (!empty($title)) {
+                            echo '<h1 class="page-header">' . $title . '</h1>';
+                        }
+
+                        echo \Skif\Messages::renderMessages();
+                        ?>
+                    </div>
+                    <p></p>
+
+                    <div><?php echo $content; ?></div>
                 </div>
-            <?php
-            }
-            ?>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
         </div>
+        <!-- /.container-fluid -->
     </div>
+    <!-- /#page-wrapper -->
 
-    <div class="page-header">
-        <?php
-        if (!isset($breadcrumbs_arr)) {
-            $breadcrumbs_arr = array();
-        }
-
-        $breadcrumbs_arr = array_merge(
-            array('Главная' => '/admin'),
-            $breadcrumbs_arr
-        );
-
-        echo \Skif\PhpTemplate::renderTemplate('/breadcrumbs.tpl.php', array('breadcrumbs_arr' => $breadcrumbs_arr));
-
-        if (!empty($title)) {
-            echo '<h1>' . $title . '</h1>';
-        }
-
-        echo \Skif\Messages::renderMessages();
-        ?>
-    </div>
-
-    <div><?php echo $content; ?></div>
-
-    <p></p>
-    <hr>
-
-    <div class="row">
-        <div class="col-md-8 col-xs-8">
-            <a href="<?php echo \Skif\Conf\ConfWrapper::value('site_url'); ?>"
-               target="_blank"><?php echo \Skif\Conf\ConfWrapper::value('site_name'); ?></a>
-        </div>
-        <div class="col-md-4 col-xs-4" align="right">
-            <a href="http://www.websk.ru" target="_blank" title="Система управления сайтом СКИФ / websk.ru">
-                <img src="/vendor/websk/skif/assets/images/admin/skif.gif" alt="СКИФ" border="0" width="88" height="30">
-            </a>
-        </div>
-    </div>
-    <p></p>
 </div>
+<!-- /#wrapper -->
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="/vendor/bower/metisMenu/dist/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/vendor/websk/skif/assets/libraries/sb-admin-2/js/sb-admin-2.js"></script>
 
 </body>
+
 </html>
