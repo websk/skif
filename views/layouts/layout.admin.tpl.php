@@ -85,7 +85,7 @@ $user_obj = \Skif\Users\User::factory($user_id);
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/admin">
-                <img src="/vendor/websk/skif/assets/images/admin/logo.png" alt="СКИФ" border="0" height="59" title="Система управления сайтом СКИФ / websk.ru" class="img-responsive">
+                <img src="/vendor/websk/skif/assets/images/admin/skif.gif" alt="СКИФ" border="0" height="28" title="Система управления сайтом СКИФ / websk.ru" class="img-responsive">
             </a>
         </div>
         <!-- /.navbar-header -->
@@ -93,7 +93,7 @@ $user_obj = \Skif\Users\User::factory($user_id);
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown">
                 <a href="/" target="_blank">
-                    <i class="fa fa-external-link fa-fw"></i>  <?php echo \Skif\Conf\ConfWrapper::value('site_name'); ?>
+                    <i class="fa fa-external-link fa-fw"></i>
                 </a>
             </li>
 
@@ -101,7 +101,7 @@ $user_obj = \Skif\Users\User::factory($user_id);
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                 </a>
-                <ul class="dropdown-menu dropdown-user">
+                <ul class="dropdown-menu">
                     <li></li>
                     <li><a href="/admin/users/edit/<?php echo $user_id; ?>"><i class="fa fa-user fa-fw"></i> <?php echo $user_obj->getName(); ?></a>
                     </li>
@@ -194,17 +194,17 @@ $user_obj = \Skif\Users\User::factory($user_id);
                         echo \Skif\Messages::renderMessages();
                         ?>
                     </div>
-                    <p></p>
+                </div>
+            </div>
 
+            <div class="row">
+                <div class="col-lg-12">
                     <div><?php echo $content; ?></div>
                 </div>
-                <!-- /.col-lg-12 -->
             </div>
-            <!-- /.row -->
+
         </div>
-        <!-- /.container-fluid -->
     </div>
-    <!-- /#page-wrapper -->
 
 </div>
 <!-- /#wrapper -->

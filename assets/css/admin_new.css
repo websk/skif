@@ -1,9 +1,5 @@
 .navbar-brand {
-    height: 76px;
-}
-
-.sidebar {
-    margin-top: 77px;
+    padding-top: 8px;
 }
 
 .breadcrumb {
@@ -14,6 +10,13 @@
 .page-header {
     padding-bottom: 9px;
     margin: 10px 0 20px;
+}
+
+.dropdown .site_url {
+    max-width: 500px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 /* autocomplete */
