@@ -8,11 +8,8 @@
 $user_id = \Skif\Users\AuthUtils::getCurrentUserId();
 
 if (!$user_id || !\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-    $content = '<h2>Вход в систему управления</h2>';
-    $content .= \Skif\PhpTemplate::renderTemplateBySkifModule(
-        'Users',
-        'login_form.tpl.php',
-        array('destination' => '/admin')
+    echo \Skif\PhpTemplate::renderTemplate(
+        'layouts/layout.admin_login.tpl.php'
     );
 
     return;
@@ -106,7 +103,7 @@ $user_obj = \Skif\Users\User::factory($user_id);
                     <li><a href="/admin/users/edit/<?php echo $user_id; ?>"><i class="fa fa-user fa-fw"></i> <?php echo $user_obj->getName(); ?></a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="/user/logout"><i class="fa fa-sign-out fa-fw"></i> Выход</a>
+                    <li><a href="/user/logout?destination=/admin"><i class="fa fa-sign-out fa-fw"></i> Выход</a>
                     </li>
                 </ul>
                 <!-- /.dropdown-user -->
@@ -207,7 +204,6 @@ $user_obj = \Skif\Users\User::factory($user_id);
     </div>
 
 </div>
-<!-- /#wrapper -->
 
 <!-- Metis Menu Plugin JavaScript -->
 <script src="/vendor/bower/metisMenu/dist/metisMenu.min.js"></script>
