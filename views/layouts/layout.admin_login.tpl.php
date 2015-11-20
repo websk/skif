@@ -2,13 +2,15 @@
 /**
  *
  */
+
+$skif_path = \Skif\Conf\ConfWrapper::value('skif_path');
+$bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -16,12 +18,17 @@
 
     <title>СКИФ - Система управления сайтом</title>
 
-    <!-- Bootstrap Core CSS -->
-    <link href="/vendor/bower/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="/vendor/bower/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link href="<?php echo $skif_path; ?>/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
-    <!-- Custom CSS -->
-    <link href="/vendor/websk/skif/assets/libraries/sb-admin-2/css/sb-admin-2.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="<?php echo $bower_path; ?>/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="<?php echo $bower_path; ?>/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <link href="<?php echo $skif_path; ?>/assets/libraries/sb-admin-2/css/sb-admin-2.css" rel="stylesheet" type="text/css">
+
+    <link href="<?php echo $bower_path; ?>/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link href="<?php echo $skif_path; ?>/assets/css/admin.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -31,6 +38,7 @@
         <div class="col-md-4 col-md-offset-4">
             <div class="login-panel panel panel-default">
                 <div class="panel-heading">
+                    <div><img src="<?php echo $skif_path; ?>/assets/images/admin/skif_small_logo.png" alt="СКИФ" border="0" height="39" title="Система управления сайтом СКИФ / websk.ru"></div>
                     <h3 class="panel-title">Вход в систему управления</h3>
                 </div>
                 <div class="panel-body">
@@ -43,7 +51,11 @@
                             </div>
                         </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Пароль" name="password" type="password" value="">
+                                <label class="sr-only">Пароль</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-key"></span></span>
+                                    <input class="form-control" placeholder="Пароль" name="password" type="password" value="">
+                                </div>
                             </div>
                             <div class="checkbox">
                                 <label>
