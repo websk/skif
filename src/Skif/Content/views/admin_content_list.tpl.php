@@ -18,32 +18,34 @@ if ($requested_rubric_id) {
     $count_all_articles = \Skif\Content\ContentUtils::getCountContentsByType($content_type);
 }
 ?>
-<div class="jumbotron">
-    <div class="row">
-        <div class="col-md-8">
-            <form action="/admin/content/<?php echo $content_type; ?>" class="form-inline">
-                <div class="form-group">
-                    <label>Рубрика</label>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-8">
+                <form action="/admin/content/<?php echo $content_type; ?>" class="form-inline">
+                    <div class="form-group">
+                        <label>Рубрика</label>
 
-                    <select name="rubric_id" class="form-control">
-                        <option value="0">Все</option>
-                        <?php
-                        $rubric_ids_arr = $content_type_obj->getRubricIdsArr();
-                        foreach ($rubric_ids_arr as $rubric_id) {
-                            $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
+                        <select name="rubric_id" class="form-control">
+                            <option value="0">Все</option>
+                            <?php
+                            $rubric_ids_arr = $content_type_obj->getRubricIdsArr();
+                            foreach ($rubric_ids_arr as $rubric_id) {
+                                $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
 
-                            echo '<option value="' . $rubric_id . '" ' . ($rubric_id == $requested_rubric_id ? 'selected' : '') . '>' . $rubric_obj->getName() . '</option>';
-                        }
-                        ?>
-                    </select>
-                </div>
-                <input type="submit" value="Выбрать" class="btn btn-default">
-            </form>
+                                echo '<option value="' . $rubric_id . '" ' . ($rubric_id == $requested_rubric_id ? 'selected' : '') . '>' . $rubric_obj->getName() . '</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <input type="submit" value="Выбрать" class="btn btn-default">
+                </form>
+            </div>
+            <div class="col-md-4"><a href="<?php echo \Skif\Content\RubricController::getRubricsListUrlByContentType($content_type);?>" class="btn btn-default"><span class="glyphicon glyphicon-wrench"></span> Редактировать рубрики</a></div>
         </div>
-        <div class="col-md-4"><a href="<?php echo \Skif\Content\RubricController::getRubricsListUrlByContentType($content_type);?>" class="btn btn-default"><span class="glyphicon glyphicon-wrench"></span> Редактировать рубрики</a></div>
     </div>
-
 </div>
+
 
 <p class="padding_top_10 padding_bottom_10">
     <a href="/admin/content/<?php echo $content_type; ?>/edit/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить материал</a>
