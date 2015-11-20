@@ -54,8 +54,8 @@ if ($requested_rubric_id) {
         <colgroup>
             <col class="col-md-1">
             <col class="col-md-2">
-            <col class="col-md-7">
-            <col class="col-md-1">
+            <col class="col-md-6">
+            <col class="col-md-2">
         </colgroup>
 <?php
 foreach ($contents_ids_arr as $content_id) {
@@ -65,7 +65,7 @@ foreach ($contents_ids_arr as $content_id) {
         <td><?php echo $content_obj->getId(); ?></td>
         <td><?php echo $content_obj->getCreatedAt(); ?></td>
         <td>
-            <a href="/admin/content/<?php echo $content_type; ?>/edit/<?php echo $content_id; ?>"><?php echo $content_obj->getTitle(); ?>&nbsp;<span class="glyphicon glyphicon-edit text-warning" title="Редактировать"></span></a>
+            <a href="/admin/content/<?php echo $content_type; ?>/edit/<?php echo $content_id; ?>"><?php echo $content_obj->getTitle(); ?></a>
             <?php
             $rubric_ids_arr = $content_obj->getRubricIdsArr();
 
@@ -78,8 +78,15 @@ foreach ($contents_ids_arr as $content_id) {
             ?>
         </td>
         <td align="right">
-            <a href="<?php echo $content_obj->getUrl(); ?>" target="_blank"><span class="glyphicon glyphicon-new-window"></span></a>
-            <a href="/admin/content/<?php echo $content_type; ?>/delete/<?php echo $content_id; ?>" onClick="return confirm('Вы уверены, что хотите удалить?')"><span class="glyphicon glyphicon-remove text-danger" title="Удалить"></span></a>
+            <a href="/admin/content/<?php echo $content_type; ?>/edit/<?php echo $content_id; ?>" title="Редактировать" class="btn btn-outline btn-default btn-sm">
+                <span class="fa fa-edit fa-lg text-warning"></span>
+            </a>
+            <a href="<?php echo $content_obj->getUrl(); ?>" target="_blank" title="Просмотр" class="btn btn-outline btn-default btn-sm">
+                <span class="fa fa-external-link  fa-lg text-info"></span>
+            </a>
+            <a href="/admin/content/<?php echo $content_type; ?>/delete/<?php echo $content_id; ?>" onClick="return confirm('Вы уверены, что хотите удалить?')" title="Удалить" class="btn btn-outline btn-default btn-sm">
+                <span class="fa fa-trash-o fa-lg text-danger"></span>
+            </a>
         </td>
     </tr>
     <?php
