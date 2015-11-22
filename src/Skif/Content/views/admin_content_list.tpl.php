@@ -57,7 +57,7 @@ if ($requested_rubric_id) {
     <a href="/admin/content/<?php echo $content_type; ?>/edit/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить материал</a>
 </p>
 
-<div >
+<div>
     <table class="table table-striped table-hover">
         <colgroup>
             <col class="col-md-1 col-sm-1 col-xs-1">

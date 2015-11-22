@@ -5,8 +5,10 @@
 
 $content_type_obj = \Skif\Content\ContentType::factory($content_type_id);
 ?>
-<p><a href="<?php echo \Skif\Content\RubricController::getRubricsListUrlByContentType($content_type_obj->getType());?>/edit/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить рубрику</a></p>
-<p></p>
+<p class="padding_top_10 padding_bottom_10">
+    <a href="<?php echo \Skif\Content\RubricController::getRubricsListUrlByContentType($content_type_obj->getType());?>/edit/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить рубрику</a>
+</p>
+
 <div>
     <table class="table table-striped table-hover">
         <colgroup>

@@ -145,9 +145,9 @@ class ControllerRedirect {
 		// Проверка прав доступа
         \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
 
-		if(isset($_POST['action']) && $_POST['action']=='deleteredirect')
+		if(isset($_REQUEST['action']) && $_REQUEST['action']=='deleteredirect')
 		{
-			$id = $_POST['redirect_id'];
+			$id = $_REQUEST['redirect_id'];
 
 			if($id == '') 
 			{

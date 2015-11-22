@@ -78,7 +78,7 @@ class RubricController extends \Skif\BaseController
             \Skif\Conf\ConfWrapper::value('layout.admin'),
             array(
                 'content' => $content,
-                'title' => 'Список рубрик',
+                'title' => 'Рубрики',
                 'keywords' => '',
                 'description' => '',
                 'breadcrumbs_arr' => $breadcrumbs_arr

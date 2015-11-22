@@ -42,7 +42,7 @@ $current_template_id = \Skif\Blocks\ControllerBlocks::getCurrentTemplateId();
                 <form role="form" class="form-inline" action="/admin/blocks/search" method="post">
                     <div class="form-group">
                         <label class="sr-only">Поиск</label>
-                        <input class="form-control" type="text" value="<?php echo $search_value; ?>" name="search" id="search" placeholder="Поиск">
+                        <input class="form-control" type="text" value="<?php echo $search_value; ?>" name="search" id="search" placeholder="Поиск по содержимому">
                     </div>
                     <button type="submit" class="btn btn-info" title="Поиск по тексту блоков">
                         <span class="glyphicon glyphicon-search"></span> Искать

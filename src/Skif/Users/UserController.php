@@ -20,7 +20,7 @@ class UserController
             \Skif\Conf\ConfWrapper::value('layout.admin'),
             array(
                 'content' => $content,
-                'title' => 'Список пользователей',
+                'title' => 'Пользователи',
                 'keywords' => '',
                 'description' => '',
                 'breadcrumbs_arr' => $breadcrumbs_arr
@@ -372,7 +372,7 @@ class UserController
             \Skif\Conf\ConfWrapper::value('layout.admin'),
             array(
                 'content' => $content,
-                'title' => 'Список ролей пользователей',
+                'title' => 'Роли пользователей',
                 'keywords' => '',
                 'description' => '',
                 'breadcrumbs_arr' => $breadcrumbs_arr

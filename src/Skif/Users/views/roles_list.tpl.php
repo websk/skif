@@ -3,8 +3,10 @@
  *
  */
 ?>
-<p><a href="/admin/users/roles/edit/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить роль</a></p>
-<p></p>
+<p class="padding_top_10 padding_bottom_10">
+    <a href="/admin/users/roles/edit/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить роль</a>
+</p>
+
 <div>
     <table class="table table-striped table-hover">
         <colgroup>

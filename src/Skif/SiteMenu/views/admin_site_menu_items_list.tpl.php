@@ -4,10 +4,11 @@
  * @var $parent_id
  */
 ?>
-<p><a href="/admin/site_menu/<?php echo $site_menu_id; ?>/item/edit/new?site_menu_parent_item_id=<?php echo $parent_id; ?>" class="btn btn-primary">
+<p class="padding_top_10 padding_bottom_10">
+    <a href="/admin/site_menu/<?php echo $site_menu_id; ?>/item/edit/new?site_menu_parent_item_id=<?php echo $parent_id; ?>" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus"></span> Добавить пункт меню</a>
 </p>
-<p></p>
+
 <div>
     <table class="table table-striped table-hover">
         <colgroup>
@@ -30,9 +31,10 @@ foreach ($site_menu_item_ids_arr as $site_menu_item_id) {
                 echo '<a href="/admin/site_menu/' . $site_menu_id . '/items/list/' . $site_menu_item_id . '">' . $site_menu_item_obj->getName() . '</a>';
             } else {
                 ?>
-                <?php echo $site_menu_item_obj->getName(); ?> <a href="/admin/site_menu/<?php echo $site_menu_id; ?>/item/edit/new?site_menu_parent_item_id=<?php echo $site_menu_item_id; ?>" class="btn btn-outline btn-default btn-sm">
+                <?php echo $site_menu_item_obj->getName(); ?>
+                <a href="/admin/site_menu/<?php echo $site_menu_id; ?>/item/edit/new?site_menu_parent_item_id=<?php echo $site_menu_item_id; ?>" title="Добавить вложенный пункт" class="btn btn-outline btn-default btn-sm">
                     <span class="fa fa-hand-o-left fa-lg text-primary"></span>
-                    <span class="fa fa-plus fa-lg text-primary" title="Добавить вложенный пункт"></span>
+                    <span class="fa fa-plus fa-lg text-primary"></span>
                 </a>
             <?php
             }

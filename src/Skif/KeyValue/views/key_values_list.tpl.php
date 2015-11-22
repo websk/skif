@@ -1,8 +1,9 @@
 <?php
 $key_value_ids_arr = \Skif\KeyValue\KeyValueUtils::getKeyValueIdsArr();
 ?>
-<p><a href="/admin/key_value/edit/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить переменную</a></p>
-<p></p>
+<p class="padding_top_10 padding_bottom_10">
+    <a href="/admin/key_value/edit/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить переменную</a>
+</p>
 
 <div>
     <table class="table table-striped table-hover">
