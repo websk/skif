@@ -18,34 +18,37 @@ $current_template_id = \Skif\Blocks\ControllerBlocks::getCurrentTemplateId();
     }
 </script>
 
-<div class="jumbotron">
-    <div class="row">
-        <div class="col-md-6 col-xs-6">
-            <form role="form" class="form-inline" action="/admin/blocks/search" method="post">
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 col-xs-12">
                 <div class="form-group">
-                    <label class="sr-only">Поиск</label>
-                    <input class="form-control" type="text" value="<?php echo $search_value; ?>" name="search" id="search" placeholder="Поиск">
+                    <select name="templates" id="templates" onchange="change_template()" class="form-control">';
+                        <?php
+                        $templates_ids_arr = \Skif\Content\TemplateUtils::getTemplatesIdsArr();
+
+                        foreach ($templates_ids_arr as $template_id) {
+                            $template_obj = \Skif\Content\Template::factory($template_id);
+
+                            ?>
+                            <option value="<?php echo $template_id; ?>"<?php echo (($template_id == $current_template_id) ? ' selected' : '') ?>><?php echo $template_obj->getTitle(); ?></option>
+                            <?php
+                        }
+                        ?>
+                    </select>
                 </div>
-                <button type="submit" class="btn btn-default" title="Поиск по тексту блоков">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-            </form>
-        </div>
-        <div class="col-md-6 col-xs-6">
-            <select name="templates" id="templates" onchange="change_template()" class="form-control">';
-                <?php
-                $templates_ids_arr = \Skif\Content\TemplateUtils::getTemplatesIdsArr();
-
-                foreach ($templates_ids_arr as $template_id) {
-                    $template_obj = \Skif\Content\Template::factory($template_id);
-
-                    ?>
-                    <option value="<?php echo $template_id; ?>"<?php echo (($template_id == $current_template_id) ? ' selected' : '') ?>><?php echo $template_obj->getTitle(); ?></option>
-                    <?php
-                }
-                ?>
-            </select>
-
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <form role="form" class="form-inline" action="/admin/blocks/search" method="post">
+                    <div class="form-group">
+                        <label class="sr-only">Поиск</label>
+                        <input class="form-control" type="text" value="<?php echo $search_value; ?>" name="search" id="search" placeholder="Поиск">
+                    </div>
+                    <button type="submit" class="btn btn-info" title="Поиск по тексту блоков">
+                        <span class="glyphicon glyphicon-search"></span> Искать
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

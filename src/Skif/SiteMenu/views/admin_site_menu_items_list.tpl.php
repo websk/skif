@@ -5,7 +5,7 @@
  */
 ?>
 <p><a href="/admin/site_menu/<?php echo $site_menu_id; ?>/item/edit/new?site_menu_parent_item_id=<?php echo $parent_id; ?>" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus"></span> Добавить новый пункт меню</a>
+        <span class="glyphicon glyphicon-plus"></span> Добавить пункт меню</a>
 </p>
 <p></p>
 <div>

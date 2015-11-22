@@ -1,4 +1,4 @@
-<p><a href="/admin/site_menu/edit/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить новое меню</a></p>
+<p><a href="/admin/site_menu/edit/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить меню</a></p>
 <p></p>
 <div>
     <table class="table table-striped table-hover">
