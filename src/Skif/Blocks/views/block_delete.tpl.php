@@ -18,14 +18,14 @@ if (!$block_obj->isLoaded()) {
 ?>
 
 <div class="tab-pane in active" id="place_in_region">
-    <div class="container">
+    <div>
         <p class="alert alert-danger">Внимание! Блок будет безвозвратно удален!  (Включая все содержимое и расположение блока).</p>
         <p class="alert alert-info">Если Вы хотите <b>отключить блок</b> - поместите его в регион <a href="<?php echo $block_obj->getEditorUrl() ?>/region">Выключенные блоки</a></p>
 
         <form role="form" action="<?php echo $block_obj->getEditorUrl() ?>/delete" method="post">
             <input type="hidden" value="delete_block" name="_action" id="_action" />
             <div class="form-group">
-                <input class="btn btn-primary" type="submit" name="yt0" value="Удалить блок" />
+                <input class="btn btn-danger" type="submit" name="yt0" value="Удалить блок" />
             </div>
         </form>
     </div>

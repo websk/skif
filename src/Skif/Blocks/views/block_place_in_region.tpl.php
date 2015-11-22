@@ -22,7 +22,7 @@ $page_region_obj = \Skif\Blocks\PageRegion::factory($target_region);
 ?>
 
 <div class="tab-pane in active" id="place_in_region">
-    <div class="container">
+    <div>
         <p>Выберите, после какого блока нужно поставить блок в регионе &laquo;<?= $page_region_obj->getTitle() ?>&raquo;</p>
         <table class="table table-condensed">
             <tr>
