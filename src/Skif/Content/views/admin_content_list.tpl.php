@@ -38,10 +38,16 @@ if ($requested_rubric_id) {
                             ?>
                         </select>
                     </div>
-                    <input type="submit" value="Выбрать" class="btn btn-default">
+                    <div class="form-group">
+                        <input type="submit" value="Выбрать" class="btn btn-default">
+                    </div>
                 </form>
             </div>
-            <div class="col-md-4"><a href="<?php echo \Skif\Content\RubricController::getRubricsListUrlByContentType($content_type);?>" class="btn btn-default"><span class="glyphicon glyphicon-wrench"></span> Редактировать рубрики</a></div>
+            <div class="col-md-4">
+                <a href="<?php echo \Skif\Content\RubricController::getRubricsListUrlByContentType($content_type);?>" class="btn btn-outline btn-info">
+                    <span class="glyphicon glyphicon-wrench"></span> Редактировать рубрики
+                </a>
+            </div>
         </div>
     </div>
 </div>
@@ -51,13 +57,13 @@ if ($requested_rubric_id) {
     <a href="/admin/content/<?php echo $content_type; ?>/edit/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить материал</a>
 </p>
 
-<div class="table-responsive">
+<div >
     <table class="table table-striped table-hover">
         <colgroup>
-            <col class="col-md-1">
-            <col class="col-md-2">
-            <col class="col-md-6">
-            <col class="col-md-2">
+            <col class="col-md-1 col-sm-1 col-xs-1">
+            <col class="col-md-2 hidden-sm hidden-xs">
+            <col class="col-md-6 col-sm-6 col-xs-6">
+            <col class="col-md-3 col-sm-5 col-xs-5">
         </colgroup>
 <?php
 foreach ($contents_ids_arr as $content_id) {
@@ -65,7 +71,7 @@ foreach ($contents_ids_arr as $content_id) {
     ?>
     <tr>
         <td><?php echo $content_obj->getId(); ?></td>
-        <td><?php echo $content_obj->getCreatedAt(); ?></td>
+        <td class="hidden-xs hidden-sm text-muted"><?php echo $content_obj->getCreatedAt(); ?></td>
         <td>
             <a href="/admin/content/<?php echo $content_type; ?>/edit/<?php echo $content_id; ?>"><?php echo $content_obj->getTitle(); ?></a>
             <?php
@@ -81,13 +87,13 @@ foreach ($contents_ids_arr as $content_id) {
         </td>
         <td align="right">
             <a href="/admin/content/<?php echo $content_type; ?>/edit/<?php echo $content_id; ?>" title="Редактировать" class="btn btn-outline btn-default btn-sm">
-                <span class="fa fa-edit fa-lg text-warning"></span>
+                <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
             </a>
             <a href="<?php echo $content_obj->getUrl(); ?>" target="_blank" title="Просмотр" class="btn btn-outline btn-default btn-sm">
-                <span class="fa fa-external-link  fa-lg text-info"></span>
+                <span class="fa fa-external-link fa-lg text-info fa-fw"></span>
             </a>
             <a href="/admin/content/<?php echo $content_type; ?>/delete/<?php echo $content_id; ?>" onClick="return confirm('Вы уверены, что хотите удалить?')" title="Удалить" class="btn btn-outline btn-default btn-sm">
-                <span class="fa fa-trash-o fa-lg text-danger"></span>
+                <span class="fa fa-trash-o fa-lg text-danger fa-fw"></span>
             </a>
         </td>
     </tr>
