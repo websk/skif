@@ -7,20 +7,14 @@
 
 \Skif\Utils::assert($model_class_name);
 
-//
 // готовим список ID объектов для вывода
-//
-
 $filter = '';
 if (isset($_GET['filter'])) {
     $filter = $_GET['filter'];
 }
 $objs_ids_arr = \Skif\CRUD\CRUDUtils::getObjIdsArrayForModel($model_class_name, $context_arr, $filter);
 
-//
 // готовим список полей, которые будем выводить в таблицу
-//
-
 $reflect = new \ReflectionClass($model_class_name);
 $props_arr = array();
 
@@ -69,33 +63,16 @@ if (property_exists($model_class_name, 'crud_container_model')) {
     }
 
 
-    echo '<div class="clearfix"></div>';
-
-
     // create fast add block
 
-    // чтобы создать форму быстрого добавления в классе должны быть следующие поля:
-    // public static $crud_fast_create_field_name = 'answer_text', где answer_text - имя выводимого поля
-    if (property_exists($model_class_name, 'crud_fast_create_field_name')) {
-        $fast_create_field_name = $model_class_name::$crud_fast_create_field_name;
+    echo \Skif\PhpTemplate::renderTemplateBySkifModule(
+        'CRUD',
+        'fast_create_form.tpl.php',
+        array(
+            'model_class_name' => $model_class_name,
+        )
+    );
 
-        $label_field_name = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $fast_create_field_name);
-        $create_url = \Skif\CRUD\ControllerCRUD::getCreateUrl($model_class_name);
-
-        echo '<form role="form" method="post" class="form-inline" action="' . $create_url . '">';
-        echo '<div class="form-group">';
-        echo '<input placeholder="' . $label_field_name . '" name="' . $fast_create_field_name . '" class="form-control"/>';
-        echo '<button type="submit" class="btn btn-default">Добавить</button>';
-
-        foreach ($context_arr as $context_arr_key => $context_arr_value) {
-            echo '<input type="hidden" name="' . $context_arr_key . '" value="' . $context_arr_value . '">';
-        }
-
-        echo '<input type="hidden" name="destination" value="' . \Skif\Helpers::uri_no_getform() . '">';
-        echo '</div>';
-        echo '</form>';
-
-    }
 
     if (count($objs_ids_arr) > 0) {
     ?>
