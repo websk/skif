@@ -39,6 +39,14 @@ class KeyValue
         "value" => 'Значение',
     );
 
+    public function getEditorTabsArr()
+    {
+        $tabs_obj_arr = array();
+        $tabs_obj_arr[] = new \Skif\EditorTabs\Tab(\Skif\CRUD\ControllerCRUD::getEditUrlForObj($this), 'Переменная');
+
+        return $tabs_obj_arr;
+    }
+
     /**
      * @return mixed
      */
