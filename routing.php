@@ -76,12 +76,12 @@ if (strpos($current_url_no_query, '/admin') !== false) {
 }
 
 // CRUD
-\Skif\UrlManager::route('@^/crud/list/([\d\w\%]+)@i', '\Sportbox\CRUD\ControllerCRUD', 'listAction', 0);
-\Skif\UrlManager::route('@^/crud/add/([\d\w\%]+)@i', '\Sportbox\CRUD\ControllerCRUD', 'addAction', 0);
-\Skif\UrlManager::route('@^/crud/create/([\d\w\%]+)@i', '\Sportbox\CRUD\ControllerCRUD', 'createAction', 0);
-\Skif\UrlManager::route('@^/crud/save/([\d\w\%]+)/(\d+)@i', '\Sportbox\CRUD\ControllerCRUD', 'saveAction', 0);
-\Skif\UrlManager::route('@^/crud/edit/([\d\w\%]+)/(\d+)@i', '\Sportbox\CRUD\ControllerCRUD', 'editAction', 0);
-\Skif\UrlManager::route('@^/crud/delete/([\d\w\%]+)/(\d+)@i', '\Sportbox\CRUD\ControllerCRUD', 'deleteAction', 0);
+\Skif\UrlManager::route('@^/crud/list/([\d\w\%]+)@i', '\Skif\CRUD\ControllerCRUD', 'listAction', 0);
+\Skif\UrlManager::route('@^/crud/add/([\d\w\%]+)@i', '\Skif\CRUD\ControllerCRUD', 'addAction', 0);
+\Skif\UrlManager::route('@^/crud/create/([\d\w\%]+)@i', '\Skif\CRUD\ControllerCRUD', 'createAction', 0);
+\Skif\UrlManager::route('@^/crud/save/([\d\w\%]+)/(\d+)@i', '\Skif\CRUD\ControllerCRUD', 'saveAction', 0);
+\Skif\UrlManager::route('@^/crud/edit/([\d\w\%]+)/(\d+)@i', '\Skif\CRUD\ControllerCRUD', 'editAction', 0);
+\Skif\UrlManager::route('@^/crud/delete/([\d\w\%]+)/(\d+)@i', '\Skif\CRUD\ControllerCRUD', 'deleteAction', 0);
 
 
 // Captcha
