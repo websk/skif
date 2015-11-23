@@ -42,7 +42,40 @@ if (property_exists($model_class_name, 'crud_container_model')) {
 ?>
 
 <div>
-    <h2 class="pull-left"><?php echo $list_title; ?></h2>
+    <?php
+    if ($list_title) {
+        ?>
+        <h2 class="pull-left"><?php echo $list_title; ?></h2>
+    <?php
+    }
+    ?>
+
+    <?php
+    if (isset($model_class_name::$crud_model_title_field)) {
+        if (isset($model_class_name::$crud_allow_search)) {
+            if ($model_class_name::$crud_allow_search == true) {
+                ?>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <form action="<?php echo \Skif\UrlManager::getUriNoQueryString(); ?>">
+                                    <input name="filter" value="<?php echo $filter; ?>">
+                                    <input type="submit" value="искать">
+                                </form>
+                            </div>
+                            <div class="col-md-4">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php
+            }
+        }
+    }
+    ?>
+
     <?php
     if (\Skif\CRUD\CRUDUtils::canDisplayCreateButton($model_class_name, $context_arr)) {
         ?>
@@ -52,17 +85,9 @@ if (property_exists($model_class_name, 'crud_container_model')) {
         </p>
         <?php
     }
+    ?>
 
-
-    if (isset($model_class_name::$crud_model_title_field)) {
-        if (isset($model_class_name::$crud_allow_search)) {
-            if ($model_class_name::$crud_allow_search == true) {
-                echo '<div class="pull-right" style="margin-top: 25px;"><form action="' . \Skif\Helpers::uri_no_getform() . '"><input name="filter" value="' . $filter . '"><input type="submit" value="искать"></form></div>';
-            }
-        }
-    }
-
-
+    <?php
     // create fast add block
 
     echo \Skif\PhpTemplate::renderTemplateBySkifModule(
@@ -72,8 +97,9 @@ if (property_exists($model_class_name, 'crud_container_model')) {
             'model_class_name' => $model_class_name,
         )
     );
+    ?>
 
-
+    <?php
     if (count($objs_ids_arr) > 0) {
     ?>
     <div>
@@ -144,8 +170,7 @@ if (property_exists($model_class_name, 'crud_container_model')) {
                     $delete_url = \Skif\CRUD\ControllerCRUD::getDeleteUrl($model_class_name, $obj_id);
                     ?>
                     <td align="right">
-                        <a href="<?php echo $edit_url; ?>"
-                           title="Редактировать" class="btn btn-outline btn-default btn-sm">
+                        <a href="<?php echo $edit_url; ?>" title="Редактировать" class="btn btn-outline btn-default btn-sm">
                             <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
                         </a>
                         <?php
