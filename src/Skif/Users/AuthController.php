@@ -38,7 +38,7 @@ class AuthController
     /*
     public function sessionAction()
     {
-        \Skif\Helpers::sendJsonHeaders();
+        \Skif\CRUDUtils::sendJsonHeaders();
 
         $current_user_obj = \Skif\Auth\AuthHelper::getCurrentUser();
         if (!$current_user_obj) {
@@ -56,13 +56,13 @@ class AuthController
             $destination = $params['destination'];//check is url
             $provider = \Skif\Auth\AuthHelper::socialLogin($params['Provider'], $destination);
             if (!$provider) {
-                \Skif\Helpers::redirect($destination);
+                \Skif\CRUDUtils::redirect($destination);
             }
 
             $is_connected = $provider->isUserConnected();
             if (!$is_connected) {
                 \Skif\Auth\AuthHelper::addFlashMessage("Not connected to " . $params['Provider']);
-                \Skif\Helpers::redirect($destination);
+                \Skif\CRUDUtils::redirect($destination);
             }
             /**
              * @var \Hybrid_User_Profile $user_profile
@@ -85,13 +85,13 @@ class AuthController
                 //some error during save
                 if (!$auth_user_id) {
                     \Skif\Auth\AuthHelper::addFlashMessage("Can't create user");
-                    \Skif\Helpers::redirect($destination);
+                    \Skif\CRUDUtils::redirect($destination);
                 }
             }
 
             \Skif\Auth\AuthHelper::storeUserSession($auth_user_id, session_id());
 
-            \Skif\Helpers::redirect($destination);
+            \Skif\CRUDUtils::redirect($destination);
         }
     }
 

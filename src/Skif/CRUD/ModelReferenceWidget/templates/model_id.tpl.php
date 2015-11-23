@@ -23,7 +23,7 @@ if ($model_obj) {
     }
 
     $model_obj_title_text = $model_obj->getTitle();
-    if (!\Skif\CRUD\Helpers::stringCanBeUsedAsLinkText($model_obj_title_text)) {
+    if (!\Skif\CRUD\CRUDUtils::stringCanBeUsedAsLinkText($model_obj_title_text)) {
         $model_obj_title_text = $field_value;
     }
 

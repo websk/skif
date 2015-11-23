@@ -18,7 +18,7 @@ foreach ($reflect->getProperties() as $prop_obj) {
     }
 }
 
-$crud_editor_fields_arr = \Skif\CRUD\Helpers::getCrudEditorFieldsArrForClass($model_class_name);
+$crud_editor_fields_arr = \Skif\CRUD\CRUDUtils::getCrudEditorFieldsArrForClass($model_class_name);
 if ($crud_editor_fields_arr) {
     foreach ($props_arr as $delta => $property_obj) {
         if (!array_key_exists($property_obj->getName(), $crud_editor_fields_arr)) {
@@ -34,14 +34,14 @@ $context_arr_fields = $context_arr;
       class="form-horizontal" action="/crud/create/<?php echo urlencode($model_class_name) ?>">
 
     <?php foreach ($props_arr as $prop_obj):
-        $editor_title = \Skif\CRUD\Helpers::getTitleForField($model_class_name, $prop_obj->getName());
+        $editor_title = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $prop_obj->getName());
         $value = $prop_obj->getValue($obj);
         if (array_key_exists($prop_obj->getName(), $context_arr_fields)) {
             $value = $context_arr_fields[$prop_obj->getName()];
             unset($context_arr_fields[$prop_obj->getName()]);
         }
-        $required = \Skif\CRUD\Helpers::isRequiredField($model_class_name, $prop_obj->getName());
-        $editor_description = \Skif\CRUD\Helpers::getDescriptionForField($model_class_name, $prop_obj->getName());
+        $required = \Skif\CRUD\CRUDUtils::isRequiredField($model_class_name, $prop_obj->getName());
+        $editor_description = \Skif\CRUD\CRUDUtils::getDescriptionForField($model_class_name, $prop_obj->getName());
         ?>
         <div class="form-group <?=( ($required) ? 'required' : '' )?>">
             <label class="col-sm-4 text-right control-label"

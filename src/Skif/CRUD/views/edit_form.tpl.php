@@ -17,7 +17,7 @@ foreach ($reflect->getProperties() as $prop_obj) {
     }
 }
 
-$crud_editor_fields_arr = \Skif\CRUD\Helpers::getCrudEditorFieldsArrForClass($model_class_name);
+$crud_editor_fields_arr = \Skif\CRUD\CRUDUtils::getCrudEditorFieldsArrForClass($model_class_name);
 if ($crud_editor_fields_arr) {
     foreach ($props_arr as $delta => $property_obj) {
         if (!array_key_exists($property_obj->getName(), $crud_editor_fields_arr)) {
@@ -37,12 +37,12 @@ if (property_exists($model_class_name, 'crud_extra_tabs') && count($model_class_
     <ul class="nav nav-tabs" role="tablist">
         <?php
         foreach ($model_class_name::$crud_extra_tabs as $tab_pathname => $tab_title) {
-            //$tab_url = $tab_pathname.'?full_object_id='.\Skif\Helpers::getFullObjectId($obj);
+            //$tab_url = $tab_pathname.'?full_object_id='.\Skif\CRUDUtils::getFullObjectId($obj);
             $tab_pathname = str_replace('#MODEL_ID#', $obj->getId(), $tab_pathname);
             $tab_pathname = str_replace('#MODEL_CLASS_NAME#', urlencode($model_class_name), $tab_pathname);
 
             $li_class = '';
-            if ($tab_pathname == \Skif\Helpers::uri_no_getform()){
+            if ($tab_pathname == \Skif\CRUDUtils::uri_no_getform()){
                 $li_class .= ' active ';
             }
 
@@ -64,9 +64,9 @@ if ($obj instanceof \Skif\Model\InterfaceSave) {
               action="/crud/save/<?php echo urlencode($model_class_name) ?>/<?php echo $obj->getId(); ?>">
             <?php
             foreach ($props_arr as $prop_obj) {
-                $editor_title = \Skif\CRUD\Helpers::getTitleForField($model_class_name, $prop_obj->getName());
-                $editor_description = \Skif\CRUD\Helpers::getDescriptionForField($model_class_name, $prop_obj->getName());
-                $required = \Skif\CRUD\Helpers::isRequiredField($model_class_name, $prop_obj->getName());
+                $editor_title = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $prop_obj->getName());
+                $editor_description = \Skif\CRUD\CRUDUtils::getDescriptionForField($model_class_name, $prop_obj->getName());
+                $required = \Skif\CRUD\CRUDUtils::isRequiredField($model_class_name, $prop_obj->getName());
                 ?>
                 <div class="form-group <?=( ($required) ? 'required' : '' )?>">
                     <label for="<?php echo $prop_obj->getName() ?>"

@@ -13,37 +13,33 @@ class ControllerCRUD
 
     public function listAction($model_class_name)
     {
-        //
-        // проверка
-        //
-
-        \Skif\Http::exit403If(!\Skif\CRUD\Helpers::currentUserHasRightsToEditModel($model_class_name));
+        \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
 
         \Skif\Utils::assert($model_class_name);
-
-        //
-        //
-        //
 
         $context_arr = array();
         if (array_key_exists('context_arr', $_GET)) {
             $context_arr = $_GET['context_arr'];
         }
 
-        $list_html =  \Skif\Render::template2('Skif/CRUD/templates/list.tpl.php', array(
+        $list_html = \Skif\PhpTemplate::renderTemplateBySkifModule(
+            'CRUD',
+            'list.tpl.php',
+            array(
                 'model_class_name' => $model_class_name,
                 'context_arr' => $context_arr,
                 'list_title' => ''
             )
         );
 
-        // todo: move to helper?
         $crud_model_class_screen_name_for_list = 'Список';
-        if (property_exists($model_class_name, 'crud_model_class_screen_name_for_list')){
+        if (property_exists($model_class_name, 'crud_model_class_screen_name_for_list')) {
             $crud_model_class_screen_name_for_list = $model_class_name::$crud_model_class_screen_name_for_list;
         }
 
-        echo \Skif\Render::template2('Skif/Admin/templates/layout.tpl.php', array(
+        echo \Skif\PhpTemplate::renderTemplate(
+            \Skif\Conf\ConfWrapper::value('layout.admin'),
+            array(
                 'title' => $crud_model_class_screen_name_for_list,
                 'content' => $list_html,
                 'breadcrumbs_arr' => self::$base_breadcrumbs
@@ -58,30 +54,33 @@ class ControllerCRUD
      */
     public function addAction($model_class_name)
     {
-
-        \Skif\Http::exit403If(!\Skif\CRUD\Helpers::currentUserHasRightsToEditModel($model_class_name));
+        \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
 
         \Skif\Utils::assert($model_class_name);
-        \Skif\CRUD\Helpers::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceLoad');
-        \Skif\CRUD\Helpers::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceSave');
 
-        $html = \Skif\Render::template2('Skif/CRUD/templates/add_form.tpl.php', array(
+        \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceLoad');
+        \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceSave');
+
+        $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
+            'CRUD',
+            'add_form.tpl.php',
+            array(
                 'model_class_name' => $model_class_name
             )
         );
 
-        echo \Skif\Render::template2('Skif/Admin/templates/layout.tpl.php', array(
+        echo \Skif\PhpTemplate::renderTemplate(
+            \Skif\Conf\ConfWrapper::value('layout.admin'),
+            array(
                 'title' => 'Добавление',
                 'content' => $html,
                 'breadcrumbs_arr' => self::$base_breadcrumbs
             )
         );
-
-        //return true;
     }
 
     /**
-     * генерирует ссылку на редактор объекта
+     * Генерирует ссылку на редактор объекта
      */
     public static function getEditUrl($model_class_name, $obj_id)
     {
@@ -89,42 +88,43 @@ class ControllerCRUD
     }
 
     /**
-     * генерирует ссылку на редактор объекта
+     * Генерирует ссылку на редактор объекта
      */
-    static public function getEditUrlForObj($obj)
+    public static function getEditUrlForObj($obj)
     {
         // добавляем \ в начале имени класса - мы всегда работаем с классами в глобальном неймспейсе
         $obj_class_name = '\\' . get_class($obj);
-        \Skif\CRUD\Helpers::exceptionIfClassNotImplementsInterface($obj_class_name, 'Skif\Model\InterfaceLoad');
+
+        \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($obj_class_name, 'Skif\Model\InterfaceLoad');
 
         $obj_id = $obj->getId();
 
         return self::getEditUrl($obj_class_name, $obj_id);
     }
 
-    static public function getDeleteUrl($model_class_name, $obj_id)
+    public static function getDeleteUrl($model_class_name, $obj_id)
     {
         return '/crud/delete/' . urlencode($model_class_name) . '/' . $obj_id;
     }
 
-	/**
-	 * генерирует ссылку на удаление объекта
-	 */
-	static public function getDeleteUrlForObj($obj)
-	{
-		// добавляем \ в начале имени класса - мы всегда работаем с классами в глобальном неймспейсе
-		$obj_class_name = '\\' . get_class($obj);
-		\Skif\CRUD\Helpers::exceptionIfClassNotImplementsInterface($obj_class_name, 'Skif\Model\InterfaceLoad');
+    /**
+     * генерирует ссылку на удаление объекта
+     */
+    static public function getDeleteUrlForObj($obj)
+    {
+        // добавляем \ в начале имени класса - мы всегда работаем с классами в глобальном неймспейсе
+        $obj_class_name = '\\' . get_class($obj);
+        \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($obj_class_name, 'Skif\Model\InterfaceLoad');
 
-		$obj_id = $obj->getId();
+        $obj_id = $obj->getId();
 
-		return self::getDeleteUrl($obj_class_name, $obj_id);
-	}
+        return self::getDeleteUrl($obj_class_name, $obj_id);
+    }
 
-	static public function getListUrl($model_class_name)
-	{
-		return '/crud/list/' . urlencode($model_class_name);
-	}
+    static public function getListUrl($model_class_name)
+    {
+        return '/crud/list/' . urlencode($model_class_name);
+    }
 
     static public function getCreateUrl($model_class_name)
     {
@@ -133,15 +133,18 @@ class ControllerCRUD
 
     public function editAction($model_class_name, $obj_id)
     {
-        \Skif\Http::exit403If(!\Skif\CRUD\Helpers::currentUserHasRightsToEditModel($model_class_name));
+        \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
 
         \Skif\Utils::assert($model_class_name);
         \Skif\Utils::assert($obj_id);
-        \Skif\CRUD\Helpers::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceLoad');
+        \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceLoad');
 
-        $edited_obj = \Skif\CRUD\Helpers::createAndLoadObject($model_class_name, $obj_id);
+        $edited_obj = \Skif\CRUD\CRUDUtils::createAndLoadObject($model_class_name, $obj_id);
 
-        $html = \Skif\Render::template2('Skif/CRUD/templates/edit_form.tpl.php', array(
+        $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
+            'CRUD',
+            'edit_form.tpl.php',
+            array(
                 'obj' => $edited_obj
             )
         );
@@ -156,7 +159,7 @@ class ControllerCRUD
 
         if ($show_models_list_link) {
             $crud_model_class_screen_name_for_list = $model_class_name;
-            if (property_exists($model_class_name, 'crud_model_class_screen_name_for_list')){
+            if (property_exists($model_class_name, 'crud_model_class_screen_name_for_list')) {
                 $crud_model_class_screen_name_for_list = $model_class_name::$crud_model_class_screen_name_for_list;
             }
 
@@ -169,16 +172,18 @@ class ControllerCRUD
         }
 
         /*
-        $container_obj = \Skif\CRUD\Helpers::getObjContainerObj($edited_obj);
+        $container_obj = \Skif\CRUD\CRUDUtils::getObjContainerObj($edited_obj);
         if ($container_obj) {
             $container_obj_url = self::getEditUrlForObj($container_obj);
-            $container_obj_full_title = \Skif\CRUD\Helpers::getFullObjectTitle($container_obj);
+            $container_obj_full_title = \Skif\CRUD\CRUDUtils::getFullObjectTitle($container_obj);
             $breadcrumbs_arr[$container_obj_full_title] = $container_obj_url;
         }
-*/
+        */
 
-        echo \Skif\Render::template2('Skif/Admin/templates/layout.tpl.php', array(
-                'title' => \Skif\CRUD\Helpers::getModelTitleForObj($edited_obj),
+        echo \Skif\PhpTemplate::renderTemplate(
+            \Skif\Conf\ConfWrapper::value('layout.admin'),
+            array(
+                'title' => \Skif\CRUD\CRUDUtils::getModelTitleForObj($edited_obj),
                 'content' => $html,
                 'breadcrumbs_arr' => $breadcrumbs_arr
             )
@@ -187,21 +192,14 @@ class ControllerCRUD
 
     public function saveAction($model_class_name, $obj_id)
     {
-        //
-        // проверка
-        //
-
-        \Skif\Http::exit403If(!\Skif\CRUD\Helpers::currentUserHasRightsToEditModel($model_class_name));
+        \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
 
         \Skif\Utils::assert($model_class_name);
         \Skif\Utils::assert($obj_id);
-        \Skif\CRUD\Helpers::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceLoad');
-        \Skif\CRUD\Helpers::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceSave');
+        \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceLoad');
+        \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceSave');
 
-        //
         // чтение данных из формы
-        //
-
         $new_prop_values_arr = array();
         $reflect = new \ReflectionClass($model_class_name);
 
@@ -209,49 +207,39 @@ class ControllerCRUD
             if (!$prop_obj->isStatic()) { // игнорируем статические свойства класса - они относятся не к объекту, а только к классу (http://www.php.net/manual/en/language.oop5.static.php), и в них хранятся настройки ActiveRecord и CRUD
                 $prop_name = $prop_obj->getName();
                 if (array_key_exists($prop_name, $_POST)) {
-                	// Проверка на заполнение обязательных полей
-                	if ( (($_POST[$prop_name] == '') && (\Skif\CRUD\Helpers::isRequiredField($model_class_name, $prop_obj->getName())) ) ) {
-	                	throw new \Exception('поле ' . $prop_obj->getName() . ' обязательно для заполнения');
-                	}
+                    // Проверка на заполнение обязательных полей
+                    if ((($_POST[$prop_name] == '') && (\Skif\CRUD\CRUDUtils::isRequiredField($model_class_name, $prop_obj->getName())))) {
+                        throw new \Exception('поле ' . $prop_obj->getName() . ' обязательно для заполнения');
+                    }
                     $new_prop_values_arr[$prop_name] = $_POST[$prop_name];
                 }
             }
         }
 
-        //
         // сохранение
-        //
+        $obj = \Skif\CRUD\CRUDUtils::createAndLoadObject($model_class_name, $obj_id);
 
-        $obj = \Skif\CRUD\Helpers::createAndLoadObject($model_class_name, $obj_id);
-
-        $obj = \Skif\CRUD\Helpers::setObjectFieldsFromArray($obj, $new_prop_values_arr);
+        $obj = \Skif\CRUD\CRUDUtils::setObjectFieldsFromArray($obj, $new_prop_values_arr);
         $obj->save();
 
-        \Skif\Logger\Logger::logObjectEvent($obj, 'CRUD сохранение');
         $redirect_url = \Skif\CRUD\ControllerCRUD::getEditUrlForObj($obj);
 
-        if (array_key_exists('destination', $_POST)){
+        if (array_key_exists('destination', $_POST)) {
             $redirect_url = $_POST['destination'];
         }
 
-        \Skif\Helpers::redirect($redirect_url);
+        \Skif\Http::redirect($redirect_url);
     }
 
     public function createAction($model_class_name)
     {
-        //
         // проверка
-        //
 
-        \Skif\Http::exit403If(!\Skif\CRUD\Helpers::currentUserHasRightsToEditModel($model_class_name));
+        \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
 
         \Skif\Utils::assert($model_class_name);
-	    \Skif\CRUD\Helpers::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceLoad');
-        \Skif\CRUD\Helpers::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceSave');
-
-        //
-        //
-        //
+        \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceLoad');
+        \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceSave');
 
         $new_prop_values_arr = array();
         $reflect = new \ReflectionClass($model_class_name);
@@ -260,59 +248,49 @@ class ControllerCRUD
             if (!$prop_obj->isStatic()) { // игнорируем статические свойства класса - они относятся не к объекту, а только к классу (http://www.php.net/manual/en/language.oop5.static.php), и в них хранятся настройки ActiveRecord и CRUD
                 $prop_name = $prop_obj->getName();
                 if (array_key_exists($prop_name, $_POST)) {
-                	// Проверка на заполнение обязательных полей
-                	if ( (($_POST[$prop_name] == '') && (\Skif\CRUD\Helpers::isRequiredField($model_class_name, $prop_obj->getName())) ) ) {
-	                	throw new \Exception('поле ' . $prop_obj->getName() . ' обязательно для заполнения');
-                	}
+                    // Проверка на заполнение обязательных полей
+                    if ((($_POST[$prop_name] == '') && (\Skif\CRUD\CRUDUtils::isRequiredField($model_class_name, $prop_obj->getName())))) {
+                        throw new \Exception('поле ' . $prop_obj->getName() . ' обязательно для заполнения');
+                    }
                     $new_prop_values_arr[$prop_name] = $_POST[$prop_name];
                 }
             }
         }
 
         $obj = new $model_class_name;
-        $obj = \Skif\CRUD\Helpers::setObjectFieldsFromArray($obj, $new_prop_values_arr);
+        $obj = \Skif\CRUD\CRUDUtils::setObjectFieldsFromArray($obj, $new_prop_values_arr);
 
         $obj->save();
 
-        \Skif\Logger\Logger::logObjectEvent($obj, 'CRUD создание');
         $redirect_url = \Skif\CRUD\ControllerCRUD::getEditUrl($model_class_name, $obj->getId());
 
-        if (array_key_exists('destination', $_POST)){
+        if (array_key_exists('destination', $_POST)) {
             $redirect_url = $_POST['destination'];
-	        $separator = '?';
-	        if (mb_strpos($redirect_url, '?'))
-	        {
-		        $separator = '&';
-	        }
-	        $redirect_url .= $separator.'crud_obj_model_class='.urlencode($model_class_name).'&crud_obj_id='.$obj->getId();
+            $separator = '?';
+            if (mb_strpos($redirect_url, '?')) {
+                $separator = '&';
+            }
+            $redirect_url .= $separator . 'crud_obj_model_class=' . urlencode($model_class_name) . '&crud_obj_id=' . $obj->getId();
         }
 
-        \Skif\Helpers::redirect($redirect_url);
+        \Skif\Http::redirect($redirect_url);
     }
 
     public function deleteAction($model_class_name, $obj_id)
     {
-        //
-        // проверка
-        //
-
-        \Skif\Http::exit403If(!\Skif\CRUD\Helpers::currentUserHasRightsToEditModel($model_class_name));
+        \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
 
         \Skif\Utils::assert($model_class_name);
         \Skif\Utils::assert($obj_id);
-        \Skif\CRUD\Helpers::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceDelete');
+        \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceDelete');
 
-        //
-        // проверка связанных объектов
-        //
-
-        \Skif\CRUD\Helpers::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceDelete');
+        \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceDelete');
 
         if (property_exists($model_class_name, 'crud_related_models_arr')) {
 
             foreach ($model_class_name::$crud_related_models_arr as $related_model_class_name => $related_model_data) {
                 \Skif\Utils::assert(array_key_exists('link_field', $related_model_data));
-                $related_objs_ids_arr = \Skif\CRUD\Helpers::getObjIdsArrayForModel($related_model_class_name, array($related_model_data['link_field'] => $obj_id));
+                $related_objs_ids_arr = \Skif\CRUD\CRUDUtils::getObjIdsArrayForModel($related_model_class_name, array($related_model_data['link_field'] => $obj_id));
                 if (count($related_objs_ids_arr) > 0) {
                     throw new \Exception('Related model exists, can\'t delete entity. Delete related entities first.');
                 }
@@ -320,17 +298,9 @@ class ControllerCRUD
             }
         }
 
-        //
         // удаление объекта
-        //
-
-        $obj = \Skif\CRUD\Helpers::createAndLoadObject($model_class_name, $obj_id);
+        $obj = \Skif\CRUD\CRUDUtils::createAndLoadObject($model_class_name, $obj_id);
         $obj->delete();
-        \Skif\Logger\Logger::logObjectEvent($obj, 'CRUD удаление');
-
-        //
-        // редирект
-        //
 
         $redirect_url = '';
         if (array_key_exists('destination', $_GET)) {
@@ -338,8 +308,7 @@ class ControllerCRUD
         }
 
         \Skif\Utils::assert($redirect_url);
-        \Skif\Helpers::redirect($redirect_url);
+        \Skif\Http::redirect($redirect_url);
     }
-
 
 }

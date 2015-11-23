@@ -15,7 +15,7 @@ $filter = '';
 if (isset($_GET['filter'])){
     $filter = $_GET['filter'];
 }
-$objs_ids_arr = \Skif\CRUD\Helpers::getObjIdsArrayForModel($model_class_name, $context_arr, $filter);
+$objs_ids_arr = \Skif\CRUD\CRUDUtils::getObjIdsArrayForModel($model_class_name, $context_arr, $filter);
 
 //
 // готовим список полей, которые будем выводить в таблицу
@@ -52,7 +52,7 @@ if (property_exists($model_class_name, 'crud_container_model')) {
 
 echo '<div class="spb_admin_section">';
 echo '<h2 class="pull-left">' . $list_title;
-if (\Skif\CRUD\Helpers::canDisplayCreateButton($model_class_name, $context_arr)) {
+if (\Skif\CRUD\CRUDUtils::canDisplayCreateButton($model_class_name, $context_arr)) {
     echo ' <a style="font-size: 75%;" class="glyphicon glyphicon-plus" href="/crud/add/' . urlencode($model_class_name) . '?' . http_build_query(array('context_arr' => $context_arr)) . '"></a>';
 }
 
@@ -78,7 +78,7 @@ echo '<div class="clearfix"></div>';
 if (property_exists($model_class_name, 'crud_fast_create_field_name')) {
     $fast_create_field_name = $model_class_name::$crud_fast_create_field_name;
 
-    $label_field_name = \Skif\CRUD\Helpers::getTitleForField($model_class_name, $fast_create_field_name);
+    $label_field_name = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $fast_create_field_name);
     $create_url = \Skif\CRUD\ControllerCRUD::getCreateUrl($model_class_name);
 
     echo '<form role="form" method="post" class="form-inline" action="' . $create_url . '">';
@@ -102,14 +102,14 @@ if (count($objs_ids_arr) > 0) {
     echo '<thead><tr>';
 
     foreach ($props_arr as $prop_obj) {
-        $table_title = \Skif\CRUD\Helpers::getTitleForField($model_class_name, $prop_obj->getName());
+        $table_title = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $prop_obj->getName());
         echo '<th>' . $table_title . '</th>';
     }
     echo '<th></th></tr></thead>';
     echo '<tbody>';
 
     foreach ($objs_ids_arr as $obj_id) {
-        $obj_obj = \Skif\CRUD\Helpers::createAndLoadObject($model_class_name, $obj_id);
+        $obj_obj = \Skif\CRUD\CRUDUtils::createAndLoadObject($model_class_name, $obj_id);
 
         $show_edit_button = true;
 
@@ -124,7 +124,7 @@ if (count($objs_ids_arr) > 0) {
                 $container_array_keys = array_keys($container_models_arr);
                 $container_model = $container_array_keys[$link_field_key];
 
-                $container_obj = \Skif\CRUD\Helpers::createAndLoadObject($container_model, $prop_obj->getValue($obj_obj));
+                $container_obj = \Skif\CRUD\CRUDUtils::createAndLoadObject($container_model, $prop_obj->getValue($obj_obj));
 
                 if (method_exists($container_obj, 'getTitle')) {
                     $title .= $container_obj->getTitle() . " ";
@@ -147,7 +147,7 @@ if (count($objs_ids_arr) > 0) {
                  */
                 if (property_exists($model_class_name, 'crud_model_title_field')) {
                     if ($prop_obj->getName() == $model_class_name::$crud_model_title_field){
-                        if (\Skif\CRUD\Helpers::stringCanBeUsedAsLinkText($title)) {
+                        if (\Skif\CRUD\CRUDUtils::stringCanBeUsedAsLinkText($title)) {
                             $edit_url = \Skif\CRUD\ControllerCRUD::getEditUrl($model_class_name, $obj_id);
                             $title = '<a href="' . $edit_url . '">' . $title . '</a>';
                             $show_edit_button = false;

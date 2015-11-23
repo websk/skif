@@ -55,11 +55,11 @@ class ControllerLogger
     static public function lite_object_logAction($obj)
     {
         // Проверка прав доступа
-        \Skif\Helpers::exit404If(!\Skif\User\DrupalUserFactory::currentUserHasRoles(
+        \Skif\CRUDUtils::exit404If(!\Skif\User\DrupalUserFactory::currentUserHasRoles(
             array(\Skif\User\DrupalUser::ROLE_ADMIN)
         ));
 
-        $entity_id = \Skif\Helpers::getFullObjectId($obj);
+        $entity_id = \Skif\CRUDUtils::getFullObjectId($obj);
 
         $logger_objs_arr = \Skif\DB\DBWrapper::readObjects(
             "SELECT id, user_id, action, ts FROM admin_log WHERE entity_id = ? ORDER BY ts DESC",

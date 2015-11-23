@@ -3,21 +3,22 @@
 namespace Skif\CRUD;
 
 
-class Helpers
+class CRUDUtils
 {
     /**
      * Возвращает "полное имя объекта" для вывода в заголовок редактора или крошки.
      * Формат:
      * экранное_имя_класса "имя_объекта_из_поля_с_именем"
      */
-    static public function getFullObjectTitle($container_obj)
+    public static function getFullObjectTitle($container_obj)
     {
-        $container_obj_title = \Skif\CRUD\Helpers::getModelTitleForObj($container_obj);
-        $container_obj_model_screen_name = \Skif\CRUD\Helpers::getModelClassScreenNameForObj($container_obj);
+        $container_obj_title = \Skif\CRUD\CRUDUtils::getModelTitleForObj($container_obj);
+        $container_obj_model_screen_name = \Skif\CRUD\CRUDUtils::getModelClassScreenNameForObj($container_obj);
+
         return $container_obj_model_screen_name . ' "' . $container_obj_title . '"';
     }
 
-    static public function getObjContainerObj($obj)
+    public static function getObjContainerObj($obj)
     {
         \Skif\Utils::assert($obj);
 
@@ -44,7 +45,6 @@ class Helpers
 
     public static function getContainerObjByLinkFieldName($obj, $field_name)
     {
-
         \Skif\Utils::assert($obj);
 
         $obj_class_name = get_class($obj);
@@ -61,7 +61,6 @@ class Helpers
         }
 
         return null;
-
     }
 
     /**
@@ -96,15 +95,8 @@ class Helpers
         return true;
     }
 
-    static public function exceptionIfClassNotImplementsInterface($class_name, $interface_class_name)
+    public static function exceptionIfClassNotImplementsInterface($class_name, $interface_class_name)
     {
-        /*
-        $model_class_interfaces_arr = class_implements($class_name);
-        if (!array_key_exists($interface_class_name, $model_class_interfaces_arr)) {
-            throw new \Exception('model class ' . $class_name . ' does not implement ' . $interface_class_name);
-        }
-        */
-
         \Skif\Model\Helper::exceptionIfClassNotImplementsInterface($class_name, $interface_class_name);
     }
 
@@ -116,9 +108,6 @@ class Helpers
 
         $obj = new $model_class_name;
         $obj->load($obj_id);
-
-        //$title_field = $model_class_name::$crud_model_title_field;
-        //return self::getObjectFieldValue($obj, $title_field);
 
         return self::getModelTitleForObj($obj);
     }
@@ -172,7 +161,7 @@ class Helpers
         return $field_prop_obj->getValue($obj);
     }
 
-    static public function getCrudEditorFieldsArrForClass($model_class_name)
+    public static function getCrudEditorFieldsArrForClass($model_class_name)
     {
         $rc = new \ReflectionClass($model_class_name);
 
@@ -188,12 +177,12 @@ class Helpers
         return null;
     }
 
-    static public function getCrudEditorFieldsArrForObj($obj)
+    public static function getCrudEditorFieldsArrForObj($obj)
     {
         return self::getCrudEditorFieldsArrForClass(get_class($obj));
     }
 
-    static public function isRequiredField($model_class_name, $field_name)
+    public static function isRequiredField($model_class_name, $field_name)
     {
         $required = '';
 
@@ -207,7 +196,7 @@ class Helpers
         return $required;
     }
 
-    static public function getTitleForField($model_class_name, $field_name)
+    public static function getTitleForField($model_class_name, $field_name)
     {
         $title = $field_name;
 
@@ -221,7 +210,7 @@ class Helpers
         return $title;
     }
 
-    static public function getDescriptionForField($model_class_name, $field_name)
+    public static function getDescriptionForField($model_class_name, $field_name)
     {
         $description = '';
 
@@ -237,14 +226,13 @@ class Helpers
 
     /**
      * Возвращает одну страницу списка объектов указанного класса.
-     * Сортировка: TODO.
      * Фильтры: массив $context_arr.
      * Как определяется страница: см. Pager.
-     * @param $model_class_name Имя класса модели
-     * @param $context_arr Массив пар "имя поля" - "значение поля"
-     * @return array Массив идентикаторов объектов.
+     * @param $model_class_name - Имя класса модели
+     * @param $context_arr - Массив пар "имя поля" - "значение поля"
+     * @return array - Массив идентикаторов объектов.
      */
-    static public function getObjIdsArrayForModel($model_class_name, $context_arr, $title_filter = '')
+    public static function getObjIdsArrayForModel($model_class_name, $context_arr, $title_filter = '')
     {
         $page_size = \Skif\Pager::getPageSize();
         $start = \Skif\Pager::getPageOffset();
@@ -258,14 +246,7 @@ class Helpers
 
         $db_id_field_name = self::getIdFieldName($model_class_name);
 
-        // selecting ids by params from context
         $query_param_values_arr = array();
-
-        //
-        // todo
-        // внести в контекст кроме имени поля и значения еще и оператор, чтобы можно было делать поиск лайком через
-        // контекст, а не отдельный параметр
-        //
 
         $where = ' 1 = 1 ';
         foreach ($context_arr as $column_name => $value) {
@@ -276,9 +257,9 @@ class Helpers
             $query_param_values_arr[] = $value;
         }
 
-        if (isset($model_class_name::$crud_model_title_field)){
+        if (isset($model_class_name::$crud_model_title_field)) {
             $title_field_name = $model_class_name::$crud_model_title_field;
-            if ($title_filter != ''){
+            if ($title_filter != '') {
                 $where .= ' and ' . $title_field_name . ' like ?';
                 $query_param_values_arr[] = '%' . $title_filter . '%';
             }
@@ -286,8 +267,11 @@ class Helpers
 
         $order_field_name = $db_id_field_name;
 
-        $objs_ids_arr = \Skif\DB\DBWrapper::readColumn($db_id,
-            "SELECT $db_id_field_name FROM " . $db_table_name . ' where ' . $where . ' order by ' . $order_field_name . ' desc limit ' . intval($page_size) . ' offset ' . intval($start),
+        $objs_ids_arr = \Skif\DB\DBWrapper::readColumn(
+            "SELECT $db_id_field_name FROM " . $db_table_name . "
+                WHERE " . $where . "
+                ORDER BY " . $order_field_name . " DESC
+                LIMIT " . intval($page_size) . " OFFSET " . intval($start),
             $query_param_values_arr);
 
         return $objs_ids_arr;
@@ -296,13 +280,13 @@ class Helpers
 
     public static function currentUserHasRightsToEditModel($model_class_name)
     {
-
-        // новая проверка
-
+        /*
         if (property_exists($model_class_name, 'operator_permissions_arr_required_to_edit')) {
-            if(\Skif\Operator\OperatorHelper::currentOperatorHasAnyOfPermissions($model_class_name::$operator_permissions_arr_required_to_edit)){
-                return true;
-            }
+        }
+        */
+
+        if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
+            return true;
         }
 
         return false;
@@ -335,9 +319,9 @@ class Helpers
     {
         if (defined($model_class_name . '::DB_ID_FIELD_NAME')) {
             return $model_class_name::DB_ID_FIELD_NAME;
-        } else {
-            return 'id';
         }
+
+        return 'id';
     }
 
     public static function stringCanBeUsedAsLinkText($text)

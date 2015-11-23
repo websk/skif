@@ -37,7 +37,7 @@ class Logger
 
 	static public function getUrlForObj($obj) {
 		$obj_class_name = get_class($obj);
-		\Skif\CRUD\Helpers::exceptionIfClassNotImplementsInterface($obj_class_name, 'Skif\Model\InterfaceLoad');
+		\Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($obj_class_name, 'Skif\Model\InterfaceLoad');
 
 		$obj_id = $obj->getId();
 
