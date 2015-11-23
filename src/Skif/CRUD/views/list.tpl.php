@@ -45,163 +45,160 @@ $container_models_arr = array();
 if (property_exists($model_class_name, 'crud_container_model')) {
     $container_models_arr = $model_class_name::$crud_container_model;
 }
+?>
 
-//
-// вывод таблицы
-//
+<div>
+    <h2 class="pull-left"><?php echo $list_title; ?></h2>
+    <?php
+    if (\Skif\CRUD\CRUDUtils::canDisplayCreateButton($model_class_name, $context_arr)) {
+        ?>
+        <p class="padding_top_10 padding_bottom_10">
+            <a href="<?php echo '/crud/add/' . urlencode($model_class_name) . '?' . http_build_query(array('context_arr' => $context_arr)); ?>"
+               class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить</a>
+        </p>
+        <?php
+    }
 
-echo '<div class="spb_admin_section">';
-echo '<h2 class="pull-left">' . $list_title;
-if (\Skif\CRUD\CRUDUtils::canDisplayCreateButton($model_class_name, $context_arr)) {
-    echo ' <a style="font-size: 75%;" class="glyphicon glyphicon-plus" href="/crud/add/' . urlencode($model_class_name) . '?' . http_build_query(array('context_arr' => $context_arr)) . '"></a>';
-}
 
-echo '</h2>';
-
-
-if (isset($model_class_name::$crud_model_title_field)) {
-    if (isset($model_class_name::$crud_allow_search)) {
-        if ($model_class_name::$crud_allow_search == true) {
-            echo '<div class="pull-right" style="margin-top: 25px;"><form action="' . \Skif\Helpers::uri_no_getform() . '"><input name="filter" value="' . $filter . '"><input type="submit" value="искать"></form></div>';
+    if (isset($model_class_name::$crud_model_title_field)) {
+        if (isset($model_class_name::$crud_allow_search)) {
+            if ($model_class_name::$crud_allow_search == true) {
+                echo '<div class="pull-right" style="margin-top: 25px;"><form action="' . \Skif\Helpers::uri_no_getform() . '"><input name="filter" value="' . $filter . '"><input type="submit" value="искать"></form></div>';
+            }
         }
     }
-}
 
 
-echo '<div class="clearfix"></div>';
+    echo '<div class="clearfix"></div>';
 
 
-// create fast add block
+    // create fast add block
 
-// чтобы создать форму быстрого добавления в классе должны быть следующие поля:
-// public static $crud_fast_create_field_name = 'answer_text', где answer_text - имя выводимого поля
-if (property_exists($model_class_name, 'crud_fast_create_field_name')) {
-    $fast_create_field_name = $model_class_name::$crud_fast_create_field_name;
+    // чтобы создать форму быстрого добавления в классе должны быть следующие поля:
+    // public static $crud_fast_create_field_name = 'answer_text', где answer_text - имя выводимого поля
+    if (property_exists($model_class_name, 'crud_fast_create_field_name')) {
+        $fast_create_field_name = $model_class_name::$crud_fast_create_field_name;
 
-    $label_field_name = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $fast_create_field_name);
-    $create_url = \Skif\CRUD\ControllerCRUD::getCreateUrl($model_class_name);
+        $label_field_name = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $fast_create_field_name);
+        $create_url = \Skif\CRUD\ControllerCRUD::getCreateUrl($model_class_name);
 
-    echo '<form role="form" method="post" class="form-inline" action="' . $create_url . '">';
-    echo '<div class="form-group">';
-    echo '<input placeholder="' . $label_field_name . '" name="' . $fast_create_field_name . '" class="form-control"/>';
-    echo '<button type="submit" class="btn btn-default">Добавить</button>';
+        echo '<form role="form" method="post" class="form-inline" action="' . $create_url . '">';
+        echo '<div class="form-group">';
+        echo '<input placeholder="' . $label_field_name . '" name="' . $fast_create_field_name . '" class="form-control"/>';
+        echo '<button type="submit" class="btn btn-default">Добавить</button>';
 
-    foreach ($context_arr as $context_arr_key => $context_arr_value) {
-        echo '<input type="hidden" name="' . $context_arr_key . '" value="' . $context_arr_value . '">';
+        foreach ($context_arr as $context_arr_key => $context_arr_value) {
+            echo '<input type="hidden" name="' . $context_arr_key . '" value="' . $context_arr_value . '">';
+        }
+
+        echo '<input type="hidden" name="destination" value="' . \Skif\Helpers::uri_no_getform() . '">';
+        echo '</div>';
+        echo '</form>';
+
     }
 
-    echo '<input type="hidden" name="destination" value="' . \Skif\Helpers::uri_no_getform() . '">';
-    echo '</div>';
-    echo '</form>';
-
-}
-
-if (count($objs_ids_arr) > 0) {
-?>
-<div>
-    <table class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <?php
-
-            foreach ($props_arr as $prop_obj) {
-                $table_title = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $prop_obj->getName());
-                echo '<th>' . $table_title . '</th>';
-            }
-            ?>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php
-        foreach ($objs_ids_arr as $obj_id) {
-            $obj_obj = \Skif\CRUD\CRUDUtils::createAndLoadObject($model_class_name, $obj_id);
-
-            $show_edit_button = true;
-            ?>
+    if (count($objs_ids_arr) > 0) {
+    ?>
+    <div>
+        <table class="table table-striped table-hover">
+            <thead>
             <tr>
                 <?php
+
                 foreach ($props_arr as $prop_obj) {
-                    $link_field_key = array_search($prop_obj->getName(), array_values($container_models_arr));
-                    $roles = \Skif\CRUD\Widgets::getFieldWidgetName($prop_obj->getName(), $obj_obj);
+                    $table_title = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $prop_obj->getName());
+                    echo '<th>' . $table_title . '</th>';
+                }
+                ?>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach ($objs_ids_arr as $obj_id) {
+                $obj_obj = \Skif\CRUD\CRUDUtils::createAndLoadObject($model_class_name, $obj_id);
+                ?>
+                <tr>
+                    <?php
+                    foreach ($props_arr as $prop_obj) {
+                        $link_field_key = array_search($prop_obj->getName(), array_values($container_models_arr));
+                        $roles = \Skif\CRUD\Widgets::getFieldWidgetName($prop_obj->getName(), $obj_obj);
 
-                    $title = "";
+                        $title = '';
 
-                    if ($link_field_key !== false) {
-                        $container_array_keys = array_keys($container_models_arr);
-                        $container_model = $container_array_keys[$link_field_key];
+                        if ($link_field_key !== false) {
+                            $container_array_keys = array_keys($container_models_arr);
+                            $container_model = $container_array_keys[$link_field_key];
 
-                        $container_obj = \Skif\CRUD\CRUDUtils::createAndLoadObject($container_model, $prop_obj->getValue($obj_obj));
+                            $container_obj = \Skif\CRUD\CRUDUtils::createAndLoadObject($container_model, $prop_obj->getValue($obj_obj));
 
-                        if (method_exists($container_obj, 'getTitle')) {
-                            $title .= $container_obj->getTitle() . " ";
-                        }
+                            if (method_exists($container_obj, 'getTitle')) {
+                                $title .= $container_obj->getTitle() . ' ';
+                            }
 
-                        $title .= "(" . $container_obj->getId() . ")";
-                    } else if ($roles == "options") {
-                        $role = \Skif\CRUD\Widgets::getFieldWidgetOptionsArr($prop_obj->getName(), $obj_obj);
-                        if (array_key_exists($prop_obj->getValue($obj_obj), $role)) {
-                            $title = $role[$prop_obj->getValue($obj_obj)];
-                        }
-                    } else {
-                        $title = \Skif\CRUD\Widgets::renderListFieldWithWidget($prop_obj->getName(), $obj_obj);
+                            $title .= '(' . $container_obj->getId() . ')';
+                        } else if ($roles == 'options') {
+                            $role = \Skif\CRUD\Widgets::getFieldWidgetOptionsArr($prop_obj->getName(), $obj_obj);
+                            if (array_key_exists($prop_obj->getValue($obj_obj), $role)) {
+                                $title = $role[$prop_obj->getValue($obj_obj)];
+                            }
+                        } else {
+                            $title = \Skif\CRUD\Widgets::renderListFieldWithWidget($prop_obj->getName(), $obj_obj);
 
-                        /*
-                         * если это поле с названием модели - делаем его значение ссылкой на редактирование
-                         * если же значение не содержит видимымх символов - выводим кнопку редактирования (чтобы не остаться без ссылки)
-                         */
-                        if (property_exists($model_class_name, 'crud_model_title_field')) {
-                            if ($prop_obj->getName() == $model_class_name::$crud_model_title_field) {
-                                if (\Skif\CRUD\CRUDUtils::stringCanBeUsedAsLinkText($title)) {
-                                    $edit_url = \Skif\CRUD\ControllerCRUD::getEditUrl($model_class_name, $obj_id);
-                                    $title = '<a href="' . $edit_url . '">' . $title . '</a>';
+                            /*
+                             * если это поле с названием модели - делаем его значение ссылкой на редактирование
+                             * если же значение не содержит видимымх символов - выводим кнопку редактирования (чтобы не остаться без ссылки)
+                             */
+                            if (property_exists($model_class_name, 'crud_model_title_field')) {
+                                if ($prop_obj->getName() == $model_class_name::$crud_model_title_field) {
+                                    if (\Skif\CRUD\CRUDUtils::stringCanBeUsedAsLinkText($title)) {
+                                        $edit_url = \Skif\CRUD\ControllerCRUD::getEditUrl($model_class_name, $obj_id);
+                                        $title = '<a href="' . $edit_url . '">' . $title . '</a>';
+                                    }
                                 }
                             }
+
                         }
 
+                        echo '<td>' . $title . '</td>';
                     }
 
-                    echo '<td>' . $title . '</td>';
-                }
-
-                $edit_url = \Skif\CRUD\ControllerCRUD::getEditUrl($model_class_name, $obj_id);
-                $delete_url = \Skif\CRUD\ControllerCRUD::getDeleteUrl($model_class_name, $obj_id);
-                ?>
-                <td align="right">
-                    <a href="<?php echo $edit_url; ?>"
-                       title="Редактировать" class="btn btn-outline btn-default btn-sm">
-                        <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
-                    </a>
-                    <?php
-
-                    $delete_disabled = false;
-                    $model_class_interfaces_arr = class_implements($model_class_name);
-                    if (!array_key_exists('Skif\Model\InterfaceDelete', $model_class_interfaces_arr)) {
-                        $delete_disabled = true;
-                    }
-
-                    if (!$delete_disabled) {
-                        ?>
-                        <a href="<?php echo $delete_url . '?destination=' . urlencode($_SERVER['REQUEST_URI']); ?>"
-                           onClick="return confirm('Вы уверены, что хотите удалить?')" title="Удалить"
-                           class="btn btn-outline btn-default btn-sm">
-                            <span class="fa fa-trash-o fa-lg text-danger fa-fw"></span>
+                    $edit_url = \Skif\CRUD\ControllerCRUD::getEditUrl($model_class_name, $obj_id);
+                    $delete_url = \Skif\CRUD\ControllerCRUD::getDeleteUrl($model_class_name, $obj_id);
+                    ?>
+                    <td align="right">
+                        <a href="<?php echo $edit_url; ?>"
+                           title="Редактировать" class="btn btn-outline btn-default btn-sm">
+                            <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
                         </a>
                         <?php
-                    }
-                    ?>
-                </td>
-            </tr>
-            <?php
+
+                        $delete_disabled = false;
+                        $model_class_interfaces_arr = class_implements($model_class_name);
+                        if (!array_key_exists('Skif\Model\InterfaceDelete', $model_class_interfaces_arr)) {
+                            $delete_disabled = true;
+                        }
+
+                        if (!$delete_disabled) {
+                            ?>
+                            <a href="<?php echo $delete_url . '?destination=' . urlencode($_SERVER['REQUEST_URI']); ?>"
+                               onClick="return confirm('Вы уверены, что хотите удалить?')" title="Удалить"
+                               class="btn btn-outline btn-default btn-sm">
+                                <span class="fa fa-trash-o fa-lg text-danger fa-fw"></span>
+                            </a>
+                            <?php
+                        }
+                        ?>
+                    </td>
+                </tr>
+                <?php
+            }
+            ?>
+            </tbody>
+        </table>
+        <?php
+        echo \Skif\Pager::renderPager(count($objs_ids_arr));
         }
         ?>
-        </tbody>
-    </table>
-    <?php
-    echo \Skif\Pager::renderPager(count($objs_ids_arr));
-    ?>
-    <?php
-    }
-    ?>
-</div>
+    </div>
 
