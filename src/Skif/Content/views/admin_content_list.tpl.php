@@ -65,6 +65,7 @@ if ($requested_rubric_id) {
             <col class="col-md-6 col-sm-6 col-xs-6">
             <col class="col-md-3 col-sm-5 col-xs-5">
         </colgroup>
+        <tbody>
 <?php
 foreach ($contents_ids_arr as $content_id) {
     $content_obj = \Skif\Content\Content::factory($content_id);
@@ -100,6 +101,7 @@ foreach ($contents_ids_arr as $content_id) {
     <?php
 }
 ?>
+        </tbody>
     </table>
 </div>
 <?php

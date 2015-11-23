@@ -98,8 +98,12 @@ if (property_exists($model_class_name, 'crud_fast_create_field_name')) {
 
 if (count($objs_ids_arr) > 0) {
 
-    echo '<table class="table table-hover">';
-    echo '<thead><tr>';
+    ?>
+    <div>
+    <table class="table table-striped table-hover">
+    <thead>
+<tr>
+    <?php
 
     foreach ($props_arr as $prop_obj) {
         $table_title = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $prop_obj->getName());
@@ -181,9 +185,10 @@ if (count($objs_ids_arr) > 0) {
         echo '</td>';
         echo '</tr>';
     }
-
-    echo '</tbody></table>';
-
+    ?>
+        </tbody>
+    </table>
+    <?php
     echo \Skif\Pager::renderPager(count($objs_ids_arr));
     ?>
 <?php
