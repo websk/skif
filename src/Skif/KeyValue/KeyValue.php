@@ -42,6 +42,12 @@ class KeyValue
         "value" => 'Значение',
     );
 
+    public static $crud_editor_fields_arr = array(
+        "name" => array(),
+        "description" => array(),
+        "value" => array(),
+    );
+
     public function getEditorTabsArr()
     {
         $tabs_obj_arr = array();
