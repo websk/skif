@@ -33,6 +33,9 @@ class KeyValue
     protected $description;
     protected $value;
 
+    public static $crud_model_class_screen_name = 'Переменная';
+    public static $crud_model_title_field = 'name';
+
     public static $crud_field_titles_arr = array(
         "name" => 'Название',
         "description" => 'Описание',
