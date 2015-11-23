@@ -30,8 +30,14 @@ class KeyValue
 
     protected $id;
     protected $name;
-    protected $value;
     protected $description;
+    protected $value;
+
+    public static $crud_field_titles_arr = array(
+        "name" => 'Название',
+        "description" => 'Описание',
+        "value" => 'Значение',
+    );
 
     /**
      * @return mixed
