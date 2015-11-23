@@ -109,9 +109,12 @@ if (count($objs_ids_arr) > 0) {
         $table_title = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $prop_obj->getName());
         echo '<th>' . $table_title . '</th>';
     }
-    echo '<th></th></tr></thead>';
-    echo '<tbody>';
-
+    ?>
+    <th></th>
+</tr>
+    </thead>
+    <tbody>
+<?php
     foreach ($objs_ids_arr as $obj_id) {
         $obj_obj = \Skif\CRUD\CRUDUtils::createAndLoadObject($model_class_name, $obj_id);
 
@@ -166,24 +169,35 @@ if (count($objs_ids_arr) > 0) {
 
         $edit_url = \Skif\CRUD\ControllerCRUD::getEditUrl($model_class_name, $obj_id);
         $delete_url = \Skif\CRUD\ControllerCRUD::getDeleteUrl($model_class_name, $obj_id);
-        echo '<td style="text-align: right;">';
+        ?>
+        <td align="right">
+            <?php
+            if ($show_edit_button) {
+                ?>
+                <a href="<?php echo $edit_url; ?>"
+                   title="Редактировать" class="btn btn-outline btn-default btn-sm">
+                    <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
+                </a>
+                <?php
+            }
 
-        if ($show_edit_button){
-            echo '<a class="glyphicon glyphicon-edit" href="' . $edit_url . '"></a> ';
-        }
+            $delete_disabled = false;
+            $model_class_interfaces_arr = class_implements($model_class_name);
+            if (!array_key_exists('Skif\Model\InterfaceDelete', $model_class_interfaces_arr)) {
+                $delete_disabled = true;
+            }
 
-        $delete_disabled = false;
-        $model_class_interfaces_arr = class_implements($model_class_name);
-        if (!array_key_exists('Skif\Model\InterfaceDelete', $model_class_interfaces_arr)) {
-            $delete_disabled = true;
-        }
-
-        if (!$delete_disabled) {
-            echo '<a class="glyphicon glyphicon-remove" href="' . $delete_url . '?destination=' . urlencode($_SERVER['REQUEST_URI']) . '" onclick="return window.confirm(\'Уверены?\')"></a>';
-        }
-
-        echo '</td>';
-        echo '</tr>';
+            if (!$delete_disabled) {
+                ?>
+                <a href="<?php echo $delete_url . '?destination=' . urlencode($_SERVER['REQUEST_URI']); ?>" onClick="return confirm('Вы уверены, что хотите удалить?')" title="Удалить" class="btn btn-outline btn-default btn-sm">
+                    <span class="fa fa-trash-o fa-lg text-danger fa-fw"></span>
+                </a>
+            <?php
+            }
+            ?>
+        </td>
+</tr>
+        <?php
     }
     ?>
         </tbody>
@@ -193,6 +207,6 @@ if (count($objs_ids_arr) > 0) {
     ?>
 <?php
 }
-
-echo '</div>';
+?>
+</div>
 
