@@ -97,7 +97,6 @@ if (property_exists($model_class_name, 'crud_fast_create_field_name')) {
 }
 
 if (count($objs_ids_arr) > 0) {
-
     ?>
     <div>
     <table class="table table-striped table-hover">
@@ -157,7 +156,6 @@ if (count($objs_ids_arr) > 0) {
                         if (\Skif\CRUD\CRUDUtils::stringCanBeUsedAsLinkText($title)) {
                             $edit_url = \Skif\CRUD\ControllerCRUD::getEditUrl($model_class_name, $obj_id);
                             $title = '<a href="' . $edit_url . '">' . $title . '</a>';
-                            $show_edit_button = false;
                         }
                     }
                 }
@@ -171,15 +169,11 @@ if (count($objs_ids_arr) > 0) {
         $delete_url = \Skif\CRUD\ControllerCRUD::getDeleteUrl($model_class_name, $obj_id);
         ?>
         <td align="right">
+            <a href="<?php echo $edit_url; ?>"
+               title="Редактировать" class="btn btn-outline btn-default btn-sm">
+                <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
+            </a>
             <?php
-            if ($show_edit_button) {
-                ?>
-                <a href="<?php echo $edit_url; ?>"
-                   title="Редактировать" class="btn btn-outline btn-default btn-sm">
-                    <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
-                </a>
-                <?php
-            }
 
             $delete_disabled = false;
             $model_class_interfaces_arr = class_implements($model_class_name);
