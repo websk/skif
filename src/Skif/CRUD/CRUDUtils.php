@@ -239,11 +239,6 @@ class CRUDUtils
 
         $db_table_name = $model_class_name::DB_TABLE_NAME;
 
-        $db_id = \Skif\Constants::DB_NAME_NEWS;
-        if ($model_class_name::DB_ID) {
-            $db_id = $model_class_name::DB_ID;
-        }
-
         $db_id_field_name = self::getIdFieldName($model_class_name);
 
         $query_param_values_arr = array();
