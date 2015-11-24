@@ -31,7 +31,7 @@ if (property_exists($model_class_name, 'crud_fields_list_arr') && (count($model_
     $crud_fields_list_arr = $model_class_name::$crud_fields_list_arr;
 
     foreach ($props_arr as $delta => $property_obj) {
-        if (!in_array($property_obj->getName(), $crud_fields_list_arr)) {
+        if (!array_key_exists($property_obj->getName(), $crud_fields_list_arr)) {
             unset($props_arr[$delta]);
         }
     }
