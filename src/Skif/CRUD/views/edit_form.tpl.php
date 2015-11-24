@@ -56,12 +56,8 @@ if (property_exists($model_class_name, 'crud_extra_tabs') && count($model_class_
 
 if ($obj instanceof \Skif\Model\InterfaceSave) {
     ?>
-
-    <div class="spb_admin_section">
-
-        <form id="form" style="background-color: #eee; padding: 10px; border-radius: 2px;" class="form-horizontal" role="form"
-              method="post"
-              action="/crud/save/<?php echo urlencode($model_class_name) ?>/<?php echo $obj->getId(); ?>">
+    <div>
+        <form id="form" role="form" method="post" action="/crud/save/<?php echo urlencode($model_class_name) ?>/<?php echo $obj->getId(); ?>" class="form-horizontal">
             <?php
             foreach ($props_arr as $prop_obj) {
                 $editor_title = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $prop_obj->getName());
@@ -70,9 +66,9 @@ if ($obj instanceof \Skif\Model\InterfaceSave) {
                 ?>
                 <div class="form-group <?=( ($required) ? 'required' : '' )?>">
                     <label for="<?php echo $prop_obj->getName() ?>"
-                           class="col-sm-4 text-right control-label"><?= $editor_title ?></label>
+                           class="col-md-4 text-right control-label"><?= $editor_title ?></label>
 
-                    <div class="col-sm-8">
+                    <div class="col-md-8">
                         <?php
                         echo \Skif\CRUD\Widgets::renderFieldWithWidget($prop_obj->getName(), $obj);
 
@@ -92,8 +88,8 @@ if ($obj instanceof \Skif\Model\InterfaceSave) {
             }
             ?>
             <div class="row">
-                <div class="col-sm-8 col-sm-offset-4">
-                    <button style="width: 100%" type="submit" class="btn btn-primary">Сохранить</button>
+                <div class="col-md-8 col-md-offset-4">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
             </div>
         </form>
