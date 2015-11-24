@@ -35,6 +35,8 @@ class KeyValue
 
 
     public static $crud_create_button_required_fields_arr = array();
+    public static $crud_create_button_title = 'Добавить переменную';
+
     public static $crud_model_class_screen_name = 'Переменная';
     public static $crud_model_title_field = 'name';
 
