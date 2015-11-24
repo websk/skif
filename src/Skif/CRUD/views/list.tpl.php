@@ -2,7 +2,6 @@
 /**
  * @var $model_class_name
  * @var $context_arr array
- * @var $list_title string
  */
 
 \Skif\Utils::assert($model_class_name);
@@ -44,14 +43,6 @@ if (property_exists($model_class_name, 'crud_container_model')) {
 ?>
 
 <div>
-    <?php
-    if ($list_title) {
-        ?>
-        <h2 class="pull-left"><?php echo $list_title; ?></h2>
-    <?php
-    }
-    ?>
-
     <?php
     if (isset($model_class_name::$crud_model_title_field)) {
         if (isset($model_class_name::$crud_allow_search)) {

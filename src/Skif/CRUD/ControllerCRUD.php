@@ -28,7 +28,6 @@ class ControllerCRUD
             array(
                 'model_class_name' => $model_class_name,
                 'context_arr' => $context_arr,
-                'list_title' => ''
             )
         );
 

@@ -44,6 +44,8 @@ class KeyValue
         'value' => 'Значение',
     );
 
+    public static $crud_model_class_screen_name_for_list = 'Переменные';
+
     public static $crud_fields_list_arr = array(
         'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
         'name' => array('col_class' => 'col-md-4 col-sm-6 col-xs-6'),
