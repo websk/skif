@@ -18,7 +18,7 @@ $objs_ids_arr = \Skif\CRUD\CRUDUtils::getObjIdsArrayForModel($model_class_name, 
 $reflect = new \ReflectionClass($model_class_name);
 $props_arr = array();
 
-$crud_table_fields_arr = array();
+$crud_fields_list_arr = array();
 
 foreach ($reflect->getProperties() as $prop_obj) {
     if (!$prop_obj->isStatic()) { // игнорируем статические свойства класса - они относятся не к объекту, а только к классу (http://www.php.net/manual/en/language.oop5.static.php), и в них хранятся настройки ActiveRecord и CRUD
@@ -27,9 +27,11 @@ foreach ($reflect->getProperties() as $prop_obj) {
     }
 }
 
-if (property_exists($model_class_name, 'crud_table_fields_arr') && (count($model_class_name::$crud_table_fields_arr) > 0)) {
+if (property_exists($model_class_name, 'crud_fields_list_arr') && (count($model_class_name::$crud_fields_list_arr) > 0)) {
+    $crud_fields_list_arr = $model_class_name::$crud_fields_list_arr;
+
     foreach ($props_arr as $delta => $property_obj) {
-        if (!in_array($property_obj->getName(), $model_class_name::$crud_table_fields_arr)) {
+        if (!in_array($property_obj->getName(), $crud_fields_list_arr)) {
             unset($props_arr[$delta]);
         }
     }
@@ -104,10 +106,24 @@ if (property_exists($model_class_name, 'crud_container_model')) {
     ?>
     <div>
         <table class="table table-striped table-hover">
+            <?php
+            if ($crud_fields_list_arr) {
+                ?>
+                <colgroup>
+            <?php
+                foreach ($crud_fields_list_arr as $field_arr) {
+                    ?>
+                    <col class="<?php echo $field_arr['class']; ?>">
+                    <?php
+                }
+                ?>
+                </colgroup>
+            <?php
+            }
+            ?>
             <thead>
             <tr>
                 <?php
-
                 foreach ($props_arr as $prop_obj) {
                     $table_title = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $prop_obj->getName());
                     echo '<th>' . $table_title . '</th>';

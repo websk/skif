@@ -33,19 +33,28 @@ class KeyValue
     protected $description;
     protected $value;
 
+
+    public static $crud_create_button_required_fields_arr = array();
     public static $crud_model_class_screen_name = 'Переменная';
     public static $crud_model_title_field = 'name';
 
     public static $crud_field_titles_arr = array(
-        "name" => 'Название',
-        "description" => 'Описание',
-        "value" => 'Значение',
+        'name' => 'Название',
+        'description' => 'Описание',
+        'value' => 'Значение',
+    );
+
+    public static $crud_fields_list_arr = array(
+        'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
+        'name' => array('col_class' => 'col-md-4 col-sm-6 col-xs-6'),
+        'description' => array('col_class' => 'col-md-4 hidden-sm hidden-xs'),
+        '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
     );
 
     public static $crud_editor_fields_arr = array(
-        "name" => array(),
-        "description" => array(),
-        "value" => array(),
+        'name' => array(),
+        'description' => array(),
+        'value' => array(),
     );
 
     public function getEditorTabsArr()
@@ -55,6 +64,7 @@ class KeyValue
 
         return $tabs_obj_arr;
     }
+
 
     /**
      * @return mixed
