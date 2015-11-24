@@ -113,7 +113,7 @@ if (property_exists($model_class_name, 'crud_container_model')) {
             <?php
                 foreach ($crud_fields_list_arr as $field_arr) {
                     ?>
-                    <col class="<?php echo $field_arr['col_class']; ?>">
+                    <col<?php echo (array_key_exists('col_class', $field_arr) ? ' class="' . $field_arr['col_class'] . '""' : ''); ?>>
                     <?php
                 }
                 ?>
@@ -179,7 +179,17 @@ if (property_exists($model_class_name, 'crud_container_model')) {
 
                         }
 
-                        echo '<td>' . $title . '</td>';
+                        $td_class = '';
+                        if (array_key_exists($prop_obj->getName(), $crud_fields_list_arr)) {
+                            $list_field_arr = $crud_fields_list_arr[$prop_obj->getName()];
+
+                            if (array_key_exists('td_class', $list_field_arr)) {
+                                $td_class = $list_field_arr['td_class'];
+                            }
+                        }
+                        ?>
+                        <td<?php echo ($td_class ? ' class="' . $td_class . '"' : ''); ?>><?php echo $title; ?></td>
+                    <?php
                     }
 
                     $edit_url = \Skif\CRUD\ControllerCRUD::getEditUrl($model_class_name, $obj_id);
