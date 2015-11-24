@@ -22,11 +22,11 @@ class Widgets
         }
 
         switch ($widget_name) {
-            case 'get_node_id_by_url':
+            case 'get_content_id_by_url':
                 $o = self::widgetGetNodeIdByUrl($field_name, $field_value);
                 break;
-            case 'select_game':
-                $o = self::widgetSelectGameDatepicker($field_name, $field_value);
+            case 'textarea':
+                $o = self::widgetTextArea($field_name, $field_value);
                 break;
             case 'checkbox':
                 $o = self::widgetCheckbox($field_name, $field_value);
