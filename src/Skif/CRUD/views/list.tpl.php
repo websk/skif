@@ -71,10 +71,15 @@ if (property_exists($model_class_name, 'crud_container_model')) {
 
     <?php
     if (\Skif\CRUD\CRUDUtils::canDisplayCreateButton($model_class_name, $context_arr)) {
+        $button_title= 'Добавить';
+        if (isset($model_class_name::$crud_create_button_title)) {
+            $button_title= $model_class_name::$crud_create_button_title;
+        }
+
         ?>
         <p class="padding_top_10 padding_bottom_10">
             <a href="<?php echo '/crud/add/' . urlencode($model_class_name) . '?' . http_build_query(array('context_arr' => $context_arr)); ?>"
-               class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить</a>
+               class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> <?php echo $button_title; ?></a>
         </p>
         <?php
     }
