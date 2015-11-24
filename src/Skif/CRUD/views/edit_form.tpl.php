@@ -92,8 +92,8 @@ if ($obj instanceof \Skif\Model\InterfaceSave) {
             }
             ?>
             <div class="row">
-                <div class="col-md-8 col-md-offset-4">
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                <div class="col-md-10 col-md-offset-2">
+                    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
                 </div>
             </div>
         </form>
