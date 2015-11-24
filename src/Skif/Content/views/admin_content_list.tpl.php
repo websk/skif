@@ -61,8 +61,8 @@ if ($requested_rubric_id) {
     <table class="table table-striped table-hover">
         <colgroup>
             <col class="col-md-1 col-sm-1 col-xs-1">
-            <col class="col-md-2 hidden-sm hidden-xs">
             <col class="col-md-6 col-sm-6 col-xs-6">
+            <col class="col-md-2 hidden-sm hidden-xs">
             <col class="col-md-3 col-sm-5 col-xs-5">
         </colgroup>
         <tbody>
@@ -72,7 +72,6 @@ foreach ($contents_ids_arr as $content_id) {
     ?>
     <tr>
         <td><?php echo $content_obj->getId(); ?></td>
-        <td class="hidden-xs hidden-sm text-muted"><?php echo $content_obj->getCreatedAt(); ?></td>
         <td>
             <a href="/admin/content/<?php echo $content_type; ?>/edit/<?php echo $content_id; ?>"><?php echo $content_obj->getTitle(); ?></a>
             <?php
@@ -86,6 +85,7 @@ foreach ($contents_ids_arr as $content_id) {
             }
             ?>
         </td>
+        <td class="hidden-xs hidden-sm text-muted"><?php echo $content_obj->getCreatedAt(); ?></td>
         <td align="right">
             <a href="/admin/content/<?php echo $content_type; ?>/edit/<?php echo $content_id; ?>" title="Редактировать" class="btn btn-outline btn-default btn-sm">
                 <span class="fa fa-edit fa-lg text-warning fa-fw"></span>

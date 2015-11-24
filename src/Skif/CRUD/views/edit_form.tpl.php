@@ -26,9 +26,6 @@ if ($crud_editor_fields_arr) {
     }
 }
 
-//
-// форма редактирования объекта
-//
 echo \Skif\EditorTabs\Render::renderForObj($obj);
 
 /*
@@ -57,34 +54,41 @@ if (property_exists($model_class_name, 'crud_extra_tabs') && count($model_class_
 if ($obj instanceof \Skif\Model\InterfaceSave) {
     ?>
     <div>
-        <form id="form" role="form" method="post" action="/crud/save/<?php echo urlencode($model_class_name) ?>/<?php echo $obj->getId(); ?>" class="form-horizontal">
+        <form id="form" role="form" method="post"
+              action="/crud/save/<?php echo urlencode($model_class_name) ?>/<?php echo $obj->getId(); ?>"
+              class="form-horizontal">
             <?php
             foreach ($props_arr as $prop_obj) {
                 $editor_title = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $prop_obj->getName());
                 $editor_description = \Skif\CRUD\CRUDUtils::getDescriptionForField($model_class_name, $prop_obj->getName());
                 $required = \Skif\CRUD\CRUDUtils::isRequiredField($model_class_name, $prop_obj->getName());
                 ?>
-                <div class="form-group <?=( ($required) ? 'required' : '' )?>">
+                <div class="form-group <?= (($required) ? 'required' : '') ?>">
                     <label for="<?php echo $prop_obj->getName() ?>"
-                           class="col-md-4 text-right control-label"><?= $editor_title ?></label>
+                           class="col-md-2 control-label"><?= $editor_title ?></label>
 
-                    <div class="col-md-8">
+                    <div class="col-md-10">
                         <?php
                         echo \Skif\CRUD\Widgets::renderFieldWithWidget($prop_obj->getName(), $obj);
 
                         if ($editor_description) {
                             ?>
                             <span class="help-block">
-                            <?= $editor_description ?>
+                            <?php echo $editor_description; ?>
                         </span>
-                        <?php } ?>
+                        <?php
+                        }
+                        ?>
                     </div>
                 </div>
 
-            <?php } ?>
+            <?php
+            }
+            ?>
+
             <?php
             if (array_key_exists("destination_url", $_REQUEST)) {
-	            echo '<input type="hidden" name="destination" value="' . $_REQUEST["destination_url"] . '">';
+                echo '<input type="hidden" name="destination" value="' . $_REQUEST["destination_url"] . '">';
             }
             ?>
             <div class="row">
@@ -93,28 +97,26 @@ if ($obj instanceof \Skif\Model\InterfaceSave) {
                 </div>
             </div>
         </form>
-<script>
-$('#form').on('submit', function(e) {
-	$(this).find('.required').removeClass('has-error').each(function() {
-		if ($(this).find('input, textarea, select').val() === '') {
-			$(this).addClass('has-error');
-		}
-	});
-	
-	if ($(this).find('.required').is('.has-error')) {
-		alert('Заполните обязательные поля!');
-		e.preventDefault();
-	}
-});
-</script>
-    </div>
 
-<?php
+        <script>
+            $('#form').on('submit', function (e) {
+                $(this).find('.required').removeClass('has-error').each(function () {
+                    if ($(this).find('input, textarea, select').val() === '') {
+                        $(this).addClass('has-error');
+                    }
+                });
+
+                if ($(this).find('.required').is('.has-error')) {
+                    alert('Заполните обязательные поля!');
+                    e.preventDefault();
+                }
+            });
+        </script>
+    </div>
+    <?php
 }
 
-//
 // вывод приязанных объектов
-//
 
 if (property_exists($model_class_name, 'crud_related_models_arr')) {
     foreach ($model_class_name::$crud_related_models_arr as $related_model_class_name => $related_model_data) {
@@ -130,10 +132,14 @@ if (property_exists($model_class_name, 'crud_related_models_arr')) {
             }
         }
 
-        echo \Skif\Render::template2('Skif/CRUD/templates/list.tpl.php', array(
-            'model_class_name' => $related_model_class_name,
-            'context_arr' => array($relation_field_name => $obj->getId()),
-            'list_title' => $list_title
-        ));
+        $list_html = \Skif\PhpTemplate::renderTemplateBySkifModule(
+            'CRUD',
+            'list.tpl.php',
+            array(
+                'model_class_name' => $related_model_class_name,
+                'context_arr' => array($relation_field_name => $obj->getId()),
+                'list_title' => $list_title
+            )
+        );
     }
 }
