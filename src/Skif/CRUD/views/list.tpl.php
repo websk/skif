@@ -113,7 +113,7 @@ if (property_exists($model_class_name, 'crud_container_model')) {
             <?php
                 foreach ($crud_fields_list_arr as $field_arr) {
                     ?>
-                    <col class="<?php echo $field_arr['class']; ?>">
+                    <col class="<?php echo $field_arr['col_class']; ?>">
                     <?php
                 }
                 ?>
