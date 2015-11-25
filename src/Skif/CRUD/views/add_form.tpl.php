@@ -67,7 +67,7 @@ $context_arr_fields = $context_arr;
         echo '<input type="hidden" name="destination" value="' . $_REQUEST["destination_url"] . '">';
     }
     ?>
-    <div class="form-group>
+    <div class="form-group">
         <div class="col-md-10 col-md-offset-2">
             <button type="submit" class="btn btn-primary">Сохранить изменения</button>
         </div>
