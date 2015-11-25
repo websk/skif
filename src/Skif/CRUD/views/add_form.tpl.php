@@ -30,7 +30,7 @@ if ($crud_editor_fields_arr) {
 $context_arr_fields = $context_arr;
 
 ?>
-<form id="form" role="form" method="post" class="form-horizontal" action="/crud/create/<?php echo urlencode($model_class_name) ?>">
+<form id="form" role="form" method="post" class="form-horizontal" action="<?php echo \Skif\CRUD\ControllerCRUD::getCreateUrl($model_class_name) ?>">
 
     <?php foreach ($props_arr as $prop_obj):
         $editor_title = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $prop_obj->getName());

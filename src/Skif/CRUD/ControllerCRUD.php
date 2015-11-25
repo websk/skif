@@ -85,7 +85,7 @@ class ControllerCRUD
             $breadcrumbs_arr = array_merge(
                 $breadcrumbs_arr,
                 array(
-                    $crud_model_class_screen_name_for_list => '/crud/list/' . urlencode($model_class_name)
+                    $crud_model_class_screen_name_for_list => \Skif\CRUD\ControllerCRUD::getListUrl($model_class_name)
                 )
             );
         }
@@ -142,7 +142,7 @@ class ControllerCRUD
         return self::getDeleteUrl($obj_class_name, $obj_id);
     }
 
-    static public function getListUrl($model_class_name)
+    public static function getListUrl($model_class_name)
     {
         return '/crud/list/' . urlencode($model_class_name);
     }
@@ -150,6 +150,11 @@ class ControllerCRUD
     static public function getCreateUrl($model_class_name)
     {
         return '/crud/create/' . urlencode($model_class_name);
+    }
+
+    static public function getSaveUrl($model_class_name, $obj_id)
+    {
+        return '/crud/save/' . urlencode($model_class_name) . '/' . $obj_id;
     }
 
     public function editAction($model_class_name, $obj_id)
@@ -187,7 +192,7 @@ class ControllerCRUD
             $breadcrumbs_arr = array_merge(
                 $breadcrumbs_arr,
                 array(
-                    $crud_model_class_screen_name_for_list => '/crud/list/' . urlencode($model_class_name)
+                    $crud_model_class_screen_name_for_list => \Skif\CRUD\ControllerCRUD::getListUrl($model_class_name)
                 )
             );
         }
