@@ -78,7 +78,8 @@ if (property_exists($model_class_name, 'crud_container_model')) {
 
         ?>
         <p class="padding_top_10 padding_bottom_10">
-            <a href="<?php echo \Skif\CRUD\ControllerCRUD::getAddUrl($model_class_name) . '?' . http_build_query(array('context_arr' => $context_arr)); ?>"
+            <a href="<?php echo \Skif\CRUD\ControllerCRUD::getAddUrl($model_class_name)
+                . ($context_arr ? '?' . http_build_query(array('context_arr' => $context_arr)) : ''); ?>"
                class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> <?php echo $button_title; ?></a>
         </p>
         <?php
