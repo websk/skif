@@ -30,8 +30,7 @@ if ($crud_editor_fields_arr) {
 $context_arr_fields = $context_arr;
 
 ?>
-<form id="form" role="form" method="post" style="background-color: #eee; padding: 10px; border-radius: 2px;"
-      class="form-horizontal" action="/crud/create/<?php echo urlencode($model_class_name) ?>">
+<form id="form" role="form" method="post" class="form-horizontal" action="/crud/create/<?php echo urlencode($model_class_name) ?>">
 
     <?php foreach ($props_arr as $prop_obj):
         $editor_title = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $prop_obj->getName());
@@ -44,10 +43,10 @@ $context_arr_fields = $context_arr;
         $editor_description = \Skif\CRUD\CRUDUtils::getDescriptionForField($model_class_name, $prop_obj->getName());
         ?>
         <div class="form-group <?=( ($required) ? 'required' : '' )?>">
-            <label class="col-sm-4 text-right control-label"
+            <label class="col-md-2 text-right control-label"
                    for="<?php echo $prop_obj->getName() ?>"><?php echo $editor_title ?></label>
 
-            <div class="col-sm-8">
+            <div class="col-md-10">
                 <?php
                 echo \Skif\CRUD\Widgets::renderFieldWithWidget($prop_obj->getName(), $obj, $value);
 
@@ -69,8 +68,8 @@ $context_arr_fields = $context_arr;
     }
     ?>
     <div class="row">
-        <div class="col-sm-8 col-sm-offset-4">
-            <button type="submit" class="btn btn-default" style="width: 100%">Сохранить</button>
+        <div class="col-md-10 col-md-offset-2">
+            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
         </div>
     </div>
 </form>
