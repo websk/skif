@@ -76,12 +76,13 @@ if (strpos($current_url_no_query, '/admin') !== false) {
 }
 
 // CRUD
-\Skif\UrlManager::route('@^/crud/([\d\w\%]+)/list@i', '\Skif\CRUD\ControllerCRUD', 'listAction', 0);
 \Skif\UrlManager::route('@^/crud/([\d\w\%]+)/add@i', '\Skif\CRUD\ControllerCRUD', 'addAction', 0);
 \Skif\UrlManager::route('@^/crud/([\d\w\%]+)/create@i', '\Skif\CRUD\ControllerCRUD', 'createAction', 0);
 \Skif\UrlManager::route('@^/crud/([\d\w\%]+)/save/(\d+)@i', '\Skif\CRUD\ControllerCRUD', 'saveAction', 0);
 \Skif\UrlManager::route('@^/crud/([\d\w\%]+)/edit/(\d+)@i', '\Skif\CRUD\ControllerCRUD', 'editAction', 0);
 \Skif\UrlManager::route('@^/crud/([\d\w\%]+)/delete/(\d+)@i', '\Skif\CRUD\ControllerCRUD', 'deleteAction', 0);
+\Skif\UrlManager::route('@^/crud/([\d\w\%]+)/list@i', '\Skif\CRUD\ControllerCRUD', 'listAction', 0);
+\Skif\UrlManager::route('@^/crud/([\d\w\%]+)$@i', '\Skif\CRUD\ControllerCRUD', 'listAction', 0);
 
 
 // Captcha
