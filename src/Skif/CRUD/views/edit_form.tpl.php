@@ -91,7 +91,7 @@ if ($obj instanceof \Skif\Model\InterfaceSave) {
                 echo '<input type="hidden" name="destination" value="' . $_REQUEST["destination_url"] . '">';
             }
             ?>
-            <div class="row">
+            <div class="form-group>
                 <div class="col-md-10 col-md-offset-2">
                     <button type="submit" class="btn btn-primary">Сохранить изменения</button>
                 </div>
