@@ -57,8 +57,8 @@ class KeyValue
 
     public static $crud_editor_fields_arr = array(
         'name' => array(),
-        'description' => array('widget' => 'textarea'),
-        'value' => array(),
+        'description' => array(),
+        'value' => array('widget' => 'textarea'),
     );
 
     public function getEditorTabsArr()
