@@ -14,10 +14,9 @@ class Widgets
             $field_value = \Skif\CRUD\CRUDUtils::getObjectFieldValue($obj, $field_name);
         }
 
+        $widget_options = self::getWidgetSettings($field_name, $obj);
+
         if (is_callable($widget_name)) {
-
-            $widget_options = self::getWidgetSettings($field_name, $obj);
-
             return call_user_func_array($widget_name, array($field_name, $field_value, $widget_options));
         }
 
@@ -36,7 +35,7 @@ class Widgets
                 $o = self::widgetOptions($field_name, $field_value, $options_arr);
                 break;
             default:
-                $o = self::widgetInput($field_name, $field_value);
+                $o = self::widgetInput($field_name, $field_value, $widget_options);
         }
 
         return $o;
@@ -185,9 +184,10 @@ class Widgets
     }
     */
 
-    public static function widgetInput($field_name, $field_value)
+    public static function widgetInput($field_name, $field_value, $widget_options)
     {
-        return '<input id="' . $field_name . '"name="' . $field_name . '" value="' . $field_value . '" class="form-control">';
+        return '<input id="' . $field_name . '"name="' . $field_name . '" value="' . $field_value . '" class="form-control"'
+            . (array_key_exists('disabled', $widget_options) ? ' disabled' : '') . '>';
     }
 
     public static function widgetTextArea($field_name, $field_value)

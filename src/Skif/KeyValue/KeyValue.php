@@ -56,7 +56,7 @@ class KeyValue
     );
 
     public static $crud_editor_fields_arr = array(
-        'name' => array(),
+        'name' => array('widget_settings' => array('disabled' => true)),
         'description' => array(),
         'value' => array('widget' => 'textarea'),
     );
