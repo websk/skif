@@ -9,14 +9,34 @@ namespace Skif\CRUD;
  */
 class ControllerCRUD
 {
-    static public $base_breadcrumbs = array();
+    public static $base_breadcrumbs = array();
+
+    public static function getBaseUrl($model_class_name)
+    {
+        return '/crud/' . urlencode($model_class_name);
+    }
+
+    public static function getListUrl($model_class_name)
+    {
+        return self::getBaseUrl($model_class_name) . '/list';
+    }
+
+    public static function getCreateUrl($model_class_name)
+    {
+        return self::getBaseUrl($model_class_name) . '/create';
+    }
+
+    public static function getAddUrl($model_class_name)
+    {
+        return self::getBaseUrl($model_class_name) . '/add';
+    }
 
     /**
      * Генерирует ссылку на редактор объекта
      */
     public static function getEditUrl($model_class_name, $obj_id)
     {
-        return '/crud/edit/' . urlencode($model_class_name) . '/' . $obj_id;
+        return self::getBaseUrl($model_class_name) . '/edit/' . $obj_id;
     }
 
     /**
@@ -36,7 +56,7 @@ class ControllerCRUD
 
     public static function getDeleteUrl($model_class_name, $obj_id)
     {
-        return '/crud/delete/' . urlencode($model_class_name) . '/' . $obj_id;
+        return self::getBaseUrl($model_class_name) . '/delete/' . $obj_id;
     }
 
     /**
@@ -53,24 +73,9 @@ class ControllerCRUD
         return self::getDeleteUrl($obj_class_name, $obj_id);
     }
 
-    public static function getListUrl($model_class_name)
-    {
-        return '/crud/list/' . urlencode($model_class_name);
-    }
-
-    public static function getCreateUrl($model_class_name)
-    {
-        return '/crud/create/' . urlencode($model_class_name);
-    }
-
-    public static function getAddUrl($model_class_name)
-    {
-        return '/crud/add/' . urlencode($model_class_name);
-    }
-
     public static function getSaveUrl($model_class_name, $obj_id)
     {
-        return '/crud/save/' . urlencode($model_class_name) . '/' . $obj_id;
+        return self::getBaseUrl($model_class_name) . '/save/' . $obj_id;
     }
 
     public function listAction($model_class_name)
