@@ -35,7 +35,7 @@ class Widgets
                 $o = self::widgetOptions($field_name, $field_value, $options_arr);
                 break;
             default:
-                $o = self::widgetInput($field_name, $field_value, $widget_options);
+                $o = self::widgetInput($field_name, $field_value, $obj);
         }
 
         return $o;
@@ -184,10 +184,12 @@ class Widgets
     }
     */
 
-    public static function widgetInput($field_name, $field_value, $widget_options)
+    public static function widgetInput($field_name, $field_value, $obj)
     {
+        $widget_options = self::getWidgetSettings($field_name, $obj);
+
         return '<input id="' . $field_name . '"name="' . $field_name . '" value="' . $field_value . '" class="form-control"'
-            . (array_key_exists('disabled', $widget_options) ? ' disabled' : '') . '>';
+            . (($obj->getId() && array_key_exists('disabled', $widget_options)) ? ' disabled' : '') . '>';
     }
 
     public static function widgetTextArea($field_name, $field_value)
