@@ -11,6 +11,68 @@ class ControllerCRUD
 {
     static public $base_breadcrumbs = array();
 
+    /**
+     * Генерирует ссылку на редактор объекта
+     */
+    public static function getEditUrl($model_class_name, $obj_id)
+    {
+        return '/crud/edit/' . urlencode($model_class_name) . '/' . $obj_id;
+    }
+
+    /**
+     * Генерирует ссылку на редактор объекта
+     */
+    public static function getEditUrlForObj($obj)
+    {
+        // добавляем \ в начале имени класса - мы всегда работаем с классами в глобальном неймспейсе
+        $obj_class_name = '\\' . get_class($obj);
+
+        \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($obj_class_name, 'Skif\Model\InterfaceLoad');
+
+        $obj_id = $obj->getId();
+
+        return self::getEditUrl($obj_class_name, $obj_id);
+    }
+
+    public static function getDeleteUrl($model_class_name, $obj_id)
+    {
+        return '/crud/delete/' . urlencode($model_class_name) . '/' . $obj_id;
+    }
+
+    /**
+     * генерирует ссылку на удаление объекта
+     */
+    public static function getDeleteUrlForObj($obj)
+    {
+        // добавляем \ в начале имени класса - мы всегда работаем с классами в глобальном неймспейсе
+        $obj_class_name = '\\' . get_class($obj);
+        \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($obj_class_name, 'Skif\Model\InterfaceLoad');
+
+        $obj_id = $obj->getId();
+
+        return self::getDeleteUrl($obj_class_name, $obj_id);
+    }
+
+    public static function getListUrl($model_class_name)
+    {
+        return '/crud/list/' . urlencode($model_class_name);
+    }
+
+    public static function getCreateUrl($model_class_name)
+    {
+        return '/crud/create/' . urlencode($model_class_name);
+    }
+
+    public static function getAddUrl($model_class_name)
+    {
+        return '/crud/add/' . urlencode($model_class_name);
+    }
+
+    public static function getSaveUrl($model_class_name, $obj_id)
+    {
+        return '/crud/save/' . urlencode($model_class_name) . '/' . $obj_id;
+    }
+
     public function listAction($model_class_name)
     {
         \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
@@ -98,63 +160,6 @@ class ControllerCRUD
                 'breadcrumbs_arr' => $breadcrumbs_arr
             )
         );
-    }
-
-    /**
-     * Генерирует ссылку на редактор объекта
-     */
-    public static function getEditUrl($model_class_name, $obj_id)
-    {
-        return '/crud/edit/' . urlencode($model_class_name) . '/' . $obj_id;
-    }
-
-    /**
-     * Генерирует ссылку на редактор объекта
-     */
-    public static function getEditUrlForObj($obj)
-    {
-        // добавляем \ в начале имени класса - мы всегда работаем с классами в глобальном неймспейсе
-        $obj_class_name = '\\' . get_class($obj);
-
-        \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($obj_class_name, 'Skif\Model\InterfaceLoad');
-
-        $obj_id = $obj->getId();
-
-        return self::getEditUrl($obj_class_name, $obj_id);
-    }
-
-    public static function getDeleteUrl($model_class_name, $obj_id)
-    {
-        return '/crud/delete/' . urlencode($model_class_name) . '/' . $obj_id;
-    }
-
-    /**
-     * генерирует ссылку на удаление объекта
-     */
-    static public function getDeleteUrlForObj($obj)
-    {
-        // добавляем \ в начале имени класса - мы всегда работаем с классами в глобальном неймспейсе
-        $obj_class_name = '\\' . get_class($obj);
-        \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($obj_class_name, 'Skif\Model\InterfaceLoad');
-
-        $obj_id = $obj->getId();
-
-        return self::getDeleteUrl($obj_class_name, $obj_id);
-    }
-
-    public static function getListUrl($model_class_name)
-    {
-        return '/crud/list/' . urlencode($model_class_name);
-    }
-
-    static public function getCreateUrl($model_class_name)
-    {
-        return '/crud/create/' . urlencode($model_class_name);
-    }
-
-    static public function getSaveUrl($model_class_name, $obj_id)
-    {
-        return '/crud/save/' . urlencode($model_class_name) . '/' . $obj_id;
     }
 
     public function editAction($model_class_name, $obj_id)
