@@ -18,7 +18,7 @@ class ControllerCRUD
 
     public static function getListUrl($model_class_name)
     {
-        return self::getBaseUrl($model_class_name) . '/list';
+        return self::getBaseUrl($model_class_name);
     }
 
     public static function getCreateUrl($model_class_name)
