@@ -68,12 +68,34 @@ class ControllerCRUD
             )
         );
 
+        $breadcrumbs_arr = self::$base_breadcrumbs;
+
+        if (!property_exists($model_class_name, 'show_models_list_link')) {
+            $show_models_list_link = true;
+        } else {
+            $show_models_list_link = $model_class_name::$show_models_list_link;
+        }
+
+        if ($show_models_list_link) {
+            $crud_model_class_screen_name_for_list = $model_class_name;
+            if (property_exists($model_class_name, 'crud_model_class_screen_name_for_list')) {
+                $crud_model_class_screen_name_for_list = $model_class_name::$crud_model_class_screen_name_for_list;
+            }
+
+            $breadcrumbs_arr = array_merge(
+                $breadcrumbs_arr,
+                array(
+                    $crud_model_class_screen_name_for_list => '/crud/list/' . urlencode($model_class_name)
+                )
+            );
+        }
+
         echo \Skif\PhpTemplate::renderTemplate(
             \Skif\Conf\ConfWrapper::value('layout.admin'),
             array(
                 'title' => 'Добавление',
                 'content' => $html,
-                'breadcrumbs_arr' => self::$base_breadcrumbs
+                'breadcrumbs_arr' => $breadcrumbs_arr
             )
         );
     }
