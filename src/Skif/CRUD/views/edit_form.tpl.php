@@ -123,7 +123,7 @@ if ($obj instanceof \Skif\Model\InterfaceSave) {
     <?php
 }
 
-// вывод приязанных объектов
+// Вывод приязанных объектов
 
 if (property_exists($model_class_name, 'crud_related_models_arr')) {
     foreach ($model_class_name::$crud_related_models_arr as $related_model_class_name => $related_model_data) {
