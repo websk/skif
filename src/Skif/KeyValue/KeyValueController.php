@@ -13,6 +13,20 @@ class KeyValueController extends \Skif\CRUD\CRUDController
         return '/admin/key_value';
     }
 
+    protected static function createValidation()
+    {
+        $name = $_POST['name'];
+
+        if (!preg_match("/^[a-zA-Z0-9_-]+$/", $name)) {
+            \Skif\Messages::setError('Неверное название KeyValue. Название должно состоять только из латинских букв <code>A-Za-z</code>, цифр <code>0-9</code>, тире <code>-</code> или подчёркивания <code>_</code>');
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /*
     public function createAction()
     {
         // Проверка прав доступа
@@ -37,5 +51,6 @@ class KeyValueController extends \Skif\CRUD\CRUDController
 
         \Skif\Http::redirect('/admin/key_value/edit/' . $key_value_obj->getId());
     }
+    */
 }
 
