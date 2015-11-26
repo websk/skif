@@ -84,7 +84,7 @@ if (strpos($current_url_no_query, '/admin') !== false) {
 \Skif\UrlManager::route('@^/crud/[\d\w\%]+/save/(\d+)@i', '\Skif\CRUD\CRUDController', 'saveAction', 0);
 \Skif\UrlManager::route('@^/crud/[\d\w\%]+/delete/(\d+)@i', '\Skif\CRUD\CRUDController', 'deleteAction', 0);
 \Skif\UrlManager::route('@^/crud/[\d\w\%]+/list@i', '\Skif\CRUD\CRUDController', 'listAction', 0);
-\Skif\UrlManager::route('@^/crud/[\d\w\%]+$@i', '\Skif\CRUD\CRUDController', 'listAction', 0);
+\Skif\UrlManager::route('@^/crud/[\d\w\%]+@i', '\Skif\CRUD\CRUDController', 'listAction', 0);
 
 
 // Captcha
