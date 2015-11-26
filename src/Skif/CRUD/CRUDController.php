@@ -7,9 +7,10 @@ namespace Skif\CRUD;
  * Если умеет загружаться - круд может показывать такие модели.
  * Если умеет сохраняться - круд может редактировать такие модели.
  */
-class ControllerCRUD
+class CRUDController
 {
     public static $base_breadcrumbs = array();
+    protected static $model_class_name = '';
 
     public static function getBaseUrl($model_class_name)
     {
@@ -80,6 +81,10 @@ class ControllerCRUD
 
     public function listAction($model_class_name)
     {
+        if (!$model_class_name) {
+            $model_class_name = self::$model_class_name;
+        }
+
         \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
 
         \Skif\Utils::assert($model_class_name);
@@ -152,7 +157,7 @@ class ControllerCRUD
             $breadcrumbs_arr = array_merge(
                 $breadcrumbs_arr,
                 array(
-                    $crud_model_class_screen_name_for_list => \Skif\CRUD\ControllerCRUD::getListUrl($model_class_name)
+                    $crud_model_class_screen_name_for_list => \Skif\CRUD\CRUDController::getListUrl($model_class_name)
                 )
             );
         }
@@ -202,7 +207,7 @@ class ControllerCRUD
             $breadcrumbs_arr = array_merge(
                 $breadcrumbs_arr,
                 array(
-                    $crud_model_class_screen_name_for_list => \Skif\CRUD\ControllerCRUD::getListUrl($model_class_name)
+                    $crud_model_class_screen_name_for_list => \Skif\CRUD\CRUDController::getListUrl($model_class_name)
                 )
             );
         }
@@ -258,7 +263,7 @@ class ControllerCRUD
         $obj = \Skif\CRUD\CRUDUtils::setObjectFieldsFromArray($obj, $new_prop_values_arr);
         $obj->save();
 
-        $redirect_url = \Skif\CRUD\ControllerCRUD::getEditUrlForObj($obj);
+        $redirect_url = \Skif\CRUD\CRUDController::getEditUrlForObj($obj);
 
         if (array_key_exists('destination', $_POST)) {
             $redirect_url = $_POST['destination'];
@@ -298,7 +303,7 @@ class ControllerCRUD
 
         $obj->save();
 
-        $redirect_url = \Skif\CRUD\ControllerCRUD::getEditUrl($model_class_name, $obj->getId());
+        $redirect_url = \Skif\CRUD\CRUDController::getEditUrl($model_class_name, $obj->getId());
 
         if (array_key_exists('destination', $_POST)) {
             $redirect_url = $_POST['destination'];

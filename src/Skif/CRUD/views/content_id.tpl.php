@@ -1,7 +1,7 @@
 <?php
 
 $node_title = '';
-$node_edit_url = \Skif\CRUD\ControllerCRUD::getEditUrl('\Skif\Node\Node', 0);
+$node_edit_url = \Skif\CRUD\CRUDController::getEditUrl('\Skif\Node\Node', 0);
 $node_title_link = '<a href="'. $node_edit_url .'">' . $node_title . '</a>';
 
 if( $field_value != '' )
@@ -9,7 +9,7 @@ if( $field_value != '' )
 	$node_obj = \Skif\Node\NodeFactory::loadNode($field_value);
 	if($node_obj) {
         $node_title = $node_obj->getTitle();
-        $node_edit_url = \Skif\CRUD\ControllerCRUD::getEditUrl('\Skif\Node\Node', $field_value);
+        $node_edit_url = \Skif\CRUD\CRUDController::getEditUrl('\Skif\Node\Node', $field_value);
         $node_title_link = '<a href="'. $node_edit_url .'">' . $node_title . '</a>';
 	}
 }

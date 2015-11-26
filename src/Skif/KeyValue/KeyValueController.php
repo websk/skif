@@ -3,9 +3,13 @@
 namespace Skif\KeyValue;
 
 
-class KeyValueController
+class KeyValueController extends \Skif\CRUD\CRUDController
 {
 
+    protected $model_class_name = '\Skif\KeyValue\KeyValue';
+
+
+    /*
     public function listAction()
     {
         // Проверка прав доступа
@@ -94,5 +98,7 @@ class KeyValueController
 
         \Skif\Http::redirect('/admin/key_value');
     }
+
+    */
 }
 

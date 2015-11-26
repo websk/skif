@@ -55,7 +55,7 @@ if ($obj instanceof \Skif\Model\InterfaceSave) {
     ?>
     <div>
         <form id="form" role="form" method="post"
-              action="<?php echo \Skif\CRUD\ControllerCRUD::getSaveUrl($model_class_name, $obj->getId()); ?>"
+              action="<?php echo \Skif\CRUD\CRUDController::getSaveUrl($model_class_name, $obj->getId()); ?>"
               class="form-horizontal">
             <?php
             foreach ($props_arr as $prop_obj) {

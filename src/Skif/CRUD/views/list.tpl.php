@@ -78,7 +78,7 @@ if (property_exists($model_class_name, 'crud_container_model')) {
 
         ?>
         <p class="padding_top_10 padding_bottom_10">
-            <a href="<?php echo \Skif\CRUD\ControllerCRUD::getAddUrl($model_class_name)
+            <a href="<?php echo \Skif\CRUD\CRUDController::getAddUrl($model_class_name)
                 . ($context_arr ? '?' . http_build_query(array('context_arr' => $context_arr)) : ''); ?>"
                class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> <?php echo $button_title; ?></a>
         </p>
@@ -168,7 +168,7 @@ if (property_exists($model_class_name, 'crud_container_model')) {
                             if (property_exists($model_class_name, 'crud_model_title_field')) {
                                 if ($prop_obj->getName() == $model_class_name::$crud_model_title_field) {
                                     if (\Skif\CRUD\CRUDUtils::stringCanBeUsedAsLinkText($title)) {
-                                        $edit_url = \Skif\CRUD\ControllerCRUD::getEditUrl($model_class_name, $obj_id);
+                                        $edit_url = \Skif\CRUD\CRUDController::getEditUrl($model_class_name, $obj_id);
                                         $title = '<a href="' . $edit_url . '">' . $title . '</a>';
                                     }
                                 }
@@ -189,8 +189,8 @@ if (property_exists($model_class_name, 'crud_container_model')) {
                     <?php
                     }
 
-                    $edit_url = \Skif\CRUD\ControllerCRUD::getEditUrl($model_class_name, $obj_id);
-                    $delete_url = \Skif\CRUD\ControllerCRUD::getDeleteUrl($model_class_name, $obj_id);
+                    $edit_url = \Skif\CRUD\CRUDController::getEditUrl($model_class_name, $obj_id);
+                    $delete_url = \Skif\CRUD\CRUDController::getDeleteUrl($model_class_name, $obj_id);
                     ?>
                     <td align="right">
                         <a href="<?php echo $edit_url; ?>" title="Редактировать" class="btn btn-outline btn-default btn-sm">

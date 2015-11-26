@@ -83,7 +83,7 @@ class ModelReferenceWidget {
             array(
                 'success' => true,
                 'display_title' => $model_obj->getTitle(),
-                'href' => \Skif\CRUD\ControllerCRUD::getEditUrl($model_class_name, $model_id)
+                'href' => \Skif\CRUD\CRUDController::getEditUrl($model_class_name, $model_id)
             )
         );
     }

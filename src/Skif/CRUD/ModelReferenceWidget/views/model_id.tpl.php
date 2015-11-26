@@ -27,7 +27,7 @@ if ($model_obj) {
         $model_obj_title_text = $field_value;
     }
 
-    $model_obj_title = '<a href="' . \Skif\CRUD\ControllerCRUD::getEditUrl($model_class_name, $field_value) . '">' . $model_obj_title_text . '</a>';
+    $model_obj_title = '<a href="' . \Skif\CRUD\CRUDController::getEditUrl($model_class_name, $field_value) . '">' . $model_obj_title_text . '</a>';
 } else {
     $model_obj_title = 'Объект с ID ' . $field_value . ' - не найден';
     $additional_style = ' style="color: grey"';
