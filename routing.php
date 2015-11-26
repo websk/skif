@@ -3,13 +3,14 @@ $current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
 
 \Skif\UrlManager::route('@^/error$@', '\Skif\Http', 'errorPageAction');
 
-\Skif\UrlManager::route('@^@', '\Skif\Redirect\ControllerRedirect', 'redirectAction');
+\Skif\UrlManager::route('@^@', '\Skif\Redirect\RedirectController', 'redirectAction');
 
 
 // CRUD
 $route_based_crud_arr = array(
     '/crud/[\d\w\%]+' => '\Skif\CRUD\CRUDController',
-    '/admin/key_value' => '\Skif\KeyValue\KeyValueController',  // KeyValue
+    '/admin/key_value' => '\Skif\KeyValue\KeyValueController',
+    '/admin/redirect/' => '\Skif\Redirect\RedirectController',
 );
 
 foreach ($route_based_crud_arr as $base_url => $controller) {
@@ -70,13 +71,6 @@ if (strpos($current_url_no_query, '/admin') !== false) {
     \Skif\UrlManager::route('@^/admin/site_menu/(\d+)/item/edit/(.+)$@i', '\Skif\SiteMenu\SiteMenuController', 'editItemAdminAction', 0);
     \Skif\UrlManager::route('@^/admin/site_menu/(\d+)/item/save/(.+)$@i', '\Skif\SiteMenu\SiteMenuController', 'saveItemAdminAction', 0);
     \Skif\UrlManager::route('@^/admin/site_menu/(\d+)/item/delete/(\d+)$@i', '\Skif\SiteMenu\SiteMenuController', 'deleteItemAdminAction', 0);
-
-    // Admin2 Redirect
-    \Skif\UrlManager::route('@^/admin/redirect/list$@i', '\Skif\Redirect\ControllerRedirect', 'listAction', 0);
-    \Skif\UrlManager::route('@^/admin/redirect/add$@i', '\Skif\Redirect\ControllerRedirect', 'addAction', 0);
-    \Skif\UrlManager::route('@^/admin/redirect/edit/@', '\Skif\Redirect\ControllerRedirect', 'editAction', 0);
-    \Skif\UrlManager::route('@^/admin/redirect/save$@i', '\Skif\Redirect\ControllerRedirect', 'saveAction', 0);
-    \Skif\UrlManager::route('@^/admin/redirect/delete$@i', '\Skif\Redirect\ControllerRedirect', 'deleteAction', 0);
 
     // User
     \Skif\UrlManager::route('@^/admin/users$@', '\Skif\Users\UserController', 'listAction');
