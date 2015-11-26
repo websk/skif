@@ -18,7 +18,7 @@ class KeyValueController extends \Skif\CRUD\CRUDController
         $name = $_POST['name'];
 
         if (!preg_match("/^[a-zA-Z0-9_-]+$/", $name)) {
-            \Skif\Messages::setError('Неверное название KeyValue. Название должно состоять только из латинских букв <code>A-Za-z</code>, цифр <code>0-9</code>, тире <code>-</code> или подчёркивания <code>_</code>');
+            \Skif\Messages::setError('Неверное название переменной. Название должно состоять только из латинских букв <code>A-Za-z</code>, цифр <code>0-9</code>, тире <code>-</code> или подчёркивания <code>_</code>');
 
             return false;
         }
@@ -26,31 +26,5 @@ class KeyValueController extends \Skif\CRUD\CRUDController
         return true;
     }
 
-    /*
-    public function createAction()
-    {
-        // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
-
-        $name = $_POST['name'];
-        $value = $_POST['value'];
-        $description = $_POST['description'];
-
-        if (!preg_match("/^[a-zA-Z0-9_-]+$/", $name)) {
-            \Skif\Messages::setError('Неверное название KeyValue. Название должно состоять только из латинских букв <code>A-Za-z</code>, цифр <code>0-9</code>, тире <code>-</code> или подчёркивания <code>_</code>');
-            \Skif\Http::redirect('/admin/key_value/add/');
-        }
-
-        $key_value_obj = new \Skif\KeyValue\KeyValue();
-        $key_value_obj->setName($name);
-        $key_value_obj->setDescription($description);
-        $key_value_obj->setValue($value);
-        $key_value_obj->save();
-
-        \Skif\Messages::setMessage('Изменения сохранены');
-
-        \Skif\Http::redirect('/admin/key_value/edit/' . $key_value_obj->getId());
-    }
-    */
 }
 
