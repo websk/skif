@@ -389,14 +389,13 @@ class CRUDController
         $obj = \Skif\CRUD\CRUDUtils::createAndLoadObject($model_class_name, $obj_id);
         $obj->delete();
 
-        $redirect_url = '';
+        $redirect_url = static::getListUrl($model_class_name);
         if (array_key_exists('destination', $_GET)) {
             $redirect_url = $_GET['destination'];
         }
 
         \Skif\Messages::setMessage('Удаление выполнено успешно');
 
-        \Skif\Utils::assert($redirect_url);
         \Skif\Http::redirect($redirect_url);
     }
 
