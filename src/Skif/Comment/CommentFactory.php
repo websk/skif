@@ -11,7 +11,7 @@ class CommentFactory extends \Skif\Factory
      */
     public static function loadComment($id)
     {
-        $class_name = '\Skif\Comments\Comment';
+        $class_name = '\Skif\Comment\Comment';
 
         return self::createAndLoadObject($class_name, $id);
     }

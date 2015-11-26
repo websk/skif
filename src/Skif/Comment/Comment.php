@@ -16,46 +16,48 @@ class Comment  implements
 
     protected $id;
     protected $parent_id;
+    protected $comment;
     protected $url;
     protected $user_id = null;
     protected $user_name;
     protected $user_email;
-    protected $comment;
     protected $date_time;
     protected $children_ids_arr;
+    protected $url_md5;
 
 
     public static $crud_create_button_required_fields_arr = array();
     public static $crud_create_button_title = 'Добавить комментарий';
 
     public static $crud_model_class_screen_name = 'Комментарий';
-    public static $crud_model_title_field = 'name';
+    public static $crud_model_title_field = 'comment';
 
     public static $crud_field_titles_arr = array(
-        'name' => 'Название',
-        'description' => 'Описание',
-        'value' => 'Значение',
+        'comment' => 'Комментарий',
+        'user_name' => 'Пользователь',
+        'user_email' => 'Email',
+        'date_time' => 'Время добавления',
     );
 
-    public static $crud_model_class_screen_name_for_list = 'Переменные';
+    public static $crud_model_class_screen_name_for_list = 'Комментарии';
 
     public static $crud_fields_list_arr = array(
         'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
-        'name' => array('col_class' => 'col-md-4 col-sm-6 col-xs-6'),
-        'description' => array('col_class' => 'col-md-4 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
+        'comment' => array('col_class' => 'col-md-4 col-sm-6 col-xs-6'),
+        'user_name' => array('col_class' => 'col-md-4 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
         '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
     );
 
     public static $crud_editor_fields_arr = array(
-        'name' => array('widget_settings' => array('disabled' => true)),
-        'description' => array(),
-        'value' => array('widget' => 'textarea'),
+        'user_name' => array(),
+        'user_email' => array(),
+        'comment' => array('widget' => 'textarea'),
     );
 
     public function getEditorTabsArr()
     {
         $tabs_obj_arr = array();
-        $tabs_obj_arr[] = new \Skif\EditorTabs\Tab(\Skif\KeyValue\KeyValueController::getEditUrlForObj($this), 'Переменная');
+        $tabs_obj_arr[] = new \Skif\EditorTabs\Tab(\Skif\Comment\CommentController::getEditUrlForObj($this), self::$crud_model_class_screen_name);
 
         return $tabs_obj_arr;
     }
