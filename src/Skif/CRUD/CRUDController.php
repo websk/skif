@@ -79,10 +79,10 @@ class CRUDController
         return self::getBaseUrl($model_class_name) . '/save/' . $obj_id;
     }
 
-    public function listAction($model_class_name)
+    public function listAction($model_class_name = '')
     {
         if (!$model_class_name) {
-            $model_class_name = self::$model_class_name;
+            $model_class_name = static::$model_class_name;
         }
 
         \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
