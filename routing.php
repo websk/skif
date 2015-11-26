@@ -13,7 +13,7 @@ $route_based_crud_arr = array(
 );
 
 foreach ($route_based_crud_arr as $base_url => $controller) {
-    if (!preg_match($base_url, $current_url_no_query, $matches_arr)) {
+    if (!preg_match($base_url . '.+@i', $current_url_no_query, $matches_arr)) {
         continue;
     }
 
