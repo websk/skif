@@ -4,6 +4,8 @@
  * @var $context_arr array
  */
 
+$current_controller_obj = \Skif\UrlManager::getCurrentControllerObj();
+
 \Skif\Utils::assert($model_class_name);
 
 // готовим список ID объектов для вывода
@@ -78,7 +80,7 @@ if (property_exists($model_class_name, 'crud_container_model')) {
 
         ?>
         <p class="padding_top_10 padding_bottom_10">
-            <a href="<?php echo \Skif\CRUD\CRUDController::getAddUrl($model_class_name)
+            <a href="<?php echo $current_controller_obj::getAddUrl($model_class_name)
                 . ($context_arr ? '?' . http_build_query(array('context_arr' => $context_arr)) : ''); ?>"
                class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> <?php echo $button_title; ?></a>
         </p>

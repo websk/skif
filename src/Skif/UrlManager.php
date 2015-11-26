@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Кульков
- * Date: 22.02.14
- * Time: 17:04
- */
 
 namespace Skif;
 
@@ -75,7 +69,7 @@ class UrlManager {
         }
     }
 
-    static public function getCurrentControllerObj()
+    public static function getCurrentControllerObj()
     {
         return self::$current_controller_obj;
     }
