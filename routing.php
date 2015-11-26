@@ -5,6 +5,22 @@ $current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
 
 \Skif\UrlManager::route('@^@', '\Skif\Redirect\ControllerRedirect', 'redirectAction');
 
+
+// CRUD
+$route_based_crud_arr = array(
+    '/crud/[\d\w\%]+' => '\Skif\CRUD\CRUDController',
+    '/admin/key_value' => '\Skif\KeyValue\KeyValueController',  // Admin2 KeyValue
+);
+
+foreach ($route_based_crud_arr as $base_url => $controller) {
+    \Skif\UrlManager::route('@^' . $base_url . '/add@', $controller, 'addAction', 0);
+    \Skif\UrlManager::route('@^' . $base_url . '/create@', $controller, 'createAction', 0);
+    \Skif\UrlManager::route('@^' . $base_url . '/edit/(.+)$@', $controller, 'editAction', 0);
+    \Skif\UrlManager::route('@^' . $base_url . '/save/(.+)$@i', $controller, 'saveAction', 0);
+    \Skif\UrlManager::route('@^' . $base_url . '/delete/(\d+)$@i', $controller, 'deleteAction', 0);
+    \Skif\UrlManager::route('@^' . $base_url . '$@i', $controller, 'listAction', 0);
+}
+
 // Admin
 if (strpos($current_url_no_query, '/admin') !== false) {
     \Skif\UrlManager::route('@^/admin$@i', '\Skif\AdminController', 'indexAction', 0);
@@ -68,29 +84,6 @@ if (strpos($current_url_no_query, '/admin') !== false) {
 
     exit;
 }
-
-// CRUD
-\Skif\UrlManager::route('@^/crud/[\d\w\%]+/add@i', '\Skif\CRUD\CRUDController', 'addAction', 0);
-\Skif\UrlManager::route('@^/crud/[\d\w\%]+/create@i', '\Skif\CRUD\CRUDController', 'createAction', 0);
-\Skif\UrlManager::route('@^/crud/[\d\w\%]+/edit/(\d+)@i', '\Skif\CRUD\CRUDController', 'editAction', 0);
-\Skif\UrlManager::route('@^/crud/[\d\w\%]+/save/(\d+)@i', '\Skif\CRUD\CRUDController', 'saveAction', 0);
-\Skif\UrlManager::route('@^/crud/[\d\w\%]+/delete/(\d+)@i', '\Skif\CRUD\CRUDController', 'deleteAction', 0);
-//\Skif\UrlManager::route('@^/crud/[\d\w\%]+/list@i', '\Skif\CRUD\CRUDController', 'listAction', 0);
-\Skif\UrlManager::route('@^/crud/[\d\w\%]+@i', '\Skif\CRUD\CRUDController', 'listAction', 0);
-
-$route_based_crud_arr = array(
-    '/admin/key_value' => '\Skif\KeyValue\KeyValueController',  // Admin2 KeyValue
-);
-
-foreach ($route_based_crud_arr as $base_url => $controller) {
-    \Skif\UrlManager::route('@^' . $base_url . '/add@', $controller, 'addAction', 0);
-    \Skif\UrlManager::route('@^' . $base_url . '/create@', $controller, 'createAction', 0);
-    \Skif\UrlManager::route('@^' . $base_url . '/edit/(.+)$@', $controller, 'editAction', 0);
-    \Skif\UrlManager::route('@^' . $base_url . '/save/(.+)$@i', $controller, 'saveAction', 0);
-    \Skif\UrlManager::route('@^' . $base_url . '/delete/(\d+)$@i', $controller, 'deleteAction', 0);
-    \Skif\UrlManager::route('@^' . $base_url . '$@i', $controller, 'listAction', 0);
-}
-
 
 // Captcha
 \Skif\UrlManager::route('@^/captcha/(.+)$@i', '\Skif\Captcha\CaptchaController', 'mainAction');
