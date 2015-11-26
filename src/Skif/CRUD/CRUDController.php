@@ -24,6 +24,10 @@ class CRUDController
             return urldecode($matches_arr[1]);
         }
 
+        if (preg_match('@^/crud/([\d\w\%]+)@i', $current_url_no_query, $matches_arr)) {
+            return urldecode($matches_arr[1]);
+        }
+
         return null;
     }
 
