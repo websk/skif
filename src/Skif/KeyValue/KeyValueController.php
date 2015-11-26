@@ -14,52 +14,6 @@ class KeyValueController extends \Skif\CRUD\CRUDController
     }
 
     /*
-    public function listAction()
-    {
-        // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
-
-        $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
-            'KeyValue',
-            'key_values_list.tpl.php'
-        );
-
-        echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.admin'),
-            array(
-                'title' => "Переменные",
-                'content' => $content
-            )
-        );
-    }
-
-    public function editAction($key_value_id)
-    {
-        // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
-
-        if (!$key_value_id) {
-            \Skif\Http::exit404();
-        }
-
-        $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
-            'KeyValue',
-            'key_value_form_edit.tpl.php',
-            array(
-                'key_value_id' => $key_value_id
-            )
-        );
-
-        echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.admin'),
-            array(
-                'title' => ($key_value_id == 'new') ? 'Создание' : 'Редактирование',
-                'content' => $content,
-                'breadcrumbs_arr' => array('Переменные' => '/admin/key_value')
-            )
-        );
-    }
-
     public function saveAction($key_value_id)
     {
         // Проверка прав доступа
@@ -89,20 +43,6 @@ class KeyValueController extends \Skif\CRUD\CRUDController
 
         \Skif\Http::redirect('/admin/key_value/edit/' . $key_value_obj->getId());
     }
-
-    public function deleteAction($key_value_id)
-    {
-        // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
-
-        $key_value_obj = \Skif\KeyValue\KeyValue::factory($key_value_id);
-        $key_value_obj->delete();
-
-        \Skif\Messages::setMessage('Переменная удалена');
-
-        \Skif\Http::redirect('/admin/key_value');
-    }
-
     */
 }
 

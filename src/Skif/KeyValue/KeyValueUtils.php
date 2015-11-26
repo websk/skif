@@ -16,7 +16,6 @@ class KeyValueUtils
     }
 
     /**
-     * Значение переменной по имени
      * @param $name
      * @param string $default_value
      * @return string

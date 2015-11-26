@@ -12,6 +12,11 @@ class CRUDController
     public static $base_breadcrumbs = array();
     protected static $model_class_name = '';
 
+    protected static function getLayoutTemplateFile()
+    {
+        return \Skif\Conf\ConfWrapper::value('layout.admin');
+    }
+
     protected static function getModelClassName()
     {
         if (static::$model_class_name) {
@@ -126,7 +131,7 @@ class CRUDController
         }
 
         echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.admin'),
+            static::getLayoutTemplateFile(),
             array(
                 'title' => $crud_model_class_screen_name_for_list,
                 'content' => $list_html,
@@ -181,7 +186,7 @@ class CRUDController
         }
 
         echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.admin'),
+            static::getLayoutTemplateFile(),
             array(
                 'title' => 'Добавление',
                 'content' => $html,
@@ -242,7 +247,7 @@ class CRUDController
         */
 
         echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.admin'),
+            static::getLayoutTemplateFile(),
             array(
                 'title' => \Skif\CRUD\CRUDUtils::getModelTitleForObj($edited_obj),
                 'content' => $html,
@@ -291,6 +296,8 @@ class CRUDController
             $redirect_url = $_POST['destination'];
         }
 
+        \Skif\Messages::setMessage('Изменения сохранены');
+
         \Skif\Http::redirect($redirect_url);
     }
 
@@ -336,6 +343,8 @@ class CRUDController
             $redirect_url .= $separator . 'crud_obj_model_class=' . urlencode($model_class_name) . '&crud_obj_id=' . $obj->getId();
         }
 
+        \Skif\Messages::setMessage('Изменения сохранены');
+
         \Skif\Http::redirect($redirect_url);
     }
 
@@ -371,6 +380,8 @@ class CRUDController
         if (array_key_exists('destination', $_GET)) {
             $redirect_url = $_GET['destination'];
         }
+
+        \Skif\Messages::setMessage('Удаление выполнено успешно');
 
         \Skif\Utils::assert($redirect_url);
         \Skif\Http::redirect($redirect_url);
