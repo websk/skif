@@ -123,8 +123,12 @@ class CRUDController
      * Принимает в запросе контекст (набор полей со значениями) и передает его на экшен создания объекта.
      * @param $model_class_name
      */
-    public function addAction($model_class_name)
+    public function addAction($model_class_name = '')
     {
+        if (!$model_class_name) {
+            $model_class_name = static::$model_class_name;
+        }
+
         \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
 
         \Skif\Utils::assert($model_class_name);
@@ -172,8 +176,12 @@ class CRUDController
         );
     }
 
-    public function editAction($model_class_name, $obj_id)
+    public function editAction($model_class_name = '', $obj_id)
     {
+        if (!$model_class_name) {
+            $model_class_name = static::$model_class_name;
+        }
+
         \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
 
         \Skif\Utils::assert($model_class_name);
@@ -231,8 +239,12 @@ class CRUDController
         );
     }
 
-    public function saveAction($model_class_name, $obj_id)
+    public function saveAction($model_class_name = '', $obj_id)
     {
+        if (!$model_class_name) {
+            $model_class_name = static::$model_class_name;
+        }
+
         \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
 
         \Skif\Utils::assert($model_class_name);
@@ -272,9 +284,11 @@ class CRUDController
         \Skif\Http::redirect($redirect_url);
     }
 
-    public function createAction($model_class_name)
+    public function createAction($model_class_name = '')
     {
-        // проверка
+        if (!$model_class_name) {
+            $model_class_name = static::$model_class_name;
+        }
 
         \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
 
@@ -317,8 +331,12 @@ class CRUDController
         \Skif\Http::redirect($redirect_url);
     }
 
-    public function deleteAction($model_class_name, $obj_id)
+    public function deleteAction($model_class_name = '', $obj_id)
     {
+        if (!$model_class_name) {
+            $model_class_name = static::$model_class_name;
+        }
+
         \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
 
         \Skif\Utils::assert($model_class_name);
