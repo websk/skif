@@ -103,7 +103,7 @@ if ($obj instanceof \Skif\Model\InterfaceSave) {
 
         <script>
             function deleteComfirm() {
-                if (confirm("Вы действительно хотите удалить <?php echo $key_value_obj->getName(); ?>?")) {
+                if (confirm("Вы действительно хотите удалить <?php echo \Skif\CRUD\CRUDUtils::getModelTitleForObj($obj); ?>?")) {
                     $('#DelForm').submit();
                 }
             }
