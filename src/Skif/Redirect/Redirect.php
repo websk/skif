@@ -44,7 +44,7 @@ class Redirect implements
     );
 
     public static $crud_editor_fields_arr = array(
-        'kind' => array('widget' => 'options', 'options_arr' => array('1 - строка', '2 - регексп')),
+        'kind' => array('widget' => 'options', 'options_arr' => array(1 => 'строка', 2 => 'регексп')),
         'src' => array(),
         'dst' => array(),
         'code' => array(),
