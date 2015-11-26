@@ -6,7 +6,7 @@ namespace Skif\KeyValue;
 class KeyValueController extends \Skif\CRUD\CRUDController
 {
 
-    protected $model_class_name = '\Skif\KeyValue\KeyValue';
+    protected static $model_class_name = '\Skif\KeyValue\KeyValue';
 
 
     /*
