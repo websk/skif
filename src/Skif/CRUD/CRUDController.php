@@ -12,6 +12,21 @@ class CRUDController
     public static $base_breadcrumbs = array();
     protected static $model_class_name = '';
 
+    protected static function getModelClassName()
+    {
+        if (static::$model_class_name) {
+            return static::$model_class_name;
+        }
+
+        $current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
+
+        if (preg_match('@^/crud/([\d\w\%]+)/(.+)@i', $current_url_no_query, $matches_arr)) {
+            return urldecode($matches_arr[1]);
+        }
+
+        return null;
+    }
+
     public static function getBaseUrl($model_class_name)
     {
         return '/crud/' . urlencode($model_class_name);
@@ -79,11 +94,9 @@ class CRUDController
         return static::getBaseUrl($model_class_name) . '/save/' . $obj_id;
     }
 
-    public function listAction($model_class_name = '')
+    public function listAction()
     {
-        if (!$model_class_name) {
-            $model_class_name = static::$model_class_name;
-        }
+        $model_class_name = static::getModelClassName();
 
         \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
 
@@ -121,13 +134,10 @@ class CRUDController
     /**
      * Выводит форму создания объекта.
      * Принимает в запросе контекст (набор полей со значениями) и передает его на экшен создания объекта.
-     * @param $model_class_name
      */
-    public function addAction($model_class_name = '')
+    public function addAction()
     {
-        if (!$model_class_name) {
-            $model_class_name = static::$model_class_name;
-        }
+        $model_class_name = static::getModelClassName();
 
         \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
 
@@ -178,15 +188,7 @@ class CRUDController
 
     public function editAction($obj_id)
     {
-        $current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
-
-        if (preg_match('@^/crud/([\d\w\%]+)/(.+)@i', $current_url_no_query, $matches_arr)) {
-            $model_class_name = urldecode($matches_arr[1]);
-        }
-
-        if (!isset($model_class_name)) {
-            $model_class_name = static::$model_class_name;
-        }
+        $model_class_name = static::getModelClassName();
 
         \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
 
@@ -245,11 +247,9 @@ class CRUDController
         );
     }
 
-    public function saveAction($model_class_name = '', $obj_id)
+    public function saveAction($obj_id)
     {
-        if (!$model_class_name) {
-            $model_class_name = static::$model_class_name;
-        }
+        $model_class_name = static::getModelClassName();
 
         \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
 
@@ -290,11 +290,9 @@ class CRUDController
         \Skif\Http::redirect($redirect_url);
     }
 
-    public function createAction($model_class_name = '')
+    public function createAction()
     {
-        if (!$model_class_name) {
-            $model_class_name = static::$model_class_name;
-        }
+        $model_class_name = static::getModelClassName();
 
         \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
 
@@ -337,11 +335,9 @@ class CRUDController
         \Skif\Http::redirect($redirect_url);
     }
 
-    public function deleteAction($model_class_name = '', $obj_id)
+    public function deleteAction($obj_id)
     {
-        if (!$model_class_name) {
-            $model_class_name = static::$model_class_name;
-        }
+        $model_class_name = static::getModelClassName();
 
         \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
 
