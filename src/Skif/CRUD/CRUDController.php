@@ -181,7 +181,7 @@ class CRUDController
         $current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
 
         if (preg_match('@^/crud/([\d\w\%]+)/(.+)@i', $current_url_no_query, $matches_arr)) {
-            $model_class_name = $matches_arr[1];
+            $model_class_name = urldecode($matches_arr[1]);
         }
 
         if (!isset($model_class_name)) {
