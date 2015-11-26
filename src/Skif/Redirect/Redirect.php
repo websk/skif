@@ -17,9 +17,12 @@ class Redirect implements
     protected $id;
     protected $src;
     protected $dst;
-    protected $code;
-    protected $kind;
+    protected $code = 301;
+    protected $kind = 1;
 
+
+    const REDIRECT_KIND_STRING = 1;
+    const REDIRECT_KIND_REGEXP = 2;
 
     public static $crud_create_button_required_fields_arr = array();
     public static $crud_create_button_title = 'Добавить редирект';
@@ -44,7 +47,13 @@ class Redirect implements
     );
 
     public static $crud_editor_fields_arr = array(
-        'kind' => array('widget' => 'options', 'options_arr' => array(1 => 'строка', 2 => 'регексп')),
+        'kind' => array(
+            'widget' => 'options',
+            'options_arr' => array(
+                self::REDIRECT_KIND_STRING => 'строка',
+                self::REDIRECT_KIND_REGEXP => 'регексп'
+            )
+        ),
         'src' => array(),
         'dst' => array(),
         'code' => array(),
@@ -136,6 +145,28 @@ class Redirect implements
     public function setKind($kind)
     {
         $this->kind = $kind;
+    }
+
+    public static function afterUpdate($redirect_id)
+    {
+        $redirect_id_obj = \Skif\Redirect\Redirect::factory($redirect_id);
+
+        if ($redirect_id_obj->getKind() == self::REDIRECT_KIND_REGEXP) {
+            $cache_key = \Skif\Redirect\RedirectController::getCacheKeyRegexpRedirectArr();
+            \Skif\Cache\CacheWrapper::delete($cache_key);
+        }
+
+        self::removeObjFromCacheById($redirect_id);
+    }
+
+    public function afterDelete()
+    {
+        if ($this->getKind() == self::REDIRECT_KIND_REGEXP) {
+            $cache_key = \Skif\Redirect\RedirectController::getCacheKeyRegexpRedirectArr();
+            \Skif\Cache\CacheWrapper::delete($cache_key);
+        }
+
+        self::removeObjFromCacheById($this->getId());
     }
 
 }
