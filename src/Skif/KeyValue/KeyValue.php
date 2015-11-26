@@ -64,7 +64,7 @@ class KeyValue
     public function getEditorTabsArr()
     {
         $tabs_obj_arr = array();
-        $tabs_obj_arr[] = new \Skif\EditorTabs\Tab(\Skif\CRUD\CRUDController::getEditUrlForObj($this), 'Переменная');
+        $tabs_obj_arr[] = new \Skif\EditorTabs\Tab(\Skif\KeyValue\KeyValueController::getEditUrlForObj($this), 'Переменная');
 
         return $tabs_obj_arr;
     }

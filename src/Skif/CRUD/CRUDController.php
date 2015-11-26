@@ -157,7 +157,7 @@ class CRUDController
             $breadcrumbs_arr = array_merge(
                 $breadcrumbs_arr,
                 array(
-                    $crud_model_class_screen_name_for_list => \Skif\CRUD\CRUDController::getListUrl($model_class_name)
+                    $crud_model_class_screen_name_for_list => static::getListUrl($model_class_name)
                 )
             );
         }
@@ -207,7 +207,7 @@ class CRUDController
             $breadcrumbs_arr = array_merge(
                 $breadcrumbs_arr,
                 array(
-                    $crud_model_class_screen_name_for_list => \Skif\CRUD\CRUDController::getListUrl($model_class_name)
+                    $crud_model_class_screen_name_for_list => static::getListUrl($model_class_name)
                 )
             );
         }
@@ -263,7 +263,7 @@ class CRUDController
         $obj = \Skif\CRUD\CRUDUtils::setObjectFieldsFromArray($obj, $new_prop_values_arr);
         $obj->save();
 
-        $redirect_url = \Skif\CRUD\CRUDController::getEditUrlForObj($obj);
+        $redirect_url = static::getEditUrlForObj($obj);
 
         if (array_key_exists('destination', $_POST)) {
             $redirect_url = $_POST['destination'];
@@ -303,7 +303,7 @@ class CRUDController
 
         $obj->save();
 
-        $redirect_url = \Skif\CRUD\CRUDController::getEditUrl($model_class_name, $obj->getId());
+        $redirect_url = static::getEditUrl($model_class_name, $obj->getId());
 
         if (array_key_exists('destination', $_POST)) {
             $redirect_url = $_POST['destination'];

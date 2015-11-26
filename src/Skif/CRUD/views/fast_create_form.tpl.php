@@ -3,6 +3,8 @@
  * @var $model_class_name
  */
 
+$current_controller_obj = \Skif\UrlManager::getCurrentControllerObj();
+
 // чтобы создать форму быстрого добавления в классе должны быть следующие поля:
 // public static $crud_fast_create_field_name = 'answer_text', где answer_text - имя выводимого поля
 
@@ -13,7 +15,7 @@ if (!property_exists($model_class_name, 'crud_fast_create_field_name')) {
 $fast_create_field_name = $model_class_name::$crud_fast_create_field_name;
 
 $label_field_name = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $fast_create_field_name);
-$create_url = \Skif\CRUD\CRUDController::getCreateUrl($model_class_name);
+$create_url = $current_controller_obj::getCreateUrl($model_class_name);
 
 echo '<form role="form" method="post" class="form-inline" action="' . $create_url . '">';
 echo '<div class="form-group">';

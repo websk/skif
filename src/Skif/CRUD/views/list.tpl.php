@@ -170,7 +170,7 @@ if (property_exists($model_class_name, 'crud_container_model')) {
                             if (property_exists($model_class_name, 'crud_model_title_field')) {
                                 if ($prop_obj->getName() == $model_class_name::$crud_model_title_field) {
                                     if (\Skif\CRUD\CRUDUtils::stringCanBeUsedAsLinkText($title)) {
-                                        $edit_url = \Skif\CRUD\CRUDController::getEditUrl($model_class_name, $obj_id);
+                                        $edit_url = $current_controller_obj::getEditUrl($model_class_name, $obj_id);
                                         $title = '<a href="' . $edit_url . '">' . $title . '</a>';
                                     }
                                 }
@@ -191,8 +191,8 @@ if (property_exists($model_class_name, 'crud_container_model')) {
                     <?php
                     }
 
-                    $edit_url = \Skif\CRUD\CRUDController::getEditUrl($model_class_name, $obj_id);
-                    $delete_url = \Skif\CRUD\CRUDController::getDeleteUrl($model_class_name, $obj_id);
+                    $edit_url = $current_controller_obj::getEditUrl($model_class_name, $obj_id);
+                    $delete_url = $current_controller_obj::getDeleteUrl($model_class_name, $obj_id);
                     ?>
                     <td align="right">
                         <a href="<?php echo $edit_url; ?>" title="Редактировать" class="btn btn-outline btn-default btn-sm">
