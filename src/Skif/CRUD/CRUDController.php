@@ -178,6 +178,12 @@ class CRUDController
 
     public function editAction($obj_id)
     {
+        $current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
+
+        if (preg_match('/crud/([\d\w\%]+)/(.+)', $current_url_no_query, $matches_arr)) {
+            $model_class_name = $matches_arr[1];
+        }
+
         if (!isset($model_class_name)) {
             $model_class_name = static::$model_class_name;
         }
