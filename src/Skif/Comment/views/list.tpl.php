@@ -42,7 +42,7 @@
 <?php
 
 foreach ($comments_ids_arr as $comment_id) {
-    $comment_obj = \Skif\Comments\CommentFactory::loadComment($comment_id);
+    $comment_obj = \Skif\Comment\CommentFactory::loadComment($comment_id);
     if (!$comment_obj) {
         continue;
     }
@@ -67,7 +67,7 @@ foreach ($comments_ids_arr as $comment_id) {
         <?php
         $children_comments_ids_arr = $comment_obj->getChildrenIdsArr();
         foreach ($children_comments_ids_arr as $children_comment_id) {
-            $children_comment_obj = \Skif\Comments\CommentFactory::loadComment($children_comment_id);
+            $children_comment_obj = \Skif\Comment\CommentFactory::loadComment($children_comment_id);
             if (!$children_comment_obj) {
                 continue;
             }

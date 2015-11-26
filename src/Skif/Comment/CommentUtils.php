@@ -1,9 +1,9 @@
 <?php
 
-namespace Skif\Comments;
+namespace Skif\Comment;
 
 
-class CommentsUtils
+class CommentUtils
 {
     /**
      * Массив ID комментариев к странице
@@ -82,7 +82,7 @@ class CommentsUtils
         */
 
         return \Skif\PhpTemplate::renderTemplateBySkifModule(
-            'Comments',
+            'Comment',
             'block.tpl.php',
             array('url' => $url)
         );

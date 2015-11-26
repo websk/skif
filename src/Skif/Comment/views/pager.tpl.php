@@ -5,7 +5,7 @@
  */
 
 $message_to_page = \Skif\Conf\ConfWrapper::value('comments.message_to_page', 20);
-$count_all_messages = \Skif\Comments\CommentsUtils::getCountCommentsByUrl($url);
+$count_all_messages = \Skif\Comment\CommentUtils::getCountCommentsByUrl($url);
 $all = ceil($count_all_messages / $message_to_page);
 
 $pages_str = '';

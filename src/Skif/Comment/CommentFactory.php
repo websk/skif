@@ -1,13 +1,13 @@
 <?php
 
-namespace Skif\Comments;
+namespace Skif\Comment;
 
 
 class CommentFactory extends \Skif\Factory
 {
     /**
      * @param $id
-     * @return null|\Skif\Comments\Comment
+     * @return null|\Skif\Comment\Comment
      */
     public static function loadComment($id)
     {

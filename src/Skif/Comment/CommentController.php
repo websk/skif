@@ -1,12 +1,19 @@
 <?php
 
-namespace Skif\Comments;
+namespace Skif\Comment;
 
 
-class CommentsController
+class CommentController extends \Skif\CRUD\CRUDController
 {
 
-    public static function listAction()
+    protected static $model_class_name = '\Skif\Comment\Comment';
+
+    public static function getBaseUrl($model_class_name)
+    {
+        return '/admin/comments';
+    }
+
+    public static function listWebAction()
     {
         if (!array_key_exists('url', $_REQUEST)) {
             echo '';
@@ -16,22 +23,22 @@ class CommentsController
 
         $page = array_key_exists('page', $_REQUEST) ? $_REQUEST['page'] : 1;
 
-        $comments_ids_arr = \Skif\Comments\CommentsUtils::getCommentsIdsArrByUrl($url, $page);
+        $comments_ids_arr = \Skif\Comment\CommentUtils::getCommentsIdsArrByUrl($url, $page);
 
         echo \Skif\PhpTemplate::renderTemplateBySkifModule(
-            'Comments',
+            'Comment',
             'form_add.tpl.php',
             array('url' => $url)
         );
 
         echo \Skif\PhpTemplate::renderTemplateBySkifModule(
-            'Comments',
+            'Comment',
             'list.tpl.php',
             array('comments_ids_arr' => $comments_ids_arr, 'url' => $url)
         );
 
         echo \Skif\PhpTemplate::renderTemplateBySkifModule(
-            'Comments',
+            'Comment',
             'pager.tpl.php',
             array('url' => $url, 'page' => $page)
         );
@@ -42,7 +49,7 @@ class CommentsController
      * Добавление / Сохранение комментария
      * @param null $comment_id
      */
-    public static function saveAction($comment_id = null)
+    public static function saveWebAction($comment_id = null)
     {
         if (!array_key_exists('url', $_REQUEST)) {
             \Skif\Http::redirect404();
@@ -85,7 +92,7 @@ class CommentsController
             \Skif\Factory::removeObjectFromCache('\Skif\Comments\Comment', $parent_id);
 
             if (\Skif\Conf\ConfWrapper::value('comments.send_answer_to_email') && $user_email) {
-                $parent_comment_obj = \Skif\Comments\CommentFactory::loadComment($parent_id);
+                $parent_comment_obj = \Skif\Comment\CommentFactory::loadComment($parent_id);
                 if ($parent_comment_obj) {
                     $site_email = \Skif\Conf\ConfWrapper::value('site_email');
                     $site_url = \Skif\Conf\ConfWrapper::value('site_url');
@@ -113,7 +120,7 @@ class CommentsController
      * Удаление комментария
      * @param $comment_id
      */
-    public static function deleteAction($comment_id)
+    public static function deleteWebAction($comment_id)
     {
         if (!\Skif\Users\AuthUtils::currentUserIsAdmin()) {
             \Skif\Http::redirect404();
@@ -123,7 +130,7 @@ class CommentsController
             \Skif\Http::redirect404();
         }
 
-        $comment_obj = \Skif\Comments\CommentFactory::loadComment($comment_id);
+        $comment_obj = \Skif\Comment\CommentFactory::loadComment($comment_id);
         if (!$comment_obj) {
             \Skif\Http::redirect404();
         }

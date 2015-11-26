@@ -1,10 +1,19 @@
 <?php
 
-namespace Skif\Comments;
+namespace Skif\Comment;
 
 
-class Comment
+class Comment  implements
+    \Skif\Model\InterfaceLoad,
+    \Skif\Model\InterfaceFactory,
+    \Skif\Model\InterfaceSave,
+    \Skif\Model\InterfaceDelete
 {
+    use \Skif\Util\ActiveRecord;
+    use \Skif\Model\FactoryTrait;
+
+    const DB_TABLE_NAME = 'comments';
+
     protected $id;
     protected $parent_id;
     protected $url;
@@ -15,21 +24,50 @@ class Comment
     protected $date_time;
     protected $children_ids_arr;
 
-    public function load($page_id)
-    {
-        $query = "SELECT id, parent_id, url, user_id, user_name, user_email, comment, date_time FROM comments WHERE id=?";
-        $raw_obj = \Skif\DB\DBWrapper::readObject($query, array($page_id));
 
-        if (!$raw_obj) {
+    public static $crud_create_button_required_fields_arr = array();
+    public static $crud_create_button_title = 'Добавить комментарий';
+
+    public static $crud_model_class_screen_name = 'Комментарий';
+    public static $crud_model_title_field = 'name';
+
+    public static $crud_field_titles_arr = array(
+        'name' => 'Название',
+        'description' => 'Описание',
+        'value' => 'Значение',
+    );
+
+    public static $crud_model_class_screen_name_for_list = 'Переменные';
+
+    public static $crud_fields_list_arr = array(
+        'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
+        'name' => array('col_class' => 'col-md-4 col-sm-6 col-xs-6'),
+        'description' => array('col_class' => 'col-md-4 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
+        '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
+    );
+
+    public static $crud_editor_fields_arr = array(
+        'name' => array('widget_settings' => array('disabled' => true)),
+        'description' => array(),
+        'value' => array('widget' => 'textarea'),
+    );
+
+    public function getEditorTabsArr()
+    {
+        $tabs_obj_arr = array();
+        $tabs_obj_arr[] = new \Skif\EditorTabs\Tab(\Skif\KeyValue\KeyValueController::getEditUrlForObj($this), 'Переменная');
+
+        return $tabs_obj_arr;
+    }
+
+    public function load($id)
+    {
+        $is_loaded = \Skif\Util\ActiveRecordHelper::loadModelObj($this, $id);
+        if (!$is_loaded) {
             return false;
         }
 
-        $object_vars_arr = get_object_vars($raw_obj);
-        foreach ($object_vars_arr as $key => $value) {
-            $this->$key = $value;
-        }
-
-        $this->children_ids_arr = \Skif\Comments\CommentsUtils::getCommentsIdsArrByUrl($this->getUrl(), 1, $this->getId());
+        $this->children_ids_arr = \Skif\Comment\CommentUtils::getCommentsIdsArrByUrl($this->getUrl(), 1, $this->getId());
 
         return true;
     }

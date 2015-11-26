@@ -21,6 +21,7 @@ class DefaultConf
             array('link' => '/admin/content/page', 'name' => 'Страницы', 'icon' => '<i class="fa fa-files-o fa-fw"></i>'),
             array('link' => '/admin/site_menu', 'name' => 'Менеджер меню', 'icon' => '<i class="fa fa-bars fa-fw"></i>'),
             array('link' => '/admin/content/news', 'name' => 'Новости', 'icon' => '<i class="fa fa-newspaper-o fa-fw"></i>'),
+            array('link' => '/admin/comments', 'name' => 'Комментарии', 'icon' => '<i class="fa fa-newspaper-o fa-fw"></i>'),
             array('link' => '/admin/users', 'name' => 'Пользователи', 'icon' => '<i class="fa fa-users fa-fw"></i>'),
             array('link' => '/admin/blocks', 'name' => 'Блоки', 'icon' => '<i class="fa fa-table fa-fw"></i>'),
         );

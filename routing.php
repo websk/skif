@@ -11,6 +11,7 @@ $route_based_crud_arr = array(
     '/crud/[\d\w\%]+' => '\Skif\CRUD\CRUDController',
     '/admin/key_value' => '\Skif\KeyValue\KeyValueController',
     '/admin/redirect' => '\Skif\Redirect\RedirectController',
+    '/admin/comments' => '\Skif\Comment\CommentController',
 );
 
 foreach ($route_based_crud_arr as $base_url => $controller) {
@@ -98,9 +99,9 @@ if (strpos($current_url_no_query, '/admin') !== false) {
 \Skif\UrlManager::route('@^/user/login@', '\Skif\Users\AuthController', 'loginAction');
 
 // Комментарии
-\Skif\UrlManager::route('@^/comments/list$@', '\Skif\Comments\CommentsController', 'listAction');
-\Skif\UrlManager::route('@^/comments/add$@', '\Skif\Comments\CommentsController', 'saveAction');
-\Skif\UrlManager::route('@^/comments/delete/(\d+)$@', '\Skif\Comments\CommentsController', 'deleteAction');
+\Skif\UrlManager::route('@^/comments/list$@', '\Skif\Comment\CommentController', 'listWebAction');
+\Skif\UrlManager::route('@^/comments/add$@', '\Skif\Comment\CommentController', 'saveWebAction');
+\Skif\UrlManager::route('@^/comments/delete/(\d+)$@', '\Skif\Comment\CommentController', 'deleteWebAction');
 
 // Country
 \Skif\UrlManager::route('@^/autocomplete/countries$@', '\Skif\CountryController', 'CountriesAutoCompleteAction');
