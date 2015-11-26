@@ -67,10 +67,12 @@ if (strpos($current_url_no_query, '/admin') !== false) {
     \Skif\UrlManager::route('@^/admin/users/roles/delete/(.+)@', '\Skif\Users\UserController', 'deleteUsersRoleAction');
 
     // Admin2 KeyValue
-    \Skif\UrlManager::route('@^/admin/key_value$@i', '\Skif\KeyValue\KeyValueController', 'listAction', 0);
+    \Skif\UrlManager::route('@^/admin/key_value/add/$@', '\Skif\KeyValue\KeyValueController', 'addAction', 0);
+    \Skif\UrlManager::route('@^/admin/key_value/create/(.+)$@', '\Skif\KeyValue\KeyValueController', 'createAction', 0);
     \Skif\UrlManager::route('@^/admin/key_value/edit/(.+)$@', '\Skif\KeyValue\KeyValueController', 'editAction', 0);
     \Skif\UrlManager::route('@^/admin/key_value/save/(.+)$@i', '\Skif\KeyValue\KeyValueController', 'saveAction', 0);
     \Skif\UrlManager::route('@^/admin/key_value/delete/(\d+)$@i', '\Skif\KeyValue\KeyValueController', 'deleteAction', 0);
+    \Skif\UrlManager::route('@^/admin/key_value$@i', '\Skif\KeyValue\KeyValueController', 'listAction', 0);
 
     exit;
 }
@@ -78,8 +80,8 @@ if (strpos($current_url_no_query, '/admin') !== false) {
 // CRUD
 \Skif\UrlManager::route('@^/crud/[\d\w\%]+/add@i', '\Skif\CRUD\CRUDController', 'addAction', 0);
 \Skif\UrlManager::route('@^/crud/[\d\w\%]+/create@i', '\Skif\CRUD\CRUDController', 'createAction', 0);
-\Skif\UrlManager::route('@^/crud/[\d\w\%]+/save/(\d+)@i', '\Skif\CRUD\CRUDController', 'saveAction', 0);
 \Skif\UrlManager::route('@^/crud/[\d\w\%]+/edit/(\d+)@i', '\Skif\CRUD\CRUDController', 'editAction', 0);
+\Skif\UrlManager::route('@^/crud/[\d\w\%]+/save/(\d+)@i', '\Skif\CRUD\CRUDController', 'saveAction', 0);
 \Skif\UrlManager::route('@^/crud/[\d\w\%]+/delete/(\d+)@i', '\Skif\CRUD\CRUDController', 'deleteAction', 0);
 \Skif\UrlManager::route('@^/crud/[\d\w\%]+/list@i', '\Skif\CRUD\CRUDController', 'listAction', 0);
 \Skif\UrlManager::route('@^/crud/[\d\w\%]+$@i', '\Skif\CRUD\CRUDController', 'listAction', 0);
