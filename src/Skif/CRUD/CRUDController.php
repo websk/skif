@@ -19,17 +19,17 @@ class CRUDController
 
     public static function getListUrl($model_class_name)
     {
-        return self::getBaseUrl($model_class_name);
+        return static::getBaseUrl($model_class_name);
     }
 
     public static function getCreateUrl($model_class_name)
     {
-        return self::getBaseUrl($model_class_name) . '/create';
+        return static::getBaseUrl($model_class_name) . '/create';
     }
 
     public static function getAddUrl($model_class_name)
     {
-        return self::getBaseUrl($model_class_name) . '/add';
+        return static::getBaseUrl($model_class_name) . '/add';
     }
 
     /**
@@ -37,7 +37,7 @@ class CRUDController
      */
     public static function getEditUrl($model_class_name, $obj_id)
     {
-        return self::getBaseUrl($model_class_name) . '/edit/' . $obj_id;
+        return static::getBaseUrl($model_class_name) . '/edit/' . $obj_id;
     }
 
     /**
@@ -52,12 +52,12 @@ class CRUDController
 
         $obj_id = $obj->getId();
 
-        return self::getEditUrl($obj_class_name, $obj_id);
+        return static::getEditUrl($obj_class_name, $obj_id);
     }
 
     public static function getDeleteUrl($model_class_name, $obj_id)
     {
-        return self::getBaseUrl($model_class_name) . '/delete/' . $obj_id;
+        return static::getBaseUrl($model_class_name) . '/delete/' . $obj_id;
     }
 
     /**
@@ -71,12 +71,12 @@ class CRUDController
 
         $obj_id = $obj->getId();
 
-        return self::getDeleteUrl($obj_class_name, $obj_id);
+        return static::getDeleteUrl($obj_class_name, $obj_id);
     }
 
     public static function getSaveUrl($model_class_name, $obj_id)
     {
-        return self::getBaseUrl($model_class_name) . '/save/' . $obj_id;
+        return static::getBaseUrl($model_class_name) . '/save/' . $obj_id;
     }
 
     public function listAction($model_class_name = '')
@@ -113,7 +113,7 @@ class CRUDController
             array(
                 'title' => $crud_model_class_screen_name_for_list,
                 'content' => $list_html,
-                'breadcrumbs_arr' => self::$base_breadcrumbs
+                'breadcrumbs_arr' => static::$base_breadcrumbs
             )
         );
     }
@@ -140,7 +140,7 @@ class CRUDController
             )
         );
 
-        $breadcrumbs_arr = self::$base_breadcrumbs;
+        $breadcrumbs_arr = static::$base_breadcrumbs;
 
         if (!property_exists($model_class_name, 'show_models_list_link')) {
             $show_models_list_link = true;
@@ -190,7 +190,7 @@ class CRUDController
             )
         );
 
-        $breadcrumbs_arr = self::$base_breadcrumbs;
+        $breadcrumbs_arr = static::$base_breadcrumbs;
 
         if (!property_exists($model_class_name, 'show_models_list_link')) {
             $show_models_list_link = true;
@@ -215,7 +215,7 @@ class CRUDController
         /*
         $container_obj = \Skif\CRUD\CRUDUtils::getObjContainerObj($edited_obj);
         if ($container_obj) {
-            $container_obj_url = self::getEditUrlForObj($container_obj);
+            $container_obj_url = static::getEditUrlForObj($container_obj);
             $container_obj_full_title = \Skif\CRUD\CRUDUtils::getFullObjectTitle($container_obj);
             $breadcrumbs_arr[$container_obj_full_title] = $container_obj_url;
         }
