@@ -96,13 +96,13 @@ if ($obj instanceof \Skif\Model\InterfaceSave) {
             <div class="form-group">
                 <div class="col-md-10 col-md-offset-2">
                     <button type="submit" class="btn btn-primary">Сохранить изменения</button>
-                    <a href="<?php echo $current_controller_obj::getDeleteUrl($model_class_name, $obj->getId()); ?>" class="btn btn-danger pull-right" onclick="deleteComfirm();">Удалить</a>
+                    <a href="<?php echo $current_controller_obj::getDeleteUrl($model_class_name, $obj->getId()); ?>" class="btn btn-danger pull-right" onclick="return deleteConfirm();">Удалить</a>
                 </div>
             </div>
         </form>
 
         <script>
-            function deleteComfirm() {
+            function deleteConfirm() {
                 return confirm("Вы действительно хотите удалить <?php echo \Skif\CRUD\CRUDUtils::getModelTitleForObj($obj); ?>?");
             }
 
