@@ -176,9 +176,9 @@ class CRUDController
         );
     }
 
-    public function editAction($model_class_name = '', $obj_id)
+    public function editAction($obj_id)
     {
-        if (!$model_class_name) {
+        if (!isset($model_class_name)) {
             $model_class_name = static::$model_class_name;
         }
 
