@@ -10,7 +10,7 @@ $current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
 $route_based_crud_arr = array(
     '/crud/[\d\w\%]+' => '\Skif\CRUD\CRUDController',
     '/admin/key_value' => '\Skif\KeyValue\KeyValueController',
-    '/admin/redirect/' => '\Skif\Redirect\RedirectController',
+    '/admin/redirect' => '\Skif\Redirect\RedirectController',
 );
 
 foreach ($route_based_crud_arr as $base_url => $controller) {

@@ -14,12 +14,12 @@ class Redirect implements
 
     const DB_TABLE_NAME = 'redirect_rewrites';
 
-
     protected $id;
     protected $src;
     protected $dst;
     protected $code;
     protected $kind;
+
 
     public static $crud_create_button_required_fields_arr = array();
     public static $crud_create_button_title = 'Добавить редирект';
