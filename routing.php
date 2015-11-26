@@ -13,6 +13,10 @@ $route_based_crud_arr = array(
 );
 
 foreach ($route_based_crud_arr as $base_url => $controller) {
+    if (!preg_match($base_url, $current_url_no_query, $matches_arr)) {
+        continue;
+    }
+
     \Skif\UrlManager::route('@^' . $base_url . '/add@', $controller, 'addAction', 0);
     \Skif\UrlManager::route('@^' . $base_url . '/create@', $controller, 'createAction', 0);
     \Skif\UrlManager::route('@^' . $base_url . '/edit/(.+)$@', $controller, 'editAction', 0);
