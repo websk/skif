@@ -86,6 +86,7 @@ class CommentController extends \Skif\CRUD\CRUDController
         $comment_obj->setUserName($user_name);
         $comment_obj->setUserEmail($user_email);
         $comment_obj->setComment($comment);
+        $comment_obj->setDateTime(date('Y-m-d H:i:s'));
         $comment_obj->save();
 
         \Skif\Messages::setMessage('Ваше сообщение добавлено');
