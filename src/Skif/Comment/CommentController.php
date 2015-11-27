@@ -111,7 +111,7 @@ class CommentController extends \Skif\CRUD\CRUDController
 
         }
 
-        \Skif\Factory::removeObjectFromCache('\Skif\Comments\Comment', $comment_id);
+        \Skif\Factory::removeObjectFromCache('\Skif\Comment\Comment', $comment_id);
 
         \Skif\Http::redirect($url . '#comments');
     }
