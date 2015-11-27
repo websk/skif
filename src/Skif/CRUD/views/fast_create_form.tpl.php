@@ -17,16 +17,17 @@ $fast_create_field_name = $model_class_name::$crud_fast_create_field_name;
 
 $label_field_name = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $fast_create_field_name);
 $create_url = $current_controller_obj::getCreateUrl($model_class_name);
+?>
+<form role="form" method="post" class="form" action="<?php echo $create_url; ?>">
+    <div class="form-group">
+        <input placeholder="<?php echo $label_field_name; ?>" name="<?php echo $fast_create_field_name; ?>" class="form-control">
+        <button type="submit" class="btn btn-default">Добавить</button>
 
-echo '<form role="form" method="post" class="form-inline" action="' . $create_url . '">';
-echo '<div class="form-group">';
-echo '<input placeholder="' . $label_field_name . '" name="' . $fast_create_field_name . '" class="form-control"/>';
-echo '<button type="submit" class="btn btn-default">Добавить</button>';
-
-foreach ($context_arr as $context_arr_key => $context_arr_value) {
-    echo '<input type="hidden" name="' . $context_arr_key . '" value="' . $context_arr_value . '">';
-}
-
-echo '<input type="hidden" name="destination" value="' . \Skif\UrlManager::getUriNoQueryString() . '">';
-echo '</div>';
-echo '</form>';
+        <?php
+        foreach ($context_arr as $context_arr_key => $context_arr_value) {
+            echo '<input type="hidden" name="' . $context_arr_key . '" value="' . $context_arr_value . '">';
+        }
+        ?>
+        <input type="hidden" name="destination" value="<?php echo \Skif\UrlManager::getUriNoQueryString(); ?>">
+    </div>
+</form>
