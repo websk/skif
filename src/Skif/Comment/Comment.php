@@ -195,8 +195,8 @@ class Comment  implements
         $query = "DELETE FROM comments WHERE id=?";
         \Skif\DB\DBWrapper::query($query, array($this->id));
 
-        \Skif\Factory::removeObjectFromCache('\Skif\Comments\Comment', $this->id);
-        \Skif\Factory::removeObjectFromCache('\Skif\Comments\Comment', $this->parent_id);
+        \Skif\Factory::removeObjectFromCache('\Skif\Comment\Comment', $this->id);
+        \Skif\Factory::removeObjectFromCache('\Skif\Comment\Comment', $this->parent_id);
 
         return true;
     }
