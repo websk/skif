@@ -24,14 +24,14 @@ $create_url = $current_controller_obj::getCreateUrl($model_class_name);
     <div class="form-group">
         <?php
         echo \Skif\CRUD\Widgets::renderFieldWithWidget($fast_create_field_name, $obj);
-        ?>
-        <button type="submit" class="btn btn-default">Добавить</button>
 
-        <?php
         foreach ($context_arr as $context_arr_key => $context_arr_value) {
             echo '<input type="hidden" name="' . $context_arr_key . '" value="' . $context_arr_value . '">';
         }
         ?>
         <input type="hidden" name="destination" value="<?php echo \Skif\UrlManager::getUriNoQueryString(); ?>">
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-default">Добавить</button>
     </div>
 </form>
