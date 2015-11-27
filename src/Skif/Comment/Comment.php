@@ -16,7 +16,7 @@ class Comment  implements
     const DB_TABLE_NAME = 'comments';
 
     protected $id;
-    protected $parent_id;
+    protected $parent_id = null;
     protected $comment;
     protected $url;
     protected $user_id = null;
