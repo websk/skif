@@ -51,7 +51,7 @@ class Comment  implements
         '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
     );
 
-    public static $crud_default_context_arr_for_list = array('parent_id' => 0);
+    public static $crud_default_context_arr_for_list = array('parent_id' => null);
 
     public static $crud_editor_fields_arr = array(
         'user_name' => array(),
