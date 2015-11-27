@@ -191,6 +191,26 @@ class Comment  implements
     }
 
     /**
+     * @return mixed
+     */
+    public function getDateTime()
+    {
+        return $this->date_time;
+    }
+
+    /**
+     * @param mixed $date_time
+     */
+    public function setDateTime($date_time)
+    {
+        if (!$date_time) {
+            $date_time = date('Y-m-d H:i:s');
+        }
+
+        $this->date_time = $date_time;
+    }
+
+    /**
      * Удаление комментария
      * @return bool
      */
