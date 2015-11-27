@@ -30,7 +30,7 @@ class Comment  implements
     public static $crud_create_button_title = 'Добавить комментарий';
 
     public static $crud_model_class_screen_name = 'Комментарий';
-    public static $crud_model_title_field = 'comment';
+    public static $crud_model_title_field = 'id';
 
     public static $crud_field_titles_arr = array(
         'comment' => 'Комментарий',
