@@ -66,6 +66,8 @@ class Comment  implements
         'comment' => array('widget' => 'textarea'),
     );
 
+    public static $crud_fast_create_field_name = 'comment';
+
     public static $crud_related_models_arr = array(
         '\Skif\Comment\Comment' => array(
             'link_field' => 'parent_id',
