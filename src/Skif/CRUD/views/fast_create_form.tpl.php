@@ -22,6 +22,7 @@ $create_url = $current_controller_obj::getCreateUrl($model_class_name);
 ?>
 <form role="form" method="post" class="form" action="<?php echo $create_url; ?>">
     <div class="form-group">
+        <label><?php echo $label_field_name; ?></label>
         <?php
         echo \Skif\CRUD\Widgets::renderFieldWithWidget($fast_create_field_name, $obj);
 
