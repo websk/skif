@@ -27,7 +27,7 @@ class Comment  implements
     protected $url_md5;
 
 
-    //public static $crud_create_button_required_fields_arr = array('parent_id');
+    public static $crud_create_button_required_fields_arr = array('parent_id');
     public static $crud_create_button_title = 'Добавить комментарий';
 
     public static $crud_model_class_screen_name = 'Комментарий';

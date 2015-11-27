@@ -82,33 +82,31 @@ if (isset($list_title)) {
 
     <?php
     if (\Skif\CRUD\CRUDUtils::canDisplayCreateButton($model_class_name, $context_arr)) {
-        $button_title = 'Добавить';
-        if (isset($model_class_name::$crud_create_button_title)) {
-            $button_title = $model_class_name::$crud_create_button_title;
+        if (property_exists($model_class_name, 'crud_fast_create_field_name')) {
+            // create fast add block
+
+            echo \Skif\PhpTemplate::renderTemplateBySkifModule(
+                'CRUD',
+                'fast_create_form.tpl.php',
+                array(
+                    'model_class_name' => $model_class_name,
+                    'context_arr' => $context_arr
+                )
+            );
+        } else {
+            $button_title = 'Добавить';
+            if (isset($model_class_name::$crud_create_button_title)) {
+                $button_title = $model_class_name::$crud_create_button_title;
+            }
+
+            ?>
+            <p class="padding_top_10 padding_bottom_10">
+                <a href="<?php echo $current_controller_obj::getAddUrl($model_class_name)
+                    . ($context_arr ? '?' . http_build_query(array('context_arr' => $context_arr)) : ''); ?>"
+                   class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> <?php echo $button_title; ?></a>
+            </p>
+            <?php
         }
-
-        ?>
-        <p class="padding_top_10 padding_bottom_10">
-            <a href="<?php echo $current_controller_obj::getAddUrl($model_class_name)
-                . ($context_arr ? '?' . http_build_query(array('context_arr' => $context_arr)) : ''); ?>"
-               class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> <?php echo $button_title; ?></a>
-        </p>
-        <?php
-    }
-    ?>
-
-    <?php
-    // create fast add block
-
-    if ($context_arr) {
-        echo \Skif\PhpTemplate::renderTemplateBySkifModule(
-            'CRUD',
-            'fast_create_form.tpl.php',
-            array(
-                'model_class_name' => $model_class_name,
-                'context_arr' => $context_arr
-            )
-        );
     }
     ?>
 
