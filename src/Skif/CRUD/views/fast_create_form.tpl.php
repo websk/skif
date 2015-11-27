@@ -1,6 +1,7 @@
 <?php
 /**
  * @var $model_class_name
+ * @var $context_arr
  */
 
 $current_controller_obj = \Skif\UrlManager::getCurrentControllerObj();
