@@ -100,14 +100,16 @@ if (isset($list_title)) {
     <?php
     // create fast add block
 
-    echo \Skif\PhpTemplate::renderTemplateBySkifModule(
-        'CRUD',
-        'fast_create_form.tpl.php',
-        array(
-            'model_class_name' => $model_class_name,
-            'context_arr' => $context_arr
-        )
-    );
+    if ($context_arr) {
+        echo \Skif\PhpTemplate::renderTemplateBySkifModule(
+            'CRUD',
+            'fast_create_form.tpl.php',
+            array(
+                'model_class_name' => $model_class_name,
+                'context_arr' => $context_arr
+            )
+        );
+    }
     ?>
 
     <?php
