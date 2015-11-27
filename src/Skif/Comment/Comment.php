@@ -58,7 +58,7 @@ class Comment  implements
         'parent_id' => array(
             'widget' => array('\Skif\CRUD\ModelReferenceWidget\ModelReferenceWidget', 'renderWidget'),
             'widget_settings' => array(
-                'model_class_name' => '\Sportbox\Stats\Turnir'
+                'model_class_name' => '\Skif\Comment\Comment'
             )
         ),
         'comment' => array('widget' => 'textarea'),
