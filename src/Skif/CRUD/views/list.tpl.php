@@ -82,9 +82,9 @@ if (isset($list_title)) {
 
     <?php
     if (\Skif\CRUD\CRUDUtils::canDisplayCreateButton($model_class_name, $context_arr)) {
-        $button_title= 'Добавить';
+        $button_title = 'Добавить';
         if (isset($model_class_name::$crud_create_button_title)) {
-            $button_title= $model_class_name::$crud_create_button_title;
+            $button_title = $model_class_name::$crud_create_button_title;
         }
 
         ?>

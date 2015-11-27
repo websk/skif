@@ -33,6 +33,12 @@ $create_url = $current_controller_obj::getCreateUrl($model_class_name);
         <input type="hidden" name="destination" value="<?php echo \Skif\UrlManager::getUriNoQueryString(); ?>">
     </div>
     <div class="form-group">
-        <button type="submit" class="btn btn-default">Добавить</button>
+        <?php
+        $button_title = 'Добавить';
+        if (isset($model_class_name::$crud_create_button_title)) {
+            $button_title = $model_class_name::$crud_create_button_title;
+        }
+        ?>
+        <button type="submit" class="btn btn-default"><?php echo $button_title; ?></button>
     </div>
 </form>
