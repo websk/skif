@@ -37,6 +37,7 @@ class Comment  implements
         'user_name' => 'Пользователь',
         'user_email' => 'Email',
         'date_time' => 'Добавлено',
+        'parent_id' => 'Родитель',
     );
 
     public static $crud_model_class_screen_name_for_list = 'Комментарии';
