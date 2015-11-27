@@ -117,6 +117,10 @@ class CRUDController
         \Skif\Utils::assert($model_class_name);
 
         $context_arr = array();
+        if (property_exists($model_class_name, 'crud_default_context_arr_for_list')) {
+            $context_arr = $model_class_name::$crud_default_context_arr_for_list;
+        }
+
         if (array_key_exists('context_arr', $_GET)) {
             $context_arr = $_GET['context_arr'];
         }
