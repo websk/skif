@@ -26,6 +26,10 @@ class Comment  implements
     protected $children_ids_arr;
     protected $url_md5;
 
+    public static $active_record_ignore_fields_arr = array(
+        'children_ids_arr',
+    );
+
 
     public static $crud_create_button_required_fields_arr = array('parent_id');
     public static $crud_create_button_title = 'Добавить комментарий';
