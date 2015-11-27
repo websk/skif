@@ -13,6 +13,8 @@ if (!property_exists($model_class_name, 'crud_fast_create_field_name')) {
     return;
 }
 
+$obj = new $model_class_name;
+
 $fast_create_field_name = $model_class_name::$crud_fast_create_field_name;
 
 $label_field_name = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $fast_create_field_name);
@@ -20,7 +22,9 @@ $create_url = $current_controller_obj::getCreateUrl($model_class_name);
 ?>
 <form role="form" method="post" class="form" action="<?php echo $create_url; ?>">
     <div class="form-group">
-        <input placeholder="<?php echo $label_field_name; ?>" name="<?php echo $fast_create_field_name; ?>" class="form-control">
+        <?php
+        echo \Skif\CRUD\Widgets::renderFieldWithWidget($label_field_name, $obj);
+        ?>
         <button type="submit" class="btn btn-default">Добавить</button>
 
         <?php
