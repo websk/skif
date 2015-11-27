@@ -280,24 +280,6 @@ class Comment  implements
     }
 
     /**
-     * Удаление комментария
-     * @return bool
-     */
-    public function delete()
-    {
-        $query = "DELETE FROM comments WHERE parent_id=?";
-        \Skif\DB\DBWrapper::query($query, array($this->id));
-
-        $query = "DELETE FROM comments WHERE id=?";
-        \Skif\DB\DBWrapper::query($query, array($this->id));
-
-        \Skif\Factory::removeObjectFromCache('\Skif\Comment\Comment', $this->id);
-        \Skif\Factory::removeObjectFromCache('\Skif\Comment\Comment', $this->parent_id);
-
-        return true;
-    }
-
-    /**
      * Ветка с ответами
      * @return mixed
      */
@@ -305,5 +287,18 @@ class Comment  implements
     {
         return $this->children_ids_arr;
     }
+
+    public function afterDelete()
+    {
+        $children_ids_arr = $this->getChildrenIdsArr();
+
+        foreach ($children_ids_arr as $children_comment_id) {
+            $children_comment_obj = \Skif\Comment\Comment::factory($children_comment_id);
+            $children_comment_obj->delete();
+        }
+
+        self::removeObjFromCacheById($this->getId());
+    }
+
 
 }
