@@ -42,10 +42,10 @@ if ($read_only) {
 }
 ?>
 <div class="row">
-    <div class="col-sm-9 col-xs-12">
+    <div class="col-md-9 col-sm-9 col-xs-12">
         <p class="form-control-static"<?= $additional_style ?> id="modelid-title-<?= $field_name ?>"><?= $model_obj_title ?></p>
     </div>
-    <div class="col-sm-3 col-xs-12">
+    <div class="col-md-3 col-sm-3 col-xs-12">
         <input type="text"<?= $disable_str ?> class="form-control" value="<?= $field_value ?>" id="modelid-number-<?= $field_name ?>" placeholder="введите ID" name="<?= $field_name ?>">
     </div>
 </div>
