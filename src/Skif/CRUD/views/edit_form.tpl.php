@@ -141,7 +141,7 @@ if (property_exists($model_class_name, 'crud_related_models_arr')) {
 
         $context_arr = array($relation_field_name => $obj->getId());
         foreach ($related_model_data['context_fields_arr'] as $context_field) {
-            $context_arr[] = array($context_field => $obj->$context_field);
+            $context_arr[] = array($context_field => \Skif\CRUD\CRUDUtils::getObjectFieldValue($obj, $context_field));
         }
 
         echo '<hr>';
