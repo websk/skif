@@ -90,26 +90,6 @@ class CommentController extends \Skif\CRUD\CRUDController
 
         \Skif\Messages::setMessage('Ваше сообщение добавлено');
 
-        if ($parent_id) {
-            if (\Skif\Conf\ConfWrapper::value('comments.send_answer_to_email') && $user_email) {
-                $parent_comment_obj = \Skif\Comment\CommentFactory::loadComment($parent_id);
-                if ($parent_comment_obj) {
-                    $site_email = \Skif\Conf\ConfWrapper::value('site_email');
-                    $site_url = \Skif\Conf\ConfWrapper::value('site_url');
-                    $site_name = \Skif\Conf\ConfWrapper::value('site_name');
-
-                    $mail_message = 'Здравствуйте, ' . $user_name . '!<br />';
-                    $mail_message .= 'Получен ответ на ваше сообщение:<br />';
-                    $mail_message .= $parent_comment_obj->getComment() . '<br />';
-                    $mail_message .= 'Ответ: ' . $comment . '<br />';
-                    $mail_message .= $site_name . ', ' . $site_url;
-
-                    $subject = 'Ответ на сообщение на сайте' . $site_name;
-                    \Skif\SendMail::mailToUtf8($user_email, $site_email, $site_name, $subject, $mail_message);
-                }
-            }
-        }
-
         \Skif\Http::redirect($url . '#comments');
     }
 
