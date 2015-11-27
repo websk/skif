@@ -36,15 +36,15 @@ class Comment  implements
         'comment' => 'Комментарий',
         'user_name' => 'Пользователь',
         'user_email' => 'Email',
-        'date_time' => 'Время добавления',
+        'date_time' => 'Добавлено',
     );
 
     public static $crud_model_class_screen_name_for_list = 'Комментарии';
 
     public static $crud_fields_list_arr = array(
         'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
-        'comment' => array('col_class' => 'col-md-4 col-sm-4 col-xs-6'),
-        'user_name' => array('col_class' => 'col-md-2 col-sm-2 col-xs-6'),
+        'comment' => array('col_class' => 'col-md-4 col-sm-6 col-xs-6'),
+        'user_name' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
         'date_time' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
         '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
     );
