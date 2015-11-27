@@ -67,6 +67,7 @@ class Comment  implements
                 'model_class_name' => '\Skif\Comment\Comment'
             )
         ),
+        'date_time' => array(),
         'comment' => array('widget' => 'textarea'),
     );
 
