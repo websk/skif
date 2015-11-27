@@ -125,6 +125,14 @@ class Comment  implements
     }
 
     /**
+     * @param mixed $parent_id
+     */
+    public function setParentId($parent_id)
+    {
+        $this->parent_id = $parent_id;
+    }
+
+    /**
      * Page URL
      * @return string
      */
@@ -134,12 +142,44 @@ class Comment  implements
     }
 
     /**
+     * @param mixed $url
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUrlMd5()
+    {
+        return $this->url_md5;
+    }
+
+    /**
+     * @param mixed $url_md5
+     */
+    public function setUrlMd5($url_md5)
+    {
+        $this->url_md5 = $url_md5;
+    }
+
+    /**
      * User ID
      * @return null|int
      */
     public function getUserId()
     {
         return $this->user_id;
+    }
+
+    /**
+     * @param null $user_id
+     */
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id;
     }
 
     /**
@@ -159,6 +199,14 @@ class Comment  implements
     }
 
     /**
+     * @param mixed $user_name
+     */
+    public function setUserName($user_name)
+    {
+        $this->user_name = $user_name;
+    }
+
+    /**
      * Email незарегистрированного пользователя
      * @return string
      */
@@ -174,6 +222,14 @@ class Comment  implements
     }
 
     /**
+     * @param mixed $user_email
+     */
+    public function setUserEmail($user_email)
+    {
+        $this->user_email = $user_email;
+    }
+
+    /**
      * Комментарий
      * @return string
      */
@@ -183,7 +239,15 @@ class Comment  implements
     }
 
     /**
-     * Время в вормате unix time
+     * @param mixed $comment
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
+    }
+
+    /**
+     * Время в формате unix time
      * @return int
      */
     public function getUnixTime()
@@ -196,6 +260,10 @@ class Comment  implements
      */
     public function getDateTime()
     {
+        if (!$this->getId() && !$this->date_time) {
+            return date('Y-m-d H:i:s');
+        }
+
         return $this->date_time;
     }
 
@@ -204,10 +272,6 @@ class Comment  implements
      */
     public function setDateTime($date_time)
     {
-        if (!$date_time) {
-            $date_time = date('Y-m-d H:i:s');
-        }
-
         $this->date_time = $date_time;
     }
 

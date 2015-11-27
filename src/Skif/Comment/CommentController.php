@@ -74,16 +74,21 @@ class CommentController extends \Skif\CRUD\CRUDController
 
         $comment = nl2br($comment);
 
-        $query = "INSERT INTO comments SET parent_id=?, url=?, url_md5=?, user_id=?, user_name=?, user_email=?, comment=?, date_time=NOW()";
-
         $user_name = array_key_exists('user_name', $_REQUEST) ? $_REQUEST['user_name'] : '';
         $user_email = array_key_exists('user_email', $_REQUEST) ? $_REQUEST['user_email'] : '';
         $parent_id = array_key_exists('parent_id', $_REQUEST) ? $_REQUEST['parent_id'] : null;
 
-        $param_arr = array($parent_id, $url, md5($url), $user_id, $user_name, $user_email, $comment);
-        \Skif\DB\DBWrapper::query($query, $param_arr);
+        $comment_obj = new \Skif\Comment\Comment();
+        $comment_obj->setParentId($parent_id);
+        $comment_obj->setUrl($url);
+        $comment_obj->setUrlMd5(md5($url));
+        $comment_obj->setUserId($user_id);
+        $comment_obj->setUserName($user_name);
+        $comment_obj->setUserEmail($user_email);
+        $comment_obj->setComment($comment);
+        $comment_obj->save();
 
-        $comment_id = \Skif\DB\DBWrapper::lastInsertId();
+        $comment_id = $comment_obj->getId();
 
         \Skif\Messages::setMessage('Ваше сообщение добавлено');
 
