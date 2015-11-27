@@ -44,6 +44,14 @@ if (property_exists($model_class_name, 'crud_container_model')) {
 }
 ?>
 
+<?php
+if (isset($list_title)) {
+    ?>
+    <h2><?php echo $list_title; ?></h2>
+<?php
+}
+?>
+
 <div>
     <?php
     if (isset($model_class_name::$crud_model_title_field)) {
