@@ -7,7 +7,8 @@ class Comment  implements
     \Skif\Model\InterfaceLoad,
     \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete
+    \Skif\Model\InterfaceDelete,
+    \Skif\Model\InterfaceGetTitle
 {
     use \Skif\Util\ActiveRecord;
     use \Skif\Model\FactoryTrait;
@@ -54,7 +55,12 @@ class Comment  implements
         'user_name' => array(),
         'user_email' => array(),
         'url' => array(),
-        'parent_id' => array(),
+        'parent_id' => array(
+            'widget' => array('\Skif\CRUD\ModelReferenceWidget\ModelReferenceWidget', 'renderWidget'),
+            'widget_settings' => array(
+                'model_class_name' => '\Sportbox\Stats\Turnir'
+            )
+        ),
         'comment' => array('widget' => 'textarea'),
     );
 
@@ -76,6 +82,11 @@ class Comment  implements
         $this->children_ids_arr = \Skif\Comment\CommentUtils::getCommentsIdsArrByUrl($this->getUrl(), 1, $this->getId());
 
         return true;
+    }
+
+    public function getTitle()
+    {
+        return 'Комментарий ' . $this->getId();
     }
 
     /**
