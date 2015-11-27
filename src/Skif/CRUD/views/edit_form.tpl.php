@@ -139,6 +139,11 @@ if (property_exists($model_class_name, 'crud_related_models_arr')) {
             }
         }
 
+        $context_arr = array($relation_field_name => $obj->getId());
+        foreach ($related_model_data['context_fields_arr'] as $context_field) {
+            $context_arr[] = array($context_field => $obj->$context_field);
+        }
+
         echo '<hr>';
 
         echo \Skif\PhpTemplate::renderTemplateBySkifModule(
@@ -146,7 +151,7 @@ if (property_exists($model_class_name, 'crud_related_models_arr')) {
             'list.tpl.php',
             array(
                 'model_class_name' => $related_model_class_name,
-                'context_arr' => array($relation_field_name => $obj->getId()),
+                'context_arr' => $context_arr,
                 'list_title' => $list_title
             )
         );
