@@ -76,7 +76,7 @@ class Comment  implements
         '\Skif\Comment\Comment' => array(
             'link_field' => 'parent_id',
             'list_title' => 'Ответы',
-            'context_fields_arr' => array('url_md5'),
+            'context_fields_arr' => array('url', 'url_md5'),
         )
     );
 
