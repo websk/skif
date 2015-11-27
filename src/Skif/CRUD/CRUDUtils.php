@@ -248,8 +248,12 @@ class CRUDUtils
             // чистим имя поля, возможно пришедшее из запроса
             $column_name = preg_replace("/[^a-zA-Z0-9_]+/", "", $column_name);
 
-            $where .= ' and ' . $column_name . ' = ?';
-            $query_param_values_arr[] = $value;
+            if ($value == null) {
+                $where .= ' AND ' . $column_name . ' IS NULL';
+            } else {
+                $where .= ' AND ' . $column_name . ' = ?';
+                $query_param_values_arr[] = $value;
+            }
         }
 
         if (isset($model_class_name::$crud_model_title_field)) {
