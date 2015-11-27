@@ -2,6 +2,7 @@
 /**
  * @var $model_class_name
  * @var $context_arr array
+ * @var $list_title
  */
 
 $current_controller_obj = \Skif\UrlManager::getCurrentControllerObj();
