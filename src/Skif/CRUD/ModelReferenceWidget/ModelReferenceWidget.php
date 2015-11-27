@@ -17,7 +17,7 @@ class ModelReferenceWidget {
         $widget_options['field_name'] = $field_name;
         $widget_options['field_value'] = $field_value;
 
-        $html = \Skif\PhpTemplate::renderTemplateByModule(
+        $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
             'CRUD\ModelReferenceWidget',
             'model_id.tpl.php',
             $widget_options
