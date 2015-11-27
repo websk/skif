@@ -23,7 +23,7 @@ $create_url = $current_controller_obj::getCreateUrl($model_class_name);
 <form role="form" method="post" class="form" action="<?php echo $create_url; ?>">
     <div class="form-group">
         <?php
-        echo \Skif\CRUD\Widgets::renderFieldWithWidget($label_field_name, $obj);
+        echo \Skif\CRUD\Widgets::renderFieldWithWidget($fast_create_field_name, $obj);
         ?>
         <button type="submit" class="btn btn-default">Добавить</button>
 
