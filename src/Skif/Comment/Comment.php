@@ -171,6 +171,10 @@ class Comment  implements
      */
     public function getUserId()
     {
+        if (!$this->getId() && !$this->user_id) {
+            return \Skif\Users\AuthUtils::getCurrentUserId();
+        }
+
         return $this->user_id;
     }
 
