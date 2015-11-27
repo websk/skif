@@ -288,6 +288,14 @@ class Comment  implements
         return $this->children_ids_arr;
     }
 
+    public static function afterUpdate($comment_id)
+    {
+        $comment_obj = \Skif\Comment\Comment::factory($comment_id);
+
+        self::removeObjFromCacheById($comment_obj->getParentId());
+        self::removeObjFromCacheById($comment_id);
+    }
+
     public function afterDelete()
     {
         $children_ids_arr = $this->getChildrenIdsArr();

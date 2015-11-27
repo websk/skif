@@ -88,13 +88,9 @@ class CommentController extends \Skif\CRUD\CRUDController
         $comment_obj->setComment($comment);
         $comment_obj->save();
 
-        $comment_id = $comment_obj->getId();
-
         \Skif\Messages::setMessage('Ваше сообщение добавлено');
 
         if ($parent_id) {
-            \Skif\Factory::removeObjectFromCache('\Skif\Comment\Comment', $parent_id);
-
             if (\Skif\Conf\ConfWrapper::value('comments.send_answer_to_email') && $user_email) {
                 $parent_comment_obj = \Skif\Comment\CommentFactory::loadComment($parent_id);
                 if ($parent_comment_obj) {
@@ -113,8 +109,6 @@ class CommentController extends \Skif\CRUD\CRUDController
                 }
             }
         }
-
-        \Skif\Factory::removeObjectFromCache('\Skif\Comment\Comment', $comment_id);
 
         \Skif\Http::redirect($url . '#comments');
     }
