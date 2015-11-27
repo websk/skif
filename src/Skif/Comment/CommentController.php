@@ -66,7 +66,6 @@ class CommentController extends \Skif\CRUD\CRUDController
             }
         }
 
-
         $comment = array_key_exists('comment', $_REQUEST) ? $_REQUEST['comment'] : '';
 
         if (!$comment) {
@@ -108,7 +107,6 @@ class CommentController extends \Skif\CRUD\CRUDController
                     \Skif\SendMail::mailToUtf8($user_email, $site_email, $site_name, $subject, $mail_message);
                 }
             }
-
         }
 
         \Skif\Factory::removeObjectFromCache('\Skif\Comment\Comment', $comment_id);
@@ -122,24 +120,18 @@ class CommentController extends \Skif\CRUD\CRUDController
      */
     public static function deleteWebAction($comment_id)
     {
-        if (!\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-            \Skif\Http::redirect404();
-        }
+        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
 
-        if (!$comment_id) {
-            \Skif\Http::redirect404();
-        }
+        \Skif\Http::exit404If(!$comment_id);
 
-        $comment_obj = \Skif\Comment\CommentFactory::loadComment($comment_id);
-        if (!$comment_obj) {
-            \Skif\Http::redirect404();
-        }
+        $comment_obj = \Skif\Comment\Comment::factory($comment_id, false);
+        \Skif\Http::exit404If(!$comment_obj);
 
-        $url = $comment_obj->getUrl();
+        $redirect_url = $comment_obj->getUrl();
 
         $comment_obj->delete();
 
-        \Skif\Http::redirect($url . '#comments');
+        \Skif\Http::redirect($redirect_url . '#comments');
     }
 
 } 
