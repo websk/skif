@@ -125,7 +125,18 @@ if (property_exists($model_class_name, 'crud_container_model')) {
                 <?php
                 foreach ($props_arr as $prop_obj) {
                     $table_title = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $prop_obj->getName());
-                    echo '<th>' . $table_title . '</th>';
+
+                    $td_class = '';
+                    if (array_key_exists($prop_obj->getName(), $crud_fields_list_arr)) {
+                        $list_field_arr = $crud_fields_list_arr[$prop_obj->getName()];
+
+                        if (array_key_exists('td_class', $list_field_arr)) {
+                            $td_class = $list_field_arr['td_class'];
+                        }
+                    }
+                    ?>
+                    <th<?php echo ($td_class ? ' class="' . $td_class . '"' : ''); ?>><?php echo $table_title; ?></th>
+                    <?php
                 }
                 ?>
                 <th></th>
