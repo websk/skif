@@ -326,6 +326,8 @@ class Comment  implements
             $children_comment_obj->delete();
         }
 
+        self::removeObjFromCacheById($this->getParentId());
+
         self::removeObjFromCacheById($this->getId());
     }
 
