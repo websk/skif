@@ -139,6 +139,8 @@ if (property_exists($model_class_name, 'crud_related_models_arr')) {
             }
         }
 
+        echo '<hr>';
+
         echo \Skif\PhpTemplate::renderTemplateBySkifModule(
             'CRUD',
             'list.tpl.php',
