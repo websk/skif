@@ -76,7 +76,7 @@ class CommentController extends \Skif\CRUD\CRUDController
 
         $user_name = array_key_exists('user_name', $_REQUEST) ? $_REQUEST['user_name'] : '';
         $user_email = array_key_exists('user_email', $_REQUEST) ? $_REQUEST['user_email'] : '';
-        $parent_id = array_key_exists('parent_id', $_REQUEST) ? $_REQUEST['parent_id'] : null;
+        $parent_id = array_key_exists('parent_id', $_REQUEST) ? $_REQUEST['parent_id'] : 0;
 
         $comment_obj = new \Skif\Comment\Comment();
         $comment_obj->setParentId($parent_id);
