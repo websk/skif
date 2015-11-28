@@ -6,18 +6,6 @@
 $user_name = '';
 $user_email = '';
 ?>
-<p class="text-right"><a href="/mail.php" class="btn btn-default">Связаться по электронной почте</a></p>
-<?php
-if (!\Skif\Users\AuthUtils::getCurrentUserId()) {
-    ?>
-    <p></p>
-    <p class="alert alert-warning">Уважаемые читатели! Для оперативного ответа на ваши вопросы, и помощи в решении возникших проблем,
-        пожалуйста, укажите ваши ФИО полностью, а также желательно адрес электронной почты. Не указывайте ваш номер
-        читательского билета.
-    </p>
-<?php
-}
-?>
 <form method="post" action="/comments/add" id="comment_form" class="form-horizontal">
     <div class="form-group">
         <div class="col-md-12">
