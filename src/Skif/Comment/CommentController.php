@@ -58,8 +58,6 @@ class CommentController extends \Skif\CRUD\CRUDController
         $url = $_REQUEST['url'];
 
 
-        $user_id = \Skif\Users\AuthUtils::getCurrentUserId();
-
         if (array_key_exists('captcha', $_REQUEST)) {
             if (!\Skif\Captcha\Captcha::checkWithMessage()) {
                 \Skif\Http::redirect($url);
@@ -81,11 +79,9 @@ class CommentController extends \Skif\CRUD\CRUDController
         $comment_obj->setParentId($parent_id);
         $comment_obj->setUrl($url);
         $comment_obj->setUrlMd5(md5($url));
-        $comment_obj->setUserId($user_id);
         $comment_obj->setUserName($user_name);
         $comment_obj->setUserEmail($user_email);
         $comment_obj->setComment($comment);
-        $comment_obj->setDateTime(date('Y-m-d H:i:s'));
         $comment_obj->save();
 
         \Skif\Messages::setMessage('Ваше сообщение добавлено');

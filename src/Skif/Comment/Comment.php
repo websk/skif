@@ -32,6 +32,7 @@ class Comment  implements
         $this->date_time = date('Y-m-d H:i:s');
     }
 
+
     public static $active_record_ignore_fields_arr = array(
         'children_ids_arr',
     );
