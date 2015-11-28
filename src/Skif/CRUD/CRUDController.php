@@ -17,7 +17,7 @@ class CRUDController
         return \Skif\Conf\ConfWrapper::value('layout.admin');
     }
 
-    protected static function getModelClassName()
+    public static function getModelClassName()
     {
         if (static::$model_class_name) {
             return static::$model_class_name;

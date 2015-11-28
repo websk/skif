@@ -49,7 +49,8 @@ foreach ($comments_ids_arr as $comment_id) {
             <?php echo nl2br($comment_obj->getComment()); ?>
             <?php
             if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-                echo '&nbsp;  [&nbsp;<a href="/comments/delete/' . $comment_obj->getId() . '" onClick="return confirm(\'Вы уверены, что хотите удалить?\')">Удалить</a>&nbsp;]';
+                echo '&nbsp; [&nbsp;<a href="' . \Skif\Comment\CommentController::getEditUrl(\Skif\Comment\CommentController::getModelClassName(), $comment_id) . '?destination=' . $url . '#comments">Изменить</a>&nbsp;]';
+                echo '&nbsp; [&nbsp;<a href="' . \Skif\Comment\CommentController::getDeleteUrl(\Skif\Comment\CommentController::getModelClassName(), $comment_id) . '?destination=' . $url . '#comments" onClick="return confirm(\'Вы уверены, что хотите удалить?\')">Удалить</a>&nbsp;]';
             }
             ?>
             <div class="text-muted"><small><?= $comment_obj->getUserName() ?>, <?= date('d.m.Y', $comment_obj->getUnixTime()) ?>
@@ -68,7 +69,8 @@ foreach ($comments_ids_arr as $comment_id) {
 
             echo '<div class="panel-body">' . nl2br($children_comment_obj->getComment());
             if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-                echo '&nbsp; [&nbsp;<a href="/comments/delete/' . $children_comment_obj->getId() . '" onClick="return confirm(\'Вы уверены, что хотите удалить?\')">Удалить</a>&nbsp;]';
+                echo '&nbsp; [&nbsp;<a href="' . \Skif\Comment\CommentController::getEditUrl(\Skif\Comment\CommentController::getModelClassName(), $children_comment_id) . '">Изменить</a>&nbsp;]';
+                echo '&nbsp; [&nbsp;<a href="' . \Skif\Comment\CommentController::getDeleteUrl(\Skif\Comment\CommentController::getModelClassName(), $children_comment_id) . '?destination=' . $url . '#comments" onClick="return confirm(\'Вы уверены, что хотите удалить?\')">Удалить</a>&nbsp;]';
             }
             echo '</div>';
         }

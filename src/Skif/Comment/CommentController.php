@@ -89,24 +89,4 @@ class CommentController extends \Skif\CRUD\CRUDController
         \Skif\Http::redirect($url . '#comments');
     }
 
-    /**
-     * Удаление комментария
-     * @param $comment_id
-     */
-    public static function deleteWebAction($comment_id)
-    {
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
-
-        \Skif\Http::exit404If(!$comment_id);
-
-        $comment_obj = \Skif\Comment\Comment::factory($comment_id, false);
-        \Skif\Http::exit404If(!$comment_obj);
-
-        $redirect_url = $comment_obj->getUrl();
-
-        $comment_obj->delete();
-
-        \Skif\Http::redirect($redirect_url . '#comments');
-    }
-
 } 

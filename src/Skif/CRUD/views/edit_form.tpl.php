@@ -89,8 +89,8 @@ if ($obj instanceof \Skif\Model\InterfaceSave) {
             ?>
 
             <?php
-            if (array_key_exists("destination_url", $_REQUEST)) {
-                echo '<input type="hidden" name="destination" value="' . $_REQUEST["destination_url"] . '">';
+            if (array_key_exists("destination", $_REQUEST)) {
+                echo '<input type="hidden" name="destination" value="' . $_REQUEST["destination"] . '">';
             }
             ?>
             <div class="form-group">
