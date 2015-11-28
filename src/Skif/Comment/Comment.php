@@ -329,5 +329,4 @@ class Comment  implements
         self::removeObjFromCacheById($this->getId());
     }
 
-
 }
