@@ -295,7 +295,7 @@ class Comment  implements
             self::removeObjFromCacheById($comment_obj->getParentId());
 
             if (\Skif\Conf\ConfWrapper::value('comments.send_answer_to_email') && $comment_obj->getUserEmail()) {
-                $parent_comment_obj = \Skif\Comment\CommentFactory::loadComment($comment_obj->getParentId());
+                $parent_comment_obj = \Skif\Comment\Comment::factory($comment_obj->getParentId());
                 if ($parent_comment_obj) {
                     $site_email = \Skif\Conf\ConfWrapper::value('site_email');
                     $site_url = \Skif\Conf\ConfWrapper::value('site_url');

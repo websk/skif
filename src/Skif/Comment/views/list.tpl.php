@@ -42,10 +42,7 @@
 <?php
 
 foreach ($comments_ids_arr as $comment_id) {
-    $comment_obj = \Skif\Comment\CommentFactory::loadComment($comment_id);
-    if (!$comment_obj) {
-        continue;
-    }
+    $comment_obj = \Skif\Comment\Comment::factory($comment_id);
     ?>
     <div class="panel panel-default comment">
         <div class="panel-heading">
@@ -67,10 +64,8 @@ foreach ($comments_ids_arr as $comment_id) {
         <?php
         $children_comments_ids_arr = $comment_obj->getChildrenIdsArr();
         foreach ($children_comments_ids_arr as $children_comment_id) {
-            $children_comment_obj = \Skif\Comment\CommentFactory::loadComment($children_comment_id);
-            if (!$children_comment_obj) {
-                continue;
-            }
+            $children_comment_obj = \Skif\Comment\Comment::factory($children_comment_id);
+
             echo '<div class="panel-body">' . nl2br($children_comment_obj->getComment());
             if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
                 echo '&nbsp; [&nbsp;<a href="/comments/delete/' . $children_comment_obj->getId() . '" onClick="return confirm(\'Вы уверены, что хотите удалить?\')">Удалить</a>&nbsp;]';
