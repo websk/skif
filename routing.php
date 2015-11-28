@@ -7,12 +7,18 @@ $current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
 
 
 // CRUD
-$route_based_crud_arr = array(
+$default_route_based_crud_arr = array(
     '/crud/[\d\w\%]+' => '\Skif\CRUD\CRUDController',
     '/admin/key_value' => '\Skif\KeyValue\KeyValueController',
     '/admin/redirect' => '\Skif\Redirect\RedirectController',
     '/admin/comments' => '\Skif\Comment\CommentController',
 );
+
+if (isset($route_based_crud_arr)) {
+    $route_based_crud_arr = array_merge($default_route_based_crud_arr, $route_based_crud_arr);
+} else {
+    $route_based_crud_arr = $default_route_based_crud_arr;
+}
 
 foreach ($route_based_crud_arr as $base_url => $controller) {
     if (!preg_match('@^' . $base_url . '?(.+)@i', $current_url_no_query, $matches_arr)) {
