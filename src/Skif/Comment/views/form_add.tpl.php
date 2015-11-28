@@ -43,10 +43,10 @@ if (!\Skif\Users\AuthUtils::getCurrentUserId()) {
         <?php
         ?>
             <div class="form-group">
-                <label class="col-md-2">Введите код, изображенный на картинке</label>
-                <div class="col-md-10">
+                <div class="col-md-offset-2 col-md-10">
                     <img src="/captcha/generate" border="0" alt="Введите этот защитный код">
                     <input type="text" size="5" name="captcha" class="form-control">
+                    <span class="help-block">Введите код, изображенный на картинке</span>
                 </div>
             </div>
         <?php
