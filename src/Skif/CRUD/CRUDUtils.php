@@ -274,7 +274,6 @@ class CRUDUtils
             $query_param_values_arr);
 
         return $objs_ids_arr;
-
     }
 
     public static function currentUserHasRightsToEditModel($model_class_name)
