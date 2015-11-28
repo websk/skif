@@ -69,10 +69,9 @@ class CommentController extends \Skif\CRUD\CRUDController
         $comment = array_key_exists('comment', $_REQUEST) ? $_REQUEST['comment'] : '';
 
         if (!$comment) {
+            \Skif\Messages::setError('Не указано сообщение');
             \Skif\Http::redirect($url);
         }
-
-        $comment = nl2br($comment);
 
         $user_name = array_key_exists('user_name', $_REQUEST) ? $_REQUEST['user_name'] : '';
         $user_email = array_key_exists('user_email', $_REQUEST) ? $_REQUEST['user_email'] : '';

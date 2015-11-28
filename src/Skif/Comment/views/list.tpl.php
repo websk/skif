@@ -49,7 +49,7 @@ foreach ($comments_ids_arr as $comment_id) {
     ?>
     <div class="panel panel-default comment">
         <div class="panel-heading">
-            <?= $comment_obj->getComment() ?>
+            <?php echo nl2br($comment_obj->getComment()); ?>
             <?php
             if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
                 echo '&nbsp;  [&nbsp;<a href="/comments/delete/' . $comment_obj->getId() . '" onClick="return confirm(\'Вы уверены, что хотите удалить?\')">Удалить</a>&nbsp;]';
@@ -71,7 +71,7 @@ foreach ($comments_ids_arr as $comment_id) {
             if (!$children_comment_obj) {
                 continue;
             }
-            echo '<div class="panel-body">' . $children_comment_obj->getComment();
+            echo '<div class="panel-body">' . nl2br($children_comment_obj->getComment());
             if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
                 echo '&nbsp; [&nbsp;<a href="/comments/delete/' . $children_comment_obj->getId() . '" onClick="return confirm(\'Вы уверены, что хотите удалить?\')">Удалить</a>&nbsp;]';
             }

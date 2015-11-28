@@ -265,6 +265,43 @@ class CRUDController
         );
     }
 
+    /**
+     * Заполнение полей значениями из формы
+     * @param $model_class_name
+     * @param $redirect_url
+     * @return array
+     */
+    protected static function fillPropValuesArrFromRequest($model_class_name, $redirect_url)
+    {
+        $reflect = new \ReflectionClass($model_class_name);
+
+        $new_prop_values_arr = array();
+
+        foreach ($reflect->getProperties() as $prop_obj) {
+            // игнорируем статические свойства класса - они относятся не к объекту, а только к классу
+            // (http://www.php.net/manual/en/language.oop5.static.php), и в них хранятся настройки ActiveRecord и CRUD
+            if ($prop_obj->isStatic()) {
+                continue;
+            }
+
+            $prop_name = $prop_obj->getName();
+
+            if (!array_key_exists($prop_name, $_REQUEST)) {
+                continue;
+            }
+
+            // Проверка на заполнение обязательных полей
+            if ((($_REQUEST[$prop_name] == '') && (\Skif\CRUD\CRUDUtils::isRequiredField($model_class_name, $prop_obj->getName())))) {
+                \Skif\Messages::setError('поле ' . $prop_obj->getName() . ' обязательно для заполнения');
+                \Skif\Http::redirect($redirect_url);
+            }
+
+            $new_prop_values_arr[$prop_name] = $_REQUEST[$prop_name];
+        }
+
+        return $new_prop_values_arr;
+    }
+
     public function saveAction($obj_id)
     {
         $model_class_name = static::getModelClassName();
@@ -273,38 +310,25 @@ class CRUDController
 
         \Skif\Utils::assert($model_class_name);
         \Skif\Utils::assert($obj_id);
+
         \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceLoad');
         \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceSave');
 
-        // чтение данных из формы
-        $new_prop_values_arr = array();
-        $reflect = new \ReflectionClass($model_class_name);
 
-        foreach ($reflect->getProperties() as $prop_obj) {
-            if (!$prop_obj->isStatic()) { // игнорируем статические свойства класса - они относятся не к объекту, а только к классу (http://www.php.net/manual/en/language.oop5.static.php), и в них хранятся настройки ActiveRecord и CRUD
-                $prop_name = $prop_obj->getName();
-                if (array_key_exists($prop_name, $_POST)) {
-                    // Проверка на заполнение обязательных полей
-                    if ((($_POST[$prop_name] == '') && (\Skif\CRUD\CRUDUtils::isRequiredField($model_class_name, $prop_obj->getName())))) {
-                        throw new \Exception('поле ' . $prop_obj->getName() . ' обязательно для заполнения');
-                    }
-                    $new_prop_values_arr[$prop_name] = $_POST[$prop_name];
-                }
-            }
+        $obj = \Skif\CRUD\CRUDUtils::createAndLoadObject($model_class_name, $obj_id);
+
+        $redirect_url = static::getEditUrlForObj($obj);
+
+        if (array_key_exists('destination', $_REQUEST)) {
+            $redirect_url = $_REQUEST['destination'];
         }
 
-        // сохранение
-        $obj = \Skif\CRUD\CRUDUtils::createAndLoadObject($model_class_name, $obj_id);
+        $new_prop_values_arr = static::fillPropValuesArrFromRequest($model_class_name, $redirect_url);
+
         $obj = \Skif\CRUD\CRUDUtils::setObjectFieldsFromArray($obj, $new_prop_values_arr);
 
         $obj->save();
 
-
-        $redirect_url = static::getEditUrlForObj($obj);
-
-        if (array_key_exists('destination', $_POST)) {
-            $redirect_url = $_POST['destination'];
-        }
 
         \Skif\Messages::setMessage('Изменения сохранены');
 
@@ -321,25 +345,10 @@ class CRUDController
         \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceLoad');
         \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceSave');
 
-        $new_prop_values_arr = array();
-        $reflect = new \ReflectionClass($model_class_name);
 
         $redirect_url = static::getAddUrl($model_class_name);
 
-        foreach ($reflect->getProperties() as $prop_obj) {
-            if (!$prop_obj->isStatic()) { // игнорируем статические свойства класса - они относятся не к объекту, а только к классу (http://www.php.net/manual/en/language.oop5.static.php), и в них хранятся настройки ActiveRecord и CRUD
-                $prop_name = $prop_obj->getName();
-                if (array_key_exists($prop_name, $_POST)) {
-                    // Проверка на заполнение обязательных полей
-                    if ((($_POST[$prop_name] == '') && (\Skif\CRUD\CRUDUtils::isRequiredField($model_class_name, $prop_obj->getName())))) {
-                        \Skif\Messages::setError('поле ' . $prop_obj->getName() . ' обязательно для заполнения');
-                        \Skif\Http::redirect($redirect_url);
-                    }
-
-                    $new_prop_values_arr[$prop_name] = $_POST[$prop_name];
-                }
-            }
-        }
+        $new_prop_values_arr = static::fillPropValuesArrFromRequest($model_class_name, $redirect_url);
 
         if (!static::createValidation()) {
             \Skif\Http::redirect($redirect_url);
@@ -352,8 +361,8 @@ class CRUDController
 
         $redirect_url = static::getEditUrl($model_class_name, $obj->getId());
 
-        if (array_key_exists('destination', $_POST)) {
-            $redirect_url = $_POST['destination'];
+        if (array_key_exists('destination', $_REQUEST)) {
+            $redirect_url = $_REQUEST['destination'];
             $separator = '?';
             if (mb_strpos($redirect_url, '?')) {
                 $separator = '&';
