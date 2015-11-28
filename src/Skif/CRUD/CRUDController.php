@@ -295,9 +295,10 @@ class CRUDController
 
         // сохранение
         $obj = \Skif\CRUD\CRUDUtils::createAndLoadObject($model_class_name, $obj_id);
-
         $obj = \Skif\CRUD\CRUDUtils::setObjectFieldsFromArray($obj, $new_prop_values_arr);
+
         $obj->save();
+
 
         $redirect_url = static::getEditUrlForObj($obj);
 

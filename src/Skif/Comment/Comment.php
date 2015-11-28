@@ -16,7 +16,7 @@ class Comment  implements
     const DB_TABLE_NAME = 'comments';
 
     protected $id;
-    protected $parent_id = null;
+    protected $parent_id = 0;
     protected $comment;
     protected $url;
     protected $user_id = null;
@@ -25,6 +25,12 @@ class Comment  implements
     protected $date_time;
     protected $children_ids_arr;
     protected $url_md5;
+
+    public function __construct()
+    {
+        $this->user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+        $this->date_time = date('Y-m-d H:i:s');
+    }
 
     public static $active_record_ignore_fields_arr = array(
         'children_ids_arr',
@@ -55,7 +61,7 @@ class Comment  implements
         '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
     );
 
-    public static $crud_default_context_arr_for_list = array('parent_id' => null);
+    public static $crud_default_context_arr_for_list = array('parent_id' => 0);
 
     public static $crud_editor_fields_arr = array(
         'user_name' => array(),
@@ -171,10 +177,6 @@ class Comment  implements
      */
     public function getUserId()
     {
-        if (!$this->getId() && !$this->user_id) {
-            return \Skif\Users\AuthUtils::getCurrentUserId();
-        }
-
         return $this->user_id;
     }
 
@@ -264,10 +266,6 @@ class Comment  implements
      */
     public function getDateTime()
     {
-        if (!$this->getId() && !$this->date_time) {
-            return date('Y-m-d H:i:s');
-        }
-
         return $this->date_time;
     }
 
