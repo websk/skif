@@ -59,7 +59,9 @@ class Poll implements
         'title' => array(),
         'is_default' => array('widget' => 'checkbox'),
         'is_published' => array('widget' => 'checkbox'),
-        'published_at' => array(),
+        'published_at' => array(
+            'widget' => array('\Skif\CRUD\DatepickerWidget\DatepickerWidget', 'renderWidget'),
+        ),
         'unpublished_at' => array(),
     );
 
