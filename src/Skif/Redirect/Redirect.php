@@ -59,14 +59,6 @@ class Redirect implements
         'code' => array(),
     );
 
-    public function getEditorTabsArr()
-    {
-        $tabs_obj_arr = array();
-        $tabs_obj_arr[] = new \Skif\EditorTabs\Tab(\Skif\Redirect\RedirectController::getEditUrlForObj($this), 'Переменная');
-
-        return $tabs_obj_arr;
-    }
-
     /**
      * @return mixed
      */
