@@ -7,11 +7,11 @@
  */
 ?>
 
-<div class="input-group" id="<?=$field_name?>">
+<div class="input-group" id="<?= $field_name ?>">
     <span class="input-group-addon">
         <span class="glyphicon glyphicon-calendar"></span>
     </span>
-    <input name="<?=$field_name?>" type="text" value="<?=$field_value?>" class="form-control">
+    <input name="<?= $field_name ?>" type="text" value="<?= $field_value ?>" class="form-control">
 </div>
 
 <script type="text/javascript">
