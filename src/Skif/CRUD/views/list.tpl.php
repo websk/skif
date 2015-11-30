@@ -3,9 +3,12 @@
  * @var $model_class_name
  * @var $context_arr array
  * @var $list_title
+ * @var $current_controller_obj
  */
 
-$current_controller_obj = \Skif\UrlManager::getCurrentControllerObj();
+if (!isset($current_controller_obj)) {
+    $current_controller_obj = \Skif\UrlManager::getCurrentControllerObj();
+}
 
 \Skif\Utils::assert($model_class_name);
 

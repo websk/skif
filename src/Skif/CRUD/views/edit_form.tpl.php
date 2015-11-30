@@ -152,7 +152,8 @@ if (property_exists($model_class_name, 'crud_related_models_arr')) {
             array(
                 'model_class_name' => $related_model_class_name,
                 'context_arr' => $context_arr,
-                'list_title' => $list_title
+                'list_title' => $list_title,
+                'current_controller_obj' => $related_model_class_name . 'Controller'
             )
         );
     }
