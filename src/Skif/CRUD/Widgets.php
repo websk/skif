@@ -188,14 +188,14 @@ class Widgets
     {
         $widget_options = self::getWidgetSettings($field_name, $obj);
 
-        return '<input id="' . $field_name . '"name="' . $field_name . '" value="' . $field_value . '" class="form-control"'
+        return '<input id="' . $field_name . '"name="' . $field_name . '" value="' . htmlspecialchars($field_value) . '" class="form-control"'
             . (($obj->getId() && array_key_exists('disabled', $widget_options)) ? ' disabled' : '') . '>';
     }
 
     public static function widgetTextArea($field_name, $field_value)
     {
 
-        return '<textarea name="' . $field_name . '" class="form-control" rows="10">' . $field_value . '</textarea>';
+        return '<textarea name="' . $field_name . '" class="form-control" rows="10">' . htmlspecialchars($field_value) . '</textarea>';
     }
 
     public static function widgetCheckbox($field_name, $field_value)
