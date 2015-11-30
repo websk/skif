@@ -74,7 +74,10 @@ class Comment  implements
                 'model_class_name' => '\Skif\Comment\Comment'
             )
         ),
-        'date_time' => array(),
+        'date_time' => array(
+            'widget' => array('\Skif\CRUD\DatepickerWidget\DatepickerWidget', 'renderWidget'),
+            'date_format' => 'YYYY-MM-DD HH:mm:ss'
+        ),
         'comment' => array('widget' => 'textarea'),
     );
 

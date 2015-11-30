@@ -16,9 +16,10 @@
 
 <script type="text/javascript">
     $(function () {
-        $('#<?=$field_name?>').datetimepicker({
-            format: '<?=$date_format?>',
-            <?=$datetimepicker_options?>
+        $('#<?php echo $field_name; ?>').datetimepicker({
+            locale: 'ru',
+            format: '<?php echo $date_format; ?>',
+            <?php echo $datetimepicker_options; ?>
         });
     });
 </script>

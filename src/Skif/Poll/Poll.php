@@ -61,8 +61,12 @@ class Poll implements
         'is_published' => array('widget' => 'checkbox'),
         'published_at' => array(
             'widget' => array('\Skif\CRUD\DatepickerWidget\DatepickerWidget', 'renderWidget'),
+            'date_format' => 'YYYY-MM-DD'
         ),
-        'unpublished_at' => array(),
+        'unpublished_at' => array(
+            'widget' => array('\Skif\CRUD\DatepickerWidget\DatepickerWidget', 'renderWidget'),
+            'date_format' => 'YYYY-MM-DD'
+        ),
     );
 
     public static $crud_related_models_arr = array(
