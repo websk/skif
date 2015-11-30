@@ -44,7 +44,7 @@ class Poll implements
         'unpublished_at' => 'Показывать по',
     );
 
-    public static $crud_model_class_screen_name_for_list = 'Комментарии';
+    public static $crud_model_class_screen_name_for_list = 'Опросы';
 
     public static $crud_fields_list_arr = array(
         'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
@@ -62,7 +62,7 @@ class Poll implements
     );
 
     public static $crud_related_models_arr = array(
-        '\Skif\Poll\PollQuestions' => array(
+        '\Skif\Poll\PollQuestion' => array(
             'link_field' => 'poll_id',
             'list_title' => 'Варианты ответов',
             'context_fields_arr' => array('poll_id'),
