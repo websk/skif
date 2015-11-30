@@ -67,7 +67,7 @@ class Poll implements
         '\Skif\Poll\PollQuestion' => array(
             'link_field' => 'id',
             'list_title' => 'Варианты ответов',
-            'context_fields_arr' => array('poll_id'),
+            'context_fields_arr' => array('id'),
         )
     );
 
