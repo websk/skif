@@ -65,9 +65,9 @@ class Poll implements
 
     public static $crud_related_models_arr = array(
         '\Skif\Poll\PollQuestion' => array(
-            'link_field' => 'id',
+            'link_field' => 'poll_id',
             'list_title' => 'Варианты ответов',
-            'context_fields_arr' => array('poll_id'),
+            'context_fields_arr' => array('id'),
         )
     );
 
