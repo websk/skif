@@ -88,14 +88,6 @@ class Comment  implements
         )
     );
 
-    public function getEditorTabsArr()
-    {
-        $tabs_obj_arr = array();
-        $tabs_obj_arr[] = new \Skif\EditorTabs\Tab(\Skif\Comment\CommentController::getEditUrlForObj($this), self::$crud_model_class_screen_name);
-
-        return $tabs_obj_arr;
-    }
-
     public function load($id)
     {
         $is_loaded = \Skif\Util\ActiveRecordHelper::loadModelObj($this, $id);
