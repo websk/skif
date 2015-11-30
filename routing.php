@@ -12,6 +12,7 @@ $default_route_based_crud_arr = array(
     '/admin/key_value' => '\Skif\KeyValue\KeyValueController',
     '/admin/redirect' => '\Skif\Redirect\RedirectController',
     '/admin/comments' => '\Skif\Comment\CommentController',
+    '/admin/poll' => '\Skif\Poll\PollController',
 );
 
 if (isset($route_based_crud_arr)) {
