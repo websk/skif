@@ -15,8 +15,8 @@ class PollQuestion implements
     const DB_TABLE_NAME = 'poll_question';
 
     protected $id;
-    protected $poll_id;
     protected $title = '';
+    protected $poll_id;
     protected $votes;
 
 
