@@ -1,5 +1,7 @@
 <?php
 
+namespace Skif\Poll;
+
 class PollQuestion implements
     \Skif\Model\InterfaceLoad,
     \Skif\Model\InterfaceFactory,

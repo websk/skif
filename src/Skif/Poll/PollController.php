@@ -1,5 +1,6 @@
 <?php
 
+namespace Skif\Poll;
 
 class PollController extends \Skif\CRUD\CRUDController
 {
