@@ -24,6 +24,15 @@ class DefaultConf
             array('link' => '/admin/comments', 'name' => 'Комментарии', 'icon' => '<i class="fa fa-comments-o fa-fw"></i>'),
             array('link' => '/admin/users', 'name' => 'Пользователи', 'icon' => '<i class="fa fa-users fa-fw"></i>'),
             array('link' => '/admin/blocks', 'name' => 'Блоки', 'icon' => '<i class="fa fa-table fa-fw"></i>'),
+            array(
+                'link' => '#',
+                'name' => 'Настройки<span class="fa arrow"></span>',
+                'icon' => '<i class="fa fa-wrench fa-fw"></i>',
+                'sub_menu' => array(
+                    array('link' => '/admin/redirect', 'name' => 'Редиректы'),
+                    array('link' => '/admin/key_value', 'name' => 'Переменные'),
+                )
+            ),
         );
 
         $conf['skif_path'] = '/vendor/websk/skif';

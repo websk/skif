@@ -125,21 +125,27 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
                                 ?>
                                 <?php echo $menu_item_arr['name']; ?>
                             </a>
+                            <?php
+                            if (array_key_exists('sub_menu', $menu_item_arr)) {
+                                ?>
+                                <ul class="nav nav-second-level">
+                                    <?php
+                                    foreach ($menu_item_arr['sub_menu'] as $sub_menu_item_arr) {
+                                        ?>
+                                        <li>
+                                            <a href="<?php echo $sub_menu_item_arr['link']; ?>"><?php echo $sub_menu_item_arr['name']; ?></a>
+                                        </li>
+                                    <?php
+                                    }
+                                    ?>
+                                </ul>
+                            <?php
+                            }
+                            ?>
                         </li>
                         <?php
                     }
                     ?>
-                    <li>
-                        <a href="#"><i class="fa fa-wrench fa-fw"></i> Настройки<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="/admin/redirect">Редиректы</a>
-                            </li>
-                            <li>
-                                <a href="/admin/key_value">Переменные</a>
-                            </li>
-                        </ul>
-                    </li>
                 </ul>
             </div>
         </div>
