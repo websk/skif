@@ -1,13 +1,12 @@
 <?php
 /**
- * @param $model_class_name - полное имя класса модели
- * @param $field_name - имя поля
- * @param $field_value - значение
- * @param $read_only - Если передан как true, запрещает редактирование поля (disabled)
+ * @var $model_class_name - полное имя класса модели
+ * @var $field_name - имя поля
+ * @var $field_value - значение
+ * @var $read_only - Если передан как true, запрещает редактирование поля (disabled)
  */
 
-$current_controller_obj = \Skif\UrlManager::getCurrentControllerObj();
-
+$controller_obj = \Skif\CRUD\CRUDUtils::getControllerClassNameByModelClassName($model_class_name);
 
 if (!isset($model_class_name) or empty($model_class_name)) {
     throw new \Exception('Необходимо определить параметр model_class_name в настройках виджета');
@@ -30,7 +29,7 @@ if ($model_obj) {
         $model_obj_title_text = $field_value;
     }
 
-    $model_obj_title = '<a href="' . $current_controller_obj::getEditUrl($model_class_name, $field_value) . '">' . $model_obj_title_text . '</a>';
+    $model_obj_title = '<a href="' . $controller_obj::getEditUrl($model_class_name, $field_value) . '">' . $model_obj_title_text . '</a>';
 } else {
     $model_obj_title = 'Объект с ID ' . $field_value . ' - не найден';
     $additional_style = ' style="color: grey"';

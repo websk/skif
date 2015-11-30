@@ -7,7 +7,7 @@
  */
 
 if (!isset($current_controller_obj)) {
-    $current_controller_obj = \Skif\UrlManager::getCurrentControllerObj();
+    $current_controller_obj = \Skif\CRUD\CRUDUtils::getControllerClassNameByModelClassName($model_class_name);
 }
 
 \Skif\Utils::assert($model_class_name);

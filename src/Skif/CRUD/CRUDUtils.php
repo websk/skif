@@ -5,6 +5,12 @@ namespace Skif\CRUD;
 
 class CRUDUtils
 {
+
+    public static function getControllerClassNameByModelClassName($model_class_name)
+    {
+        return $model_class_name . 'Controller';
+    }
+
     /**
      * Возвращает "полное имя объекта" для вывода в заголовок редактора или крошки.
      * Формат:
