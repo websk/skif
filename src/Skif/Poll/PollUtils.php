@@ -6,60 +6,51 @@ namespace Skif\Poll;
 class PollUtils
 {
 
-    public static function vote($vote_id = "")
+    public static function getDefaultPollId()
     {
-        if ($vote_id > 0) {
-            $row = \Skif\DB\DBWrapper::readAssocRow("SELECT * FROM vote WHERE id=?" , array($vote_id));
-        }
-        else {
-            $row = \Skif\DB\DBWrapper::readAssocRow("SELECT * FROM vote WHERE main='1' LIMIT 0, 1"); //Поиск индексного опроса
+        $poll_id = \Skif\DB\DBWrapper::readField(
+            "SELECT id FROM poll WHERE is_default=1 AND is_published=1 LIMIT 1"
+        );
 
-            if (!$row) {
-                $row = \Skif\DB\DBWrapper::readAssocRow("SELECT * FROM vote LIMIT 0, 1");
-            } // В случае отсутствия индексного, выводить первый
-        }
-        if ($row['name'] == '') {
-            return "Действующие опросы отсутствуют.";
+        if (!$poll_id) {
+            "SELECT id FROM poll WHERE is_published=1 ORDER BY id DESC LIMIT 1";
         }
 
-        $vote_tmp = $row['id'];
-        $vote_other = $row['other'];
+        return $poll_id;
+    }
 
-        $content = '<div>' . $row['name'] . '</div>';
+    public static function getSumVotesFromPollQuestionByPoll($poll_id)
+    {
+        $poll_obj = \Skif\Poll\Poll::factory($poll_id);
 
-        $content .= '<form action="/vote.php" method="post">';
+        $poll_question_ids_arr = $poll_obj->getPollQuestionsIdsArr();
 
-        $res = \Skif\DB\DBWrapper::readAssoc("SELECT * FROM vote_list WHERE vote=? ORDER BY id", array($vote_tmp));
-        foreach ($res as $k => $row) {
-            $content .= '<div class="radio">
-                <label>
-                    <input type="radio" name="vote_label" value=' . $row['id'] . '>' . $row['name'] . '
-                </label>
-            </div>';
+        $sum = 0;
+
+        foreach ($poll_question_ids_arr as $poll_question_id) {
+            $poll_question_obj = \Skif\Poll\PollQuestion::factory($poll_question_id);
+
+            $sum += $poll_question_obj->getVotes();
         }
 
-        if ($vote_other == 1) {
-            $content .= '<div class="form-group">
-            <label>Ваш ответ</label>
-            <input type="text" name="vote_other" class="form-control input-sm">
-        </div>';
+        return $sum;
+    }
+
+    public static function renderBlockByPollId($poll_id = null)
+    {
+        if (!$poll_id) {
+            $poll_id = \Skif\Poll\PollUtils::getDefaultPollId();
         }
 
-        $content .= '
-        <input type="hidden" name="cmd" value="vote"><input type="hidden" name="vote_id" value="' . $vote_tmp . '">
-        <div class="form-group">
-            <div class="row">
-                <div class="col-md-6">
-                    <input type="submit" value="Голосовать" class="btn btn-default btn-sm">
-                </div>
-                <div class="col-md-6 text-right">
-                    <a href="/vote.php?cmd=result&vote_id=' . $vote_tmp . '">Результаты</a>
-                </div>
-            </div>
-        </div>
-        </form>';
+        if (!$poll_id) {
+            return '';
+        }
 
-        return $content;
+        return \Skif\PhpTemplate::renderTemplateBySkifModule(
+            'Poll',
+            'block.tpl.php',
+            array('poll_id' => $poll_id)
+        );
     }
 
 }

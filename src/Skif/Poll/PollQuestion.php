@@ -108,7 +108,7 @@ class PollQuestion implements
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getVotes()
     {

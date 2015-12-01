@@ -106,10 +106,14 @@ if (strpos($current_url_no_query, '/admin') !== false) {
 \Skif\UrlManager::route('@^/user/logout@', '\Skif\Users\AuthController', 'logoutAction');
 \Skif\UrlManager::route('@^/user/login@', '\Skif\Users\AuthController', 'loginAction');
 
-// Комментарии
+// Comment
 \Skif\UrlManager::route('@^/comments/list$@', '\Skif\Comment\CommentController', 'listWebAction');
 \Skif\UrlManager::route('@^/comments/add$@', '\Skif\Comment\CommentController', 'saveWebAction');
 \Skif\UrlManager::route('@^/comments/delete/(\d+)$@', '\Skif\Comment\CommentController', 'deleteWebAction');
+
+// Poll
+\Skif\UrlManager::route('@^/poll/(\d+)$@', '\Skif\Poll\PollController', 'viewAction');
+\Skif\UrlManager::route('@^/poll/(\d+)/vote$@', '\Skif\Poll\PollController', 'voteAction');
 
 // Country
 \Skif\UrlManager::route('@^/autocomplete/countries$@', '\Skif\CountryController', 'CountriesAutoCompleteAction');
