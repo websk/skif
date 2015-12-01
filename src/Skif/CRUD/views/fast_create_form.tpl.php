@@ -4,7 +4,7 @@
  * @var $context_arr
  */
 
-$current_controller_obj = \Skif\UrlManager::getCurrentControllerObj();
+$current_controller_obj = \Skif\CRUD\CRUDUtils::getControllerClassNameByModelClassName($model_class_name);
 
 // чтобы создать форму быстрого добавления в классе должны быть следующие поля:
 // public static $crud_fast_create_field_name = 'answer_text', где answer_text - имя выводимого поля
