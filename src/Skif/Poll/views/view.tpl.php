@@ -10,7 +10,6 @@ $poll_question_ids_arr = $poll_obj->getPollQuestionsIdsArr();
 $sum = \Skif\Poll\PollUtils::getSumVotesFromPollQuestionByPoll($poll_id);
 ?>
 
-<h2><?php echo $poll_obj->getTitle(); ?></h2>
 <table border="0">
     <?php
     foreach ($poll_question_ids_arr as $poll_question_id) {
