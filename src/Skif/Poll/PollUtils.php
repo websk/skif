@@ -43,12 +43,18 @@ class PollUtils
         $poll_question_ids_arr = $poll_obj->getPollQuestionsIdsArr();
 
         $max = 0;
+        $votes_arr = array();
 
         foreach ($poll_question_ids_arr as $poll_question_id) {
             $poll_question_obj = \Skif\Poll\PollQuestion::factory($poll_question_id);
 
+            if (in_array($poll_question_obj->getVotes(), $votes_arr)) {
+                return 0;
+            }
+
             if ($poll_question_obj->getVotes() > $max) {
                 $max = $poll_question_obj->getVotes();
+                $votes_arr[] = $max;
             }
         }
 
