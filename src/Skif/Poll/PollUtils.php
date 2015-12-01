@@ -6,7 +6,7 @@ namespace Skif\Poll;
 class PollUtils
 {
 
-    function vote($vote_id = "")
+    public static function vote($vote_id = "")
     {
         if ($vote_id > 0) {
             $row = \Skif\DB\DBWrapper::readAssocRow("SELECT * FROM vote WHERE id=?" , array($vote_id));
