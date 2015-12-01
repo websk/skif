@@ -19,7 +19,7 @@ foreach ($poll_question_ids_arr as $poll_question_id) {
         <div><?php echo $poll_question_obj->getTitle(); ?></div>
         <div>
             <div class="progress">
-                <div class="progress-bar<?php echo ($vote_percentage > 60 ? ' progress-bar-danger' : '') ?>" role="progressbar" aria-valuenow="<?php echo $vote_percentage; ?>"
+                <div class="progress-bar<?php echo ($vote_percentage > 60 ? ' progress-bar-success' : '') ?>" role="progressbar" aria-valuenow="<?php echo $vote_percentage; ?>"
                      aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $vote_percentage; ?>%">
                     <?php echo $vote_percentage; ?>%
                 </div>
