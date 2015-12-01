@@ -220,6 +220,7 @@ class CRUDController
             'CRUD',
             'edit_form.tpl.php',
             array(
+                'model_class_name' => $model_class_name,
                 'obj' => $edited_obj
             )
         );

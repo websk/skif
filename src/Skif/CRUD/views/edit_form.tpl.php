@@ -1,6 +1,7 @@
 <?php
 /**
  * @var $obj object
+ * @var $model_class_name
  */
 
 $current_controller_obj = \Skif\CRUD\CRUDUtils::getControllerClassNameByModelClassName($model_class_name);
