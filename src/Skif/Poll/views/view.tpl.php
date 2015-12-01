@@ -16,8 +16,8 @@ foreach ($poll_question_ids_arr as $poll_question_id) {
     $vote_percentage = round($poll_question_obj->getVotes() / $sum * 100);
     ?>
     <div class="row">
-        <div class="col-md-12"><?php echo $poll_question_obj->getTitle(); ?></div>
-        <div class="col-md-12">
+        <div class="col-md-6"><?php echo $poll_question_obj->getTitle(); ?></div>
+        <div class="col-md-6">
             <div class="progress">
                 <div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $vote_percentage; ?>"
                      aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $vote_percentage; ?>%">
