@@ -36,6 +36,25 @@ class PollUtils
         return $sum;
     }
 
+    public static function getMaxVotesFromPollQuestionByPoll($poll_id)
+    {
+        $poll_obj = \Skif\Poll\Poll::factory($poll_id);
+
+        $poll_question_ids_arr = $poll_obj->getPollQuestionsIdsArr();
+
+        $max = 0;
+
+        foreach ($poll_question_ids_arr as $poll_question_id) {
+            $poll_question_obj = \Skif\Poll\PollQuestion::factory($poll_question_id);
+
+            if ($poll_question_obj->getVotes() > $max) {
+                $max = $poll_question_obj->getVotes();
+            }
+        }
+
+        return $max;
+    }
+
     public static function renderBlockByPollId($poll_id = null)
     {
         if (!$poll_id) {
