@@ -62,13 +62,13 @@ class Poll implements
         'published_at' => array(
             'widget' => array('\Skif\CRUD\DatepickerWidget\DatepickerWidget', 'renderWidget'),
             'widget_settings' => array(
-                'date_format' => 'YYYY-MM-DD HH:mm:ss'
+                'date_format' => 'YYYY-MM-DD'
             ),
         ),
         'unpublished_at' => array(
             'widget' => array('\Skif\CRUD\DatepickerWidget\DatepickerWidget', 'renderWidget'),
             'widget_settings' => array(
-                'date_format' => 'YYYY-MM-DD HH:mm:ss'
+                'date_format' => 'YYYY-MM-DD'
             ),
         ),
     );
