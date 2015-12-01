@@ -30,6 +30,7 @@ foreach ($poll_question_ids_arr as $poll_question_id) {
     <?php
 }
 ?>
+<p></p>
 
 <p class="alert alert-info">Всего проголосовало: <?php echo $sum; ?> человек.</p>
 
