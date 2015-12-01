@@ -120,4 +120,20 @@ class PollQuestion implements
         $this->votes = $votes;
     }
 
+    public static function afterUpdate($id)
+    {
+        $poll_question_obj = self::factory($id);
+
+        self::removeObjFromCacheById($id);
+
+        \Skif\Poll\Poll::afterUpdate($poll_question_obj->getPollId());
+    }
+
+    public function afterDelete()
+    {
+        self::removeObjFromCacheById($this->getId());
+
+        \Skif\Poll\Poll::afterUpdate($this->getPollId());
+    }
+
 }

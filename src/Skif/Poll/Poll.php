@@ -20,6 +20,7 @@ class Poll implements
     protected $is_published = 0;
     protected $published_at;
     protected $unpublished_at;
+    protected $poll_questions_ids_arr;
 
     public function __construct()
     {
@@ -87,6 +88,12 @@ class Poll implements
         if (!$is_loaded) {
             return false;
         }
+
+        $query = "SELECT id FROM " . \Skif\Poll\PollQuestion::DB_TABLE_NAME ." WHERE poll_id = ?";
+        $this->poll_questions_ids_arr = \Skif\DB\DBWrapper::readColumn(
+            $query,
+            array($this->id)
+        );
 
         return true;
     }
@@ -185,6 +192,14 @@ class Poll implements
     public function setUnpublishedAt($unpublished_at)
     {
         $this->unpublished_at = $unpublished_at;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPollQuestionsIdsArr()
+    {
+        return $this->poll_questions_ids_arr;
     }
 
 }

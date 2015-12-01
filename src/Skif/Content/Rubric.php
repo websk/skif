@@ -194,11 +194,11 @@ class Rubric implements
         return $unique_new_url;
     }
 
-    public static function afterUpdate($rubric_id)
+    public static function afterUpdate($id)
     {
-        $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
+        $rubric_obj = self::factory($id);
 
-        self::removeObjFromCacheById($rubric_id);
+        self::removeObjFromCacheById($id);
 
         \Skif\Content\ContentType::afterUpdate($rubric_obj->getContentTypeId());
     }
