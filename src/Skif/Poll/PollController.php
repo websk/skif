@@ -8,7 +8,7 @@ class PollController extends \Skif\CRUD\CRUDController
     protected static $model_class_name = '\Skif\Poll\Poll';
     public static $poll_cookie_prefix = 'poll_access_';
 
-    public static function getBaseUrl($model_class_name)
+    public static function getCRUDBaseUrl($model_class_name)
     {
         return '/admin/poll';
     }

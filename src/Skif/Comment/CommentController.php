@@ -8,7 +8,7 @@ class CommentController extends \Skif\CRUD\CRUDController
 
     protected static $model_class_name = '\Skif\Comment\Comment';
 
-    public static function getBaseUrl($model_class_name)
+    public static function getCRUDBaseUrl($model_class_name)
     {
         return '/admin/comments';
     }

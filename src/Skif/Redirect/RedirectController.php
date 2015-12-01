@@ -8,7 +8,7 @@ class RedirectController extends \Skif\CRUD\CRUDController
 
     protected static $model_class_name = '\Skif\Redirect\Redirect';
 
-    public static function getBaseUrl($model_class_name)
+    public static function getCRUDBaseUrl($model_class_name)
     {
         return '/admin/redirect';
     }

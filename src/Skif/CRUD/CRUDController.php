@@ -41,24 +41,24 @@ class CRUDController
         return true;
     }
 
-    public static function getBaseUrl($model_class_name)
+    public static function getCRUDBaseUrl($model_class_name)
     {
         return '/crud/' . urlencode($model_class_name);
     }
 
     public static function getListUrl($model_class_name)
     {
-        return static::getBaseUrl($model_class_name);
+        return static::getCRUDBaseUrl($model_class_name);
     }
 
     public static function getCreateUrl($model_class_name)
     {
-        return static::getBaseUrl($model_class_name) . '/create';
+        return static::getCRUDBaseUrl($model_class_name) . '/create';
     }
 
     public static function getAddUrl($model_class_name)
     {
-        return static::getBaseUrl($model_class_name) . '/add';
+        return static::getCRUDBaseUrl($model_class_name) . '/add';
     }
 
     /**
@@ -66,7 +66,7 @@ class CRUDController
      */
     public static function getEditUrl($model_class_name, $obj_id)
     {
-        return static::getBaseUrl($model_class_name) . '/edit/' . $obj_id;
+        return static::getCRUDBaseUrl($model_class_name) . '/edit/' . $obj_id;
     }
 
     /**
@@ -86,7 +86,7 @@ class CRUDController
 
     public static function getDeleteUrl($model_class_name, $obj_id)
     {
-        return static::getBaseUrl($model_class_name) . '/delete/' . $obj_id;
+        return static::getCRUDBaseUrl($model_class_name) . '/delete/' . $obj_id;
     }
 
     /**
@@ -105,7 +105,7 @@ class CRUDController
 
     public static function getSaveUrl($model_class_name, $obj_id)
     {
-        return static::getBaseUrl($model_class_name) . '/save/' . $obj_id;
+        return static::getCRUDBaseUrl($model_class_name) . '/save/' . $obj_id;
     }
 
     public function listAction()
