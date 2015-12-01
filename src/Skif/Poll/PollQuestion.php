@@ -17,7 +17,7 @@ class PollQuestion implements
     protected $id;
     protected $title = '';
     protected $poll_id;
-    protected $votes;
+    protected $votes = 0;
 
 
     public static $crud_create_button_required_fields_arr = array('poll_id');
