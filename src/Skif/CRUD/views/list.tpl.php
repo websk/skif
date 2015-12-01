@@ -249,4 +249,3 @@ if (isset($list_title)) {
         }
         ?>
     </div>
-
