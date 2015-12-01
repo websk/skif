@@ -7,17 +7,18 @@
  */
 ?>
 
-<div class="input-group" id="<?= $field_name ?>">
+<div class="input-group" id="<?php echo $field_name; ?>">
     <span class="input-group-addon">
         <span class="glyphicon glyphicon-calendar"></span>
     </span>
-    <input name="<?= $field_name ?>" type="text" value="<?= $field_value ?>" class="form-control">
+    <input name="<?php echo $field_name; ?>" type="text" value="<?php echo $field_value; ?>" class="form-control">
 </div>
 
 <script type="text/javascript">
     $(function () {
         $('#<?php echo $field_name; ?>').datetimepicker({
             locale: 'ru',
+            allowInputToggle: true,
             format: '<?php echo $date_format; ?>',
             <?php echo $datetimepicker_options; ?>
         });
