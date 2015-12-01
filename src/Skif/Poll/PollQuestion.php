@@ -34,6 +34,8 @@ class PollQuestion implements
 
     public static $crud_model_class_screen_name_for_list = 'Варианты ответов';
 
+    public static $crud_fast_create_field_name = 'title';
+
     public static $crud_fields_list_arr = array(
         'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
         'title' => array('col_class' => 'col-md-4 col-sm-4 col-xs-4'),
