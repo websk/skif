@@ -28,5 +28,5 @@ $sum = \Skif\Poll\PollUtils::getSumVotesFromPollQuestionByPoll($poll_id);
     }
     ?>
 </table>
-<p>Всего проголосовало: <?php echo $sum; ?> человек.</p>
+<p class="alert alert-info">Всего проголосовало: <?php echo $sum; ?> человек.</p>
 
