@@ -29,7 +29,7 @@ class PollController extends \Skif\CRUD\CRUDController
      */
     public static function voteAction($poll_id)
     {
-        $poll_question_id = isset($_REQUEST['poll_question_id']) ? intval($_REQUEST['poll_question_id']) : ''; // Код ответа по базе
+        $poll_question_id = isset($_REQUEST['poll_question_id']) ? intval($_REQUEST['poll_question_id']) : '';
 
         if ($_COOKIE[self::$poll_cookie_prefix . $poll_id] == 'no') {
             \Skif\Messages::setError('Вы уже проголосовали ранее!');
@@ -37,7 +37,7 @@ class PollController extends \Skif\CRUD\CRUDController
             \Skif\Http::redirect(self::getViewUrl($poll_id));
         }
 
-        if (!empty($vote_label)) {
+        if (!empty($poll_question_id)) {
             $poll_question_obj = \Skif\Poll\PollQuestion::factory($poll_question_id);
 
             $votes = $poll_question_obj->getVotes() + 1;
