@@ -10,6 +10,8 @@ $poll_question_ids_arr = $poll_obj->getPollQuestionsIdsArr();
 $sum = \Skif\Poll\PollUtils::getSumVotesFromPollQuestionByPoll($poll_id);
 $max = \Skif\Poll\PollUtils::getMaxVotesFromPollQuestionByPoll($poll_id);
 ?>
+<div class="panel panel-default">
+    <div class="panel-body">
 <?php
 foreach ($poll_question_ids_arr as $poll_question_id) {
     $poll_question_obj = \Skif\Poll\PollQuestion::factory($poll_question_id);
@@ -30,7 +32,8 @@ foreach ($poll_question_ids_arr as $poll_question_id) {
     <?php
 }
 ?>
-<p></p>
+    </div>
+</div>
 <p></p>
 
 
