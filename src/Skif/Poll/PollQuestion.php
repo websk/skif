@@ -132,6 +132,22 @@ class PollQuestion implements
         \Skif\Poll\Poll::afterUpdate($poll_question_obj->getPollId());
     }
 
+    /**
+     * @return int
+     */
+    public function getWeight()
+    {
+        return $this->weight;
+    }
+
+    /**
+     * @param int $weight
+     */
+    public function setWeight($weight)
+    {
+        $this->weight = $weight;
+    }
+
     public function afterDelete()
     {
         self::removeObjFromCacheById($this->getId());
