@@ -7,6 +7,7 @@ class Poll implements
     \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
     \Skif\Model\InterfaceDelete,
+    \Skif\Model\InterfaceGetUrl,
     \Skif\Model\InterfaceGetTitle
 {
     use \Skif\Util\ActiveRecord;

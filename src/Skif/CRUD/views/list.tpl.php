@@ -111,6 +111,13 @@ if (isset($list_title)) {
     ?>
 
     <?php
+
+    $delete_disabled = false;
+    $model_class_interfaces_arr = class_implements($model_class_name);
+    if (!array_key_exists('Skif\Model\InterfaceDelete', $model_class_interfaces_arr)) {
+        $delete_disabled = true;
+    }
+
     if (count($objs_ids_arr) > 0) {
     ?>
     <div>
@@ -220,11 +227,12 @@ if (isset($list_title)) {
                             <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
                         </a>
                         <?php
-
-                        $delete_disabled = false;
-                        $model_class_interfaces_arr = class_implements($model_class_name);
-                        if (!array_key_exists('Skif\Model\InterfaceDelete', $model_class_interfaces_arr)) {
-                            $delete_disabled = true;
+                        if (array_key_exists('Skif\Model\InterfaceGetUrl', $model_class_interfaces_arr)) {
+                            ?>
+                            <a href="<?php echo $obj_obj->getUrl(); ?>" target="_blank" title="Просмотр" class="btn btn-outline btn-default btn-sm">
+                                <span class="fa fa-external-link fa-lg text-info fa-fw"></span>
+                            </a>
+                            <?php
                         }
 
                         if (!$delete_disabled) {
