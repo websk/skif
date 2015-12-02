@@ -118,6 +118,11 @@ if (isset($list_title)) {
         $show_delete_button = true;
     }
 
+    $show_url_button = false;
+    if (array_key_exists('Skif\Model\InterfaceGetUrl', $model_class_interfaces_arr)) {
+        $show_url_button = true;
+    }
+
     if (count($objs_ids_arr) > 0) {
     ?>
     <div>
@@ -227,7 +232,7 @@ if (isset($list_title)) {
                             <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
                         </a>
                         <?php
-                        if (array_key_exists('Skif\Model\InterfaceGetUrl', $model_class_interfaces_arr)) {
+                        if ($show_url_button) {
                             ?>
                             <a href="<?php echo $obj_obj->getUrl(); ?>" target="_blank" title="Просмотр" class="btn btn-outline btn-default btn-sm">
                                 <span class="fa fa-external-link fa-lg text-info fa-fw"></span>
