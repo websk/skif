@@ -111,11 +111,11 @@ if (isset($list_title)) {
     ?>
 
     <?php
-
-    $delete_disabled = false;
     $model_class_interfaces_arr = class_implements($model_class_name);
-    if (!array_key_exists('Skif\Model\InterfaceDelete', $model_class_interfaces_arr)) {
-        $delete_disabled = true;
+
+    $show_delete_button = false;
+    if (array_key_exists('Skif\Model\InterfaceDelete', $model_class_interfaces_arr)) {
+        $show_delete_button = true;
     }
 
     if (count($objs_ids_arr) > 0) {
@@ -235,7 +235,7 @@ if (isset($list_title)) {
                             <?php
                         }
 
-                        if (!$delete_disabled) {
+                        if ($show_delete_button) {
                             ?>
                             <a href="<?php echo $delete_url . '?destination=' . urlencode($_SERVER['REQUEST_URI']); ?>"
                                onClick="return confirm('Вы уверены, что хотите удалить?')" title="Удалить"
