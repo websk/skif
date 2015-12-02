@@ -31,10 +31,12 @@ class PollController extends \Skif\CRUD\CRUDController
     {
         $poll_question_id = isset($_REQUEST['poll_question_id']) ? intval($_REQUEST['poll_question_id']) : '';
 
+        $poll_obj = \Skif\Poll\Poll::factory($poll_id);
+
         if ($_COOKIE[self::$poll_cookie_prefix . $poll_id] == 'no') {
             \Skif\Messages::setError('Вы уже проголосовали ранее!');
 
-            \Skif\Http::redirect(self::getViewUrl($poll_id));
+            \Skif\Http::redirect($poll_obj->getUrl());
         }
 
         if (!empty($poll_question_id)) {
@@ -51,7 +53,7 @@ class PollController extends \Skif\CRUD\CRUDController
             \Skif\Messages::setError('Вы не проголосовали, т.к. не выбрали ответ.');
         }
 
-        \Skif\Http::redirect(self::getViewUrl($poll_id));
+        \Skif\Http::redirect($poll_obj->getUrl());
     }
 
     /**

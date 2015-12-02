@@ -32,7 +32,7 @@ $poll_obj = \Skif\Poll\Poll::factory($poll_id);
                 <input type="submit" value="Голосовать" class="btn btn-default btn-sm">
             </div>
             <div class="col-md-6 text-right">
-                <a href="<?php echo \Skif\Poll\PollController::getViewUrl($poll_id); ?>">Результаты</a>
+                <a href="<?php echo $poll_obj->getUrl(); ?>">Результаты</a>
             </div>
         </div>
     </div>

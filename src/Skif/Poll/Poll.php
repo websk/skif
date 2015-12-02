@@ -202,4 +202,10 @@ class Poll implements
         return $this->poll_questions_ids_arr;
     }
 
+    public function getUrl()
+    {
+        return '/poll/' . $this->getId();
+    }
+
+
 }
