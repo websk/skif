@@ -30,6 +30,7 @@ class FormField implements
 
     public static $crud_field_titles_arr = array(
         'name' => 'Название',
+        'form' => 'Форма',
         'type' => 'Тип',
         'status' => 'Обязательность',
         'num' => 'Сортировка',
@@ -49,6 +50,12 @@ class FormField implements
 
     public static $crud_editor_fields_arr = array(
         'name' => array(),
+        'form' => array(
+            'widget' => array('\Skif\CRUD\ModelReferenceWidget\ModelReferenceWidget', 'renderWidget'),
+            'widget_settings' => array(
+                'model_class_name' => '\Skif\Form\Form'
+            )
+        ),
         'type' => array(
             'widget' => 'options',
             'options_arr' => array(
