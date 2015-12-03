@@ -42,7 +42,7 @@ class Form implements
         're' => 'Текст письма',
     );
 
-    public static $crud_model_class_screen_name_for_list = 'Опросы';
+    public static $crud_model_class_screen_name_for_list = 'Формы';
 
     public static $crud_fields_list_arr = array(
         'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
