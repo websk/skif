@@ -41,8 +41,9 @@ class FormField implements
 
     public static $crud_fields_list_arr = array(
         'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
-        'name' => array('col_class' => 'col-md-6 col-sm-6 col-xs-6'),
+        'name' => array('col_class' => 'col-md-4 col-sm-6 col-xs-6'),
         'status' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
+        'Сортировка' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
         '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
     );
 
