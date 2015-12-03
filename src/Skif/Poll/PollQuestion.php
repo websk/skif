@@ -123,15 +123,6 @@ class PollQuestion implements
         $this->votes = $votes;
     }
 
-    public static function afterUpdate($id)
-    {
-        $poll_question_obj = self::factory($id);
-
-        self::removeObjFromCacheById($id);
-
-        \Skif\Poll\Poll::afterUpdate($poll_question_obj->getPollId());
-    }
-
     /**
      * @return int
      */
@@ -146,6 +137,15 @@ class PollQuestion implements
     public function setWeight($weight)
     {
         $this->weight = $weight;
+    }
+
+    public static function afterUpdate($id)
+    {
+        $poll_question_obj = self::factory($id);
+
+        self::removeObjFromCacheById($id);
+
+        \Skif\Poll\Poll::afterUpdate($poll_question_obj->getPollId());
     }
 
     public function afterDelete()

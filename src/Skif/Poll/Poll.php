@@ -208,5 +208,4 @@ class Poll implements
         return '/poll/' . $this->getId();
     }
 
-
 }

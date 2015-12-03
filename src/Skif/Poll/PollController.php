@@ -13,11 +13,6 @@ class PollController extends \Skif\CRUD\CRUDController
         return '/admin/poll';
     }
 
-    public static function getViewUrl($poll_id)
-    {
-        return '/poll/' . $poll_id;
-    }
-
     public static function getVoteUrl($poll_id)
     {
         return '/poll/' . $poll_id . '/vote';
