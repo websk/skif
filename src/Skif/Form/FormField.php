@@ -39,8 +39,6 @@ class FormField implements
 
     public static $crud_model_class_screen_name_for_list = 'Набор полей формы';
 
-    public static $crud_fast_create_field_name = 'name';
-
     public static $crud_fields_list_arr = array(
         'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
         'name' => array('col_class' => 'col-md-6 col-sm-6 col-xs-6'),
