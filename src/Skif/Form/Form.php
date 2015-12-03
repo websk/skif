@@ -62,7 +62,7 @@ class Form implements
     public static $crud_related_models_arr = array(
         '\Skif\Form\FormField' => array(
             'link_field' => 'form',
-            'list_title' => 'Варианты ответов',
+            'list_title' => 'Набор полей формы',
         )
     );
 
