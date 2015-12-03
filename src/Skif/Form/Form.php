@@ -55,7 +55,14 @@ class Form implements
         'form_name' => array(),
         'mail' => array(),
         'button' => array(),
-        'comment' => array('widget' => 'textarea'),
+        'comment' => array(
+            'widget' => array('\Skif\CRUD\CKEditorWidget\CKEditorWidget', 'renderWidget'),
+            'widget_settings' => array(
+                'height' => 500,
+                'type' => \Skif\CKEditor\CKEditor::CKEDITOR_FULL,
+                'dir' => 'form'
+            ),
+        ),
         're' => array('widget' => 'textarea'),
     );
 

@@ -5,6 +5,9 @@ namespace Skif\CKEditor;
 class CKEditor
 {
 
+    const CKEDITOR_FULL = 'full';
+    const CKEDITOR_BASIC = 'basic';
+
     public static function createFullCKEditor($editor_name, $text, $height = 300, $dir = null)
     {
         return  \Skif\PhpTemplate::renderTemplateBySkifModule(
