@@ -17,9 +17,9 @@ class Form implements
 
     protected $id;
     protected $form_name;
-    protected $mail;
-    protected $button;
     protected $comment;
+    protected $button;
+    protected $mail;
     protected $re;
     protected $form_field_ids_arr;
 
