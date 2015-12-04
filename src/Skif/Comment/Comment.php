@@ -291,21 +291,21 @@ class Comment  implements
         if ($comment_obj->getParentId()) {
             self::removeObjFromCacheById($comment_obj->getParentId());
 
-            if (\Skif\Conf\ConfWrapper::value('comments.send_answer_to_email') && $comment_obj->getUserEmail()) {
+            if (\Skif\Conf\ConfWrapper::value('comments.send_answer_to_email')) {
                 $parent_comment_obj = \Skif\Comment\Comment::factory($comment_obj->getParentId());
-                if ($parent_comment_obj) {
+                if ($parent_comment_obj->getUserEmail()) {
                     $site_email = \Skif\Conf\ConfWrapper::value('site_email');
                     $site_url = \Skif\Conf\ConfWrapper::value('site_url');
                     $site_name = \Skif\Conf\ConfWrapper::value('site_name');
 
-                    $mail_message = 'Здравствуйте, ' . $comment_obj->getUserName() . '!<br />';
+                    $mail_message = 'Здравствуйте, ' . $parent_comment_obj->getUserEmail() . '!<br />';
                     $mail_message .= 'Получен ответ на ваше сообщение:<br />';
                     $mail_message .= $parent_comment_obj->getComment() . '<br />';
                     $mail_message .= 'Ответ: ' . $comment_obj->getComment() . '<br />';
                     $mail_message .= $site_name . ', ' . $site_url;
 
                     $subject = 'Ответ на сообщение на сайте' . $site_name;
-                    \Skif\SendMail::mailToUtf8($comment_obj->getUserEmail(), $site_email, $site_name, $subject, $mail_message);
+                    \Skif\SendMail::mailToUtf8($parent_comment_obj->getUserEmail(), $site_email, $site_name, $subject, $mail_message);
                 }
             }
         }
