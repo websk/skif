@@ -117,6 +117,11 @@ if (strpos($current_url_no_query, '/admin') !== false) {
 \Skif\UrlManager::route('@^/poll/(\d+)$@', '\Skif\Poll\PollController', 'viewAction');
 \Skif\UrlManager::route('@^/poll/(\d+)/vote$@', '\Skif\Poll\PollController', 'voteAction');
 
+// Form
+\Skif\UrlManager::route('@^/form/(\d+)$@', '\Skif\Form\FormController', 'viewAction');
+\Skif\UrlManager::route('@^/form/(\d+)/send$@', '\Skif\Form\FormController', 'sendAction');
+
+
 // Country
 \Skif\UrlManager::route('@^/autocomplete/countries$@', '\Skif\CountryController', 'CountriesAutoCompleteAction');
 

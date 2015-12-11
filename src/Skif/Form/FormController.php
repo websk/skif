@@ -33,7 +33,7 @@ class FormController extends \Skif\CRUD\CRUDController
         );
     }
 
-    public function saveAction($id)
+    public function sendAction($id)
     {
         $site_email = \Skif\Conf\ConfWrapper::value('site_email');
         $site_url = \Skif\Conf\ConfWrapper::value('site_url');
