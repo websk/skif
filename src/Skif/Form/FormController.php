@@ -87,7 +87,7 @@ class FormController extends \Skif\CRUD\CRUDController
 
         $to_mail = $form_to_mail ? $form_to_mail : $site_email;
 
-        \Skif\SendMail::mailToUtf8($to_mail, $site_email, $site_name, $title, $message);
+        \Skif\SendMail::mailToUtf8('sergey.kulkov@gmail.com', $site_email, $site_name, $title, $message);
 
         \Skif\Messages::setMessage($re);
 
