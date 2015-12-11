@@ -63,22 +63,22 @@ class FormController extends \Skif\CRUD\CRUDController
 
             if ($form_field_obj->getStatus() && !$field_value) {
                 \Skif\Messages::setError("Вы не указали " . $name);
-                return false;
+                \Skif\Http::redirect($form_obj->getUrl());
             }
         }
 
         if (!\Skif\Captcha\Captcha::checkWithMessage()) {
-            return false;
+            \Skif\Http::redirect($form_obj->getUrl());
         }
 
         if (!$email) {
             \Skif\Messages::setError('Вы не указали свой E-mail');
-            return false;
+            \Skif\Http::redirect($form_obj->getUrl());
         }
 
         if (!\Skif\Utils::checkEmail($email)) {
             \Skif\Messages::setError('Указан не существующий E-mail');
-            return false;
+            \Skif\Http::redirect($form_obj->getUrl());
         }
 
         $title = $form_obj->getTitle();
