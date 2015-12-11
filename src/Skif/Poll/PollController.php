@@ -57,13 +57,14 @@ class PollController extends \Skif\CRUD\CRUDController
      */
     public static function viewAction($poll_id)
     {
-        $poll_obj = \Skif\Poll\Poll::factory($poll_id);
+        $poll_obj = \Skif\Poll\Poll::factory($poll_id, false);
+        \Skif\Http::exit404If(!$poll_obj);
 
         $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
             'Poll',
             'view.tpl.php',
             array('poll_id' => $poll_id)
-        );;
+        );
 
         echo \Skif\PhpTemplate::renderTemplate(
             \Skif\Conf\ConfWrapper::value('layout.main'),

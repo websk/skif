@@ -191,4 +191,12 @@ class Form implements
         return '/form/' . $this->getId();
     }
 
+    /**
+     * @return mixed
+     */
+    public function getFormFieldIdsArr()
+    {
+        return $this->form_field_ids_arr;
+    }
+
 }

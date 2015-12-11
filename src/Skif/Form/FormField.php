@@ -11,6 +11,9 @@ class FormField implements
     use \Skif\Util\ActiveRecord;
     use \Skif\Model\FactoryTrait;
 
+    const FIELD_TYPE_STRING = 1;
+    const FIELD_TYPE_TEXTAREA = 2;
+
     const DB_TABLE_NAME = 'form_field';
 
     protected $id;
