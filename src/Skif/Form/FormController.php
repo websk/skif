@@ -33,8 +33,9 @@ class FormController extends \Skif\CRUD\CRUDController
         );
     }
 
-    public function sendAction($id)
+    public function sendAction($form_id)
     {
+        $site_name = \Skif\Conf\ConfWrapper::value('site_name');
         $site_email = \Skif\Conf\ConfWrapper::value('site_email');
         $site_url = \Skif\Conf\ConfWrapper::value('site_url');
 
@@ -42,19 +43,21 @@ class FormController extends \Skif\CRUD\CRUDController
 
         $message = 'E-mail: ' . $email . '<br />';
 
+        $form_obj = \Skif\Form\Form::factory($form_id);
 
-        $res = \Skif\DB\DBWrapper::readAssoc("SELECT * FROM form_field WHERE form='" . intval($id) . "' ORDER BY num");
+        $form_field_ids_arr = $form_obj->getFormFieldIdsArr();
 
-        for ($i = 0; $i < count($res); $i++) {
-            $f[$i] = $_REQUEST['f_' . $i];
-            $field[$i] = $res[$i]['id'];
-            $name[$i] = $res[$i]['name'];
-            $type[$i] = $res[$i]['type'];
-            $status[$i] = $res[$i]['status'];
-            $num[$i] = $res[$i]['num'];
-            $message .= $name[$i] . ": " . $f[$i] . '<br />';
-            if ($status[$i] && !$f[$i]) {
-                \Skif\Messages::setError("Вы не указали " . $name[$i]);
+        foreach ($form_field_ids_arr as $form_field_id) {
+            $form_field_obj = \Skif\Form\FormField::factory($form_field_id);
+
+            $field_value = $_REQUEST['field_' . $form_field_id];
+
+            $name = $form_field_obj->getName();
+
+            $message .= $name . ": " . $field_value . '<br />';
+
+            if ($form_field_obj->getStatus() && !$field_value) {
+                \Skif\Messages::setError("Вы не указали " . $name);
                 return false;
             }
         }
@@ -73,25 +76,20 @@ class FormController extends \Skif\CRUD\CRUDController
             return false;
         }
 
-
-        $row = \Skif\DB\DBWrapper::readAssocRow("SELECT form_name, mail, re FROM form WHERE id=?", array($id));
-        $title = $row['form_name'];
-        $form_to_mail = $row['mail'];
-        $re = $row['re'];
+        $title = $form_obj->getTitle();
+        $form_to_mail = $form_obj->getMail();
+        $re = $form_obj->getRe();
 
         $to_mail = $form_to_mail ? $form_to_mail : $site_email;
 
-        \Skif\SendMail::mailToUtf8($to_mail, $site_email, 'ИБЦ РХТУ им. Д.И. Менделеева', $title, $message);
-
-        \Skif\SendMail::mailToUtf8('sergey.kulkov@gmail.com', $to_mail, 'ИБЦ РХТУ им. Д.И. Менделеева', $title, $message);
-        \Skif\SendMail::mailToUtf8('belkalu@yandex.ru', $to_mail, 'ИБЦ РХТУ им. Д.И. Менделеева', $title, $message);
+        \Skif\SendMail::mailToUtf8($to_mail, $site_email, $site_name, $title, $message);
 
         \Skif\Messages::setMessage($re);
 
         $re .= "\n";
         $re .= $to_mail . "\n";
         $re .= "http://" . $site_url . "\n";
-        \Skif\SendMail::mailToUtf8($email, $to_mail, 'ИБЦ РХТУ им. Д.И. Менделеева', "Благодарим Вас за отправленную информацию!", $re);
+        \Skif\SendMail::mailToUtf8($email, $to_mail, $site_name, "Благодарим Вас за отправленную информацию!", $re);
 
         return true;
     }

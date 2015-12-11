@@ -35,7 +35,7 @@ $form_field_ids_arr = $form_obj->getFormFieldIdsArr();
         if ($form_field_obj->getType() == \Skif\Form\FormField::FIELD_TYPE_STRING) {
             $field_html = '<input type=text name="field_' . $form_field_id . '" maxlength="' . $length . '" value="" size="' . $length . '" class="form-control">';
         } else if ($form_field_obj->getType() == \Skif\Form\FormField::FIELD_TYPE_TEXTAREA) {
-            $field_html = '<textarea name="f_' . $form_field_id . '" cols="50" rows="' . $length . '" class="form-control"></textarea>';
+            $field_html = '<textarea name="field_' . $form_field_id . '" cols="50" rows="' . $length . '" class="form-control"></textarea>';
         }
         ?>
         <div class="form-group">
