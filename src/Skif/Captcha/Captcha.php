@@ -156,4 +156,8 @@ class Captcha
         exit;
     }
 
+    public static function getUrl()
+    {
+        return '/captcha/generate';
+    }
 } 

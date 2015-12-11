@@ -48,15 +48,13 @@ $form_field_ids_arr = $form_obj->getFormFieldIdsArr();
     ?>
     <div class="form-group">
         <label class="col-md-3">Ваш E-mail *</label>
-
         <div class="col-md-9"><input type=text name="email" value="" class="form-control"></div>
     </div>
     <div class="form-group">
-        <label class="col-md-3">Введите код, изображенный на картинке.</label>
-
-        <div class="col-md-9">
-            <img src="/captcha/generate" border="0" alt="Введите этот защитный код">
+        <div class="col-md-offset-3 col-md-9">
+            <img src="<?php echo \Skif\Captcha\Captcha::getUrl(); ?>" border="0" alt="Введите этот защитный код">
             <input type="text" size="5" name="captcha" class="form-control">
+            <span class="help-block">Введите код, изображенный на картинке</span>
         </div>
     </div>
     <div class="form-group">
