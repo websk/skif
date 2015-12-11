@@ -42,6 +42,7 @@ class FormController extends \Skif\CRUD\CRUDController
 
         $message = 'E-mail: ' . $email . '<br />';
 
+
         $res = \Skif\DB\DBWrapper::readAssoc("SELECT * FROM form_field WHERE form='" . intval($id) . "' ORDER BY num");
 
         for ($i = 0; $i < count($res); $i++) {
