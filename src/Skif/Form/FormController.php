@@ -13,6 +13,11 @@ class FormController extends \Skif\CRUD\CRUDController
         return '/admin/form';
     }
 
+    public static function getSendUrl($form_id)
+    {
+        return '/form/' . $form_id . '/send';
+    }
+
     protected function viewAction($form_id)
     {
         $form_obj = \Skif\Form\Form::factory($form_id, false);
@@ -89,9 +94,10 @@ class FormController extends \Skif\CRUD\CRUDController
         $re .= "\n";
         $re .= $to_mail . "\n";
         $re .= "http://" . $site_url . "\n";
+
         \Skif\SendMail::mailToUtf8($email, $to_mail, $site_name, "Благодарим Вас за отправленную информацию!", $re);
 
-        return true;
+        \Skif\Http::redirect($form_obj->getUrl());
     }
 
 }

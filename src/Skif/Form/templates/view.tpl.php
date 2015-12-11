@@ -13,7 +13,7 @@ if ($form_obj->getComment()) {
 
 $form_field_ids_arr = $form_obj->getFormFieldIdsArr();
 ?>
-<form method="post" action="/form/<?php echo $form_id; ?>/send" class="form-horizontal">
+<form method="post" action="<?php echo \Skif\Form\FormController::getSendUrl($form_id); ?>" class="form-horizontal">
     <?php
     foreach ($form_field_ids_arr as $form_field_id) {
         $form_field_obj = \Skif\Form\FormField::factory($form_field_id);
