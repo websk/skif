@@ -21,6 +21,7 @@ class Form implements
     protected $button;
     protected $mail;
     protected $re;
+    protected $url;
     protected $form_field_ids_arr;
 
     public static $active_record_ignore_fields_arr = array(
@@ -40,6 +41,7 @@ class Form implements
         'button' => 'Надпись на кнопке',
         'comment' => 'Комментарий',
         're' => 'Текст письма',
+        'url' => 'Адрес страницы',
     );
 
     public static $crud_model_class_screen_name_for_list = 'Формы';
@@ -64,6 +66,7 @@ class Form implements
             ),
         ),
         're' => array('widget' => 'textarea'),
+        'url' => array(),
     );
 
     public static $crud_related_models_arr = array(
@@ -186,11 +189,44 @@ class Form implements
         $this->re = $re;
     }
 
+    /**
+     * @return mixed
+     */
     public function getUrl()
     {
+        if ($this->url) {
+            return $this->url;
+        }
+
         return '/form/' . $this->getId();
     }
 
+    /**
+     * @param mixed $url
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
+
+    public function generateUrl()
+    {
+        if (!$this->getTitle()) {
+            return '';
+        }
+
+        $title_for_url = \Skif\Translit::translit($this->getTitle());
+
+        $new_url = $title_for_url;
+        $new_url = '/' . ltrim($new_url, '/');
+
+        $new_url = substr($new_url, 0, 255);
+
+        $unique_new_url = \Skif\UrlManager::getUniqueUrl($new_url);
+        \Skif\Utils::assert($unique_new_url);
+
+        return $unique_new_url;
+    }
     /**
      * @return mixed
      */
