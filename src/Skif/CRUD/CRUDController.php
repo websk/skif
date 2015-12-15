@@ -7,7 +7,7 @@ namespace Skif\CRUD;
  * Если умеет загружаться - круд может показывать такие модели.
  * Если умеет сохраняться - круд может редактировать такие модели.
  */
-class CRUDController
+class CRUDController extends \Skif\BaseController
 {
     public static $base_breadcrumbs = array();
     protected static $model_class_name = '';
