@@ -197,8 +197,6 @@ class Form implements
         if ($this->url) {
             return $this->url;
         }
-
-        return '/form/' . $this->getId();
     }
 
     /**
@@ -234,5 +232,26 @@ class Form implements
     {
         return $this->form_field_ids_arr;
     }
+
+    public function save()
+    {
+        if ($this->url) {
+            $url = '/' . ltrim($this->url, '/');
+
+            if ($url != $this->getUrl()) {
+                \Skif\UrlManager::getUniqueUrl($url);
+            }
+        } else {
+            $url = $this->generateUrl();
+            $url = '/' . ltrim($url, '/');
+        }
+
+        $this->setUrl($url);
+
+        \Skif\Util\ActiveRecordHelper::saveModelObj($this);
+
+        self::afterUpdate($this->getId());
+    }
+
 
 }
