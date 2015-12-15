@@ -18,7 +18,7 @@ class KeyValueController extends \Skif\CRUD\CRUDController
         $name = $_POST['name'];
 
         if (!preg_match("/^[a-zA-Z0-9_-]+$/", $name)) {
-            \Skif\Messages::setError('Неверное название переменной. Название должно состоять только из латинских букв <code>A-Za-z</code>, цифр <code>0-9</code>, тире <code>-</code> или подчёркивания <code>_</code>');
+            \Skif\Messages::setError('Неверное название параметра. Название должно состоять только из латинских букв <code>A-Za-z</code>, цифр <code>0-9</code>, тире <code>-</code> или подчёркивания <code>_</code>');
 
             return false;
         }
