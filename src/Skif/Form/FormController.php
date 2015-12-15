@@ -54,7 +54,7 @@ class FormController extends \Skif\CRUD\CRUDController
 
         $email = $_REQUEST['email'];
 
-        $message = 'E-mail: ' . $email . '<br />';
+        $message = 'E-mail: ' . $email . '<br>';
 
         $form_obj = \Skif\Form\Form::factory($form_id);
 
@@ -67,7 +67,7 @@ class FormController extends \Skif\CRUD\CRUDController
 
             $name = $form_field_obj->getName();
 
-            $message .= $name . ": " . $field_value . '<br />';
+            $message .= $name . ": " . $field_value . '<br>';
 
             if ($form_field_obj->getStatus() && !$field_value) {
                 \Skif\Messages::setError("Вы не указали " . $name);
@@ -91,7 +91,7 @@ class FormController extends \Skif\CRUD\CRUDController
 
         $title = $form_obj->getTitle();
         $form_to_mail = $form_obj->getMail();
-        $re = $form_obj->getRe();
+        $re = nl2br($form_obj->getRe());
 
         $to_mail = $form_to_mail ? $form_to_mail : $site_email;
 
@@ -99,9 +99,9 @@ class FormController extends \Skif\CRUD\CRUDController
 
         \Skif\Messages::setMessage($re);
 
-        $re .= "\n";
-        $re .= $to_mail . "\n";
-        $re .= "http://" . $site_url . "\n";
+        $re .= "<br>";
+        $re .= $to_mail . "<br>";
+        $re .= "http://" . $site_url . "<br>";
 
         \Skif\SendMail::mailToUtf8($email, $to_mail, $site_name, "Благодарим Вас за отправленную информацию!", $re);
 
