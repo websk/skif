@@ -76,7 +76,7 @@ $items = array();
                                 ?>
                                 <div class="checkbox">
                                     <label>
-                                        <input value="1" type="checkbox" name="roles[]"<?php echo (in_array($role_id, $block_role_ids_arr) ? 'checked' : ''); ?>>
+                                        <input value="<?php echo $role_id; ?>" type="checkbox" name="roles[]"<?php echo (in_array($role_id, $block_role_ids_arr) ? 'checked' : ''); ?>>
                                         <?php echo $role_obj->getName(); ?>
                                     </label>
                                 </div>
