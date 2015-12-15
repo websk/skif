@@ -59,7 +59,7 @@ $form_field_ids_arr = $form_obj->getFormFieldIdsArr();
     </div>
     <div class="form-group">
         <div class="col-md-offset-3 col-md-9">
-            <button class="btn btn-primary">"<?php echo $form_obj->getButton(); ?></button>
+            <button class="btn btn-primary"><?php echo $form_obj->getButton(); ?></button>
             <p class="help-block">* отмечены поля, обязательные для заполнения</p>
         </div>
     </div>
