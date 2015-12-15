@@ -21,13 +21,12 @@ class FormController extends \Skif\CRUD\CRUDController
 
     public function viewAction()
     {
-        $requested_id = $this->getRequestedId();
+        $form_id = $this->getRequestedId();
 
-        if (!$requested_id) {
+        if (!$form_id) {
             return \Skif\UrlManager::CONTINUE_ROUTING;
         }
 
-        $form_id = $requested_id;
 
         $form_obj = \Skif\Form\Form::factory($form_id, false);
         \Skif\Http::exit404If(!$form_obj);
