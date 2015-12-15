@@ -7,6 +7,7 @@ class FormController extends \Skif\CRUD\CRUDController
 {
 
     protected static $model_class_name = '\Skif\Form\Form';
+    protected $url_table = \Skif\Form\Form::DB_TABLE_NAME;
 
     public static function getCRUDBaseUrl($model_class_name)
     {
