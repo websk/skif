@@ -5,19 +5,55 @@ class Task implements
     \Skif\Model\InterfaceLoad,
     \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete
+    \Skif\Model\InterfaceDelete,
+    \Skif\Model\InterfaceGetTitle
 {
     use \Skif\Util\ActiveRecord;
     use \Skif\Model\FactoryTrait;
 
+    const DB_TABLE_NAME = 'task';
+
     protected $id;
+    protected $title;
     protected $created_time;
     protected $description_task;
     protected $comment_in_task;
     protected $assigned_to_user_id;
-    protected $resolved_time;
+    protected $last_update_time;
     protected $status;
     protected $created_user_id;
+
+    public static $crud_create_button_required_fields_arr = array();
+    public static $crud_create_button_title = 'Добавить задачу';
+
+    public static $crud_model_class_screen_name = 'Задача';
+    public static $crud_model_title_field = 'title';
+
+    public static $crud_field_titles_arr = array(
+        'title' => 'Название задачи',
+        'description_task' => 'Описание',
+        'comment_in_task' => 'Комментарии',
+        'assigned_to_user_id' => 'Назначено на пользователя',
+        'status' => 'Статус',
+    );
+
+    public static $crud_model_class_screen_name_for_list = 'Формы';
+
+    public static $crud_fields_list_arr = array(
+        'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
+        'title' => array('col_class' => 'col-md-6 col-sm-6 col-xs-6'),
+        'description_task' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
+        '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
+    );
+
+    public static $crud_editor_fields_arr = array(
+        'title' => array(),
+        'description_task' => array('widget' => 'textarea'),
+        'comment_in_task' => array('widget' => 'textarea'),
+        'assigned_to_user_id' => array(),
+        'status' => array(),
+    );
+
 
     /**
      * @return mixed
@@ -33,6 +69,22 @@ class Task implements
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param mixed $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
     }
 
     /**
@@ -102,17 +154,17 @@ class Task implements
     /**
      * @return mixed
      */
-    public function getResolvedTime()
+    public function getLastUpdateTime()
     {
-        return $this->resolved_time;
+        return $this->last_update_time;
     }
 
     /**
-     * @param mixed $resolved_time
+     * @param mixed $last_update_time
      */
-    public function setResolvedTime($resolved_time)
+    public function setLastUpdateTime($last_update_time)
     {
-        $this->resolved_time = $resolved_time;
+        $this->last_update_time = $last_update_time;
     }
 
     /**
