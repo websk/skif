@@ -11,6 +11,12 @@ class UsersUtils
         return \Skif\DB\DBWrapper::readColumn($query);
     }
 
+    public static function getRoleIdByDesignation($designation)
+    {
+        $query = "SELECT id FROM roles WHERE designation=?";
+        return \Skif\DB\DBWrapper::readField($query, array($designation));
+    }
+
     public static function getUsersIdsArr($role_id = null)
     {
         $param_arr = array();

@@ -53,28 +53,36 @@ class Task implements
         '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
     );
 
-    public static $crud_editor_fields_arr = array(
-        'title' => array(),
-        'created_date' => array(
-            'widget' => array('\Skif\CRUD\DatepickerWidget\DatepickerWidget', 'renderWidget'),
-            'widget_settings' => array(
-                'date_format' => 'YYYY-MM-DD'
+    public static function crud_editorFieldsArr()
+    {
+        return array(
+            'title' => array(),
+            'created_date' => array(
+                'widget' => array('\Skif\CRUD\DatepickerWidget\DatepickerWidget', 'renderWidget'),
+                'widget_settings' => array(
+                    'date_format' => 'YYYY-MM-DD'
+                ),
             ),
-        ),
-        'description_task' => array('widget' => 'textarea'),
-        'comment_in_task' => array('widget' => 'textarea'),
-        'created_user_id' => array(),
-        'assigned_to_user_id' => array(),
-        'status' =>  array(
-            'widget' => 'options',
-            'options_arr' => array(
-                self::TASK_STATUS_NEW => 'новая',
-                self::TASK_STATUS_INPROGRESS => 'в работе',
-                self::TASK_STATUS_DEFERRED => 'отложенная',
-                self::TASK_STATUS_FINISHED => 'выполненная',
-            )
-        ),
-    );
+            'description_task' => array('widget' => 'textarea'),
+            'comment_in_task' => array('widget' => 'textarea'),
+            'created_user_id' => array(),
+            'assigned_to_user_id' => array(
+                'widget' => array('\Skif\CRUD\UserWidget\UserWidget', 'renderWidget'),
+                'widget_settings' => array(
+                    'filtered_user_role_id' => \Skif\Users\UsersUtils::getRoleIdByDesignation('TASK_MANAGEMENT')
+                ),
+            ),
+            'status' =>  array(
+                'widget' => 'options',
+                'options_arr' => array(
+                    self::TASK_STATUS_NEW => 'новая',
+                    self::TASK_STATUS_INPROGRESS => 'в работе',
+                    self::TASK_STATUS_DEFERRED => 'отложенная',
+                    self::TASK_STATUS_FINISHED => 'выполненная',
+                )
+            ),
+        );
+    }
 
 
     /**
