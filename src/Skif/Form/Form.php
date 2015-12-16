@@ -16,11 +16,11 @@ class Form implements
     const DB_TABLE_NAME = 'form';
 
     protected $id;
-    protected $form_name;
+    protected $title;
     protected $comment;
-    protected $button;
-    protected $mail;
-    protected $re;
+    protected $button_label;
+    protected $email;
+    protected $response_mail_message;
     protected $url;
     protected $form_field_ids_arr;
 
@@ -33,14 +33,14 @@ class Form implements
     public static $crud_create_button_title = 'Добавить форму';
 
     public static $crud_model_class_screen_name = 'Форма';
-    public static $crud_model_title_field = 'form_name';
+    public static $crud_model_title_field = 'title';
 
     public static $crud_field_titles_arr = array(
-        'form_name' => 'Заголовок',
-        'mail' => 'E-mail',
-        'button' => 'Надпись на кнопке',
+        'title' => 'Заголовок',
+        'email' => 'E-mail',
+        'button_label' => 'Надпись на кнопке',
         'comment' => 'Комментарий',
-        're' => 'Текст письма',
+        'response_mail_message' => 'Текст письма',
         'url' => 'Адрес страницы',
     );
 
@@ -48,15 +48,15 @@ class Form implements
 
     public static $crud_fields_list_arr = array(
         'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
-        'form_name' => array('col_class' => 'col-md-6 col-sm-6 col-xs-6'),
-        'mail' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
+        'title' => array('col_class' => 'col-md-6 col-sm-6 col-xs-6'),
+        'email' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
         '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
     );
 
     public static $crud_editor_fields_arr = array(
-        'form_name' => array(),
-        'mail' => array(),
-        'button' => array(),
+        'title' => array(),
+        'email' => array(),
+        'button_label' => array(),
         'comment' => array(
             'widget' => array('\Skif\CRUD\CKEditorWidget\CKEditorWidget', 'renderWidget'),
             'widget_settings' => array(
@@ -65,13 +65,13 @@ class Form implements
                 'dir' => 'form'
             ),
         ),
-        're' => array('widget' => 'textarea'),
+        'response_mail_message' => array('widget' => 'textarea'),
         'url' => array(),
     );
 
     public static $crud_related_models_arr = array(
         '\Skif\Form\FormField' => array(
-            'link_field' => 'form',
+            'link_field' => 'form_id',
             'list_title' => 'Набор полей формы',
         )
     );
@@ -114,47 +114,47 @@ class Form implements
      */
     public function getTitle()
     {
-        return $this->form_name;
+        return $this->title;
     }
 
     /**
-     * @param mixed $form_name
+     * @param mixed $title
      */
-    public function setFormName($form_name)
+    public function setTitle($title)
     {
-        $this->form_name = $form_name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMail()
-    {
-        return $this->mail;
-    }
-
-    /**
-     * @param mixed $mail
-     */
-    public function setMail($mail)
-    {
-        $this->mail = $mail;
+        $this->title = $title;
     }
 
     /**
      * @return mixed
      */
-    public function getButton()
+    public function getEmail()
     {
-        return $this->button;
+        return $this->email;
     }
 
     /**
-     * @param mixed $button
+     * @param mixed $email
      */
-    public function setButton($button)
+    public function setEmail($email)
     {
-        $this->button = $button;
+        $this->email = $email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getButtonLabel()
+    {
+        return $this->button_label;
+    }
+
+    /**
+     * @param mixed $button_label
+     */
+    public function setButtonLabel($button_label)
+    {
+        $this->button_label = $button_label;
     }
 
     /**
@@ -176,17 +176,17 @@ class Form implements
     /**
      * @return mixed
      */
-    public function getRe()
+    public function getResponseMailMessage()
     {
-        return $this->re;
+        return $this->response_mail_message;
     }
 
     /**
-     * @param mixed $re
+     * @param mixed $response_mail_message
      */
-    public function setRe($re)
+    public function setResponseMailMessage($response_mail_message)
     {
-        $this->re = $re;
+        $this->response_mail_message = $response_mail_message;
     }
 
     /**

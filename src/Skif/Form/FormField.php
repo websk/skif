@@ -17,11 +17,11 @@ class FormField implements
     const DB_TABLE_NAME = 'form_field';
 
     protected $id;
-    protected $form;
+    protected $form_id;
     protected $name;
     protected $type;
     protected $status;
-    protected $num;
+    protected $weight;
     protected $size;
 
 
@@ -33,10 +33,10 @@ class FormField implements
 
     public static $crud_field_titles_arr = array(
         'name' => 'Название',
-        'form' => 'Форма',
+        'form_id' => 'Форма',
         'type' => 'Тип',
         'status' => 'Обязательность',
-        'num' => 'Сортировка',
+        'weight' => 'Сортировка',
         'size' => 'Размер'
     );
 
@@ -46,13 +46,13 @@ class FormField implements
         'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
         'name' => array('col_class' => 'col-md-4 col-sm-6 col-xs-6'),
         'status' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
-        'num' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
+        'weight' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
         '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
     );
 
     public static $crud_editor_fields_arr = array(
         'name' => array(),
-        'form' => array(
+        'form_id' => array(
             'widget' => array('\Skif\CRUD\ModelReferenceWidget\ModelReferenceWidget', 'renderWidget'),
             'widget_settings' => array(
                 'model_class_name' => '\Skif\Form\Form'
@@ -68,7 +68,7 @@ class FormField implements
             )
         ),
         'status' => array('widget' => 'checkbox'),
-        'num' => array(),
+        'weight' => array(),
         'size' => array(),
     );
 
@@ -92,17 +92,17 @@ class FormField implements
     /**
      * @return mixed
      */
-    public function getForm()
+    public function getFormId()
     {
-        return $this->form;
+        return $this->form_id;
     }
 
     /**
-     * @param mixed $form
+     * @param mixed $form_id
      */
-    public function setForm($form)
+    public function setFormId($form_id)
     {
-        $this->form = $form;
+        $this->form_id = $form_id;
     }
 
     /**
@@ -156,17 +156,17 @@ class FormField implements
     /**
      * @return mixed
      */
-    public function getNum()
+    public function getWeight()
     {
-        return $this->num;
+        return $this->weight;
     }
 
     /**
-     * @param mixed $num
+     * @param mixed $weight
      */
-    public function setNum($num)
+    public function setWeight($weight)
     {
-        $this->num = $num;
+        $this->weight = $weight;
     }
 
     /**
@@ -191,14 +191,14 @@ class FormField implements
 
         self::removeObjFromCacheById($id);
 
-        \Skif\Form\Form::afterUpdate($form_field_obj->getForm());
+        \Skif\Form\Form::afterUpdate($form_field_obj->getFormId());
     }
 
     public function afterDelete()
     {
         self::removeObjFromCacheById($this->getId());
 
-        \Skif\Form\Form::afterUpdate($this->getForm());
+        \Skif\Form\Form::afterUpdate($this->getFormId());
     }
 
 }

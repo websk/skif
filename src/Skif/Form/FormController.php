@@ -52,9 +52,9 @@ class FormController extends \Skif\CRUD\CRUDController
         $site_email = \Skif\Conf\ConfWrapper::value('site_email');
         $site_url = \Skif\Conf\ConfWrapper::value('site_url');
 
-        $email = $_REQUEST['email'];
+        $user_email = $_REQUEST['email'];
 
-        $message = 'E-mail: ' . $email . '<br>';
+        $message = 'E-mail: ' . $user_email . '<br>';
 
         $form_obj = \Skif\Form\Form::factory($form_id);
 
@@ -79,31 +79,31 @@ class FormController extends \Skif\CRUD\CRUDController
             \Skif\Http::redirect($form_obj->getUrl());
         }
 
-        if (!$email) {
+        if (!$user_email) {
             \Skif\Messages::setError('Вы не указали свой E-mail');
             \Skif\Http::redirect($form_obj->getUrl());
         }
 
-        if (!\Skif\Utils::checkEmail($email)) {
+        if (!\Skif\Utils::checkEmail($user_email)) {
             \Skif\Messages::setError('Указан не существующий E-mail');
             \Skif\Http::redirect($form_obj->getUrl());
         }
 
         $title = $form_obj->getTitle();
-        $form_to_mail = $form_obj->getMail();
-        $re = nl2br($form_obj->getRe());
+        $form_email = $form_obj->getEmail();
+        $response_mail_message = nl2br($form_obj->getResponseMailMessage());
 
-        $to_mail = $form_to_mail ? $form_to_mail : $site_email;
+        $to_mail = $form_email ? $form_email : $site_email;
 
         \Skif\SendMail::mailToUtf8($to_mail, $site_email, $site_name, $title, $message);
 
-        \Skif\Messages::setMessage($re);
+        \Skif\Messages::setMessage($response_mail_message);
 
-        $re .= "<br>";
-        $re .= $to_mail . "<br>";
-        $re .= "http://" . $site_url . "<br>";
+        $response_mail_message .= "<br>";
+        $response_mail_message .= $to_mail . "<br>";
+        $response_mail_message .= "http://" . $site_url . "<br>";
 
-        \Skif\SendMail::mailToUtf8($email, $to_mail, $site_name, "Благодарим Вас за отправленную информацию!", $re);
+        \Skif\SendMail::mailToUtf8($user_email, $to_mail, $site_name, "Благодарим Вас за отправленную информацию!", $response_mail_message);
 
         \Skif\Http::redirect($form_obj->getUrl());
     }
