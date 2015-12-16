@@ -34,7 +34,8 @@ class Task implements
         'created_date' => 'Дата создания',
         'description_task' => 'Описание',
         'comment_in_task' => 'Комментарии',
-        'assigned_to_user_id' => 'Назначено на пользователя',
+        'created_to_user_id' => 'Создал',
+        'assigned_to_user_id' => 'Назначено на',
         'status' => 'Статус',
     );
 
