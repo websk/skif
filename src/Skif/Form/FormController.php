@@ -97,6 +97,10 @@ class FormController extends \Skif\CRUD\CRUDController
 
         \Skif\SendMail::mailToUtf8($to_mail, $site_email, $site_name, $title, $message);
 
+        if ($form_obj->getEmailCopy()) {
+            \Skif\SendMail::mailToUtf8($form_obj->getEmailCopy(), $site_email, $site_name, $title, $message);
+        }
+
         \Skif\Messages::setMessage($response_mail_message);
 
         $response_mail_message .= "<br>";

@@ -20,6 +20,7 @@ class Form implements
     protected $comment;
     protected $button_label;
     protected $email;
+    protected $email_copy;
     protected $response_mail_message;
     protected $url;
     protected $form_field_ids_arr;
@@ -139,6 +140,22 @@ class Form implements
     public function setEmail($email)
     {
         $this->email = $email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmailCopy()
+    {
+        return $this->email_copy;
+    }
+
+    /**
+     * @param mixed $email_copy
+     */
+    public function setEmailCopy($email_copy)
+    {
+        $this->email_copy = $email_copy;
     }
 
     /**
