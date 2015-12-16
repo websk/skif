@@ -64,7 +64,15 @@ class Task implements
         'description_task' => array('widget' => 'textarea'),
         'comment_in_task' => array('widget' => 'textarea'),
         'assigned_to_user_id' => array(),
-        'status' => array(),
+        'status' =>  array(
+            'widget' => 'options',
+            'options_arr' => array(
+                self::TASK_STATUS_NEW => 'новая',
+                self::TASK_STATUS_INPROGRESS => 'в работе',
+                self::TASK_STATUS_DEFERRED => 'отложенная',
+                self::TASK_STATUS_FINISHED => 'выполненная',
+            )
+        ),
     );
 
 
