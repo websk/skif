@@ -21,12 +21,12 @@ class Task implements
     protected $id;
     protected $title = '';
     protected $created_date;
+    protected $created_user_id;
     protected $description_task = '';
     protected $comment_in_task = '';
     protected $assigned_to_user_id;
     protected $last_modified_time;
     protected $status;
-    protected $created_user_id;
 
     public static $crud_create_button_required_fields_arr = array();
     public static $crud_create_button_title = 'Добавить задачу';
