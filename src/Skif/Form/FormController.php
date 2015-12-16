@@ -103,7 +103,7 @@ class FormController extends \Skif\CRUD\CRUDController
 
         \Skif\Messages::setMessage($response_mail_message);
 
-        $response_mail_message .= "<br>";
+        $response_mail_message .= "<br><br>";
         $response_mail_message .= $to_mail . "<br>";
         $response_mail_message .= "http://" . $site_url . "<br>";
 
