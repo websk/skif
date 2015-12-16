@@ -13,6 +13,11 @@ class Task implements
 
     const DB_TABLE_NAME = 'task';
 
+    const TASK_STATUS_NEW = 0;
+    const TASK_STATUS_INPROGRESS = 1;
+    const TASK_STATUS_DEFERRED = 2;
+    const TASK_STATUS_FINISHED = 3;
+
     protected $id;
     protected $title = '';
     protected $created_date;
