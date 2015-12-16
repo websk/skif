@@ -8,7 +8,7 @@
 
 $users_ids_arr = \Skif\Users\UsersUtils::getUsersIdsArr($filtered_user_role_id);
 ?>
-<select id="<?php echo !$disabled ? 'disabledSelect' : $field_name; ?>" name="<?php echo $field_name; ?>" class="form-control">
+<select id="<?php echo $field_name; ?>" name="<?php echo $field_name; ?>" class="form-control"<?php echo !$disabled ? ' readonly' : '' ?>>
     <?php
     foreach ($users_ids_arr as $user_id) {
         $user_obj = \Skif\Users\User::factory($user_id);
