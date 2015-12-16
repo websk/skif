@@ -7,13 +7,13 @@ class UsersUtils
 {
     public static function getRolesIdsArr()
     {
-        $query = "SELECT id FROM roles ORDER BY name";
+        $query = "SELECT id FROM " . \Skif\Users\Role::DB_TABLE_NAME . " ORDER BY name";
         return \Skif\DB\DBWrapper::readColumn($query);
     }
 
     public static function getRoleIdByDesignation($designation)
     {
-        $query = "SELECT id FROM roles WHERE designation=?";
+        $query = "SELECT id FROM " . \Skif\Users\Role::DB_TABLE_NAME . " WHERE designation=?";
         return \Skif\DB\DBWrapper::readField($query, array($designation));
     }
 
