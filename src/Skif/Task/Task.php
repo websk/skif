@@ -14,12 +14,12 @@ class Task implements
     const DB_TABLE_NAME = 'task';
 
     protected $id;
-    protected $title;
+    protected $title = '';
     protected $created_time;
-    protected $description_task;
-    protected $comment_in_task;
+    protected $description_task = '';
+    protected $comment_in_task = '';
     protected $assigned_to_user_id;
-    protected $last_update_time;
+    protected $last_modified_time;
     protected $status;
     protected $created_user_id;
 
@@ -31,13 +31,14 @@ class Task implements
 
     public static $crud_field_titles_arr = array(
         'title' => 'Название задачи',
+        'created_time' => 'Дата создания',
         'description_task' => 'Описание',
         'comment_in_task' => 'Комментарии',
         'assigned_to_user_id' => 'Назначено на пользователя',
         'status' => 'Статус',
     );
 
-    public static $crud_model_class_screen_name_for_list = 'Формы';
+    public static $crud_model_class_screen_name_for_list = 'Задачи';
 
     public static $crud_fields_list_arr = array(
         'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
@@ -154,17 +155,17 @@ class Task implements
     /**
      * @return mixed
      */
-    public function getLastUpdateTime()
+    public function getLastModifiedTime()
     {
-        return $this->last_update_time;
+        return $this->last_modified_time;
     }
 
     /**
-     * @param mixed $last_update_time
+     * @param mixed $last_modified_time
      */
-    public function setLastUpdateTime($last_update_time)
+    public function setLastModifiedTime($last_modified_time)
     {
-        $this->last_update_time = $last_update_time;
+        $this->last_modified_time = $last_modified_time;
     }
 
     /**
@@ -197,6 +198,19 @@ class Task implements
     public function setCreatedUserId($created_user_id)
     {
         $this->created_user_id = $created_user_id;
+    }
+
+    public function save()
+    {
+        if (!$this->getId()) {
+            $this->setCreatedTime(date('Y-m-d H:i:s'));
+        } else {
+            $this->setLastModifiedTime(date('Y-m-d H:i:s'));
+        }
+
+        \Skif\Util\ActiveRecordHelper::saveModelObj($this);
+
+        self::afterUpdate($this->getId());
     }
 
 }
