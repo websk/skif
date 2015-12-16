@@ -39,6 +39,7 @@ class Form implements
     public static $crud_field_titles_arr = array(
         'title' => 'Заголовок',
         'email' => 'E-mail',
+        'email_copy' => 'Копия на E-mail',
         'button_label' => 'Надпись на кнопке',
         'comment' => 'Комментарий',
         'response_mail_message' => 'Текст письма',
@@ -57,6 +58,7 @@ class Form implements
     public static $crud_editor_fields_arr = array(
         'title' => array(),
         'email' => array(),
+        'email_copy' => array(),
         'button_label' => array(),
         'comment' => array(
             'widget' => array('\Skif\CRUD\CKEditorWidget\CKEditorWidget', 'renderWidget'),
