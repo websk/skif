@@ -15,7 +15,7 @@ class Task implements
 
     protected $id;
     protected $title = '';
-    protected $created_time;
+    protected $created_date;
     protected $description_task = '';
     protected $comment_in_task = '';
     protected $assigned_to_user_id;
@@ -31,7 +31,7 @@ class Task implements
 
     public static $crud_field_titles_arr = array(
         'title' => 'Название задачи',
-        'created_time' => 'Дата создания',
+        'created_date' => 'Дата создания',
         'description_task' => 'Описание',
         'comment_in_task' => 'Комментарии',
         'assigned_to_user_id' => 'Назначено на пользователя',
@@ -49,7 +49,7 @@ class Task implements
 
     public static $crud_editor_fields_arr = array(
         'title' => array(),
-        'created_time' => array(
+        'created_date' => array(
             'widget' => array('\Skif\CRUD\DatepickerWidget\DatepickerWidget', 'renderWidget'),
             'widget_settings' => array(
                 'date_format' => 'YYYY-MM-DD HH:mm:ss'
@@ -99,7 +99,7 @@ class Task implements
      */
     public function getCreatedTime()
     {
-        return $this->created_time;
+        return $this->created_date;
     }
 
     /**
@@ -107,7 +107,7 @@ class Task implements
      */
     public function setCreatedTime($created_time)
     {
-        $this->created_time = $created_time;
+        $this->created_date = $created_time;
     }
 
     /**
@@ -210,9 +210,9 @@ class Task implements
     {
         if (!$this->getId()) {
             $this->setCreatedTime(date('Y-m-d H:i:s'));
-        } else {
-            $this->setLastModifiedTime(date('Y-m-d H:i:s'));
         }
+
+        $this->setLastModifiedTime(date('Y-m-d H:i:s'));
 
         \Skif\Util\ActiveRecordHelper::saveModelObj($this);
 
