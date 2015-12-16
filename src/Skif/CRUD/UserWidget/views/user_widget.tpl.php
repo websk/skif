@@ -12,7 +12,7 @@ $users_ids_arr = \Skif\Users\UsersUtils::getUsersIdsArr($filtered_user_role_id);
     foreach ($users_ids_arr as $user_id) {
         $user_obj = \Skif\Users\User::factory($user_id);
 
-        $content .= '<option value="' . $user_id . '"' . ($user_id == $field_value ? ' selected' : '') . '>' . $user_obj->getName() . '</option>';
+        echo '<option value="' . $user_id . '"' . ($user_id == $field_value ? ' selected' : '') . '>' . $user_obj->getName() . '</option>';
     }
     ?>
 </select>
