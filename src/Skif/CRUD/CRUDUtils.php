@@ -8,8 +8,8 @@ class CRUDUtils
 
     public static function getControllerClassNameByModelClassName($model_class_name)
     {
-        //return $model_class_name . 'Controller';
-        return \Skif\UrlManager::$current_controller_obj;
+        return $model_class_name . 'Controller';
+        //return \Skif\UrlManager::$current_controller_obj;
     }
 
     /**
