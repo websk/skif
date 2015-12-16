@@ -55,7 +55,13 @@ class Task implements
 
     public static function crud_editorFieldsArr()
     {
-        return array(
+        $disable_created_user_id = true;
+
+        if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
+            $disable_created_user_id = false;
+        }
+
+        $crud_editor_fields_arr = array(
             'title' => array(),
             'created_date' => array(
                 'widget' => array('\Skif\CRUD\DatepickerWidget\DatepickerWidget', 'renderWidget'),
@@ -65,14 +71,20 @@ class Task implements
             ),
             'description_task' => array('widget' => 'textarea'),
             'comment_in_task' => array('widget' => 'textarea'),
-            'created_user_id' => array(),
+            'created_user_id' => array(
+                'widget' => array('\Skif\CRUD\UserWidget\UserWidget', 'renderWidget'),
+                'widget_settings' => array(
+                    'filtered_user_role_id' => \Skif\Users\UsersUtils::getRoleIdByDesignation('TASK_MANAGEMENT'),
+                    'disabled' => $disable_created_user_id
+                )
+            ),
             'assigned_to_user_id' => array(
                 'widget' => array('\Skif\CRUD\UserWidget\UserWidget', 'renderWidget'),
                 'widget_settings' => array(
                     'filtered_user_role_id' => \Skif\Users\UsersUtils::getRoleIdByDesignation('TASK_MANAGEMENT')
                 ),
             ),
-            'status' =>  array(
+            'status' => array(
                 'widget' => 'options',
                 'options_arr' => array(
                     self::TASK_STATUS_NEW => 'новая',
@@ -82,6 +94,8 @@ class Task implements
                 )
             ),
         );
+
+        return $crud_editor_fields_arr;
     }
 
 
