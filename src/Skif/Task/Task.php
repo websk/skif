@@ -52,7 +52,7 @@ class Task implements
         'created_date' => array(
             'widget' => array('\Skif\CRUD\DatepickerWidget\DatepickerWidget', 'renderWidget'),
             'widget_settings' => array(
-                'date_format' => 'YYYY-MM-DD HH:mm:ss'
+                'date_format' => 'YYYY-MM-DD'
             ),
         ),
         'description_task' => array('widget' => 'textarea'),
