@@ -49,6 +49,12 @@ class Task implements
 
     public static $crud_editor_fields_arr = array(
         'title' => array(),
+        'created_time' => array(
+            'widget' => array('\Skif\CRUD\DatepickerWidget\DatepickerWidget', 'renderWidget'),
+            'widget_settings' => array(
+                'date_format' => 'YYYY-MM-DD HH:mm:ss'
+            ),
+        ),
         'description_task' => array('widget' => 'textarea'),
         'comment_in_task' => array('widget' => 'textarea'),
         'assigned_to_user_id' => array(),
