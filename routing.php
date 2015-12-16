@@ -16,6 +16,7 @@ $default_route_based_crud_arr = array(
     '/admin/poll_question' => '\Skif\Poll\PollQuestionController',
     '/admin/form' => '\Skif\Form\FormController',
     '/admin/form_field' => '\Skif\Form\FormFieldController',
+    '/admin/task' => '\Skif\Task\TaskController',
 );
 
 if (isset($route_based_crud_arr)) {
