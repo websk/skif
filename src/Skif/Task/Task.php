@@ -48,8 +48,8 @@ class Task implements
 
     public static $crud_fields_list_arr = array(
         'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
-        'title' => array('col_class' => 'col-md-6 col-sm-6 col-xs-6'),
-        'description_task' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
+        'title' => array('col_class' => 'col-md-4 col-sm-6 col-xs-6'),
+        'description_task' => array('col_class' => 'col-md-4 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
         '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
     );
 
