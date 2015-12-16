@@ -39,7 +39,7 @@ class Task implements
         'created_date' => 'Дата создания',
         'description_task' => 'Описание',
         'comment_in_task' => 'Комментарии',
-        'created_to_user_id' => 'Создал',
+        'created_user_id' => 'Создал',
         'assigned_to_user_id' => 'Назначено на',
         'status' => 'Статус',
     );
@@ -63,6 +63,7 @@ class Task implements
         ),
         'description_task' => array('widget' => 'textarea'),
         'comment_in_task' => array('widget' => 'textarea'),
+        'created_user_id' => array(),
         'assigned_to_user_id' => array(),
         'status' =>  array(
             'widget' => 'options',
