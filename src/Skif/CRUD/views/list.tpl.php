@@ -48,34 +48,71 @@ if (property_exists($model_class_name, 'crud_container_model')) {
 if (isset($list_title)) {
     ?>
     <h2><?php echo $list_title; ?></h2>
-<?php
+    <?php
 }
 ?>
 
 <div>
     <?php
+    $show_filtered_panel = false;
+    if (isset($model_class_name::$crud_model_filtered_field_for_list)) {
+        $show_filtered_panel = true;
+    }
+
     if (isset($model_class_name::$crud_model_title_field)) {
         if (isset($model_class_name::$crud_allow_search)) {
             if ($model_class_name::$crud_allow_search == true) {
-                ?>
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <form action="<?php echo \Skif\UrlManager::getUriNoQueryString(); ?>">
-                                    <input name="filter" value="<?php echo $filter; ?>">
-                                    <input type="submit" value="искать">
-                                </form>
-                            </div>
-                            <div class="col-md-4">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <?php
+                $show_filtered_panel = true;
             }
         }
+    }
+
+    if ($show_filtered_panel) {
+        ?>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <?php
+                        if (isset($model_class_name::$crud_model_filtered_field_for_list)) {
+                            ?>
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <label><?php echo \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $model_class_name::$crud_model_filtered_field_for_list) ?></label>
+
+                                   <?php
+                                   $obj = new $model_class_name;
+                                   echo \Skif\CRUD\Widgets::renderFieldWithWidget($model_class_name::$crud_model_filtered_field_for_list, $obj)
+                                   ?>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Выбрать" class="btn btn-default">
+                                </div>
+                            </form>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                    <div class="col-md-4">
+                        <?php
+                        if (isset($model_class_name::$crud_model_title_field)) {
+                            if (isset($model_class_name::$crud_allow_search)) {
+                                if ($model_class_name::$crud_allow_search == true) {
+                                    ?>
+                                    <form action="<?php echo \Skif\UrlManager::getUriNoQueryString(); ?>">
+                                        <input name="filter" value="<?php echo $filter; ?>">
+                                        <input type="submit" value="искать">
+                                    </form>
+                                    <?php
+                                }
+                            }
+                        }
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
     }
     ?>
 
@@ -103,7 +140,8 @@ if (isset($list_title)) {
             <p class="padding_top_10 padding_bottom_10">
                 <a href="<?php echo $current_controller_obj::getAddUrl($model_class_name)
                     . ($context_arr ? '?' . http_build_query(array('context_arr' => $context_arr)) : ''); ?>"
-                   class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> <?php echo $button_title; ?></a>
+                   class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> <?php echo $button_title; ?>
+                </a>
             </p>
             <?php
         }
@@ -131,15 +169,15 @@ if (isset($list_title)) {
             if ($crud_fields_list_arr) {
                 ?>
                 <colgroup>
-            <?php
-                foreach ($crud_fields_list_arr as $field_arr) {
-                    ?>
-                    <col<?php echo (array_key_exists('col_class', $field_arr) ? ' class="' . $field_arr['col_class'] . '"' : ''); ?>>
                     <?php
-                }
-                ?>
+                    foreach ($crud_fields_list_arr as $field_arr) {
+                        ?>
+                        <col<?php echo(array_key_exists('col_class', $field_arr) ? ' class="' . $field_arr['col_class'] . '"' : ''); ?>>
+                        <?php
+                    }
+                    ?>
                 </colgroup>
-            <?php
+                <?php
             }
             ?>
             <thead>
@@ -157,7 +195,7 @@ if (isset($list_title)) {
                         }
                     }
                     ?>
-                    <th<?php echo ($td_class ? ' class="' . $td_class . '"' : ''); ?>><?php echo $table_title; ?></th>
+                    <th<?php echo($td_class ? ' class="' . $td_class . '"' : ''); ?>><?php echo $table_title; ?></th>
                     <?php
                 }
                 ?>
@@ -220,21 +258,23 @@ if (isset($list_title)) {
                             }
                         }
                         ?>
-                        <td<?php echo ($td_class ? ' class="' . $td_class . '"' : ''); ?>><?php echo $title; ?></td>
-                    <?php
+                        <td<?php echo($td_class ? ' class="' . $td_class . '"' : ''); ?>><?php echo $title; ?></td>
+                        <?php
                     }
 
                     $edit_url = $current_controller_obj::getEditUrl($model_class_name, $obj_id);
                     $delete_url = $current_controller_obj::getDeleteUrl($model_class_name, $obj_id);
                     ?>
                     <td align="right">
-                        <a href="<?php echo $edit_url; ?>" title="Редактировать" class="btn btn-outline btn-default btn-sm">
+                        <a href="<?php echo $edit_url; ?>" title="Редактировать"
+                           class="btn btn-outline btn-default btn-sm">
                             <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
                         </a>
                         <?php
                         if ($show_url_button) {
                             ?>
-                            <a href="<?php echo $obj_obj->getUrl(); ?>" target="_blank" title="Просмотр" class="btn btn-outline btn-default btn-sm">
+                            <a href="<?php echo $obj_obj->getUrl(); ?>" target="_blank" title="Просмотр"
+                               class="btn btn-outline btn-default btn-sm">
                                 <span class="fa fa-external-link fa-lg text-info fa-fw"></span>
                             </a>
                             <?php
