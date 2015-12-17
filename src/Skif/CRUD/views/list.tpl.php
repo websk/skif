@@ -13,6 +13,7 @@ $filter = '';
 if (isset($_GET['filter'])) {
     $filter = $_GET['filter'];
 }
+
 $objs_ids_arr = \Skif\CRUD\CRUDUtils::getObjIdsArrayForModel($model_class_name, $context_arr, $filter);
 
 // готовим список полей, которые будем выводить в таблицу
