@@ -62,7 +62,7 @@ class Task implements
         }
 
         $crud_editor_fields_arr = array(
-            'title' => array(),
+            'title' => array('required' => true),
             'created_date' => array(
                 'widget' => array('\Skif\CRUD\DatepickerWidget\DatepickerWidget', 'renderWidget'),
                 'widget_settings' => array(
