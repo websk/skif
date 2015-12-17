@@ -280,7 +280,7 @@ class CRUDUtils
     public static function currentUserHasRightsToEditModel($model_class_name)
     {
         if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-         //   return true;
+            return true;
         }
 
         if (property_exists($model_class_name, 'role_designation_arr_required_to_edit')) {
