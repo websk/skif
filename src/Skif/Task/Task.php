@@ -85,6 +85,7 @@ class Task implements
                 'widget_settings' => array(
                     'filtered_user_role_id' => \Skif\Users\UsersUtils::getRoleIdByDesignation('TASK_MANAGEMENT')
                 ),
+                'required' => true
             ),
             'status' => array(
                 'widget' => 'options',
