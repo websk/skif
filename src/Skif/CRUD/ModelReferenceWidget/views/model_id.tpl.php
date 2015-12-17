@@ -6,7 +6,7 @@
  * @var $read_only - Если передан как true, запрещает редактирование поля (disabled)
  */
 
-$controller_obj = \Skif\CRUD\CRUDUtils::getControllerClassNameByModelClassName($model_class_name);
+$controller_obj = \Skif\CRUD\CRUDController::getControllerClassNameByModelClassName($model_class_name);
 
 if (!isset($model_class_name) or empty($model_class_name)) {
     throw new \Exception('Необходимо определить параметр model_class_name в настройках виджета');

@@ -4,7 +4,7 @@
  * @var $model_class_name
  */
 
-$current_controller_obj = \Skif\CRUD\CRUDUtils::getControllerClassNameByModelClassName($model_class_name);
+$current_controller_obj = \Skif\CRUD\CRUDController::getControllerClassNameByModelClassName($model_class_name);
 
 \Skif\Utils::assert($obj);
 $model_class_name = get_class($obj);

@@ -17,6 +17,12 @@ class CRUDController extends \Skif\BaseController
         return \Skif\Conf\ConfWrapper::value('layout.admin');
     }
 
+    public static function getControllerClassNameByModelClassName($model_class_name)
+    {
+        return $model_class_name . 'Controller';
+        //return \Skif\UrlManager::$current_controller_obj;
+    }
+
     public static function getModelClassName()
     {
         if (static::$model_class_name) {

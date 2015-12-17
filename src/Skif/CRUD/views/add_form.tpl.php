@@ -3,7 +3,7 @@
  * @var $model_class_name
  */
 
-$current_controller_obj = \Skif\CRUD\CRUDUtils::getControllerClassNameByModelClassName($model_class_name);
+$current_controller_obj = \Skif\CRUD\CRUDController::getControllerClassNameByModelClassName($model_class_name);
 
 $context_arr = array();
 if (array_key_exists('context_arr', $_GET)) {
