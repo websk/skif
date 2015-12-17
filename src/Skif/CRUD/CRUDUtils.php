@@ -280,11 +280,16 @@ class CRUDUtils
     public static function currentUserHasRightsToEditModel($model_class_name)
     {
         if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-            return true;
+         //   return true;
         }
 
-        if (\Skif\Users\AuthUtils::currentUserHasAccessByRoleDesignation('TASK_MANAGEMENT')) {
-            return true;
+        if (property_exists($model_class_name, 'role_designation_arr_required_to_edit')) {
+
+            foreach ($model_class_name::$role_designation_arr_required_to_edit as $role_designation) {
+                if (\Skif\Users\AuthUtils::currentUserHasAccessByRoleDesignation($role_designation)) {
+                    return true;
+                }
+            }
         }
 
         return false;

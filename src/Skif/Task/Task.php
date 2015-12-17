@@ -28,6 +28,7 @@ class Task implements
     protected $last_modified_time;
     protected $status;
 
+    public static $role_designation_arr_required_to_edit = array('TASK_MANAGEMENT');
     public static $crud_create_button_required_fields_arr = array();
     public static $crud_create_button_title = 'Добавить задачу';
 
