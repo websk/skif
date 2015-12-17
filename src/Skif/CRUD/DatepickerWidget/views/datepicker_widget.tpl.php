@@ -2,9 +2,14 @@
 /**
  * @var $field_name string
  * @var $field_value string
+ * @var $default_value
  * @var $date_format string
  * @var $datetimepicker_options string
  */
+
+if (!$field_value && isset($default_value)) {
+    $field_value = $default_value;
+}
 ?>
 
 <div class="input-group" id="<?php echo $field_name; ?>">
