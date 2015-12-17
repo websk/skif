@@ -10,6 +10,10 @@ if (!isset($disabled)) {
     $disabled = false;
 }
 
+if (!$field_value) {
+    $field_value = \Skif\Users\AuthUtils::getCurrentUserId();
+}
+
 $users_ids_arr = \Skif\Users\UsersUtils::getUsersIdsArr($filtered_user_role_id);
 ?>
 <select id="<?php echo $field_name; ?>" name="<?php echo $field_name; ?>" class="form-control"<?php echo $disabled ? ' disabled' : '' ?>>
