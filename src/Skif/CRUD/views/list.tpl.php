@@ -56,7 +56,7 @@ if (isset($list_title)) {
 <div>
     <?php
     $show_filtered_panel = false;
-    if (isset($model_class_name::$crud_model_filtered_field_for_list)) {
+    if (isset($model_class_name::$crud_model_filtered_field_arr_for_list)) {
         $show_filtered_panel = true;
     }
 
@@ -75,17 +75,23 @@ if (isset($list_title)) {
                 <div class="row">
                     <div class="col-md-8">
                         <?php
-                        if (isset($model_class_name::$crud_model_filtered_field_for_list)) {
+                        if (isset($model_class_name::$crud_model_filtered_field_arr_for_list)) {
                             ?>
                             <form class="form-inline">
-                                <div class="form-group">
-                                    <label><?php echo \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $model_class_name::$crud_model_filtered_field_for_list) ?></label>
+                                <?php
+                                foreach ($model_class_name::$crud_model_filtered_field_arr_for_list as $field_name) {
+                                    ?>
+                                    <div class="form-group">
+                                        <label><?php echo \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $field_name) ?></label>
 
-                                   <?php
-                                   $obj = new $model_class_name;
-                                   echo \Skif\CRUD\Widgets::renderFieldWithWidget($model_class_name::$crud_model_filtered_field_for_list, $obj)
-                                   ?>
-                                </div>
+                                        <?php
+                                        $obj = new $model_class_name;
+                                        echo \Skif\CRUD\Widgets::renderFieldWithWidget($field_name, $obj)
+                                        ?>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
                                 <div class="form-group">
                                     <input type="submit" value="Выбрать" class="btn btn-default">
                                 </div>

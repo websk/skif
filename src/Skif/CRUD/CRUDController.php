@@ -132,9 +132,11 @@ class CRUDController extends \Skif\BaseController
             $context_arr = $model_class_name::$crud_default_context_arr_for_list;
         }
 
-        if (isset($model_class_name::$crud_model_filtered_field_for_list)) {
-            if (array_key_exists($model_class_name::$crud_model_filtered_field_for_list, $_GET)) {
-                $context_arr = array($model_class_name::$crud_model_filtered_field_for_list => $_GET[$model_class_name::$crud_model_filtered_field_for_list]);
+        if (isset($model_class_name::$crud_model_filtered_field_arr_for_list)) {
+            foreach ($model_class_name::$crud_model_filtered_field_arr_for_list as $field_name) {
+                if (array_key_exists($field_name, $_GET)) {
+                    $context_arr[$field_name] = $_GET[$field_name];
+                }
             }
         }
 
