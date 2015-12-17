@@ -75,7 +75,8 @@ class Task implements
                 'widget' => array('\Skif\CRUD\UserWidget\UserWidget', 'renderWidget'),
                 'widget_settings' => array(
                     'filtered_user_role_id' => \Skif\Users\UsersUtils::getRoleIdByDesignation('TASK_MANAGEMENT'),
-                    'disabled' => $disable_created_user_id
+                    'disabled' => $disable_created_user_id,
+                    'default_value' => \Skif\Users\AuthUtils::getCurrentUserId()
                 )
             ),
             'assigned_to_user_id' => array(
