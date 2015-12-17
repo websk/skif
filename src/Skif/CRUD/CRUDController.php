@@ -142,6 +142,7 @@ class CRUDController extends \Skif\BaseController
             array(
                 'model_class_name' => $model_class_name,
                 'context_arr' => $context_arr,
+                'current_controller_obj' => static::getControllerClassNameByModelClassName($model_class_name)
             )
         );
 

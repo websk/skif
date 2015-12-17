@@ -3,9 +3,8 @@
  * @var $model_class_name
  * @var $context_arr array
  * @var $list_title
+ * @var $current_controller_obj
  */
-
-$current_controller_obj = \Skif\CRUD\CRUDController::getControllerClassNameByModelClassName($model_class_name);
 
 \Skif\Utils::assert($model_class_name);
 
