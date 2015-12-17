@@ -2,9 +2,8 @@
 /**
  * @var $obj object
  * @var $model_class_name
+ * @var $current_controller_obj
  */
-
-$current_controller_obj = \Skif\CRUD\CRUDController::getControllerClassNameByModelClassName($model_class_name);
 
 \Skif\Utils::assert($obj);
 $model_class_name = get_class($obj);

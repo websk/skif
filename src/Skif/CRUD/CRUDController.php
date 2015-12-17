@@ -180,7 +180,8 @@ class CRUDController extends \Skif\BaseController
             'CRUD',
             'add_form.tpl.php',
             array(
-                'model_class_name' => $model_class_name
+                'model_class_name' => $model_class_name,
+                'current_controller_obj' => static::getControllerClassNameByModelClassName($model_class_name)
             )
         );
 
@@ -233,7 +234,8 @@ class CRUDController extends \Skif\BaseController
             'edit_form.tpl.php',
             array(
                 'model_class_name' => $model_class_name,
-                'obj' => $edited_obj
+                'obj' => $edited_obj,
+                'current_controller_obj' => static::getControllerClassNameByModelClassName($model_class_name)
             )
         );
 
