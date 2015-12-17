@@ -279,12 +279,11 @@ class CRUDUtils
 
     public static function currentUserHasRightsToEditModel($model_class_name)
     {
-        /*
-        if (property_exists($model_class_name, 'operator_permissions_arr_required_to_edit')) {
-        }
-        */
-
         if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
+            return true;
+        }
+
+        if (\Skif\Users\AuthUtils::currentUserHasAccessByRoleDesignation('TASK_MANAGEMENT')) {
             return true;
         }
 
