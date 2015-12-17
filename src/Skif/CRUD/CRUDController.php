@@ -11,7 +11,7 @@ class CRUDController extends \Skif\BaseController
 {
     public static $base_breadcrumbs = array();
     protected static $model_class_name = '';
-    protected static $controller_name = '';
+    protected static $controller_class_name = '';
 
     protected static function getLayoutTemplateFile()
     {
@@ -20,8 +20,8 @@ class CRUDController extends \Skif\BaseController
 
     public static function getControllerClassNameByModelClassName($model_class_name)
     {
-        if (static::$controller_name) {
-            return static::$controller_name;
+        if (static::$controller_class_name) {
+            return static::$controller_class_name;
         }
 
         return $model_class_name . 'Controller';
