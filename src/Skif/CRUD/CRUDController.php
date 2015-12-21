@@ -360,6 +360,11 @@ class CRUDController extends \Skif\BaseController
         \Skif\Http::redirect($redirect_url);
     }
 
+    protected static function afterCreate($obj_id)
+    {
+
+    }
+
     public function createAction()
     {
         $model_class_name = static::getModelClassName();
@@ -383,6 +388,8 @@ class CRUDController extends \Skif\BaseController
         $obj = \Skif\CRUD\CRUDUtils::setObjectFieldsFromArray($obj, $new_prop_values_arr);
 
         $obj->save();
+
+        static::afterCreate($obj->getId());
 
         $redirect_url = static::getEditUrl($model_class_name, $obj->getId());
 

@@ -250,49 +250,15 @@ class Task implements
         $this->created_user_id = $created_user_id;
     }
 
-    public function getUrl()
-    {
-        return '/admin/task/edit/' . $this->getId();
-    }
-
     public function save()
     {
-        $is_new = false;
-
         if (!$this->getId()) {
             $this->setCreatedDate(date('Y-m-d H:i:s'));
-
-            $is_new = true;
         }
 
         $this->setLastModifiedTime(date('Y-m-d H:i:s'));
 
         \Skif\Util\ActiveRecordHelper::saveModelObj($this);
-
-        if ($is_new) {
-            if ($this->getAssignedToUserId()) {
-                $assigned_user_obj = \Skif\Users\User::factory($this->getAssignedToUserId());
-
-                if ($assigned_user_obj->getEmail()) {
-                    $site_email = \Skif\Conf\ConfWrapper::value('site_email');
-                    $site_name = \Skif\Conf\ConfWrapper::value('site_name');
-                    $site_url = \Skif\Conf\ConfWrapper::value('site_url');
-
-                    $created_user_obj = \Skif\Users\User::factory($this->getCreatedUserId());
-
-                    $mail_message = '';
-                    $mail_message .= '<h2><a href="' . $site_url . $this->getUrl() . '">' . $this->getTitle() . '</a></h2>';
-                    $mail_message .= 'Создана: ' . $this->getCreatedDate() . '<br />';
-                    $mail_message .= 'Создал: ' . $created_user_obj->getName() . '<br />';
-                    $mail_message .= '<p>' . $this->getDescriptionTask() . '</p>';
-                    $mail_message .= '<p>' . $site_url . $this->getUrl() . '</p>';
-
-
-                    $subject = 'Задача #' . $this->getId() . ': ' . $this->getTitle();
-                    \Skif\SendMail::mailToUtf8($assigned_user_obj->getEmail(), $site_email, $site_name, $subject, $mail_message);
-                }
-            }
-        }
 
         self::afterUpdate($this->getId());
     }
