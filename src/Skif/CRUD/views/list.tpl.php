@@ -86,7 +86,15 @@ if (isset($list_title)) {
 
                                         <?php
                                         $obj = new $model_class_name;
-                                        echo \Skif\CRUD\Widgets::renderFieldWithWidget($field_name, $obj)
+
+                                        $context_field_value = '';
+                                        if (array_key_exists($field_name, $_GET)) {
+                                            if ($_GET[$field_name] != '') {
+                                                $context_field_value = $_GET[$field_name];
+                                            }
+                                        }
+
+                                        echo \Skif\CRUD\Widgets::renderFieldWithWidget($field_name, $obj, $context_field_value)
                                         ?>
                                     </div>
                                     <?php
