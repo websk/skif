@@ -26,7 +26,7 @@ class Task implements
     protected $comment_in_task = '';
     protected $assigned_to_user_id;
     protected $last_modified_time;
-    protected $status;
+    protected $status = 0;
 
     public static $role_designation_arr_required_to_edit = array('TASK_MANAGEMENT');
     public static $crud_create_button_required_fields_arr = array();
