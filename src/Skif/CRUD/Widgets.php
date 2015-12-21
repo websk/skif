@@ -223,7 +223,7 @@ class Widgets
 
         foreach ($options_arr as $value => $title) {
             $selected_html_attr = '';
-            if (($field_value !== '') && ($field_value == $value)) {
+            if ($field_value == $value) {
                 $selected_html_attr = ' selected';
             }
 
