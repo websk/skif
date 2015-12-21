@@ -141,17 +141,17 @@ class Task implements
     /**
      * @return mixed
      */
-    public function getCreatedTime()
+    public function getCreatedDate()
     {
         return $this->created_date;
     }
 
     /**
-     * @param mixed $created_time
+     * @param mixed $created_date
      */
-    public function setCreatedTime($created_time)
+    public function setCreatedDate($created_date)
     {
-        $this->created_date = $created_time;
+        $this->created_date = $created_date;
     }
 
     /**
@@ -255,7 +255,7 @@ class Task implements
         $is_new = false;
 
         if (!$this->getId()) {
-            $this->setCreatedTime(date('Y-m-d H:i:s'));
+            $this->setCreatedDate(date('Y-m-d H:i:s'));
 
             $is_new = true;
         }
@@ -275,10 +275,10 @@ class Task implements
                     $created_user_obj = \Skif\Users\User::factory($this->getCreatedUserId());
 
                     $mail_message = '';
-                    $mail_message .= 'Создана: ' . $created_user_obj->getCreatedAt() . '<br />';
+                    $mail_message .= '<h2>' . $this->getTitle() . '</h2><br />';
+                    $mail_message .= 'Создана: ' . $this->getCreatedDate() . '<br />';
                     $mail_message .= 'Создал: ' . $created_user_obj->getName() . '<br />';
-                    $mail_message .= $this->getTitle() . '<br />';
-                    $mail_message .= $this->getDescriptionTask() . '<br />';
+                    $mail_message .= '<p>' . $this->getDescriptionTask() . '</p>';
 
                     $subject = 'Задача #' . $this->getId() . ': ' . $this->getTitle();
                     \Skif\SendMail::mailToUtf8($assigned_user_obj->getEmail(), $site_email, $site_name, $subject, $mail_message);
