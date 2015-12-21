@@ -55,7 +55,7 @@ class Task implements
         '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
     );
 
-    public static $crud_model_filtered_field_arr_for_list = array('status');
+    public static $crud_model_filtered_field_arr_for_list = array('status', 'assigned_to_user_id');
 
     public static function crud_editorFieldsArr()
     {
