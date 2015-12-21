@@ -252,13 +252,37 @@ class Task implements
 
     public function save()
     {
+        $is_new = false;
+
         if (!$this->getId()) {
             $this->setCreatedTime(date('Y-m-d H:i:s'));
+
+            $is_new = true;
         }
 
         $this->setLastModifiedTime(date('Y-m-d H:i:s'));
 
         \Skif\Util\ActiveRecordHelper::saveModelObj($this);
+
+        if ($this->getAssignedToUserId()) {
+            $assigned_user_obj = \Skif\Users\User::factory($this->getAssignedToUserId());
+
+            if ($assigned_user_obj->getEmail()) {
+                $site_email = \Skif\Conf\ConfWrapper::value('site_email');
+                $site_name = \Skif\Conf\ConfWrapper::value('site_name');
+
+                $created_user_obj = \Skif\Users\User::factory($this->getCreatedUserId());
+
+                $mail_message = '';
+                $mail_message .= 'Создана: ' . $created_user_obj->getCreatedAt() . '<br />';
+                $mail_message .= 'Создал: ' . $created_user_obj->getName() . '<br />';
+                $mail_message .= $this->getTitle() . '<br />';
+                $mail_message .= $this->getDescriptionTask() . '<br />';
+
+                $subject = 'Задача #' . $this->getId() . ': ' . $this->getTitle();
+                \Skif\SendMail::mailToUtf8($assigned_user_obj->getEmail(), $site_email, $site_name, $subject, $mail_message);
+            }
+        }
 
         self::afterUpdate($this->getId());
     }
