@@ -223,11 +223,11 @@ class Widgets
 
         foreach ($options_arr as $value => $title) {
             $selected_html_attr = '';
-            if ($field_value == $value) {
+            if ($field_value === $value) {
                 $selected_html_attr = ' selected';
             }
 
-            $options .= '<option value="' . $value . '"' . $selected_html_attr . '>' . $title . $field_value . '</option>';
+            $options .= '<option value="' . $value . '"' . $selected_html_attr . '>' . $title . '</option>';
         }
 
         return '<select name="' . $field_name . '" class="form-control">' . $options . '</select>';
