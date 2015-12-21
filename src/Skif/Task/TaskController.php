@@ -13,6 +13,11 @@ class TaskController extends \Skif\CRUD\CRUDController
         return '/admin/task';
     }
 
+    public static function getEditUrl($model_class_name, $obj_id)
+    {
+        return static::getCRUDBaseUrl($model_class_name) . '/edit/' . $obj_id;
+    }
+
     protected static function afterCreate($task_id)
     {
         $task_obj = \Skif\Task\Task::factory($task_id);
