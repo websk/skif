@@ -276,15 +276,16 @@ class Task implements
                 if ($assigned_user_obj->getEmail()) {
                     $site_email = \Skif\Conf\ConfWrapper::value('site_email');
                     $site_name = \Skif\Conf\ConfWrapper::value('site_name');
+                    $site_url = \Skif\Conf\ConfWrapper::value('site_url');
 
                     $created_user_obj = \Skif\Users\User::factory($this->getCreatedUserId());
 
                     $mail_message = '';
-                    $mail_message .= '<h2><a href="' . $this->getUrl() . '">' . $this->getTitle() . '</a></h2>';
+                    $mail_message .= '<h2><a href="' . $site_url . $this->getUrl() . '">' . $this->getTitle() . '</a></h2>';
                     $mail_message .= 'Создана: ' . $this->getCreatedDate() . '<br />';
                     $mail_message .= 'Создал: ' . $created_user_obj->getName() . '<br />';
                     $mail_message .= '<p>' . $this->getDescriptionTask() . '</p>';
-                    $mail_message .= '<p>' . $this->getUrl() . '</p>';
+                    $mail_message .= '<p>' . $site_url . $this->getUrl() . '</p>';
 
 
                     $subject = 'Задача #' . $this->getId() . ': ' . $this->getTitle();
