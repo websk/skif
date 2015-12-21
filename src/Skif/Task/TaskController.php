@@ -13,11 +13,6 @@ class TaskController extends \Skif\CRUD\CRUDController
         return '/admin/task';
     }
 
-    public static function getEditUrl($model_class_name, $obj_id)
-    {
-        return static::getCRUDBaseUrl($model_class_name) . '/edit/' . $obj_id;
-    }
-
     protected static function afterCreate($task_id)
     {
         $task_obj = \Skif\Task\Task::factory($task_id);
@@ -33,11 +28,11 @@ class TaskController extends \Skif\CRUD\CRUDController
                 $created_user_obj = \Skif\Users\User::factory($task_obj->getCreatedUserId());
 
                 $mail_message = '';
-                $mail_message .= '<h2><a href="' . $site_url . \Skif\CRUD\CRUDController::getEditUrl(self::$model_class_name, $task_id) . '">' . $task_obj->getTitle() . '</a></h2>';
+                $mail_message .= '<h2><a href="' . $site_url . static::getEditUrl(self::$model_class_name, $task_id) . '">' . $task_obj->getTitle() . '</a></h2>';
                 $mail_message .= 'Создана: ' . $task_obj->getCreatedDate() . '<br />';
                 $mail_message .= 'Создал: ' . $created_user_obj->getName() . '<br />';
                 $mail_message .= '<p>' . $task_obj->getDescriptionTask() . '</p>';
-                $mail_message .= '<p>' . $site_url . \Skif\CRUD\CRUDController::getEditUrl(self::$model_class_name, $task_id) . '</p>';
+                $mail_message .= '<p>' . $site_url . static::getEditUrl(self::$model_class_name, $task_id) . '</p>';
 
 
                 $subject = 'Задача #' . $task_obj->getId() . ': ' . $task_obj->getTitle();
