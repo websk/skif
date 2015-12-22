@@ -7,7 +7,8 @@ class ContentType implements
     \Skif\Model\InterfaceLoad,
     \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete
+    \Skif\Model\InterfaceDelete,
+    \Skif\Model\InterfaceGetTitle
 {
     use \Skif\Util\ActiveRecord;
     use \Skif\Model\FactoryTrait;
@@ -24,6 +25,41 @@ class ContentType implements
     public static $active_record_ignore_fields_arr = array(
         'rubric_ids_arr',
     );
+
+    public static $crud_create_button_required_fields_arr = array();
+    public static $crud_create_button_title = 'Добавить тип контента';
+
+    public static $crud_model_class_screen_name = 'Тип контента';
+    public static $crud_model_title_field = 'name';
+
+    public static $crud_field_titles_arr = array(
+        'name' => 'Название',
+        'type' => 'Тип',
+        'url' => 'URL',
+        'template_id' => 'Шаблон',
+    );
+
+    public static $crud_model_class_screen_name_for_list = 'Типы контента';
+
+    public static $crud_fields_list_arr = array(
+        'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
+        'name' => array('col_class' => 'col-md-6 col-sm-6 col-xs-6'),
+        'type' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
+        '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
+    );
+
+    public static $crud_editor_fields_arr = array(
+        'name' => array(),
+        'type' => array(),
+        'url' => array(),
+        'template_id' => array(
+            'widget' => array('\Skif\CRUD\ModelReferenceWidget\ModelReferenceWidget', 'renderWidget'),
+            'widget_settings' => array(
+                'model_class_name' => '\Skif\Content\Template'
+            )
+        ),
+    );
+
 
     public function load($id)
     {
@@ -71,6 +107,11 @@ class ContentType implements
     public function setType($type)
     {
         $this->type = $type;
+    }
+
+    public function getTitle()
+    {
+        return $this->name;
     }
 
     /**
