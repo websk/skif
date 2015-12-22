@@ -359,6 +359,7 @@ class CRUDController extends \Skif\BaseController
 
         $obj->save();
 
+        static::afterSave($obj_id);
 
         \Skif\Messages::setMessage('Изменения сохранены');
 
