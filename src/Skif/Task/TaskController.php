@@ -25,8 +25,6 @@ class TaskController extends \Skif\CRUD\CRUDController
 
         $created_user_obj = \Skif\Users\User::factory($task_obj->getCreatedUserId());
 
-        $task_obj = \Skif\Task\Task::factory($task_id);
-
         $site_email = \Skif\Conf\ConfWrapper::value('site_email');
         $site_name = \Skif\Conf\ConfWrapper::value('site_name');
 
