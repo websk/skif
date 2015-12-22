@@ -47,8 +47,7 @@ class TaskController extends \Skif\CRUD\CRUDController
         }
 
         if ($task_obj->getAssignedToUserId()) {
-            //if ($task_obj->getAssignedToUserId() != $current_user_id)
-            {
+            if ($task_obj->getAssignedToUserId() != $current_user_id) {
                 $assigned_user_obj = \Skif\Users\User::factory($task_obj->getAssignedToUserId());
                 \Skif\SendMail::mailToUtf8($assigned_user_obj->getEmail(), $site_email, $site_name, $subject, $mail_message);
             }
@@ -59,7 +58,7 @@ class TaskController extends \Skif\CRUD\CRUDController
     {
         $task_obj = \Skif\Task\Task::factory($task_id);
 
-        $mail_message = '<p><b>Создана новая задача</b></p>';
+        $mail_message = '<p><b>Создана НОВАЯ задача</b></p>';
         \Skif\Task\TaskController::sendMessageByTaskObj($task_obj, $mail_message);
     }
 
@@ -70,7 +69,7 @@ class TaskController extends \Skif\CRUD\CRUDController
         $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
         $current_user_obj = \Skif\Users\User::factory($current_user_id);
 
-        $mail_message = '<p><b>Задача была изменена ' . $current_user_obj->getName() . '</b></p>';
+        $mail_message = '<p><b>Задача была ИЗМЕНЕНА ' . $current_user_obj->getName() . '</b></p>';
         \Skif\Task\TaskController::sendMessageByTaskObj($task_obj, $mail_message);
     }
 
@@ -82,7 +81,7 @@ class TaskController extends \Skif\CRUD\CRUDController
         $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
         $current_user_obj = \Skif\Users\User::factory($current_user_id);
 
-        $mail_message = '<p><b>Задача была удалена ' . $current_user_obj->getName() . '</b></p>';
+        $mail_message = '<p><b>Задача была УДАЛЕНА ' . $current_user_obj->getName() . '</b></p>';
         \Skif\Task\TaskController::sendMessageByTaskObj($task_obj, $mail_message);
     }
 
