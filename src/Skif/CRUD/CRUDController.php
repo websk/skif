@@ -407,6 +407,11 @@ class CRUDController extends \Skif\BaseController
         \Skif\Http::redirect($redirect_url);
     }
 
+    protected static function afterDelete($obj)
+    {
+
+    }
+
     public function deleteAction($obj_id)
     {
         $model_class_name = static::getModelClassName();
@@ -434,6 +439,8 @@ class CRUDController extends \Skif\BaseController
         // удаление объекта
         $obj = \Skif\CRUD\CRUDUtils::createAndLoadObject($model_class_name, $obj_id);
         $obj->delete();
+
+        static::afterDelete($obj);
 
         $redirect_url = static::getListUrl($model_class_name);
         if (array_key_exists('destination', $_GET)) {
