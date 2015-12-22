@@ -24,8 +24,12 @@ class CRUDController extends \Skif\BaseController
             return static::$controller_class_name;
         }
 
-        return $model_class_name . 'Controller';
-        //return \Skif\UrlManager::$current_controller_obj;
+        if (class_exists($model_class_name . 'Controller')) {
+            return $model_class_name . 'Controller';
+            //return \Skif\UrlManager::$current_controller_obj;
+        }
+
+        return '\Skif\CRUD\CRUDController';
     }
 
     public static function getModelClassName()
