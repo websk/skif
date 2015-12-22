@@ -60,7 +60,6 @@ class TaskController extends \Skif\CRUD\CRUDController
         $task_obj = \Skif\Task\Task::factory($task_id);
 
         $mail_message = '<p><b>Создана новая задача</b></p>';
-
         \Skif\Task\TaskController::sendMessageByTaskObj($task_obj, $mail_message);
     }
 
