@@ -35,6 +35,7 @@ class TaskController extends \Skif\CRUD\CRUDController
         $mail_message .= '<h2><a href="' . $site_url . static::getEditUrl(self::$model_class_name, $task_id) . '">' . $task_obj->getTitle() . '</a></h2>';
         $mail_message .= '<div>Создана: ' . $task_obj->getCreatedDate() . '</div>';
         $mail_message .= '<div>Создал: ' . $created_user_obj->getName() . '</div>';
+        $mail_message .= '<div>Статус: ' . \Skif\Task\TaskUtils::getTitleByStatus($task_obj->getStatus()) . '</div>';
         $mail_message .= '<p>' . $task_obj->getDescriptionTask() . '</p>';
         $mail_message .= '<p>' . $task_obj->getCommentInTask() . '</p>';
         $mail_message .= '<p>' . $site_url . static::getEditUrl(self::$model_class_name, $task_id) . '</p>';
@@ -48,7 +49,8 @@ class TaskController extends \Skif\CRUD\CRUDController
         }
 
         if ($task_obj->getAssignedToUserId()) {
-            if ($task_obj->getAssignedToUserId() != $current_user_id) {
+            //if ($task_obj->getAssignedToUserId() != $current_user_id)
+            {
                 $assigned_user_obj = \Skif\Users\User::factory($task_obj->getAssignedToUserId());
                 \Skif\SendMail::mailToUtf8($assigned_user_obj->getEmail(), $site_email, $site_name, $subject, $mail_message);
             }

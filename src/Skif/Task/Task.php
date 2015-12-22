@@ -93,12 +93,7 @@ class Task implements
             ),
             'status' => array(
                 'widget' => 'options',
-                'options_arr' => array(
-                    self::TASK_STATUS_NEW => 'новая',
-                    self::TASK_STATUS_INPROGRESS => 'в работе',
-                    self::TASK_STATUS_DEFERRED => 'отложенная',
-                    self::TASK_STATUS_FINISHED => 'выполненная',
-                )
+                'options_arr' => \Skif\Task\TaskUtils::getStatusTitlesArr()
             ),
         );
 
