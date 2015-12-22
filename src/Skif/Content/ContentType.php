@@ -16,8 +16,8 @@ class ContentType implements
     const DB_TABLE_NAME = 'content_types';
 
     protected $id;
-    protected $type;
     protected $name;
+    protected $type;
     protected $url;
     protected $template_id;
     protected $rubric_ids_arr;
