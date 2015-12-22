@@ -327,6 +327,11 @@ class CRUDController extends \Skif\BaseController
         return $new_prop_values_arr;
     }
 
+    protected static function afterSave($obj_id)
+    {
+
+    }
+
     public function saveAction($obj_id)
     {
         $model_class_name = static::getModelClassName();

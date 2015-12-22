@@ -15,9 +15,9 @@ class TaskController extends \Skif\CRUD\CRUDController
 
     /**
      * @param $task_obj \Skif\Task\Task
-     * @return string
+     * @param string $mail_message
      */
-    protected static function getMailMessageByTaskObj($task_obj)
+    protected static function sendMessageByTaskObj($task_obj, $mail_message = '')
     {
         $task_id = $task_obj->getId();
 
@@ -25,47 +25,19 @@ class TaskController extends \Skif\CRUD\CRUDController
 
         $created_user_obj = \Skif\Users\User::factory($task_obj->getCreatedUserId());
 
-        $mail_message = '<h2><a href="' . $site_url . static::getEditUrl(self::$model_class_name, $task_id) . '">' . $task_obj->getTitle() . '</a></h2>';
-        $mail_message .= '<div>Создана: ' . $task_obj->getCreatedDate() . '</div>';
-        $mail_message .= '<div>Создал: ' . $created_user_obj->getName() . '</div>';
-        $mail_message .= '<p>' . $task_obj->getDescriptionTask() . '</p>';
-        $mail_message .= '<p>' . $site_url . static::getEditUrl(self::$model_class_name, $task_id) . '</p>';
-
-        return $mail_message;
-    }
-
-    protected static function afterCreate($task_id)
-    {
         $task_obj = \Skif\Task\Task::factory($task_id);
 
-        if ($task_obj->getAssignedToUserId()) {
-            $assigned_user_obj = \Skif\Users\User::factory($task_obj->getAssignedToUserId());
-
-            if ($assigned_user_obj->getEmail()) {
-                $site_email = \Skif\Conf\ConfWrapper::value('site_email');
-                $site_name = \Skif\Conf\ConfWrapper::value('site_name');
-
-                $mail_message = \Skif\Task\TaskController::getMailMessageByTaskObj($task_obj);
-
-                $subject = 'Задача #' . $task_obj->getId() . ': ' . $task_obj->getTitle();
-                \Skif\SendMail::mailToUtf8($assigned_user_obj->getEmail(), $site_email, $site_name, $subject, $mail_message);
-            }
-        }
-    }
-
-    /**
-     * @param $task_obj \Skif\Task\Task
-     */
-    protected static function afterDelete($task_obj)
-    {
         $site_email = \Skif\Conf\ConfWrapper::value('site_email');
         $site_name = \Skif\Conf\ConfWrapper::value('site_name');
 
         $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
-        $current_user_obj = \Skif\Users\User::factory($current_user_id);
 
-        $mail_message = '<p><b>Задача была удалена' . $current_user_obj->getName() . '</b></p>';
-        $mail_message .= \Skif\Task\TaskController::getMailMessageByTaskObj($task_obj);
+        $mail_message .= '<h2><a href="' . $site_url . static::getEditUrl(self::$model_class_name, $task_id) . '">' . $task_obj->getTitle() . '</a></h2>';
+        $mail_message .= '<div>Создана: ' . $task_obj->getCreatedDate() . '</div>';
+        $mail_message .= '<div>Создал: ' . $created_user_obj->getName() . '</div>';
+        $mail_message .= '<p>' . $task_obj->getDescriptionTask() . '</p>';
+        $mail_message .= '<p>' . $task_obj->getCommentInTask() . '</p>';
+        $mail_message .= '<p>' . $site_url . static::getEditUrl(self::$model_class_name, $task_id) . '</p>';
 
         $subject = 'Задача #' . $task_obj->getId() . ': ' . $task_obj->getTitle();
 
@@ -81,6 +53,38 @@ class TaskController extends \Skif\CRUD\CRUDController
                 \Skif\SendMail::mailToUtf8($assigned_user_obj->getEmail(), $site_email, $site_name, $subject, $mail_message);
             }
         }
+    }
+
+    protected static function afterCreate($task_id)
+    {
+        $task_obj = \Skif\Task\Task::factory($task_id);
+
+        $mail_message = '<p><b>Создана новая задача</b></p>';
+
+        \Skif\Task\TaskController::sendMessageByTaskObj($task_obj, $mail_message);
+    }
+
+    protected static function afterSave($task_id)
+    {
+        $task_obj = \Skif\Task\Task::factory($task_id);
+
+        $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+        $current_user_obj = \Skif\Users\User::factory($current_user_id);
+
+        $mail_message = '<p><b>Задача была изменена ' . $current_user_obj->getName() . '</b></p>';
+        \Skif\Task\TaskController::sendMessageByTaskObj($task_obj, $mail_message);
+    }
+
+    /**
+     * @param $task_obj \Skif\Task\Task
+     */
+    protected static function afterDelete($task_obj)
+    {
+        $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+        $current_user_obj = \Skif\Users\User::factory($current_user_id);
+
+        $mail_message = '<p><b>Задача была удалена ' . $current_user_obj->getName() . '</b></p>';
+        \Skif\Task\TaskController::sendMessageByTaskObj($task_obj, $mail_message);
     }
 
 }
