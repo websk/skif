@@ -109,7 +109,28 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
                     <?php
                     $current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
 
+                    $admin_menu_contents_arr = array();
+
+                    $content_type_ids_arr = \Skif\Content\ContentUtils::getContentTypeIdsArr();
+
+                    foreach ($content_type_ids_arr as $content_type_id) {
+                        $content_type_obj = \Skif\Content\ContentType::factory($content_type_id);
+
+                        $icon = '<i class="fa fa-files-o fa-fw"></i>';
+                        if ($content_type_obj->getType() == 'news') {
+                            $icon = '<i class="fa fa-newspaper-o fa-fw"></i>';
+                        }
+
+                        $admin_menu_contents_arr[] = array(
+                            'link' => '/admin/content/' . $content_type_obj->getType(),
+                            'name' => 'Страницы',
+                            'icon' => $icon
+                        );
+                    }
+
                     $admin_menu_arr = \Skif\Conf\ConfWrapper::value('admin_menu');
+
+                    $admin_menu_arr = array_merge($admin_menu_contents_arr, $admin_menu_arr);
 
                     foreach ($admin_menu_arr as $menu_item_arr) {
 
