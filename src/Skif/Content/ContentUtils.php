@@ -284,4 +284,11 @@ class ContentUtils
 
         return strip_tags($content, implode('', $allowable_tags_arr));
     }
+
+    public static function getContentTypeIdsArr()
+    {
+        $query = "SELECT id FROM " . \Skif\Content\ContentType::DB_TABLE_NAME . ' ORDER BY id ASC';
+
+        return \Skif\DB\DBWrapper::readColumn($query);
+    }
 }

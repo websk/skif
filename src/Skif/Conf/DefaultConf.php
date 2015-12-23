@@ -17,10 +17,27 @@ class DefaultConf
             'main' => 'layouts/layout.main.tpl.php'
         );
 
+
+        $content_type_ids_arr = \Skif\Content\ContentUtils::getContentTypeIdsArr();
+        $admin_menu_contents_arr = array();
+
+        foreach ($content_type_ids_arr as $content_type_id) {
+            $content_type_obj = \Skif\Content\ContentType::factory($content_type_id);
+
+            $icon = '<i class="fa fa-files-o fa-fw"></i>';
+            if ($content_type_obj->getType() == 'news') {
+                $icon = '<i class="fa fa-newspaper-o fa-fw"></i>';
+            }
+
+            $admin_menu_contents_arr[] = array(
+                'link' => '/admin/content/' . $content_type_obj->getType(),
+                'name' => 'Страницы',
+                'icon' => $icon
+            );
+        }
+
         $conf['admin_menu'] = array(
-            array('link' => '/admin/content/page', 'name' => 'Страницы', 'icon' => '<i class="fa fa-files-o fa-fw"></i>'),
             array('link' => '/admin/site_menu', 'name' => 'Менеджер меню', 'icon' => '<i class="fa fa-bars fa-fw"></i>'),
-            array('link' => '/admin/content/news', 'name' => 'Новости', 'icon' => '<i class="fa fa-newspaper-o fa-fw"></i>'),
             array('link' => '/admin/poll', 'name' => 'Опросы', 'icon' => '<i class="fa fa-bar-chart fa-fw"></i>'),
             array('link' => '/admin/form', 'name' => 'Формы', 'icon' => '<i class="fa fa-list-alt fa-fw"></i>'),
             array('link' => '/admin/comments', 'name' => 'Комментарии', 'icon' => '<i class="fa fa-comments-o fa-fw"></i>'),
@@ -38,6 +55,8 @@ class DefaultConf
                 )
             ),
         );
+
+        $conf['admin_menu'] = array_merge($admin_menu_contents_arr, $conf['admin_menu']);
 
         $conf['skif_path'] = '/vendor/websk/skif';
         $conf['bower_path'] = '/vendor/bower';
