@@ -123,7 +123,7 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
 
                         $admin_menu_contents_arr[] = array(
                             'link' => '/admin/content/' . $content_type_obj->getType(),
-                            'name' => 'Страницы',
+                            'name' => $content_type_obj->getName(),
                             'icon' => $icon
                         );
                     }
