@@ -31,10 +31,10 @@ class DefaultConf
                 'name' => 'Настройки<span class="fa arrow"></span>',
                 'icon' => '<i class="fa fa-wrench fa-fw"></i>',
                 'sub_menu' => array(
-                    array('link' => '/admin/redirect', 'name' => 'Редиректы'),
-                    array('link' => '/admin/key_value', 'name' => 'Параметры'),
                     array('link' => \Skif\CRUD\CRUDController::getListUrl('\Skif\Content\ContentType'), 'name' => 'Типы контента'),
                     array('link' => \Skif\CRUD\CRUDController::getListUrl('\Skif\Content\Template'), 'name' => 'Темы'),
+                    array('link' => '/admin/redirect', 'name' => 'Редиректы'),
+                    array('link' => '/admin/key_value', 'name' => 'Параметры'),
                 )
             ),
         );
