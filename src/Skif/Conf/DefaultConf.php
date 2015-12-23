@@ -18,8 +18,9 @@ class DefaultConf
         );
 
 
-        $content_type_ids_arr = \Skif\Content\ContentUtils::getContentTypeIdsArr();
         $admin_menu_contents_arr = array();
+
+        $content_type_ids_arr = \Skif\Content\ContentUtils::getContentTypeIdsArr();
 
         foreach ($content_type_ids_arr as $content_type_id) {
             $content_type_obj = \Skif\Content\ContentType::factory($content_type_id);
@@ -56,7 +57,7 @@ class DefaultConf
             ),
         );
 
-        $conf['admin_menu'] = array_merge($admin_menu_contents_arr, $conf['admin_menu']);
+        //$conf['admin_menu'] = array_merge($admin_menu_contents_arr, $conf['admin_menu']);
 
         $conf['skif_path'] = '/vendor/websk/skif';
         $conf['bower_path'] = '/vendor/bower';
