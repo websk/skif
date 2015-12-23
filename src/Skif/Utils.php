@@ -21,7 +21,12 @@ class Utils
             $url .= '&amp;p=';
         }
 
-        $all = intval($count_records / $messages_to_page) + 1;
+        $all = intval($count_records / $messages_to_page);
+
+        if ($messages_to_page > 1) {
+            $all++;
+        }
+
         if ($all < 1) {
             return '';
         }
