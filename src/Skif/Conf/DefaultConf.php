@@ -19,7 +19,7 @@ class DefaultConf
 
 
         $admin_menu_contents_arr = array();
-
+/*
         $content_type_ids_arr = \Skif\Content\ContentUtils::getContentTypeIdsArr();
 
         foreach ($content_type_ids_arr as $content_type_id) {
@@ -36,7 +36,7 @@ class DefaultConf
                 'icon' => $icon
             );
         }
-
+*/
         $conf['admin_menu'] = array(
             array('link' => '/admin/site_menu', 'name' => 'Менеджер меню', 'icon' => '<i class="fa fa-bars fa-fw"></i>'),
             array('link' => '/admin/poll', 'name' => 'Опросы', 'icon' => '<i class="fa fa-bar-chart fa-fw"></i>'),
