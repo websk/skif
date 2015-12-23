@@ -8,20 +8,54 @@ class Template implements
     \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
     \Skif\Model\InterfaceDelete,
+    \Skif\Model\InterfaceGetTitle,
     \Skif\Model\InterfaceLogger
 {
     use \Skif\Util\ActiveRecord;
     use \Skif\Model\FactoryTrait;
 
-    protected $id;
-
-    protected $name;
-    protected $title;
-    protected $css;
-    protected $def;
-    protected $layout_template_file;
-
     const DB_TABLE_NAME = 'template';
+
+    protected $id;
+    protected $title = '';
+    protected $name = '';
+    protected $css = '';
+    protected $is_default = 0;
+    protected $layout_template_file = '';
+
+    public static $crud_create_button_required_fields_arr = array();
+    public static $crud_create_button_title = 'Добавить тему';
+
+    public static $crud_model_class_screen_name = 'Тема';
+    public static $crud_model_title_field = 'title';
+
+    public static $crud_field_titles_arr = array(
+        'title' => 'Название',
+        'name' => 'Обозначение',
+        'css' => 'Файл CSS',
+        'def' => 'По-умолчанию',
+        'layout_template_file' => 'Файл шаблона',
+    );
+
+    public static $crud_model_class_screen_name_for_list = 'Темы';
+
+    public static $crud_fields_list_arr = array(
+        'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
+        'title' => array('col_class' => 'col-md-6 col-sm-6 col-xs-6'),
+        'name' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
+        '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
+    );
+
+    public static $crud_editor_fields_arr = array(
+        'title' => array(),
+        'name' => array(),
+        'css' => array(),
+        'def' => array(
+            'widget' => 'checkbox',
+        ),
+        'layout_template_file' => array()
+    );
+
 
     /**
      * @return mixed
@@ -39,6 +73,11 @@ class Template implements
         $this->id = $id;
     }
 
+    public function getTitle()
+    {
+        return $this->name;
+    }
+
     /**
      * @return mixed
      */
@@ -53,14 +92,6 @@ class Template implements
     public function setName($name)
     {
         $this->name = $name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTitle()
-    {
-        return $this->title;
     }
 
     /**
@@ -90,17 +121,17 @@ class Template implements
     /**
      * @return mixed
      */
-    public function getDef()
+    public function isDefault()
     {
-        return $this->def;
+        return $this->is_default;
     }
 
     /**
-     * @param mixed $def
+     * @param mixed $is_default
      */
-    public function setDef($def)
+    public function setIsDefault($is_default)
     {
-        $this->def = $def;
+        $this->is_default = $is_default;
     }
 
     /**
