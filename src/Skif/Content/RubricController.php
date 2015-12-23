@@ -29,7 +29,12 @@ class RubricController extends \Skif\BaseController
 
         $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
 
+        $content_type_obj = \Skif\Content\ContentType::factory($rubric_obj->getContentTypeId());
+
         $template_file = 'content_by_rubric_' . $rubric_id . '_list.tpl.php';
+        if (!\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', $template_file)) {
+            $template_file = 'content_' . $content_type_obj->getName() . '_by_rubric_list.tpl.php';
+        }
         if (!\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', $template_file)) {
             $template_file = 'content_by_rubric_list.tpl.php';
         }
