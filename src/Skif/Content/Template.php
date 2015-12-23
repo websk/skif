@@ -73,11 +73,6 @@ class Template implements
         $this->id = $id;
     }
 
-    public function getTitle()
-    {
-        return $this->name;
-    }
-
     /**
      * @return mixed
      */
@@ -92,6 +87,11 @@ class Template implements
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
     }
 
     /**
