@@ -33,7 +33,7 @@ class RubricController extends \Skif\BaseController
 
         $template_file = 'content_by_rubric_' . $rubric_id . '_list.tpl.php';
         if (!\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', $template_file)) {
-            $template_file = 'content_' . $content_type_obj->getName() . '_by_rubric_list.tpl.php';
+            $template_file = 'content_' . $content_type_obj->getType() . '_by_rubric_list.tpl.php';
         }
         if (!\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', $template_file)) {
             $template_file = 'content_by_rubric_list.tpl.php';
