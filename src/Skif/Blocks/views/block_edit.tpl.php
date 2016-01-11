@@ -127,7 +127,10 @@ $items = array();
         &nbsp;&nbsp;<button class="btn" id="regions-btn-js" type="button">Сохранить и выбрать регион</button>
     </form>
 
-<script src="/vendor/bower/ace-builds/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
+<?php
+$bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
+?>
+<script src="<?php echo $bower_path; ?>/ace-builds/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
 
 <script>
     var editor = ace.edit("editor");
