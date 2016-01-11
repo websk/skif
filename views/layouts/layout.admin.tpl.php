@@ -187,7 +187,7 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
                             $breadcrumbs_arr
                         );
 
-                        echo \Skif\PhpTemplate::renderTemplate('/breadcrumbs.tpl.php', array('breadcrumbs_arr' => $breadcrumbs_arr));
+                        echo \Skif\PhpTemplate::renderTemplate('/admin_breadcrumbs.tpl.php', array('breadcrumbs_arr' => $breadcrumbs_arr));
 
                         if (!empty($title)) {
                             echo '<h1 class="page-header">' . $title . '</h1>';
