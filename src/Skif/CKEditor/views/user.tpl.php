@@ -5,6 +5,9 @@
  * @var $height
  * @var $dir
  */
+
+$bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
+
 ?>
 <textarea id="<?php echo $editor_name ?>" name="<?php echo $editor_name ?>" rows="10" class="form-control"><?php echo $text ?></textarea>
 
@@ -20,6 +23,7 @@
         ],
         pasteFilter: 'plain-text',
         customConfig:  '/vendor/websk/skif/assets/js/ckeditor_config.js',
+        contentsCss: ['<?php echo $bower_path; ?>/bootstrap/dist/css/bootstrap.min.css', '/assets/css/main.css', '/assets/css/style.css'],
         height: <?php echo $height ?>
     });
 </script>
