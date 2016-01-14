@@ -7,13 +7,13 @@
 ?>
 
 <script>
-    var gmbox = gmbox || {};
+    var skif = skif || {};
 
-    gmbox.admin = {};
-    gmbox.admin.utils = {};
-    gmbox.admin.utils.crud = {};
+    skif.admin = {};
+    skif.admin.utils = {};
+    skif.admin.utils.crud = {};
 
-    gmbox.admin.utils.crud.imageAjaxUploadWidget = function (formField) {
+    skif.admin.utils.crud.imageAjaxUploadWidget = function (formField) {
         var currentParent = $("#imageUploadWidget_" + formField);
         var fileInput = currentParent.find('.file-select');
         var fileInputBtn = currentParent.find('.select-file-btn');
@@ -79,7 +79,7 @@
 
 <?php
 
-$images_folder = 'images';
+$images_folder = '/files/images';
 
 $dirty_images_subdirs_arr = glob($images_folder . '/*', GLOB_ONLYDIR);
 $images_subdirs_arr = array();
@@ -160,6 +160,6 @@ if (!empty($default_folder_name)) {
 
 <script>
     (function () {
-        gmbox.admin.utils.crud.imageAjaxUploadWidget("<?php echo $field_name ?>");
+        skif.admin.utils.crud.imageAjaxUploadWidget("<?php echo $field_name ?>");
     })();
 </script>
