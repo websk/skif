@@ -8,20 +8,24 @@ class ImageUploadWidget {
         $widget_options['field_name'] = $field_name;
         $widget_options['field_value'] = $field_value;
 
-        $output = \Skif\PhpTemplate::renderTemplate('templates/image_upload_widget.tpl.php', $widget_options);
+        $output = \Skif\PhpTemplate::renderTemplateBySkifModule(
+            'CRUD' . DIRECTORY_SEPARATOR . 'ImageUploadWidget',
+            'image_upload_widget.tpl.php',
+            $widget_options
+        );
 
         return $output;
     }
 
     public static function getIconImagePresetFolder()
     {
-        return \Skif\Image\ImageManager::getPresetUrlByName(\Skif\Image\ImagePresets::IMAGE_PRESET_FOTOBANK_263_263_auto);
+        return \Skif\Image\ImageManager::getPresetUrlByName(\Skif\Image\ImagePresets::IMAGE_PRESET_200_auto);
     }
 
     public static function getIconFileUrlByFilename($file_name)
     {
         //return self::getIconFolder().DIRECTORY_SEPARATOR.$file_name;
-        return \Skif\Image\ImageManager::getImgUrlByPreset($file_name, \Skif\Image\ImagePresets::IMAGE_PRESET_FOTOBANK_263_263_auto);
+        return \Skif\Image\ImageManager::getImgUrlByPreset($file_name, \Skif\Image\ImagePresets::IMAGE_PRESET_200_auto);
     }
 
 }
