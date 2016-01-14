@@ -8,7 +8,7 @@ if (!isset($editor_nav_arr)) {
 }
 
 if (!\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-    return;
+    //return;
 }
 ?>
 <nav class="navbar navbar-default">
