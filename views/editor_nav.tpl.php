@@ -2,6 +2,7 @@
 /**
  * @var $editor_nav_arr
  */
+echo 1;
 
 if (!isset($editor_nav_arr)) {
     return;
@@ -10,8 +11,6 @@ if (!isset($editor_nav_arr)) {
 if (!\Skif\Users\AuthUtils::currentUserIsAdmin()) {
     //return;
 }
-echo 1;
-
 ?>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
