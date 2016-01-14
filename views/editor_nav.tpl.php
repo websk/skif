@@ -25,7 +25,7 @@ $current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
                 foreach ($editor_nav_arr as $editor_nav_link => $editor_nav_title) {
                     ?>
                     <li<?php echo (strpos($current_url_no_query, $editor_nav_link) !== false ? ' class="active"' : '') ?>>
-                        <a href="<?php echo $editor_nav_link; ?>" target="_blank"><?php echo $editor_nav_title; ?></a>
+                        <a href="<?php echo $editor_nav_link; ?>"><?php echo $editor_nav_title; ?></a>
                     </li>
                     <?php
                 }
