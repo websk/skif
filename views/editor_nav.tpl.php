@@ -27,8 +27,7 @@ if (!\Skif\Users\AuthUtils::currentUserIsAdmin()) {
                 foreach ($editor_nav_arr as $editor_nav_link => $editor_nav_title) {
                     ?>
                     <li>
-                        <a href="<?php echo $editor_nav_link; ?>" target="_blank"><?php echo $editor_nav_title; ?>
-                            &nbsp;<sup><span class="glyphicon glyphicon-new-window"></span></sup></a>
+                        <a href="<?php echo $editor_nav_link; ?>" target="_blank"><?php echo $editor_nav_title; ?></a>
                     </li>
                     <?php
                 }
