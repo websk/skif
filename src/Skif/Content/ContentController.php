@@ -39,9 +39,9 @@ class ContentController extends \Skif\BaseController
 
         $content = '';
 
-        $admin_nav_arr = array();
+        $editor_nav_arr = array();
         if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-            $admin_nav_arr = array($content_obj->getEditorUrl() => 'Редактировать');
+            $editor_nav_arr = array($content_obj->getEditorUrl() => 'Редактировать');
         }
 
 
@@ -85,7 +85,7 @@ class ContentController extends \Skif\BaseController
             $layout_template_file,
             array(
                 'content' => $content,
-                'admin_nav_arr' => $admin_nav_arr,
+                'editor_nav_arr' => $editor_nav_arr,
                 'title' => $content_obj->getTitle(),
                 'keywords' => '',
                 'description' => '',

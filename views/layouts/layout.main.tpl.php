@@ -2,7 +2,7 @@
 /**
  * @var $title
  * @var $breadcrumbs
- * @var $admin_nav_arr
+ * @var $editor_nav_arr
  * @var $content
  */
 
@@ -92,8 +92,8 @@
                 ?>
 
                 <?php
-                if (isset($admin_nav_arr)) {
-                    echo \Skif\PhpTemplate::renderTemplate('views/admin_nav.tpl.php', array('admin_nav_arr' => $admin_nav_arr));
+                if (isset($editor_nav_arr)) {
+                    echo \Skif\PhpTemplate::renderTemplate('views/editor_nav.tpl.php', array('editor_nav_arr' => $editor_nav_arr));
                 }
                 ?>
 

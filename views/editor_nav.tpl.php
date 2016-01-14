@@ -1,9 +1,9 @@
 <?php
 /**
- * @var $admin_nav_arr
+ * @var $editor_nav_arr
  */
 
-if (!isset($admin_nav_arr)) {
+if (!isset($editor_nav_arr)) {
     return;
 }
 
@@ -25,10 +25,10 @@ if (!\Skif\Users\AuthUtils::currentUserIsAdmin()) {
         <div class="collapse navbar-collapse" id="tour-edit-navbar-collapse">
             <ul class="nav navbar-nav">
                 <?php
-                foreach ($admin_nav_arr as $admin_nav_link => $admin_nav_title) {
+                foreach ($editor_nav_arr as $editor_nav_link => $editor_nav_title) {
                     ?>
                     <li>
-                        <a href="<?php echo $admin_nav_link; ?>" target="_blank"><?php echo $admin_nav_title; ?>
+                        <a href="<?php echo $editor_nav_link; ?>" target="_blank"><?php echo $editor_nav_title; ?>
                             &nbsp;<sup><span
                                     class="glyphicon glyphicon-new-window"></span></sup></a>
                     </li>

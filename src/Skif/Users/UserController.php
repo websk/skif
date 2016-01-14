@@ -50,9 +50,9 @@ class UserController
 
         $content = '';
 
-        $admin_nav_arr = array();
+        $editor_nav_arr = array();
         if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-            //$admin_nav_arr = array($user_obj->getEditorUrl() => 'Редактировать');
+            //$editor_nav_arr = array($user_obj->getEditorUrl() => 'Редактировать');
         }
 
         $content .= \Skif\PhpTemplate::renderTemplateBySkifModule(
@@ -73,7 +73,7 @@ class UserController
             $layout_file,
             array(
                 'content' => $content,
-                'admin_nav_arr' => $admin_nav_arr,
+                'editor_nav_arr' => $editor_nav_arr,
                 'title' => 'Редактирование профиля пользователя',
                 'keywords' => '',
                 'description' => '',
