@@ -14,7 +14,7 @@ if (!\Skif\Users\AuthUtils::currentUserIsAdmin()) {
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#tour-edit-navbar-collapse" aria-expanded="false">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#editor-navbar-collapse" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -22,7 +22,7 @@ if (!\Skif\Users\AuthUtils::currentUserIsAdmin()) {
             </button>
             <a class="navbar-brand" href="#"><span class="fa fa-wrench"></span></a>
         </div>
-        <div class="collapse navbar-collapse" id="tour-edit-navbar-collapse">
+        <div class="collapse navbar-collapse" id="editor-navbar-collapse">
             <ul class="nav navbar-nav">
                 <?php
                 foreach ($editor_nav_arr as $editor_nav_link => $editor_nav_title) {
