@@ -29,8 +29,7 @@ if (!\Skif\Users\AuthUtils::currentUserIsAdmin()) {
                     ?>
                     <li>
                         <a href="<?php echo $editor_nav_link; ?>" target="_blank"><?php echo $editor_nav_title; ?>
-                            &nbsp;<sup><span
-                                    class="glyphicon glyphicon-new-window"></span></sup></a>
+                            &nbsp;<sup><span class="glyphicon glyphicon-new-window"></span></sup></a>
                     </li>
                     <?php
                 }
