@@ -2,14 +2,12 @@
 /**
  * @var $editor_nav_arr
  */
-echo 1;
-
 if (!isset($editor_nav_arr)) {
     return;
 }
 
 if (!\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-    //return;
+    return;
 }
 ?>
 <nav class="navbar navbar-default">
