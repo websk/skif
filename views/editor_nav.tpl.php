@@ -6,9 +6,7 @@ if (!isset($editor_nav_arr)) {
     return;
 }
 
-if (!\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-    return;
-}
+$current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
 ?>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
@@ -26,7 +24,7 @@ if (!\Skif\Users\AuthUtils::currentUserIsAdmin()) {
                 <?php
                 foreach ($editor_nav_arr as $editor_nav_link => $editor_nav_title) {
                     ?>
-                    <li>
+                    <li<?php echo (strpos($current_url_no_query, $editor_nav_link) !== false ? ' class="active"' : '') ?>>
                         <a href="<?php echo $editor_nav_link; ?>" target="_blank"><?php echo $editor_nav_title; ?></a>
                     </li>
                     <?php
