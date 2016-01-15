@@ -87,7 +87,7 @@ foreach ($dirty_images_subdirs_arr as $subdir) {
 
     // проверяем, что путь начинается с папки картинок
     if (mb_substr($subdir, 0, mb_strlen($images_folder)) != $images_folder) {
-        continue;
+        //continue;
     }
 
     // вырезаем часть пути внутри папки картинок
