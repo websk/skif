@@ -4,6 +4,8 @@
  * @var $field_name string
  * @var $field_value string
  */
+
+$bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
 ?>
 
 <span class="btn btn-success fileinput-button">
