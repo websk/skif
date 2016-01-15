@@ -76,7 +76,6 @@
     };
 </script>
 
-
 <?php
 
 $images_folder = '/files/images';
@@ -94,10 +93,6 @@ foreach ($dirty_images_subdirs_arr as $subdir) {
     // вырезаем часть пути внутри папки картинок
     $subdir_in_images = mb_substr($subdir, mb_strlen($images_folder) + mb_strlen(DIRECTORY_SEPARATOR));
 
-    // пропускаем папку styles - в нее закачивать нельзя
-    if ($subdir_in_images == 'styles') {
-        continue;
-    }
 
     $images_subdirs_arr[] = $subdir_in_images;
 }
@@ -109,13 +104,10 @@ if (!empty($default_folder_name)) {
 
     $images_subdirs_arr = array($default_folder_name);
 }
-
 ?>
 
 <div id="imageUploadWidget_<?php echo $field_name ?>">
-
     <?php
-
     if (count($images_subdirs_arr)) {
         echo '<div>Загрузить в папку: <select name="target_folder" class="target_folder">';
 
@@ -129,7 +121,6 @@ if (!empty($default_folder_name)) {
 
         echo "</select></div>";
     }
-
     ?>
 
     <div class="file-upload">
@@ -141,17 +132,13 @@ if (!empty($default_folder_name)) {
             <div class="col-sm-4">
                 <button type="submit" class="btn btn-default pull-right upload-button">Загрузить</button>
             </div>
-            <div class="col-sm-12">
-                <label class="text-muted"><input class="not_force_file_extension" name="not_force_file_extension" type="checkbox" value="1"> не конвертировать в jpg</label>
-            </div>
         </div>
     </div>
 
     <div class="uploaded-image">
     <?php if ($field_value) { ?>
-        <a class="uploaded-image__previewtop
-        " target="_blank" href="<?php echo \Skif\Helpers::appendCdnDomain(\Skif\Image\ImageManager::getImgUrlByPreset($field_value, \Skif\Image\ImagePresets::IMAGE_PRESET_UPLOAD)); ?>">
-            <img src="<?php echo \Skif\Helpers::appendCdnDomain(\Skif\CRUD\ImageUploadWidget\ImageUploadWidget::getIconFileUrlByFilename($field_value)); ?>">
+        <a class="uploaded-image__previewtop" target="_blank" href="<?php echo \Skif\Image\ImageManager::getImgUrlByPreset($field_value, \Skif\Image\ImagePresets::IMAGE_PRESET_UPLOAD); ?>">
+            <img src="<?php echo \Skif\CRUD\ImageUploadWidget\ImageUploadWidget::getIconFileUrlByFilename($field_value); ?>">
         </a>
     <?php } ?>
     </div>
