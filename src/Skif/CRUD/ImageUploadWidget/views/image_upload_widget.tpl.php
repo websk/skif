@@ -8,8 +8,8 @@
 
 <span class="btn btn-success fileinput-button">
         <i class="glyphicon glyphicon-plus"></i>
-        <span>Выберите файлы...</span>
-        <input id="tour_photo" type="file" name="tour_photo[]" multiple>
+        <span>Выберите файл...</span>
+        <input id="<?php echo $field_name; ?>" type="file" name="<?php echo $field_name; ?>">
     </span>
 <br>
 <br>
@@ -46,7 +46,7 @@
 
         var url = '/tour/add_photo/<?php echo $tour_id; ?>';
 
-        $('#tour_photo').fileupload({
+        $('#<?php echo $field_name; ?>').fileupload({
             url: url,
             dataType: 'json',
             autoUpload: true,
