@@ -32,7 +32,6 @@ if ($field_value) {
     <i class="glyphicon glyphicon-plus"></i>
     <span>Выберите файл...</span>
     <input id="upload_image" type="file" name="upload_image">
-    <input type="hidden" name="target_folder" value="<?php echo $target_folder; ?>">
 </span>
 
 <div id="files" class="files"></div>
@@ -51,6 +50,7 @@ if ($field_value) {
         $('#upload_image').fileupload({
             url: url,
             dataType: 'json',
+            formData: [{ name: 'target_folder', value: '<?php echo $target_folder; ?>' }],
             autoUpload: true,
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
             maxFileSize: 5242880,

@@ -39,7 +39,6 @@ class ImageController
         }
 
         $target_folder = '';
-
         if (array_key_exists('target_folder', $_POST)){
             $target_folder = $_POST['target_folder'];
         }
