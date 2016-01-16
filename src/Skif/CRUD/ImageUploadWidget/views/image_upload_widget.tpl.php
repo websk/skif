@@ -26,7 +26,7 @@ if ($field_value) {
     <?php
 }
 ?>
-<input type="hidden" name="<?php echo $field_name; ?>" id="<?php echo $field_name; ?>" value="">
+<input type="hidden" name="<?php echo $field_name; ?>" id="<?php echo $field_name; ?>" value="<?php echo $field_value; ?>">
 
 <span class="btn btn-success fileinput-button">
     <i class="glyphicon glyphicon-plus"></i>
@@ -55,9 +55,9 @@ if ($field_value) {
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
             maxFileSize: 5242880,
             previewThumbnail: true,
-            previewMaxWidth: 100,
-            previewMaxHeight: 100,
-            previewCrop: true,
+            previewMaxWidth: 160,
+            previewMaxHeight: 160,
+            previewCrop: false,
             maxNumberOfFiles: 1,
             messages: {
                 maxNumberOfFiles: 'Превышено максимальное количество файлов, загружаемое за один раз',
