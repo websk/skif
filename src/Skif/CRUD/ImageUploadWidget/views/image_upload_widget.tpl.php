@@ -26,14 +26,16 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
 <script src="<?php echo $bower_path; ?>/blueimp-file-upload/js/jquery.fileupload-validate.js"></script>
 
 <script>
+    /*
     function ajaxUpdateImageList() {
         $.ajax({
-            url: '/tour/list_photo/<?php echo $tour_id; ?>',
+            url: '/tour/list_photo',
             success: function (html) {
                 $('#tour_photos_list').html(html);
             }
         });
     }
+    */
 
     function ajaxDeleteImage(tour_photo_id) {
         $.ajax({
@@ -46,7 +48,7 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
     }
 
     $(function () {
-        ajaxUpdateImageList();
+        //ajaxUpdateImageList();
 
         var url = '/images/upload';
 
