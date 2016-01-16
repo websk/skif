@@ -15,41 +15,18 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
         <input type="hidden" name="<?php echo $field_name; ?>" value="">
         <input type="hidden" name="target_folder" value="<?php echo $default_folder_name; ?>">
     </span>
-<br>
-<br>
 
 <div id="files" class="files"></div>
 
+<script src="<?php echo $bower_path; ?>/blueimp-load-image/js/load-image.all.min.js"></script>
 <link rel="stylesheet" href="<?php echo $bower_path; ?>/blueimp-file-upload/css/jquery.fileupload.css">
 <script src="<?php echo $bower_path; ?>/blueimp-file-upload/js/jquery.fileupload.js"></script>
 <script src="<?php echo $bower_path; ?>/blueimp-file-upload/js/jquery.fileupload-process.js"></script>
+<script src="<?php echo $bower_path; ?>/blueimp-file-upload/js/jquery.fileupload-image.js"></script>
 <script src="<?php echo $bower_path; ?>/blueimp-file-upload/js/jquery.fileupload-validate.js"></script>
 
 <script>
-    /*
-    function ajaxUpdateImageList() {
-        $.ajax({
-            url: '/tour/list_photo',
-            success: function (html) {
-                $('#tour_photos_list').html(html);
-            }
-        });
-    }
-    */
-
-    function ajaxDeleteImage(tour_photo_id) {
-        $.ajax({
-            type: "POST",
-            url: "/tour/delete_photo/" + tour_photo_id,
-            success: function () {
-                ajaxUpdateImageList();
-            }
-        });
-    }
-
     $(function () {
-        //ajaxUpdateImageList();
-
         var url = '/images/upload';
 
         $('#upload_image').fileupload({
@@ -58,7 +35,11 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
             autoUpload: true,
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
             maxFileSize: 5242880,
-            previewThumbnail: false,
+            previewThumbnail: true,
+            previewMaxWidth: 100,
+            previewMaxHeight: 100,
+            previewCrop: true,
+            maxNumberOfFiles: 1,
             messages: {
                 maxNumberOfFiles: 'Превышено максимальное количество файлов, загружаемое за один раз',
                 acceptFileTypes: 'Этот файл не изображение',
@@ -76,16 +57,27 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
             var index = data.index,
                 file = data.files[index],
                 node = $(data.context.children()[index]);
+            if (file.preview) {
+                node
+                    .prepend('<br>')
+                    .prepend(file.preview);
+            }
             if (file.error) {
                 node
                     .append('<br>')
                     .append($('<span class="text-danger"/>').text(file.error));
+            }
+            if (index + 1 === data.files.length) {
+                data.context.find('button')
+                    .text('Upload')
+                    .prop('disabled', !!data.files.error);
             }
         }).on('fileuploaddone', function (e, data) {
             $.each(data.result.files, function (index, file) {
                 if (file.url) {
                     $(data.context.children()[index])
                         .append(' <div class="text-success">Файл  загружен</div>');
+                    $('.fileinput-button').remove();
                 } else if (file.error) {
                     var error = $('<span class="text-danger"/>').text(file.error);
                     $(data.context.children()[index])
@@ -93,7 +85,6 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
                         .append(error);
                 }
             });
-            ajaxUpdateImageList();
         }).on('fileuploadfail', function (e, data) {
             $.each(data.files, function (index) {
                 var error = $('<span class="text-danger"/>').text('Файл не удалось загрузить.');

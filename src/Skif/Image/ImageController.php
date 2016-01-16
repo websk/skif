@@ -26,13 +26,17 @@ class ImageController
     public function uploadAction()
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!$this->hasEditTour());
+        //\Skif\Http::exit403If();
 
         $root_images_folder = \Skif\Image\ImageConstants::IMG_ROOT_FOLDER;
 
         $json_arr = array();
 
-        $files_arr = \Skif\Utils::rebuildFilesArray($_FILES['upload_image']);
+        if (array_key_exists('name', $_FILES['upload_image']) && is_array($_FILES['upload_image']['name'])) {
+            $files_arr = \Skif\Utils::rebuildFilesArray($_FILES['upload_image']);
+        } else {
+            $files_arr[] = $_FILES['upload_image'];
+        }
 
         $target_folder = '';
 
