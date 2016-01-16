@@ -131,7 +131,7 @@ if (strpos($current_url_no_query, '/admin') !== false) {
 
 
 \Skif\UrlManager::route('@^/files/images/cache/(.+)/(.+)$@', '\Skif\Image\ControllerIndex', 'indexAction');
-//\Skif\UrlManager::route('@^/images/upload$@', '\Skif\Image\ImageController', 'uploadAction');
+\Skif\UrlManager::route('@^/images/upload$@', '\Skif\Image\ImageController', 'uploadAction');
 //\Skif\UrlManager::route('@^/images/upload_to_files$@', '\Skif\Image\ImageController', 'uploadToFilesAction');
 //\Skif\UrlManager::route('@^/images/upload_to_images$@', '\Skif\Image\ImageController', 'uploadToImagesAction');
 

@@ -4,6 +4,7 @@ namespace Skif\Image;
 
 class ImageController
 {
+    /*
     public static function uploadAction()
     {
         \Skif\Http::exit404If(!(count($_FILES) > 0));
@@ -19,6 +20,45 @@ class ImageController
         echo self::processUpload($file, $target_folder_in_images);
 
         return;
+    }
+    */
+
+    public function uploadAction()
+    {
+        // Проверка прав доступа
+        \Skif\Http::exit403If(!$this->hasEditTour());
+
+        $root_images_folder = \Skif\Image\ImageConstants::IMG_ROOT_FOLDER;
+
+        $json_arr = array();
+
+        $files_arr = \Skif\Utils::rebuildFilesArray($_FILES['upload_image']);
+
+        $target_folder = '';
+
+        if (array_key_exists('target_folder', $_POST)){
+            $target_folder = $_POST['target_folder'];
+        }
+
+        $file_name = \Skif\Image\ImageController::processUpload($files_arr[0], $target_folder, $root_images_folder);
+        if (!$file_name) {
+            $json_arr['status'] = 'error';
+        }
+
+        $image_path = $target_folder . DIRECTORY_SEPARATOR . $file_name;
+
+        $json_arr['files'][] = array(
+            'name' => $file_name,
+            'size' => 902604,
+            'url' => \Skif\Image\ImageManager::getImgUrlByFileName($image_path),
+            'thumbnailUrl' => \Skif\Image\ImageManager::getImgUrlByPreset($image_path, '160_auto'),
+            'deleteUrl' => "",
+            'deleteType' => "DELETE"
+        );
+
+        $json_arr['status'] = 'success';
+
+        echo json_encode($json_arr);
     }
 
 	public static function uploadToFilesAction()

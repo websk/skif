@@ -11,7 +11,9 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
 <span class="btn btn-success fileinput-button">
         <i class="glyphicon glyphicon-plus"></i>
         <span>Выберите файл...</span>
-        <input id="<?php echo $field_name; ?>" type="file" name="<?php echo $field_name; ?>">
+        <input id="upload_image" type="file" name="upload_image">
+        <input type="hidden" name="<?php echo $field_name; ?>" value="">
+        <input type="hidden" name="target_folder" value="<?php echo $default_folder_name; ?>">
     </span>
 <br>
 <br>
@@ -46,9 +48,9 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
     $(function () {
         ajaxUpdateImageList();
 
-        var url = '/tour/add_photo/<?php echo $tour_id; ?>';
+        var url = '/images/upload';
 
-        $('#<?php echo $field_name; ?>').fileupload({
+        $('#upload_image').fileupload({
             url: url,
             dataType: 'json',
             autoUpload: true,

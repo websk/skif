@@ -2,15 +2,15 @@
 
 namespace Skif\Image;
 
-class ControllerIndex {
-  
-  function indexAction($presetName, $imageName){
-    
-    $image = new \Skif\Image\ImageManager();
+class ControllerIndex
+{
 
-    $baseUrl = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    public function indexAction($presetName, $imageName)
+    {
+        $image = new \Skif\Image\ImageManager();
 
-    $image->output($baseUrl);//it outputs image and call exit
-  }
-  
+        $baseUrl = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+        $image->output($baseUrl);//it outputs image and call exit
+    }
 }
