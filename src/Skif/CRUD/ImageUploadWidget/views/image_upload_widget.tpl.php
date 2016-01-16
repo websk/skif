@@ -1,20 +1,39 @@
 <?php
 /**
- * @var $default_folder_name string
+ * @var $target_folder string
  * @var $field_name string
  * @var $field_value string
  */
 
 $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
+
+if ($field_value) {
+    $image_path = $target_folder . DIRECTORY_SEPARATOR . $field_value;
+    ?>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("a.grouped_elements").fancybox({
+                openEffect: 'none',
+                closeEffect: 'none'
+            });
+        });
+    </script>
+    <a rel="gallery" href="<?php echo \Skif\Image\ImageManager::getImgUrlByFileName($image_path) ?>"
+       class="grouped_elements">
+        <img src="<?php echo \Skif\Image\ImageManager::getImgUrlByPreset($image_path, '160_auto') ?>"
+             class="img-responsive img-thumbnail" border="0">
+    </a>
+    <?php
+}
 ?>
+<input type="hidden" name="<?php echo $field_name; ?>" id="<?php echo $field_name; ?>" value="">
 
 <span class="btn btn-success fileinput-button">
-        <i class="glyphicon glyphicon-plus"></i>
-        <span>Выберите файл...</span>
-        <input id="upload_image" type="file" name="upload_image">
-        <input type="hidden" name="<?php echo $field_name; ?>" value="">
-        <input type="hidden" name="target_folder" value="<?php echo $default_folder_name; ?>">
-    </span>
+    <i class="glyphicon glyphicon-plus"></i>
+    <span>Выберите файл...</span>
+    <input id="upload_image" type="file" name="upload_image">
+    <input type="hidden" name="target_folder" value="<?php echo $target_folder; ?>">
+</span>
 
 <div id="files" class="files"></div>
 
@@ -78,6 +97,8 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
                     $(data.context.children()[index])
                         .append(' <div class="text-success">Файл  загружен</div>');
                     $('.fileinput-button').remove();
+                    $('.grouped_elements').remove();
+                    $('#<?php echo $field_name; ?>').val(file.name);
                 } else if (file.error) {
                     var error = $('<span class="text-danger"/>').text(file.error);
                     $(data.context.children()[index])
