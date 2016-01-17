@@ -57,7 +57,7 @@ class Task implements
 
     public static $crud_model_filtered_field_arr_for_list = array('status', 'assigned_to_user_id');
 
-    public static function crud_editorFieldsArr()
+    public static function crudEditorFieldsArr()
     {
         $disable_created_user_id = true;
 

@@ -166,8 +166,8 @@ class CRUDUtils
     {
         $rc = new \ReflectionClass($model_class_name);
 
-        if ($rc->hasMethod('crud_editorFieldsArr')) {
-            return $model_class_name::crud_editorFieldsArr();
+        if ($rc->hasMethod('crudEditorFieldsArr')) {
+            return $model_class_name::crudEditorFieldsArr();
         }
 
         if (property_exists($model_class_name, 'crud_editor_fields_arr')) {
@@ -295,6 +295,12 @@ class CRUDUtils
     {
         if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
             return true;
+        }
+
+        $rc = new \ReflectionClass($model_class_name);
+
+        if ($rc->hasMethod('hasRightsToEditModel')) {
+            return $model_class_name::hasRightsToEditModel();
         }
 
         if (property_exists($model_class_name, 'role_designation_arr_required_to_edit')) {
