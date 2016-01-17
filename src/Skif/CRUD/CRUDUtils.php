@@ -250,9 +250,9 @@ class CRUDUtils
             $column_name = preg_replace("/[^a-zA-Z0-9_]+/", "", $column_name);
 
             if (is_null($value)) {
-                $where .= ' AND ' . $column_name . ' IS NULL';
+                $where .= ' AND t.' . $column_name . ' IS NULL';
             } else {
-                $where .= ' AND ' . $column_name . ' = ?';
+                $where .= ' AND t.' . $column_name . ' = ?';
                 $query_param_values_arr[] = $value;
             }
         }
@@ -260,19 +260,33 @@ class CRUDUtils
         if (isset($model_class_name::$crud_model_title_field)) {
             $title_field_name = $model_class_name::$crud_model_title_field;
             if ($title_filter != '') {
-                $where .= ' AND ' . $title_field_name . ' like ?';
+                $where .= ' AND t.' . $title_field_name . ' like ?';
                 $query_param_values_arr[] = '%' . $title_filter . '%';
             }
         }
 
         $order_field_name = $db_id_field_name;
 
+        $query = "SELECT t." . $db_id_field_name . " FROM " . $db_table_name . " t";
+
+        if (!is_null($model_class_name::DB_RELATIONSHIPS_WITH_USERS_TABLE_NAME)
+            && isset($model_class_name::$crud_relationships_with_users_table_link_field)
+        ) {
+            $query .= " INNER JOIN " . $model_class_name::DB_RELATIONSHIPS_WITH_USERS_TABLE_NAME . " ut
+                ON (ut." . $model_class_name::$crud_relationships_with_users_table_link_field . " = t." . $db_id_field_name . ")";
+
+            $where .= " AND ut.user_id=?";
+            $query_param_values_arr[] = \Skif\Users\AuthUtils::getCurrentUserId();
+        }
+
+        $query .= " WHERE " . $where . "
+            ORDER BY t." . $order_field_name . " DESC
+            LIMIT " . intval($page_size) . " OFFSET " . intval($start);
+
         $objs_ids_arr = \Skif\DB\DBWrapper::readColumn(
-            "SELECT $db_id_field_name FROM " . $db_table_name . "
-                WHERE " . $where . "
-                ORDER BY " . $order_field_name . " DESC
-                LIMIT " . intval($page_size) . " OFFSET " . intval($start),
-            $query_param_values_arr);
+            $query,
+            $query_param_values_arr
+        );
 
         return $objs_ids_arr;
     }
