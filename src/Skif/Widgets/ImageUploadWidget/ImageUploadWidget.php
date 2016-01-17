@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\CRUD\ImageUploadWidget;
+namespace Skif\Widgets\ImageUploadWidget;
 
 class ImageUploadWidget {
     public static function renderWidget($field_name, $field_value, $widget_options = array())
@@ -9,7 +9,7 @@ class ImageUploadWidget {
         $widget_options['field_value'] = $field_value;
 
         $output = \Skif\PhpTemplate::renderTemplateBySkifModule(
-            'CRUD' . DIRECTORY_SEPARATOR . 'ImageUploadWidget',
+            'Widgets' . DIRECTORY_SEPARATOR . 'ImageUploadWidget',
             'image_upload_widget.tpl.php',
             $widget_options
         );
