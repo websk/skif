@@ -28,6 +28,11 @@ class ImageController
         // Проверка прав доступа
         //\Skif\Http::exit403If();
 
+        echo \Skif\Image\ImageController::processUploadImage();
+    }
+
+    public static function processUploadImage()
+    {
         $root_images_folder = \Skif\Image\ImageConstants::IMG_ROOT_FOLDER;
 
         $json_arr = array();
@@ -61,7 +66,7 @@ class ImageController
 
         $json_arr['status'] = 'success';
 
-        echo json_encode($json_arr);
+        return json_encode($json_arr);
     }
 
 	public static function uploadToFilesAction()
