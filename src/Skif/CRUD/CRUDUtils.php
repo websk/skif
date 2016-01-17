@@ -298,7 +298,6 @@ class CRUDUtils
         }
 
         if (property_exists($model_class_name, 'role_designation_arr_required_to_edit')) {
-
             foreach ($model_class_name::$role_designation_arr_required_to_edit as $role_designation) {
                 if (\Skif\Users\AuthUtils::currentUserHasAccessByRoleDesignation($role_designation)) {
                     return true;
