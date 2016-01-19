@@ -434,6 +434,7 @@ class CRUDController extends \Skif\BaseController
 
         \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceDelete');
 
+        /*
         if (property_exists($model_class_name, 'crud_related_models_arr')) {
             foreach ($model_class_name::$crud_related_models_arr as $related_model_class_name => $related_model_data) {
                 \Skif\Utils::assert(array_key_exists('link_field', $related_model_data));
@@ -444,6 +445,7 @@ class CRUDController extends \Skif\BaseController
 
             }
         }
+        */
 
         // удаление объекта
         $obj = \Skif\CRUD\CRUDUtils::createAndLoadObject($model_class_name, $obj_id);
