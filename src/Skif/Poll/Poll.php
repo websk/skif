@@ -82,6 +82,7 @@ class Poll implements
         )
     );
 
+    // Связанные модели
     public static $related_models_arr = array(
         '\Skif\Poll\PollQuestion' => array(
             'link_field' => 'poll_id',
