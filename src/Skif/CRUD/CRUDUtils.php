@@ -291,7 +291,7 @@ class CRUDUtils
         return $objs_ids_arr;
     }
 
-    public static function currentUserHasRightsToEditModel($model_class_name)
+    public static function currentUserHasRightsToEditModel($model_class_name, $obj_id = '')
     {
         if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
             return true;
@@ -300,7 +300,7 @@ class CRUDUtils
         $rc = new \ReflectionClass($model_class_name);
 
         if ($rc->hasMethod('hasRightsToEditModel')) {
-            return $model_class_name::hasRightsToEditModel();
+            return $model_class_name::hasRightsToEditModel($obj_id);
         }
 
         if (property_exists($model_class_name, 'role_designation_arr_required_to_edit')) {

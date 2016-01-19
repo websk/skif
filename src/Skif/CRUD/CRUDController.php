@@ -183,7 +183,7 @@ class CRUDController extends \Skif\BaseController
     {
         $model_class_name = static::getModelClassName();
 
-        \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
+        \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name, 'new'));
 
         \Skif\Utils::assert($model_class_name);
 
@@ -235,7 +235,7 @@ class CRUDController extends \Skif\BaseController
     {
         $model_class_name = static::getModelClassName();
 
-        \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
+        \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name, $obj_id));
 
         \Skif\Utils::assert($model_class_name);
         \Skif\Utils::assert($obj_id);
@@ -340,7 +340,7 @@ class CRUDController extends \Skif\BaseController
     {
         $model_class_name = static::getModelClassName();
 
-        \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
+        \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name, $obj_id));
 
         \Skif\Utils::assert($model_class_name);
         \Skif\Utils::assert($obj_id);
@@ -379,7 +379,7 @@ class CRUDController extends \Skif\BaseController
     {
         $model_class_name = static::getModelClassName();
 
-        \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
+        \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name, 'new'));
 
         \Skif\Utils::assert($model_class_name);
         \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceLoad');
@@ -426,7 +426,7 @@ class CRUDController extends \Skif\BaseController
     {
         $model_class_name = static::getModelClassName();
 
-        \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name));
+        \Skif\Http::exit403If(!\Skif\CRUD\CRUDUtils::currentUserHasRightsToEditModel($model_class_name, $obj_id));
 
         \Skif\Utils::assert($model_class_name);
         \Skif\Utils::assert($obj_id);
