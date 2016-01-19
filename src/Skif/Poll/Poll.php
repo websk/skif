@@ -90,24 +90,6 @@ class Poll implements
         ),
     );
 
-    /*
-    public function load($id)
-    {
-        $is_loaded = \Skif\Util\ActiveRecordHelper::loadModelObj($this, $id);
-        if (!$is_loaded) {
-            return false;
-        }
-
-        $query = "SELECT id FROM " . \Skif\Poll\PollQuestion::DB_TABLE_NAME ." WHERE poll_id = ?";
-        $this->poll_questions_ids_arr = \Skif\DB\DBWrapper::readColumn(
-            $query,
-            array($this->id)
-        );
-
-        return true;
-    }
-    */
-
     /**
      * @return mixed
      */
