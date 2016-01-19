@@ -114,6 +114,26 @@ class ActiveRecordHelper
             $property->setValue($model_obj, $field_value);
         }
 
+        if (isset($model_class_name::$related_models_arr)) {
+            foreach ($model_class_name::$related_models_arr as $related_model_class_name => $related_model_data) {
+                \Skif\Utils::assert(array_key_exists('link_field', $related_model_data));
+
+                $related_db_table_name = $related_model_class_name::DB_TABLE_NAME;
+                $related_model_obj = new $related_model_class_name();
+                $related_db_id_field_name = self::getIdFieldName($related_model_obj);
+
+                $query = "SELECT " . $related_db_id_field_name . " FROM " . $related_db_table_name ." WHERE " . $related_model_data['link_field'] . " = ?";
+                $related_ids_arr = \Skif\DB\DBWrapper::readColumn(
+                    $query,
+                    array($id)
+                );
+
+                $property = $reflect->getProperty($related_model_data['field_name']);
+                $property->setAccessible(true);
+                $property->setValue($model_obj, $related_ids_arr);
+            }
+        }
+
         return true;
     }
 

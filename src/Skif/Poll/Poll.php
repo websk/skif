@@ -82,7 +82,15 @@ class Poll implements
         )
     );
 
+    public static $related_models_arr = array(
+        '\Skif\Poll\PollQuestion' => array(
+            'link_field' => 'poll_id',
+            'field_name' => 'poll_questions_ids_arr',
+            'list_title' => 'Варианты ответов',
+        ),
+    );
 
+    /*
     public function load($id)
     {
         $is_loaded = \Skif\Util\ActiveRecordHelper::loadModelObj($this, $id);
@@ -98,6 +106,7 @@ class Poll implements
 
         return true;
     }
+    */
 
     /**
      * @return mixed
