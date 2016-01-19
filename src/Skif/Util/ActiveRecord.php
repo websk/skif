@@ -85,6 +85,7 @@ trait ActiveRecord
 
         $model_class_name = get_class($this);
 
+        // Удаляем связанные данные
         if (isset($model_class_name::$related_models_arr)) {
             foreach ($model_class_name::$related_models_arr as $related_model_class_name => $related_model_data) {
                 \Skif\Utils::assert(array_key_exists('link_field', $related_model_data));
