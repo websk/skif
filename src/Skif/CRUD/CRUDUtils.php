@@ -269,10 +269,10 @@ class CRUDUtils
 
         $query = "SELECT t." . $db_id_field_name . " FROM " . $db_table_name . " t";
 
-        if (!is_null($model_class_name::DB_RELATIONSHIPS_WITH_USERS_TABLE_NAME)
+        if (isset($model_class_name::$db_relationships_with_users_table_name)
             && isset($model_class_name::$crud_relationships_with_users_table_link_field)
         ) {
-            $query .= " INNER JOIN " . $model_class_name::DB_RELATIONSHIPS_WITH_USERS_TABLE_NAME . " ut
+            $query .= " INNER JOIN " . $model_class_name::$db_relationships_with_users_table_name . " ut
                 ON (ut." . $model_class_name::$crud_relationships_with_users_table_link_field . " = t." . $db_id_field_name . ")";
 
             $where .= " AND ut.user_id=?";
