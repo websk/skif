@@ -79,23 +79,6 @@ class Form implements
         )
     );
 
-
-    public function load($id)
-    {
-        $is_loaded = \Skif\Util\ActiveRecordHelper::loadModelObj($this, $id);
-        if (!$is_loaded) {
-            return false;
-        }
-
-        $query = "SELECT id FROM " . \Skif\Form\FormField::DB_TABLE_NAME ." WHERE form_id = ?";
-        $this->form_field_ids_arr = \Skif\DB\DBWrapper::readColumn(
-            $query,
-            array($this->id)
-        );
-
-        return true;
-    }
-
     /**
      * @return mixed
      */

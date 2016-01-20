@@ -68,6 +68,23 @@ trait ActiveRecord
 
     public function delete()
     {
+        $model_class_name = get_class($this);
+
+        // Проверяем связанные данные
+        if (isset($model_class_name::$related_models_arr)) {
+            foreach ($model_class_name::$related_models_arr as $related_model_class_name => $related_model_data) {
+                \Skif\Utils::assert(array_key_exists('link_field', $related_model_data));
+
+                $related_ids_arr = $this->$related_model_data['field_name'];
+                if (!empty($related_ids_arr)
+                    && array_key_exists('removal_of_banned', $related_model_data)
+                    && $related_model_data['removal_of_banned'] === true
+                ) {
+                    return 'Удаление невозможно. Имеются связанные данные ' . $related_model_data['list_title'];
+                }
+            }
+        }
+
         if (
             ($this instanceof \Skif\Model\InterfaceLoad) &&
             ($this instanceof \Skif\Model\InterfaceFactory)
@@ -82,8 +99,6 @@ trait ActiveRecord
         } else {
             \Skif\Util\ActiveRecordHelper::deleteModelObj($this);
         }
-
-        $model_class_name = get_class($this);
 
         // Удаляем связанные данные
         if (isset($model_class_name::$related_models_arr)) {
