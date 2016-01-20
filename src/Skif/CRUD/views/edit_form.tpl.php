@@ -127,16 +127,18 @@ if ($obj instanceof \Skif\Model\InterfaceSave) {
 
 if (property_exists($model_class_name, 'related_models_arr')) {
     foreach ($model_class_name::$related_models_arr as $related_model_class_name => $related_model_data) {
-        $list_title = "Связанные данные " . $related_model_class_name;
-        if (!is_array($related_model_data)) { // старая форма связи, потом удалить
-            $relation_field_name = $related_model_data;
-        } else {
-            \Skif\Utils::assert(array_key_exists('link_field', $related_model_data));
-            $relation_field_name = $related_model_data['link_field'];
+        if (array_key_exists('not_show_in_crud_edit_form', $related_model_data)
+            && ($related_model_data['not_show_in_crud_edit_form'] === true)) {
+            continue;
+        }
 
-            if (array_key_exists('list_title', $related_model_data)) {
-                $list_title = $related_model_data['list_title'];
-            }
+        \Skif\Utils::assert(array_key_exists('link_field', $related_model_data));
+        $relation_field_name = $related_model_data['link_field'];
+
+        $list_title = "Связанные данные " . $related_model_class_name;
+
+        if (array_key_exists('list_title', $related_model_data)) {
+            $list_title = $related_model_data['list_title'];
         }
 
         $context_arr = array($relation_field_name => $obj->getId());

@@ -78,7 +78,7 @@ trait ActiveRecord
                 $related_ids_arr = $this->$related_model_data['field_name'];
                 if (!empty($related_ids_arr)
                     && array_key_exists('removal_of_banned', $related_model_data)
-                    && $related_model_data['removal_of_banned'] === true
+                    && ($related_model_data['removal_of_banned'] === true)
                 ) {
                     return 'Удаление невозможно. Имеются связанные данные ' . $related_model_data['list_title'];
                 }
