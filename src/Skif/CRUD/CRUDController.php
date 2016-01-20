@@ -434,16 +434,22 @@ class CRUDController extends \Skif\BaseController
 
         \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceDelete');
 
-        // удаление объекта
-        $obj = \Skif\CRUD\CRUDUtils::createAndLoadObject($model_class_name, $obj_id);
-        $obj->delete();
-
-        static::afterDelete($obj);
-
         $redirect_url = static::getListUrl($model_class_name);
         if (array_key_exists('destination', $_GET)) {
             $redirect_url = $_GET['destination'];
         }
+
+
+        // удаление объекта
+        $obj = \Skif\CRUD\CRUDUtils::createAndLoadObject($model_class_name, $obj_id);
+        $message = $obj->delete();
+
+        if ($message !== true) {
+            \Skif\Messages::setError($message);
+            \Skif\Http::redirect($redirect_url);
+        }
+
+        static::afterDelete($obj);
 
         \Skif\Messages::setMessage('Удаление выполнено успешно');
 
