@@ -75,13 +75,6 @@ class Poll implements
         ),
     );
 
-    public static $crud_related_models_arr = array(
-        '\Skif\Poll\PollQuestion' => array(
-            'link_field' => 'poll_id',
-            'list_title' => 'Варианты ответов',
-        )
-    );
-
     // Связанные модели
     public static $related_models_arr = array(
         '\Skif\Poll\PollQuestion' => array(

@@ -435,8 +435,8 @@ class CRUDController extends \Skif\BaseController
         \Skif\CRUD\CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceDelete');
 
         /*
-        if (property_exists($model_class_name, 'crud_related_models_arr')) {
-            foreach ($model_class_name::$crud_related_models_arr as $related_model_class_name => $related_model_data) {
+        if (property_exists($model_class_name, 'related_models_arr')) {
+            foreach ($model_class_name::$related_models_arr as $related_model_class_name => $related_model_data) {
                 \Skif\Utils::assert(array_key_exists('link_field', $related_model_data));
                 $related_objs_ids_arr = \Skif\CRUD\CRUDUtils::getObjIdsArrayForModel($related_model_class_name, array($related_model_data['link_field'] => $obj_id));
                 if (count($related_objs_ids_arr) > 0) {

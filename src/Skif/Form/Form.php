@@ -72,7 +72,7 @@ class Form implements
         'url' => array(),
     );
 
-    public static $crud_related_models_arr = array(
+    public static $related_models_arr = array(
         '\Skif\Form\FormField' => array(
             'link_field' => 'form_id',
             'list_title' => 'Набор полей формы',
