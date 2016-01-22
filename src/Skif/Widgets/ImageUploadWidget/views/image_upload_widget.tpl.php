@@ -28,7 +28,7 @@ if ($field_value) {
 ?>
 <input type="hidden" name="<?php echo $field_name; ?>" id="<?php echo $field_name; ?>" value="<?php echo $field_value; ?>">
 
-<span class="btn btn-success fileinput-button">
+<span class="btn btn-default fileinput-button">
     <i class="glyphicon glyphicon-plus"></i>
     <span>Выберите файл...</span>
     <input id="upload_image" type="file" name="upload_image">
