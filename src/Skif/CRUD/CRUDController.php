@@ -9,13 +9,17 @@ namespace Skif\CRUD;
  */
 class CRUDController extends \Skif\BaseController
 {
-    public static $base_breadcrumbs = array();
     protected static $model_class_name = '';
     protected static $controller_class_name = '';
 
     protected static function getLayoutTemplateFile()
     {
         return \Skif\Conf\ConfWrapper::value('layout.admin');
+    }
+
+    protected static function getBreadcrumbsArr()
+    {
+        return array();
     }
 
     public static function getControllerClassNameByModelClassName($model_class_name)
@@ -170,7 +174,7 @@ class CRUDController extends \Skif\BaseController
             array(
                 'title' => $crud_model_class_screen_name_for_list,
                 'content' => $list_html,
-                'breadcrumbs_arr' => static::$base_breadcrumbs
+                'breadcrumbs_arr' => static::getBreadcrumbsArr()
             )
         );
     }
@@ -199,7 +203,7 @@ class CRUDController extends \Skif\BaseController
             )
         );
 
-        $breadcrumbs_arr = static::$base_breadcrumbs;
+        $breadcrumbs_arr = static::getBreadcrumbsArr();
 
         if (!property_exists($model_class_name, 'show_models_list_link')) {
             $show_models_list_link = true;
@@ -253,7 +257,7 @@ class CRUDController extends \Skif\BaseController
             )
         );
 
-        $breadcrumbs_arr = static::$base_breadcrumbs;
+        $breadcrumbs_arr = static::getBreadcrumbsArr();
 
         if (!property_exists($model_class_name, 'show_models_list_link')) {
             $show_models_list_link = true;
