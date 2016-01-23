@@ -56,6 +56,7 @@ class Task implements
     );
 
     public static $crud_model_filtered_field_arr_for_list = array('status', 'assigned_to_user_id');
+    public static $crud_show_filtered_panel = true;
 
     public static function crudEditorFieldsArr()
     {

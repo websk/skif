@@ -56,16 +56,8 @@ if (isset($list_title)) {
 <div>
     <?php
     $show_filtered_panel = false;
-    if (isset($model_class_name::$crud_model_filtered_field_arr_for_list)) {
-        $show_filtered_panel = true;
-    }
-
-    if (isset($model_class_name::$crud_model_title_field)) {
-        if (isset($model_class_name::$crud_allow_search)) {
-            if ($model_class_name::$crud_allow_search == true) {
-                $show_filtered_panel = true;
-            }
-        }
+    if (isset($model_class_name::$crud_show_filtered_panel)) {
+        $show_filtered_panel = $model_class_name::$crud_show_filtered_panel;
     }
 
     if ($show_filtered_panel) {
