@@ -80,7 +80,13 @@ class UrlManager {
      */
     public static function getUniqueUrl($url)
     {
-        $url_data_tables = array('content', 'rubrics', 'form');
+        $url_data_tables_arr = array('content', 'rubrics', 'form');
+
+        $config_url_data_tables_arr =\Skif\Conf\ConfWrapper::value('url_data_tables_arr');
+        if ($config_url_data_tables_arr) {
+            $url_data_tables_arr = array_merge($url_data_tables_arr, $config_url_data_tables_arr);
+            $url_data_tables_arr = array_unique($url_data_tables_arr);
+        }
 
         $unique_id = '';
 
@@ -89,7 +95,7 @@ class UrlManager {
         for ($i = 0; $i < 20; $i++) {
             $new_url .= $unique_id;
             $not_found_counter = 0;
-            foreach ($url_data_tables as $data_table) {
+            foreach ($url_data_tables_arr as $data_table) {
                 $query = 'SELECT url FROM ' . $data_table . ' WHERE url = ?';
                 $found_urls = \Skif\DB\DBWrapper::readField($query, array($new_url));
                 if ($found_urls) {
@@ -100,7 +106,7 @@ class UrlManager {
                 $not_found_counter++;
             }
 
-            if ($not_found_counter == count($url_data_tables)) {//url not found in database
+            if ($not_found_counter == count($url_data_tables_arr)) {//url not found in database
                 return $new_url;
             }
 
