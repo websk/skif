@@ -227,6 +227,7 @@ class Form implements
 
         return $unique_new_url;
     }
+
     /**
      * @return mixed
      */
