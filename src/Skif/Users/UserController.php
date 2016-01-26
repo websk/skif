@@ -5,6 +5,31 @@ namespace Skif\Users;
 
 class UserController
 {
+
+    public function loginFormAction()
+    {
+        \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+
+        $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
+            'Users',
+            'login_form_full.tpl.php'
+        );
+
+        $breadcrumbs_arr = array();
+
+        echo \Skif\PhpTemplate::renderTemplate(
+            \Skif\Conf\ConfWrapper::value('layout.main'),
+            array(
+                'content' => $content,
+                'title' => 'Вход на сайт',
+                'keywords' => '',
+                'description' => '',
+                'breadcrumbs_arr' => $breadcrumbs_arr
+            )
+        );
+    }
+
+
     public function listAction()
     {
         \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
