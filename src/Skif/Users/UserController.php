@@ -82,6 +82,67 @@ class UserController
         );
     }
 
+    public function registrationAction()
+    {
+        $user_obj = new \Skif\Users\User();
+
+        $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : '/';
+
+        $name = array_key_exists('name', $_REQUEST) ? $_REQUEST['name'] : '';
+        $email = array_key_exists('email', $_REQUEST) ? $_REQUEST['email'] : '';
+        $new_password_first = array_key_exists('new_password_first', $_REQUEST) ? $_REQUEST['new_password_first'] : '';
+        $new_password_second = array_key_exists('new_password_second', $_REQUEST) ? $_REQUEST['new_password_second'] : '';
+
+        if (empty($email)) {
+            \Skif\Messages::setError('Ошибка! Не указан Email.');
+            \Skif\Http::redirect($destination);
+        }
+
+        if (empty($name)) {
+            \Skif\Messages::setError('Ошибка! Не указано Имя.');
+            \Skif\Http::redirect($destination);
+        }
+
+        $query_true = "SELECT id FROM users WHERE email=? LIMIT 1";
+        $has_user_id = \Skif\DB\DBWrapper::readField($query_true, array($email));
+        if ($has_user_id) {
+            \Skif\Messages::setError('Ошибка! Пользователь с таким адресом электронной почты ' . $email . ' уже существует.');
+            \Skif\Http::redirect($destination);
+        }
+
+        if (!$new_password_first && !$new_password_second) {
+            \Skif\Messages::setError('Ошибка! Не введен пароль.');
+            \Skif\Http::redirect($destination);
+        }
+
+
+        $user_obj->setName($name);
+        $user_obj->setEmail($email);
+
+        // Пароль
+        if ($new_password_first || $new_password_second) {
+            if ($new_password_first != $new_password_second) {
+                \Skif\Messages::setError('Ошибка! Пароль не подтвержден, либо подтвержден неверно.');
+                \Skif\Http::redirect($destination);
+            }
+
+            $user_obj->setPassw(\Skif\Users\AuthUtils::getHash($new_password_first));
+        }
+
+        $user_obj->save();
+
+        // Roles
+        $role_id = 2;
+        $query = "INSERT INTO users_roles SET role_id=?, user_id=?";
+        \Skif\DB\DBWrapper::query($query, array($role_id, $user_obj->getId()));
+
+
+        \Skif\Messages::setMessage('Вы успешно зарегистрированы на сайте.');
+
+        \Skif\Http::redirect($destination);
+
+    }
+
     public function listAction()
     {
         \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
