@@ -1,5 +1,7 @@
 <?php
 $destination = '/';
+
+$user_obj = new \Skif\Users\User;
 ?>
 <form action="/user/save/new" autocomplete="off" method="post" class="form-horizontal">
     <div xmlns="http://www.w3.org/1999/html">
