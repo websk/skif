@@ -26,6 +26,11 @@ class UserController
         return '/user/registration';
     }
 
+    public static function getLogoutUrl()
+    {
+        return '/user/logout';
+    }
+
     public static function getForgotPasswordUrl()
     {
         return '/user/forgot_password';
