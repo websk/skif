@@ -31,7 +31,7 @@
     <div class="form-group">
         <div class="col-md-offset-2 col-md-8">
             <a href="<?php echo \Skif\Users\UserController::getForgotPasswordUrl(); ?>">Забыли пароль</a> /
-            <a href="<?php echo \Skif\Users\UserController::getRegistrationUrl(); ?>">Регистрация</a>
+            <a href="<?php echo \Skif\Users\UserController::getRegistrationFormUrl(); ?>">Регистрация</a>
         </div>
     </div>
     <input type="hidden" name="destination" value="/">
