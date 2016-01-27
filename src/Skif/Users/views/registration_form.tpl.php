@@ -34,9 +34,17 @@ $user_obj = new \Skif\Users\User();
     </div>
 
     <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <img src="<?php echo \Skif\Captcha\Captcha::getUrl(); ?>" border="0" alt="Введите этот защитный код">
+            <input type="text" size="5" name="captcha" class="form-control">
+            <span class="help-block">Введите код, изображенный на картинке</span>
+        </div>
+    </div>
+
+    <div class="form-group">
         <div class="col-md-offset-4 col-md-8">
             <input type="hidden" name="destination" value="<?php echo $destination; ?>">
-            <input type="submit" value="Сохранить изменения" class="btn btn-primary">
+            <input type="submit" value="Зарегистрироваться" class="btn btn-primary">
         </div>
     </div>
 </form>
