@@ -4,7 +4,7 @@
  */
 
 if ($user_id == 'new') {
-    $user_obj = new \Skif\Users\User;
+    $user_obj = new \Skif\Users\User();
 } else {
     $user_obj = \Skif\Users\User::factory($user_id);
 }
