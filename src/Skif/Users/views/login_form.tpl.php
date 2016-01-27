@@ -2,6 +2,7 @@
 /**
  * @var $destination
  */
+
 if (!isset($destination)) {
     $destination = '/';
 }
