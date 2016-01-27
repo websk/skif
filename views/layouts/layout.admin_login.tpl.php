@@ -42,7 +42,7 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
                     <h3 class="panel-title">Вход в систему управления</h3>
                 </div>
                 <div class="panel-body">
-                    <form action="/user/login" method="post">
+                    <form action="<?php echo \Skif\Users\UserController::getLoginUrl(); ?>" method="post">
                         <div class="form-group">
                             <label class="sr-only">Email</label>
                             <div class="input-group">

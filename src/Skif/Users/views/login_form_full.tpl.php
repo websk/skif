@@ -1,7 +1,7 @@
 <?php
 ?>
 
-<form action="/user/login" method="post" class="form-horizontal">
+<form action="<?php echo \Skif\Users\UserController::getLoginUrl(); ?>" method="post" class="form-horizontal">
     <div class="form-group">
         <label class="col-md-2 control-label">Email</label>
         <div class="col-md-10">
@@ -30,8 +30,8 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-8">
-            <a href="/user/login">Забыли пароль</a> /
-            <a href="/user/login">Регистрация</a>
+            <a href="<?php echo \Skif\Users\UserController::getForgotPasswordUrl(); ?>">Забыли пароль</a> /
+            <a href="<?php echo \Skif\Users\UserController::getRegistrationUrl(); ?>">Регистрация</a>
         </div>
     </div>
     <input type="hidden" name="destination" value="/">

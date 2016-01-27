@@ -6,6 +6,21 @@ namespace Skif\Users;
 class UserController
 {
 
+    public static function getLoginUrl()
+    {
+        return '/user/login';
+    }
+
+    public static function getRegistrationUrl()
+    {
+        return '/user/login';
+    }
+
+    public static function getForgotPasswordUrl()
+    {
+        return '/user/forgot_password';
+    }
+
     public function loginFormAction()
     {
         \Skif\Http::exit403if(\Skif\Users\AuthUtils::getCurrentUserId());
