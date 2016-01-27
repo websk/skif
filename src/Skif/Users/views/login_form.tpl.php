@@ -12,7 +12,7 @@ if (!isset($destination)) {
         <label class="sr-only">Email</label>
         <div class="input-group">
             <span class="input-group-addon">@</span>
-            <input type="text" name="email" maxlength="30" placeholder="Email" class="form-control">
+            <input type="text" name="email" placeholder="Email" class="form-control">
         </div>
     </div>
     <div class="form-group">
@@ -25,5 +25,5 @@ if (!isset($destination)) {
         </label>
     </div>
     <input type="hidden" name="destination" value="<?php echo $destination; ?>">
-    <input type="submit" value="Войти" class="btn btn-default">
+    <button type="submit" class="btn btn-default">Войти</button>
 </form>
