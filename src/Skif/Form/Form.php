@@ -75,6 +75,7 @@ class Form implements
     public static $related_models_arr = array(
         '\Skif\Form\FormField' => array(
             'link_field' => 'form_id',
+            'field_name' => 'form_field_ids_arr',
             'list_title' => 'Набор полей формы',
         )
     );
