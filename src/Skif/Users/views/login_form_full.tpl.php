@@ -7,17 +7,17 @@ if (!isset($destination)) {
 }
 ?>
 
-<form action="/user/login" class="form-inline" method="post">
+<form action="/user/login" method="post">
     <div class="form-group">
-        <label class="sr-only">Email</label>
+        <label>Email</label>
         <div class="input-group">
             <span class="input-group-addon">@</span>
-            <input type="text" name="email" maxlength="30" placeholder="Email" class="form-control">
+            <input type="text" name="email" maxlength="30" class="form-control">
         </div>
     </div>
     <div class="form-group">
-        <label class="sr-only">Пароль</label>
-        <input type="password" name="password" placeholder="Пароль" class="form-control">
+        <label >Пароль</label>
+        <input type="password" name="password" class="form-control">
     </div>
     <div class="checkbox">
         <label>
