@@ -6,14 +6,24 @@ namespace Skif\Users;
 class UserController
 {
 
+    public static function getLoginFormUrl()
+    {
+        return '/user/login_form';
+    }
+
     public static function getLoginUrl()
     {
         return '/user/login';
     }
 
+    public static function getRegistrationFormUrl()
+    {
+        return '/user/registration_form';
+    }
+
     public static function getRegistrationUrl()
     {
-        return '/user/login';
+        return '/user/registration';
     }
 
     public static function getForgotPasswordUrl()
@@ -27,7 +37,7 @@ class UserController
 
         $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
             'Users',
-            'login_form_full.tpl.php'
+            'login_form.tpl.php'
         );
 
         $breadcrumbs_arr = array();
@@ -44,6 +54,28 @@ class UserController
         );
     }
 
+    public function registrationFormAction()
+    {
+        \Skif\Http::exit403if(\Skif\Users\AuthUtils::getCurrentUserId());
+
+        $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
+            'Users',
+            'registration_form.tpl.php'
+        );
+
+        $breadcrumbs_arr = array();
+
+        echo \Skif\PhpTemplate::renderTemplate(
+            \Skif\Conf\ConfWrapper::value('layout.main'),
+            array(
+                'content' => $content,
+                'title' => 'Регистрация на сайте',
+                'keywords' => '',
+                'description' => '',
+                'breadcrumbs_arr' => $breadcrumbs_arr
+            )
+        );
+    }
 
     public function listAction()
     {

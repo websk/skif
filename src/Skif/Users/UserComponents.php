@@ -9,7 +9,7 @@ class UserComponents
     {
         $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
             'Users',
-            'login_form.tpl.php',
+            'login_form_block.tpl.php',
             array('destination' => $destination)
         );
 
