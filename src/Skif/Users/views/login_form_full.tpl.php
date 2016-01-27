@@ -24,10 +24,12 @@
         </div>
     </div>
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-2">
+        <div class="col-md-offset-2 col-md-8">
             <button type="submit" class="btn btn-primary">Войти</button>
         </div>
-        <div class="col-md-8">
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-8">
             <a href="/user/login">Забыли пароль</a> /
             <a href="/user/login">Регистрация</a>
         </div>
