@@ -88,6 +88,7 @@ class Comment  implements
     public static $related_models_arr = array(
         '\Skif\Comment\Comment' => array(
             'link_field' => 'parent_id',
+            'field_name' => 'children_ids_arr',
             'list_title' => 'Ответы',
             'context_fields_arr' => array('url', 'url_md5'),
         )
