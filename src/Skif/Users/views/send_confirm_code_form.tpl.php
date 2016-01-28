@@ -1,7 +1,7 @@
 <?php
 ?>
 
-<form action="<?php echo \Skif\Users\UserController::getConfirmUrl(); ?>" method="post" class="form-horizontal">
+<form action="<?php echo \Skif\Users\UserController::getSendConfirmCodeUrl(); ?>" method="post" class="form-horizontal">
     <div class="form-group">
         <label class="col-md-2 control-label">Email</label>
         <div class="col-md-10">

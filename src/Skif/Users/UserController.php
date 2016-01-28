@@ -41,12 +41,12 @@ class UserController
         return '/user/confirm_registration/' . $confirm_code;
     }
 
-    public static function sendConfirmCodeUrl()
+    public static function getSendConfirmCodeUrl()
     {
         return '/user/send_confirm_code';
     }
 
-    public static function sendConfirmCodeFormUrl()
+    public static function getSendConfirmCodeFormUrl()
     {
         return '/user/send_confirm_code_form';
     }
@@ -111,6 +111,14 @@ class UserController
         $email = array_key_exists('email', $_REQUEST) ? $_REQUEST['email'] : '';
         $new_password_first = array_key_exists('new_password_first', $_REQUEST) ? $_REQUEST['new_password_first'] : '';
         $new_password_second = array_key_exists('new_password_second', $_REQUEST) ? $_REQUEST['new_password_second'] : '';
+
+        if (!array_key_exists('captcha', $_REQUEST)) {
+            \Skif\Http::redirect($destination);
+        }
+
+        if (!\Skif\Captcha\Captcha::checkWithMessage()) {
+            \Skif\Http::redirect($destination);
+        }
 
         if (empty($email)) {
             \Skif\Messages::setError('Ошибка! Не указан Email.');
@@ -195,7 +203,7 @@ class UserController
         $destination = self::getLoginFormUrl();
 
         if (!$user_id) {
-            \Skif\Messages::setError('Ошибка! Неверный код подтверждения. <a href="' . self::sendConfirmCodeUrl() . '">Выслать код подтверждения повторно.</a>');
+            \Skif\Messages::setError('Ошибка! Неверный код подтверждения. <a href="' . self::getSendConfirmCodeUrl() . '">Выслать код подтверждения повторно.</a>');
             \Skif\Http::redirect($destination);
         }
 
@@ -236,6 +244,20 @@ class UserController
 
     public function sendConfirmCodeAction()
     {
+        $destination = self::getSendConfirmCodeFormUrl();
+
+        if (!array_key_exists('captcha', $_REQUEST)) {
+            \Skif\Http::redirect($destination);
+        }
+
+        if (!\Skif\Captcha\Captcha::checkWithMessage()) {
+            \Skif\Http::redirect($destination);
+        }
+
+        if (empty($email)) {
+            \Skif\Messages::setError('Ошибка! Не указан Email.');
+            \Skif\Http::redirect($destination);
+        }
 
     }
 
