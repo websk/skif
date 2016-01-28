@@ -22,6 +22,7 @@ class User implements
     protected $company;
     protected $comment;
     protected $confirm;
+    protected $confirm_code;
     protected $photo = '';
     protected $passw;
     protected $provider = '';
@@ -272,6 +273,22 @@ class User implements
     public function setConfirm($confirm)
     {
         $this->confirm = $confirm;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConfirmCode()
+    {
+        return $this->confirm_code;
+    }
+
+    /**
+     * @param mixed $confirm_code
+     */
+    public function setConfirmCode($confirm_code)
+    {
+        $this->confirm_code = $confirm_code;
     }
 
     /**

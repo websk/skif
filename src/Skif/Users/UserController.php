@@ -36,6 +36,11 @@ class UserController
         return '/user/forgot_password';
     }
 
+    public static function getConfirmUrl($confirm_code)
+    {
+        return '/user/confirm_registration/' . $confirm_code;
+    }
+
     public function loginFormAction()
     {
         \Skif\Http::exit403if(\Skif\Users\AuthUtils::getCurrentUserId());
@@ -125,6 +130,10 @@ class UserController
         $user_obj->setName($name);
         $user_obj->setEmail($email);
         $user_obj->setPassw(\Skif\Users\AuthUtils::getHash($new_password_first));
+
+        $confirm_code = \Skif\Users\UsersUtils::generateConfirmCode();
+        $user_obj->setConfirmCode($confirm_code);
+
         $user_obj->save();
 
         // Roles
@@ -135,7 +144,26 @@ class UserController
         $user_role_obj->setRoleId($role_id);
         $user_role_obj->save();
 
-        \Skif\Messages::setMessage('Вы успешно зарегистрированы на сайте.');
+
+        $site_email = \Skif\Conf\ConfWrapper::value('site_email');
+        $site_url = \Skif\Conf\ConfWrapper::value('site_url');
+        $site_name = \Skif\Conf\ConfWrapper::value('site_name');
+
+        $mail_message = 'Здравствуйте, ' . $name . '!<br />';
+        $mail_message .= '<p>На сайте ' .  $site_url . ' была создана регистрационная запись, в которой был указал ваш электронный адрес (e-mail).</p>';
+        $mail_message .= '<p>Если вы не регистрировались на данном сайте, просто проигнорируйте это сообщение! Аккаунт будет автоматически удален через некоторое время.</p>';
+        $mail_message .= '<p>Если это были вы, то для завершения процедуры регистрации, пожалуйста перейдите по ссылке ' . \Skif\Users\UserController::getConfirmUrl($confirm_code) .  ' </p>';
+
+        $mail_message .= '<p>С уважением, администрация сайта' . $site_name . ', ' . $site_url . '</p>';
+
+        $subject = 'Подтверждение регистрации на сайте' . $site_name;
+        \Skif\SendMail::mailToUtf8($email, $site_email, $site_name, $subject, $mail_message);
+
+
+        $message = 'Вы успешно зарегистрированы на сайте. ';
+        $message .= 'Для завершения процедуры регистрации, на указанный вами адрес электронной почты, отправлено письмо с ссылкой для подтверждения.';
+
+        \Skif\Messages::setMessage($message);
 
         \Skif\Http::redirect($destination);
 

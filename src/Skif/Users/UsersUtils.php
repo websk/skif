@@ -93,4 +93,14 @@ class UsersUtils
         return false;
     }
 
+    public static function generateConfirmCode()
+    {
+        $salt = \Skif\Conf\ConfWrapper::value('salt');
+        $salt .= $salt;
+
+        $confirm_code = md5($salt . time());
+
+        return $confirm_code;
+    }
+
 }
