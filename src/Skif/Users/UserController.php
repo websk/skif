@@ -168,7 +168,18 @@ class UserController
         $user_role_obj->setRoleId($role_id);
         $user_role_obj->save();
 
+        self::sendConfirmMail($name, $email, $confirm_code);
 
+        $message = 'Вы успешно зарегистрированы на сайте. ';
+        $message .= 'Для завершения процедуры регистрации, на указанный вами адрес электронной почты, отправлено письмо с ссылкой для подтверждения.';
+
+        \Skif\Messages::setMessage($message);
+
+        \Skif\Http::redirect($destination);
+    }
+
+    protected static function sendConfirmMail($name, $email, $confirm_code)
+    {
         $site_email = \Skif\Conf\ConfWrapper::value('site_email');
         $site_url = \Skif\Conf\ConfWrapper::value('site_url');
         $site_name = \Skif\Conf\ConfWrapper::value('site_name');
@@ -182,14 +193,6 @@ class UserController
 
         $subject = 'Подтверждение регистрации на сайте' . $site_name;
         \Skif\SendMail::mailToUtf8($email, $site_email, $site_name, $subject, $mail_message);
-
-
-        $message = 'Вы успешно зарегистрированы на сайте. ';
-        $message .= 'Для завершения процедуры регистрации, на указанный вами адрес электронной почты, отправлено письмо с ссылкой для подтверждения.';
-
-        \Skif\Messages::setMessage($message);
-
-        \Skif\Http::redirect($destination);
     }
 
     /**
@@ -244,6 +247,8 @@ class UserController
 
     public function sendConfirmCodeAction()
     {
+        $email = array_key_exists('email', $_REQUEST) ? $_REQUEST['email'] : '';
+
         $destination = self::getSendConfirmCodeFormUrl();
 
         if (!array_key_exists('captcha', $_REQUEST)) {
@@ -255,10 +260,33 @@ class UserController
         }
 
         if (empty($email)) {
-            \Skif\Messages::setError('Ошибка! Не указан Email.');
+            \Skif\Messages::setError('Ошибка! Не указан адрес электронной почты (Email).');
             \Skif\Http::redirect($destination);
         }
 
+        if (!\Skif\Users\UsersUtils::hasUserByEmail($email)) {
+            \Skif\Messages::setError('Ошибка! Пользователь с таким адресом электронной почты не зарегистрирован на сайте.');
+            \Skif\Http::redirect($destination);
+        }
+
+        $user_id = \Skif\Users\UsersUtils::getUserIdByEmail($email);
+
+        $user_obj = \Skif\Users\User::factory($user_id);
+
+        if ($user_obj->isConfirm()) {
+            \Skif\Messages::setError('Ошибка! Пользователь с таким адресом электронной почты уже зарегистрирован.');
+            \Skif\Http::redirect($destination);
+        }
+
+        $confirm_code = \Skif\Users\UsersUtils::generateConfirmCode();
+
+        self::sendConfirmMail($user_obj->getName(), $email, $confirm_code);
+
+        $message = 'Для завершения процедуры регистрации, на указанный вами адрес электронной почты, отправлено письмо с ссылкой для подтверждения.';
+
+        \Skif\Messages::setMessage($message);
+
+        \Skif\Http::redirect($destination);
     }
 
     /**
