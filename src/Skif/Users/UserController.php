@@ -170,7 +170,24 @@ class UserController
 
     public function confirmRegistrationAction($confirm_code)
     {
+        $user_id = \Skif\Users\UsersUtils::getUserIdByConfirmCode($confirm_code);
 
+        $destination = self::getLoginFormUrl();
+
+        if (!$user_id) {
+            \Skif\Messages::setError('Ошибка! Неверный код подтверждения.');
+            \Skif\Http::redirect($destination);
+        }
+
+        $user_obj = \Skif\Users\User::factory($user_id);
+        $user_obj->setConfirm(1);
+        $user_obj->setConfirmCode('');
+        $user_obj->save();
+
+        $message = 'Поздравляем! Процесс регистрации успешно завершен. Теперь вы можете войти на сайт.'
+
+        \Skif\Messages::setMessage($message);
+        \Skif\Http::redirect($destination);
     }
 
     public function listAction()

@@ -98,9 +98,15 @@ class UsersUtils
         $salt = \Skif\Conf\ConfWrapper::value('salt');
         $salt .= $salt;
 
-        $confirm_code = md5($salt . time());
+        $confirm_code = md5($salt . time() . uniqid());
 
         return $confirm_code;
     }
 
+    public static function getUserIdByConfirmCode($confirm_code)
+    {
+        $query = "SELECT id FROM " . \Skif\Users\User::DB_TABLE_NAME . " WHERE confirm_code=? LIMIT 1";
+
+        return \Skif\DB\DBWrapper::readField($query, array($confirm_code));
+    }
 }
