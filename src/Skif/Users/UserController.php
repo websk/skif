@@ -51,6 +51,9 @@ class UserController
         return '/user/send_confirm_code_form';
     }
 
+    /**
+     * Вход на сайт
+     */
     public function loginFormAction()
     {
         \Skif\Http::exit403if(\Skif\Users\AuthUtils::getCurrentUserId());
@@ -74,6 +77,9 @@ class UserController
         );
     }
 
+    /**
+     * Регистрация на сайте
+     */
     public function registrationFormAction()
     {
         \Skif\Http::exit403if(\Skif\Users\AuthUtils::getCurrentUserId());
@@ -178,6 +184,10 @@ class UserController
         \Skif\Http::redirect($destination);
     }
 
+    /**
+     * Подтверждение регистрации на сайте
+     * @param $confirm_code
+     */
     public function confirmRegistrationAction($confirm_code)
     {
         $user_id = \Skif\Users\UsersUtils::getUserIdByConfirmCode($confirm_code);
@@ -200,9 +210,28 @@ class UserController
         \Skif\Http::redirect($destination);
     }
 
+    /**
+     * Отправка повторно ссылки для подтверждения регистрации на сайте
+     */
     public function sendConfirmCodeFormAction()
     {
+        $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
+            'Users',
+            'send_confirm_code_form.tpl.php'
+        );
 
+        $breadcrumbs_arr = array();
+
+        echo \Skif\PhpTemplate::renderTemplate(
+            \Skif\Conf\ConfWrapper::value('layout.main'),
+            array(
+                'content' => $content,
+                'title' => 'Подтверждение регистрации на сайте',
+                'keywords' => '',
+                'description' => '',
+                'breadcrumbs_arr' => $breadcrumbs_arr
+            )
+        );
     }
 
     public function sendConfirmCodeAction()
@@ -210,6 +239,9 @@ class UserController
 
     }
 
+    /**
+     * Список пользователей
+     */
     public function listAction()
     {
         \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
@@ -233,6 +265,11 @@ class UserController
         );
     }
 
+    /**
+     * Редактирование профиля пользователя
+     * @param $user_id
+     * @param null $layout_file
+     */
     public function editAction($user_id, $layout_file = null)
     {
         if (!$layout_file) {
@@ -556,6 +593,9 @@ class UserController
         \Skif\Http::redirect($destination);
     }
 
+    /**
+     * Список ролей
+     */
     public function listUsersRolesAction()
     {
         \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
@@ -638,7 +678,7 @@ class UserController
 
         $users_role_obj = \Skif\Users\Role::factory($role_id);
 
-        $query = "SELECT user_id FROM users_roles WHERE role_id=? LIMIT 1";
+        $query = "SELECT user_id FROM " . \Skif\Users\UserRole::DB_TABLE_NAME . " WHERE role_id=? LIMIT 1";
         $has_users = \Skif\DB\DBWrapper::readField($query, array($role_id));
 
         if ($has_users) {
