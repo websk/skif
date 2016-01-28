@@ -105,6 +105,22 @@ trait FactoryTrait
      */
     public function afterDelete()
     {
+        $model_class_name = self::getMyGlobalizedClassName();
+
+        if (isset($model_class_name::$depends_on_models_arr)) {
+            foreach ($model_class_name::$depends_on_models_arr as $depends_model_class_name => $depends_model_data) {
+                \Skif\Utils::assert(array_key_exists('link_field', $depends_model_data));
+
+                $reflect = new \ReflectionClass($this);
+                $property_obj = $reflect->getProperty($depends_model_data['link_field']);
+                $property_obj->setAccessible(true);
+
+                $depends_id = $property_obj->getValue($this);
+
+                $depends_model_class_name::afterUpdate($depends_id);
+            }
+        }
+
         self::removeObjFromCacheById($this->id);
     }
 }
