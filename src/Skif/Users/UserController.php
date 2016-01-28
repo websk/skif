@@ -166,7 +166,6 @@ class UserController
         \Skif\Messages::setMessage($message);
 
         \Skif\Http::redirect($destination);
-
     }
 
     public function listAction()
