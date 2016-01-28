@@ -70,6 +70,24 @@ trait FactoryTrait
      */
     public static function afterUpdate($id)
     {
+        $model_class_name = self::getMyGlobalizedClassName();
+
+        if (isset($model_class_name::$depends_on_models_arr)) {
+            foreach ($model_class_name::$depends_on_models_arr as $depends_model_class_name => $depends_model_data) {
+                \Skif\Utils::assert(array_key_exists('link_field', $depends_model_data));
+
+                $model_obj = \Skif\Factory::createAndLoadObject($model_class_name, $id);
+
+                $reflect = new \ReflectionClass($model_obj);
+                $property_obj = $reflect->getProperty($depends_model_data['link_field']);
+                $property_obj->setAccessible(true);
+
+                $depends_id = $property_obj->getValue($model_obj);
+
+                $depends_model_class_name::afterUpdate($depends_id);
+            }
+        }
+
         self::removeObjFromCacheById($id);
     }
 
