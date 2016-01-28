@@ -3,7 +3,7 @@ $destination = '/';
 
 $user_obj = new \Skif\Users\User();
 ?>
-<form action="<?php echo \Skif\Users\UserController::getRegistrationUrl(); ?>" autocomplete="off" method="post" class="form-horizontal">
+<form id="registration_form" action="<?php echo \Skif\Users\UserController::getRegistrationUrl(); ?>" autocomplete="off" method="post" class="form-horizontal">
     <div xmlns="http://www.w3.org/1999/html">
         <div class="form-group">
             <label class="col-md-4 control-label">Имя</label>
@@ -48,5 +48,23 @@ $user_obj = new \Skif\Users\User();
         </div>
     </div>
 </form>
+
+<script type="text/javascript">
+    $().ready(function () {
+        $("#registration_form").validate({
+            ignore: ":hidden",
+            rules: {
+                name: "required",
+                email: "required",
+                password: "required"
+            },
+            messages: {
+                name: "Это поле обязательно для заполнения",
+                email: "Это поле обязательно для заполнения",
+                password: "Это поле обязательно для заполнения"
+            }
+        });
+    })
+</script>
 
 
