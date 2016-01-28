@@ -22,8 +22,6 @@ class UserRole implements
     public static $depends_on_models_arr = array(
         '\Skif\Users\User' => array(
             'link_field' => 'user_id',
-            'field_name' => 'user_role_ids_arr',
-            'list_title' => 'Роли',
         ),
     );
 
