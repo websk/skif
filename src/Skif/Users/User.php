@@ -36,18 +36,14 @@ class User implements
 
     const DB_TABLE_NAME = 'users';
 
-    public function load($id)
-    {
-        $is_loaded = \Skif\Util\ActiveRecordHelper::loadModelObj($this, $id);
-        if (!$is_loaded) {
-            return false;
-        }
-
-        $query = "SELECT id FROM users_roles WHERE user_id=?";
-        $this->user_role_ids_arr =  \Skif\DB\DBWrapper::readColumn($query, array($id));
-
-        return true;
-    }
+    // Связанные модели
+    public static $related_models_arr = array(
+        '\Skif\Users\UserRole' => array(
+            'link_field' => 'user_id',
+            'field_name' => 'user_role_ids_arr',
+            'list_title' => 'Роли',
+        ),
+    );
 
     /**
      * ID
