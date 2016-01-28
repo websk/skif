@@ -283,21 +283,12 @@ class UserController
                 \Skif\Http::redirect($destination);
             }
         } else {
-            $query_true = "SELECT id FROM users WHERE id!=? and email=? LIMIT 1";
-            $has_user_id = \Skif\DB\DBWrapper::readField($query_true, array($user_id, $email));
+            $has_user_id = \Skif\Users\UsersUtils::hasUserByEmail($email, $user_id);
             if ($has_user_id) {
                 \Skif\Messages::setError('Ошибка! Пользователь с таким адресом электронной почты ' . $email . ' уже существует.');
                 \Skif\Http::redirect($destination);
             }
         }
-
-        $user_obj->setName($name);
-        $user_obj->setBirthday($birthday);
-        $user_obj->setPhone($phone);
-        $user_obj->setEmail($email);
-        $user_obj->setCity($city);
-        $user_obj->setAddress($address);
-        $user_obj->setComment($comment);
 
         // Пароль
         if ($new_password_first || $new_password_second) {
@@ -313,6 +304,13 @@ class UserController
             $user_obj->setConfirm($confirm);
         }
 
+        $user_obj->setName($name);
+        $user_obj->setBirthday($birthday);
+        $user_obj->setPhone($phone);
+        $user_obj->setEmail($email);
+        $user_obj->setCity($city);
+        $user_obj->setAddress($address);
+        $user_obj->setComment($comment);
         $user_obj->save();
 
 

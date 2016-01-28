@@ -73,10 +73,19 @@ class UsersUtils
         return $pass;
     }
 
-    public static function hasUserByEmail($email)
+    public static function hasUserByEmail($email, $current_user_id = null)
     {
-        $query_true = "SELECT id FROM " . \Skif\Users\User::DB_TABLE_NAME . " WHERE email=? LIMIT 1";
-        $has_user_id = \Skif\DB\DBWrapper::readField($query_true, array($email));
+        $query = "SELECT id FROM " . \Skif\Users\User::DB_TABLE_NAME . " WHERE email=?";
+        $param_arr = array($email);
+
+        if ($current_user_id) {
+            $query .= " AND id!=?";
+            $param_arr[] = $current_user_id;
+        }
+
+        $query .= " LIMIT 1";
+
+        $has_user_id = \Skif\DB\DBWrapper::readField($query, $param_arr);
         if ($has_user_id) {
             return true;
         }
