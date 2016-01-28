@@ -168,6 +168,11 @@ class UserController
         \Skif\Http::redirect($destination);
     }
 
+    public function confirmRegistrationAction($confirm_code)
+    {
+
+    }
+
     public function listAction()
     {
         \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
