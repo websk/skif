@@ -84,8 +84,6 @@ class UserController
 
     public function registrationAction()
     {
-        $user_obj = new \Skif\Users\User();
-
         $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : '/';
 
         $name = array_key_exists('name', $_REQUEST) ? $_REQUEST['name'] : '';
@@ -103,10 +101,9 @@ class UserController
             \Skif\Http::redirect($destination);
         }
 
-        $query_true = "SELECT id FROM users WHERE email=? LIMIT 1";
-        $has_user_id = \Skif\DB\DBWrapper::readField($query_true, array($email));
+        $has_user_id = \Skif\Users\UsersUtils::hasUserByEmail($email);
         if ($has_user_id) {
-            \Skif\Messages::setError('Ошибка! Пользователь с таким адресом электронной почты ' . $email . ' уже существует.');
+            \Skif\Messages::setError('Ошибка! Пользователь с таким адресом электронной почты ' . $email . ' уже зарегистрирован.');
             \Skif\Http::redirect($destination);
         }
 
@@ -115,27 +112,28 @@ class UserController
             \Skif\Http::redirect($destination);
         }
 
-
-        $user_obj->setName($name);
-        $user_obj->setEmail($email);
-
-        // Пароль
         if ($new_password_first || $new_password_second) {
             if ($new_password_first != $new_password_second) {
                 \Skif\Messages::setError('Ошибка! Пароль не подтвержден, либо подтвержден неверно.');
                 \Skif\Http::redirect($destination);
             }
-
-            $user_obj->setPassw(\Skif\Users\AuthUtils::getHash($new_password_first));
         }
 
+
+        $user_obj = new \Skif\Users\User();
+
+        $user_obj->setName($name);
+        $user_obj->setEmail($email);
+        $user_obj->setPassw(\Skif\Users\AuthUtils::getHash($new_password_first));
         $user_obj->save();
 
         // Roles
-        $role_id = 2;
-        $query = "INSERT INTO users_roles SET role_id=?, user_id=?";
-        \Skif\DB\DBWrapper::query($query, array($role_id, $user_obj->getId()));
+        $role_id = \Skif\Conf\ConfWrapper::value('user.default_role_id', 0);
 
+        $user_role_obj = new \Skif\Users\UserRole();
+        $user_role_obj->setUserId($user_obj->getId());
+        $user_role_obj->setRoleId($role_id);
+        $user_role_obj->save();
 
         \Skif\Messages::setMessage('Вы успешно зарегистрированы на сайте.');
 
@@ -274,8 +272,7 @@ class UserController
         */
 
         if ($user_id == 'new') {
-            $query_true = "SELECT id FROM users WHERE email=? LIMIT 1";
-            $has_user_id = \Skif\DB\DBWrapper::readField($query_true, array($email));
+            $has_user_id = \Skif\Users\UsersUtils::hasUserByEmail($email);
             if ($has_user_id) {
                 \Skif\Messages::setError('Ошибка! Пользователь с таким адресом электронной почты ' . $email . ' уже существует.');
                 \Skif\Http::redirect($destination);
@@ -321,15 +318,14 @@ class UserController
 
         // Roles
         if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-            \Skif\DB\DBWrapper::query(
-                "DELETE FROM users_roles WHERE user_id = ?",
-                array($user_obj->getId())
-            );
+            $user_obj->deleteUserRoles();
 
             if ($roles_ids_arr) {
                 foreach ($roles_ids_arr as $role_id) {
-                    $query = "INSERT INTO users_roles SET role_id=?, user_id=?";
-                    \Skif\DB\DBWrapper::query($query, array($role_id, $user_obj->getId()));
+                    $user_role_obj = new \Skif\Users\UserRole();
+                    $user_role_obj->setUserId($user_obj->getId());
+                    $user_role_obj->setRoleId($role_id);
+                    $user_role_obj->save();
                 }
             }
         }

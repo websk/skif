@@ -31,8 +31,8 @@ class BlockUtils
             return false;
         }
 
-        foreach ($block_role_ids_arr as $rubric_id) {
-            if (in_array($rubric_id, $user_obj->getRolesIdsArr())) {
+        foreach ($block_role_ids_arr as $role_id) {
+            if (in_array($role_id, $user_obj->getRoleIdsArr())) {
                 return true;
             }
         }

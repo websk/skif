@@ -51,7 +51,7 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
                             <div class="checkbox">
                                 <label for="roles_<?php echo $role_id; ?>">
                                     <input value="<?php echo $role_id; ?>" id="roles_<?php echo $role_id; ?>" type="checkbox"
-                                           name="roles[]"<?php echo(in_array($role_id, $user_obj->getRolesIdsArr()) ? ' checked' : '') ?>>
+                                           name="roles[]"<?php echo(in_array($role_id, $user_obj->getRoleIdsArr()) ? ' checked' : '') ?>>
                                     <?php echo $role_obj->getName(); ?>
                                 </label>
                             </div>

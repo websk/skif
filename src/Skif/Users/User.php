@@ -28,7 +28,7 @@ class User implements
     protected $provider_uid = '';
     protected $profile_url = '';
     protected $created_at;
-    protected $roles_ids_arr;
+    protected $user_role_ids_arr;
 
     public static $active_record_ignore_fields_arr = array(
         'roles_ids_arr'
@@ -43,8 +43,8 @@ class User implements
             return false;
         }
 
-        $query = "SELECT role_id FROM users_roles WHERE user_id=?";
-        $this->roles_ids_arr =  \Skif\DB\DBWrapper::readColumn($query, array($id));
+        $query = "SELECT id FROM users_roles WHERE user_id=?";
+        $this->user_role_ids_arr =  \Skif\DB\DBWrapper::readColumn($query, array($id));
 
         return true;
     }
@@ -237,9 +237,24 @@ class User implements
         return 'user/'. $this->getPhoto();
     }
 
-    public function getRolesIdsArr()
+    public function getUserRoleIdsArr()
     {
-        return $this->roles_ids_arr;
+        return $this->user_role_ids_arr;
+    }
+
+    public function getRoleIdsArr()
+    {
+        $user_roles_ids_arr = $this->getUserRoleIdsArr();
+
+        $role_ids_arr = array();
+
+        foreach ($user_roles_ids_arr as $user_role_id) {
+            $user_role_obj = \Skif\Users\UserRole::factory($user_role_id);
+
+            $role_ids_arr[] = $user_role_obj->getRoleId();
+        }
+
+        return $role_ids_arr;
     }
 
     /**
@@ -269,7 +284,7 @@ class User implements
      */
     public function hasRoleAdmin()
     {
-        if (in_array(\Skif\Users\AuthUtils::ROLE_ADMIN, $this->getRolesIdsArr())) {
+        if (in_array(\Skif\Users\AuthUtils::ROLE_ADMIN, $this->getRoleIdsArr())) {
             return true;
         }
 
@@ -283,7 +298,7 @@ class User implements
      */
     public function hasRoleByDesignation($designation)
     {
-        $roles_ids_arr = $this->getRolesIdsArr();
+        $roles_ids_arr = $this->getRoleIdsArr();
 
         foreach ($roles_ids_arr as $role_id) {
             $role_obj = \Skif\Users\Role::factory($role_id);
@@ -392,21 +407,21 @@ class User implements
         $this->created_at = $created_at;
     }
 
-    public function deleteRoles()
+    public function deleteUserRoles()
     {
-        $roles_ids_arr = $this->getRolesIdsArr();
+        $user_roles_ids_arr = $this->getUserRoleIdsArr();
 
-        foreach ($roles_ids_arr as $role_id) {
-            $role_obj = \Skif\Users\Role::factory($role_id);
+        foreach ($user_roles_ids_arr as $user_role_id) {
+            $user_role_obj = \Skif\Users\UserRole::factory($user_role_id);
 
-            $role_obj->delete();
+            $user_role_obj->delete();
         }
     }
 
     public function afterDelete()
     {
         $this->deletePhoto();
-        $this->deleteRoles();
+        $this->deleteUserRoles();
 
         self::removeObjFromCacheById($this->getId());
 

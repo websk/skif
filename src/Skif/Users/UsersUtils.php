@@ -73,4 +73,15 @@ class UsersUtils
         return $pass;
     }
 
+    public static function hasUserByEmail($email)
+    {
+        $query_true = "SELECT id FROM " . \Skif\Users\User::DB_TABLE_NAME . " WHERE email=? LIMIT 1";
+        $has_user_id = \Skif\DB\DBWrapper::readField($query_true, array($email));
+        if ($has_user_id) {
+            return true;
+        }
+
+        return false;
+    }
+
 }
