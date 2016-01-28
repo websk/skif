@@ -41,6 +41,16 @@ class UserController
         return '/user/confirm_registration/' . $confirm_code;
     }
 
+    public static function sendConfirmCodeUrl()
+    {
+        return '/user/send_confirm_code';
+    }
+
+    public static function sendConfirmCodeFormUrl()
+    {
+        return '/user/send_confirm_code_form';
+    }
+
     public function loginFormAction()
     {
         \Skif\Http::exit403if(\Skif\Users\AuthUtils::getCurrentUserId());
@@ -175,7 +185,7 @@ class UserController
         $destination = self::getLoginFormUrl();
 
         if (!$user_id) {
-            \Skif\Messages::setError('Ошибка! Неверный код подтверждения.');
+            \Skif\Messages::setError('Ошибка! Неверный код подтверждения. <a href="' . self::sendConfirmCodeUrl() . '">Выслать код подтверждения повторно.</a>');
             \Skif\Http::redirect($destination);
         }
 
@@ -184,10 +194,20 @@ class UserController
         $user_obj->setConfirmCode('');
         $user_obj->save();
 
-        $message = 'Поздравляем! Процесс регистрации успешно завершен. Теперь вы можете войти на сайт.'
+        $message = 'Поздравляем! Процесс регистрации успешно завершен. Теперь вы можете войти на сайт.';
 
         \Skif\Messages::setMessage($message);
         \Skif\Http::redirect($destination);
+    }
+
+    public function sendConfirmCodeFormAction()
+    {
+
+    }
+
+    public function sendConfirmCodeAction()
+    {
+
     }
 
     public function listAction()

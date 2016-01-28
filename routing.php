@@ -109,6 +109,8 @@ if (strpos($current_url_no_query, '/admin') !== false) {
 \Skif\UrlManager::route('@^/user/registration_form@', '\Skif\Users\UserController', 'registrationFormAction');
 \Skif\UrlManager::route('@^/user/registration@', '\Skif\Users\UserController', 'registrationAction');
 \Skif\UrlManager::route('@^/user/confirm_registration/(.+)@', '\Skif\Users\UserController', 'confirmRegistrationAction');
+\Skif\UrlManager::route('@^/user/send_confirm_code@', '\Skif\Users\UserController', 'sendConfirmCodeAction');
+\Skif\UrlManager::route('@^/user/send_confirm_code_form@', '\Skif\Users\UserController', 'sendConfirmCodeFormAction');
 \Skif\UrlManager::route('@^/user/login_form@', '\Skif\Users\UserController', 'loginFormAction');
 \Skif\UrlManager::route('@^/user/logout@', '\Skif\Users\AuthController', 'logoutAction');
 \Skif\UrlManager::route('@^/user/login@', '\Skif\Users\AuthController', 'loginAction');
