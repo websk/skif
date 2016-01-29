@@ -454,7 +454,7 @@ class UserController
             array(
                 'content' => $content,
                 'editor_nav_arr' => $editor_nav_arr,
-                'title' => 'Редактирование профиля пользователя',
+                'title' => 'Редактирование профиля',
                 'keywords' => '',
                 'description' => '',
                 'breadcrumbs_arr' => $breadcrumbs_arr
