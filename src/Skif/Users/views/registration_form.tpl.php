@@ -56,12 +56,14 @@ $user_obj = new \Skif\Users\User();
             rules: {
                 name: "required",
                 email: "required",
-                password: "required"
+                new_password_first: "required",
+                new_password_second: "required"
             },
             messages: {
                 name: "Это поле обязательно для заполнения",
                 email: "Это поле обязательно для заполнения",
-                password: "Это поле обязательно для заполнения"
+                new_password_first: "Это поле обязательно для заполнения",
+                new_password_second: "Это поле обязательно для заполнения"
             }
         });
     })
