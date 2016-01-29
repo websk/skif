@@ -651,7 +651,7 @@ class UserController
 
         \Skif\Messages::setMessage($message);
 
-        \Skif\Http::redirect($destination);
+        \Skif\Http::redirect(self::getLoginFormUrl());
     }
 
     public function createPasswordAction($user_id)

@@ -20,7 +20,7 @@ class AuthUtils
     {
         $salt_password = self::getHash($password);
 
-        $query = "SELECT id FROM users WHERE confirm=1 AND email=? AND passw=?";
+        $query = "SELECT id FROM " . \Skif\Users\User::DB_TABLE_NAME . " WHERE confirm=1 AND email=? AND passw=? LIMIT 1";
         $user_id = \Skif\DB\DBWrapper::readField($query, array($email, $salt_password));
 
         if (!$user_id) {
