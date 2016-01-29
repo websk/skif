@@ -66,8 +66,7 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
                 <div class="col-md-offset-4 col-md-8">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="confirm"
-                                   value="1"<?= $user_obj->isConfirm() ? ' checked' : '' ?>> Регистрация подтверждена
+                            <input type="checkbox" name="confirm" value="1"<?= $user_obj->isConfirm() ? ' checked' : '' ?>> Регистрация подтверждена
                         </label>
                     </div>
                 </div>
@@ -79,8 +78,7 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
             <label class="col-md-4 control-label">Дата рождения</label>
 
             <div class="col-md-8">
-                <input type="text" name="birthday" value="<?= $user_obj->getBirthDay() ?>" maxlength="10"
-                       class="form-control">
+                <input type="text" name="birthday" value="<?= $user_obj->getBirthDay() ?>" maxlength="10" class="form-control">
                 <span class="help-block">(дд.мм.гггг)</span>
             </div>
         </div>
