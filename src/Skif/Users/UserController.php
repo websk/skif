@@ -6,46 +6,92 @@ namespace Skif\Users;
 class UserController
 {
 
+    /**
+     * URL формы входа на сайт
+     * @return string
+     */
     public static function getLoginFormUrl()
     {
         return '/user/login_form';
     }
 
+    /**
+     * URL авторизации на сайте
+     * @return string
+     */
     public static function getLoginUrl()
     {
         return '/user/login';
     }
 
+    /**
+     * URL формы регистрации на сайте
+     * @return string
+     */
     public static function getRegistrationFormUrl()
     {
         return '/user/registration_form';
     }
 
+    /**
+     * URL регистрации на сайте
+     * @return string
+     */
     public static function getRegistrationUrl()
     {
         return '/user/registration';
     }
 
+    /**
+     * URL деавторизации
+     * @return string
+     */
     public static function getLogoutUrl()
     {
         return '/user/logout';
     }
 
+    /**
+     * URL восстановления пароля
+     * @return string
+     */
     public static function getForgotPasswordUrl()
     {
         return '/user/forgot_password';
     }
 
+    /**
+     * URL формы восстановления пароля
+     * @return string
+     */
+    public static function getForgotPasswordFormUrl()
+    {
+        return '/user/forgot_password_form';
+    }
+
+    /**
+     * URL подтверждения регистрации на сайте
+     * @param $confirm_code
+     * @return string
+     */
     public static function getConfirmUrl($confirm_code)
     {
         return '/user/confirm_registration/' . $confirm_code;
     }
 
+    /**
+     * URL отправки повторно кода подтверждения регистрации на сайте
+     * @return string
+     */
     public static function getSendConfirmCodeUrl()
     {
         return '/user/send_confirm_code';
     }
 
+    /**
+     * URL формы отправки повторно кода подтверждения регистрации на сайте
+     * @return string
+     */
     public static function getSendConfirmCodeFormUrl()
     {
         return '/user/send_confirm_code_form';
@@ -671,6 +717,10 @@ class UserController
         );
     }
 
+    /**
+     * Редактирование роли
+     * @param $role_id
+     */
     public function editUsersRoleAction($role_id)
     {
         \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
@@ -698,47 +748,54 @@ class UserController
         );
     }
 
+    /**
+     * Сохранение роли
+     * @param $role_id
+     */
     public function saveUsersRoleAction($role_id)
     {
         \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
 
 
         if ($role_id == 'new') {
-            $users_role_obj = new \Skif\Users\Role;
+            $role_obj = new \Skif\Users\Role;
         } else {
-            $users_role_obj = \Skif\Users\Role::factory($role_id);
+            $role_obj = \Skif\Users\Role::factory($role_id);
         }
 
         $name = array_key_exists('name', $_REQUEST) ? $_REQUEST['name'] : '';
         $designation = array_key_exists('designation', $_REQUEST) ? $_REQUEST['designation'] : '';
 
-        $users_role_obj->setName($name);
-        $users_role_obj->setDesignation($designation);
-        $users_role_obj->save();
+        $role_obj->setName($name);
+        $role_obj->setDesignation($designation);
+        $role_obj->save();
 
         \Skif\Messages::setMessage('Изменения сохранены');
 
         \Skif\Http::redirect('/admin/users/roles');
     }
 
+    /**
+     * Удаление роли
+     * @param $role_id
+     */
     public function deleteUsersRoleAction($role_id)
     {
         \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
 
 
-        $users_role_obj = \Skif\Users\Role::factory($role_id);
+        $role_obj = \Skif\Users\Role::factory($role_id);
 
-        $query = "SELECT user_id FROM " . \Skif\Users\UserRole::DB_TABLE_NAME . " WHERE role_id=? LIMIT 1";
-        $has_users = \Skif\DB\DBWrapper::readField($query, array($role_id));
+        $user_ids_arr = \Skif\Users\UsersUtils::getUsersIdsArr($role_id);
 
-        if ($has_users) {
-            \Skif\Messages::setError('Нельзя удалить роль ' . $users_role_obj->getName() . ', т.к. она назначена пользователям');
+        if (!empty($user_ids_arr)) {
+            \Skif\Messages::setError('Нельзя удалить роль ' . $role_obj->getName() . ', т.к. она назначена пользователям');
             \Skif\Http::redirect('/admin/users/roles');
         }
 
-        $users_role_obj->delete();
+        $role_obj->delete();
 
-        \Skif\Messages::setMessage('Роль ' . $users_role_obj->getName() . ' была успешно удалена');
+        \Skif\Messages::setMessage('Роль ' . $role_obj->getName() . ' была успешно удалена');
 
         \Skif\Http::redirect('/admin/users/roles');
     }

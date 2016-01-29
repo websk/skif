@@ -21,7 +21,7 @@ class UsersUtils
     {
         $param_arr = array();
 
-        $query = "SELECT u.id FROM users u";
+        $query = "SELECT u.id FROM " . \Skif\Users\User::DB_TABLE_NAME . " u";
         if ($role_id) {
             $query .= " JOIN users_roles ur ON (ur.user_id=u.id) WHERE ur.role_id=?";
             $param_arr[] = $role_id;
@@ -54,7 +54,7 @@ class UsersUtils
     }
 
     /**
-     * Генерация пароля
+     * Генератор пароля
      * @param $number
      * @return string
      */
@@ -73,6 +73,12 @@ class UsersUtils
         return $pass;
     }
 
+    /**
+     * ID пользователя по его email
+     * @param $email
+     * @param null $current_user_id
+     * @return mixed
+     */
     public static function getUserIdByEmail($email, $current_user_id = null)
     {
         $query = "SELECT id FROM " . \Skif\Users\User::DB_TABLE_NAME . " WHERE email=?";
@@ -88,6 +94,12 @@ class UsersUtils
         return \Skif\DB\DBWrapper::readField($query, $param_arr);
     }
 
+    /**
+     * Проверка существования пользователя по его email
+     * @param $email
+     * @param null $current_user_id
+     * @return bool
+     */
     public static function hasUserByEmail($email, $current_user_id = null)
     {
         $has_user_id = \Skif\Users\UsersUtils::getUserIdByEmail($email, $current_user_id);
@@ -98,6 +110,10 @@ class UsersUtils
         return false;
     }
 
+    /**
+     * Генератор кода подтверждения регистрации на сайте
+     * @return string
+     */
     public static function generateConfirmCode()
     {
         $salt = \Skif\Conf\ConfWrapper::value('salt');
@@ -108,6 +124,11 @@ class UsersUtils
         return $confirm_code;
     }
 
+    /**
+     * ID пользователя по коду подтверждения регистрации на сайте
+     * @param $confirm_code
+     * @return mixed
+     */
     public static function getUserIdByConfirmCode($confirm_code)
     {
         $query = "SELECT id FROM " . \Skif\Users\User::DB_TABLE_NAME . " WHERE confirm_code=? LIMIT 1";
