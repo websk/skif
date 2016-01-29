@@ -169,38 +169,38 @@ class UserController
         $new_password_second = array_key_exists('new_password_second', $_REQUEST) ? $_REQUEST['new_password_second'] : '';
 
         if (!array_key_exists('captcha', $_REQUEST)) {
-            \Skif\Http::redirect($destination);
+            \Skif\Http::redirect(self::getRegistrationFormUrl());
         }
 
         if (!\Skif\Captcha\Captcha::checkWithMessage()) {
-            \Skif\Http::redirect($destination);
+            \Skif\Http::redirect(self::getRegistrationFormUrl());
         }
 
         if (empty($email)) {
             \Skif\Messages::setError('Ошибка! Не указан Email.');
-            \Skif\Http::redirect($destination);
+            \Skif\Http::redirect(self::getRegistrationFormUrl());
         }
 
         if (empty($name)) {
             \Skif\Messages::setError('Ошибка! Не указано Имя.');
-            \Skif\Http::redirect($destination);
+            \Skif\Http::redirect(self::getRegistrationFormUrl());
         }
 
         $has_user_id = \Skif\Users\UsersUtils::hasUserByEmail($email);
         if ($has_user_id) {
             \Skif\Messages::setError('Ошибка! Пользователь с таким адресом электронной почты ' . $email . ' уже зарегистрирован.');
-            \Skif\Http::redirect($destination);
+            \Skif\Http::redirect(self::getRegistrationFormUrl());
         }
 
         if (!$new_password_first && !$new_password_second) {
             \Skif\Messages::setError('Ошибка! Не введен пароль.');
-            \Skif\Http::redirect($destination);
+            \Skif\Http::redirect(self::getRegistrationFormUrl());
         }
 
         if ($new_password_first || $new_password_second) {
             if ($new_password_first != $new_password_second) {
                 \Skif\Messages::setError('Ошибка! Пароль не подтвержден, либо подтвержден неверно.');
-                \Skif\Http::redirect($destination);
+                \Skif\Http::redirect(self::getRegistrationFormUrl());
             }
         }
 
