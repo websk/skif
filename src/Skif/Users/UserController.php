@@ -249,7 +249,7 @@ class UserController
 
         $mail_message .= '<p>С уважением, администрация сайта' . $site_name . ', ' . $site_url . '</p>';
 
-        $subject = 'Подтверждение регистрации на сайте' . $site_name;
+        $subject = 'Подтверждение регистрации на сайте ' . $site_name;
         \Skif\SendMail::mailToUtf8($email, $site_email, $site_name, $subject, $mail_message);
     }
 
