@@ -161,7 +161,7 @@ class UserController
 
     public function registrationAction()
     {
-        $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : '/';
+        $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : self::getLoginFormUrl();
 
         $name = array_key_exists('name', $_REQUEST) ? $_REQUEST['name'] : '';
         $email = array_key_exists('email', $_REQUEST) ? $_REQUEST['email'] : '';
@@ -239,7 +239,6 @@ class UserController
         $site_email = \Skif\Conf\ConfWrapper::value('site_email');
         $site_url = \Skif\Conf\ConfWrapper::value('site_url');
         $site_name = \Skif\Conf\ConfWrapper::value('site_name');
-
 
         $confirm_url = 'http://' . $site_url . self::getConfirmUrl($confirm_code);
 
