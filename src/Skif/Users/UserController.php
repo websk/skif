@@ -25,6 +25,16 @@ class UserController
     }
 
     /**
+     * URL формы редактирования профиля
+     * @param $user_id
+     * @return string
+     */
+    public static function getEditProfileUrl($user_id)
+    {
+        return '/user/edit/' . $user_id;
+    }
+
+    /**
      * URL формы регистрации на сайте
      * @return string
      */
@@ -554,6 +564,27 @@ class UserController
         \Skif\Http::redirect($destination);
     }
 
+    public function forgotPasswordFormAction()
+    {
+        $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
+            'Users',
+            'forgot_password_form.tpl.php'
+        );
+
+        $breadcrumbs_arr = array();
+
+        echo \Skif\PhpTemplate::renderTemplate(
+            \Skif\Conf\ConfWrapper::value('layout.main'),
+            array(
+                'content' => $content,
+                'title' => 'Восстановление пароля',
+                'keywords' => '',
+                'description' => '',
+                'breadcrumbs_arr' => $breadcrumbs_arr
+            )
+        );
+    }
+
     public function forgotPasswordAction()
     {
         $email = array_key_exists('email', $_REQUEST) ? $_REQUEST['email'] : '';
@@ -587,6 +618,19 @@ class UserController
         $message = 'Временный пароль отправлен на указанный вами адрес электронной почты.';
 
         \Skif\Messages::setMessage($message);
+
+        \Skif\Http::redirect($destination);
+    }
+
+    public function createPasswordAction($user_id)
+    {
+        \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+
+        $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : self::getEditProfileUrl($user_id);
+
+        $new_password = \Skif\Users\UserController::createAndSendPasswordToUser($user_id);
+
+        \Skif\Messages::setMessage('Новый пароль' . $new_password);
 
         \Skif\Http::redirect($destination);
     }

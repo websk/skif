@@ -171,8 +171,7 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
                 </script>
                 <a id="user_photo"
                    href="<?php echo \Skif\Image\ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(), '600_auto'); ?>">
-                    <img
-                        src="<?php echo \Skif\Image\ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(), '200_auto'); ?>"
+                    <img src="<?php echo \Skif\Image\ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(), '200_auto'); ?>"
                         border="0" class="img-responsive img-thumbnail">
                 </a>
 
