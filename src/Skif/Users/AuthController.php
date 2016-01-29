@@ -5,36 +5,6 @@ namespace Skif\Users;
 
 class AuthController
 {
-    /**
-     * Проверка авторизации
-     */
-    public static function loginAction()
-    {
-        if (array_key_exists('email', $_REQUEST) && array_key_exists('password', $_REQUEST)) {
-            $save_auth = array_key_exists('save_auth', $_REQUEST) ? true : false;
-            \Skif\Users\AuthUtils::doLogin($_REQUEST['email'], $_REQUEST['password'], $save_auth);
-
-            $redirect = '/';
-            if (isset($_REQUEST['destination'])) {
-                $redirect = $_REQUEST['destination'];
-            }
-
-            \Skif\Http::redirect($redirect);
-        }
-    }
-
-    public function logoutAction()
-    {
-        \Skif\Users\AuthUtils::logout();
-
-        $redirect = '/';
-        if (isset($_REQUEST['destination'])) {
-            $redirect = $_REQUEST['destination'];
-        }
-
-        \Skif\Http::redirect($redirect);
-    }
-
     /*
     public function sessionAction()
     {

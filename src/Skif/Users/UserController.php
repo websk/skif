@@ -134,6 +134,36 @@ class UserController
     }
 
     /**
+     * Проверка авторизации
+     */
+    public static function loginAction()
+    {
+        if (array_key_exists('email', $_REQUEST) && array_key_exists('password', $_REQUEST)) {
+            $save_auth = array_key_exists('save_auth', $_REQUEST) ? true : false;
+            \Skif\Users\AuthUtils::doLogin($_REQUEST['email'], $_REQUEST['password'], $save_auth);
+
+            $redirect = '/';
+            if (isset($_REQUEST['destination'])) {
+                $redirect = $_REQUEST['destination'];
+            }
+
+            \Skif\Http::redirect($redirect);
+        }
+    }
+
+    public function logoutAction()
+    {
+        \Skif\Users\AuthUtils::logout();
+
+        $redirect = '/';
+        if (isset($_REQUEST['destination'])) {
+            $redirect = $_REQUEST['destination'];
+        }
+
+        \Skif\Http::redirect($redirect);
+    }
+
+    /**
      * Регистрация на сайте
      */
     public function registrationFormAction()
@@ -247,7 +277,7 @@ class UserController
         $mail_message .= '<p>Если вы не регистрировались на данном сайте, просто проигнорируйте это сообщение! Аккаунт будет автоматически удален через некоторое время.</p>';
         $mail_message .= '<p>Если это были вы, то для завершения процедуры регистрации, пожалуйста перейдите по ссылке <a href="' . $confirm_url .  '">' . $confirm_url .  '</a></p>';
 
-        $mail_message .= '<p>С уважением, администрация сайта' . $site_name . ', ' . $site_url . '</p>';
+        $mail_message .= '<p>С уважением, администрация сайта ' . $site_name . ', ' . $site_url . '</p>';
 
         $subject = 'Подтверждение регистрации на сайте ' . $site_name;
         \Skif\SendMail::mailToUtf8($email, $site_email, $site_name, $subject, $mail_message);

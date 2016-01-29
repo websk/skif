@@ -114,8 +114,8 @@ if (strpos($current_url_no_query, '/admin') !== false) {
 \Skif\UrlManager::route('@^/user/send_confirm_code@', '\Skif\Users\UserController', 'sendConfirmCodeAction');
 \Skif\UrlManager::route('@^/user/send_confirm_code_form@', '\Skif\Users\UserController', 'sendConfirmCodeFormAction');
 \Skif\UrlManager::route('@^/user/login_form@', '\Skif\Users\UserController', 'loginFormAction');
-\Skif\UrlManager::route('@^/user/logout@', '\Skif\Users\AuthController', 'logoutAction');
-\Skif\UrlManager::route('@^/user/login@', '\Skif\Users\AuthController', 'loginAction');
+\Skif\UrlManager::route('@^/user/logout@', '\Skif\Users\UserController', 'logoutAction');
+\Skif\UrlManager::route('@^/user/login@', '\Skif\Users\UserController', 'loginAction');
 
 // Comment
 \Skif\UrlManager::route('@^/comments/list$@', '\Skif\Comment\CommentController', 'listWebAction');
