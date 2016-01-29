@@ -654,7 +654,8 @@ class UserController
             $site_name = \Skif\Conf\ConfWrapper::value('site_name');
 
             $message = "<p>Добрый день, " . $user_obj->getName() . "</p>";
-            $message .= "Ваш новый пароль на " . $site_name. " " . $new_password .".<br>";
+            $message .= "Вы воспользовались формой восстановления пароля на сайте " . $site_name. "<br>";
+            $message .= "Ваш новый пароль " . $new_password  . "<br>";
             $message .= "Ваш email для входа".  $user_obj->getEmail() . "<br>";
             $message .= '<p>http://' . $site_url . "</p>";
 
