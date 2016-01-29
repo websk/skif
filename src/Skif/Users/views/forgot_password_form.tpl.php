@@ -5,6 +5,7 @@
         <label class="col-md-2 control-label">Email</label>
         <div class="col-md-10">
             <input type="text" name="email" class="form-control">
+            <span class="help-block">Введите адрес электронной почты, который вы указывали при регистрации</span>
         </div>
     </div>
 
