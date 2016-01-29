@@ -104,7 +104,7 @@ if (strpos($current_url_no_query, '/admin') !== false) {
 \Skif\UrlManager::route('@^/user/save/(.+)@', '\Skif\Users\UserController', 'saveAction');
 \Skif\UrlManager::route('@^/user/delete/(.+)@', '\Skif\Users\UserController', 'deleteAction');
 \Skif\UrlManager::route('@^/user/create_password/(\d+)@', '\Skif\Users\UserController', 'createPasswordAction');
-\Skif\UrlManager::route('@^/user/forgot_password@', '\Skif\Users\UserController', 'forgotPasswordAction');
+\Skif\UrlManager::route('@^/user/forgot_password$@', '\Skif\Users\UserController', 'forgotPasswordAction');
 \Skif\UrlManager::route('@^/user/forgot_password_form@', '\Skif\Users\UserController', 'forgotPasswordFormAction');
 \Skif\UrlManager::route('@^/user/add_photo/(.+)@', '\Skif\Users\UserController', 'addPhotoAction');
 \Skif\UrlManager::route('@^/user/delete_photo/(.+)@', '\Skif\Users\UserController', 'deletePhotoAction');
