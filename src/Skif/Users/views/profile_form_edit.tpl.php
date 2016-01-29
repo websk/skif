@@ -19,7 +19,7 @@ if (($current_user_id != $user_id) && !\Skif\Users\AuthUtils::currentUserIsAdmin
 $destination = \Skif\UrlManager::getUriNoQueryString();
 
 ?>
-<form action="/user/save/<?php echo $user_id; ?>" autocomplete="off" method="post" class="form-horizontal"
+<form id="profile_form" action="/user/save/<?php echo $user_id; ?>" autocomplete="off" method="post" class="form-horizontal"
       enctype="multipart/form-data">
     <div xmlns="http://www.w3.org/1999/html">
         <div class="form-group has-warning">
@@ -99,7 +99,7 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-4 control-label">Адрес:</label>
+            <label class="col-md-4 control-label">Адрес</label>
 
             <div class="col-md-8">
                 <input type="text" name="address" value="<?= $user_obj->getAddress() ?>" class="form-control">
@@ -196,7 +196,25 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
 
 <script type="text/javascript">
     $().ready(function () {
-        $("#registration_form").validate({
+        $.validator.setDefaults({
+            highlight: function(element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+            unhighlight: function(element) {
+                $(element).closest('.form-group').removeClass('has-error');
+            },
+            errorElement: 'span',
+            errorClass: 'help-block',
+            errorPlacement: function(error, element) {
+                if(element.parent('.input-group').length) {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+
+        $("#profile_form").validate({
             ignore: ":hidden",
             rules: {
                 name: "required",
