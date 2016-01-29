@@ -240,10 +240,13 @@ class UserController
         $site_url = \Skif\Conf\ConfWrapper::value('site_url');
         $site_name = \Skif\Conf\ConfWrapper::value('site_name');
 
+
+        $confirm_url = 'http://' . $site_url . self::getConfirmUrl($confirm_code);
+
         $mail_message = 'Здравствуйте, ' . $name . '!<br />';
         $mail_message .= '<p>На сайте ' .  $site_url . ' была создана регистрационная запись, в которой был указал ваш электронный адрес (e-mail).</p>';
         $mail_message .= '<p>Если вы не регистрировались на данном сайте, просто проигнорируйте это сообщение! Аккаунт будет автоматически удален через некоторое время.</p>';
-        $mail_message .= '<p>Если это были вы, то для завершения процедуры регистрации, пожалуйста перейдите по ссылке ' . \Skif\Users\UserController::getConfirmUrl($confirm_code) .  ' </p>';
+        $mail_message .= '<p>Если это были вы, то для завершения процедуры регистрации, пожалуйста перейдите по ссылке <a href="' . $confirm_url .  '">' . $confirm_url .  '</a></p>';
 
         $mail_message .= '<p>С уважением, администрация сайта' . $site_name . ', ' . $site_url . '</p>';
 
