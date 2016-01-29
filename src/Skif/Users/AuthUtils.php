@@ -29,7 +29,7 @@ class AuthUtils
 
         $delta = null;
         if ($save_auth) {
-            $delta = time()+86400*30;
+            $delta = time() + 86400 * 30;
         }
 
         $time = time();
@@ -38,7 +38,7 @@ class AuthUtils
         \Skif\DB\DBWrapper::query($query, array($user_id, $session, $_SERVER['REMOTE_ADDR'], $time));
         setcookie('auth_session', $session, $delta, '/');
 
-        $delta = time()-86400*30;
+        $delta = time() - 86400 * 30;
         $query = "DELETE FROM sessions WHERE user_id=? AND timestamp<=?";
         \Skif\DB\DBWrapper::query($query, array($user_id, $delta));
 
@@ -77,7 +77,7 @@ class AuthUtils
         $query = "DELETE FROM sessions WHERE session=?";
         \Skif\DB\DBWrapper::query($query, array($_COOKIE['auth_session']));
 
-        $delta = time()-86400*30;
+        $delta = time() - 86400 * 30;
         $query = "DELETE FROM sessions WHERE user_id=? AND timestamp<=?";
         \Skif\DB\DBWrapper::query($query, array($user_id, $delta));
 
@@ -241,52 +241,58 @@ class AuthUtils
     }
 
     /**
-     * @param \Hybrid_User_Profile $user_profile
+     * @param $user_profile \Hybrid_User_Profile
+     * @param $provider
+     * @return bool
      */
     public static function registerUserByHybridauthProfile($user_profile, $provider)
     {
-        $user = new \Skif\Auth\User();
-        $user->email = $user_profile->email;
-        $user->provider = $provider;
-        $user->provider_uid = $user_profile->identifier;
-        $user->profile_url = $user_profile->profileURL;
-        $user->display_name = $user_profile->displayName;
-        $user->first_name = $user_profile->firstName;
-        $user->last_name = $user_profile->lastName;
-        //twitter i wkontakte не дают адрес почты
-        if($user_profile->email){
-            $user->email = $user_profile->email;
-        }
-        if(!empty($user_profile->email)) {
-            $user->email_verified = ($user_profile->emailVerified === $user_profile->email);
-        }
-        $user->addRoles( array(\Skif\Auth\User::ROLE_AUTHENTICATED_USER) );
-        $user->last_modified_at = date('Y-m-d H:i:s');
+        $user_obj = new \Skif\Users\User();
 
-        if(!empty($user_profile->photoURL)){
+        $user_obj->setProvider($provider);
+        $user_obj->setProviderUid($user_profile->identifier);
+        $user_obj->setProfileUrl($user_profile->profileURL);
+        $user_obj->setName($user_profile->displayName);
+        $user_obj->first_name = $user_profile->firstName;
+        $user_obj->last_name = $user_profile->lastName;
+
+        // twitter и vkontakte не дают адрес почты
+        if ($user_profile->email) {
+            $user_obj->setEmail($user_profile->email);
+        }
+
+        if (!empty($user_profile->email)) {
+            $user_obj->email_verified = ($user_profile->emailVerified === $user_profile->email);
+        }
+
+        $user_obj->addRoles(array(\Skif\Auth\User::ROLE_AUTHENTICATED_USER));
+        $user_obj->last_modified_at = date('Y-m-d H:i:s');
+
+        if (!empty($user_profile->photoURL)) {
             //save remote image to local
-            $user->photo_url = self::saveRemoteUserProfileImage($user_profile->photoURL);
+            $user_obj->photo_url = self::saveRemoteUserProfileImage($user_profile->photoURL);
         }
 
-        $user->save();
+        $user_obj->save();
 
-        if (empty($user->id)) {
+        if (empty($user_obj->getId())) {
             return false;
         }
 
         $auth_throttle = new \Skif\Auth\AuthThrottle();
-        $auth_throttle->user_id = $user->id;
+        $auth_throttle->user_id = $user_obj->id;
         $auth_throttle->ip_address = \Skif\Util\Network::get_client_ip();
         $auth_throttle->save();
 
-        if(!$auth_throttle->id){
+        if (!$auth_throttle->id) {
             return false;
         }
 
-        return $user->id;
+        return $user_obj->getId();
     }
 
-    public static function saveRemoteUserProfileImage($image_path){
+    public static function saveRemoteUserProfileImage($image_path)
+    {
         $image_manager = new \Skif\Image\ImageManager();
         $image_name = $image_manager->storeRemoteImageFile($image_path);
         return $image_name;
