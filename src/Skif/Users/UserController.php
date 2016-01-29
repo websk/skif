@@ -692,7 +692,7 @@ class UserController
             $message .= "Рекомендуем сменить пароль после входа на сайт.<br>";
             $message .= '<p>http://' . $site_url . "</p>";
 
-            $subj = "Смена пароля на " . \Skif\Conf\ConfWrapper::value('site_name');
+            $subj = "Смена пароля на сайте " . \Skif\Conf\ConfWrapper::value('site_name');
 
             \Skif\SendMail::mailToUtf8($user_obj->getEmail(), $site_email, $site_name, $subj, $message);
         }
