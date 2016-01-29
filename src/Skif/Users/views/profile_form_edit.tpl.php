@@ -197,7 +197,6 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
 <script type="text/javascript">
     $().ready(function () {
         $.validator.setDefaults({
-            debug: true,
             highlight: function(element) {
                 $(element).closest('.form-group').addClass('has-error');
             },
