@@ -1,5 +1,5 @@
 <?php
-$destination = '/';
+$destination = \Skif\Users\UserController::getLoginFormUrl();
 
 $user_obj = new \Skif\Users\User();
 ?>
