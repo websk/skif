@@ -554,26 +554,50 @@ class UserController
         \Skif\Http::redirect($destination);
     }
 
-    /**
-     * Отправка пароля пользователю
-     * @param $user_id
-     */
-    public static function createAndSendPasswordToUserAction($user_id)
+    public function forgotPasswordAction()
     {
+        $email = array_key_exists('email', $_REQUEST) ? $_REQUEST['email'] : '';
+
+        $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : self::getForgotPasswordFormUrl();
+
+        if (!array_key_exists('captcha', $_REQUEST)) {
+            \Skif\Http::redirect($destination);
+        }
+
+        if (!\Skif\Captcha\Captcha::checkWithMessage()) {
+            \Skif\Http::redirect($destination);
+        }
+
+        if (empty($email)) {
+            \Skif\Messages::setError('Ошибка! Не указан адрес электронной почты (Email).');
+            \Skif\Http::redirect($destination);
+        }
+
+        if (!\Skif\Users\UsersUtils::hasUserByEmail($email)) {
+            \Skif\Messages::setError('Ошибка! Пользователь с таким адресом электронной почты не зарегистрирован на сайте.');
+            \Skif\Http::redirect($destination);
+        }
+
+        $user_id = \Skif\Users\UsersUtils::getUserIdByEmail($email);
+
         $user_obj = \Skif\Users\User::factory($user_id);
 
-        if (!$user_obj) {
-            \Skif\Http::exit404();
-        }
+        \Skif\Users\UserController::createAndSendPasswordToUser($user_id);
 
-        $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+        $message = 'Временный пароль отправлен на указанный вами адрес электронной почты.';
 
-        if (($current_user_id != $user_id) && !\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-            \Skif\Http::exit403();
-        }
+        \Skif\Messages::setMessage($message);
 
-        $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : '/user/edit/' . $user_id;
+        \Skif\Http::redirect($destination);
+    }
 
+    /**
+     * Смена и отправка пароля пользователю
+     * @param $user_id
+     * @return string
+     */
+    public static function createAndSendPasswordToUser($user_id)
+    {
         $new_password = \Skif\Users\UsersUtils::generatePassword(8);
 
         $user_obj = \Skif\Users\User::factory($user_id);
@@ -581,18 +605,21 @@ class UserController
         $user_obj->save();
 
         if ($user_obj->getEmail()) {
-            $message = "Добрый день, " . $user_obj->getName() . "\n";
-            $message .= "Ваш новый пароль на " . \Skif\Conf\ConfWrapper::value('site_name'). " " . $new_password .". Ваш email для входа".  $user_obj->getEmail() . "\n";
-            $message .= 'http://' . \Skif\Conf\ConfWrapper::value('site_url');
+            $site_email = \Skif\Conf\ConfWrapper::value('site_email');
+            $site_url = \Skif\Conf\ConfWrapper::value('site_url');
+            $site_name = \Skif\Conf\ConfWrapper::value('site_name');
+
+            $message = "<p>Добрый день, " . $user_obj->getName() . "</p>";
+            $message .= "Ваш новый пароль на " . $site_name. " " . $new_password .".<br>";
+            $message .= "Ваш email для входа".  $user_obj->getEmail() . "<br>";
+            $message .= '<p>http://' . $site_url . "</p>";
 
             $subj = "Смена пароля на " . \Skif\Conf\ConfWrapper::value('site_name');
 
-            \Skif\SendMail::mailToUtf8($user_obj->getEmail(), \Skif\Conf\ConfWrapper::value('site_email'), \Skif\Conf\ConfWrapper::value('site_name'), $subj, $message);
+            \Skif\SendMail::mailToUtf8($user_obj->getEmail(), $site_email, $site_name, $subj, $message);
         }
 
-        \Skif\Messages::setMessage('Новый пароль: ' .  $new_password);
-
-        \Skif\Http::redirect($destination);
+        return $new_password;
     }
 
     /**
