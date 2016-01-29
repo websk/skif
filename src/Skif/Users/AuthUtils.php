@@ -167,7 +167,6 @@ class AuthUtils
      * @param $destination
      * @return \Hybrid_Provider_Adapter|null
      */
-    /*
     public static function socialLogin($provider_name, $destination)
     {
         $config = self::getConfig();
@@ -226,7 +225,20 @@ class AuthUtils
 
         return null;
     }
-    */
+
+    public static function getUserIdIfExistByProvider($provider, $provider_uid)
+    {
+        $sql = "SELECT id FROM users WHERE provider = ? AND provider_uid = ?";
+        $result = \Skif\DB\DBWrapper::readField(
+            $sql,
+            array($provider, $provider_uid)
+        );
+        if ($result === false) {
+            return false;//no id
+        }
+
+        return $result;
+    }
 
     /**
      * @param \Hybrid_User_Profile $user_profile
@@ -279,20 +291,6 @@ class AuthUtils
         $image_manager = new \Skif\Image\ImageManager();
         $image_name = $image_manager->storeRemoteImageFile($image_path);
         return $image_name;
-    }
-
-    public static function getUserIdIfExistByProvider($provider, $provider_uid)
-    {
-        $sql = "SELECT id FROM users WHERE provider = ? AND provider_uid = ?";
-        $result = \Skif\DB\DBWrapper::readField(
-            $sql,
-            array($provider, $provider_uid)
-        );
-        if ($result === false) {
-            return false;//no id
-        }
-
-        return $result;
     }
 
     public static function getConfig()

@@ -405,12 +405,12 @@ class AuthController
             $save_auth = array_key_exists('save_auth', $_REQUEST) ? true : false;
             \Skif\Users\AuthUtils::doLogin($_REQUEST['email'], $_REQUEST['password'], $save_auth);
 
-            $redirect = '/';
+            $destination = '/';
             if (isset($_REQUEST['destination'])) {
-                $redirect = $_REQUEST['destination'];
+                $destination = $_REQUEST['destination'];
             }
 
-            \Skif\Http::redirect($redirect);
+            \Skif\Http::redirect($destination);
         }
     }
 
@@ -418,50 +418,36 @@ class AuthController
     {
         \Skif\Users\AuthUtils::logout();
 
-        $redirect = '/';
+        $destination = '/';
         if (isset($_REQUEST['destination'])) {
-            $redirect = $_REQUEST['destination'];
+            $destination = $_REQUEST['destination'];
         }
 
-        \Skif\Http::redirect($redirect);
-    }
-
-    /*
-    public function sessionAction()
-    {
-        \Skif\CRUDUtils::sendJsonHeaders();
-
-        $current_user_obj = \Skif\Auth\AuthHelper::getCurrentUser();
-        if (!$current_user_obj) {
-            return '{}';
-        }
-
-        echo json_encode($current_user_obj);
-        return;
+        \Skif\Http::redirect($destination);
     }
 
     public function socialAuthAction()
     {
         $params = $_REQUEST;
         if (isset($params['Provider'])) {
-            $destination = $params['destination'];//check is url
-            $provider = \Skif\Auth\AuthHelper::socialLogin($params['Provider'], $destination);
+            $destination = $params['destination'];
+            $provider = \Skif\Users\AuthUtils::socialLogin($params['Provider'], $destination);
             if (!$provider) {
-                \Skif\CRUDUtils::redirect($destination);
+                \Skif\Http::redirect($destination);
             }
 
             $is_connected = $provider->isUserConnected();
             if (!$is_connected) {
-                \Skif\Auth\AuthHelper::addFlashMessage("Not connected to " . $params['Provider']);
-                \Skif\CRUDUtils::redirect($destination);
+                \Skif\Messages::setError("Not connected to " . $params['Provider']);
+                \Skif\Http::redirect($destination);
             }
+
             /**
              * @var \Hybrid_User_Profile $user_profile
              */
-    /*
             $user_profile = $provider->getUserProfile();
 
-            $auth_user_id = \Skif\Auth\AuthHelper::getUserIdIfExistByProvider(
+            $auth_user_id = \Skif\Users\AuthUtils::getUserIdIfExistByProvider(
                 $params['Provider'],
                 $user_profile->identifier
             );
@@ -484,6 +470,20 @@ class AuthController
 
             \Skif\CRUDUtils::redirect($destination);
         }
+    }
+
+    /*
+    public function sessionAction()
+    {
+        \Skif\CRUDUtils::sendJsonHeaders();
+
+        $current_user_obj = \Skif\Auth\AuthHelper::getCurrentUser();
+        if (!$current_user_obj) {
+            return '{}';
+        }
+
+        echo json_encode($current_user_obj);
+        return;
     }
 
     public function gateAction()
