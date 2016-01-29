@@ -454,21 +454,21 @@ class AuthController
 
             //no such user in our db, register
             if (!$auth_user_id) {
-                $auth_user_id = \Skif\Auth\AuthHelper::registerUserByHybridauthProfile(
+                $auth_user_id = \Skif\Users\AuthUtils::registerUserByHybridauthProfile(
                     $user_profile,
                     $params['Provider']
                 );
 
                 //some error during save
                 if (!$auth_user_id) {
-                    \Skif\Auth\AuthHelper::addFlashMessage("Can't create user");
-                    \Skif\CRUDUtils::redirect($destination);
+                    \Skif\Messages::setError("Can't create user");
+                    \Skif\Http::redirect($destination);
                 }
             }
 
-            \Skif\Auth\AuthHelper::storeUserSession($auth_user_id, session_id());
+            \Skif\Users\AuthUtils::storeUserSession($auth_user_id, session_id());
 
-            \Skif\CRUDUtils::redirect($destination);
+            \Skif\Http::redirect($destination);
         }
     }
 

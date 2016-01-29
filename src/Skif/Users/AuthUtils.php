@@ -243,7 +243,6 @@ class AuthUtils
     /**
      * @param \Hybrid_User_Profile $user_profile
      */
-    /*
     public static function registerUserByHybridauthProfile($user_profile, $provider)
     {
         $user = new \Skif\Auth\User();
@@ -297,5 +296,4 @@ class AuthUtils
     {
         return \Skif\Conf\ConfWrapper::value('auth.hybrid');
     }
-    */
 }
