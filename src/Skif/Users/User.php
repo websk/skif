@@ -32,7 +32,7 @@ class User implements
     protected $user_role_ids_arr;
 
     public static $active_record_ignore_fields_arr = array(
-        'roles_ids_arr'
+        'user_role_ids_arr'
     );
 
     const DB_TABLE_NAME = 'users';
