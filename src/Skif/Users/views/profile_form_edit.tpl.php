@@ -17,6 +17,7 @@ if (($current_user_id != $user_id) && !\Skif\Users\AuthUtils::currentUserIsAdmin
 }
 
 $destination = \Skif\UrlManager::getUriNoQueryString();
+
 ?>
 <form action="/user/save/<?php echo $user_id; ?>" autocomplete="off" method="post" class="form-horizontal"
       enctype="multipart/form-data">
@@ -126,12 +127,12 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
         }
         ?>
         <div>
-            <div class="form-group has-warning">
+            <div class="form-group">
                 <label class="col-md-4 control-label">Пароль</label>
 
                 <div class="col-md-8"><input type="password" name="new_password_first" class="form-control"></div>
             </div>
-            <div class="form-group has-warning">
+            <div class="form-group">
                 <label class="col-md-4 control-label">Подтверждение пароля</label>
 
                 <div class="col-md-8"><input type="password" name="new_password_second" class="form-control"></div>
@@ -192,3 +193,19 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
         </div>
     </div>
 </form>
+
+<script type="text/javascript">
+    $().ready(function () {
+        $("#registration_form").validate({
+            ignore: ":hidden",
+            rules: {
+                name: "required",
+                email: "required"
+            },
+            messages: {
+                name: "Это поле обязательно для заполнения",
+                email: "Это поле обязательно для заполнения"
+            }
+        });
+    })
+</script>
