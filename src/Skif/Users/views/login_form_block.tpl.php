@@ -8,7 +8,7 @@ if (!isset($destination)) {
 }
 ?>
 
-<form action="<?php echo \Skif\Users\UserController::getLoginUrl(); ?>" class="form-inline" method="post">
+<form action="<?php echo \Skif\Users\AuthController::getLoginUrl(); ?>" class="form-inline" method="post">
     <div class="form-group">
         <label class="sr-only">Email</label>
         <div class="input-group">

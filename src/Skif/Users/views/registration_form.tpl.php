@@ -1,9 +1,9 @@
 <?php
-$destination = \Skif\Users\UserController::getLoginFormUrl();
+$destination = \Skif\Users\AuthController::getLoginFormUrl();
 
 $user_obj = new \Skif\Users\User();
 ?>
-<form id="registration_form" action="<?php echo \Skif\Users\UserController::getRegistrationUrl(); ?>" autocomplete="off" method="post" class="form-horizontal">
+<form id="registration_form" action="<?php echo \Skif\Users\AuthController::getRegistrationUrl(); ?>" autocomplete="off" method="post" class="form-horizontal">
     <div xmlns="http://www.w3.org/1999/html">
         <div class="form-group">
             <label class="col-md-4 control-label">Имя</label>

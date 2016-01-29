@@ -1,7 +1,7 @@
 <?php
 ?>
 
-<form action="<?php echo \Skif\Users\UserController::getSendConfirmCodeUrl(); ?>" method="post" class="form-horizontal">
+<form action="<?php echo \Skif\Users\AuthController::getSendConfirmCodeUrl(); ?>" method="post" class="form-horizontal">
     <div class="form-group">
         <label class="col-md-2 control-label">Email</label>
         <div class="col-md-10">
@@ -26,7 +26,7 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <a href="<?php echo \Skif\Users\UserController::getRegistrationFormUrl(); ?>">Регистрация</a>
+            <a href="<?php echo \Skif\Users\AuthController::getRegistrationFormUrl(); ?>">Регистрация</a>
         </div>
     </div>
 </form>
