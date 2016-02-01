@@ -303,7 +303,7 @@ class AuthUtils
     public static function saveRemoteUserProfileImage($image_path)
     {
         $image_manager = new \Skif\Image\ImageManager();
-        $image_name = $image_manager->storeRemoteImageFile($image_path);
+        $image_name = $image_manager->storeRemoteImageFile($image_path, 'user');
 
         return $image_name;
     }

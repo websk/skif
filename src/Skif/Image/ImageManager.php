@@ -13,16 +13,16 @@ class ImageManager
 
     protected $error;
 
-	protected $root_folder;
+    protected $root_folder;
 
     public function __construct($root_folder = '')
     {
         $this->imagine = new \Imagine\Gd\Imagine();
-	    if (empty($root_folder)) {
-			$this->root_folder = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . \Skif\Image\ImageConstants::IMG_ROOT_FOLDER;
-	    } else {
-		    $this->root_folder = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . $root_folder;
-	    }
+        if (empty($root_folder)) {
+            $this->root_folder = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . \Skif\Image\ImageConstants::IMG_ROOT_FOLDER;
+        } else {
+            $this->root_folder = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . $root_folder;
+        }
     }
 
     public function removeImageFile($fileName)
@@ -43,7 +43,7 @@ class ImageManager
     public function storeImageFile($fileName, $tmpFileName, $target_folder_in_images)
     {
         $image_path_in_images_components_arr = [];
-        if ($target_folder_in_images != ''){
+        if ($target_folder_in_images != '') {
             $image_path_in_images_components_arr[] = $target_folder_in_images;
         }
 
@@ -76,16 +76,16 @@ class ImageManager
         } while (file_exists($tmp_dest_file));
 
         //try {
-            $image = $this->imagine->open($tmpFileName);
-            $image = \Skif\Image\ImagePresets::processImageByPreset($image, \Skif\Image\ImageConstants::DEFAULT_UPLOAD_PRESET);
+        $image = $this->imagine->open($tmpFileName);
+        $image = \Skif\Image\ImagePresets::processImageByPreset($image, \Skif\Image\ImageConstants::DEFAULT_UPLOAD_PRESET);
 
-            // запись во временный файл, чтобы другой процесс не мог получить доступ к недописанному файлу
-            $image->save($tmp_dest_file, array());
+        // запись во временный файл, чтобы другой процесс не мог получить доступ к недописанному файлу
+        $image->save($tmp_dest_file, array());
 
-            // переименовываем временный файл
-            if (!rename($tmp_dest_file, $newPath)) {
-                throw new \Exception('Не удалось переместить файл: ' . $tmp_dest_file . ' -> ' . $newPath);
-            }
+        // переименовываем временный файл
+        if (!rename($tmp_dest_file, $newPath)) {
+            throw new \Exception('Не удалось переместить файл: ' . $tmp_dest_file . ' -> ' . $newPath);
+        }
         /*} catch (\Imagine\Exception\Exception $e) {
             
             return '';
@@ -94,10 +94,14 @@ class ImageManager
         return $unique_filename;
     }
 
-    public function storeRemoteImageFile($file_url){
-
+    public function storeRemoteImageFile($file_url, $target_folder_in_images = '')
+    {
         $new_name = $this->getUniqueImageName('temp.jpg');
-        $new_path = $this->getImagesRootFolder() . DIRECTORY_SEPARATOR . $new_name;
+
+        $new_path = $target_folder_in_images . DIRECTORY_SEPARATOR . $new_name;
+        if ($target_folder_in_images != '') {
+            $new_path = $target_folder_in_images . DIRECTORY_SEPARATOR . $target_folder_in_images . DIRECTORY_SEPARATOR . $new_name;
+        }
 
         $image = $this->imagine->open($file_url);
         $image = \Skif\Image\ImagePresets::processImageByPreset($image, \Skif\Image\ImageConstants::DEFAULT_UPLOAD_PRESET);
@@ -134,44 +138,44 @@ class ImageManager
     public function moveImageByPreset($imagePath, $presetPath, $presetName)
     {
         //try {
-            $image = $this->imagine->open($imagePath);
+        $image = $this->imagine->open($imagePath);
 
-            $presetDir = dirname($presetPath);
+        $presetDir = dirname($presetPath);
 
-            if (!\file_exists($presetDir)) {
-                $res = mkdir($presetDir, 0777, true);
-                if (!$res) {
-                    $this->error = "Unable to create path: " . $presetDir;
-                    return false;
-                }
+        if (!\file_exists($presetDir)) {
+            $res = mkdir($presetDir, 0777, true);
+            if (!$res) {
+                $this->error = "Unable to create path: " . $presetDir;
+                return false;
             }
+        }
 
-            $file_extension = pathinfo($presetPath, PATHINFO_EXTENSION);
+        $file_extension = pathinfo($presetPath, PATHINFO_EXTENSION);
 
-            $tmp_dir = $this->root_folder . '/tmp';
-            if (!is_dir($tmp_dir)) {
-                if (!mkdir($tmp_dir, 0777, true)) {
-                    throw new \Exception('Не удалось создать директорию: ' . $tmp_dir);
-                }
+        $tmp_dir = $this->root_folder . '/tmp';
+        if (!is_dir($tmp_dir)) {
+            if (!mkdir($tmp_dir, 0777, true)) {
+                throw new \Exception('Не удалось создать директорию: ' . $tmp_dir);
             }
+        }
 
-            // уникальное случайное имя файла
-            do {
-                $tmp_dest_file = $tmp_dir . '/imagemanager_' . mt_rand(0, 1000000) . '.' . $file_extension;
-            } while (file_exists($tmp_dest_file));
+        // уникальное случайное имя файла
+        do {
+            $tmp_dest_file = $tmp_dir . '/imagemanager_' . mt_rand(0, 1000000) . '.' . $file_extension;
+        } while (file_exists($tmp_dest_file));
 
-            $image = \Skif\Image\ImagePresets::processImageByPreset($image, $presetName);
+        $image = \Skif\Image\ImagePresets::processImageByPreset($image, $presetName);
 
-            // запись во временный файл, чтобы другой процесс не мог получить доступ к недописанному файлу
-            $image->save($tmp_dest_file, array('quality' => 100));
+        // запись во временный файл, чтобы другой процесс не мог получить доступ к недописанному файлу
+        $image->save($tmp_dest_file, array('quality' => 100));
 
-            // переименовываем временный файл
-            if (!rename($tmp_dest_file, $presetPath)) {
-                throw new \Exception('Не удалось переместить файл: ' . $tmp_dest_file . ' -> ' . $presetPath);
-            }
+        // переименовываем временный файл
+        if (!rename($tmp_dest_file, $presetPath)) {
+            throw new \Exception('Не удалось переместить файл: ' . $tmp_dest_file . ' -> ' . $presetPath);
+        }
 
         //} catch (\Imagine\Exception\Exception $e) {
-          //  return '';
+        //  return '';
         //}
 
         return true;
@@ -180,7 +184,7 @@ class ImageManager
     public function getUniqueImageName($userImageName)
     {
         $ext = pathinfo($userImageName, PATHINFO_EXTENSION);
-        $imageName =  str_replace(".", "", uniqid(md5($userImageName), true)) . "." . $ext;
+        $imageName = str_replace(".", "", uniqid(md5($userImageName), true)) . "." . $ext;
 
         return $imageName;
     }

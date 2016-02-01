@@ -17,8 +17,6 @@ class ImagePresets
     const IMAGE_PRESET_200_auto = '200_auto';
     const IMAGE_PRESET_30_30 = '30_30';
 
-
-
     const IMAGE_PRESET_UPLOAD = 'upload';
 
     public static function processImageByPreset(\Imagine\Image\ImageInterface $imageObject, $presetName)
