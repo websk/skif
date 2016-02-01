@@ -32,19 +32,15 @@ class AuthUtils
             $delta = time() + 86400 * 30;
         }
 
-        $time = time();
-        $session = sha1($email . $user_id . $time);
+        $session = sha1(time() . $user_id);
+
+        self::storeUserSession($user_id, $session, $delta);
 
         return true;
     }
 
-    public static function storeUserSession($user_id, $session)
+    public static function storeUserSession($user_id, $session, $delta)
     {
-        $delta = null;
-        if ($save_auth) {
-            $delta = time() + 86400 * 30;
-        }
-
         $time = time();
 
         $query = "INSERT INTO sessions SET user_id=?, session=?, hostname=?, timestamp=?";
@@ -52,6 +48,7 @@ class AuthUtils
 
         setcookie('auth_session', $session, $delta, '/');
 
+        // Удаляем просроченные сессии
         $delta = time() - 86400 * 30;
         $query = "DELETE FROM sessions WHERE user_id=? AND timestamp<=?";
         \Skif\DB\DBWrapper::query($query, array($user_id, $delta));
@@ -266,8 +263,8 @@ class AuthUtils
         $user_obj->setProviderUid($user_profile->identifier);
         $user_obj->setProfileUrl($user_profile->profileURL);
         $user_obj->setName($user_profile->displayName);
-        $user_obj->first_name = $user_profile->firstName;
-        $user_obj->last_name = $user_profile->lastName;
+        $user_obj->setFirstName($user_profile->firstName);
+        $user_obj->setLastName($user_profile->lastName);
 
         // twitter и vkontakte не дают адрес почты
         if ($user_profile->email) {

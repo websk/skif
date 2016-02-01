@@ -476,7 +476,10 @@ class AuthController
             }
         }
 
-        \Skif\Users\AuthUtils::storeUserSession($user_id, session_id());
+        $session = sha1(time() . $user_id);
+        $delta = time() + 86400 * 30;
+
+        \Skif\Users\AuthUtils::storeUserSession($user_id, $session, $delta);
 
         \Skif\Http::redirect($destination);
     }
