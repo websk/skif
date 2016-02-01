@@ -449,7 +449,7 @@ class AuthController
 
         $is_connected = $provider->isUserConnected();
         if (!$is_connected) {
-            \Skif\Messages::setError("Not connected to " . $request_provider);
+            \Skif\Messages::setError("Не удалось соединиться с " . $request_provider);
             \Skif\Http::redirect($destination);
         }
 
@@ -471,7 +471,7 @@ class AuthController
             );
 
             if (!$user_id) {
-                \Skif\Messages::setError("Can't create user");
+                \Skif\Messages::setError("Не удалось зарегистрировать нового пользователя");
                 \Skif\Http::redirect($destination);
             }
         }

@@ -94,6 +94,18 @@ class ImageManager
         return $unique_filename;
     }
 
+    public function storeRemoteImageFile($file_url){
+
+        $new_name = $this->getUniqueImageName('temp.jpg');
+        $new_path = $this->getImagesRootFolder() . DIRECTORY_SEPARATOR . $new_name;
+
+        $image = $this->imagine->open($file_url);
+        $image = \Skif\Image\ImagePresets::processImageByPreset($image, \Skif\Image\ImageConstants::DEFAULT_UPLOAD_PRESET);
+        $image->save($new_path, array());
+
+        return $new_name;
+    }
+
     public function output($fileUrl)
     {
         list($imageName, $presetName) = $this->acquirePresetNameAndImageNameFromUrl($fileUrl);
