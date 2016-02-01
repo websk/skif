@@ -23,10 +23,24 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
       enctype="multipart/form-data">
     <div xmlns="http://www.w3.org/1999/html">
         <div class="form-group has-warning">
-            <label class="col-md-4 control-label">Имя</label>
+            <label class="col-md-4 control-label">Полное имя</label>
 
             <div class="col-md-8">
                 <input type="text" name="name" value="<?= $user_obj->getName() ?>" class="form-control">
+            </div>
+        </div>
+        <div class="form-group has-warning">
+            <label class="col-md-4 control-label">Имя</label>
+
+            <div class="col-md-8">
+                <input type="text" name="first_name" value="<?= $user_obj->getFirstName() ?>" class="form-control">
+            </div>
+        </div>
+        <div class="form-group has-warning">
+            <label class="col-md-4 control-label">Фамилия</label>
+
+            <div class="col-md-8">
+                <input type="text" name="last_name" value="<?= $user_obj->getLastName() ?>" class="form-control">
             </div>
         </div>
         <div class="form-group has-warning">

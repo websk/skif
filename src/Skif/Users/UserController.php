@@ -126,6 +126,8 @@ class UserController
         $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : '/user/edit/' . $user_id;
 
         $name = array_key_exists('name', $_REQUEST) ? $_REQUEST['name'] : '';
+        $first_name = array_key_exists('first_name', $_REQUEST) ? $_REQUEST['first_name'] : '';
+        $last_name = array_key_exists('last_name', $_REQUEST) ? $_REQUEST['last_name'] : '';
         $roles_ids_arr = array_key_exists('roles', $_REQUEST) ? $_REQUEST['roles'] : null;
         $confirm = array_key_exists('confirm', $_REQUEST) ? $_REQUEST['confirm'] : '';
         $birthday = array_key_exists('birthday', $_REQUEST) ? $_REQUEST['birthday'] : '';
@@ -190,6 +192,8 @@ class UserController
         }
 
         $user_obj->setName($name);
+        $user_obj->setFirstName($first_name);
+        $user_obj->setLastName($last_name);
         $user_obj->setBirthday($birthday);
         $user_obj->setPhone($phone);
         $user_obj->setEmail($email);
