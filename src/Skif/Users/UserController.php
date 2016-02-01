@@ -165,6 +165,8 @@ class UserController
                 \Skif\Messages::setError('Ошибка! Не введен пароль.');
                 \Skif\Http::redirect($destination);
             }
+
+            $user_obj->setCreatedAt(date('Y-m-d H:i:s'));
         } else {
             $has_user_id = \Skif\Users\UsersUtils::hasUserByEmail($email, $user_id);
             if ($has_user_id) {

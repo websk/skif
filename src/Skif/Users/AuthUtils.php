@@ -34,15 +34,27 @@ class AuthUtils
 
         $time = time();
         $session = sha1($email . $user_id . $time);
+
+        return true;
+    }
+
+    public static function storeUserSession($user_id, $session)
+    {
+        $delta = null;
+        if ($save_auth) {
+            $delta = time() + 86400 * 30;
+        }
+
+        $time = time();
+
         $query = "INSERT INTO sessions SET user_id=?, session=?, hostname=?, timestamp=?";
         \Skif\DB\DBWrapper::query($query, array($user_id, $session, $_SERVER['REMOTE_ADDR'], $time));
+
         setcookie('auth_session', $session, $delta, '/');
 
         $delta = time() - 86400 * 30;
         $query = "DELETE FROM sessions WHERE user_id=? AND timestamp<=?";
         \Skif\DB\DBWrapper::query($query, array($user_id, $delta));
-
-        return true;
     }
 
     /**
@@ -169,7 +181,7 @@ class AuthUtils
      */
     public static function socialLogin($provider_name, $destination)
     {
-        $config = self::getConfig();
+        $config = \Skif\Conf\ConfWrapper::value('auth.hybrid');
         $params = array();
         $message = "Неизвестная ошибка авторизации";
 
@@ -228,13 +240,14 @@ class AuthUtils
 
     public static function getUserIdIfExistByProvider($provider, $provider_uid)
     {
-        $sql = "SELECT id FROM users WHERE provider = ? AND provider_uid = ?";
+        $query = "SELECT id FROM " . \Skif\Users\User::DB_TABLE_NAME . " WHERE provider = ? AND provider_uid = ?";
         $result = \Skif\DB\DBWrapper::readField(
-            $sql,
+            $query,
             array($provider, $provider_uid)
         );
+
         if ($result === false) {
-            return false;//no id
+            return false;
         }
 
         return $result;
@@ -245,7 +258,7 @@ class AuthUtils
      * @param $provider
      * @return bool
      */
-    public static function registerUserByHybridauthProfile($user_profile, $provider)
+    public static function registerUserByHybridAuthProfile($user_profile, $provider)
     {
         $user_obj = new \Skif\Users\User();
 
@@ -265,26 +278,25 @@ class AuthUtils
             $user_obj->email_verified = ($user_profile->emailVerified === $user_profile->email);
         }
 
-        $user_obj->addRoles(array(\Skif\Auth\User::ROLE_AUTHENTICATED_USER));
-        $user_obj->last_modified_at = date('Y-m-d H:i:s');
+        // Roles
+        $role_id = \Skif\Conf\ConfWrapper::value('user.default_role_id', 0);
+
+        $user_role_obj = new \Skif\Users\UserRole();
+        $user_role_obj->setUserId($user_obj->getId());
+        $user_role_obj->setRoleId($role_id);
+        $user_role_obj->save();
+
+        $user_obj->setCreatedAt(date('Y-m-d H:i:s'));
 
         if (!empty($user_profile->photoURL)) {
-            //save remote image to local
-            $user_obj->photo_url = self::saveRemoteUserProfileImage($user_profile->photoURL);
+            // save remote image to local
+            $photo = self::saveRemoteUserProfileImage($user_profile->photoURL);
+            $user_obj->setPhoto($photo);
         }
 
         $user_obj->save();
 
         if (empty($user_obj->getId())) {
-            return false;
-        }
-
-        $auth_throttle = new \Skif\Auth\AuthThrottle();
-        $auth_throttle->user_id = $user_obj->id;
-        $auth_throttle->ip_address = \Skif\Util\Network::get_client_ip();
-        $auth_throttle->save();
-
-        if (!$auth_throttle->id) {
             return false;
         }
 
@@ -295,11 +307,8 @@ class AuthUtils
     {
         $image_manager = new \Skif\Image\ImageManager();
         $image_name = $image_manager->storeRemoteImageFile($image_path);
+
         return $image_name;
     }
 
-    public static function getConfig()
-    {
-        return \Skif\Conf\ConfWrapper::value('auth.hybrid');
-    }
 }

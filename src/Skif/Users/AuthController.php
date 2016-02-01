@@ -179,6 +179,8 @@ class AuthController
         $confirm_code = \Skif\Users\UsersUtils::generateConfirmCode();
         $user_obj->setConfirmCode($confirm_code);
 
+        $user_obj->setCreatedAt(date('Y-m-d H:i:s'));
+
         $user_obj->save();
 
         // Roles
@@ -428,48 +430,55 @@ class AuthController
 
     public function socialAuthAction()
     {
-        $params = $_REQUEST;
-        if (isset($params['Provider'])) {
-            $destination = $params['destination'];
-            $provider = \Skif\Users\AuthUtils::socialLogin($params['Provider'], $destination);
-            if (!$provider) {
-                \Skif\Http::redirect($destination);
-            }
+        if (!array_key_exists('destination', $_REQUEST)) {
+            \Skif\Http::redirect('/');
+        }
 
-            $is_connected = $provider->isUserConnected();
-            if (!$is_connected) {
-                \Skif\Messages::setError("Not connected to " . $params['Provider']);
-                \Skif\Http::redirect($destination);
-            }
+        $destination = $_REQUEST['destination'];
 
-            /**
-             * @var \Hybrid_User_Profile $user_profile
-             */
-            $user_profile = $provider->getUserProfile();
-
-            $auth_user_id = \Skif\Users\AuthUtils::getUserIdIfExistByProvider(
-                $params['Provider'],
-                $user_profile->identifier
-            );
-
-            //no such user in our db, register
-            if (!$auth_user_id) {
-                $auth_user_id = \Skif\Users\AuthUtils::registerUserByHybridauthProfile(
-                    $user_profile,
-                    $params['Provider']
-                );
-
-                //some error during save
-                if (!$auth_user_id) {
-                    \Skif\Messages::setError("Can't create user");
-                    \Skif\Http::redirect($destination);
-                }
-            }
-
-            \Skif\Users\AuthUtils::storeUserSession($auth_user_id, session_id());
-
+        if (!array_key_exists('Provider', $_REQUEST)) {
             \Skif\Http::redirect($destination);
         }
+
+        $request_provider = $_REQUEST['Provider'];
+
+        $provider = \Skif\Users\AuthUtils::socialLogin($request_provider, $destination);
+        if (!$provider) {
+            \Skif\Http::redirect($destination);
+        }
+
+        $is_connected = $provider->isUserConnected();
+        if (!$is_connected) {
+            \Skif\Messages::setError("Not connected to " . $request_provider);
+            \Skif\Http::redirect($destination);
+        }
+
+        /**
+         * @var \Hybrid_User_Profile $user_profile
+         */
+        $user_profile = $provider->getUserProfile();
+
+        $user_id = \Skif\Users\AuthUtils::getUserIdIfExistByProvider(
+            $request_provider,
+            $user_profile->identifier
+        );
+
+        // Пользователь не найден в базе, регистрируем
+        if (!$user_id) {
+            $user_id = \Skif\Users\AuthUtils::registerUserByHybridAuthProfile(
+                $user_profile,
+                $request_provider
+            );
+
+            if (!$user_id) {
+                \Skif\Messages::setError("Can't create user");
+                \Skif\Http::redirect($destination);
+            }
+        }
+
+        \Skif\Users\AuthUtils::storeUserSession($user_id, session_id());
+
+        \Skif\Http::redirect($destination);
     }
 
     /*
