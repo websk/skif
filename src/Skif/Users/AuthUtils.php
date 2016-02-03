@@ -179,11 +179,13 @@ class AuthUtils
     public static function socialLogin($provider_name, $destination)
     {
         $config = \Skif\Conf\ConfWrapper::value('auth.hybrid');
+
         $params = array();
+
         $message = "Неизвестная ошибка авторизации";
 
         if (!array_key_exists($provider_name, $config['providers'])) {
-            self::addFlashMessage($message);
+            \Skif\Messages::setError($message);
             return null;
         }
 
@@ -229,7 +231,7 @@ class AuthUtils
                 default:
                     $message = "Unspecified error!";
             }
-            self::addFlashMessage($message);
+            \Skif\Messages::setError($message);
         }
 
         return null;
