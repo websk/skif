@@ -24,6 +24,16 @@ class AuthController
     }
 
     /**
+     * URL авторизации на сайте через внешнего провайдера социальной сети
+     * @param $provider
+     * @return string
+     */
+    public static function getSocialLoginUrl($provider)
+    {
+        return '/user/social_login/' . $provider;
+    }
+
+    /**
      * URL формы регистрации на сайте
      * @return string
      */
