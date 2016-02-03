@@ -277,14 +277,6 @@ class AuthUtils
             $user_obj->email_verified = ($user_profile->emailVerified === $user_profile->email);
         }
 
-        // Roles
-        $role_id = \Skif\Conf\ConfWrapper::value('user.default_role_id', 0);
-
-        $user_role_obj = new \Skif\Users\UserRole();
-        $user_role_obj->setUserId($user_obj->getId());
-        $user_role_obj->setRoleId($role_id);
-        $user_role_obj->save();
-
         $user_obj->setCreatedAt(date('Y-m-d H:i:s'));
 
         if (!empty($user_profile->photoURL)) {
@@ -298,6 +290,14 @@ class AuthUtils
         if (empty($user_obj->getId())) {
             return false;
         }
+
+        // Roles
+        $role_id = \Skif\Conf\ConfWrapper::value('user.default_role_id', 0);
+
+        $user_role_obj = new \Skif\Users\UserRole();
+        $user_role_obj->setUserId($user_obj->getId());
+        $user_role_obj->setRoleId($role_id);
+        $user_role_obj->save();
 
         return $user_obj->getId();
     }
