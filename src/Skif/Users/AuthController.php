@@ -473,7 +473,7 @@ class AuthController
                 $user_id = \Skif\Users\UsersUtils::getUserIdByEmail($user_profile->email);
 
                 if ($user_id) {
-                    \Skif\Messages::setError("Пользователь с таким адресом электронной почты " . $user_profile->email . 'уже зарегистрирован');
+                    \Skif\Messages::setError("Пользователь с таким адресом электронной почты " . $user_profile->email . ' уже зарегистрирован');
                     \Skif\Http::redirect($destination);
                 }
             }
