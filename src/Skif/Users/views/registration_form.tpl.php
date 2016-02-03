@@ -6,7 +6,7 @@ $user_obj = new \Skif\Users\User();
 <form id="registration_form" action="<?php echo \Skif\Users\AuthController::getRegistrationUrl(); ?>" autocomplete="off" method="post" class="form-horizontal">
     <div xmlns="http://www.w3.org/1999/html">
         <div class="form-group">
-            <label class="col-md-4 control-label">Имя</label>
+            <label class="col-md-4 control-label">Имя на сайте</label>
             <div class="col-md-8">
                 <input type="text" name="name" value="<?= $user_obj->getName() ?>" class="form-control">
             </div>
