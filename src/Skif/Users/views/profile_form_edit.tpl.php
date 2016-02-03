@@ -29,14 +29,14 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
                 <input type="text" name="name" value="<?= $user_obj->getName() ?>" class="form-control">
             </div>
         </div>
-        <div class="form-group has-warning">
+        <div class="form-group">
             <label class="col-md-4 control-label">Имя</label>
 
             <div class="col-md-8">
                 <input type="text" name="first_name" value="<?= $user_obj->getFirstName() ?>" class="form-control">
             </div>
         </div>
-        <div class="form-group has-warning">
+        <div class="form-group">
             <label class="col-md-4 control-label">Фамилия</label>
 
             <div class="col-md-8">
