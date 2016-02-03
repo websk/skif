@@ -488,6 +488,11 @@ class AuthController
         \Skif\Http::redirect($destination);
     }
 
+    public function gateAction()
+    {
+        \Hybrid_Endpoint::process();
+    }
+
     /*
     public function sessionAction()
     {
@@ -500,11 +505,6 @@ class AuthController
 
         echo json_encode($current_user_obj);
         return;
-    }
-
-    public function gateAction()
-    {
-        \Hybrid_Endpoint::process();
     }
     */
 
