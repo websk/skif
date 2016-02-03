@@ -98,9 +98,9 @@ class ImageManager
     {
         $new_name = $this->getUniqueImageName('temp.jpg');
 
-        $new_path = $target_folder_in_images . DIRECTORY_SEPARATOR . $new_name;
+        $new_path = $this->getImagesRootFolder() . DIRECTORY_SEPARATOR . $new_name;
         if ($target_folder_in_images != '') {
-            $new_path = $target_folder_in_images . DIRECTORY_SEPARATOR . $target_folder_in_images . DIRECTORY_SEPARATOR . $new_name;
+            $new_path = $this->getImagesRootFolder() . DIRECTORY_SEPARATOR . $target_folder_in_images . DIRECTORY_SEPARATOR . $new_name;
         }
 
         $image = $this->imagine->open($file_url);
