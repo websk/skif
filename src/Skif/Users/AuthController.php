@@ -440,11 +440,11 @@ class AuthController
 
     public function socialAuthAction($request_provider)
     {
-        if (!array_key_exists('destination', $_REQUEST)) {
-            \Skif\Http::redirect('/');
+        $destination = '/';
+        if (array_key_exists('destination', $_REQUEST)) {
+            $destination = $_REQUEST['destination'];
         }
 
-        $destination = $_REQUEST['destination'];
 
         $provider = \Skif\Users\AuthUtils::socialLogin($request_provider, $destination);
         if (!$provider) {
