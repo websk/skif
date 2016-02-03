@@ -428,19 +428,13 @@ class AuthController
         \Skif\Http::redirect($destination);
     }
 
-    public function socialAuthAction()
+    public function socialAuthAction($request_provider)
     {
         if (!array_key_exists('destination', $_REQUEST)) {
             \Skif\Http::redirect('/');
         }
 
         $destination = $_REQUEST['destination'];
-
-        if (!array_key_exists('Provider', $_REQUEST)) {
-            \Skif\Http::redirect($destination);
-        }
-
-        $request_provider = $_REQUEST['Provider'];
 
         $provider = \Skif\Users\AuthUtils::socialLogin($request_provider, $destination);
         if (!$provider) {
