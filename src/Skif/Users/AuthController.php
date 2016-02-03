@@ -469,6 +469,15 @@ class AuthController
 
         // Пользователь не найден в базе, регистрируем
         if (!$user_id) {
+            if ($user_profile->email) {
+                $user_id = \Skif\Users\UsersUtils::getUserIdByEmail($user_profile->email);
+
+                if ($user_id) {
+                    \Skif\Messages::setError("Пользователь с таким адресом электронной почты " . $user_profile->email . 'уже зарегистрирован');
+                    \Skif\Http::redirect($destination);
+                }
+            }
+
             $user_id = \Skif\Users\AuthUtils::registerUserByHybridAuthProfile(
                 $user_profile,
                 $request_provider
