@@ -32,7 +32,7 @@ class AuthUtils
 
         // Регистрация не подтверждена
         if (!$user_obj->isConfirm()) {
-            //return false;
+            return false;
         }
 
         $delta = null;
