@@ -37,7 +37,7 @@ foreach ($route_based_crud_arr as $base_url => $controller) {
     \Skif\UrlManager::route('@^' . $base_url . '/delete/(\d+)$@i', $controller, 'deleteAction', 0);
     \Skif\UrlManager::route('@^' . $base_url . '$@i', $controller, 'listAction', 0);
 }
-echo 1;
+
 // Admin
 if (strpos($current_url_no_query, '/admin') !== false) {
     \Skif\UrlManager::route('@^/admin$@i', '\Skif\AdminController', 'indexAction', 0);
