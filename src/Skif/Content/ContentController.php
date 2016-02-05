@@ -29,7 +29,6 @@ class ContentController extends \Skif\BaseController
             \Skif\Http::exit404If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
         }
 
-        echo 1;
         $content_type_id = $content_obj->getContentTypeId();
 
         \Skif\Http::exit404If(!$content_type_id);
@@ -45,6 +44,7 @@ class ContentController extends \Skif\BaseController
             $editor_nav_arr = array($content_obj->getEditorUrl() => 'Редактировать');
         }
 
+        echo 1;
 
         $breadcrumbs_arr = array();
 
