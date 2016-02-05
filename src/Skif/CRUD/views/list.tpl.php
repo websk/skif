@@ -56,7 +56,9 @@ if (isset($list_title)) {
 <div>
     <?php
     $show_filtered_panel = false;
-    if (isset($model_class_name::$crud_show_filtered_panel)) {
+    if ($reflect->hasMethod('crudShowFilteredPanel')) {
+        $show_filtered_panel = $model_class_name::crudShowFilteredPanel();
+    } else if (isset($model_class_name::$crud_show_filtered_panel)) {
         $show_filtered_panel = $model_class_name::$crud_show_filtered_panel;
     }
 
