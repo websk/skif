@@ -258,6 +258,9 @@ class Block implements
     {
         $this->deleteBlocksRoles();
 
+        \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($this->getPageRegionId(), $this->getTemplateId());
+        \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache(\Skif\Blocks\Block::BLOCK_REGION_NONE, $this->getTemplateId());
+
         self::removeObjFromCacheById($this->getId());
     }
 }
