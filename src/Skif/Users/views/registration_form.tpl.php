@@ -86,12 +86,3 @@ $user_obj = new \Skif\Users\User();
         });
     })
 </script>
-
-<?php
-if (\Skif\Users\AuthUtils::useSocialLogin()) {
-    echo \Skif\PhpTemplate::renderTemplateBySkifModule(
-        'Users',
-        'social_buttons.tpl.php'
-    );
-}
-?>

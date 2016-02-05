@@ -113,7 +113,16 @@ class AuthController
     {
         \Skif\Http::exit403if(\Skif\Users\AuthUtils::getCurrentUserId());
 
-        $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $content = '';
+
+        if (\Skif\Users\AuthUtils::useSocialLogin()) {
+            $content .= \Skif\PhpTemplate::renderTemplateBySkifModule(
+                'Users',
+                'social_buttons.tpl.php'
+            );
+        }
+
+        $content .= \Skif\PhpTemplate::renderTemplateBySkifModule(
             'Users',
             'registration_form.tpl.php'
         );
