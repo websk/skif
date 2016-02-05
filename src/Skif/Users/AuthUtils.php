@@ -132,7 +132,6 @@ class AuthUtils
         if (isset($user_session_unique_id)) {
             return $user_session_unique_id;
         }
-        echo 1;
 
         if (array_key_exists('auth_session', $_COOKIE)) {
             $query = "SELECT user_id FROM sessions WHERE session=?";
@@ -150,6 +149,8 @@ class AuthUtils
      */
     public static function currentUserIsAdmin()
     {
+        echo 1;
+
         $user_id = self::getCurrentUserId();
         if (!$user_id) {
             return false;
