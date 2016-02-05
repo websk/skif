@@ -26,10 +26,9 @@ class ContentController extends \Skif\BaseController
         }
 
         if (!$content_obj->isPublished()) {
+            echo 1;
             \Skif\Http::exit404If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
         }
-
-        echo 1;
 
         $content_type_id = $content_obj->getContentTypeId();
 
