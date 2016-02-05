@@ -20,12 +20,13 @@ class ContentController extends \Skif\BaseController
 
         $content_id = $requested_id;
 
+        echo 1;
+
         $content_obj = \Skif\Content\Content::factory($content_id);
         if (!$content_obj) {
             \Skif\Http::exit404();
         }
 
-        echo 1;
         if (!$content_obj->isPublished()) {
             \Skif\Http::exit404If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
         }
