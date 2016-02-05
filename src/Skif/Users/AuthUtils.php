@@ -150,10 +150,10 @@ class AuthUtils
     public static function currentUserIsAdmin()
     {
         $user_id = self::getCurrentUserId();
-        echo 1;
         if (!$user_id) {
             return false;
         }
+        echo 1;
 
         $user_obj = \Skif\Users\User::factory($user_id, false);
         if (!$user_obj) {
