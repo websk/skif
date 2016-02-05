@@ -10,7 +10,7 @@ class CKEditor
 
     public static function createFullCKEditor($editor_name, $text, $height = 300, $dir = null)
     {
-        return  \Skif\PhpTemplate::renderTemplateBySkifModule(
+        return  \Skif\PhpTemplate::renderTemplateByModule(
             'CKEditor',
             'full.tpl.php',
             array(
@@ -38,7 +38,7 @@ class CKEditor
 
     public static function createUserCKEditor($editor_name, $text, $height = 300, $dir = null)
     {
-        return  \Skif\PhpTemplate::renderTemplateBySkifModule(
+        return  \Skif\PhpTemplate::renderTemplateByModule(
             'CKEditor',
             'user.tpl.php',
             array(
