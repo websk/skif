@@ -7,7 +7,7 @@ class AuthUtils
 {
 
     const ROLE_ADMIN = 1;
-    const SESSION_LIFE_TIME = 86400 * 365; // 1 год
+    const SESSION_LIFE_TIME = 31536000; // 1 год
 
 
     /**
