@@ -186,6 +186,14 @@ class AuthUtils
         return false;
     }
 
+    public static function useSocialLogin()
+    {
+        $social_config = \Skif\Conf\ConfWrapper::value('auth.hybrid');
+        if (!empty($social_config)) {
+            return true;
+        }
+    }
+
     /**
      * @param $provider_name
      * @param $destination
