@@ -154,8 +154,6 @@ class AuthUtils
             return false;
         }
 
-        echo 1;
-
         $user_obj = \Skif\Users\User::factory($user_id, false);
         if (!$user_obj) {
             return false;
