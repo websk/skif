@@ -20,8 +20,6 @@ class ContentController extends \Skif\BaseController
 
         $content_id = $requested_id;
 
-        echo 1;
-
         $content_obj = \Skif\Content\Content::factory($content_id);
         if (!$content_obj) {
             \Skif\Http::exit404();
