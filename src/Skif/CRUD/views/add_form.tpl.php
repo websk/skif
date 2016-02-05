@@ -70,10 +70,15 @@ $context_arr_fields = $context_arr;
     if (array_key_exists("destination_url", $_REQUEST)) {
         echo '<input type="hidden" name="destination" value="' . $_REQUEST["destination_url"] . '">';
     }
+
+    $button_title = 'Добавить';
+    if (isset($model_class_name::$crud_create_button_title)) {
+        $button_title = $model_class_name::$crud_create_button_title;
+    }
     ?>
     <div class="form-group">
         <div class="col-md-10 col-md-offset-2">
-            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+            <button type="submit" class="btn btn-primary"><?php echo $button_title;?></button>
         </div>
     </div>
 </form>
