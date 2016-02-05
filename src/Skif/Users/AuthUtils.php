@@ -149,8 +149,6 @@ class AuthUtils
      */
     public static function currentUserIsAdmin()
     {
-        echo 1;
-
         $user_id = self::getCurrentUserId();
         if (!$user_id) {
             return false;
