@@ -225,10 +225,15 @@ class CRUDController extends \Skif\BaseController
             );
         }
 
+        $crud_model_class_screen_name_for_add = 'Добавление';
+        if (property_exists($model_class_name, 'crud_model_class_screen_name_for_add')) {
+            $crud_model_class_screen_name_for_add = $model_class_name::$crud_model_class_screen_name_for_add;
+        }
+
         echo \Skif\PhpTemplate::renderTemplate(
             static::getLayoutTemplateFile(),
             array(
-                'title' => 'Добавление',
+                'title' => $crud_model_class_screen_name_for_add,
                 'content' => $html,
                 'breadcrumbs_arr' => $breadcrumbs_arr
             )
