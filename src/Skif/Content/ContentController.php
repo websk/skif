@@ -44,8 +44,6 @@ class ContentController extends \Skif\BaseController
             $editor_nav_arr = array($content_obj->getEditorUrl() => 'Редактировать');
         }
 
-        echo 1;
-
         $breadcrumbs_arr = array();
 
         $main_rubric_id = $content_obj->getMainRubricId();
