@@ -7,6 +7,7 @@ class AuthUtils
 {
 
     const ROLE_ADMIN = 1;
+    const SESSION_LIFE_TIME = 86400 * 365; // 1 год
 
 
     /**
@@ -20,16 +21,23 @@ class AuthUtils
     {
         $salt_password = self::getHash($password);
 
-        $query = "SELECT id FROM " . \Skif\Users\User::DB_TABLE_NAME . " WHERE confirm=1 AND email=? AND passw=? LIMIT 1";
+        $query = "SELECT id FROM " . \Skif\Users\User::DB_TABLE_NAME . " WHERE email=? AND passw=? LIMIT 1";
         $user_id = \Skif\DB\DBWrapper::readField($query, array($email, $salt_password));
 
         if (!$user_id) {
             return false;
         }
 
+        $user_obj = \Skif\Users\User::factory($user_id);
+
+        // Регистрация не подтверждена
+        if (!$user_obj->isConfirm()) {
+            return false;
+        }
+
         $delta = null;
         if ($save_auth) {
-            $delta = time() + 86400 * 30;
+            $delta = time() + \Skif\Users\AuthUtils::SESSION_LIFE_TIME;
         }
 
         $session = sha1(time() . $user_id);
@@ -48,8 +56,17 @@ class AuthUtils
 
         setcookie('auth_session', $session, $delta, '/');
 
-        // Удаляем просроченные сессии
-        $delta = time() - 86400 * 30;
+        \Skif\Users\AuthUtils::clearOldSessionsByUserId($user_id);
+    }
+
+    /**
+     * Удаляем просроченные сессии
+     * @param $user_id
+     * @throws \Exception
+     */
+    protected static function clearOldSessionsByUserId($user_id)
+    {
+        $delta = time() - \Skif\Users\AuthUtils::SESSION_LIFE_TIME;
         $query = "DELETE FROM sessions WHERE user_id=? AND timestamp<=?";
         \Skif\DB\DBWrapper::query($query, array($user_id, $delta));
     }
@@ -86,9 +103,7 @@ class AuthUtils
         $query = "DELETE FROM sessions WHERE session=?";
         \Skif\DB\DBWrapper::query($query, array($_COOKIE['auth_session']));
 
-        $delta = time() - 86400 * 30;
-        $query = "DELETE FROM sessions WHERE user_id=? AND timestamp<=?";
-        \Skif\DB\DBWrapper::query($query, array($user_id, $delta));
+        \Skif\Users\AuthUtils::clearOldSessionsByUserId($user_id);
 
         self::clearAuthCookie();
         //self::removeUserFromAuthCache($user_id);

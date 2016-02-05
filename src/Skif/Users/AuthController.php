@@ -490,7 +490,7 @@ class AuthController
         }
 
         $session = sha1(time() . $user_id);
-        $delta = time() + 86400 * 30;
+        $delta = time() + \Skif\Users\AuthUtils::SESSION_LIFE_TIME;
 
         \Skif\Users\AuthUtils::storeUserSession($user_id, $session, $delta);
 
