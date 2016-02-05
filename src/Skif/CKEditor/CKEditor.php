@@ -24,7 +24,7 @@ class CKEditor
 
     public static function createBasicCKEditor($editor_name, $text, $height = 300, $dir = null)
     {
-        return  \Skif\PhpTemplate::renderTemplateBySkifModule(
+        return  \Skif\PhpTemplate::renderTemplateByModule(
             'CKEditor',
             'basic.tpl.php',
             array(
