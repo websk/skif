@@ -132,6 +132,7 @@ class AuthUtils
         if (isset($user_session_unique_id)) {
             return $user_session_unique_id;
         }
+        echo 1;
 
         if (array_key_exists('auth_session', $_COOKIE)) {
             $query = "SELECT user_id FROM sessions WHERE session=?";
@@ -153,7 +154,6 @@ class AuthUtils
         if (!$user_id) {
             return false;
         }
-        echo 1;
 
         $user_obj = \Skif\Users\User::factory($user_id, false);
         if (!$user_obj) {
