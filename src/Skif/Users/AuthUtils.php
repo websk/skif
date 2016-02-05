@@ -287,7 +287,7 @@ class AuthUtils
 
         $user_obj->save();
 
-        if (empty($user_obj->getId())) {
+        if (!$user_obj->getId()) {
             return false;
         }
 
