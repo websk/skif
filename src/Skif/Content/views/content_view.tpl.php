@@ -9,11 +9,11 @@ $content = $content_obj->getBody();
 if (!$content) {
     $content = $content_obj->getAnnotation();
 }
-?>
-<p class="text-right text-muted">
-    <small><?= date('d.m.Y', $content_obj->getUnixTime()) ?></small>
-</p>
-<?php
+
+if (!$content) {
+    return;
+}
+
 if ($content_obj->getImage()) {
     ?>
     <p>
