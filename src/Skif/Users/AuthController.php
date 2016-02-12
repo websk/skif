@@ -522,13 +522,6 @@ class AuthController
         \Hybrid_Endpoint::process();
     }
 
-    public function hauthDoneAction($request_provider)
-    {
-        $request = array('hauth_done' => $request_provider);
-
-        \Hybrid_Endpoint::process($request);
-    }
-
     /*
     public function sessionAction()
     {
