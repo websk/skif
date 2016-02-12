@@ -517,7 +517,12 @@ class AuthController
         \Skif\Http::redirect($destination);
     }
 
-    public function gateAction($request_provider)
+    public function gateAction()
+    {
+        \Hybrid_Endpoint::process();
+    }
+
+    public function hauthDoneAction($request_provider)
     {
         $request = array('hauth_done' => $request_provider);
 
