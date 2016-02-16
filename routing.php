@@ -30,8 +30,8 @@ foreach ($route_based_crud_arr as $base_url => $controller) {
         continue;
     }
 
-    \Skif\UrlManager::route('@^' . $base_url . '/add@', $controller, 'addAction', 0);
-    \Skif\UrlManager::route('@^' . $base_url . '/create@', $controller, 'createAction', 0);
+    \Skif\UrlManager::route('@^' . $base_url . '/add$@', $controller, 'addAction', 0);
+    \Skif\UrlManager::route('@^' . $base_url . '/create$@', $controller, 'createAction', 0);
     \Skif\UrlManager::route('@^' . $base_url . '/edit/(.+)$@', $controller, 'editAction', 0);
     \Skif\UrlManager::route('@^' . $base_url . '/save/(.+)$@i', $controller, 'saveAction', 0);
     \Skif\UrlManager::route('@^' . $base_url . '/delete/(\d+)$@i', $controller, 'deleteAction', 0);
