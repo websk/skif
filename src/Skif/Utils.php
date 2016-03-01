@@ -224,7 +224,7 @@ class Utils
         return $url;
     }
 
-    public static function addHttp($url) {
+    public static function appendHttp($url) {
         /*
         if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
             $url = "http://" . $url;
