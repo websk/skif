@@ -42,7 +42,7 @@ class RedirectController extends \Skif\CRUD\CRUDController
         if (!empty($exact_redirect_stdobj_arr)) {
             $exact_redirect_stdobj = array_shift($exact_redirect_stdobj_arr);
             $http_response_code = $exact_redirect_stdobj->code ? $exact_redirect_stdobj->code : 301;
-            header('Location: ' . \Skif\UrlManager::appendLeadingSlash($exact_redirect_stdobj->dst), true, intval($http_response_code));
+            header('Location: ' . \Skif\Utils::appendLeadingSlash($exact_redirect_stdobj->dst), true, intval($http_response_code));
             exit;
         }
 
@@ -72,7 +72,7 @@ class RedirectController extends \Skif\CRUD\CRUDController
                 }
 
                 if ($regexp_redirect_stdobj->code != "") {
-                    header('Location: ' . \Skif\UrlManager::appendLeadingSlash($dst), true, intval($regexp_redirect_stdobj->code));
+                    header('Location: ' . \Skif\Utils::appendLeadingSlash($dst), true, intval($regexp_redirect_stdobj->code));
                     exit;
                 }
             }

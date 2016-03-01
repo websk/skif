@@ -115,16 +115,4 @@ class UrlManager {
         return false;
     }
 
-    public static function appendLeadingSlash($url){
-
-        // append leading slash
-        if (substr($url, 0, 5) != 'http:') {
-            if (substr($url, 0, 1) != '/') {
-                $url = '/' . $url;
-            }
-        }
-
-        return $url;
-
-    }
 }
