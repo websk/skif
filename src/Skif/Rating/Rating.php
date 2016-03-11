@@ -15,7 +15,7 @@ class Rating implements
 
     protected $id;
     protected $name;
-    protected $star;
+    protected $points;
 
     /**
      * @return mixed
@@ -52,17 +52,17 @@ class Rating implements
     /**
      * @return mixed
      */
-    public function getStar()
+    public function getPoints()
     {
-        return $this->star;
+        return $this->points;
     }
 
     /**
-     * @param mixed $star
+     * @param mixed $points
      */
-    public function setStar($star)
+    public function setPoints($points)
     {
-        $this->star = $star;
+        $this->points = $points;
     }
 
 
