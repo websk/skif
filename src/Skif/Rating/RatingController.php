@@ -6,7 +6,7 @@ class RatingController extends \Skif\CRUD\CRUDController
 {
 
     protected static $model_class_name = '\Skif\Rating\Rating';
-    public static $poll_cookie_prefix = 'rating_star_';
+    public static $rating_cookie_prefix = 'rating_star_';
 
     public static function getCRUDBaseUrl($model_class_name)
     {
@@ -19,36 +19,41 @@ class RatingController extends \Skif\CRUD\CRUDController
     }
 
     /**
-     * Голосование
+     * Оценка
      * @param $rating_id
+     * @return float|mixed
      */
     public static function rateAction($rating_id)
     {
-        $poll_question_id = isset($_REQUEST['poll_question_id']) ? intval($_REQUEST['poll_question_id']) : '';
+        $rating_star = isset($_REQUEST['rating_star']) ? floatval($_REQUEST['rating_star']) : '';
 
-        $poll_obj = \Skif\Poll\Poll::factory($rating_id);
+        $rating_obj = \Skif\Rating\Rating::factory($rating_id);
 
-        if ($_COOKIE[self::$poll_cookie_prefix . $rating_id] == 'no') {
-            \Skif\Messages::setError('Вы уже проголосовали ранее!');
+        $current_rating = $rating_obj->getRating();
 
-            \Skif\Http::redirect($poll_obj->getUrl());
+        if (isset($_COOKIE[self::$rating_cookie_prefix . $rating_id])) {
+            return $current_rating;
         }
 
-        if (!empty($poll_question_id)) {
-            $poll_question_obj = \Skif\Poll\PollQuestion::factory($poll_question_id);
-
-            $votes = $poll_question_obj->getVotes() + 1;
-            $poll_question_obj->setVotes($votes);
-            $poll_question_obj->save();
-
-            setcookie(self::$poll_cookie_prefix . $rating_id, 'no', time() + 3600 * 24 * 365);
-
-            \Skif\Messages::setMessage('Спасибо, ваш голос учтен!');
-        } else {
-            \Skif\Messages::setError('Вы не проголосовали, т.к. не выбрали ответ.');
+        if (isset($_SESSION[self::$rating_cookie_prefix . $rating_id])) {
+            return $current_rating;
         }
 
-        \Skif\Http::redirect($poll_obj->getUrl());
+        $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+
+        if (!$current_user_id) {
+            return $current_rating;
+        }
+
+        $new_rating = ($current_rating + $rating_star) / 2;
+
+        $rating_obj->setRating($new_rating);
+        $rating_obj->save();
+
+        setcookie(self::$rating_cookie_prefix . $rating_id, 'yes', time() + 3600 * 24); // Сутки
+        $_SESSION[self::$rating_cookie_prefix . $rating_id] = 'yes';
+
+        return $new_rating;
     }
 
 

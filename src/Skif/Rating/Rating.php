@@ -15,7 +15,7 @@ class Rating implements
 
     protected $id;
     protected $name;
-    protected $points;
+    protected $rating;
 
     /**
      * @return mixed
@@ -52,17 +52,17 @@ class Rating implements
     /**
      * @return mixed
      */
-    public function getPoints()
+    public function getRating()
     {
-        return $this->points;
+        return $this->rating;
     }
 
     /**
-     * @param mixed $points
+     * @param mixed $rating
      */
-    public function setPoints($points)
+    public function setRating($rating)
     {
-        $this->points = $points;
+        $this->rating = $rating;
     }
 
 
