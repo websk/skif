@@ -15,7 +15,7 @@ class Rating implements
 
     protected $id;
     protected $name;
-    protected $rating;
+    protected $rating = 0;
 
     /**
      * @return mixed

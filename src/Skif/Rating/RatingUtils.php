@@ -8,7 +8,8 @@ class RatingUtils
     public static function getRatingIdByName($rating_name)
     {
         $rating_id = \Skif\DB\DBWrapper::readField(
-            "SELECT id FROM " . \Skif\Rating\Rating::DB_TABLE_NAME . " WHERE name=? LIMIT 1"
+            "SELECT id FROM " . \Skif\Rating\Rating::DB_TABLE_NAME . " WHERE name=? LIMIT 1",
+            array($rating_name)
         );
 
         if (!$rating_id) {
