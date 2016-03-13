@@ -17,6 +17,7 @@ $default_route_based_crud_arr = array(
     '/admin/form' => '\Skif\Form\FormController',
     '/admin/form_field' => '\Skif\Form\FormFieldController',
     '/admin/task' => '\Skif\Task\TaskController',
+    '/admin/rating' => '\Skif\Rating\RatingController',
 );
 
 if (isset($route_based_crud_arr)) {
