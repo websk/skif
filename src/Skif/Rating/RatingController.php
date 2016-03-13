@@ -45,7 +45,10 @@ class RatingController extends \Skif\CRUD\CRUDController
             return $current_rating;
         }
 
-        $new_rating = ($current_rating + $rating_star) / 2;
+        $new_rating = $rating_star;
+        if ($current_rating > 0) {
+            $new_rating = ($current_rating + $rating_star) / 2;
+        }
 
         $rating_obj->setRating($new_rating);
         $rating_obj->save();

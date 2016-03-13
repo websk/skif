@@ -129,6 +129,10 @@ if (strpos($current_url_no_query, '/admin') !== false) {
 \Skif\UrlManager::route('@^/poll/(\d+)$@', '\Skif\Poll\PollController', 'viewAction');
 \Skif\UrlManager::route('@^/poll/(\d+)/vote$@', '\Skif\Poll\PollController', 'voteAction');
 
+// Rating
+\Skif\UrlManager::route('@^/rating/(\d+)/rate$@', '\Skif\Rating\RatingController', 'rateAction');
+
+
 // Form
 \Skif\UrlManager::route('@^@', '\Skif\Form\FormController', 'viewAction');
 \Skif\UrlManager::route('@^/form/(\d+)/send$@', '\Skif\Form\FormController', 'sendAction');
