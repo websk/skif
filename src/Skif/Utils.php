@@ -212,7 +212,8 @@ class Utils
         return $output_files_arr;
     }
 
-    public static function appendLeadingSlash($url){
+    public static function appendLeadingSlash($url)
+    {
 
         // append leading slash
         if (substr($url, 0, 5) != 'http:') {
@@ -224,7 +225,8 @@ class Utils
         return $url;
     }
 
-    public static function appendHttp($url) {
+    public static function appendHttp($url)
+    {
         /*
         if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
             $url = "http://" . $url;
@@ -237,6 +239,36 @@ class Utils
         }
 
         return $url;
+    }
+
+    /**
+     * Функция возвращает окончание для множественного числа слова на основании числа и массива окончаний
+     * param  $number Integer Число на основе которого нужно сформировать окончание
+     * param  $endingsArray  Array Массив слов или окончаний для чисел (1, 4, 5),
+     *         например array('яблоко', 'яблока', 'яблок')
+     * return string
+     */
+    public static function getNumEnding($number, $ending_array)
+    {
+        $number = $number % 100;
+        if ($number >= 11 && $number <= 19) {
+            $ending = $ending_array[2];
+        } else {
+            $i = $number % 10;
+            switch ($i) {
+                case (1):
+                    $ending = $ending_array[0];
+                    break;
+                case (2):
+                case (3):
+                case (4):
+                    $ending = $ending_array[1];
+                    break;
+                default:
+                    $ending = $ending_array[2];
+            }
+        }
+        return $ending;
     }
 
 }
