@@ -248,7 +248,7 @@ class Utils
      *         например array('яблоко', 'яблока', 'яблок')
      * return string
      */
-    public static function getNumEnding($number, $ending_array)
+    public static function getDeclensionOfNumerals($number, $ending_array)
     {
         $number = $number % 100;
         if ($number >= 11 && $number <= 19) {
