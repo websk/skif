@@ -7,6 +7,7 @@
 
 if ($site_menu_item_id == 'new') {
     $site_menu_item_obj = new \Skif\SiteMenu\SiteMenuItem();
+    $site_menu_item_obj->setIsPublished(true);
 } else {
     $site_menu_item_obj = \Skif\SiteMenu\SiteMenuItem::factory($site_menu_item_id);
 }
