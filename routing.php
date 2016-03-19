@@ -142,9 +142,6 @@ if (strpos($current_url_no_query, '/admin') !== false) {
 // Country
 \Skif\UrlManager::route('@^/autocomplete/countries$@', '\Skif\CountryController', 'CountriesAutoCompleteAction');
 
-// Regions
-\Skif\UrlManager::route('@^/regions/import_from_vk$@', '\Skif\Regions\RegionController', 'importFromVKAction');
-
 
 \Skif\UrlManager::route('@^/files/images/cache/(.+)/(.+)$@', '\Skif\Image\ControllerIndex', 'indexAction');
 \Skif\UrlManager::route('@^/images/upload$@', '\Skif\Image\ImageController', 'uploadAction');
