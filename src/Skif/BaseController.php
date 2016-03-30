@@ -21,10 +21,15 @@ class BaseController
     {
         $alias = \Skif\UrlManager::$current_url;
 
-        $query = 'SELECT id FROM ' . $this->url_table . ' WHERE url = ?';
-        $this->requested_id = \Skif\DB\DBWrapper::readField($query, array($alias));
+        $this->requested_id = self::getEntityIdByAlias($alias);
 
         $this->context_is_known = true;
+    }
+
+    protected function getEntityIdByAlias($alias)
+    {
+        $query = 'SELECT id FROM ' . $this->url_table . ' WHERE url = ?';
+        return \Skif\DB\DBWrapper::readField($query, array($alias));
     }
 
 }
