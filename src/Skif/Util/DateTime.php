@@ -27,7 +27,7 @@ class DateTime {
     {
         $months_formats =
             array(
-                self::MONTH_SHORT => array('янв', 'фев', 'мар', 'апр', 'мая', 'июня', 'июля', 'авг', 'сен', 'окт', 'ноя', 'дек'),
+                self::MONTH_SHORT => array('янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'),
                 self::MONTH_FULL => array('января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'),
                 self::MONTH_DIGIT => array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'),
             );
@@ -70,7 +70,7 @@ class DateTime {
      * @param int $time_display
      * @return bool|string
      */
-    static function FormatFromUnixTime($unix_time = '', $day_format = self::DAY_FULL, $month_format = self::MONTH_SHORT, $year_display = self::YEAR_DISPLAY_AUTO, $year_format = self::YEAR_FULL, $separator = ' ', $time_display = self::TIME_DISPLAY_HIDE)
+    public static function FormatFromUnixTime($unix_time = '', $day_format = self::DAY_FULL, $month_format = self::MONTH_SHORT, $year_display = self::YEAR_DISPLAY_AUTO, $year_format = self::YEAR_FULL, $separator = ' ', $time_display = self::TIME_DISPLAY_HIDE)
     {
         $months_formats =
             array(
