@@ -277,15 +277,7 @@ class CRUDController extends \Skif\BaseController
 
         $edited_obj = \Skif\CRUD\CRUDUtils::createAndLoadObject($model_class_name, $obj_id);
 
-        $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
-            'CRUD',
-            'edit_form.tpl.php',
-            array(
-                'model_class_name' => $model_class_name,
-                'obj' => $edited_obj,
-                'current_controller_obj' => static::getControllerClassNameByModelClassName($model_class_name)
-            )
-        );
+        $html = static::renderEditForm($obj_id);
 
         $breadcrumbs_arr = static::getBreadcrumbsArr();
 
@@ -326,6 +318,25 @@ class CRUDController extends \Skif\BaseController
                 'breadcrumbs_arr' => $breadcrumbs_arr
             )
         );
+    }
+    
+    public static function renderEditForm($obj_id)
+    {
+        $model_class_name = static::getModelClassName();
+
+        $edited_obj = \Skif\CRUD\CRUDUtils::createAndLoadObject($model_class_name, $obj_id);
+
+        $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
+            'CRUD',
+            'edit_form.tpl.php',
+            array(
+                'model_class_name' => $model_class_name,
+                'obj' => $edited_obj,
+                'current_controller_obj' => static::getControllerClassNameByModelClassName($model_class_name)
+            )
+        );
+        
+        return $html;
     }
 
     /**
