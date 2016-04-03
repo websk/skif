@@ -89,7 +89,7 @@ if (isset($list_title)) {
                                 }
                                 ?>
                                 <div class="form-group">
-                                    <input type="submit" value="Выбрать" class="btn btn-default">
+                                    <input type="submit" value="Применить фильтр" class="btn btn-default">
                                 </div>
                             </form>
                             <?php
