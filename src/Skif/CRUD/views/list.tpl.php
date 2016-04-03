@@ -1,20 +1,14 @@
 <?php
 /**
  * @var $model_class_name
+ * @var $objs_ids_arr
  * @var $context_arr array
+ * @var $filter
  * @var $list_title
  * @var $current_controller_obj
  */
 
 \Skif\Utils::assert($model_class_name);
-
-// готовим список ID объектов для вывода
-$filter = '';
-if (isset($_GET['filter'])) {
-    $filter = $_GET['filter'];
-}
-
-$objs_ids_arr = \Skif\CRUD\CRUDUtils::getObjIdsArrayForModel($model_class_name, $context_arr, $filter);
 
 // готовим список полей, которые будем выводить в таблицу
 $reflect = new \ReflectionClass($model_class_name);

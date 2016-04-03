@@ -135,34 +135,7 @@ class CRUDController extends \Skif\BaseController
 
         \Skif\Utils::assert($model_class_name);
 
-        $context_arr = array();
-        if (property_exists($model_class_name, 'crud_default_context_arr_for_list')) {
-            $context_arr = $model_class_name::$crud_default_context_arr_for_list;
-        }
-
-        if (isset($model_class_name::$crud_model_filtered_field_arr_for_list)) {
-            foreach ($model_class_name::$crud_model_filtered_field_arr_for_list as $field_name) {
-                if (array_key_exists($field_name, $_GET)) {
-                    if ($_GET[$field_name] != '') {
-                        $context_arr[$field_name] = $_GET[$field_name];
-                    }
-                }
-            }
-        }
-
-        if (array_key_exists('context_arr', $_GET)) {
-            $context_arr = $_GET['context_arr'];
-        }
-
-        $list_html = \Skif\PhpTemplate::renderTemplateBySkifModule(
-            'CRUD',
-            'list.tpl.php',
-            array(
-                'model_class_name' => $model_class_name,
-                'context_arr' => $context_arr,
-                'current_controller_obj' => static::getControllerClassNameByModelClassName($model_class_name)
-            )
-        );
+        $list_html = static::renderList();
 
         $crud_model_class_screen_name_for_list = 'Список';
         if (property_exists($model_class_name, 'crud_model_class_screen_name_for_list')) {
@@ -177,6 +150,58 @@ class CRUDController extends \Skif\BaseController
                 'breadcrumbs_arr' => static::getBreadcrumbsArr()
             )
         );
+    }
+
+    public static function renderList($model_class_name = '', $objs_ids_arr = array())
+    {
+        if (!$model_class_name) {
+            $model_class_name = static::getModelClassName();
+        }
+
+        $context_arr = array();
+        $filter = '';
+
+        if (!$objs_ids_arr) {
+            $context_arr = array();
+            if (property_exists($model_class_name, 'crud_default_context_arr_for_list')) {
+                $context_arr = $model_class_name::$crud_default_context_arr_for_list;
+            }
+
+            if (isset($model_class_name::$crud_model_filtered_field_arr_for_list)) {
+                foreach ($model_class_name::$crud_model_filtered_field_arr_for_list as $field_name) {
+                    if (array_key_exists($field_name, $_GET)) {
+                        if ($_GET[$field_name] != '') {
+                            $context_arr[$field_name] = $_GET[$field_name];
+                        }
+                    }
+                }
+            }
+
+            if (array_key_exists('context_arr', $_GET)) {
+                $context_arr = $_GET['context_arr'];
+            }
+
+            if (isset($_GET['filter'])) {
+                $filter = $_GET['filter'];
+            }
+
+            $objs_ids_arr = \Skif\CRUD\CRUDUtils::getObjIdsArrayForModel($model_class_name, $context_arr, $filter);
+        }
+
+        $list_html = \Skif\PhpTemplate::renderTemplateBySkifModule(
+            'CRUD',
+            'list.tpl.php',
+            array(
+                'model_class_name' => $model_class_name,
+                'objs_ids_arr' => $objs_ids_arr,
+                'context_arr' => $context_arr,
+                'filter' => $filter,
+                'current_controller_obj' => static::getControllerClassNameByModelClassName($model_class_name)
+            )
+        );
+
+
+        return $list_html;
     }
 
     /**
