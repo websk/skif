@@ -6,6 +6,17 @@ namespace Skif\CRUD;
 class CRUDUtils
 {
 
+    public static function getCurrentObjectId()
+    {
+        $current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
+        
+        if (preg_match('@/edit/(.+)$@', $current_url_no_query, $matches_arr)) {
+            return $matches_arr[1];
+        }
+
+        return 0;
+    }
+    
     /**
      * Возвращает "полное имя объекта" для вывода в заголовок редактора или крошки.
      * Формат:
