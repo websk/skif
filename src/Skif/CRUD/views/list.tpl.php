@@ -300,6 +300,7 @@ if (isset($list_title)) {
             ?>
             </tbody>
         </table>
+
         <?php
         echo \Skif\Pager::renderPager(count($objs_ids_arr));
         }
