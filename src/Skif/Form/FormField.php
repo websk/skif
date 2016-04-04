@@ -25,7 +25,7 @@ class FormField implements
     protected $size;
 
 
-    public static $crud_create_button_required_fields_arr = array('form');
+    public static $crud_create_button_required_fields_arr = array('form_id');
     public static $crud_create_button_title = 'Добавить поле';
 
     public static $crud_model_class_screen_name = 'Название';
