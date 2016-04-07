@@ -21,7 +21,6 @@ class RatingController extends \Skif\CRUD\CRUDController
     /**
      * Оценка
      * @param $rating_id
-     * @return float|mixed
      */
     public static function rateAction($rating_id)
     {
@@ -32,17 +31,17 @@ class RatingController extends \Skif\CRUD\CRUDController
         $current_rating = $rating_obj->getRating();
 
         if (isset($_COOKIE[self::$rating_cookie_prefix . $rating_id])) {
-            return $current_rating;
+            echo $current_rating;
         }
 
         if (isset($_SESSION[self::$rating_cookie_prefix . $rating_id])) {
-            return $current_rating;
+            echo $current_rating;
         }
 
         $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
 
         if (!$current_user_id) {
-            return $current_rating;
+            echo $current_rating;
         }
 
         $new_rating = $rating_star;
@@ -56,7 +55,7 @@ class RatingController extends \Skif\CRUD\CRUDController
         setcookie(self::$rating_cookie_prefix . $rating_id, 'yes', time() + 3600 * 24); // Сутки
         $_SESSION[self::$rating_cookie_prefix . $rating_id] = 'yes';
 
-        return $new_rating;
+        echo $new_rating;
     }
 
 
