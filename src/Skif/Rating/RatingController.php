@@ -24,7 +24,7 @@ class RatingController extends \Skif\CRUD\CRUDController
      */
     public static function rateAction($rating_id)
     {
-        $rating_star = isset($_REQUEST['rating_star']) ? floatval($_REQUEST['rating_star']) : '';
+        $rating_star = isset($_REQUEST['rating_star']) ? floatval($_REQUEST['rating_star']) : 0;
 
         $rating_obj = \Skif\Rating\Rating::factory($rating_id);
 
