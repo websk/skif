@@ -32,16 +32,19 @@ class RatingController extends \Skif\CRUD\CRUDController
 
         if (isset($_COOKIE[self::$rating_cookie_prefix . $rating_id])) {
             echo $current_rating;
+            return;
         }
 
         if (isset($_SESSION[self::$rating_cookie_prefix . $rating_id])) {
             echo $current_rating;
+            return;
         }
 
         $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
 
         if (!$current_user_id) {
             echo $current_rating;
+            return;
         }
 
         $new_rating = $rating_star;
