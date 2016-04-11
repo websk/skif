@@ -1,16 +1,16 @@
 <?php
 
 /** This file is part of KCFinder project
-  *
-  *      @desc Base configuration file
-  *   @package KCFinder
-  *   @version 3.12
-  *    @author Pavel Tzonkov <sunhater@sunhater.com>
-  * @copyright 2010-2014 KCFinder Project
-  *   @license http://opensource.org/licenses/GPL-3.0 GPLv3
-  *   @license http://opensource.org/licenses/LGPL-3.0 LGPLv3
-  *      @link http://kcfinder.sunhater.com
-  */
+ *
+ * @desc Base configuration file
+ * @package KCFinder
+ * @version 3.12
+ * @author Pavel Tzonkov <sunhater@sunhater.com>
+ * @copyright 2010-2014 KCFinder Project
+ * @license http://opensource.org/licenses/GPL-3.0 GPLv3
+ * @license http://opensource.org/licenses/LGPL-3.0 LGPLv3
+ * @link http://kcfinder.sunhater.com
+ */
 
 /* IMPORTANT!!! Do not comment or remove uncommented settings in this file
    even if you are using session configuration.
@@ -29,16 +29,15 @@ $_CONFIG = array(
 
     'types' => array(
 
-    // (F)CKEditor types
-        'content'   =>  "",
-        'flash'   =>  "swf",
-        'images'  =>  "*img",
+        // (F)CKEditor types
+        'content' => "",
+        'flash' => "swf",
+        'images' => "*img",
 
-    // TinyMCE types
-        'content'    =>  "",
-        'file'    =>  "",
-        'media'   =>  "swf flv avi mpg mpeg qt mov wmv asf rm",
-        'image'   =>  "*img",
+        // TinyMCE types
+        'file' => "",
+        'media' => "swf flv avi mpg mpeg qt mov wmv asf rm",
+        'image' => "*img",
     ),
 
 
@@ -73,8 +72,8 @@ $_CONFIG = array(
         'files' => array(
             'upload' => true,
             'delete' => true,
-            'copy'   => true,
-            'move'   => true,
+            'copy' => true,
+            'move' => true,
             'rename' => true
         ),
 
@@ -90,10 +89,76 @@ $_CONFIG = array(
 
 // MISC SETTINGS
 
-    'filenameChangeChars' => array(/*
+    'filenameChangeChars' => array(
         ' ' => "_",
-        ':' => "."
-    */),
+        ':' => ".",
+        'а' => 'a',
+        'б' => 'b',
+        'в' => 'v',
+        'г' => 'g',
+        'д' => 'd',
+        'е' => 'e',
+        'ё' => 'yo',
+        'ж' => 'zh',
+        'з' => 'z',
+        'и' => 'i',
+        'й' => 'y',
+        'к' => 'k',
+        'л' => 'l',
+        'м' => 'm',
+        'н' => 'n',
+        'о' => 'o',
+        'п' => 'p',
+        'р' => 'r',
+        'с' => 's',
+        'т' => 't',
+        'у' => 'u',
+        'ф' => 'f',
+        'х' => 'h',
+        'ц' => 'ts',
+        'ч' => 'ch',
+        'ш' => 'sh',
+        'щ' => 'shch',
+        'ъ' => '',
+        'ы' => 'i',
+        'ь' => '',
+        'э' => 'e',
+        'ю' => 'yu',
+        'я' => 'ya',
+        'А' => 'A',
+        'Б' => 'B',
+        'В' => 'V',
+        'Г' => 'G',
+        'Д' => 'D',
+        'Е' => 'E',
+        'Ё' => 'Yo',
+        'Ж' => 'Zh',
+        'З' => 'Z',
+        'И' => 'I',
+        'Й' => 'Y',
+        'К' => 'K',
+        'Л' => 'L',
+        'М' => 'M',
+        'Н' => 'N',
+        'О' => 'O',
+        'П' => 'P',
+        'Р' => 'R',
+        'С' => 'S',
+        'Т' => 'T',
+        'У' => 'U',
+        'Ф' => 'F',
+        'Х' => 'H',
+        'Ц' => 'Ts',
+        'Ч' => 'CH',
+        'Ш' => 'Sh',
+        'Щ' => 'Shch',
+        'Ъ' => '',
+        'Ы' => 'I',
+        'Ь' => '',
+        'Э' => 'E',
+        'Ю' => 'Yu',
+        'Я' => 'Ya'
+    ),
 
     'dirnameChangeChars' => array(/*
         ' ' => "_",
