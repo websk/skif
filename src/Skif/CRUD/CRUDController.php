@@ -200,7 +200,6 @@ class CRUDController extends \Skif\BaseController
             )
         );
 
-
         return $list_html;
     }
 
