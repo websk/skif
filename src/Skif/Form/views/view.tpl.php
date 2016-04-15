@@ -45,11 +45,20 @@ $form_field_ids_arr = $form_obj->getFormFieldIdsArr();
         </div>
         <?php
     }
+
+    $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+    if ($current_user_id) {
+        $current_user_obj = \Skif\Users\User::factory($current_user_id);
+        echo '<input type="hidden" name="email" value="' . $current_user_obj->getEmail() . '">';
+    } else {
+        ?>
+        <div class="form-group">
+            <label class="col-md-3">Ваш E-mail *</label>
+            <div class="col-md-9"><input type="text" name="email" value="" class="form-control"></div>
+        </div>
+    <?php
+    }
     ?>
-    <div class="form-group">
-        <label class="col-md-3">Ваш E-mail *</label>
-        <div class="col-md-9"><input type=text name="email" value="" class="form-control"></div>
-    </div>
     <div class="form-group">
         <div class="col-md-offset-3 col-md-9">
             <img src="<?php echo \Skif\Captcha\Captcha::getUrl(); ?>" border="0" alt="Введите этот защитный код">
