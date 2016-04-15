@@ -95,11 +95,18 @@ class FormController extends \Skif\CRUD\CRUDController
 
         $to_mail = $form_email ? $form_email : $site_email;
 
-        \Skif\SendMail::mailToUtf8($to_mail, $site_email, $site_name, $title, $message);
-
+        $mail = new \PHPMailer;
+        $mail->CharSet = "utf8";
+        $mail->setFrom($site_email, $site_name);
+        $mail->addAddress($to_mail);
         if ($form_obj->getEmailCopy()) {
-            \Skif\SendMail::mailToUtf8($form_obj->getEmailCopy(), $site_email, $site_name, $title, $message);
+            $mail->addAddress($form_obj->getEmailCopy());
         }
+        $mail->isHTML(true);
+        $mail->Subject = $title;
+        $mail->Body = $message;
+        $mail->AltBody = \Skif\Utils::checkPlain($message);
+        $mail->send();
 
         \Skif\Messages::setMessage($response_mail_message);
 
@@ -107,7 +114,15 @@ class FormController extends \Skif\CRUD\CRUDController
         $response_mail_message .= $to_mail . "<br>";
         $response_mail_message .= "http://" . $site_url . "<br>";
 
-        \Skif\SendMail::mailToUtf8($user_email, $to_mail, $site_name, "Благодарим Вас за отправленную информацию!", $response_mail_message);
+        $mail = new \PHPMailer;
+        $mail->CharSet = "utf8";
+        $mail->setFrom($to_mail, $site_name);
+        $mail->addAddress($user_email);
+        $mail->isHTML(true);
+        $mail->Subject = "Благодарим Вас за отправленную информацию!";
+        $mail->Body = $response_mail_message;
+        $mail->AltBody = \Skif\Utils::checkPlain($message);
+        $mail->send();
 
         \Skif\Http::redirect($form_obj->getUrl());
     }
