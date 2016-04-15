@@ -5,7 +5,8 @@
   "require": {
     "imagine/Imagine": "dev-master",
     "ckeditor/ckeditor": "dev-full/stable",
-    "hybridauth/hybridauth": "2.*"
+    "hybridauth/hybridauth": "2.*",
+    "phpmailer/phpmailer": "5.2.*"
   },
   "autoload": {
     "psr-0": {
