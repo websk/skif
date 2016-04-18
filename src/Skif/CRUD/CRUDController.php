@@ -161,10 +161,6 @@ class CRUDController extends \Skif\BaseController
         $context_arr = array();
         $filter = '';
 
-        if (isset($_GET['kss'])) {
-            echo '1';
-        }
-
         if (!$objs_ids_arr) {
             $context_arr = array();
             if (property_exists($model_class_name, 'crud_default_context_arr_for_list')) {
