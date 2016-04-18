@@ -3,10 +3,12 @@
  * @var $comments_ids_arr
  * @var $url
  */
+
+$current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
 ?>
     <script type="text/javascript">
         <?php
-        if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
+        if ($current_user_id) {
         ?>
         $().ready(function () {
             $('.add_answer').bind('click', function () {
@@ -75,7 +77,7 @@ foreach ($comments_ids_arr as $comment_id) {
             echo '</div>';
         }
 
-        if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
+        if ($current_user_id) {
             ?>
             <p class="text-right"><a href="#comment<?= $comment_obj->getId() ?>" class="add_answer">Ответить</a></p>
         <?php
