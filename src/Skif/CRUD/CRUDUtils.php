@@ -299,10 +299,6 @@ class CRUDUtils
             $query_param_values_arr
         );
 
-        if (isset($_GET['kss'])) {
-            echo $query;
-        }
-
         return $objs_ids_arr;
     }
 
