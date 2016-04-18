@@ -40,7 +40,6 @@ $form_field_ids_arr = $form_obj->getFormFieldIdsArr();
         ?>
         <div class="form-group">
             <label class="col-md-3"><?php echo $name; ?></label>
-
             <div class="col-md-9"><?php echo $field_html; ?></div>
         </div>
         <?php
