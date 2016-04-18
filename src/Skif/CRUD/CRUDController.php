@@ -161,7 +161,7 @@ class CRUDController extends \Skif\BaseController
         $context_arr = array();
         $filter = '';
 
-        if ($model_class_name == '\Skif\Form\FormField') {
+        if (isset($_GET['kss'])) {
             echo '1';
         }
 
