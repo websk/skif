@@ -299,6 +299,10 @@ class CRUDUtils
             $query_param_values_arr
         );
 
+        if ($model_class_name == '\Skif\Form\Form') {
+            echo $query;
+        }
+
         return $objs_ids_arr;
     }
 
