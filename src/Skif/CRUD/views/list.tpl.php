@@ -165,7 +165,7 @@ if (isset($list_title)) {
     }
 
     if (isset($_GET['kss'])) {
-        echo '1';
+        var_dump($objs_ids_arr);
     }
 
     if (count($objs_ids_arr) > 0) {
