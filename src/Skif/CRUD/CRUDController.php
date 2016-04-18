@@ -186,6 +186,10 @@ class CRUDController extends \Skif\BaseController
             }
 
             $objs_ids_arr = \Skif\CRUD\CRUDUtils::getObjIdsArrayForModel($model_class_name, $context_arr, $filter);
+
+            if ($model_class_name == '\Skif\Form\Form') {
+                print_r($objs_ids_arr);
+            }
         }
 
         $list_html = \Skif\PhpTemplate::renderTemplateBySkifModule(
