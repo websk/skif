@@ -164,10 +164,6 @@ if (isset($list_title)) {
         $show_url_button = true;
     }
 
-    if (isset($_GET['kss'])) {
-        var_dump($objs_ids_arr);
-    }
-
     if (count($objs_ids_arr) > 0) {
     ?>
     <div>

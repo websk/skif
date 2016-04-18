@@ -188,6 +188,10 @@ class CRUDController extends \Skif\BaseController
             $objs_ids_arr = \Skif\CRUD\CRUDUtils::getObjIdsArrayForModel($model_class_name, $context_arr, $filter);
         }
 
+        if (isset($_GET['kss'])) {
+            var_dump($objs_ids_arr);
+        }
+
         $list_html = \Skif\PhpTemplate::renderTemplateBySkifModule(
             'CRUD',
             'list.tpl.php',
