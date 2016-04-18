@@ -306,7 +306,16 @@ class Comment  implements
                     $mail_message .= $site_name . ', ' . $site_url;
 
                     $subject = 'Ответ на сообщение на сайте' . $site_name;
-                    \Skif\SendMail::mailToUtf8($parent_comment_obj->getUserEmail(), $site_email, $site_name, $subject, $mail_message);
+
+                    $mail = new \PHPMailer;
+                    $mail->CharSet = "utf8";
+                    $mail->setFrom($site_email, $site_name);
+                    $mail->addAddress($parent_comment_obj->getUserEmail());
+                    $mail->isHTML(true);
+                    $mail->Subject = $subject;
+                    $mail->Body = $mail_message;
+                    $mail->AltBody = \Skif\Utils::checkPlain($mail_message);
+                    $mail->send();
                 }
             }
         }

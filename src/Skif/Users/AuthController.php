@@ -231,12 +231,21 @@ class AuthController
         $mail_message = 'Здравствуйте, ' . $name . '!<br />';
         $mail_message .= '<p>На сайте ' .  $site_url . ' была создана регистрационная запись, в которой был указал ваш электронный адрес (e-mail).</p>';
         $mail_message .= '<p>Если вы не регистрировались на данном сайте, просто проигнорируйте это сообщение! Аккаунт будет автоматически удален через некоторое время.</p>';
-        $mail_message .= '<p>Если это были вы, то для завершения процедуры регистрации, пожалуйста перейдите по ссылке <a href="' . $confirm_url .  '">' . $confirm_url .  '</a></p>';
+        $mail_message .= '<p>Если это были вы, то для завершения процедуры регистрации, пожалуйста перейдите по ссылке <a href="' . \Skif\Utils::appendHttp($confirm_url) .  '">' . $confirm_url .  '</a></p>';
 
         $mail_message .= '<p>С уважением, администрация сайта ' . $site_name . ', ' . $site_url . '</p>';
 
         $subject = 'Подтверждение регистрации на сайте ' . $site_name;
-        \Skif\SendMail::mailToUtf8($email, $site_email, $site_name, $subject, $mail_message);
+
+        $mail = new \PHPMailer;
+        $mail->CharSet = "utf8";
+        $mail->setFrom($site_email, $site_name);
+        $mail->addAddress($email);
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body = $mail_message;
+        $mail->AltBody = \Skif\Utils::checkPlain($mail_message);
+        $mail->send();
     }
 
     /**

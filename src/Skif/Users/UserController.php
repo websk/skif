@@ -272,16 +272,24 @@ class UserController
             $site_url = \Skif\Conf\ConfWrapper::value('site_url');
             $site_name = \Skif\Conf\ConfWrapper::value('site_name');
 
-            $message = "<p>Добрый день, " . $user_obj->getName() . "</p>";
-            $message .= "<p>Вы воспользовались формой восстановления пароля на сайте " . $site_name. "</p>";
-            $message .= "<p>Ваш новый пароль: " . $new_password  . "<br>";
-            $message .= "Ваш email для входа: ".  $user_obj->getEmail() . "</p>";
-            $message .= "<p>Рекомендуем сменить пароль после входа на сайт.</p>";
-            $message .= '<p>http://' . $site_url . "</p>";
+            $mail_message = "<p>Добрый день, " . $user_obj->getName() . "</p>";
+            $mail_message .= "<p>Вы воспользовались формой восстановления пароля на сайте " . $site_name. "</p>";
+            $mail_message .= "<p>Ваш новый пароль: " . $new_password  . "<br>";
+            $mail_message .= "Ваш email для входа: ".  $user_obj->getEmail() . "</p>";
+            $mail_message .= "<p>Рекомендуем сменить пароль после входа на сайт.</p>";
+            $mail_message .= '<p>http://' . \Skif\Utils::appendHttp($site_url) . "</p>";
 
-            $subj = "Смена пароля на сайте " . \Skif\Conf\ConfWrapper::value('site_name');
+            $subject = "Смена пароля на сайте " . \Skif\Conf\ConfWrapper::value('site_name');
 
-            \Skif\SendMail::mailToUtf8($user_obj->getEmail(), $site_email, $site_name, $subj, $message);
+            $mail = new \PHPMailer;
+            $mail->CharSet = "utf8";
+            $mail->setFrom($site_email, $site_name);
+            $mail->addAddress($user_obj->getEmail());
+            $mail->isHTML(true);
+            $mail->Subject = $subject;
+            $mail->Body = $mail_message;
+            $mail->AltBody = \Skif\Utils::checkPlain($mail_message);
+            $mail->send();
         }
 
         return $new_password;

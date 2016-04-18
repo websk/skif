@@ -43,13 +43,30 @@ class TaskController extends \Skif\CRUD\CRUDController
         if ($task_obj->getCreatedUserId() != $current_user_id) {
             $created_user_obj = \Skif\Users\User::factory($task_obj->getCreatedUserId());
 
-            \Skif\SendMail::mailToUtf8($created_user_obj->getEmail(), $site_email, $site_name, $subject, $mail_message);
+            $mail = new \PHPMailer;
+            $mail->CharSet = "utf8";
+            $mail->setFrom($site_email, $site_name);
+            $mail->addAddress($created_user_obj->getEmail());
+            $mail->isHTML(true);
+            $mail->Subject = $subject;
+            $mail->Body = $mail_message;
+            $mail->AltBody = \Skif\Utils::checkPlain($mail_message);
+            $mail->send();
         }
 
         if ($task_obj->getAssignedToUserId()) {
             if ($task_obj->getAssignedToUserId() != $current_user_id) {
                 $assigned_user_obj = \Skif\Users\User::factory($task_obj->getAssignedToUserId());
-                \Skif\SendMail::mailToUtf8($assigned_user_obj->getEmail(), $site_email, $site_name, $subject, $mail_message);
+
+                $mail = new \PHPMailer;
+                $mail->CharSet = "utf8";
+                $mail->setFrom($site_email, $site_name);
+                $mail->addAddress($assigned_user_obj->getEmail());
+                $mail->isHTML(true);
+                $mail->Subject = $subject;
+                $mail->Body = $mail_message;
+                $mail->AltBody = \Skif\Utils::checkPlain($mail_message);
+                $mail->send();
             }
         }
     }
