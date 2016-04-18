@@ -5,6 +5,19 @@
 
 $user_name = '';
 $user_email = '';
+
+$current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+
+if (\Skif\Conf\ConfWrapper::value('comments.no_add_comments_for_unregistered_users')) {
+    ?>
+    <div>
+        Не авторизованные пользователи не могут добавлять комментарии.
+        Пожалуйста <a href="<?php echo \Skif\Users\AuthController::getLoginFormUrl(); ?>">войдит на сайт</a> или <a href="<?php echo \Skif\Users\AuthController::getRegistrationFormUrl(); ?>">зарегистрируйтесь</a>.
+    </div>
+<?php
+    return;
+}
+
 ?>
 <form method="post" action="/comments/add" id="comment_form" class="form-horizontal">
     <div class="form-group">
