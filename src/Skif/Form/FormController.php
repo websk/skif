@@ -102,6 +102,7 @@ class FormController extends \Skif\CRUD\CRUDController
         $mail = new \PHPMailer;
         $mail->CharSet = "utf8";
         $mail->setFrom($site_email, $site_name);
+        $mail->addReplyTo($user_email);
         $mail->addAddress($to_mail);
         if ($form_obj->getEmailCopy()) {
             $mail->addAddress($form_obj->getEmailCopy());
