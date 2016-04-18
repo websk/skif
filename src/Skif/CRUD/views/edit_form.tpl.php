@@ -133,6 +133,7 @@ if (property_exists($model_class_name, 'related_models_arr')) {
         }
 
         \Skif\Utils::assert(array_key_exists('link_field', $related_model_data));
+
         $relation_field_name = $related_model_data['link_field'];
 
         $list_title = "Связанные данные " . $related_model_class_name;
@@ -148,11 +149,14 @@ if (property_exists($model_class_name, 'related_models_arr')) {
 
         echo '<hr>';
 
+        $objs_ids_arr = \Skif\CRUD\CRUDUtils::getObjIdsArrayForModel($model_class_name, $context_arr);
+
         echo \Skif\PhpTemplate::renderTemplateBySkifModule(
             'CRUD',
             'list.tpl.php',
             array(
                 'model_class_name' => $related_model_class_name,
+                'objs_ids_arr' => $objs_ids_arr,
                 'context_arr' => $context_arr,
                 'list_title' => $list_title,
                 'current_controller_obj' => \Skif\CRUD\CRUDController::getControllerClassNameByModelClassName($related_model_class_name)
