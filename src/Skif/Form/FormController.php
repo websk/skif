@@ -75,8 +75,12 @@ class FormController extends \Skif\CRUD\CRUDController
             }
         }
 
-        if (!\Skif\Captcha\Captcha::checkWithMessage()) {
-            \Skif\Http::redirect($form_obj->getUrl());
+        $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+
+        if (!$current_user_id) {
+            if (!\Skif\Captcha\Captcha::checkWithMessage()) {
+                \Skif\Http::redirect($form_obj->getUrl());
+            }
         }
 
         if (!$user_email) {
