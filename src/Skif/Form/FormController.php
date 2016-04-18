@@ -117,7 +117,7 @@ class FormController extends \Skif\CRUD\CRUDController
 
         $response_mail_message .= "<br><br>";
         $response_mail_message .= $to_mail . "<br>";
-        $response_mail_message .= "http://" . $site_url . "<br>";
+        $response_mail_message .= '<p>' . $site_name . ', <a href="' . \Skif\Utils::appendHttp($site_url) . '">' . $site_url . '</a></p>';
 
         $mail = new \PHPMailer;
         $mail->CharSet = "utf8";
