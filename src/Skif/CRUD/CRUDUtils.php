@@ -299,7 +299,7 @@ class CRUDUtils
             $query_param_values_arr
         );
 
-        if ($model_class_name == '\Skif\Form\Form') {
+        if ($model_class_name == '\Skif\Form\FormField') {
             echo $query;
         }
 
