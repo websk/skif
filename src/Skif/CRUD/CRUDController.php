@@ -162,6 +162,10 @@ class CRUDController extends \Skif\BaseController
         $filter = '';
 
         if (!$objs_ids_arr) {
+            if ($model_class_name == '\Skif\Form\Form') {
+                echo '1';
+            }
+
             $context_arr = array();
             if (property_exists($model_class_name, 'crud_default_context_arr_for_list')) {
                 $context_arr = $model_class_name::$crud_default_context_arr_for_list;
