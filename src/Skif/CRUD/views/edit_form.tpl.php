@@ -149,7 +149,7 @@ if (property_exists($model_class_name, 'related_models_arr')) {
 
         echo '<hr>';
 
-        $objs_ids_arr = \Skif\CRUD\CRUDUtils::getObjIdsArrayForModel($model_class_name, $context_arr);
+        $objs_ids_arr = \Skif\CRUD\CRUDUtils::getObjIdsArrayForModel($related_model_class_name, $context_arr);
 
         echo \Skif\PhpTemplate::renderTemplateBySkifModule(
             'CRUD',
