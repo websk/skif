@@ -238,7 +238,7 @@ class AuthController
         $subject = 'Подтверждение регистрации на сайте ' . $site_name;
 
         $mail = new \PHPMailer;
-        $mail->CharSet = "utf8";
+        $mail->CharSet = "utf-8";
         $mail->setFrom($site_email, $site_name);
         $mail->addAddress($email);
         $mail->isHTML(true);

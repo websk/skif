@@ -308,7 +308,7 @@ class Comment  implements
                     $subject = 'Ответ на сообщение на сайте' . $site_name;
 
                     $mail = new \PHPMailer;
-                    $mail->CharSet = "utf8";
+                    $mail->CharSet = "utf-8";
                     $mail->setFrom($site_email, $site_name);
                     $mail->addAddress($parent_comment_obj->getUserEmail());
                     $mail->isHTML(true);

@@ -100,7 +100,7 @@ class FormController extends \Skif\CRUD\CRUDController
         $to_mail = $form_email ? $form_email : $site_email;
 
         $mail = new \PHPMailer;
-        $mail->CharSet = "utf8";
+        $mail->CharSet = "utf-8";
         $mail->setFrom($site_email, $site_name);
         $mail->addReplyTo($user_email);
         $mail->addAddress($to_mail);
@@ -120,7 +120,7 @@ class FormController extends \Skif\CRUD\CRUDController
         $response_mail_message .= '<p>' . $site_name . ', <a href="' . \Skif\Utils::appendHttp($site_url) . '">' . $site_url . '</a></p>';
 
         $mail = new \PHPMailer;
-        $mail->CharSet = "utf8";
+        $mail->CharSet = "utf-8";
         $mail->setFrom($to_mail, $site_name);
         $mail->addAddress($user_email);
         $mail->isHTML(true);

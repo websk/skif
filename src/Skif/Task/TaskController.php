@@ -44,7 +44,7 @@ class TaskController extends \Skif\CRUD\CRUDController
             $created_user_obj = \Skif\Users\User::factory($task_obj->getCreatedUserId());
 
             $mail = new \PHPMailer;
-            $mail->CharSet = "utf8";
+            $mail->CharSet = "utf-8";
             $mail->setFrom($site_email, $site_name);
             $mail->addAddress($created_user_obj->getEmail());
             $mail->isHTML(true);
@@ -59,7 +59,7 @@ class TaskController extends \Skif\CRUD\CRUDController
                 $assigned_user_obj = \Skif\Users\User::factory($task_obj->getAssignedToUserId());
 
                 $mail = new \PHPMailer;
-                $mail->CharSet = "utf8";
+                $mail->CharSet = "utf-8";
                 $mail->setFrom($site_email, $site_name);
                 $mail->addAddress($assigned_user_obj->getEmail());
                 $mail->isHTML(true);
