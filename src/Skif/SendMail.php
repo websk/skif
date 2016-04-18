@@ -5,6 +5,15 @@ namespace Skif;
 
 class SendMail
 {
+    /**
+     * @deprecated - use \PHPMailer
+     * @param $to
+     * @param $from_mail
+     * @param $from_name
+     * @param $subject
+     * @param $message
+     * @return mixed
+     */
     public static function mailToUtf8($to, $from_mail, $from_name, $subject, $message)
     {
         $subject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
@@ -16,6 +25,17 @@ class SendMail
         return mail($to, $subject, $message, $headers);
     }
 
+    /**
+     * @deprecated - use \PHPMailer
+     * @param $to
+     * @param $from_mail
+     * @param $from_name
+     * @param $subject
+     * @param $message
+     * @param $filename
+     * @param $file_output
+     * @return mixed
+     */
     public static function mailWithAttachment($to, $from_mail, $from_name, $subject, $message, $filename, $file_output)
     {
         $subject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
