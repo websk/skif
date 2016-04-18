@@ -143,8 +143,11 @@ if (property_exists($model_class_name, 'related_models_arr')) {
         }
 
         $context_arr = array($relation_field_name => $obj->getId());
-        foreach ($related_model_data['context_fields_arr'] as $context_field) {
-            $context_arr[$context_field] = \Skif\CRUD\CRUDUtils::getObjectFieldValue($obj, $context_field);
+
+        if (array_key_exists($related_model_data['context_fields_arr'], $related_model_data)) {
+            foreach ($related_model_data['context_fields_arr'] as $context_field) {
+                $context_arr[$context_field] = \Skif\CRUD\CRUDUtils::getObjectFieldValue($obj, $context_field);
+            }
         }
 
         echo '<hr>';
