@@ -11,7 +11,7 @@ $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
 if (\Skif\Conf\ConfWrapper::value('comments.no_add_comments_for_unregistered_users')) {
     ?>
     <div>
-        Не авторизованные пользователи не могут добавлять комментарии.
+        Неавторизованные пользователи не могут оставлять комментарии.
         Пожалуйста <a href="<?php echo \Skif\Users\AuthController::getLoginFormUrl(); ?>">войдит на сайт</a> или <a href="<?php echo \Skif\Users\AuthController::getRegistrationFormUrl(); ?>">зарегистрируйтесь</a>.
     </div>
 <?php
