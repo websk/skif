@@ -32,9 +32,7 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
     <style>
         html, body {margin: 0; padding: 0 10px;}
         #body { width: 100%; max-width: 450px; margin: 0 auto; }
-        h1 {font-size: 120px; margin: 0; text-align: center; font-weight: 400;     margin-bottom: 30px;}
-        h1 div { font-size: 36px; }
-        p { font-family: 'Roboto', serif; font-size: 14px; padding-bottom: 8px; }
+        p {padding-bottom: 8px; }
         .narrow { width: 200px; margin: 0 auto;  }
         .list_title { margin-bottom: 10px; }
         a {color:  #449ddd;}
