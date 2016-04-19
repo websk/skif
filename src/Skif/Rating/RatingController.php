@@ -47,6 +47,11 @@ class RatingController extends \Skif\CRUD\CRUDController
             return;
         }
 
+        $rating_voice_obj = new \Skif\Rating\RatingVoice();
+        $rating_voice_obj->setRatingId($rating_id);
+        $rating_voice_obj->setRating($rating_star);
+        $rating_voice_obj->save();
+
         $new_rating = $rating_star;
         if ($current_rating > 0) {
             $new_rating = ($current_rating + $rating_star) / 2;

@@ -80,5 +80,13 @@ class Rating implements
         $this->rating = $rating;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getRatingVoicesIdsArr()
+    {
+        return $this->rating_voices_ids_arr;
+    }
+    
 
 }
