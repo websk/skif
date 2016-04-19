@@ -16,6 +16,8 @@ $error_messages_arr = array(
 if (!array_key_exists($error_code, $error_messages_arr)) {
     return;
 }
+
+$bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,9 +26,25 @@ if (!array_key_exists($error_code, $error_messages_arr)) {
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href="<?php echo $bower_path; ?>/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html, body {margin: 0; padding: 0 10px;}
+        #body { width: 100%; max-width: 450px; margin: 0 auto; }
+        h1 {font-size: 120px; margin: 0; text-align: center; font-weight: 400;     margin-bottom: 30px;}
+        h1 div { font-size: 36px; }
+        p { font-family: 'Roboto', serif; font-size: 14px; padding-bottom: 8px; }
+        .narrow { width: 200px; margin: 0 auto;  }
+        .list_title { margin-bottom: 10px; }
+        a {color:  #449ddd;}
+        #footer { margin-top: 30px; text-align: center; }
+        .inline_block{display: inline-block}
+        @media (max-width: 500px) {
+            h1 {font-size: 100px;}
+            h1 div { font-size: 26px; }
+        }
+    </style>
 </head>
 <body>
 
