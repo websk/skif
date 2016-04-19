@@ -26,13 +26,6 @@ class Http {
         header('Cache-Control: max-age=' . $cache_sec . ', public');
     }
 
-    public static function redirect404()
-    {
-        header("HTTP/1.0 404 Not Found");
-        \Skif\Http::errorPageAction(404);
-        exit;
-    }
-
     static public function exit404If($exit_condition)
     {
         if (!$exit_condition) {
