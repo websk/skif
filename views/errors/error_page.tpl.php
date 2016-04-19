@@ -37,7 +37,6 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
         p {padding-bottom: 8px; }
         .narrow { width: 200px; margin: 0 auto;  }
         .list_title { margin-bottom: 10px; }
-        a {color:  #449ddd;}
         #footer { margin-top: 30px; text-align: center; }
         .inline_block{display: inline-block}
         @media (max-width: 500px) {
@@ -64,6 +63,7 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
         }
     }
     ?>
+    <p></p>
     <p>
         <?php
         $site_name = \Skif\Conf\ConfWrapper::value('site_name');
