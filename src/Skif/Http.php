@@ -68,7 +68,8 @@ class Http {
     public static function errorPageAction($error_code)
     {
         echo \Skif\PhpTemplate::renderTemplate(
-            'errors/404.tpl.php'
+            'errors/404.tpl.php',
+            array('error_code' => $error_code)
         );
     }
 }
