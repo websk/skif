@@ -55,12 +55,16 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
     if (array_key_exists('messages', $error_messages_arr[$error_code])) {
         ?>
         <p class="narrow list_title">Возможные причины:</p>
+        <ul>
         <?php
         foreach ($error_messages_arr[$error_code]['messages'] as $message) {
             ?>
-            <p class="narrow"><?php echo $message; ?>;</p>
+            <li><?php echo $message; ?>;</li>
         <?php
         }
+        ?>
+        </ul>
+        <?php
     }
     ?>
     <p></p>
