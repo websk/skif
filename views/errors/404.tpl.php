@@ -20,13 +20,11 @@ if (!array_key_exists($error_code, $error_messages_arr)) {
     <title>Ошибка <?php echo $error_code; ?> &mdash; <?php echo $error_messages_arr[$error_code]['title']; ?>!</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab&subset=latin,cyrillic' rel='stylesheet'
-          type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         html, body { font-family: 'Roboto Slab', serif; margin: 0; padding: 0 10px;;  color: #494949; }
-        a img { border: 0 }
         #body { width: 100%; max-width: 450px; margin: 0 auto; }
         h1 {font-size: 120px; margin: 0; text-align: center; font-weight: 400;     margin-bottom: 30px;}
         h1 div { font-size: 36px; }
@@ -35,7 +33,6 @@ if (!array_key_exists($error_code, $error_messages_arr)) {
         .list_title { margin-bottom: 10px; }
         a {color:  #449ddd;}
         #footer { margin-top: 30px; text-align: center; }
-        #counters { text-align: center; margin-top: 40px; }
         .inline_block{display: inline-block}
         @media (max-width: 500px) {
             h1 {font-size: 100px;}
