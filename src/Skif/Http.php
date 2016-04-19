@@ -29,7 +29,8 @@ class Http {
     public static function redirect404()
     {
         header("HTTP/1.0 404 Not Found");
-        header('Location: /error');
+        //header('Location: /error');
+        \Skif\Http::errorPageAction();
         exit;
     }
 
