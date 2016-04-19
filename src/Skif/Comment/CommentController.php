@@ -52,7 +52,7 @@ class CommentController extends \Skif\CRUD\CRUDController
     public static function saveWebAction($comment_id = null)
     {
         if (!array_key_exists('url', $_REQUEST)) {
-            \Skif\Http::redirect404();
+            \Skif\Http::exit404();
         }
 
         $url = $_REQUEST['url'];

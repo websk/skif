@@ -29,8 +29,7 @@ class Http {
     public static function redirect404()
     {
         header("HTTP/1.0 404 Not Found");
-        //header('Location: /error');
-        \Skif\Http::errorPageAction();
+        \Skif\Http::errorPageAction(404);
         exit;
     }
 
@@ -46,12 +45,14 @@ class Http {
     static public function exit404()
     {
         header("HTTP/1.0 404 Not Found");
+        \Skif\Http::errorPageAction(404);
         exit();
     }
 
     static public function exit403()
     {
         header("HTTP/1.0 403 Forbidden");
+        \Skif\Http::errorPageAction(403);
         exit();
     }
 
@@ -64,28 +65,10 @@ class Http {
         \Skif\Http::exit403();
     }
 
-
-    public static function errorPageAction()
+    public static function errorPageAction($error_code)
     {
-        header('HTTP/1.1 404 Not Found');
-
-        $title = 'Ошибка 404 . Запрашиваемая Вами страница не существует!';
-
-        $content = '<p>Запрашиваемая Вами страница не существует!
-        <br><br><b>Возможные причины:</b><br>
-           - Вы неправильно ввели адрес страницы<br>
-           - Страница была удалена или перемещена<br>
-        <br>Для навигации по сайту воспользуйтесь меню или зайдите на <a href="/">главную страницу</a>.
-        </p>';
-
         echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.main'),
-            array(
-                'content' => $content,
-                'title' => $title,
-                'keywords' => '',
-                'description' => ''
-            )
+            'errors/404.html'
         );
     }
 }
