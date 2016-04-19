@@ -1,7 +1,7 @@
 <?php
 $current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
 
-\Skif\UrlManager::route('@^/error$@', '\Skif\Http', 'errorPageAction');
+\Skif\UrlManager::route('@^/errors/(.+)$@', '\Skif\Http', 'errorPageAction');
 
 \Skif\UrlManager::route('@^@', '\Skif\Redirect\RedirectController', 'redirectAction');
 
