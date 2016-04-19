@@ -48,7 +48,7 @@
         <span class="inline_block">или напишите <a href="/feedback" title="написать администратору">администратору</a>.</span>
     </p>
 
-    <p id="footer">&copy;&nbsp; <?php echo \Skif\Utils::appendHttp($site_name); ?></p>
+    <p id="footer">&copy;&nbsp; <?php echo $site_name; ?></p>
 </div>
 </body>
 </html>
