@@ -60,7 +60,7 @@ class RatingController extends \Skif\CRUD\CRUDController
             $rating_voice_obj->setRatingId($rating_id);
             $rating_voice_obj->setUserId($current_user_id);
         }
-        
+
         $rating_voice_obj->setRating($rating_star);
         $rating_voice_obj->save();
 
@@ -69,8 +69,10 @@ class RatingController extends \Skif\CRUD\CRUDController
         $rating_obj->setRating($new_rating);
         $rating_obj->save();
 
+        /*
         setcookie(self::$rating_cookie_prefix . $rating_id, 'yes', time() + 3600 * 24); // Сутки
         $_SESSION[self::$rating_cookie_prefix . $rating_id] = 'yes';
+        */
 
         echo $new_rating;
     }
