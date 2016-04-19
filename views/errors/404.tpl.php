@@ -39,11 +39,16 @@
     <p class="narrow">документ был перемещен;</p>
     <p class="narrow">документ был переименован.</p>
     <p>
-        Зайдите с <a href="http://findhike.ru">главной страницы</a> <span class="inline_block">или напишите <a href="/feedback"
-                                                                                                              title="написать администратору">администратору</a>.</span>
+        <?php
+        $site_name = \Skif\Conf\ConfWrapper::value('site_name');
+        $site_url = \Skif\Conf\ConfWrapper::value('site_url');
+        ?>
+
+        Зайдите с <a href="<?php echo \Skif\Utils::appendHttp($site_url); ?>">главной страницы</a>
+        <span class="inline_block">или напишите <a href="/feedback" title="написать администратору">администратору</a>.</span>
     </p>
 
-    <p id="footer">&copy;&nbsp; findhike.ru</p>
+    <p id="footer">&copy;&nbsp; <?php echo \Skif\Utils::appendHttp($site_name); ?></p>
 </div>
 </body>
 </html>
