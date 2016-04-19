@@ -30,6 +30,7 @@ class RatingController extends \Skif\CRUD\CRUDController
 
         $current_rating = $rating_obj->getRating();
 
+        /*
         if (isset($_COOKIE[self::$rating_cookie_prefix . $rating_id])) {
             echo $current_rating;
             return;
@@ -39,6 +40,7 @@ class RatingController extends \Skif\CRUD\CRUDController
             echo $current_rating;
             return;
         }
+        */
 
         $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
 
@@ -47,8 +49,18 @@ class RatingController extends \Skif\CRUD\CRUDController
             return;
         }
 
-        $rating_voice_obj = new \Skif\Rating\RatingVoice();
-        $rating_voice_obj->setRatingId($rating_id);
+
+        $rating_voice_id = \Skif\Rating\RatingUtils::getRatingVoiceIdByRatingIdAndUserId($rating_id, $current_user_id);
+
+        if ($rating_voice_id) {
+            $rating_voice_obj = \Skif\Rating\RatingVoice::factory($rating_voice_id);
+        } else {
+            $rating_voice_obj = new \Skif\Rating\RatingVoice();
+
+            $rating_voice_obj->setRatingId($rating_id);
+            $rating_voice_obj->setUserId($current_user_id);
+        }
+        
         $rating_voice_obj->setRating($rating_star);
         $rating_voice_obj->save();
 

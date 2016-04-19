@@ -18,6 +18,7 @@ class RatingVoice implements
     protected $rating_id;
     protected $rating = 0;
     protected $comment;
+    protected $user_id;
 
     /**
      * @return mixed
@@ -81,6 +82,22 @@ class RatingVoice implements
     public function setComment($comment)
     {
         $this->comment = $comment;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * @param mixed $user_id
+     */
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id;
     }
 
     public static function afterUpdate($id)

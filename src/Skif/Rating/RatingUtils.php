@@ -50,4 +50,19 @@ class RatingUtils
 
         return $average_rating;
     }
+
+    /**
+     * @param $rating_id
+     * @param $user_id
+     * @return mixed
+     */
+    public static function getRatingVoiceIdByRatingIdAndUserId($rating_id, $user_id)
+    {
+        $rating_voice_id = \Skif\DB\DBWrapper::readField(
+            "SELECT id FROM " . \Skif\Rating\RatingVoice::DB_TABLE_NAME . " WHERE rating_id=? AND user_id=? LIMIT 1",
+            array($rating_id, $user_id)
+        );
+
+        return $rating_voice_id;
+    }
 }
