@@ -17,6 +17,21 @@ class Rating implements
     protected $name;
     protected $rating = 0;
 
+    protected $rating_voices_ids_arr;
+
+    public static $active_record_ignore_fields_arr = array(
+        'rating_voices_ids_arr',
+    );
+
+    // Связанные модели
+    public static $related_models_arr = array(
+        \Skif\Rating\RatingVoice::class => array(
+            'link_field' => 'rating_id',
+            'field_name' => 'rating_voices_ids_arr',
+            'list_title' => 'Оценки пользователей',
+        ),
+    );
+
     /**
      * @return mixed
      */
