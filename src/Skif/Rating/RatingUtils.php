@@ -23,6 +23,11 @@ class RatingUtils
         return $rating_id;
     }
 
+    /**
+     * Расчет рейтинга
+     * @param $rating_id
+     * @return float|int
+     */
     public static function getRatingAverageByRatingId($rating_id)
     {
         $rating_obj = \Skif\Rating\Rating::factory($rating_id);
