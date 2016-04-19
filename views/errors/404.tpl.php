@@ -1,7 +1,23 @@
+<?php
+/**
+ * @var $error_code
+ */
+
+$error_messages_arr = array(
+    404 => array(
+        'title' => 'документ не найден',
+        'messages' => array('неправильно набран адрес', 'документ был удален', 'документ был перемещен', 'документ был переименован')
+    )
+);
+
+if (!array_key_exists($error_code, $error_messages_arr)) {
+    return;
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Ошибка 404 &mdash; документ не найден!</title>
+    <title>Ошибка <?php echo $error_code; ?> &mdash; <?php echo $error_messages_arr[$error_code]['title']; ?>!</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab&subset=latin,cyrillic' rel='stylesheet'
@@ -30,14 +46,21 @@
 <body>
 
 <div id="body">
-    <h1>404
-        <div>Документ не найден</div>
+    <h1><?php echo $error_code; ?>
+        <div><?php echo ucfirst($error_messages_arr[$error_code]['title']); ?></div>
     </h1>
-    <p class="narrow list_title">Возможные причины:</p>
-    <p class="narrow">неправильно набран адрес;</p>
-    <p class="narrow">документ был удален;</p>
-    <p class="narrow">документ был перемещен;</p>
-    <p class="narrow">документ был переименован.</p>
+    <?php
+    if (array_key_exists('messages', $error_messages_arr[$error_code])) {
+        ?>
+        <p class="narrow list_title">Возможные причины:</p>
+        <?php
+        foreach ($error_messages_arr[$error_code]['messages'] as $message) {
+            ?>
+            <p class="narrow"><?php echo $message; ?>;</p>
+        <?php
+        }
+    }
+    ?>
     <p>
         <?php
         $site_name = \Skif\Conf\ConfWrapper::value('site_name');
