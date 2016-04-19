@@ -7,7 +7,10 @@ $error_messages_arr = array(
     404 => array(
         'title' => 'документ не найден',
         'messages' => array('неправильно набран адрес', 'документ был удален', 'документ был перемещен', 'документ был переименован')
-    )
+    ),
+    403 => array(
+        'title' => 'доступ запрещен'
+    ),
 );
 
 if (!array_key_exists($error_code, $error_messages_arr)) {
