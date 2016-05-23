@@ -82,6 +82,13 @@ trait ActiveRecord
                 ) {
                     return 'Удаление невозможно. Имеются связанные данные ' . $related_model_data['list_title'];
                 }
+
+                // Удаляем связанные данные
+                $related_ids_arr = $this->$related_model_data['field_name'];
+                foreach ($related_ids_arr as $related_id) {
+                    $related_model_obj = \Skif\Factory::createAndLoadObject($related_model_class_name, $related_id);
+                    $related_model_obj->delete();
+                }
             }
         }
 
@@ -98,19 +105,6 @@ trait ActiveRecord
             $this->afterDelete();
         } else {
             \Skif\Util\ActiveRecordHelper::deleteModelObj($this);
-        }
-
-        // Удаляем связанные данные
-        if (isset($model_class_name::$related_models_arr)) {
-            foreach ($model_class_name::$related_models_arr as $related_model_class_name => $related_model_data) {
-                \Skif\Utils::assert(array_key_exists('link_field', $related_model_data));
-
-                $related_ids_arr = $this->$related_model_data['field_name'];
-                foreach ($related_ids_arr as $related_id) {
-                    $related_model_obj = \Skif\Factory::createAndLoadObject($related_model_class_name, $related_id);
-                    $related_model_obj->delete();
-                }
-            }
         }
 
         if ($this instanceof \Skif\Model\InterfaceLogger) {
