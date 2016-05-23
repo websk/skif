@@ -77,7 +77,7 @@ class Poll implements
 
     // Связанные модели
     public static $related_models_arr = array(
-        \Skif\Poll\PollQuestion::class => array(
+        '\Skif\Poll\PollQuestion' => array(
             'link_field' => 'poll_id',
             'field_name' => 'poll_questions_ids_arr',
             'list_title' => 'Варианты ответов',
