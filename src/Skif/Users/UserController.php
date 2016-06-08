@@ -21,7 +21,7 @@ class UserController
      */
     public function listAction()
     {
-        \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
 
         $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
             'Users',

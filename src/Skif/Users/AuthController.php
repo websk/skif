@@ -111,7 +111,7 @@ class AuthController
      */
     public function registrationFormAction()
     {
-        \Skif\Http::exit403if(\Skif\Users\AuthUtils::getCurrentUserId());
+        \Skif\Http::exit403If(\Skif\Users\AuthUtils::getCurrentUserId());
 
         $content = '';
 
