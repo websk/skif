@@ -111,7 +111,10 @@ class AuthController
      */
     public function registrationFormAction()
     {
-        \Skif\Http::exit403If(\Skif\Users\AuthUtils::getCurrentUserId());
+        $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+        if ($current_user_id) {
+            \Skif\Http::redirect(\Skif\Users\UserController::getEditProfileUrl($current_user_id));
+        }
 
         $content = '';
 
