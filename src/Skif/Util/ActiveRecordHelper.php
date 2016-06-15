@@ -129,6 +129,10 @@ class ActiveRecordHelper
                     array($id)
                 );
 
+                if (!$related_ids_arr) {
+                    $related_ids_arr = array();
+                }
+
                 $property = $reflect->getProperty($related_model_data['field_name']);
                 $property->setAccessible(true);
                 $property->setValue($model_obj, $related_ids_arr);
