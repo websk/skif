@@ -348,6 +348,10 @@ class User implements
         $roles_ids_arr = $this->getRoleIdsArr();
 
         foreach ($roles_ids_arr as $role_id) {
+            if (!$role_id) {
+                continue;
+            }
+            
             $role_obj = \Skif\Users\Role::factory($role_id);
 
             if (trim($role_obj->getDesignation()) == trim($designation)) {
