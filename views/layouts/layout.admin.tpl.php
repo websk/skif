@@ -7,12 +7,16 @@
 
 $user_id = \Skif\Users\AuthUtils::getCurrentUserId();
 
-if (!$user_id || !\Skif\Users\AuthUtils::currentUserIsAdmin()) {
+if (!$user_id) {
     echo \Skif\PhpTemplate::renderTemplate(
         'layouts/layout.admin_login.tpl.php'
     );
 
     return;
+}
+
+if (!\Skif\Users\AuthUtils::currentUserIsAdmin()) {
+    \Skif\Http::exit403();
 }
 
 $user_obj = \Skif\Users\User::factory($user_id);
