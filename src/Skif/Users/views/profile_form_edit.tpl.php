@@ -19,8 +19,8 @@ if (($current_user_id != $user_id) && !\Skif\Users\AuthUtils::currentUserIsAdmin
 $destination = \Skif\UrlManager::getUriNoQueryString();
 
 ?>
-<form id="profile_form" action="/user/save/<?php echo $user_id; ?>" autocomplete="off" method="post" class="form-horizontal"
-      enctype="multipart/form-data">
+<form id="profile_form" action="/user/save/<?php echo $user_id; ?>" autocomplete="off" method="post"
+      class="form-horizontal" enctype="multipart/form-data">
     <div xmlns="http://www.w3.org/1999/html">
         <div class="form-group has-warning">
             <label class="col-md-4 control-label">Имя на сайте</label>
@@ -65,12 +65,13 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
                             ?>
                             <div class="checkbox">
                                 <label for="roles_<?php echo $role_id; ?>">
-                                    <input value="<?php echo $role_id; ?>" id="roles_<?php echo $role_id; ?>" type="checkbox"
+                                    <input value="<?php echo $role_id; ?>" id="roles_<?php echo $role_id; ?>"
+                                           type="checkbox"
                                            name="roles[]"<?php echo(in_array($role_id, $user_obj->getRoleIdsArr()) ? ' checked' : '') ?>>
                                     <?php echo $role_obj->getName(); ?>
                                 </label>
                             </div>
-                        <?php
+                            <?php
                         }
                         ?>
                     </div>
@@ -80,19 +81,21 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
                 <div class="col-md-offset-4 col-md-8">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="confirm" value="1"<?= $user_obj->isConfirm() ? ' checked' : '' ?>> Регистрация подтверждена
+                            <input type="checkbox" name="confirm"
+                                   value="1"<?= $user_obj->isConfirm() ? ' checked' : '' ?>> Регистрация подтверждена
                         </label>
                     </div>
                 </div>
             </div>
-        <?php
+            <?php
         }
         ?>
         <div class="form-group">
             <label class="col-md-4 control-label">Дата рождения</label>
 
             <div class="col-md-8">
-                <input type="text" name="birthday" value="<?= $user_obj->getBirthDay() ?>" maxlength="10" class="form-control">
+                <input type="text" name="birthday" value="<?= $user_obj->getBirthDay() ?>" maxlength="10"
+                       class="form-control">
                 <span class="help-block">(дд.мм.гггг)</span>
             </div>
         </div>
@@ -135,7 +138,7 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
                     <div class="help-block">Заполняется, если Вы хотите изменить пароль</div>
                 </div>
             </div>
-        <?php
+            <?php
         }
         ?>
         <div>
@@ -152,17 +155,17 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
 
             <?php
             if (($user_id != 'new') && \Skif\Users\AuthUtils::currentUserIsAdmin()) {
-            ?>
-            <div class="form-group">
-                <div class="col-md-offset-4 col-md-8">
-                    <a href="/user/create_password/<?= $user_id ?>?destination=<?php echo $destination; ?>">Сгенерировать
-                        пароль и выслать пользователю</a>
+                ?>
+                <div class="form-group">
+                    <div class="col-md-offset-4 col-md-8">
+                        <a href="/user/create_password/<?= $user_id ?>?destination=<?php echo $destination; ?>">Сгенерировать
+                            пароль и выслать пользователю</a>
+                    </div>
                 </div>
-            </div>
+                <?php
+            }
+            ?>
         </div>
-    <?php
-    }
-    ?>
     </div>
 
     <div class="form-group">
@@ -184,7 +187,8 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
                 </script>
                 <a id="user_photo"
                    href="<?php echo \Skif\Image\ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(), '600_auto'); ?>">
-                    <img src="<?php echo \Skif\Image\ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(), '200_auto'); ?>"
+                    <img
+                        src="<?php echo \Skif\Image\ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(), '200_auto'); ?>"
                         border="0" class="img-responsive img-thumbnail">
                 </a>
 
@@ -192,7 +196,7 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
                     <a href="/user/delete_photo/<?php echo $user_id; ?>?destination=<?php echo $destination; ?>"
                        class="btn btn-default">Удалить фото</a>
                 </div>
-            <?php
+                <?php
             }
             ?>
         </div>
@@ -209,16 +213,16 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
 <script type="text/javascript">
     $().ready(function () {
         $.validator.setDefaults({
-            highlight: function(element) {
+            highlight: function (element) {
                 $(element).closest('.form-group').addClass('has-error');
             },
-            unhighlight: function(element) {
+            unhighlight: function (element) {
                 $(element).closest('.form-group').removeClass('has-error');
             },
             errorElement: 'span',
             errorClass: 'help-block',
-            errorPlacement: function(error, element) {
-                if(element.parent('.input-group').length) {
+            errorPlacement: function (error, element) {
+                if (element.parent('.input-group').length) {
                     error.insertAfter(element.parent());
                 } else {
                     error.insertAfter(element);
