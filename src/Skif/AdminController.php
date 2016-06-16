@@ -8,12 +8,16 @@ class AdminController
 
     public static function indexAction()
     {
-        if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-            \Skif\Http::redirect('/admin/content/page');
+        if (\Skif\Users\AuthUtils::getCurrentUserId()) {
+            if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
+                \Skif\Http::redirect('/admin/content/page');
+            }
+
+            echo \Skif\PhpTemplate::renderTemplate(
+                'layouts/layout.admin_login.tpl.php'
+            );
         }
 
-        echo \Skif\PhpTemplate::renderTemplate(
-            'layouts/layout.admin_login.tpl.php'
-        );
+        \Skif\Http::exit403();
     }
 }
