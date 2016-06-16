@@ -13,11 +13,11 @@ class AdminController
                 \Skif\Http::redirect('/admin/content/page');
             }
 
-            echo \Skif\PhpTemplate::renderTemplate(
-                'layouts/layout.admin_login.tpl.php'
-            );
+            \Skif\Http::exit403();
         }
 
-        \Skif\Http::exit403();
+        echo \Skif\PhpTemplate::renderTemplate(
+            'layouts/layout.admin_login.tpl.php'
+        );
     }
 }
