@@ -126,7 +126,7 @@ class FormController extends \Skif\CRUD\CRUDController
         $mail->isHTML(true);
         $mail->Subject = "Благодарим Вас за отправленную информацию!";
         $mail->Body = $response_mail_message;
-        $mail->AltBody = \Skif\Utils::checkPlain($message);
+        $mail->AltBody = \Skif\Utils::checkPlain($response_mail_message);
         $mail->send();
 
         \Skif\Http::redirect($form_obj->getUrl());
