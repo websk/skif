@@ -1,4 +1,8 @@
 <?php
+$destination = '/';
+if (isset($_REQUEST['destination'])) {
+    $destination = $_REQUEST['destination'];
+}
 ?>
 
 <form action="<?php echo \Skif\Users\AuthController::getLoginUrl(); ?>" method="post" class="form-horizontal">
@@ -34,5 +38,5 @@
             <a href="<?php echo \Skif\Users\AuthController::getRegistrationFormUrl(); ?>">Регистрация</a>
         </div>
     </div>
-    <input type="hidden" name="destination" value="/">
+    <input type="hidden" name="destination" value="<?php echo $destination; ?>">
 </form>
