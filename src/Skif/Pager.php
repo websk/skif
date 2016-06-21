@@ -99,7 +99,6 @@ class Pager
 
         $page_url = str_replace('?page_offset=' . self::getPageOffset(), '', $page_url);
         $page_url = str_replace('&page_offset=' . self::getPageOffset(), '', $page_url);
-        $page_url = str_replace('&amp;page_offset=' . self::getPageOffset(), '', $page_url);
         $page_url = str_replace('&page_size=' . self::getPageOffset(), '', $page_url);
 
         if (strpos($page_url, '?') === false) {
@@ -109,8 +108,8 @@ class Pager
         }
 
         if (self::hasPrevPage()) {
-            $html .= '<li><a href="' . $page_url . '?page_offset=0&page_size='.self::getPageSize().'"><span class="glyphicon glyphicon-home"></span> 0-' . self::getPageSize() . '</a></li>';
-            $html .= '<li><a href="' . $page_url . '?page_offset=' . self::getPrevPageStart() . '&page_size='.self::getPageSize().'"><span class="glyphicon glyphicon-arrow-left"></span> ' . self::getPrevPageStart() . '-' . (self::getPrevPageStart() + self::getPageSize()) . '</a></li>';
+            $html .= '<li><a href="' . $page_url . 'page_offset=0&page_size='.self::getPageSize().'"><span class="glyphicon glyphicon-home"></span> 0-' . self::getPageSize() . '</a></li>';
+            $html .= '<li><a href="' . $page_url . 'page_offset=' . self::getPrevPageStart() . '&page_size='.self::getPageSize().'"><span class="glyphicon glyphicon-arrow-left"></span> ' . self::getPrevPageStart() . '-' . (self::getPrevPageStart() + self::getPageSize()) . '</a></li>';
         } else {
             $html .= '<li class="disabled"><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>';
             $html .= '<li class="disabled"><a href="#"><span class="glyphicon glyphicon-arrow-left"></span></a></li>';
