@@ -99,7 +99,7 @@ class Pager
 
         $page_url = str_replace('?page_offset=' . self::getPageOffset(), '', $page_url);
         $page_url = str_replace('&page_offset=' . self::getPageOffset(), '', $page_url);
-
+        $page_url = str_replace('&amp;page_offset=' . self::getPageOffset(), '', $page_url);
         $page_url = str_replace('&page_size=' . self::getPageOffset(), '', $page_url);
 
         if (strpos($page_url, '?') === false) {
