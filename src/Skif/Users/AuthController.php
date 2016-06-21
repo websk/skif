@@ -149,6 +149,8 @@ class AuthController
         $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : self::getLoginFormUrl();
 
         $name = array_key_exists('name', $_REQUEST) ? $_REQUEST['name'] : '';
+        $first_name = array_key_exists('first_name', $_REQUEST) ? $_REQUEST['first_name'] : '';
+        $last_name = array_key_exists('last_name', $_REQUEST) ? $_REQUEST['last_name'] : '';
         $email = array_key_exists('email', $_REQUEST) ? $_REQUEST['email'] : '';
         $new_password_first = array_key_exists('new_password_first', $_REQUEST) ? $_REQUEST['new_password_first'] : '';
         $new_password_second = array_key_exists('new_password_second', $_REQUEST) ? $_REQUEST['new_password_second'] : '';
@@ -195,6 +197,12 @@ class AuthController
         $user_obj = new \Skif\Users\User();
 
         $user_obj->setName($name);
+        if ($first_name) {
+            $user_obj->setFirstName($first_name);
+        }
+        if ($last_name) {
+            $user_obj->setLastName($last_name);
+        }
         $user_obj->setEmail($email);
         $user_obj->setPassw(\Skif\Users\AuthUtils::getHash($new_password_first));
 
