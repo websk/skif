@@ -268,6 +268,7 @@ class Utils
                     $ending = $ending_array[2];
             }
         }
+
         return $ending;
     }
 
