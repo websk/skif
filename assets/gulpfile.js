@@ -127,8 +127,13 @@ gulp.task('moment.ru', function () {
 });
 
 gulp.task('font-awesome', function () {
-    return gulp.src(
-        bowerPath + 'font-awesome/css/font-awesome.min.css'
+    return gulp.src([
+            bowerPath + 'font-awesome/css/font-awesome.min.css',
+            bowerPath + 'font-awesome/fonts/*'
+        ],
+        {
+            base: bowerPath + 'font-awesome/'
+        }
     )
         .pipe(newer(librariesPath + 'font-awesome/'))
         .pipe(gulp.dest(librariesPath + 'font-awesome/'));
@@ -168,7 +173,7 @@ gulp.task('styles', function (done) {
         librariesPath + 'bootstrap/css/bootstrap.min.css',
         librariesPath + 'metisMenu/metisMenu.min.css',
         librariesPath + 'sb-admin-2/css/sb-admin-2.css',
-        librariesPath + 'font-awesome/font-awesome.min.css',
+        librariesPath + 'font-awesome/css/font-awesome.min.css',
         stylesPath + 'admin.css',
         librariesPath + 'fancybox/jquery.fancybox.css',
         librariesPath + 'bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'
@@ -206,8 +211,7 @@ gulp.task('scripts', function (done) {
  */
 gulp.task('fonts', function (done) {
     gulp.src([
-        bowerPath + 'bootstrap/dist/fonts/*',
-        bowerPath + 'font-awesome/fonts/*'
+        bowerPath + 'bootstrap/dist/fonts/*'
     ])
         .pipe(newer(fontsPath))
         .pipe(gulp.dest(fontsPath));
