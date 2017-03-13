@@ -23,7 +23,7 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
         ],
         pasteFilter: 'plain-text',
         customConfig:  '/vendor/websk/skif/assets/js/ckeditor_config.js',
-        contentsCss: ['<?php echo $bower_path; ?>/bootstrap/dist/css/bootstrap.min.css', '/assets/css/main.css', '/assets/css/style.css'],
+        contentsCss: ['<?php echo $bower_path; ?>/assets/libraries/bootstrap/css/bootstrap.min.css', '/assets/styles/main.css', '/assets/styles/style.css'],
         height: <?php echo $height ?>
     });
 </script>

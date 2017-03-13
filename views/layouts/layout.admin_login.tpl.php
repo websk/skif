@@ -28,7 +28,7 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
 
     <link href="<?php echo $bower_path; ?>/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <link href="<?php echo $skif_path; ?>/assets/css/admin.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo $skif_path; ?>/assets/styles/admin.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>

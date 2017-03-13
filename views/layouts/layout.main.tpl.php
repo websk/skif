@@ -25,7 +25,7 @@
     <link type="text/css" rel="stylesheet" media="all" href="/vendor/bower/bootstrap/dist/css/bootstrap.min.css"/>
     <script type="text/javascript" src="/vendor/bower/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    <link type="text/css" rel="stylesheet" media="all" href="/vendor/websk/skif/assets/css/main.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="/vendor/websk/skif/assets/styles/main.css"/>
 
     <script type="text/javascript" src="/vendor/bower/jquery-validation/dist/jquery.validate.min.js"></script>
 

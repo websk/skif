@@ -1,0 +1,27 @@
+{
+  "name": "SkIf",
+  "authors": [
+    "webSK <support@websk.ru>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "bootstrap": "3.3.7",
+    "jQuery": "2.1.4",
+    "eonasdan-bootstrap-datetimepicker": "4.17.47",
+    "jquery-validation": "1.14.0",
+    "fancybox": "2.1.6",
+    "jquery-ui": "1.11.4",
+    "ace-builds": "1.2.6",
+    "metisMenu": "1.1.3",
+    "font-awesome": "4.2.0"
+  }
+}

@@ -22,7 +22,7 @@ if (!\Skif\Users\AuthUtils::currentUserIsAdmin()) {
 $user_obj = \Skif\Users\User::factory($user_id);
 
 $skif_path = \Skif\Conf\ConfWrapper::value('skif_path');
-$bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
+$assets_libraries_path = $skif_path . '/assets/libraries';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,31 +39,31 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
     <link href="<?php echo $skif_path; ?>/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
     <!-- jQuery -->
-    <script src="<?php echo $bower_path; ?>/jquery/dist/jquery.min.js"></script>
-    <link href="<?php echo $bower_path; ?>/jquery-ui/themes/base/jquery-ui.min.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="<?php echo $bower_path; ?>/jquery-ui/jquery-ui.min.js"></script>
+    <script src="<?php echo $assets_libraries_path; ?>/jquery/jquery.min.js"></script>
+    <link href="<?php echo $assets_libraries_path; ?>/jquery-ui/themes/base/jquery-ui.min.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="<?php echo $assets_libraries_path; ?>/jquery-ui/jquery-ui.min.js"></script>
 
     <!-- Bootstrap -->
-    <link href="<?php echo $bower_path; ?>/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <script src="<?php echo $bower_path; ?>/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link href="<?php echo $assets_libraries_path; ?>/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="<?php echo $assets_libraries_path; ?>/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- MetisMenu CSS -->
-    <link href="<?php echo $bower_path; ?>/metisMenu/dist/metisMenu.min.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo $assets_libraries_path; ?>/metisMenu/metisMenu.min.css" rel="stylesheet" type="text/css">
 
-    <link href="<?php echo $skif_path; ?>/assets/libraries/sb-admin-2/css/sb-admin-2.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo $assets_libraries_path; ?>/sb-admin-2/css/sb-admin-2.css" rel="stylesheet" type="text/css">
 
-    <link href="<?php echo $bower_path; ?>/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo $assets_libraries_path; ?>/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <link href="<?php echo $skif_path; ?>/assets/css/admin.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo $skif_path; ?>/assets/styles/admin.css" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="<?php echo $bower_path; ?>/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="<?php echo $assets_libraries_path; ?>/jquery-validation/jquery.validate.min.js"></script>
 
-    <script type="text/javascript" src="<?php echo $bower_path; ?>/fancybox/source/jquery.fancybox.pack.js"></script>
-    <link href="<?php echo $bower_path; ?>/fancybox/source/jquery.fancybox.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="<?php echo $assets_libraries_path; ?>/fancybox/jquery.fancybox.pack.js"></script>
+    <link href="<?php echo $assets_libraries_path; ?>/fancybox/jquery.fancybox.css" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="<?php echo $bower_path; ?>/moment/min/moment-with-locales.min.js"></script>
-    <script type="text/javascript" src="<?php echo $bower_path; ?>/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-    <link href="<?php echo $bower_path; ?>/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="<?php echo $assets_libraries_path; ?>/moment/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="<?php echo $assets_libraries_path; ?>/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <link href="<?php echo $assets_libraries_path; ?>/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
 
     <script type="text/javascript" src="/vendor/ckeditor/ckeditor/ckeditor.js"></script>
 </head>
@@ -214,7 +214,7 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
 
 </div>
 
-<script src="<?php echo $bower_path; ?>/metisMenu/dist/metisMenu.min.js"></script>
+<script src="<?php echo $assets_libraries_path; ?>/metisMenu/dist/metisMenu.min.js"></script>
 
 <script src="<?php echo $skif_path; ?>/assets/libraries/sb-admin-2/js/sb-admin-2.js"></script>
 
