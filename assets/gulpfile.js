@@ -205,9 +205,10 @@ gulp.task('scripts', function (done) {
  * Fonts
  */
 gulp.task('fonts', function (done) {
-    gulp.src(
-        bowerPath + 'bootstrap/dist/fonts/*'
-    )
+    gulp.src([
+        bowerPath + 'bootstrap/dist/fonts/*',
+        bowerPath + 'font-awesome/fonts/*'
+    ])
         .pipe(newer(fontsPath))
         .pipe(gulp.dest(fontsPath));
     done();
