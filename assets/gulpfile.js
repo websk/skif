@@ -136,9 +136,8 @@ gulp.task('font-awesome', function () {
 
 gulp.task('metisMenu', function () {
     return gulp.src(
-        bowerPath + 'metisMenu/dist/metisMenu.css'
+        bowerPath + 'metisMenu/dist/*.min.*'
     )
-        .pipe(less(lessOptsCompress))
         .pipe(newer(librariesPath + 'metisMenu/'))
         .pipe(gulp.dest(librariesPath + 'metisMenu/'));
 });
@@ -167,7 +166,7 @@ gulp.task('styles', function (done) {
     gulp.src([
         librariesPath + 'jquery-ui/themes/base/jquery-ui.min.css',
         librariesPath + 'bootstrap/css/bootstrap.min.css',
-        librariesPath + 'metisMenu/metisMenu.css',
+        librariesPath + 'metisMenu/metisMenu.min.css',
         librariesPath + 'sb-admin-2/css/sb-admin-2.css',
         librariesPath + 'font-awesome/font-awesome.min.css',
         stylesPath + 'admin.css',
@@ -191,6 +190,7 @@ gulp.task('scripts', function (done) {
         librariesPath + 'bootstrap/js/bootstrap.min.js',
         librariesPath + 'jquery-validation/jquery.validate.min.js',
         librariesPath + 'fancybox/jquery.fancybox.pack.js',
+        librariesPath + 'metisMenu/metisMenu.min.js',
         librariesPath + 'moment/moment.min.js',
         librariesPath + 'moment/moment.ru.min.js',
         librariesPath + 'bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'
