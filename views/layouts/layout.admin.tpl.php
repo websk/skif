@@ -48,11 +48,11 @@ $assets_libraries_path = $skif_path . '/assets/libraries';
     <script src="<?php echo $assets_libraries_path; ?>/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- MetisMenu CSS -->
-    <link href="<?php echo $assets_libraries_path; ?>/metisMenu/metisMenu.min.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo $assets_libraries_path; ?>/metisMenu/metisMenu.css" rel="stylesheet" type="text/css">
 
     <link href="<?php echo $assets_libraries_path; ?>/sb-admin-2/css/sb-admin-2.css" rel="stylesheet" type="text/css">
 
-    <link href="<?php echo $assets_libraries_path; ?>/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo $assets_libraries_path; ?>/font-awesome/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <link href="<?php echo $skif_path; ?>/assets/styles/admin.css" rel="stylesheet" type="text/css">
 

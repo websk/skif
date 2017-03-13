@@ -6,7 +6,7 @@
  * @var $dir
  */
 
-$bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
+$skif_path = \Skif\Conf\ConfWrapper::value('skif_path');
 
 $dir_str = ($dir ? "'&dir=". $dir . "'" : '');
 ?>
@@ -15,7 +15,7 @@ $dir_str = ($dir ? "'&dir=". $dir . "'" : '');
 <script>
     CKEDITOR.replace('<?php echo $editor_name ?>', {
         customConfig:  '/vendor/websk/skif/assets/js/ckeditor_config.js',
-        contentsCss: ['<?php echo $bower_path; ?>/assets/libraries/bootstrap/css/bootstrap.min.css', '/assets/styles/main.css', '/assets/styles/style.css'],
+        contentsCss: ['<?php echo $skif_path; ?>/assets/libraries/bootstrap/css/bootstrap.min.css', '/assets/styles/main.css', '/assets/styles/style.css'],
         filebrowserBrowseUrl: '/vendor/websk/skif/libraries/kcfinder/browse.php?opener=ckeditor&type=content' + <?php echo ($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
         filebrowserImageBrowseUrl: '/vendor/websk/skif/libraries/kcfinder/browse.php?opener=ckeditor&type=images' + <?php echo ($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
         filebrowserFlashBrowseUrl: '/vendor/websk/skif/libraries/kcfinder/browse.php?opener=ckeditor&type=flash',
