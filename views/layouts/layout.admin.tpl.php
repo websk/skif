@@ -61,9 +61,10 @@ $assets_libraries_path = $skif_path . '/assets/libraries';
     <script type="text/javascript" src="<?php echo $assets_libraries_path; ?>/fancybox/jquery.fancybox.pack.js"></script>
     <link href="<?php echo $assets_libraries_path; ?>/fancybox/jquery.fancybox.css" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="<?php echo $assets_libraries_path; ?>/moment/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="<?php echo $assets_libraries_path; ?>/moment/moment.min.js"></script>
+    <script type="text/javascript" src="<?php echo $assets_libraries_path; ?>/moment/moment.ru.min.js"></script>
     <script type="text/javascript" src="<?php echo $assets_libraries_path; ?>/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-    <link href="<?php echo $assets_libraries_path; ?>/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo $assets_libraries_path; ?>/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
 
     <script type="text/javascript" src="/vendor/ckeditor/ckeditor/ckeditor.js"></script>
 </head>

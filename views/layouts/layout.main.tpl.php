@@ -18,23 +18,24 @@
 
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
-    <script type="text/javascript" src="/vendor/bower/jquery/dist/jquery.min.js"></script>
-    <link rel="stylesheet" href="/vendor/bower/jquery-ui/themes/base/jquery-ui.min.css">
-    <script type="text/javascript" src="/vendor/bower/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/assets/libraries/jquery/jquery.min.js"></script>
+    <link rel="stylesheet" href="/assets/libraries/jquery-ui/themes/base/jquery-ui.min.css">
+    <script type="text/javascript" src="/assets/libraries/jquery-ui/jquery-ui.min.js"></script>
 
-    <link type="text/css" rel="stylesheet" media="all" href="/vendor/bower/bootstrap/dist/css/bootstrap.min.css"/>
-    <script type="text/javascript" src="/vendor/bower/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link type="text/css" rel="stylesheet" media="all" href="/assets/libraries/bootstrap/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="/assets/libraries/bootstrap/js/bootstrap.min.js"></script>
 
-    <link type="text/css" rel="stylesheet" media="all" href="/vendor/websk/skif/assets/styles/main.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="/assets/styles/main.css"/>
 
-    <script type="text/javascript" src="/vendor/bower/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/assets/libraries/jquery-validation/jquery.validate.min.js"></script>
 
-    <script type="text/javascript" src="/vendor/bower/fancybox/source/jquery.fancybox.pack.js"></script>
-    <link rel="stylesheet" type="text/css" href="/vendor/bower/fancybox/source/jquery.fancybox.css" media="screen"/>
+    <script type="text/javascript" src="/assets/libraries/fancybox/jquery.fancybox.pack.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets/libraries/fancybox/jquery.fancybox.css" media="screen"/>
 
-    <script type="text/javascript" src="/vendor/bower/moment/min/moment-with-locales.min.js"></script>
-    <script type="text/javascript" src="/vendor/bower/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-    <link type="text/css" rel="stylesheet" media="all" href="/vendor/bower/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css"/>
+    <script type="text/javascript" src="/assets/libraries/moment/moment.min.js"></script>
+    <script type="text/javascript" src="/assets/libraries/moment/moment.ru.min.js"></script>
+    <script type="text/javascript" src="/assets/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <link type="text/css" rel="stylesheet" media="all" href="/assets/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"/>
 
     <?php
     echo \Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('inside_head', 'main');
