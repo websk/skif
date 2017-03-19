@@ -147,6 +147,22 @@ gulp.task('metisMenu', function () {
         .pipe(gulp.dest(librariesPath + 'metisMenu/'));
 });
 
+gulp.task('ace', function () {
+    return gulp.src(
+        bowerPath + 'ace-builds/src-min/ace.js'
+    )
+        .pipe(newer(librariesPath + 'ace-builds/'))
+        .pipe(gulp.dest(librariesPath + 'ace-builds/'));
+});
+
+gulp.task('ace', function () {
+    return gulp.src(
+        bowerPath + 'ace-builds/src-min/ace.js'
+    )
+        .pipe(newer(librariesPath + 'ace/'))
+        .pipe(gulp.dest(librariesPath + 'ace/'));
+});
+
 /**
  * Libraries: copying
  */
@@ -156,6 +172,7 @@ gulp.task('copy', gulp.parallel(
     'jquery-validation',
     'fancybox',
     'bootstrap',
+    'ace',
     'moment',
     'moment.ru',
     'bootstrap-datetimepicker',
@@ -196,6 +213,7 @@ gulp.task('scripts', function (done) {
         librariesPath + 'jquery-validation/jquery.validate.min.js',
         librariesPath + 'fancybox/jquery.fancybox.pack.js',
         librariesPath + 'metisMenu/metisMenu.min.js',
+        librariesPath + 'ace/ace.js',
         librariesPath + 'moment/moment.min.js',
         librariesPath + 'moment/moment.ru.min.js',
         librariesPath + 'bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'

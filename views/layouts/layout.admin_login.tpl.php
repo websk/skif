@@ -4,7 +4,7 @@
  */
 
 $skif_path = \Skif\Conf\ConfWrapper::value('skif_path');
-$bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
+$assets_libraries_path = $skif_path . '/assets/libraries';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,12 +21,12 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
     <link href="<?php echo $skif_path; ?>/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
     <!-- Bootstrap -->
-    <link href="<?php echo $bower_path; ?>/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <script src="<?php echo $bower_path; ?>/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link href="<?php echo $assets_libraries_path; ?>/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="<?php echo $assets_libraries_path; ?>/bootstrap/js/bootstrap.min.js"></script>
 
-    <link href="<?php echo $skif_path; ?>/assets/libraries/sb-admin-2/css/sb-admin-2.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo $assets_libraries_path; ?>/sb-admin-2/css/sb-admin-2.css" rel="stylesheet" type="text/css">
 
-    <link href="<?php echo $bower_path; ?>/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo $assets_libraries_path; ?>/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <link href="<?php echo $skif_path; ?>/assets/styles/admin.css" rel="stylesheet" type="text/css">
 </head>

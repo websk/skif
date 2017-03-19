@@ -17,7 +17,7 @@ if (!array_key_exists($error_code, $error_messages_arr)) {
     return;
 }
 
-$bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
+$skif_path = \Skif\Conf\ConfWrapper::value('skif_path');
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,7 +26,7 @@ $bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
-    <link href="<?php echo $bower_path; ?>/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo $skif_path; ?>/assets/libraries/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>

@@ -128,9 +128,9 @@ $items = array();
     </form>
 
 <?php
-$bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
+$skif_path = \Skif\Conf\ConfWrapper::value('skif_path');
 ?>
-<script src="<?php echo $bower_path; ?>/ace-builds/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="<?php echo $skif_path; ?>/assets/libraries/ace/ace.js" type="text/javascript" charset="utf-8"></script>
 
 <script>
     var editor = ace.edit("editor");
