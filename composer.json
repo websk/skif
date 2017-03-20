@@ -1,8 +1,9 @@
 {
   "name": "websk/skif",
   "description": "Skif Admin",
-  "homepage": "http://websk.ru",
+  "homepage": "https://websk.ru/",
   "require": {
+    "php": "5.6.*",
     "imagine/Imagine": "dev-master",
     "ckeditor/ckeditor": "dev-full/stable",
     "hybridauth/hybridauth": "2.*",
