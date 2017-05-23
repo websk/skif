@@ -81,14 +81,10 @@ class Captcha
         imagefill($src, 0, 0, $fon);
 
         //Загрузка шрифтов
-        $FONTS = array();
-        $dir = opendir($path_fonts);
-        while ($fontName = readdir($dir)) {
-            if ($fontName != "." && $fontName != "..") {
-                if (mb_strtolower(strrchr($fontName, '.')) == '.ttf') $FONTS[] = $path_fonts . $fontName;
-            }
-        }
-        closedir($dir);
+        $FONTS = [
+            $path_fonts . 'font1.ttf',
+            $path_fonts . 'font2.ttf'
+        ];
 
         // Если есть шрифты
         if (sizeof($FONTS) > 0) {
