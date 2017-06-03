@@ -21,7 +21,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 $uploadURL = \Skif\Conf\ConfWrapper::value('kcfinder.uploadURL');
 $disabled = \Skif\Conf\ConfWrapper::value('kcfinder.disabled');
 
-if (!$disabled) {
+if ($disabled == '') {
     $disabled = \Skif\Users\AuthUtils::currentUserIsAdmin() ? false : true;
 }
 
