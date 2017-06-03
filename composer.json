@@ -4,7 +4,7 @@
   "homepage": "https://websk.ru/",
   "require": {
     "imagine/imagine": "0.6.3",
-    "ckeditor/ckeditor": "4.7.*",
+    "ckeditor/ckeditor": "4.6.*",
     "hybridauth/hybridauth": "2.9.*",
     "phpmailer/phpmailer": "5.2.*"
   },
