@@ -8,6 +8,17 @@
 
 $skif_path = \Skif\Conf\ConfWrapper::value('skif_path');
 
+$styles = [
+    $skif_path .'/assets/libraries/bootstrap/css/bootstrap.min.css',
+    '/assets/styles/main.css',
+    '/assets/styles/style.css'
+];
+
+$config_styles = \Skif\Conf\ConfWrapper::value('ckeditor.styles');
+if ($config_styles) {
+    $styles = $config_styles;
+}
+
 ?>
 <textarea id="<?php echo $editor_name ?>" name="<?php echo $editor_name ?>" rows="10" class="form-control"><?php echo $text ?></textarea>
 
@@ -23,7 +34,7 @@ $skif_path = \Skif\Conf\ConfWrapper::value('skif_path');
         ],
         pasteFilter: 'plain-text',
         customConfig:  '/vendor/websk/skif/assets/js/ckeditor_config.js',
-        contentsCss: ['<?php echo $skif_path; ?>/assets/libraries/bootstrap/css/bootstrap.min.css', '/assets/styles/main.css', '/assets/styles/style.css'],
+        contentsCss: [<?php echo implode(',', $styles); ?>],
         height: <?php echo $height ?>
     });
 </script>
