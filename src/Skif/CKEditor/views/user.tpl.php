@@ -13,10 +13,14 @@ $styles = [
     '/assets/styles/main.css',
     '/assets/styles/style.css'
 ];
-
 $config_styles = \Skif\Conf\ConfWrapper::value('ckeditor.styles');
 if ($config_styles) {
-    $styles = "'" . $config_styles . "'";
+    $styles = $config_styles;
+}
+
+$contents_css = '';
+foreach ($config_styles as $style_file) {
+    $contents_css .= "'" . $style_file . "'";
 }
 
 ?>
@@ -34,7 +38,7 @@ if ($config_styles) {
         ],
         pasteFilter: 'plain-text',
         customConfig:  '/vendor/websk/skif/assets/js/ckeditor_config.js',
-        contentsCss: [<?php echo implode(',', $styles); ?>],
+        contentsCss: [<?php echo $contents_css; ?>],
         height: <?php echo $height ?>
     });
 </script>

@@ -13,10 +13,14 @@ $styles = [
     '/assets/styles/main.css',
     '/assets/styles/style.css'
 ];
-
 $config_styles = \Skif\Conf\ConfWrapper::value('ckeditor.styles');
 if ($config_styles) {
-    $styles = "'" . $config_styles . "'";
+    $styles = $config_styles;
+}
+
+$contents_css = '';
+foreach ($config_styles as $style_file) {
+    $contents_css .= "'" . $style_file . "'";
 }
 
 $dir_str = ($dir ? "'&dir=". $dir . "'" : '');
@@ -26,7 +30,7 @@ $dir_str = ($dir ? "'&dir=". $dir . "'" : '');
 <script>
     CKEDITOR.replace('<?php echo $editor_name ?>', {
         customConfig:  '/vendor/websk/skif/assets/js/ckeditor_config.js',
-        contentsCss: [<?php echo implode(',', $styles); ?>],
+        contentsCss: [<?php echo $contents_css; ?>],
         filebrowserBrowseUrl: '/vendor/websk/skif/libraries/kcfinder/browse.php?opener=ckeditor&type=content' + <?php echo ($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
         filebrowserImageBrowseUrl: '/vendor/websk/skif/libraries/kcfinder/browse.php?opener=ckeditor&type=images' + <?php echo ($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
         filebrowserFlashBrowseUrl: '/vendor/websk/skif/libraries/kcfinder/browse.php?opener=ckeditor&type=flash',
