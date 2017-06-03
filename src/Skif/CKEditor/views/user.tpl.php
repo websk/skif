@@ -16,7 +16,7 @@ $styles = [
 
 $config_styles = \Skif\Conf\ConfWrapper::value('ckeditor.styles');
 if ($config_styles) {
-    $styles = $config_styles;
+    $styles = "'" . $config_styles . "'";
 }
 
 ?>
