@@ -3,8 +3,8 @@
   "description": "Skif Admin",
   "homepage": "https://websk.ru/",
   "require": {
-    "imagine/Imagine": "dev-master",
-    "ckeditor/ckeditor": "dev-full/stable",
+    "imagine/imagine": "0.6.3",
+    "ckeditor/ckeditor": "4.7.*",
     "hybridauth/hybridauth": "2.9.*",
     "phpmailer/phpmailer": "5.2.*"
   },
