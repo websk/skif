@@ -20,8 +20,6 @@ CKEDITOR.editorConfig = function( config ) {
     // Simplify the dialog windows.
     config.removeDialogTabs = 'link:advanced';
 
-    config.skin = 'moono-lisa';
-
     // при нажатии enter добавляем br
     config.enterMode = CKEDITOR.ENTER_BR;
     config.shiftEnterMode = CKEDITOR.ENTER_BR;
