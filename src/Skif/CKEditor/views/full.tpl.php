@@ -9,7 +9,7 @@
 $skif_path = \Skif\Conf\ConfWrapper::value('skif_path');
 
 $styles = [
-    $skif_path .'/assets/libraries/bootstrap/css/bootstrap.min.css',
+    $skif_path . '/assets/libraries/bootstrap/css/bootstrap.min.css',
     '/assets/styles/main.css',
     '/assets/styles/style.css'
 ];
@@ -23,19 +23,56 @@ foreach ($config_styles as $style_file) {
     $contents_css .= "'" . $style_file . "'";
 }
 
-$dir_str = ($dir ? "'&dir=". $dir . "'" : '');
+$dir_str = ($dir ? "'&dir=" . $dir . "'" : '');
 ?>
-<textarea id="<?php echo $editor_name ?>" name="<?php echo $editor_name ?>" rows="10" class="form-control"><?php echo $text ?></textarea>
+<textarea id="<?php echo $editor_name ?>" name="<?php echo $editor_name ?>" rows="10"
+          class="form-control"><?php echo $text ?></textarea>
 
 <script>
     CKEDITOR.replace('<?php echo $editor_name ?>', {
-        customConfig:  '/vendor/websk/skif/assets/js/ckeditor_config.js',
+        toolbar: [
+            {
+                name: 'document',
+                groups: ['mode', 'document', 'doctools'],
+                items: ['Source', '-', 'Save', 'NewPage', '-', 'Templates']
+            },
+            {
+                name: 'clipboard',
+                groups: ['clipboard', 'undo'],
+                items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+            },
+            {
+                name: 'editing',
+                groups: ['find', 'selection', 'spellchecker'],
+                items: ['Find', 'Replace', '-', 'SelectAll']
+            },
+            '/',
+            {
+                name: 'basicstyles',
+                groups: ['basicstyles', 'cleanup'],
+                items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']
+            },
+            {
+                name: 'paragraph',
+                groups: ['list', 'indent', 'blocks', 'align', 'bidi'],
+                items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+            },
+            {name: 'links', items: ['Link', 'Unlink', 'Anchor']},
+            {name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar']},
+            '/',
+            {name: 'styles', items: ['Format', 'FontSize']},
+            {name: 'colors', items: ['TextColor']},
+            {name: 'tools', items: ['Maximize', 'ShowBlocks']},
+            {name: 'others', items: ['-']},
+            {name: 'about', items: ['About']}
+        ],
+        customConfig: '/vendor/websk/skif/assets/js/ckeditor_config.js',
         contentsCss: [<?php echo $contents_css; ?>],
-        filebrowserBrowseUrl: '/vendor/websk/skif/libraries/kcfinder/browse.php?opener=ckeditor&type=content' + <?php echo ($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
-        filebrowserImageBrowseUrl: '/vendor/websk/skif/libraries/kcfinder/browse.php?opener=ckeditor&type=images' + <?php echo ($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
+        filebrowserBrowseUrl: '/vendor/websk/skif/libraries/kcfinder/browse.php?opener=ckeditor&type=content' + <?php echo($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
+        filebrowserImageBrowseUrl: '/vendor/websk/skif/libraries/kcfinder/browse.php?opener=ckeditor&type=images' + <?php echo($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
         filebrowserFlashBrowseUrl: '/vendor/websk/skif/libraries/kcfinder/browse.php?opener=ckeditor&type=flash',
-        filebrowserUploadUrl: '/vendor/websk/skif/libraries/kcfinder/upload.php?opener=ckeditor&type=content' + <?php echo ($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
-        filebrowserImageUploadUrl: '/vendor/websk/skif/libraries/kcfinder/upload.php?opener=ckeditor&type=images' + <?php echo ($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
+        filebrowserUploadUrl: '/vendor/websk/skif/libraries/kcfinder/upload.php?opener=ckeditor&type=content' + <?php echo($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
+        filebrowserImageUploadUrl: '/vendor/websk/skif/libraries/kcfinder/upload.php?opener=ckeditor&type=images' + <?php echo($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
         filebrowserFlashUploadUrl: '/vendor/websk/skif/libraries/kcfinder/upload.php?opener=ckeditor&type=flash',
         height: <?php echo $height ?>
     });
