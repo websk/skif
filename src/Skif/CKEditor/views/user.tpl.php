@@ -29,12 +29,11 @@ foreach ($config_styles as $style_file) {
 <script>
     CKEDITOR.replace('<?php echo $editor_name ?>', {
         toolbar: [
-            { name: 'document', groups: [ 'mode', 'document', 'doctools' ]},
-            { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', '-', 'Undo', 'Redo' ] },
-            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
-            { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList'] },
+            { name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo' ] },
             { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-            { name: 'others', items: [ '-' ] }
+            { name: 'document', items: [ 'Source' ] },
+            { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
+            { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'] }
         ],
         pasteFilter: 'plain-text',
         customConfig:  '/vendor/websk/skif/assets/js/ckeditor_config.js',

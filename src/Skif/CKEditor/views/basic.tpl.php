@@ -30,28 +30,13 @@ foreach ($config_styles as $style_file) {
 <script>
     CKEDITOR.replace('<?php echo $editor_name ?>', {
         toolbar: [
-            {name: 'document', groups: ['mode', 'document', 'doctools'], items: ['Source']},
-            {
-                name: 'clipboard',
-                groups: ['clipboard', 'undo'],
-                items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
-            },
-            {items: ['Format']},
-            {name: 'tools', items: ['Maximize', 'ShowBlocks']},
+            { name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+            { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+            { name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar' ] },
+            { name: 'document', items: [ 'Source' ] },
             '/',
-            {
-                name: 'basicstyles',
-                groups: ['basicstyles', 'cleanup'],
-                items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']
-            },
-            {
-                name: 'paragraph',
-                groups: ['list', 'indent', 'blocks', 'align', 'bidi'],
-                items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
-            },
-            {name: 'links', items: ['Link', 'Unlink', 'Anchor']},
-            {name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar']},
-            {name: 'others', items: ['-']}
+            { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
+            { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' ] }
         ],
         customConfig: '/vendor/websk/skif/assets/js/ckeditor_config.js',
         contentsCss: [<?php echo $contents_css; ?>],
