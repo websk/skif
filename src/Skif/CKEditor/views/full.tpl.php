@@ -31,40 +31,17 @@ $dir_str = ($dir ? "'&dir=" . $dir . "'" : '');
 <script>
     CKEDITOR.replace('<?php echo $editor_name ?>', {
         toolbar: [
-            {
-                name: 'document',
-                groups: ['mode', 'document', 'doctools'],
-                items: ['Source', '-', 'Save', 'NewPage', '-', 'Templates']
-            },
-            {
-                name: 'clipboard',
-                groups: ['clipboard', 'undo'],
-                items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
-            },
-            {
-                name: 'editing',
-                groups: ['find', 'selection', 'spellchecker'],
-                items: ['Find', 'Replace', '-', 'SelectAll']
-            },
+            { name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+            { name: 'editing', items: [ 'Scayt' ] },
+            { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+            { name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar' ] },
+            { name: 'tools', items: [ 'Maximize' ] },
+            { name: 'document', items: [ 'Source' ] },
             '/',
-            {
-                name: 'basicstyles',
-                groups: ['basicstyles', 'cleanup'],
-                items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']
-            },
-            {
-                name: 'paragraph',
-                groups: ['list', 'indent', 'blocks', 'align', 'bidi'],
-                items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
-            },
-            {name: 'links', items: ['Link', 'Unlink', 'Anchor']},
-            {name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar']},
-            '/',
-            {name: 'styles', items: ['Format', 'FontSize']},
-            {name: 'colors', items: ['TextColor']},
-            {name: 'tools', items: ['Maximize', 'ShowBlocks']},
-            {name: 'others', items: ['-']},
-            {name: 'about', items: ['About']}
+            { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
+            { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' ] },
+            { name: 'styles', items: [ 'Styles', 'Format' ] },
+            { name: 'about', items: [ 'About' ] }
         ],
         customConfig: '/vendor/websk/skif/assets/js/ckeditor_config.js',
         contentsCss: [<?php echo $contents_css; ?>],
