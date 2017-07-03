@@ -209,10 +209,10 @@ class ImageManager
     {
         $requested_file_path = ltrim($requested_file_path, '/');
 
-        $file_path_parts_arr = explode(ImageConstants::IMG_PRESETS_FOLDER . DIRECTORY_SEPARATOR, $requested_file_path);
-        $image_path_parts_arr = explode(DIRECTORY_SEPARATOR, $file_path_parts_arr[1]);
+        $file_path_parts_arr = explode(ImageConstants::IMG_PRESETS_FOLDER . '/', $requested_file_path);
+        $image_path_parts_arr = explode('/', $file_path_parts_arr[1]);
         $preset_name = array_shift($image_path_parts_arr);
-        $file_path_relative = implode(DIRECTORY_SEPARATOR, $image_path_parts_arr);
+        $file_path_relative = implode('/', $image_path_parts_arr);
 
         return array($file_path_relative, $preset_name);
     }
