@@ -2,12 +2,15 @@
 
 namespace Skif\Image;
 
+use Imagine\Gd\Imagine;
+use Skif\Http;
+
 class ImageManager
 {
 
     /**
      * Imagine library Imagick adapter
-     * @var \Imagine\Gd\Imagine
+     * @var Imagine
      */
     protected $imagine;
 
@@ -17,9 +20,9 @@ class ImageManager
 
     public function __construct($root_folder = '')
     {
-        $this->imagine = new \Imagine\Gd\Imagine();
+        $this->imagine = new Imagine();
         if (empty($root_folder)) {
-            $this->root_folder = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . \Skif\Image\ImageConstants::IMG_ROOT_FOLDER;
+            $this->root_folder = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . ImageConstants::IMG_ROOT_FOLDER;
         } else {
             $this->root_folder = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . $root_folder;
         }
@@ -63,7 +66,7 @@ class ImageManager
 
         $file_extension = pathinfo($newName, PATHINFO_EXTENSION);
 
-        $tmp_dir = $this->root_folder . '/tmp';
+        $tmp_dir = $this->root_folder . DIRECTORY_SEPARATOR . 'tmp';
         if (!is_dir($tmp_dir)) {
             if (!mkdir($tmp_dir, 0777, true)) {
                 throw new \Exception('Не удалось создать директорию: ' . $tmp_dir);
@@ -72,12 +75,12 @@ class ImageManager
 
         // уникальное случайное имя файла
         do {
-            $tmp_dest_file = $tmp_dir . '/imagemanager_' . mt_rand(0, 1000000) . '.' . $file_extension;
+            $tmp_dest_file = $tmp_dir . DIRECTORY_SEPARATOR . 'imagemanager_' . mt_rand(0, 1000000) . '.' . $file_extension;
         } while (file_exists($tmp_dest_file));
 
         //try {
         $image = $this->imagine->open($tmpFileName);
-        $image = \Skif\Image\ImagePresets::processImageByPreset($image, \Skif\Image\ImageConstants::DEFAULT_UPLOAD_PRESET);
+        $image = ImagePresets::processImageByPreset($image, ImageConstants::DEFAULT_UPLOAD_PRESET);
 
         // запись во временный файл, чтобы другой процесс не мог получить доступ к недописанному файлу
         $image->save($tmp_dest_file, array());
@@ -104,7 +107,7 @@ class ImageManager
         }
 
         $image = $this->imagine->open($file_url);
-        $image = \Skif\Image\ImagePresets::processImageByPreset($image, \Skif\Image\ImageConstants::DEFAULT_UPLOAD_PRESET);
+        $image = ImagePresets::processImageByPreset($image, ImageConstants::DEFAULT_UPLOAD_PRESET);
         $image->save($new_path, array());
 
         return $new_name;
@@ -121,7 +124,7 @@ class ImageManager
             $imgPath = $this->getImagesRootFolder() . DIRECTORY_SEPARATOR . $imageName;
 
             if (!file_exists($imgPath)) {
-                \Skif\Http::exit404();
+                Http::exit404();
             }
 
             $res = $this->moveImageByPreset($imgPath, $fullpath, $presetName);
@@ -152,7 +155,7 @@ class ImageManager
 
         $file_extension = pathinfo($presetPath, PATHINFO_EXTENSION);
 
-        $tmp_dir = $this->root_folder . '/tmp';
+        $tmp_dir = $this->root_folder . DIRECTORY_SEPARATOR . 'tmp';
         if (!is_dir($tmp_dir)) {
             if (!mkdir($tmp_dir, 0777, true)) {
                 throw new \Exception('Не удалось создать директорию: ' . $tmp_dir);
@@ -161,10 +164,10 @@ class ImageManager
 
         // уникальное случайное имя файла
         do {
-            $tmp_dest_file = $tmp_dir . '/imagemanager_' . mt_rand(0, 1000000) . '.' . $file_extension;
+            $tmp_dest_file = $tmp_dir . DIRECTORY_SEPARATOR . 'imagemanager_' . mt_rand(0, 1000000) . '.' . $file_extension;
         } while (file_exists($tmp_dest_file));
 
-        $image = \Skif\Image\ImagePresets::processImageByPreset($image, $presetName);
+        $image = ImagePresets::processImageByPreset($image, $presetName);
 
         // запись во временный файл, чтобы другой процесс не мог получить доступ к недописанному файлу
         $image->save($tmp_dest_file, array('quality' => 100));
@@ -195,7 +198,7 @@ class ImageManager
         return
             $imagesPathInFilesystem
             . DIRECTORY_SEPARATOR
-            . \Skif\Image\ImageConstants::IMG_PRESETS_FOLDER
+            . ImageConstants::IMG_PRESETS_FOLDER
             . DIRECTORY_SEPARATOR
             . $presetName
             . DIRECTORY_SEPARATOR
@@ -206,10 +209,10 @@ class ImageManager
     {
         $requested_file_path = ltrim($requested_file_path, '/');
 
-        $file_path_parts_arr = explode(\Skif\Image\ImageConstants::IMG_PRESETS_FOLDER . '/', $requested_file_path);
-        $image_path_parts_arr = explode('/', $file_path_parts_arr[1]);
+        $file_path_parts_arr = explode(ImageConstants::IMG_PRESETS_FOLDER . DIRECTORY_SEPARATOR, $requested_file_path);
+        $image_path_parts_arr = explode(DIRECTORY_SEPARATOR, $file_path_parts_arr[1]);
         $preset_name = array_shift($image_path_parts_arr);
-        $file_path_relative = implode('/', $image_path_parts_arr);
+        $file_path_relative = implode(DIRECTORY_SEPARATOR, $image_path_parts_arr);
 
         return array($file_path_relative, $preset_name);
     }
@@ -222,19 +225,19 @@ class ImageManager
     public static function getImgUrlByPreset($imageName, $presetName)
     {
         $preset_url = self::getPresetUrlByName($presetName);
-        $image_url = $preset_url . '/' . $imageName;
+        $image_url = $preset_url . DIRECTORY_SEPARATOR . $imageName;
 
         return $image_url;
     }
 
     public static function getImgUrlByFileName($imageName)
     {
-        return '/' . \Skif\Image\ImageConstants::IMG_ROOT_FOLDER . '/' . $imageName;
+        return DIRECTORY_SEPARATOR . ImageConstants::IMG_ROOT_FOLDER . DIRECTORY_SEPARATOR . $imageName;
     }
 
     public static function getPresetUrlByName($preset_name)
     {
-        return '/' . \Skif\Image\ImageConstants::IMG_ROOT_FOLDER . '/' . \Skif\Image\ImageConstants::IMG_PRESETS_FOLDER . '/' . $preset_name;
+        return DIRECTORY_SEPARATOR . ImageConstants::IMG_ROOT_FOLDER . DIRECTORY_SEPARATOR . ImageConstants::IMG_PRESETS_FOLDER . DIRECTORY_SEPARATOR . $preset_name;
     }
 
 }
