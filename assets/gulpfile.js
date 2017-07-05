@@ -151,14 +151,6 @@ gulp.task('ace', function () {
     return gulp.src(
         bowerPath + 'ace-builds/src-min/*'
     )
-        .pipe(newer(librariesPath + 'ace-builds/'))
-        .pipe(gulp.dest(librariesPath + 'ace-builds/'));
-});
-
-gulp.task('ace', function () {
-    return gulp.src(
-        bowerPath + 'ace-builds/src-min/ace.js'
-    )
         .pipe(newer(librariesPath + 'ace/'))
         .pipe(gulp.dest(librariesPath + 'ace/'));
 });
