@@ -64,8 +64,8 @@ gulp.task('jquery-validation', function () {
 gulp.task('fancybox', function () {
     return gulp.src(
         [
-            bowerPath + 'fancybox/source/jquery.fancybox.pack.js',
-            bowerPath + 'fancybox/source/jquery.fancybox.css'
+            bowerPath + 'fancybox/dist/jquery.fancybox.min.js',
+            bowerPath + 'fancybox/dist/jquery.fancybox.min.css'
         ], {
             base: bowerPath + 'fancybox/source/'
         }
@@ -149,7 +149,7 @@ gulp.task('metisMenu', function () {
 
 gulp.task('ace', function () {
     return gulp.src(
-        bowerPath + 'ace-builds/src/ace.js'
+        bowerPath + 'ace-builds/src-min/ace.js'
     )
         .pipe(newer(librariesPath + 'ace-builds/'))
         .pipe(gulp.dest(librariesPath + 'ace-builds/'));
