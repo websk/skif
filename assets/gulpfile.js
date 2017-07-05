@@ -149,7 +149,7 @@ gulp.task('metisMenu', function () {
 
 gulp.task('ace', function () {
     return gulp.src(
-        bowerPath + 'ace-builds/src-min/ace.js'
+        bowerPath + 'ace-builds/src/ace.js'
     )
         .pipe(newer(librariesPath + 'ace-builds/'))
         .pipe(gulp.dest(librariesPath + 'ace-builds/'));
