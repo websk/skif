@@ -149,7 +149,7 @@ gulp.task('metisMenu', function () {
 
 gulp.task('ace', function () {
     return gulp.src(
-        bowerPath + 'ace-builds/src-min/ace.js'
+        bowerPath + 'ace-builds/src-min/*'
     )
         .pipe(newer(librariesPath + 'ace-builds/'))
         .pipe(gulp.dest(librariesPath + 'ace-builds/'));
@@ -213,7 +213,6 @@ gulp.task('scripts', function (done) {
         librariesPath + 'jquery-validation/jquery.validate.min.js',
         librariesPath + 'fancybox/jquery.fancybox.pack.js',
         librariesPath + 'metisMenu/metisMenu.min.js',
-        librariesPath + 'ace/ace.js',
         librariesPath + 'moment/moment.min.js',
         librariesPath + 'moment/moment.ru.min.js',
         librariesPath + 'bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'
@@ -233,8 +232,7 @@ gulp.task('fonts', function (done) {
     ])
         .pipe(newer(fontsPath))
         .pipe(gulp.dest(fontsPath));
-    done();
-});
+    done();});
 
 
 gulp.task('default', gulp.series(
