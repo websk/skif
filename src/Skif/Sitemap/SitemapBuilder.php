@@ -26,8 +26,8 @@ class SitemapBuilder implements InterfaceSitemapBuilder
 
     public function __construct()
     {
-        $this->data_path = ConfWrapper::getRequiredValue('static_data_path');
-        $this->sitemap_root = ConfWrapper::getRequiredValue('sitemap.root');
+        $this->data_path = ConfWrapper::value('static_data_path');
+        $this->sitemap_root = ConfWrapper::value('sitemap.root');
         $this->sitemap_build_time = time();
 
         if (!is_dir($this->data_path)) {
@@ -73,7 +73,7 @@ class SitemapBuilder implements InterfaceSitemapBuilder
 
     protected function createIndexFile()
     {
-        $current_domain = ConfWrapper::getRequiredValue('current_domain');
+        $current_domain = ConfWrapper::value('current_domain');
 
         $this->writer = new \XMLWriter();
         $this->writer->openMemory();
@@ -152,8 +152,8 @@ class SitemapBuilder implements InterfaceSitemapBuilder
     public static function removeOldSitemapFiles()
     {
         $time = time();
-        $data_path = ConfWrapper::getRequiredValue('static_data_path');
-        $sitemap_root = ConfWrapper::getRequiredValue('sitemap.root');
+        $data_path = ConfWrapper::value('static_data_path');
+        $sitemap_root = ConfWrapper::value('sitemap.root');
 
         $dir_arr = glob($data_path . $sitemap_root . '/*', GLOB_ONLYDIR);
         foreach ($dir_arr as $dir_name) {
