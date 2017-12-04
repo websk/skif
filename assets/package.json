@@ -2,8 +2,8 @@
   "name": "assets",
   "version": "1.0.0",
   "devDependencies": {
-    "coffee-script": "latest",
     "bower": "latest",
+    "coffee-script": "latest",
     "del": "latest",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-add-src": "latest",
@@ -13,8 +13,8 @@
     "gulp-insert": "latest",
     "gulp-less": "latest",
     "gulp-newer": "latest",
-    "gulp-replace": "latest",
     "gulp-rename": "^1.2.2",
+    "gulp-replace": "latest",
     "gulp-uglify": "^2.0.1"
   },
   "dependencies": {
