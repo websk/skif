@@ -73,7 +73,7 @@ class SitemapBuilder implements InterfaceSitemapBuilder
 
     protected function createIndexFile()
     {
-        $current_domain = ConfWrapper::value('current_domain');
+        $current_domain = ConfWrapper::value('site_domain');
 
         $this->writer = new \XMLWriter();
         $this->writer->openMemory();
