@@ -38,7 +38,7 @@ foreach ($config_styles as $style_file) {
             { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'] }
         ],
         pasteFilter: 'plain-text',
-        customConfig:  '/vendor/websk/skif/assets/js/ckeditor_config.js',
+        customConfig:  '<?php echo $skif_path; ?>/assets/js/ckeditor_config.js',
         contentsCss: [<?php echo $contents_css; ?>],
         height: <?php echo $height ?>
     });

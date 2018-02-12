@@ -39,7 +39,7 @@ class DefaultConf
             ),
         );
 
-        $conf['skif_path'] = '/vendor/websk/skif';
+        $conf['skif_path'] = '/skif';
         $conf['bower_path'] = '/vendor/bower';
 
         return $conf;

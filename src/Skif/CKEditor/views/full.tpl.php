@@ -44,14 +44,14 @@ $dir_str = ($dir ? "'&dir=" . $dir . "'" : '');
             { name: 'styles', items: ['Format' ] },
             { name: 'about', items: [ 'About' ] }
         ],
-        customConfig: '/admin/skif/assets/js/ckeditor_config.js',
+        customConfig: '<?php echo $skif_path; ?>/assets/js/ckeditor_config.js',
         contentsCss: [<?php echo $contents_css; ?>],
-        filebrowserBrowseUrl: '/admin/skif/libraries/kcfinder/browse?opener=ckeditor&type=content' + <?php echo($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
-        filebrowserImageBrowseUrl: '/admin/skif/libraries/kcfinder/browse?opener=ckeditor&type=images' + <?php echo($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
-        filebrowserFlashBrowseUrl: '/admin/skif/libraries/kcfinder/browse?opener=ckeditor&type=flash',
-        filebrowserUploadUrl: '/admin/skif/libraries/kcfinder/upload?opener=ckeditor&type=content' + <?php echo($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
-        filebrowserImageUploadUrl: '/admin/skif/libraries/kcfinder/upload?opener=ckeditor&type=images' + <?php echo($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
-        filebrowserFlashUploadUrl: '/admin/skif/libraries/kcfinder/upload?opener=ckeditor&type=flash',
+        filebrowserBrowseUrl: '<?php echo $skif_path; ?>/libraries/kcfinder/browse?opener=ckeditor&type=content' + <?php echo($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
+        filebrowserImageBrowseUrl: '<?php echo $skif_path; ?>/libraries/kcfinder/browse?opener=ckeditor&type=images' + <?php echo($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
+        filebrowserFlashBrowseUrl: '<?php echo $skif_path; ?>/libraries/kcfinder/browse?opener=ckeditor&type=flash',
+        filebrowserUploadUrl: '<?php echo $skif_path; ?>/libraries/kcfinder/upload?opener=ckeditor&type=content' + <?php echo($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
+        filebrowserImageUploadUrl: '<?php echo $skif_path; ?>/libraries/kcfinder/upload?opener=ckeditor&type=images' + <?php echo($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
+        filebrowserFlashUploadUrl: '<?php echo $skif_path; ?>/libraries/kcfinder/upload?opener=ckeditor&type=flash',
         height: <?php echo $height ?>
     });
 </script>
