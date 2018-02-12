@@ -16,7 +16,7 @@
    even if you are using session configuration.
    See http://kcfinder.sunhater.com/install for setting descriptions */
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
 $uploadURL = \Skif\Conf\ConfWrapper::value('kcfinder.uploadURL');
 $disabled = \Skif\Conf\ConfWrapper::value('kcfinder.disabled');
