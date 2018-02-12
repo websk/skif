@@ -16,13 +16,16 @@
    even if you are using session configuration.
    See http://kcfinder.sunhater.com/install for setting descriptions */
 
-require_once __DIR__ . '/../../../vendor/autoload.php';
+use Skif\Conf\ConfWrapper;
+use Skif\Users\AuthUtils;
 
-$uploadURL = \Skif\Conf\ConfWrapper::value('kcfinder.uploadURL');
-$disabled = \Skif\Conf\ConfWrapper::value('kcfinder.disabled');
+require_once __DIR__ . '/../../../../../autoload.php';
+
+$uploadURL = ConfWrapper::value('kcfinder.uploadURL');
+$disabled = ConfWrapper::value('kcfinder.disabled');
 
 if ($disabled === '') {
-    $disabled = \Skif\Users\AuthUtils::currentUserIsAdmin() ? false : true;
+    $disabled = AuthUtils::currentUserIsAdmin() ? false : true;
 }
 
 $_CONFIG = array(
