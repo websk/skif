@@ -6,14 +6,16 @@
  * @var $dir
  */
 
-$skif_path = \Skif\Conf\ConfWrapper::value('skif_path');
+use Skif\Conf\ConfWrapper;
+
+$skif_path = ConfWrapper::value('skif_path');
 
 $styles = [
     $skif_path . '/assets/libraries/bootstrap/css/bootstrap.min.css',
     '/assets/styles/main.css',
     '/assets/styles/style.css'
 ];
-$config_styles = \Skif\Conf\ConfWrapper::value('ckeditor.styles');
+$config_styles = ConfWrapper::value('ckeditor.styles', []);
 if ($config_styles) {
     $styles = $config_styles;
 }
