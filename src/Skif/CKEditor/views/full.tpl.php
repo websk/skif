@@ -46,12 +46,12 @@ $dir_str = ($dir ? "'&dir=" . $dir . "'" : '');
         ],
         customConfig: '<?php echo $skif_path; ?>/assets/js/ckeditor_config.js',
         contentsCss: [<?php echo $contents_css; ?>],
-        filebrowserBrowseUrl: '<?php echo $skif_path; ?>/libraries/kcfinder/browse?opener=ckeditor&type=content' + <?php echo($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
-        filebrowserImageBrowseUrl: '<?php echo $skif_path; ?>/libraries/kcfinder/browse?opener=ckeditor&type=images' + <?php echo($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
-        filebrowserFlashBrowseUrl: '<?php echo $skif_path; ?>/libraries/kcfinder/browse?opener=ckeditor&type=flash',
-        filebrowserUploadUrl: '<?php echo $skif_path; ?>/libraries/kcfinder/upload?opener=ckeditor&type=content' + <?php echo($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
-        filebrowserImageUploadUrl: '<?php echo $skif_path; ?>/libraries/kcfinder/upload?opener=ckeditor&type=images' + <?php echo($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
-        filebrowserFlashUploadUrl: '<?php echo $skif_path; ?>/libraries/kcfinder/upload?opener=ckeditor&type=flash',
+        filebrowserBrowseUrl: '<?php echo $skif_path; ?>/libraries/kcfinder/browse.php?opener=ckeditor&type=content' + <?php echo($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
+        filebrowserImageBrowseUrl: '<?php echo $skif_path; ?>/libraries/kcfinder/browse.php?opener=ckeditor&type=images' + <?php echo($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
+        filebrowserFlashBrowseUrl: '<?php echo $skif_path; ?>/libraries/kcfinder/browse.php?opener=ckeditor&type=flash',
+        filebrowserUploadUrl: '<?php echo $skif_path; ?>/libraries/kcfinder/upload.php?opener=ckeditor&type=content' + <?php echo($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
+        filebrowserImageUploadUrl: '<?php echo $skif_path; ?>/libraries/kcfinder/upload.php?opener=ckeditor&type=images' + <?php echo($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
+        filebrowserFlashUploadUrl: '<?php echo $skif_path; ?>/libraries/kcfinder/upload.php?opener=ckeditor&type=flash',
         height: <?php echo $height ?>
     });
 </script>
