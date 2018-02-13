@@ -22,7 +22,7 @@ use Skif\Users\AuthUtils;
 require_once __DIR__ . '/../../../../../autoload.php';
 
 $uploadURL = ConfWrapper::value('kcfinder.uploadURL');
-$uploadDirPrefixPath = ConfWrapper::value('kcfinder.uploadDirPrefixPatch');
+$uploadDir = ConfWrapper::value('kcfinder.uploadDir');
 $disabled = ConfWrapper::value('kcfinder.disabled');
 
 if ($disabled === '') {
@@ -35,7 +35,7 @@ $_CONFIG = array(
 
     'disabled' => $disabled,
     'uploadURL' => $uploadURL ? $uploadURL : "/files",
-    'uploadDir' => "",
+    'uploadDir' => $uploadDir ? $uploadDir : "",
     'theme' => "default",
 
     'types' => array(
