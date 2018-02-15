@@ -5,10 +5,11 @@
  * @var $values_arr
  */
 
-$bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
+use Skif\Path;
+
 ?>
-<script type="text/javascript" src="<?php echo $bower_path; ?>/bootstrap-multiselect/dist/js/bootstrap-multiselect.js"></script>
-<link rel="stylesheet" href="<?php echo $bower_path; ?>/bootstrap-multiselect/dist/css/bootstrap-multiselect.css" type="text/css"/>
+<script type="text/javascript" src="<?php echo Path::wrapAssetsVersion('/libraries/bootstrap-multiselect/dist/js/bootstrap-multiselect.js'); ?>"></script>
+<link rel="stylesheet" href="<?php echo Path::wrapAssetsVersion('/libraries/bootstrap-multiselect/dist/css/bootstrap-multiselect.css'); ?>" type="text/css"/>
 
 <select id="<?php echo $field_name; ?>" name="<?php echo $field_name; ?>[]" multiple="multiple" class="form-control">
     <?php

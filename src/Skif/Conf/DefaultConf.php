@@ -40,7 +40,9 @@ class DefaultConf
         );
 
         $conf['skif_url_path'] = '/skif';
-        $conf['bower_path'] = '/vendor/bower';
+        $conf['skif_assets_version'] = 1;
+
+        $conf['assets_url_path'] = '/assets';
 
         return $conf;
     }

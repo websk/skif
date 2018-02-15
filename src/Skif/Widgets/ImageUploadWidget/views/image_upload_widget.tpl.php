@@ -5,7 +5,8 @@
  * @var $field_value string
  */
 
-$bower_path = \Skif\Conf\ConfWrapper::value('bower_path');
+use Skif\Image\ImageManager;
+use Skif\Path;
 
 if ($field_value) {
     $image_path = $target_folder . DIRECTORY_SEPARATOR . $field_value;
@@ -18,9 +19,9 @@ if ($field_value) {
             });
         });
     </script>
-    <a rel="gallery" href="<?php echo \Skif\Image\ImageManager::getImgUrlByFileName($image_path) ?>"
+    <a rel="gallery" href="<?php echo ImageManager::getImgUrlByFileName($image_path) ?>"
        class="grouped_elements">
-        <img src="<?php echo \Skif\Image\ImageManager::getImgUrlByPreset($image_path, '160_auto') ?>"
+        <img src="<?php echo ImageManager::getImgUrlByPreset($image_path, '160_auto') ?>"
              class="img-responsive img-thumbnail" border="0">
     </a>
     <?php
@@ -36,12 +37,12 @@ if ($field_value) {
 
 <div id="files" class="files"></div>
 
-<script src="<?php echo $bower_path; ?>/blueimp-load-image/js/load-image.all.min.js"></script>
-<link rel="stylesheet" href="<?php echo $bower_path; ?>/blueimp-file-upload/css/jquery.fileupload.css">
-<script src="<?php echo $bower_path; ?>/blueimp-file-upload/js/jquery.fileupload.js"></script>
-<script src="<?php echo $bower_path; ?>/blueimp-file-upload/js/jquery.fileupload-process.js"></script>
-<script src="<?php echo $bower_path; ?>/blueimp-file-upload/js/jquery.fileupload-image.js"></script>
-<script src="<?php echo $bower_path; ?>/blueimp-file-upload/js/jquery.fileupload-validate.js"></script>
+<script src="<?php echo Path::wrapAssetsVersion('/libraries/blueimp-load-image/js/load-image.all.min.js'); ?>"></script>
+<link rel="stylesheet" href="<?php echo Path::wrapAssetsVersion('/libraries/blueimp-file-upload/css/jquery.fileupload.css'); ?>">
+<script src="<?php echo Path::wrapAssetsVersion('/libraries/blueimp-file-upload/js/jquery.fileupload.js'); ?>"></script>
+<script src="<?php echo Path::wrapAssetsVersion('/libraries/blueimp-file-upload/js/jquery.fileupload-process.js'); ?>"></script>
+<script src="<?php echo Path::wrapAssetsVersion('/libraries/blueimp-file-upload/js/jquery.fileupload-image.js'); ?>"></script>
+<script src="<?php echo Path::wrapAssetsVersion('/libraries/blueimp-file-upload/js/jquery.fileupload-validate.js'); ?>"></script>
 
 <script>
     $(function () {

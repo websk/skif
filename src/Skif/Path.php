@@ -57,4 +57,16 @@ class Path
 
         return self::wrapSkifUrlPath('/' . self::ASSETS_DIR_NAME . '/'. $skifAssetsVersion . Utils::appendLeadingSlash($resource));
     }
+
+    /**
+     * @param $resource
+     * @return string
+     */
+    public static function wrapAssetsVersion($resource)
+    {
+        $assetsVersion = ConfWrapper::value('assets_version', 1);
+        $assetsUrlPath = ConfWrapper::value('assets_url_path', self::ASSETS_DIR_NAME);
+
+        return Utils::appendLeadingSlash($assetsUrlPath . '/'. $assetsVersion . Utils::appendLeadingSlash($resource));
+    }
 }
