@@ -5,24 +5,34 @@
  * @var $content
  */
 
-$user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+use Skif\Conf\ConfWrapper;
+use Skif\Content\ContentType;
+use Skif\Content\ContentUtils;
+use Skif\Http;
+use Skif\Messages;
+use Skif\Path;
+use Skif\PhpTemplate;
+use Skif\UrlManager;
+use Skif\Users\AuthUtils;
+use Skif\Users\User;
+
+$user_id = AuthUtils::getCurrentUserId();
 
 if (!$user_id) {
-    echo \Skif\PhpTemplate::renderTemplate(
+    echo PhpTemplate::renderTemplate(
         'layouts/layout.admin_login.tpl.php'
     );
 
     return;
 }
 
-if (!\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-    \Skif\Http::exit403();
+if (!AuthUtils::currentUserIsAdmin()) {
+    Http::exit403();
 }
 
-$user_obj = \Skif\Users\User::factory($user_id);
+$user_obj = User::factory($user_id);
 
-$skif_path = \Skif\Conf\ConfWrapper::value('skif_path');
-$assets_libraries_path = $skif_path . '/assets/libraries';
+$skif_path = ConfWrapper::value('skif_path');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,32 +49,32 @@ $assets_libraries_path = $skif_path . '/assets/libraries';
     <link href="<?php echo $skif_path; ?>/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
     <!-- jQuery -->
-    <script src="<?php echo $assets_libraries_path; ?>/jquery/jquery.min.js"></script>
-    <link href="<?php echo $assets_libraries_path; ?>/jquery-ui/themes/base/jquery-ui.min.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="<?php echo $assets_libraries_path; ?>/jquery-ui/jquery-ui.min.js"></script>
+    <script src="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery/jquery.min.js'); ?>"></script>
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery-ui/themes/base/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery-ui/jquery-ui.min.js'); ?>"></script>
 
     <!-- Bootstrap -->
-    <link href="<?php echo $assets_libraries_path; ?>/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <script src="<?php echo $assets_libraries_path; ?>/bootstrap/js/bootstrap.min.js"></script>
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
+    <script src="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap/js/bootstrap.min.js'); ?>"></script>
 
     <!-- MetisMenu CSS -->
-    <link href="<?php echo $assets_libraries_path; ?>/metisMenu/metisMenu.min.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/metisMenu/metisMenu.min.css'); ?>" rel="stylesheet" type="text/css">
 
-    <link href="<?php echo $assets_libraries_path; ?>/sb-admin-2/css/sb-admin-2.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/sb-admin-2/css/sb-admin-2.css'); ?>" rel="stylesheet" type="text/css">
 
-    <link href="<?php echo $assets_libraries_path; ?>/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css">
 
-    <link href="<?php echo $skif_path; ?>/assets/styles/admin.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/styles/admin.css'); ?>" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="<?php echo $assets_libraries_path; ?>/jquery-validation/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery-validation/jquery.validate.min.js'); ?>"></script>
 
-    <script type="text/javascript" src="<?php echo $assets_libraries_path; ?>/fancybox/jquery.fancybox.pack.js"></script>
-    <link href="<?php echo $assets_libraries_path; ?>/fancybox/jquery.fancybox.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/fancybox/jquery.fancybox.pack.js"'); ?>></script>
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/fancybox/jquery.fancybox.css'); ?>" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="<?php echo $assets_libraries_path; ?>/moment/moment.min.js"></script>
-    <script type="text/javascript" src="<?php echo $assets_libraries_path; ?>/moment/moment.ru.min.js"></script>
-    <script type="text/javascript" src="<?php echo $assets_libraries_path; ?>/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-    <link href="<?php echo $assets_libraries_path; ?>/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/moment/moment.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/moment/moment.ru.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); ?>"></script>
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>" rel="stylesheet" type="text/css">
 
     <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
 </head>
@@ -82,7 +92,7 @@ $assets_libraries_path = $skif_path . '/assets/libraries';
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/admin">
-                <img src="<?php echo $skif_path; ?>/assets/images/admin/skif_small_logo.png" alt="СКИФ" border="0" height="39" title="Система управления сайтом СКИФ / websk.ru">
+                <img src="<?php echo Path::wrapSkifAssetsVersion('images/admin/skif_small_logo.png'); ?>" alt="СКИФ" border="0" height="39" title="Система управления сайтом СКИФ / websk.ru">
             </a>
         </div>
 
@@ -112,14 +122,14 @@ $assets_libraries_path = $skif_path . '/assets/libraries';
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <?php
-                    $current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
+                    $current_url_no_query = UrlManager::getUriNoQueryString();
 
-                    $admin_menu_contents_arr = array();
+                    $admin_menu_contents_arr = [];
 
-                    $content_type_ids_arr = \Skif\Content\ContentUtils::getContentTypeIdsArr();
+                    $content_type_ids_arr = ContentUtils::getContentTypeIdsArr();
 
                     foreach ($content_type_ids_arr as $content_type_id) {
-                        $content_type_obj = \Skif\Content\ContentType::factory($content_type_id);
+                        $content_type_obj = ContentType::factory($content_type_id);
 
                         $icon = '<i class="fa fa-files-o fa-fw"></i>';
                         if ($content_type_obj->getType() == 'news') {
@@ -133,7 +143,7 @@ $assets_libraries_path = $skif_path . '/assets/libraries';
                         );
                     }
 
-                    $admin_menu_arr = \Skif\Conf\ConfWrapper::value('admin_menu');
+                    $admin_menu_arr = ConfWrapper::value('admin_menu');
 
                     $admin_menu_arr = array_merge($admin_menu_contents_arr, $admin_menu_arr);
 
@@ -192,13 +202,13 @@ $assets_libraries_path = $skif_path . '/assets/libraries';
                             $breadcrumbs_arr
                         );
 
-                        echo \Skif\PhpTemplate::renderTemplate('/admin_breadcrumbs.tpl.php', array('breadcrumbs_arr' => $breadcrumbs_arr));
+                        echo PhpTemplate::renderTemplate('/admin_breadcrumbs.tpl.php', array('breadcrumbs_arr' => $breadcrumbs_arr));
 
                         if (!empty($title)) {
                             echo '<h1 class="page-header">' . $title . '</h1>';
                         }
 
-                        echo \Skif\Messages::renderMessages();
+                        echo Messages::renderMessages();
                         ?>
                     </div>
                 </div>
@@ -215,9 +225,8 @@ $assets_libraries_path = $skif_path . '/assets/libraries';
 
 </div>
 
-<script src="<?php echo $assets_libraries_path; ?>/metisMenu/metisMenu.min.js"></script>
-
-<script src="<?php echo $skif_path; ?>/assets/libraries/sb-admin-2/js/sb-admin-2.js"></script>
+<script src="<?php echo Path::wrapSkifAssetsVersion('/libraries/metisMenu/metisMenu.min.js'); ?>"></script>
+<script src="<?php echo Path::wrapSkifAssetsVersion('/libraries/sb-admin-2/js/sb-admin-2.js'); ?>"></script>
 
 </body>
 

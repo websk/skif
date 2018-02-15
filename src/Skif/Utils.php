@@ -3,6 +3,8 @@
 namespace Skif;
 
 
+use Skif\Conf\ConfWrapper;
+
 class Utils
 {
     protected static $countries_arr;
@@ -271,5 +273,4 @@ class Utils
 
         return $ending;
     }
-
 }

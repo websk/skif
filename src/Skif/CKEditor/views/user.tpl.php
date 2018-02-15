@@ -7,24 +7,14 @@
  */
 
 use Skif\Conf\ConfWrapper;
+use Skif\Path;
 
-$skif_path = ConfWrapper::value('skif_path');
-
-$styles = [
-    $skif_path .'/assets/libraries/bootstrap/css/bootstrap.min.css',
-    '/assets/styles/main.css',
-    '/assets/styles/style.css'
-];
 $config_styles = ConfWrapper::value('ckeditor.styles', []);
-if ($config_styles) {
-    $styles = $config_styles;
-}
-
-$contents_css = '';
+$contents_css_files = [];
 foreach ($config_styles as $style_file) {
-    $contents_css .= "'" . $style_file . "'";
+    $contents_css_files[] = "'" . $style_file . "'";
 }
-
+$contents_css = implode(',', $config_styles);
 ?>
 <textarea id="<?php echo $editor_name ?>" name="<?php echo $editor_name ?>" rows="10" class="form-control"><?php echo $text ?></textarea>
 
@@ -38,7 +28,7 @@ foreach ($config_styles as $style_file) {
             { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'] }
         ],
         pasteFilter: 'plain-text',
-        customConfig:  '<?php echo $skif_path; ?>/assets/js/ckeditor_config.js',
+        customConfig:  '<?php echo Path::wrapSkifAssetsVersion('/js/ckeditor_config.js'); ?>',
         contentsCss: [<?php echo $contents_css; ?>],
         height: <?php echo $height ?>
     });

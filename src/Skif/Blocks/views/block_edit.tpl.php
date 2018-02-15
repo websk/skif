@@ -3,6 +3,9 @@
  * @var $block_id
  */
 
+use Skif\Path;
+use Skif\Utils;
+
 $block_obj = \Skif\Blocks\ControllerBlocks::getBlockObj($block_id);
 
 echo \Skif\PhpTemplate::renderTemplateBySkifModule(
@@ -127,10 +130,7 @@ $items = array();
         &nbsp;&nbsp;<button class="btn" id="regions-btn-js" type="button">Сохранить и выбрать регион</button>
     </form>
 
-<?php
-$skif_path = \Skif\Conf\ConfWrapper::value('skif_path');
-?>
-<script src="<?php echo $skif_path; ?>/assets/libraries/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="<?php echo Path::wrapSkifAssetsVersion('/libraries/ace/ace.js'); ?>" type="text/javascript" charset="utf-8"></script>
 
 <script>
     var editor = ace.edit("editor");
