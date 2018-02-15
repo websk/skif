@@ -14,7 +14,7 @@ $contents_css_files = [];
 foreach ($config_styles as $style_file) {
     $contents_css_files[] = "'" . $style_file . "'";
 }
-$contents_css = implode(',', $config_styles);
+$contents_css = implode(',', $contents_css_files);
 ?>
 <textarea id="<?php echo $editor_name ?>" name="<?php echo $editor_name ?>" rows="10"
           class="form-control"><?php echo $text ?></textarea>

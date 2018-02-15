@@ -14,7 +14,7 @@ $contents_css_files = [];
 foreach ($config_styles as $style_file) {
     $contents_css_files[] = "'" . $style_file . "'";
 }
-$contents_css = implode(',', $config_styles);
+$contents_css = implode(',', $contents_css_files);
 
 $dir_str = ($dir ? "'&dir=" . $dir . "'" : '');
 ?>
