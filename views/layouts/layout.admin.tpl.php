@@ -66,7 +66,7 @@ $assets_libraries_path = $skif_path . '/assets/libraries';
     <script type="text/javascript" src="<?php echo $assets_libraries_path; ?>/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
     <link href="<?php echo $assets_libraries_path; ?>/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="/vendor/ckeditor/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
 </head>
 
 <body>
