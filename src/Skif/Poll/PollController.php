@@ -2,7 +2,13 @@
 
 namespace Skif\Poll;
 
-class PollController extends \Skif\CRUD\CRUDController
+use Skif\Conf\ConfWrapper;
+use Skif\CRUD\CRUDController;
+use Skif\Http;
+use Skif\Messages;
+use Skif\PhpTemplate;
+
+class PollController extends CRUDController
 {
 
     protected static $model_class_name = '\Skif\Poll\Poll';
@@ -26,29 +32,31 @@ class PollController extends \Skif\CRUD\CRUDController
     {
         $poll_question_id = isset($_REQUEST['poll_question_id']) ? intval($_REQUEST['poll_question_id']) : '';
 
-        $poll_obj = \Skif\Poll\Poll::factory($poll_id);
+        $poll_obj = Poll::factory($poll_id);
 
-        if ($_COOKIE[self::$poll_cookie_prefix . $poll_id] == 'no') {
-            \Skif\Messages::setError('Вы уже проголосовали ранее!');
+        $cookie_key = self::$poll_cookie_prefix . $poll_id;
 
-            \Skif\Http::redirect($poll_obj->getUrl());
+        if (isset($_COOKIE[$cookie_key]) && ($_COOKIE[$cookie_key] == 'no')) {
+            Messages::setError('Вы уже проголосовали ранее!');
+
+            Http::redirect($poll_obj->getUrl());
         }
 
         if (!empty($poll_question_id)) {
-            $poll_question_obj = \Skif\Poll\PollQuestion::factory($poll_question_id);
+            $poll_question_obj = PollQuestion::factory($poll_question_id);
 
             $votes = $poll_question_obj->getVotes() + 1;
             $poll_question_obj->setVotes($votes);
             $poll_question_obj->save();
 
-            setcookie(self::$poll_cookie_prefix . $poll_id, 'no', time() + 3600 * 24 * 365);
+            setcookie($cookie_key, 'no', time() + 3600 * 24 * 365);
 
-            \Skif\Messages::setMessage('Спасибо, ваш голос учтен!');
+            Messages::setMessage('Спасибо, ваш голос учтен!');
         } else {
-            \Skif\Messages::setError('Вы не проголосовали, т.к. не выбрали ответ.');
+            Messages::setError('Вы не проголосовали, т.к. не выбрали ответ.');
         }
 
-        \Skif\Http::redirect($poll_obj->getUrl());
+        Http::redirect($poll_obj->getUrl());
     }
 
     /**
@@ -57,17 +65,17 @@ class PollController extends \Skif\CRUD\CRUDController
      */
     public static function viewAction($poll_id)
     {
-        $poll_obj = \Skif\Poll\Poll::factory($poll_id, false);
-        \Skif\Http::exit404If(!$poll_obj);
+        $poll_obj = Poll::factory($poll_id, false);
+        Http::exit404If(!$poll_obj);
 
-        $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $content = PhpTemplate::renderTemplateBySkifModule(
             'Poll',
             'view.tpl.php',
             array('poll_id' => $poll_id)
         );
 
-        echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.main'),
+        echo PhpTemplate::renderTemplate(
+            ConfWrapper::value('layout.main'),
             array(
                 'title' => $poll_obj->getTitle(),
                 'content' => $content,

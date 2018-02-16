@@ -2,7 +2,7 @@
 
 namespace Skif\Captcha;
 
-
+use Skif\Messages;
 use Skif\Path;
 
 class Captcha
@@ -43,7 +43,7 @@ class Captcha
             return true;
         }
 
-        \Skif\Messages::setError('Код, изображенный на картинке введен неверно. Попробуйте еще раз.');
+        Messages::setError('Код, изображенный на картинке введен неверно. Попробуйте еще раз.');
 
         return false;
     }
@@ -160,4 +160,4 @@ class Captcha
     {
         return '/captcha/generate';
     }
-} 
+}

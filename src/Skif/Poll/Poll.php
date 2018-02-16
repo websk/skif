@@ -2,16 +2,25 @@
 
 namespace Skif\Poll;
 
+use Skif\Model\FactoryTrait;
+use Skif\Model\InterfaceDelete;
+use Skif\Model\InterfaceFactory;
+use Skif\Model\InterfaceGetTitle;
+use Skif\Model\InterfaceGetUrl;
+use Skif\Model\InterfaceLoad;
+use Skif\Model\InterfaceSave;
+use Skif\Util\ActiveRecord;
+
 class Poll implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete,
-    \Skif\Model\InterfaceGetUrl,
-    \Skif\Model\InterfaceGetTitle
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete,
+    InterfaceGetUrl,
+    InterfaceGetTitle
 {
-    use \Skif\Util\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+    use ActiveRecord;
+    use FactoryTrait;
 
     const DB_TABLE_NAME = 'poll';
 
@@ -192,5 +201,4 @@ class Poll implements
     {
         return '/poll/' . $this->getId();
     }
-
 }

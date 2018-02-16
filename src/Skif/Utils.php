@@ -2,9 +2,6 @@
 
 namespace Skif;
 
-
-use Skif\Conf\ConfWrapper;
-
 class Utils
 {
     protected static $countries_arr;
@@ -77,6 +74,11 @@ class Utils
         return preg_replace($search, $replace, $subject, $count);
     }
 
+    /**
+     * @param $value
+     * @param string $message
+     * @throws \Exception
+     */
     public static function assert($value, $message = "")
     {
         if ($value == false) {

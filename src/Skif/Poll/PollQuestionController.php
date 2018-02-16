@@ -2,7 +2,6 @@
 
 namespace Skif\Poll;
 
-
 class PollQuestionController extends \Skif\CRUD\CRUDController
 {
 
@@ -12,5 +11,4 @@ class PollQuestionController extends \Skif\CRUD\CRUDController
     {
         return '/admin/poll_question';
     }
-
 }

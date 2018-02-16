@@ -5,6 +5,9 @@
 
 namespace Skif\Model;
 
+use Skif\Factory;
+use Skif\Utils;
+
 trait FactoryTrait
 {
     /**
@@ -14,7 +17,7 @@ trait FactoryTrait
     public static function getMyGlobalizedClassName()
     {
         $class_name = get_called_class(); // "Gets the name of the class the static method is called in."
-        $class_name = \Skif\Model\Helper::globalizeClassName($class_name);
+        $class_name = Helper::globalizeClassName($class_name);
 
         return $class_name;
     }
@@ -24,15 +27,14 @@ trait FactoryTrait
      * @param $id_to_load
      * @param bool|true $exception_if_not_loaded
      * @return $this
-     * @throws \Exception
      */
     public static function factory($id_to_load, $exception_if_not_loaded = true)
     {
         $class_name = self::getMyGlobalizedClassName();
-        $obj = \Skif\Factory::createAndLoadObject($class_name, $id_to_load);
+        $obj = Factory::createAndLoadObject($class_name, $id_to_load);
 
         if ($exception_if_not_loaded) {
-            \Skif\Utils::assert($obj);
+            Utils::assert($obj);
         }
 
         return $obj;
@@ -48,25 +50,30 @@ trait FactoryTrait
     public static function factoryByFieldsArr($fields_arr, $exception_if_not_loaded = true)
     {
         $class_name = self::getMyGlobalizedClassName();
-        $obj = \Skif\Factory::createAndLoadObjectByFieldsArr($class_name, $fields_arr);
+        $obj = Factory::createAndLoadObjectByFieldsArr($class_name, $fields_arr);
 
         if ($exception_if_not_loaded) {
-            \Skif\Utils::assert($obj);
+            Utils::assert($obj);
         }
 
         return $obj;
     }
 
+    /**
+     * @param $id_to_remove
+     */
     public static function removeObjFromCacheById($id_to_remove)
     {
         $class_name = self::getMyGlobalizedClassName();
-        \Skif\Factory::removeObjectFromCache($class_name, $id_to_remove);
+        Factory::removeObjectFromCache($class_name, $id_to_remove);
     }
 
     /**
      * Базовая обработка изменения.
      * Если на это событие есть подписчики - нужно переопределить обработчик в самом классе и там eventmanager::invoke, где уже подписать остальных подписчиков.
      * сделано статиками чтобы можно было вызывать для других объектов не создавая, только по id.
+
+     * @param $id
      */
     public static function afterUpdate($id)
     {
@@ -74,9 +81,9 @@ trait FactoryTrait
 
         if (isset($model_class_name::$depends_on_models_arr)) {
             foreach ($model_class_name::$depends_on_models_arr as $depends_model_class_name => $depends_model_data) {
-                \Skif\Utils::assert(array_key_exists('link_field', $depends_model_data));
+                Utils::assert(array_key_exists('link_field', $depends_model_data));
 
-                $model_obj = \Skif\Factory::createAndLoadObject($model_class_name, $id);
+                $model_obj = Factory::createAndLoadObject($model_class_name, $id);
 
                 $reflect = new \ReflectionClass($model_obj);
                 $property_obj = $reflect->getProperty($depends_model_data['link_field']);
@@ -109,7 +116,7 @@ trait FactoryTrait
 
         if (isset($model_class_name::$depends_on_models_arr)) {
             foreach ($model_class_name::$depends_on_models_arr as $depends_model_class_name => $depends_model_data) {
-                \Skif\Utils::assert(array_key_exists('link_field', $depends_model_data));
+                Utils::assert(array_key_exists('link_field', $depends_model_data));
 
                 $reflect = new \ReflectionClass($this);
                 $property_obj = $reflect->getProperty($depends_model_data['link_field']);

@@ -2,15 +2,23 @@
 
 namespace Skif\Poll;
 
+use Skif\Model\FactoryTrait;
+use Skif\Model\InterfaceDelete;
+use Skif\Model\InterfaceFactory;
+use Skif\Model\InterfaceGetTitle;
+use Skif\Model\InterfaceLoad;
+use Skif\Model\InterfaceSave;
+use Skif\Util\ActiveRecord;
+
 class PollQuestion implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete,
-    \Skif\Model\InterfaceGetTitle
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete,
+    InterfaceGetTitle
 {
-    use \Skif\Util\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+    use ActiveRecord;
+    use FactoryTrait;
 
     const DB_TABLE_NAME = 'poll_question';
 
@@ -145,14 +153,14 @@ class PollQuestion implements
 
         self::removeObjFromCacheById($id);
 
-        \Skif\Poll\Poll::afterUpdate($poll_question_obj->getPollId());
+        Poll::afterUpdate($poll_question_obj->getPollId());
     }
 
     public function afterDelete()
     {
         self::removeObjFromCacheById($this->getId());
 
-        \Skif\Poll\Poll::afterUpdate($this->getPollId());
+        Poll::afterUpdate($this->getPollId());
     }
 
 }

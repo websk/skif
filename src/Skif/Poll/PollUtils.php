@@ -2,33 +2,43 @@
 
 namespace Skif\Poll;
 
+use Skif\DB\DBWrapper;
+use Skif\PhpTemplate;
 
 class PollUtils
 {
-
+    /**
+     * @return int
+     */
     public static function getDefaultPollId()
     {
-        $poll_id = \Skif\DB\DBWrapper::readField(
-            "SELECT id FROM poll WHERE is_default=1 AND is_published=1 LIMIT 1"
+        $poll_id = DBWrapper::readField(
+            "SELECT id FROM " . Poll::DB_TABLE_NAME . " WHERE is_default=1 AND is_published=1 LIMIT 1"
         );
 
         if (!$poll_id) {
-            "SELECT id FROM poll WHERE is_published=1 ORDER BY id DESC LIMIT 1";
+            $poll_id = DBWrapper::readField(
+                "SELECT id FROM " . Poll::DB_TABLE_NAME . " WHERE is_published=1 ORDER BY id DESC LIMIT 1"
+            );
         }
 
         return $poll_id;
     }
 
+    /**
+     * @param int $poll_id
+     * @return int
+     */
     public static function getSumVotesFromPollQuestionByPoll($poll_id)
     {
-        $poll_obj = \Skif\Poll\Poll::factory($poll_id);
+        $poll_obj = Poll::factory($poll_id);
 
         $poll_question_ids_arr = $poll_obj->getPollQuestionsIdsArr();
 
         $sum = 0;
 
         foreach ($poll_question_ids_arr as $poll_question_id) {
-            $poll_question_obj = \Skif\Poll\PollQuestion::factory($poll_question_id);
+            $poll_question_obj = PollQuestion::factory($poll_question_id);
 
             $sum += $poll_question_obj->getVotes();
         }
@@ -36,9 +46,13 @@ class PollUtils
         return $sum;
     }
 
+    /**
+     * @param int $poll_id
+     * @return int
+     */
     public static function getMaxVotesFromPollQuestionByPoll($poll_id)
     {
-        $poll_obj = \Skif\Poll\Poll::factory($poll_id);
+        $poll_obj = Poll::factory($poll_id);
 
         $poll_question_ids_arr = $poll_obj->getPollQuestionsIdsArr();
 
@@ -46,7 +60,7 @@ class PollUtils
         $votes_arr = array();
 
         foreach ($poll_question_ids_arr as $poll_question_id) {
-            $poll_question_obj = \Skif\Poll\PollQuestion::factory($poll_question_id);
+            $poll_question_obj = PollQuestion::factory($poll_question_id);
 
             if (in_array($poll_question_obj->getVotes(), $votes_arr)) {
                 return 0;
@@ -61,21 +75,24 @@ class PollUtils
         return $max;
     }
 
+    /**
+     * @param int|null $poll_id
+     * @return string
+     */
     public static function renderBlockByPollId($poll_id = null)
     {
         if (!$poll_id) {
-            $poll_id = \Skif\Poll\PollUtils::getDefaultPollId();
+            $poll_id = self::getDefaultPollId();
         }
 
         if (!$poll_id) {
             return '';
         }
 
-        return \Skif\PhpTemplate::renderTemplateBySkifModule(
+        return PhpTemplate::renderTemplateBySkifModule(
             'Poll',
             'block.tpl.php',
             array('poll_id' => $poll_id)
         );
     }
-
 }
