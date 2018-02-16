@@ -60,7 +60,9 @@ class Captcha
         $path_fonts = Path::getSkifAssetsPath() . '/fonts/'; // Путь к шрифтам
         $numeric = 1; // Только цифры
 
-        session_start();
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
 
         $_SESSION['captcha'] = '';
 
