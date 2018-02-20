@@ -2,6 +2,13 @@
 
 namespace Skif\Util;
 
+use Skif\Factory;
+use Skif\Logger\Logger;
+use Skif\Model\InterfaceFactory;
+use Skif\Model\InterfaceLoad;
+use Skif\Model\InterfaceLogger;
+use Skif\Utils;
+
 /**
  * Для работы с ActiveRecord необходимо:
  *
@@ -43,27 +50,27 @@ trait ActiveRecord
 
     public function save()
     {
-        \Skif\Util\ActiveRecordHelper::saveModelObj($this);
+        ActiveRecordHelper::saveModelObj($this);
 
         if (
-            ($this instanceof \Skif\Model\InterfaceLoad) &&
-            ($this instanceof \Skif\Model\InterfaceFactory)
+            ($this instanceof InterfaceLoad) &&
+            ($this instanceof InterfaceFactory)
         ) {
             $this::afterUpdate($this->getId());
 
-            if ($this instanceof \Skif\Model\InterfaceLogger) {
-                \Skif\Logger\Logger::logObjectEvent($this, 'изменение');
+            if ($this instanceof InterfaceLogger) {
+                Logger::logObjectEvent($this, 'изменение');
             }
         }
     }
 
     public function getIdByFieldNamesArr($field_names_arr) {
-        return \Skif\Util\ActiveRecordHelper::getIdByFieldNamesArr($this, $field_names_arr);
+        return ActiveRecordHelper::getIdByFieldNamesArr($this, $field_names_arr);
     }
 
     public function load($id)
     {
-        return \Skif\Util\ActiveRecordHelper::loadModelObj($this, $id);
+        return ActiveRecordHelper::loadModelObj($this, $id);
     }
 
     public function delete()
@@ -73,7 +80,7 @@ trait ActiveRecord
         // Проверяем связанные данные
         if (isset($model_class_name::$related_models_arr)) {
             foreach ($model_class_name::$related_models_arr as $related_model_class_name => $related_model_data) {
-                \Skif\Utils::assert(array_key_exists('link_field', $related_model_data));
+                Utils::assert(array_key_exists('link_field', $related_model_data));
 
                 $related_ids_arr = $this->$related_model_data['field_name'];
                 if (!empty($related_ids_arr)
@@ -86,29 +93,29 @@ trait ActiveRecord
                 // Удаляем связанные данные
                 $related_ids_arr = $this->$related_model_data['field_name'];
                 foreach ($related_ids_arr as $related_id) {
-                    $related_model_obj = \Skif\Factory::createAndLoadObject($related_model_class_name, $related_id);
+                    $related_model_obj = Factory::createAndLoadObject($related_model_class_name, $related_id);
                     $related_model_obj->delete();
                 }
             }
         }
 
         if (
-            ($this instanceof \Skif\Model\InterfaceLoad) &&
-            ($this instanceof \Skif\Model\InterfaceFactory)
+            ($this instanceof InterfaceLoad) &&
+            ($this instanceof InterfaceFactory)
         ) {
             $check_message = $this->BeforeDelete();
             if ($check_message !== true) {
                 return $check_message;
             }
 
-            \Skif\Util\ActiveRecordHelper::deleteModelObj($this);
+            ActiveRecordHelper::deleteModelObj($this);
             $this->afterDelete();
         } else {
-            \Skif\Util\ActiveRecordHelper::deleteModelObj($this);
+            ActiveRecordHelper::deleteModelObj($this);
         }
 
-        if ($this instanceof \Skif\Model\InterfaceLogger) {
-            \Skif\Logger\Logger::logObjectEvent($this, 'удаление');
+        if ($this instanceof InterfaceLogger) {
+            Logger::logObjectEvent($this, 'удаление');
         }
 
         return true;
