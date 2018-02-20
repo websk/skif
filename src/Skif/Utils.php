@@ -6,7 +6,7 @@ class Utils
 {
     protected static $countries_arr;
 
-    public static function renderPagination($current_page, $count_records, $messages_to_page)
+    public static function renderPagination($current_page, $count_records, $messages_to_page = 10)
     {
         $url = $_SERVER['REQUEST_URI'];
         $url = str_replace('&', '&amp;', $url);
