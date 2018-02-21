@@ -25,7 +25,7 @@ if (!$field_value && isset($default_value)) {
             locale: 'ru',
             allowInputToggle: true,
             format: '<?php echo $date_format; ?>',
-            <?php echo $datetimepicker_options; ?>
+            <?php echo $datetimepicker_options ?? ''; ?>
         });
     });
 </script>

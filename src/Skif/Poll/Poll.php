@@ -2,6 +2,7 @@
 
 namespace Skif\Poll;
 
+use Skif\CRUD\DatepickerWidget\DatepickerWidget;
 use Skif\Model\FactoryTrait;
 use Skif\Model\InterfaceDelete;
 use Skif\Model\InterfaceFactory;
@@ -66,23 +67,23 @@ class Poll implements
         '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
     );
 
-    public static $crud_editor_fields_arr = array(
-        'title' => array(),
-        'is_default' => array('widget' => 'checkbox'),
-        'is_published' => array('widget' => 'checkbox'),
-        'published_at' => array(
-            'widget' => array('\Skif\CRUD\DatepickerWidget\DatepickerWidget', 'renderWidget'),
-            'widget_settings' => array(
+    public static $crud_editor_fields_arr = [
+        'title' => [],
+        'is_default' => ['widget' => 'checkbox'],
+        'is_published' => ['widget' => 'checkbox'],
+        'published_at' => [
+            'widget' => [DatepickerWidget::class, 'renderWidget'],
+            'widget_settings' => [
                 'date_format' => 'YYYY-MM-DD'
-            ),
-        ),
-        'unpublished_at' => array(
-            'widget' => array('\Skif\CRUD\DatepickerWidget\DatepickerWidget', 'renderWidget'),
-            'widget_settings' => array(
+            ],
+        ],
+        'unpublished_at' => [
+            'widget' => [DatepickerWidget::class, 'renderWidget'],
+            'widget_settings' => [
                 'date_format' => 'YYYY-MM-DD'
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     // Связанные модели
     public static $related_models_arr = array(
