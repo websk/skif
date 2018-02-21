@@ -3,20 +3,24 @@
  * @var $poll_id
  */
 
-$poll_obj = \Skif\Poll\Poll::factory($poll_id);
+use Skif\Poll\Poll;
+use Skif\Poll\PollQuestion;
+use Skif\Poll\PollUtils;
+
+$poll_obj = Poll::factory($poll_id);
 
 $poll_question_ids_arr = $poll_obj->getPollQuestionsIdsArr();
 
-$sum = \Skif\Poll\PollUtils::getSumVotesFromPollQuestionByPoll($poll_id);
-$max = \Skif\Poll\PollUtils::getMaxVotesFromPollQuestionByPoll($poll_id);
+$sum = PollUtils::getSumVotesFromPollQuestionByPoll($poll_id);
+$max = PollUtils::getMaxVotesFromPollQuestionByPoll($poll_id);
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
 <?php
 foreach ($poll_question_ids_arr as $poll_question_id) {
-    $poll_question_obj = \Skif\Poll\PollQuestion::factory($poll_question_id);
+    $poll_question_obj = PollQuestion::factory($poll_question_id);
 
-    $vote_percentage = round($poll_question_obj->getVotes() / $sum * 100);
+    $vote_percentage = $sum ? round($poll_question_obj->getVotes() / $sum * 100) : 0;
     ?>
     <div>
         <div><?php echo $poll_question_obj->getTitle(); ?></div>
