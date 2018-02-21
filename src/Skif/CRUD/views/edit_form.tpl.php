@@ -5,7 +5,14 @@
  * @var $current_controller_obj
  */
 
-\Skif\Utils::assert($obj);
+use Skif\CRUD\CRUDController;
+use Skif\CRUD\CRUDUtils;
+use Skif\CRUD\Widgets;
+use Skif\Model\InterfaceSave;
+use Skif\PhpTemplate;
+use Skif\Utils;
+
+Utils::assert($obj);
 $model_class_name = get_class($obj);
 
 $reflect = new \ReflectionClass($model_class_name);
@@ -19,7 +26,7 @@ foreach ($reflect->getProperties() as $prop_obj) {
     }
 }
 
-$crud_editor_fields_arr = \Skif\CRUD\CRUDUtils::getCrudEditorFieldsArrForClass($model_class_name);
+$crud_editor_fields_arr = CRUDUtils::getCrudEditorFieldsArrForClass($model_class_name);
 if ($crud_editor_fields_arr) {
     foreach ($props_arr as $delta => $property_obj) {
         if (!array_key_exists($property_obj->getName(), $crud_editor_fields_arr)) {
@@ -53,7 +60,7 @@ if (property_exists($model_class_name, 'crud_extra_tabs') && count($model_class_
 }
 */
 
-if ($obj instanceof \Skif\Model\InterfaceSave) {
+if ($obj instanceof InterfaceSave) {
     ?>
     <div>
         <form id="form" role="form" method="post"
@@ -61,9 +68,9 @@ if ($obj instanceof \Skif\Model\InterfaceSave) {
               class="form-horizontal">
             <?php
             foreach ($props_arr as $prop_obj) {
-                $editor_title = \Skif\CRUD\CRUDUtils::getTitleForField($model_class_name, $prop_obj->getName());
-                $editor_description = \Skif\CRUD\CRUDUtils::getDescriptionForField($model_class_name, $prop_obj->getName());
-                $required = \Skif\CRUD\CRUDUtils::isRequiredField($model_class_name, $prop_obj->getName());
+                $editor_title = CRUDUtils::getTitleForField($model_class_name, $prop_obj->getName());
+                $editor_description = CRUDUtils::getDescriptionForField($model_class_name, $prop_obj->getName());
+                $required = CRUDUtils::isRequiredField($model_class_name, $prop_obj->getName());
                 ?>
                 <div class="form-group <?= (($required) ? 'required' : '') ?>">
                     <label for="<?php echo $prop_obj->getName() ?>"
@@ -71,7 +78,7 @@ if ($obj instanceof \Skif\Model\InterfaceSave) {
 
                     <div class="col-md-10">
                         <?php
-                        echo \Skif\CRUD\Widgets::renderFieldWithWidget($prop_obj->getName(), $obj);
+                        echo Widgets::renderFieldWithWidget($prop_obj->getName(), $obj);
 
                         if ($editor_description) {
                             ?>
@@ -103,7 +110,7 @@ if ($obj instanceof \Skif\Model\InterfaceSave) {
 
         <script>
             function deleteConfirm() {
-                return confirm("Вы действительно хотите удалить <?php echo \Skif\CRUD\CRUDUtils::getModelTitleForObj($obj); ?>?");
+                return confirm("Вы действительно хотите удалить <?php echo CRUDUtils::getModelTitleForObj($obj); ?>?");
             }
 
             $('#form').on('submit', function (e) {
@@ -132,7 +139,7 @@ if (property_exists($model_class_name, 'related_models_arr')) {
             continue;
         }
 
-        \Skif\Utils::assert(array_key_exists('link_field', $related_model_data));
+        Utils::assert(array_key_exists('link_field', $related_model_data));
 
         $relation_field_name = $related_model_data['link_field'];
 
@@ -144,17 +151,19 @@ if (property_exists($model_class_name, 'related_models_arr')) {
 
         $context_arr = array($relation_field_name => $obj->getId());
 
-        if (array_key_exists($related_model_data['context_fields_arr'], $related_model_data)) {
+        if (isset($related_model_data['context_fields_arr'])
+            && array_key_exists($related_model_data['context_fields_arr'], $related_model_data)
+        ) {
             foreach ($related_model_data['context_fields_arr'] as $context_field) {
-                $context_arr[$context_field] = \Skif\CRUD\CRUDUtils::getObjectFieldValue($obj, $context_field);
+                $context_arr[$context_field] = CRUDUtils::getObjectFieldValue($obj, $context_field);
             }
         }
 
         echo '<hr>';
 
-        $objs_ids_arr = \Skif\CRUD\CRUDUtils::getObjIdsArrayForModel($related_model_class_name, $context_arr);
+        $objs_ids_arr = CRUDUtils::getObjIdsArrayForModel($related_model_class_name, $context_arr);
 
-        echo \Skif\PhpTemplate::renderTemplateBySkifModule(
+        echo PhpTemplate::renderTemplateBySkifModule(
             'CRUD',
             'list.tpl.php',
             array(
@@ -162,7 +171,7 @@ if (property_exists($model_class_name, 'related_models_arr')) {
                 'objs_ids_arr' => $objs_ids_arr,
                 'context_arr' => $context_arr,
                 'list_title' => $list_title,
-                'current_controller_obj' => \Skif\CRUD\CRUDController::getControllerClassNameByModelClassName($related_model_class_name)
+                'current_controller_obj' => CRUDController::getControllerClassNameByModelClassName($related_model_class_name)
             )
         );
     }
