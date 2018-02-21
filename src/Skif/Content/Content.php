@@ -29,59 +29,98 @@ ENGINE=InnoDB
 
 namespace Skif\Content;
 
-class Content implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete,
-    \Skif\Model\InterfaceLogger
-{
-    use \Skif\Util\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+use Skif\DB\DBWrapper;
+use Skif\Model\FactoryTrait;
+use Skif\Model\InterfaceDelete;
+use Skif\Model\InterfaceFactory;
+use Skif\Model\InterfaceLoad;
+use Skif\Model\InterfaceLogger;
+use Skif\Model\InterfaceSave;
+use Skif\Translit;
+use Skif\UrlManager;
+use Skif\Util\ActiveRecord;
+use Skif\Util\ActiveRecordHelper;
+use Skif\Utils;
 
+class Content implements
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete,
+    InterfaceLogger
+{
+    use ActiveRecord;
+    use FactoryTrait;
+
+    /** @var int */
     protected $id;
+    /** @var string */
     protected $title = '';
+    /** @var string */
     protected $short_title = '';
+    /** @var string */
     protected $annotation = '';
+    /** @var string */
     protected $body = '';
+    /** @var int */
     protected $published_at;
+    /** @var int */
     protected $unpublished_at;
-    protected $is_published;
+    /** @var int */
+    protected $is_published = 0;
+    /** @var int */
     protected $created_at;
+    /** @var string */
     protected $image = '';
+    /** @var string */
     protected $description = '';
+    /** @var string */
     protected $keywords = '';
+    /** @var string */
     protected $url = '';
+    /** @var int */
     protected $content_type_id;
+    /** @var int */
     protected $last_modified_at;
+    /** @var string */
     protected $redirect_url = '';
+    /** @var int */
     protected $template_id;
-    protected $content_rubrics_ids_arr;
+    /** @var array */
+    protected $content_rubrics_ids_arr = [];
+    /** @var int */
     protected $main_rubric_id;
 
-    public static $active_record_ignore_fields_arr = array(
+    public static $active_record_ignore_fields_arr = [
         'content_rubrics_ids_arr',
-    );
+    ];
 
     const DB_TABLE_NAME = 'content';
 
+    /**
+     * @return string
+     */
     public function getEditorUrl()
     {
         $content_type_id = $this->getContentTypeId();
-        $content_type_obj = \Skif\Content\ContentType::factory($content_type_id);
+        $content_type_obj = ContentType::factory($content_type_id);
 
         return '/admin/content/' . $content_type_obj->getType() . '/edit/' . $this->getId();
     }
 
+    /**
+     * @param $id
+     * @return bool
+     */
     public function load($id)
     {
-        $is_loaded = \Skif\Util\ActiveRecordHelper::loadModelObj($this, $id);
+        $is_loaded = ActiveRecordHelper::loadModelObj($this, $id);
         if (!$is_loaded) {
             return false;
         }
 
-        $query = "SELECT id FROM " . \Skif\Content\ContentRubrics::DB_TABLE_NAME ." WHERE content_id = ?";
-        $this->content_rubrics_ids_arr = \Skif\DB\DBWrapper::readColumn(
+        $query = "SELECT id FROM " . ContentRubrics::DB_TABLE_NAME ." WHERE content_id = ?";
+        $this->content_rubrics_ids_arr = DBWrapper::readColumn(
             $query,
             array($this->id)
         );
@@ -90,7 +129,7 @@ class Content implements
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getContentTypeId()
     {
@@ -98,7 +137,7 @@ class Content implements
     }
 
     /**
-     * @param mixed $content_type_id
+     * @param int $content_type_id
      */
     public function setContentTypeId($content_type_id)
     {
@@ -106,7 +145,7 @@ class Content implements
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getImage()
     {
@@ -114,7 +153,7 @@ class Content implements
     }
 
     /**
-     * @param mixed $image
+     * @param string $image
      */
     public function setImage($image)
     {
@@ -131,13 +170,13 @@ class Content implements
         }
 
         $content_type_id = $this->getContentTypeId();
-        $content_type_obj = \Skif\Content\ContentType::factory($content_type_id);
+        $content_type_obj = ContentType::factory($content_type_id);
 
         return 'content/' . $content_type_obj->getType() . '/' . $this->image;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getId()
     {
@@ -145,23 +184,15 @@ class Content implements
     }
 
     /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
+     * @return string
      */
     public function getTitle()
     {
-        return \Skif\Utils::checkPlain($this->title);
+        return Utils::checkPlain($this->title);
     }
 
     /**
-     * @param mixed $title
+     * @param string $title
      */
     public function setTitle($title)
     {
@@ -169,7 +200,7 @@ class Content implements
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getShortTitle()
     {
@@ -177,7 +208,7 @@ class Content implements
     }
 
     /**
-     * @param mixed $short_title
+     * @param string $short_title
      */
     public function setShortTitle($short_title)
     {
@@ -185,7 +216,7 @@ class Content implements
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getAnnotation()
     {
@@ -193,7 +224,7 @@ class Content implements
     }
 
     /**
-     * @param mixed $annotation
+     * @param string $annotation
      */
     public function setAnnotation($annotation)
     {
@@ -201,7 +232,7 @@ class Content implements
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getBody()
     {
@@ -209,7 +240,7 @@ class Content implements
     }
 
     /**
-     * @param mixed $body
+     * @param string $body
      */
     public function setBody($body)
     {
@@ -217,7 +248,7 @@ class Content implements
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getPublishedAt()
     {
@@ -225,7 +256,7 @@ class Content implements
     }
 
     /**
-     * @param mixed $published_at
+     * @param int $published_at
      */
     public function setPublishedAt($published_at)
     {
@@ -233,7 +264,7 @@ class Content implements
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getUnpublishedAt()
     {
@@ -241,7 +272,7 @@ class Content implements
     }
 
     /**
-     * @param mixed $unpublished_at
+     * @param int $unpublished_at
      */
     public function setUnpublishedAt($unpublished_at)
     {
@@ -249,15 +280,15 @@ class Content implements
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
     public function isPublished()
     {
-        return $this->is_published;
+        return (bool)$this->is_published;
     }
 
     /**
-     * @param mixed $is_published
+     * @param int $is_published
      */
     public function setIsPublished($is_published)
     {
@@ -265,7 +296,7 @@ class Content implements
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getCreatedAt()
     {
@@ -273,7 +304,7 @@ class Content implements
     }
 
     /**
-     * @param mixed $created_at
+     * @param int $created_at
      */
     public function setCreatedAt($created_at)
     {
@@ -281,7 +312,7 @@ class Content implements
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getDescription()
     {
@@ -289,7 +320,7 @@ class Content implements
     }
 
     /**
-     * @param mixed $description
+     * @param string $description
      */
     public function setDescription($description)
     {
@@ -297,7 +328,7 @@ class Content implements
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getKeywords()
     {
@@ -305,7 +336,7 @@ class Content implements
     }
 
     /**
-     * @param mixed $keywords
+     * @param string $keywords
      */
     public function setKeywords($keywords)
     {
@@ -313,7 +344,7 @@ class Content implements
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getUrl()
     {
@@ -321,13 +352,16 @@ class Content implements
     }
 
     /**
-     * @param mixed $url
+     * @param string $url
      */
     public function setUrl($url)
     {
         $this->url = $url;
     }
 
+    /**
+     * @return bool|string
+     */
     public function generateUrl()
     {
         if (!$this->getTitle()) {
@@ -339,24 +373,24 @@ class Content implements
         }
 
 
-        $title_for_url = \Skif\Translit::translit($this->getTitle());
+        $title_for_url = Translit::translit($this->getTitle());
 
         $content_type_id = $this->getContentTypeId();
-        $content_type_obj = \Skif\Content\ContentType::factory($content_type_id);
+        $content_type_obj = ContentType::factory($content_type_id);
 
         $new_url = $content_type_obj->getUrl() . '/' . $title_for_url;
         $new_url = '/' . ltrim($new_url, '/');
 
         $new_url = substr($new_url, 0, 255);
 
-        $unique_new_url = \Skif\UrlManager::getUniqueUrl($new_url);
-        \Skif\Utils::assert($unique_new_url);
+        $unique_new_url = UrlManager::getUniqueUrl($new_url);
+        Utils::assert($unique_new_url);
 
         return $unique_new_url;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getLastModifiedAt()
     {
@@ -364,7 +398,7 @@ class Content implements
     }
 
     /**
-     * @param mixed $last_modified_at
+     * @param int $last_modified_at
      */
     public function setLastModifiedAt($last_modified_at)
     {
@@ -372,7 +406,7 @@ class Content implements
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getRedirectUrl()
     {
@@ -380,21 +414,23 @@ class Content implements
     }
 
     /**
-     * @param mixed $redirect_url
+     * @param string $redirect_url
      */
     public function setRedirectUrl($redirect_url)
     {
         $this->redirect_url = $redirect_url;
     }
 
-
+    /**
+     * @return false|int
+     */
     public function getUnixTime()
     {
         return strtotime($this->getPublishedAt());
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getTemplateId()
     {
@@ -402,13 +438,16 @@ class Content implements
     }
 
     /**
-     * @param mixed $template_id
+     * @param int $template_id
      */
     public function setTemplateId($template_id)
     {
         $this->template_id = $template_id;
     }
 
+    /**
+     * @return int
+     */
     public function getRelativeTemplateId()
     {
         if ($this->getTemplateId()) {
@@ -421,13 +460,13 @@ class Content implements
             return $main_rubric_obj->getTemplateId();
         }
 
-        $content_type_obj = \Skif\Content\ContentType::factory($this->getContentTypeId());
+        $content_type_obj = ContentType::factory($this->getContentTypeId());
 
         return $content_type_obj->getTemplateId();
     }
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getContentRubricsIdsArr()
     {
@@ -445,7 +484,7 @@ class Content implements
         $rubric_ids_arr = array();
 
         foreach ($content_rubrics_ids_arr as $content_rubrics_id) {
-            $content_rubrics_obj = \Skif\Content\ContentRubrics::factory($content_rubrics_id);
+            $content_rubrics_obj = ContentRubrics::factory($content_rubrics_id);
 
             $rubric_ids_arr[] = $content_rubrics_obj->getRubricId();
         }
@@ -453,12 +492,15 @@ class Content implements
         return $rubric_ids_arr;
     }
 
+    /**
+     * @return int
+     */
     public function getCountRubricIdsArr() {
         return count($this->getContentRubricsIdsArr());
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getMainRubricId()
     {
@@ -466,13 +508,17 @@ class Content implements
     }
 
     /**
-     * @param mixed $main_rubric_id
+     * @param int $main_rubric_id
      */
     public function setMainRubricId($main_rubric_id)
     {
         $this->main_rubric_id = $main_rubric_id;
     }
 
+    /**
+     * @param array $param_rubrics_ids_arr
+     * @return bool
+     */
     public function hasRubrics($param_rubrics_ids_arr)
     {
         $rubrics_ids_arr = $this->getRubricIdsArr();
@@ -486,6 +532,10 @@ class Content implements
         return false;
     }
 
+    /**
+     * @param int $rubric_id
+     * @return bool
+     */
     public function hasRubricId($rubric_id)
     {
         $rubrics_ids_arr = $this->getRubricIdsArr();
@@ -500,7 +550,7 @@ class Content implements
     public function deleteContentRubrics() {
         $content_rubrics_ids_arr = $this->getContentRubricsIdsArr();
         foreach ($content_rubrics_ids_arr as $content_rubrics_id) {
-            $content_rubrics_obj = \Skif\Content\ContentRubrics::factory($content_rubrics_id);
+            $content_rubrics_obj = ContentRubrics::factory($content_rubrics_id);
 
             $content_rubrics_obj->delete();
         }

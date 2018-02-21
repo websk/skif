@@ -2,45 +2,57 @@
 
 namespace Skif\Content;
 
+use Skif\Conf\ConfWrapper;
+use Skif\DB\DBWrapper;
+use Skif\Http;
+use Skif\Image\ImageConstants;
+use Skif\Image\ImageController;
+use Skif\Image\ImageManager;
+use Skif\Messages;
+use Skif\PhpTemplate;
+use Skif\UrlManager;
+use Skif\Users\AuthUtils;
+use Skif\Utils;
+
 class ContentController extends \Skif\BaseController
 {
 
     /**
      * @var string
      */
-    protected $url_table = \Skif\Content\Content::DB_TABLE_NAME;
+    protected $url_table = Content::DB_TABLE_NAME;
 
     public function viewAction()
     {
         $requested_id = $this->getRequestedId();
 
         if (!$requested_id) {
-            return \Skif\UrlManager::CONTINUE_ROUTING;
+            return UrlManager::CONTINUE_ROUTING;
         }
 
         $content_id = $requested_id;
 
-        $content_obj = \Skif\Content\Content::factory($content_id);
+        $content_obj = Content::factory($content_id);
         if (!$content_obj) {
-            \Skif\Http::exit404();
+            Http::exit404();
         }
 
         if (!$content_obj->isPublished()) {
-            \Skif\Http::exit404If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+            Http::exit404If(!AuthUtils::currentUserIsAdmin());
         }
 
         $content_type_id = $content_obj->getContentTypeId();
 
-        \Skif\Http::exit404If(!$content_type_id);
+        Http::exit404If(!$content_type_id);
 
-        $content_type_obj = \Skif\Content\ContentType::factory($content_type_id);
+        $content_type_obj = ContentType::factory($content_type_id);
         $content_type = $content_type_obj->getType();
 
 
         $content = '';
 
         $editor_nav_arr = array();
-        if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
+        if (AuthUtils::currentUserIsAdmin()) {
             $editor_nav_arr = array($content_obj->getEditorUrl() => 'Редактировать');
         }
 
@@ -49,7 +61,7 @@ class ContentController extends \Skif\BaseController
         $main_rubric_id = $content_obj->getMainRubricId();
 
         if ($main_rubric_id) {
-            $main_rubric_obj = \Skif\Content\Rubric::factory($main_rubric_id);
+            $main_rubric_obj = Rubric::factory($main_rubric_id);
 
             $breadcrumbs_arr = array($main_rubric_obj->getName() => $main_rubric_obj->getUrl() );
         }
@@ -57,19 +69,19 @@ class ContentController extends \Skif\BaseController
 
         $template_file = 'content_view.tpl.php';
 
-        if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type . '_view.tpl.php')) {
+        if (PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type . '_view.tpl.php')) {
             $template_file = 'content_' . $content_type . '_view.tpl.php';
         }
 
         if ($content_obj->getCountRubricIdsArr()) {
-            if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_' . $main_rubric_id .'_view.tpl.php')) {
+            if (PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_' . $main_rubric_id .'_view.tpl.php')) {
                 $template_file = 'content_by_rubric_' . $main_rubric_id .'_view.tpl.php';
-            } else if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_view.tpl.php')) {
+            } else if (PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_view.tpl.php')) {
                 $template_file = 'content_by_rubric_view.tpl.php';
             }
         }
 
-        $content .= \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $content .= PhpTemplate::renderTemplateBySkifModule(
             'Content',
             $template_file,
             array('content_id' => $content_id)
@@ -78,9 +90,9 @@ class ContentController extends \Skif\BaseController
 
         $template_id = $content_obj->getRelativeTemplateId();
 
-        $layout_template_file = \Skif\Content\TemplateUtils::getLayoutFileByTemplateId($template_id);
+        $layout_template_file = TemplateUtils::getLayoutFileByTemplateId($template_id);
 
-        echo \Skif\PhpTemplate::renderTemplate(
+        echo PhpTemplate::renderTemplate(
             $layout_template_file,
             array(
                 'content' => $content,
@@ -100,29 +112,29 @@ class ContentController extends \Skif\BaseController
      */
     public function listAction($content_type)
     {
-        if (!\Skif\Conf\ConfWrapper::value('content.' . $content_type )) {
-            return \Skif\UrlManager::CONTINUE_ROUTING;
+        if (!ConfWrapper::value('content.' . $content_type )) {
+            return UrlManager::CONTINUE_ROUTING;
         }
 
         $template_file = 'content_list.tpl.php';
 
-        if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type. '_list.tpl.php')) {
+        if (PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type. '_list.tpl.php')) {
             $template_file = 'content_' . $content_type. '_list.tpl.php';
         }
 
-        $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $content = PhpTemplate::renderTemplateBySkifModule(
             'Content',
             $template_file,
             array('content_type' => $content_type)
         );
 
-        $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
+        $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
 
         $template_id = $content_type_obj->getTemplateId();
 
-        $layout_template_file = \Skif\Content\TemplateUtils::getLayoutFileByTemplateId($template_id);
+        $layout_template_file = TemplateUtils::getLayoutFileByTemplateId($template_id);
 
-        echo \Skif\PhpTemplate::renderTemplate(
+        echo PhpTemplate::renderTemplate(
             $layout_template_file,
             array(
                 'content' => $content,
@@ -141,18 +153,18 @@ class ContentController extends \Skif\BaseController
     public function editAdminAction($content_type, $content_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        Http::exit403If(!AuthUtils::currentUserIsAdmin());
 
-        $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $html = PhpTemplate::renderTemplateBySkifModule(
             'Content',
             'admin_content_form_edit.tpl.php',
             array('content_id' => $content_id, 'content_type' => $content_type)
         );
 
-        $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
+        $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
 
-        echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.admin'),
+        echo PhpTemplate::renderTemplate(
+            ConfWrapper::value('layout.admin'),
             array(
                 'title' => 'Редактирование материала',
                 'content' => $html,
@@ -166,18 +178,18 @@ class ContentController extends \Skif\BaseController
     public function listAdminAction($content_type)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        Http::exit403If(!AuthUtils::currentUserIsAdmin());
 
-        $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $html = PhpTemplate::renderTemplateBySkifModule(
             'Content',
             'admin_content_list.tpl.php',
             array('content_type' => $content_type)
         );
 
-        $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
+        $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
 
-        echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.admin'),
+        echo PhpTemplate::renderTemplate(
+            ConfWrapper::value('layout.admin'),
             array(
                 'title' => $content_type_obj->getName(),
                 'content' => $html,
@@ -189,21 +201,21 @@ class ContentController extends \Skif\BaseController
     public function saveAdminAction($content_type, $content_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        Http::exit403If(!AuthUtils::currentUserIsAdmin());
 
         if ($content_id == 'new') {
-            $content_obj = new \Skif\Content\Content();
+            $content_obj = new Content();
         } else {
-            $content_obj = \Skif\Content\Content::factory($content_id);
+            $content_obj = Content::factory($content_id);
         }
 
-        $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
+        $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
 
         $title = array_key_exists('title', $_REQUEST) ? $_REQUEST['title'] : '';
 
         if (!$title){
-            \Skif\Messages::setError('Отсутствует заголовок');
-            \Skif\Http::redirect('/admin/content/' . $content_type . '/edit/' . $content_id);
+            Messages::setError('Отсутствует заголовок');
+            Http::redirect('/admin/content/' . $content_type . '/edit/' . $content_id);
         }
 
         $annotation = array_key_exists('annotation', $_REQUEST) ? $_REQUEST['annotation'] : '';
@@ -269,10 +281,10 @@ class ContentController extends \Skif\BaseController
         // Рубрики
         $main_rubric_id = !empty($_REQUEST['main_rubric']) ? $_REQUEST['main_rubric'] : null;
         $rubrics_arr = !empty($_REQUEST['rubrics_arr']) ? $_REQUEST['rubrics_arr'] : array();
-        $require_main_rubric = \Skif\Conf\ConfWrapper::value('content.' . $content_type_obj->getType() . '.require_main_rubric');
+        $require_main_rubric = ConfWrapper::value('content.' . $content_type_obj->getType() . '.require_main_rubric');
 
         if (!$main_rubric_id && $require_main_rubric) {
-            $main_rubric_id = \Skif\Conf\ConfWrapper::value('content.' . $content_type_obj->getType() . '.main_rubric_default_id');
+            $main_rubric_id = ConfWrapper::value('content.' . $content_type_obj->getType() . '.main_rubric_default_id');
 
             if (!$rubrics_arr) {
                 $rubrics_arr = array($main_rubric_id);
@@ -301,8 +313,8 @@ class ContentController extends \Skif\BaseController
                 $content_obj->setIsPublished(0);
                 $content_obj->save();
 
-                \Skif\Messages::setError('Не указана главная рубрика');
-                \Skif\Http::redirect('/admin/content/' . $content_type . '/edit/' . $content_obj->getId());
+                Messages::setError('Не указана главная рубрика');
+                Http::redirect('/admin/content/' . $content_type . '/edit/' . $content_obj->getId());
             }
         }
 
@@ -312,17 +324,17 @@ class ContentController extends \Skif\BaseController
 
         // Картинка
         if (array_key_exists('image_file', $_FILES) && !empty($_FILES['image_file']['name'])) {
-            $root_images_folder = \Skif\Image\ImageConstants::IMG_ROOT_FOLDER;
+            $root_images_folder = ImageConstants::IMG_ROOT_FOLDER;
             $file = $_FILES['image_file'];
-            $file_name = \Skif\Image\ImageController::processUpload($file, 'content/' . $content_type, $root_images_folder);
+            $file_name = ImageController::processUpload($file, 'content/' . $content_type, $root_images_folder);
             $content_obj->setImage($file_name);
             $content_obj->save();
         }
 
 
-        \Skif\Messages::setMessage('Изменения сохранены');
+        Messages::setMessage('Изменения сохранены');
 
-        \Skif\Http::redirect('/admin/content/' . $content_type_obj->getType() . '/edit/' . $content_obj->getId());
+        Http::redirect('/admin/content/' . $content_type_obj->getType() . '/edit/' . $content_obj->getId());
     }
 
     /**
@@ -333,19 +345,26 @@ class ContentController extends \Skif\BaseController
     public function deleteImageAction($content_type, $content_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        Http::exit403If(!AuthUtils::currentUserIsAdmin());
 
-        \Skif\Content\ContentController::deleteImageByContentId($content_id);
+        self::deleteImageByContentId($content_id);
 
         echo 'OK';
     }
 
+    /**
+     * @param $content_id
+     */
     protected static function deleteImageByContentId($content_id)
     {
-        $content_obj = \Skif\Content\Content::factory($content_id);
-        \Skif\Utils::assert($content_obj);
+        $content_obj = Content::factory($content_id);
+        Utils::assert($content_obj);
 
-        $image_manager = new \Skif\Image\ImageManager();
+        if (!$content_obj->getImage()) {
+            return;
+        }
+
+        $image_manager = new ImageManager();
         $image_manager->removeImageFile($content_obj->getImagePath());
 
         $content_obj->setImage('');
@@ -355,17 +374,17 @@ class ContentController extends \Skif\BaseController
     public function deleteAction($content_type, $content_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        Http::exit403If(!AuthUtils::currentUserIsAdmin());
 
-        $content_obj = \Skif\Content\Content::factory($content_id);
+        $content_obj = Content::factory($content_id);
 
-        \Skif\Content\ContentController::deleteImageByContentId($content_id);
+        self::deleteImageByContentId($content_id);
 
         $content_obj->delete();
 
-        $content_type_obj = \Skif\Content\ContentType::factory($content_obj->getContentTypeId());
+        $content_type_obj = ContentType::factory($content_obj->getContentTypeId());
 
-        \Skif\Http::redirect('/admin/content/' . $content_type_obj->getType());
+        Http::redirect('/admin/content/' . $content_type_obj->getType());
     }
 
     /**
@@ -377,14 +396,14 @@ class ContentController extends \Skif\BaseController
 
         $query_param_arr = array($term .'%');
 
-        $query = "SELECT id FROM content WHERE title LIKE ? LIMIT 20";
-        $content_ids_arr = \Skif\DB\DBWrapper::readColumn($query, $query_param_arr);
+        $query = "SELECT id FROM " . Content::DB_TABLE_NAME . " WHERE title LIKE ? LIMIT 20";
+        $content_ids_arr = DBWrapper::readColumn($query, $query_param_arr);
 
         $output_arr = array();
         foreach ($content_ids_arr as $content_id) {
-            $content_obj = \Skif\Content\Content::factory($content_id);
+            $content_obj = Content::factory($content_id);
 
-            $content_type_obj = \Skif\Content\ContentType::factory($content_obj->getContentTypeId());
+            $content_type_obj = ContentType::factory($content_obj->getContentTypeId());
 
             $output_arr[] = array(
                 'id' => $content_id,
