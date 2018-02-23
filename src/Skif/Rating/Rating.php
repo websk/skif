@@ -2,19 +2,29 @@
 
 namespace Skif\Rating;
 
+use Skif\Model\FactoryTrait;
+use Skif\Model\InterfaceDelete;
+use Skif\Model\InterfaceFactory;
+use Skif\Model\InterfaceLoad;
+use Skif\Model\InterfaceSave;
+use Skif\Util\ActiveRecord;
+
 class Rating implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete
 {
-    use \Skif\Util\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+    use ActiveRecord;
+    use FactoryTrait;
 
     const DB_TABLE_NAME = 'rating';
 
+    /** @var int */
     protected $id;
+    /** @var string */
     protected $name;
+    /** @var int */
     protected $rating = 0;
 
     protected $rating_voices_ids_arr;
@@ -25,7 +35,7 @@ class Rating implements
 
     // Связанные модели
     public static $related_models_arr = array(
-        \Skif\Rating\RatingVoice::class => array(
+        RatingVoice::class => array(
             'link_field' => 'rating_id',
             'field_name' => 'rating_voices_ids_arr',
             'list_title' => 'Оценки пользователей',
@@ -33,7 +43,7 @@ class Rating implements
     );
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getId()
     {
@@ -41,15 +51,7 @@ class Rating implements
     }
 
     /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
@@ -57,7 +59,7 @@ class Rating implements
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
     public function setName($name)
     {
@@ -65,7 +67,7 @@ class Rating implements
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getRating()
     {
@@ -73,7 +75,7 @@ class Rating implements
     }
 
     /**
-     * @param mixed $rating
+     * @param int $rating
      */
     public function setRating($rating)
     {
@@ -81,12 +83,10 @@ class Rating implements
     }
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getRatingVoicesIdsArr()
     {
         return $this->rating_voices_ids_arr;
     }
-    
-
 }
