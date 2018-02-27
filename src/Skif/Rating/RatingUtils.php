@@ -2,25 +2,30 @@
 
 namespace Skif\Rating;
 
+use Skif\DB\DBWrapper;
 
 class RatingUtils
 {
+    /**
+     * @param $rating_name
+     * @return int
+     */
     public static function getRatingIdByName($rating_name)
     {
-        $rating_id = \Skif\DB\DBWrapper::readField(
-            "SELECT id FROM " . \Skif\Rating\Rating::DB_TABLE_NAME . " WHERE name=? LIMIT 1",
-            array($rating_name)
+        $rating_id = DBWrapper::readField(
+            "SELECT id FROM " . Rating::DB_TABLE_NAME . " WHERE name=? LIMIT 1",
+            [$rating_name]
         );
 
         if (!$rating_id) {
-            $rating_obj = new \Skif\Rating\Rating();
+            $rating_obj = new Rating();
             $rating_obj->setName($rating_name);
             $rating_obj->save();
 
             $rating_id = $rating_obj->getId();
         }
 
-        return $rating_id;
+        return (int)$rating_id;
     }
 
     /**
@@ -30,7 +35,7 @@ class RatingUtils
      */
     public static function getRatingAverageByRatingId($rating_id)
     {
-        $rating_obj = \Skif\Rating\Rating::factory($rating_id);
+        $rating_obj = Rating::factory($rating_id);
 
         $rating_voice_ids_arr = $rating_obj->getRatingVoicesIdsArr();
 
@@ -41,7 +46,7 @@ class RatingUtils
         $sum_rating = 0;
 
         foreach ($rating_voice_ids_arr as $rating_voice_id) {
-            $rating_voice_obj = \Skif\Rating\RatingVoice::factory($rating_voice_id);
+            $rating_voice_obj = RatingVoice::factory($rating_voice_id);
 
             $sum_rating += $rating_voice_obj->getRating();
         }
@@ -54,15 +59,15 @@ class RatingUtils
     /**
      * @param $rating_id
      * @param $user_id
-     * @return mixed
+     * @return int
      */
     public static function getRatingVoiceIdByRatingIdAndUserId($rating_id, $user_id)
     {
-        $rating_voice_id = \Skif\DB\DBWrapper::readField(
-            "SELECT id FROM " . \Skif\Rating\RatingVoice::DB_TABLE_NAME . " WHERE rating_id=? AND user_id=? LIMIT 1",
-            array($rating_id, $user_id)
+        $rating_voice_id = DBWrapper::readField(
+            "SELECT id FROM " . RatingVoice::DB_TABLE_NAME . " WHERE rating_id=? AND user_id=? LIMIT 1",
+            [$rating_id, $user_id]
         );
 
-        return $rating_voice_id;
+        return (int)$rating_voice_id;
     }
 }

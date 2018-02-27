@@ -2,26 +2,37 @@
 
 namespace Skif\Rating;
 
+use Skif\Model\FactoryTrait;
+use Skif\Model\InterfaceDelete;
+use Skif\Model\InterfaceFactory;
+use Skif\Model\InterfaceLoad;
+use Skif\Model\InterfaceSave;
+use Skif\Util\ActiveRecord;
 
 class RatingVoice implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete
 {
-    use \Skif\Util\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+    use ActiveRecord;
+    use FactoryTrait;
 
     const DB_TABLE_NAME = 'rating_voice';
 
+    /** @var int */
     protected $id;
+    /** @var int */
     protected $rating_id;
+    /** @var int */
     protected $rating = 0;
+    /** @var string */
     protected $comment;
+    /** @var int */
     protected $user_id;
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getId()
     {
@@ -29,15 +40,7 @@ class RatingVoice implements
     }
 
     /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
+     * @return int
      */
     public function getRatingId()
     {
@@ -45,7 +48,7 @@ class RatingVoice implements
     }
 
     /**
-     * @param mixed $rating_id
+     * @param int $rating_id
      */
     public function setRatingId($rating_id)
     {
@@ -69,7 +72,7 @@ class RatingVoice implements
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getComment()
     {
@@ -77,7 +80,7 @@ class RatingVoice implements
     }
 
     /**
-     * @param mixed $comment
+     * @param string $comment
      */
     public function setComment($comment)
     {
@@ -85,7 +88,7 @@ class RatingVoice implements
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getUserId()
     {
@@ -93,7 +96,7 @@ class RatingVoice implements
     }
 
     /**
-     * @param mixed $user_id
+     * @param int $user_id
      */
     public function setUserId($user_id)
     {
@@ -106,14 +109,13 @@ class RatingVoice implements
 
         self::removeObjFromCacheById($id);
 
-        \Skif\Rating\Rating::afterUpdate($rating_voice_obj->getRatingId());
+        Rating::afterUpdate($rating_voice_obj->getRatingId());
     }
 
     public function afterDelete()
     {
         self::removeObjFromCacheById($this->getId());
 
-        \Skif\Rating\Rating::afterUpdate($this->getRatingId());
+        Rating::afterUpdate($this->getRatingId());
     }
-
 }
