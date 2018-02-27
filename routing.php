@@ -1,9 +1,13 @@
 <?php
-$current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
 
-\Skif\UrlManager::route('@^/errors/(.+)$@', '\Skif\Http', 'errorPageAction');
+use Skif\Content\ContentRouter;
+use Skif\UrlManager;
 
-\Skif\UrlManager::route('@^@', '\Skif\Redirect\RedirectController', 'redirectAction');
+$current_url_no_query = UrlManager::getUriNoQueryString();
+
+UrlManager::route('@^/errors/(.+)$@', '\Skif\Http', 'errorPageAction');
+
+UrlManager::route('@^@', '\Skif\Redirect\RedirectController', 'redirectAction');
 
 
 // CRUD
@@ -31,69 +35,71 @@ foreach ($route_based_crud_arr as $base_url => $controller) {
         continue;
     }
 
-    \Skif\UrlManager::route('@^' . $base_url . '/add$@', $controller, 'addAction', 0);
-    \Skif\UrlManager::route('@^' . $base_url . '/create$@', $controller, 'createAction', 0);
-    \Skif\UrlManager::route('@^' . $base_url . '/edit/(.+)$@', $controller, 'editAction', 0);
-    \Skif\UrlManager::route('@^' . $base_url . '/save/(.+)$@i', $controller, 'saveAction', 0);
-    \Skif\UrlManager::route('@^' . $base_url . '/delete/(\d+)$@i', $controller, 'deleteAction', 0);
-    \Skif\UrlManager::route('@^' . $base_url . '$@i', $controller, 'listAction', 0);
+    UrlManager::route('@^' . $base_url . '/add$@', $controller, 'addAction', 0);
+    UrlManager::route('@^' . $base_url . '/create$@', $controller, 'createAction', 0);
+    UrlManager::route('@^' . $base_url . '/edit/(.+)$@', $controller, 'editAction', 0);
+    UrlManager::route('@^' . $base_url . '/save/(.+)$@i', $controller, 'saveAction', 0);
+    UrlManager::route('@^' . $base_url . '/delete/(\d+)$@i', $controller, 'deleteAction', 0);
+    UrlManager::route('@^' . $base_url . '$@i', $controller, 'listAction', 0);
 }
 
 // Admin
 \Skif\AdminRouter::route();
 
 // Captcha
-\Skif\UrlManager::route('@^/captcha/(.+)$@i', '\Skif\Captcha\CaptchaController', 'mainAction');
+UrlManager::route('@^/captcha/(.+)$@i', '\Skif\Captcha\CaptchaController', 'mainAction');
 
 
 // User
-\Skif\UrlManager::route('@^/user/edit/(.+)@', '\Skif\Users\UserController', 'editAction');
-\Skif\UrlManager::route('@^/user/save/(.+)@', '\Skif\Users\UserController', 'saveAction');
-\Skif\UrlManager::route('@^/user/delete/(.+)@', '\Skif\Users\UserController', 'deleteAction');
-\Skif\UrlManager::route('@^/user/create_password/(\d+)@', '\Skif\Users\UserController', 'createPasswordAction');
-\Skif\UrlManager::route('@^/user/add_photo/(.+)@', '\Skif\Users\UserController', 'addPhotoAction');
-\Skif\UrlManager::route('@^/user/delete_photo/(.+)@', '\Skif\Users\UserController', 'deletePhotoAction');
+UrlManager::route('@^/user/edit/(.+)@', '\Skif\Users\UserController', 'editAction');
+UrlManager::route('@^/user/save/(.+)@', '\Skif\Users\UserController', 'saveAction');
+UrlManager::route('@^/user/delete/(.+)@', '\Skif\Users\UserController', 'deleteAction');
+UrlManager::route('@^/user/create_password/(\d+)@', '\Skif\Users\UserController', 'createPasswordAction');
+UrlManager::route('@^/user/add_photo/(.+)@', '\Skif\Users\UserController', 'addPhotoAction');
+UrlManager::route('@^/user/delete_photo/(.+)@', '\Skif\Users\UserController', 'deletePhotoAction');
 
-\Skif\UrlManager::route('@^/user/forgot_password$@', '\Skif\Users\AuthController', 'forgotPasswordAction');
-\Skif\UrlManager::route('@^/user/forgot_password_form@', '\Skif\Users\AuthController', 'forgotPasswordFormAction');
-\Skif\UrlManager::route('@^/user/registration_form@', '\Skif\Users\AuthController', 'registrationFormAction');
-\Skif\UrlManager::route('@^/user/registration@', '\Skif\Users\AuthController', 'registrationAction');
-\Skif\UrlManager::route('@^/user/confirm_registration/(.+)@', '\Skif\Users\AuthController', 'confirmRegistrationAction');
-\Skif\UrlManager::route('@^/user/send_confirm_code@', '\Skif\Users\AuthController', 'sendConfirmCodeAction');
-\Skif\UrlManager::route('@^/user/send_confirm_code_form@', '\Skif\Users\AuthController', 'sendConfirmCodeFormAction');
-\Skif\UrlManager::route('@^/user/login_form@', '\Skif\Users\AuthController', 'loginFormAction');
-\Skif\UrlManager::route('@^/user/logout@', '\Skif\Users\AuthController', 'logoutAction');
-\Skif\UrlManager::route('@^/user/login@', '\Skif\Users\AuthController', 'loginAction');
-\Skif\UrlManager::route('@^/user/social_login/(.+)@', '\Skif\Users\AuthController', 'socialAuthAction');
-\Skif\UrlManager::route('@^/auth/gate$@i', '\Skif\Users\AuthController', 'gateAction');
+UrlManager::route('@^/user/forgot_password$@', '\Skif\Users\AuthController', 'forgotPasswordAction');
+UrlManager::route('@^/user/forgot_password_form@', '\Skif\Users\AuthController', 'forgotPasswordFormAction');
+UrlManager::route('@^/user/registration_form@', '\Skif\Users\AuthController', 'registrationFormAction');
+UrlManager::route('@^/user/registration@', '\Skif\Users\AuthController', 'registrationAction');
+UrlManager::route('@^/user/confirm_registration/(.+)@', '\Skif\Users\AuthController', 'confirmRegistrationAction');
+UrlManager::route('@^/user/send_confirm_code@', '\Skif\Users\AuthController', 'sendConfirmCodeAction');
+UrlManager::route('@^/user/send_confirm_code_form@', '\Skif\Users\AuthController', 'sendConfirmCodeFormAction');
+UrlManager::route('@^/user/login_form@', '\Skif\Users\AuthController', 'loginFormAction');
+UrlManager::route('@^/user/logout@', '\Skif\Users\AuthController', 'logoutAction');
+UrlManager::route('@^/user/login@', '\Skif\Users\AuthController', 'loginAction');
+UrlManager::route('@^/user/social_login/(.+)@', '\Skif\Users\AuthController', 'socialAuthAction');
+UrlManager::route('@^/auth/gate$@i', '\Skif\Users\AuthController', 'gateAction');
 
 // Comment
-\Skif\UrlManager::route('@^/comments/list$@', '\Skif\Comment\CommentController', 'listWebAction');
-\Skif\UrlManager::route('@^/comments/add$@', '\Skif\Comment\CommentController', 'saveWebAction');
-\Skif\UrlManager::route('@^/comments/delete/(\d+)$@', '\Skif\Comment\CommentController', 'deleteWebAction');
+UrlManager::route('@^/comments/list$@', '\Skif\Comment\CommentController', 'listWebAction');
+UrlManager::route('@^/comments/add$@', '\Skif\Comment\CommentController', 'saveWebAction');
+UrlManager::route('@^/comments/delete/(\d+)$@', '\Skif\Comment\CommentController', 'deleteWebAction');
 
 // Poll
-\Skif\UrlManager::route('@^/poll/(\d+)$@', '\Skif\Poll\PollController', 'viewAction');
-\Skif\UrlManager::route('@^/poll/(\d+)/vote$@', '\Skif\Poll\PollController', 'voteAction');
+UrlManager::route('@^/poll/(\d+)$@', '\Skif\Poll\PollController', 'viewAction');
+UrlManager::route('@^/poll/(\d+)/vote$@', '\Skif\Poll\PollController', 'voteAction');
 
 // Rating
-\Skif\UrlManager::route('@^/rating/(\d+)/rate$@', '\Skif\Rating\RatingController', 'rateAction');
+UrlManager::route('@^/rating/(\d+)/rate$@', '\Skif\Rating\RatingController', 'rateAction');
 
 
 // Form
-\Skif\UrlManager::route('@^@', '\Skif\Form\FormController', 'viewAction');
-\Skif\UrlManager::route('@^/form/(\d+)/send$@', '\Skif\Form\FormController', 'sendAction');
+UrlManager::route('@^@', '\Skif\Form\FormController', 'viewAction');
+UrlManager::route('@^/form/(\d+)/send$@', '\Skif\Form\FormController', 'sendAction');
 
 
 // Country
-\Skif\UrlManager::route('@^/autocomplete/countries$@', '\Skif\CountryController', 'CountriesAutoCompleteAction');
+UrlManager::route('@^/autocomplete/countries$@', '\Skif\CountryController', 'CountriesAutoCompleteAction');
 
 
-\Skif\UrlManager::route('@^/files/images/cache/(.+)/(.+)$@', '\Skif\Image\ControllerIndex', 'indexAction');
-\Skif\UrlManager::route('@^/images/upload$@', '\Skif\Image\ImageController', 'uploadAction');
+UrlManager::route('@^/files/images/cache/(.+)/(.+)$@', '\Skif\Image\ControllerIndex', 'indexAction');
+UrlManager::route('@^/images/upload$@', '\Skif\Image\ImageController', 'uploadAction');
 //\Skif\UrlManager::route('@^/images/upload_to_files$@', '\Skif\Image\ImageController', 'uploadToFilesAction');
 //\Skif\UrlManager::route('@^/images/upload_to_images$@', '\Skif\Image\ImageController', 'uploadToImagesAction');
 
-\Skif\UrlManager::route('@^@', '\Skif\Content\ContentController', 'viewAction');
-\Skif\UrlManager::route('@^@', '\Skif\Content\RubricController', 'listAction');
-\Skif\UrlManager::route('@^/(.+)$@i', '\Skif\Content\ContentController', 'listAction');
+ContentRouter::route();
+
+//UrlManager::route('@^@', '\Skif\Content\ContentController', 'viewAction');
+UrlManager::route('@^@', '\Skif\Content\RubricController', 'listAction');
+UrlManager::route('@^/(.+)$@i', '\Skif\Content\ContentController', 'listAction');
