@@ -11,11 +11,12 @@ use Skif\Image\ImageController;
 use Skif\Image\ImageManager;
 use Skif\Messages;
 use Skif\PhpTemplate;
+use Skif\Sitemap\InterfaceSitemapController;
 use Skif\UrlManager;
 use Skif\Users\AuthUtils;
 use Skif\Utils;
 
-class ContentController extends BaseController
+class ContentController extends BaseController implements InterfaceSitemapController
 {
 
     /**
