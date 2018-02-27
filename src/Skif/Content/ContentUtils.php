@@ -2,20 +2,24 @@
 
 namespace Skif\Content;
 
+use Skif\DB\DBWrapper;
+use Skif\PhpTemplate;
 
 class ContentUtils
 {
-
+    /**
+     * @return int|null
+     */
     public static function getCurrentContentId()
     {
-        $content_page_obj = new \Skif\Content\ContentController();
+        $content_page_obj = new ContentController();
         $content_id = $content_page_obj->getRequestedId();
 
         if (!$content_id) {
             return 0;
         }
 
-        $content_obj = \Skif\Content\Content::factory($content_id, false);
+        $content_obj = Content::factory($content_id, false);
         if (!$content_obj) {
             return 0;
         }
@@ -23,16 +27,19 @@ class ContentUtils
         return $content_id;
     }
 
+    /**
+     * @return int|null
+     */
     public static function getCurrentRubricId()
     {
-        $content_page_obj = new \Skif\Content\RubricController();
+        $content_page_obj = new RubricController();
         $rubric_id = $content_page_obj->getRequestedId();
 
         if (!$rubric_id) {
             return 0;
         }
 
-        $rubric_obj = \Skif\Content\Rubric::factory($rubric_id, false);
+        $rubric_obj = Rubric::factory($rubric_id, false);
         if (!$rubric_obj) {
             return 0;
         }
@@ -49,9 +56,9 @@ class ContentUtils
      */
     public static function getContentsIdsArrByType($content_type, $limit_to_page = 0, $page = 1)
     {
-        $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
+        $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
 
-        $query = "SELECT id FROM " . \Skif\Content\Content::DB_TABLE_NAME . " WHERE content_type_id=? ORDER BY created_at DESC";
+        $query = "SELECT id FROM " . Content::DB_TABLE_NAME . " WHERE content_type_id=? ORDER BY created_at DESC";
         $param_arr = array($content_type_obj->getId());
 
         if ($limit_to_page) {
@@ -59,12 +66,16 @@ class ContentUtils
             $query .= " LIMIT " . $start_record . ', ' . $limit_to_page;
         }
 
-        return \Skif\DB\DBWrapper::readColumn($query, $param_arr);
+        return DBWrapper::readColumn($query, $param_arr);
     }
 
+    /**
+     * @param $content_type
+     * @return int
+     */
     public static function getCountContentsByType($content_type)
     {
-        $contents_ids_arr = \Skif\Content\ContentUtils::getContentsIdsArrByType($content_type);
+        $contents_ids_arr = self::getContentsIdsArrByType($content_type);
 
         $count_contents = count($contents_ids_arr);
 
@@ -80,8 +91,8 @@ class ContentUtils
      */
     public static function getContentsIdsArrByRubricId($rubric_id, $limit_to_page = 0, $page = 1)
     {
-        $query = "SELECT cr.content_id FROM " . \Skif\Content\ContentRubrics::DB_TABLE_NAME . " cr
-                JOIN " . \Skif\Content\Content::DB_TABLE_NAME . " c ON (c.id=cr.content_id)
+        $query = "SELECT cr.content_id FROM " . ContentRubrics::DB_TABLE_NAME . " cr
+                JOIN " . Content::DB_TABLE_NAME . " c ON (c.id=cr.content_id)
                 WHERE cr.rubric_id=? ORDER BY c.created_at DESC";
         $param_arr = array($rubric_id);
 
@@ -90,7 +101,7 @@ class ContentUtils
             $query .= " LIMIT " . $start_record . ', ' . $limit_to_page;
         }
 
-        return \Skif\DB\DBWrapper::readColumn($query, $param_arr);
+        return DBWrapper::readColumn($query, $param_arr);
     }
 
     /**
@@ -100,7 +111,7 @@ class ContentUtils
      */
     public static function getCountContentsByRubricId($rubric_id)
     {
-        $contents_ids_arr = \Skif\Content\ContentUtils::getContentsIdsArrByRubricId($rubric_id);
+        $contents_ids_arr = self::getContentsIdsArrByRubricId($rubric_id);
 
         $count_contents = count($contents_ids_arr);
 
@@ -118,9 +129,9 @@ class ContentUtils
     {
         $date = date('Y-m-d');
 
-        $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
+        $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
 
-        $query = "SELECT id FROM " . \Skif\Content\Content::DB_TABLE_NAME . "
+        $query = "SELECT id FROM " . Content::DB_TABLE_NAME . "
             WHERE content_type_id=:content_type_id AND is_published=1
               AND (published_at<=:date)
               AND (unpublished_at>=:date OR unpublished_at IS NULL)
@@ -131,7 +142,7 @@ class ContentUtils
             $query .= " LIMIT " . $start_record . ', ' . $limit_to_page;
         }
 
-        $contents_ids_arr = \Skif\DB\DBWrapper::readColumn($query, array(':content_type_id' => $content_type_obj->getId(), ':date' => $date));
+        $contents_ids_arr = DBWrapper::readColumn($query, array(':content_type_id' => $content_type_obj->getId(), ':date' => $date));
 
         return $contents_ids_arr;
     }
@@ -143,7 +154,7 @@ class ContentUtils
      */
     public static function getCountPublishedContentsByType($content_type)
     {
-        $contents_ids_arr = \Skif\Content\ContentUtils::getPublishedContentsIdsArrByType($content_type);
+        $contents_ids_arr = self::getPublishedContentsIdsArrByType($content_type);
 
         $count_contents = count($contents_ids_arr);
 
@@ -161,8 +172,8 @@ class ContentUtils
     {
         $date = date('Y-m-d');
 
-        $query = "SELECT cr.content_id FROM " . \Skif\Content\ContentRubrics::DB_TABLE_NAME . " cr
-                JOIN " . \Skif\Content\Content::DB_TABLE_NAME . " c ON (c.id=cr.content_id)
+        $query = "SELECT cr.content_id FROM " . ContentRubrics::DB_TABLE_NAME . " cr
+                JOIN " . Content::DB_TABLE_NAME . " c ON (c.id=cr.content_id)
                 WHERE cr.rubric_id=:rubric_id
                   AND c.is_published=1
                   AND (c.published_at<=:date)
@@ -174,7 +185,7 @@ class ContentUtils
             $query .= " LIMIT " . $start_record . ', ' . $limit_to_page;
         }
 
-        $contents_ids_arr = \Skif\DB\DBWrapper::readColumn($query, array(':rubric_id' => $rubric_id, ':date' => $date));
+        $contents_ids_arr = DBWrapper::readColumn($query, array(':rubric_id' => $rubric_id, ':date' => $date));
 
         return $contents_ids_arr;
     }
@@ -186,7 +197,7 @@ class ContentUtils
      */
     public static function getCountPublishedContentsByRubricId($rubric_id)
     {
-        $contents_ids_arr = \Skif\Content\ContentUtils::getPublishedContentsIdsArrByRubricId($rubric_id);
+        $contents_ids_arr = self::getPublishedContentsIdsArrByRubricId($rubric_id);
 
         $count_contents = count($contents_ids_arr);
 
@@ -202,23 +213,23 @@ class ContentUtils
      */
     public static function renderLastContentsBlock($content_type, $limit = 10, $template_file = '')
     {
-        $contents_ids_arr = \Skif\Content\ContentUtils::getPublishedContentsIdsArrByType($content_type, $limit);
+        $contents_ids_arr = self::getPublishedContentsIdsArrByType($content_type, $limit);
 
         if (!$template_file) {
             $template_file = 'content_last_list.tpl.php';
 
-            if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type . '_last_list.tpl.php')) {
+            if (PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type . '_last_list.tpl.php')) {
                 $template_file = 'content_' . $content_type . '_last_list.tpl.php';
             }
 
-            return \Skif\PhpTemplate::renderTemplateBySkifModule(
+            return PhpTemplate::renderTemplateBySkifModule(
                 'Content',
                 $template_file,
                 array('contents_ids_arr' => $contents_ids_arr)
             );
         }
 
-        return \Skif\PhpTemplate::renderTemplate($template_file, array('contents_ids_arr' => $contents_ids_arr));
+        return PhpTemplate::renderTemplate($template_file, array('contents_ids_arr' => $contents_ids_arr));
     }
 
     /**
@@ -230,33 +241,33 @@ class ContentUtils
      */
     public static function renderLastContentsBlockByRubricId($rubric_id, $limit = 10, $template_file = '')
     {
-        $contents_ids_arr = \Skif\Content\ContentUtils::getPublishedContentsIdsArrByRubricId($rubric_id, $limit);
+        $contents_ids_arr = self::getPublishedContentsIdsArrByRubricId($rubric_id, $limit);
 
         if (!$template_file) {
             $template_file = 'content_last_list.tpl.php';
 
-            if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_' . $rubric_id . '_last_list.tpl.php')) {
+            if (PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_' . $rubric_id . '_last_list.tpl.php')) {
                 $template_file = 'content_by_rubric_' . $rubric_id . '_last_list.tpl.php';
             } else {
-                $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
+                $rubric_obj = Rubric::factory($rubric_id);
 
                 $content_type_id = $rubric_obj->getContentTypeId();
-                $content_type_obj = \Skif\Content\ContentType::factory($content_type_id);
+                $content_type_obj = ContentType::factory($content_type_id);
                 $content_type = $content_type_obj->getType();
 
-                if (\Skif\PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type . '_last_list.tpl.php')) {
+                if (PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type . '_last_list.tpl.php')) {
                     $template_file = 'content_' . $content_type . '_last_list.tpl.php';
                 }
             }
 
-            return \Skif\PhpTemplate::renderTemplateBySkifModule(
+            return PhpTemplate::renderTemplateBySkifModule(
                 'Content',
                 $template_file,
                 array('contents_ids_arr' => $contents_ids_arr)
             );
         }
 
-        return \Skif\PhpTemplate::renderTemplate($template_file, array('contents_ids_arr' => $contents_ids_arr));
+        return PhpTemplate::renderTemplate($template_file, array('contents_ids_arr' => $contents_ids_arr));
     }
 
     /**
@@ -285,10 +296,13 @@ class ContentUtils
         return strip_tags($content, implode('', $allowable_tags_arr));
     }
 
+    /**
+     * @return array
+     */
     public static function getContentTypeIdsArr()
     {
-        $query = "SELECT id FROM " . \Skif\Content\ContentType::DB_TABLE_NAME . ' ORDER BY id ASC';
+        $query = "SELECT id FROM " . ContentType::DB_TABLE_NAME . ' ORDER BY id ASC';
 
-        return \Skif\DB\DBWrapper::readColumn($query);
+        return DBWrapper::readColumn($query);
     }
 }

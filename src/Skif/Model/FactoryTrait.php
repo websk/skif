@@ -45,7 +45,6 @@ trait FactoryTrait
      * @param $fields_arr - array($field_name => $field_value)
      * @param bool|true $exception_if_not_loaded
      * @return $this
-     * @throws \Exception
      */
     public static function factoryByFieldsArr($fields_arr, $exception_if_not_loaded = true)
     {

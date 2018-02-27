@@ -2,6 +2,7 @@
 
 namespace Skif\Content;
 
+use Skif\BaseController;
 use Skif\Conf\ConfWrapper;
 use Skif\DB\DBWrapper;
 use Skif\Http;
@@ -14,13 +15,39 @@ use Skif\UrlManager;
 use Skif\Users\AuthUtils;
 use Skif\Utils;
 
-class ContentController extends \Skif\BaseController
+class ContentController extends BaseController
 {
 
     /**
      * @var string
      */
     protected $url_table = Content::DB_TABLE_NAME;
+
+    /**
+     * @return array
+     */
+    public function getUrlsForSitemap()
+    {
+        $current_domain = ConfWrapper::value('site_domain');
+
+        $urls = [];
+
+        $content_type_ids_arr = ContentUtils::getContentTypeIdsArr();
+
+        foreach ($content_type_ids_arr as $content_type_id) {
+            $content_type_obj = ContentType::factory($content_type_id);
+
+            $content_ids_arr = ContentUtils::getPublishedContentsIdsArrByType($content_type_obj->getType());
+
+            foreach ($content_ids_arr as $content_id) {
+                $content_obj = Content::factory($content_id);
+
+                $urls[] = ['url' => $current_domain . Utils::appendLeadingSlash($content_obj->getUrl())];
+            }
+        }
+
+        return $urls;
+    }
 
     public function viewAction()
     {
