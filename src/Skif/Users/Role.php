@@ -2,24 +2,35 @@
 
 namespace Skif\Users;
 
-class Role implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete,
-    \Skif\Model\InterfaceLogger
-{
-    use \Skif\Util\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+use Skif\Model\FactoryTrait;
+use Skif\Model\InterfaceDelete;
+use Skif\Model\InterfaceFactory;
+use Skif\Model\InterfaceLoad;
+use Skif\Model\InterfaceLogger;
+use Skif\Model\InterfaceSave;
+use Skif\Util\ActiveRecord;
 
+class Role implements
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete,
+    InterfaceLogger
+{
+    use ActiveRecord;
+    use FactoryTrait;
+
+    /** @var int */
     protected $id;
+    /** @var string */
     protected $name;
+    /** @var string */
     protected $designation;
 
     const DB_TABLE_NAME = 'roles';
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getId()
     {
@@ -27,7 +38,7 @@ class Role implements
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
@@ -35,7 +46,7 @@ class Role implements
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
     public function setName($name)
     {
@@ -43,7 +54,7 @@ class Role implements
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getDesignation()
     {
@@ -51,11 +62,10 @@ class Role implements
     }
 
     /**
-     * @param mixed $designation
+     * @param string $designation
      */
     public function setDesignation($designation)
     {
         $this->designation = $designation;
     }
-
 }

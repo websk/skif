@@ -2,51 +2,82 @@
 
 namespace Skif\Users;
 
-class User implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete,
-    \Skif\Model\InterfaceLogger
-{
-    use \Skif\Util\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+use Skif\Conf\ConfWrapper;
+use Skif\Image\ImageConstants;
+use Skif\Image\ImageManager;
+use Skif\Logger\Logger;
+use Skif\Model\FactoryTrait;
+use Skif\Model\InterfaceDelete;
+use Skif\Model\InterfaceFactory;
+use Skif\Model\InterfaceLoad;
+use Skif\Model\InterfaceLogger;
+use Skif\Model\InterfaceSave;
+use Skif\Util\ActiveRecord;
 
+class User implements
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete,
+    InterfaceLogger
+{
+    use ActiveRecord;
+    use FactoryTrait;
+
+    /** @var int */
     protected $id;
+    /** @var string */
     protected $name;
+    /** @var string */
     protected $first_name;
+    /** @var string */
     protected $last_name;
     protected $birthday;
+    /** @var string */
     protected $phone;
+    /** @var string */
     protected $email;
+    /** @var string */
     protected $city;
+    /** @var string */
     protected $address;
+    /** @var string */
     protected $company;
+    /** @var string */
     protected $comment;
+    /** @var int */
     protected $confirm;
     protected $confirm_code;
+    /**
+     * @var string
+     */
     protected $photo = '';
+    /** @var string */
     protected $passw;
+    /** @var string */
     protected $provider = '';
+    /** @var string */
     protected $provider_uid = '';
+    /** @var string */
     protected $profile_url = '';
     protected $created_at;
-    protected $user_role_ids_arr;
+    /** @var array */
+    protected $user_role_ids_arr = [];
 
-    public static $active_record_ignore_fields_arr = array(
+    public static $active_record_ignore_fields_arr = [
         'user_role_ids_arr'
-    );
+    ];
 
     const DB_TABLE_NAME = 'users';
 
     // Связанные модели
-    public static $related_models_arr = array(
-        '\Skif\Users\UserRole' => array(
+    public static $related_models_arr = [
+        UserRole::class => [
             'link_field' => 'user_id',
             'field_name' => 'user_role_ids_arr',
             'list_title' => 'Роли',
-        ),
-    );
+        ],
+    ];
 
     /**
      * ID
@@ -54,17 +85,8 @@ class User implements
      */
     public function getId()
     {
-        return $this->id;
+        return (int)$this->id;
     }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
 
     /**
      * Имя пользователя
@@ -76,7 +98,7 @@ class User implements
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
     public function setName($name)
     {
@@ -84,7 +106,7 @@ class User implements
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getFirstName()
     {
@@ -92,7 +114,7 @@ class User implements
     }
 
     /**
-     * @param mixed $first_name
+     * @param string $first_name
      */
     public function setFirstName($first_name)
     {
@@ -100,7 +122,7 @@ class User implements
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getLastName()
     {
@@ -108,7 +130,7 @@ class User implements
     }
 
     /**
-     * @param mixed $last_name
+     * @param string $last_name
      */
     public function setLastName($last_name)
     {
@@ -125,7 +147,7 @@ class User implements
     }
 
     /**
-     * @param mixed $birthday
+     * @param string $birthday
      */
     public function setBirthday($birthday)
     {
@@ -142,7 +164,7 @@ class User implements
     }
 
     /**
-     * @param mixed $phone
+     * @param string $phone
      */
     public function setPhone($phone)
     {
@@ -159,7 +181,7 @@ class User implements
     }
 
     /**
-     * @param mixed $email
+     * @param string $email
      */
     public function setEmail($email)
     {
@@ -176,7 +198,7 @@ class User implements
     }
 
     /**
-     * @param mixed $city
+     * @param string $city
      */
     public function setCity($city)
     {
@@ -193,7 +215,7 @@ class User implements
     }
 
     /**
-     * @param mixed $address
+     * @param string $address
      */
     public function setAddress($address)
     {
@@ -210,7 +232,7 @@ class User implements
     }
 
     /**
-     * @param mixed $comment
+     * @param string $comment
      */
     public function setComment($comment)
     {
@@ -227,7 +249,7 @@ class User implements
     }
 
     /**
-     * @param mixed $photo
+     * @param string $photo
      */
     public function setPhoto($photo)
     {
@@ -240,13 +262,13 @@ class User implements
             return true;
         }
 
-        $file_path = \Skif\Conf\ConfWrapper::value('site_path') . '/' . \Skif\Image\ImageConstants::IMG_ROOT_FOLDER . '/' . $this->getPhotoPath();
+        $file_path = ConfWrapper::value('site_path') . '/' . ImageConstants::IMG_ROOT_FOLDER . '/' . $this->getPhotoPath();
 
         if (!file_exists($file_path)) {
             return false;
         }
 
-        $image_manager = new \Skif\Image\ImageManager();
+        $image_manager = new ImageManager();
         $image_manager->removeImageFile($this->getPhotoPath());
 
         $this->setPhoto('');
@@ -268,19 +290,25 @@ class User implements
         return 'user/'. $this->getPhoto();
     }
 
+    /**
+     * @return array
+     */
     public function getUserRoleIdsArr()
     {
         return $this->user_role_ids_arr;
     }
 
+    /**
+     * @return array
+     */
     public function getRoleIdsArr()
     {
         $user_roles_ids_arr = $this->getUserRoleIdsArr();
 
-        $role_ids_arr = array();
+        $role_ids_arr = [];
 
         foreach ($user_roles_ids_arr as $user_role_id) {
-            $user_role_obj = \Skif\Users\UserRole::factory($user_role_id);
+            $user_role_obj = UserRole::factory($user_role_id);
 
             $role_ids_arr[] = $user_role_obj->getRoleId();
         }
@@ -302,7 +330,7 @@ class User implements
     }
 
     /**
-     * @param mixed $confirm
+     * @param int $confirm
      */
     public function setConfirm($confirm)
     {
@@ -310,7 +338,7 @@ class User implements
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getConfirmCode()
     {
@@ -318,7 +346,7 @@ class User implements
     }
 
     /**
-     * @param mixed $confirm_code
+     * @param string $confirm_code
      */
     public function setConfirmCode($confirm_code)
     {
@@ -331,7 +359,7 @@ class User implements
      */
     public function hasRoleAdmin()
     {
-        if (in_array(\Skif\Users\AuthUtils::ROLE_ADMIN, $this->getRoleIdsArr())) {
+        if (in_array(AuthUtils::ROLE_ADMIN, $this->getRoleIdsArr())) {
             return true;
         }
 
@@ -352,7 +380,7 @@ class User implements
                 continue;
             }
             
-            $role_obj = \Skif\Users\Role::factory($role_id);
+            $role_obj = Role::factory($role_id);
 
             if (trim($role_obj->getDesignation()) == trim($designation)) {
                 return true;
@@ -363,7 +391,7 @@ class User implements
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getPassw()
     {
@@ -371,7 +399,7 @@ class User implements
     }
 
     /**
-     * @param mixed $passw
+     * @param string $passw
      */
     public function setPassw($passw)
     {
@@ -379,7 +407,7 @@ class User implements
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getCompany()
     {
@@ -387,7 +415,7 @@ class User implements
     }
 
     /**
-     * @param mixed $company
+     * @param string $company
      */
     public function setCompany($company)
     {
@@ -395,7 +423,7 @@ class User implements
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getProvider()
     {
@@ -403,7 +431,7 @@ class User implements
     }
 
     /**
-     * @param mixed $provider
+     * @param string $provider
      */
     public function setProvider($provider)
     {
@@ -411,7 +439,7 @@ class User implements
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getProviderUid()
     {
@@ -419,7 +447,7 @@ class User implements
     }
 
     /**
-     * @param mixed $provider_uid
+     * @param string $provider_uid
      */
     public function setProviderUid($provider_uid)
     {
@@ -427,7 +455,7 @@ class User implements
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getProfileUrl()
     {
@@ -435,7 +463,7 @@ class User implements
     }
 
     /**
-     * @param mixed $profile_url
+     * @param string $profile_url
      */
     public function setProfileUrl($profile_url)
     {
@@ -463,7 +491,7 @@ class User implements
         $user_roles_ids_arr = $this->getUserRoleIdsArr();
 
         foreach ($user_roles_ids_arr as $user_role_id) {
-            $user_role_obj = \Skif\Users\UserRole::factory($user_role_id);
+            $user_role_obj = UserRole::factory($user_role_id);
 
             $user_role_obj->delete();
         }
@@ -476,6 +504,6 @@ class User implements
 
         self::removeObjFromCacheById($this->getId());
 
-        \Skif\Logger\Logger::logObjectEvent($this, 'удаление');
+        Logger::logObjectEvent($this, 'удаление');
     }
 }

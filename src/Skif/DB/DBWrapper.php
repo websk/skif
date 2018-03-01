@@ -78,7 +78,7 @@ class DBWrapper
     {
         $statement_obj = self::query($query, $params_arr);
 
-        $output_arr = array();
+        $output_arr = [];
 
         while (($field = $statement_obj->fetch(\PDO::FETCH_COLUMN)) !== false) {
             $output_arr[] = $field;

@@ -2,6 +2,8 @@
 
 namespace Skif\Util;
 
+use Skif\DB\DBWrapper;
+use Skif\Utils;
 
 class ActiveRecordHelper
 {
@@ -60,12 +62,12 @@ class ActiveRecordHelper
         if ($model_id_value == '') {
             $placeholders_arr = array_fill(0, count($fields_to_save_arr), '?');
 
-            \Skif\DB\DBWrapper::query(
+            DBWrapper::query(
                 'insert into ' . $db_table_name . ' (' . implode(',', array_keys($fields_to_save_arr)) . ') values (' . implode(',', $placeholders_arr) . ')',
                 array_values($fields_to_save_arr)
             );
 
-            $last_insert_id = \Skif\DB\DBWrapper::lastInsertId();
+            $last_insert_id = DBWrapper::lastInsertId();
             $property_obj->setValue($model_obj, $last_insert_id);
 
         } else {
@@ -79,7 +81,7 @@ class ActiveRecordHelper
             array_push($values_arr, $model_id_value);
 
             $query = 'update ' . $db_table_name . ' set ' . implode(',', $placeholders_arr) . ' where ' . $db_id_field_name . ' = ?';
-            \Skif\DB\DBWrapper::query($query, $values_arr);
+            DBWrapper::query($query, $values_arr);
         }
 
     }
@@ -98,7 +100,7 @@ class ActiveRecordHelper
         $db_table_name = $model_class_name::DB_TABLE_NAME;
         $db_id_field_name = self::getIdFieldName($model_obj);
 
-        $data_obj = \Skif\DB\DBWrapper::readObject(
+        $data_obj = DBWrapper::readObject(
             'select * from ' . $db_table_name . ' where ' . $db_id_field_name . ' = ?',
             array($id)
         );
@@ -117,16 +119,16 @@ class ActiveRecordHelper
         // Подгружаем связанные даннные
         if (isset($model_class_name::$related_models_arr)) {
             foreach ($model_class_name::$related_models_arr as $related_model_class_name => $related_model_data) {
-                \Skif\Utils::assert(array_key_exists('link_field', $related_model_data));
+                Utils::assert(array_key_exists('link_field', $related_model_data));
 
                 $related_db_table_name = $related_model_class_name::DB_TABLE_NAME;
                 $related_model_obj = new $related_model_class_name();
                 $related_db_id_field_name = self::getIdFieldName($related_model_obj);
 
                 $query = "SELECT " . $related_db_id_field_name . " FROM " . $related_db_table_name ." WHERE " . $related_model_data['link_field'] . " = ?";
-                $related_ids_arr = \Skif\DB\DBWrapper::readColumn(
+                $related_ids_arr = DBWrapper::readColumn(
                     $query,
-                    array($id)
+                    [$id]
                 );
 
                 $property = $reflect->getProperty($related_model_data['field_name']);
@@ -156,7 +158,7 @@ class ActiveRecordHelper
 
         $query .= " " . implode (' AND ', $queries_arr);
 
-        $id = \Skif\DB\DBWrapper::readField(
+        $id = DBWrapper::readField(
             $query,
             $param_arr
         );
@@ -183,7 +185,7 @@ class ActiveRecordHelper
         $property_obj->setAccessible(true);
         $model_id_value = $property_obj->getValue($model_obj);
 
-        $result = \Skif\DB\DBWrapper::query(
+        $result = DBWrapper::query(
             'DELETE FROM ' . $db_table_name . ' where ' . $db_id_field_name . ' = ?',
             array($model_id_value)
         );
@@ -197,7 +199,7 @@ class ActiveRecordHelper
      * @param $obj
      * @throws \Exception
      */
-    static public function exceptionIfObjectIsIncompatibleWithActiveRecord($obj)
+    public static function exceptionIfObjectIsIncompatibleWithActiveRecord($obj)
     {
         if (!is_object($obj)) {
             throw new \Exception('must be object');
@@ -208,7 +210,7 @@ class ActiveRecordHelper
         self::exceptionIfClassIsIncompatibleWithActiveRecord($obj_class_name);
     }
 
-    static public function exceptionIfClassIsIncompatibleWithActiveRecord($class_name)
+    public static function exceptionIfClassIsIncompatibleWithActiveRecord($class_name)
     {
         if (!defined($class_name . '::DB_TABLE_NAME')) {
             throw new \Exception('class must provide DB_TABLE_NAME constant to use ActiveRecord');
