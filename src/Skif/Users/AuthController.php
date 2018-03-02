@@ -7,6 +7,7 @@ use Skif\Conf\ConfWrapper;
 use Skif\Http;
 use Skif\Messages;
 use Skif\PhpTemplate;
+use Skif\Utils;
 
 class AuthController
 {
@@ -153,10 +154,10 @@ class AuthController
     {
         $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : self::getLoginFormUrl();
 
-        $name = array_key_exists('name', $_REQUEST) ? $_REQUEST['name'] : '';
-        $first_name = array_key_exists('first_name', $_REQUEST) ? $_REQUEST['first_name'] : '';
-        $last_name = array_key_exists('last_name', $_REQUEST) ? $_REQUEST['last_name'] : '';
-        $email = array_key_exists('email', $_REQUEST) ? $_REQUEST['email'] : '';
+        $name = array_key_exists('name', $_REQUEST) ? trim($_REQUEST['name']) : '';
+        $first_name = array_key_exists('first_name', $_REQUEST) ? trim($_REQUEST['first_name']) : '';
+        $last_name = array_key_exists('last_name', $_REQUEST) ? trim($_REQUEST['last_name']) : '';
+        $email = array_key_exists('email', $_REQUEST) ? trim($_REQUEST['email']) : '';
         $new_password_first = array_key_exists('new_password_first', $_REQUEST) ? $_REQUEST['new_password_first'] : '';
         $new_password_second = array_key_exists('new_password_second', $_REQUEST) ? $_REQUEST['new_password_second'] : '';
 
@@ -239,17 +240,17 @@ class AuthController
     protected static function sendConfirmMail($name, $email, $confirm_code)
     {
         $site_email = ConfWrapper::value('site_email');
-        $site_url = ConfWrapper::value('site_url');
+        $site_domain = ConfWrapper::value('site_domain');
         $site_name = ConfWrapper::value('site_name');
 
-        $confirm_url = 'http://' . $site_url . self::getConfirmUrl($confirm_code);
+        $confirm_url = $site_domain . self::getConfirmUrl($confirm_code);
 
         $mail_message = 'Здравствуйте, ' . $name . '!<br />';
-        $mail_message .= '<p>На сайте ' .  $site_url . ' была создана регистрационная запись, в которой был указал ваш электронный адрес (e-mail).</p>';
+        $mail_message .= '<p>На сайте ' .  $site_domain . ' была создана регистрационная запись, в которой был указал ваш электронный адрес (e-mail).</p>';
         $mail_message .= '<p>Если вы не регистрировались на данном сайте, просто проигнорируйте это сообщение! Аккаунт будет автоматически удален через некоторое время.</p>';
-        $mail_message .= '<p>Если это были вы, то для завершения процедуры регистрации, пожалуйста перейдите по ссылке <a href="' . \Skif\Utils::appendHttp($confirm_url) .  '">' . $confirm_url .  '</a></p>';
+        $mail_message .= '<p>Если это были вы, то для завершения процедуры регистрации, пожалуйста перейдите по ссылке <a href="' . $confirm_url .  '">' . $confirm_url .  '</a></p>';
 
-        $mail_message .= '<p>С уважением, администрация сайта ' . $site_name . ', ' . $site_url . '</p>';
+        $mail_message .= '<p>С уважением, администрация сайта ' . $site_name . ', ' . $site_domain . '</p>';
 
         $subject = 'Подтверждение регистрации на сайте ' . $site_name;
 
@@ -260,7 +261,7 @@ class AuthController
         $mail->isHTML(true);
         $mail->Subject = $subject;
         $mail->Body = $mail_message;
-        $mail->AltBody = \Skif\Utils::checkPlain($mail_message);
+        $mail->AltBody = Utils::checkPlain($mail_message);
         $mail->send();
     }
 

@@ -218,7 +218,6 @@ class Utils
 
     public static function appendLeadingSlash($url)
     {
-
         // append leading slash
         if (substr($url, 0, 5) != 'http:') {
             if (substr($url, 0, 1) != '/') {
@@ -231,12 +230,6 @@ class Utils
 
     public static function appendHttp($url)
     {
-        /*
-        if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
-            $url = "http://" . $url;
-        }
-        */
-
         $parsed = parse_url($url);
         if (empty($parsed['scheme'])) {
             $url = 'http://' . ltrim($url, '/');
