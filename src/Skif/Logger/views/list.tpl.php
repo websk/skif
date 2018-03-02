@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var array $logger_objs_arr
+ */
+?>
 <ul class="list-unstyled">
 <?php
 	foreach ($logger_objs_arr as $logger_objs)

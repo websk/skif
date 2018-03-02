@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var array $logger_objs_arr
+ */
+
+use Skif\Users\User;
+?>
 <table class="table table-hover table-condensed">
 	<thead>
 		<tr>
@@ -10,9 +17,10 @@
 	</thead>
 	<tbody>
 <?php
+
 foreach ($logger_objs_arr as $logger_objs)
 {
-    $user_obj = \Skif\Users\User::factory($logger_objs->user_id);
+    $user_obj = User::factory($logger_objs->user_id, false);
 
 	$username = $user_obj ? $user_obj->getName() : '';
     $record_url = '/admin/logger/record/' . urlencode($logger_objs->id);
