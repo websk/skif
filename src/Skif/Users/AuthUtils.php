@@ -2,6 +2,11 @@
 
 namespace Skif\Users;
 
+use Skif\Conf\ConfWrapper;
+use Skif\DB\DBWrapper;
+use Skif\Image\ImageManager;
+use Skif\Messages;
+use Skif\UrlManager;
 
 class AuthUtils
 {
@@ -21,14 +26,14 @@ class AuthUtils
     {
         $salt_password = self::getHash($password);
 
-        $query = "SELECT id FROM " . \Skif\Users\User::DB_TABLE_NAME . " WHERE email=? AND passw=? LIMIT 1";
-        $user_id = \Skif\DB\DBWrapper::readField($query, array($email, $salt_password));
+        $query = "SELECT id FROM " . User::DB_TABLE_NAME . " WHERE email=? AND passw=? LIMIT 1";
+        $user_id = DBWrapper::readField($query, array($email, $salt_password));
 
         if (!$user_id) {
             return false;
         }
 
-        $user_obj = \Skif\Users\User::factory($user_id);
+        $user_obj = User::factory($user_id);
 
         // Регистрация не подтверждена
         if (!$user_obj->isConfirm()) {
@@ -37,7 +42,7 @@ class AuthUtils
 
         $delta = null;
         if ($save_auth) {
-            $delta = time() + \Skif\Users\AuthUtils::SESSION_LIFE_TIME;
+            $delta = time() + self::SESSION_LIFE_TIME;
         }
 
         $session = sha1(time() . $user_id);
@@ -47,16 +52,22 @@ class AuthUtils
         return true;
     }
 
+    /**
+     * @param int $user_id
+     * @param string $session
+     * @param int $delta
+     * @throws \Exception
+     */
     public static function storeUserSession($user_id, $session, $delta)
     {
         $time = time();
 
         $query = "INSERT INTO sessions SET user_id=?, session=?, hostname=?, timestamp=?";
-        \Skif\DB\DBWrapper::query($query, array($user_id, $session, $_SERVER['REMOTE_ADDR'], $time));
+        DBWrapper::query($query, array($user_id, $session, $_SERVER['REMOTE_ADDR'], $time));
 
         setcookie('auth_session', $session, $delta, '/');
 
-        \Skif\Users\AuthUtils::clearOldSessionsByUserId($user_id);
+        self::clearOldSessionsByUserId($user_id);
     }
 
     /**
@@ -66,9 +77,9 @@ class AuthUtils
      */
     protected static function clearOldSessionsByUserId($user_id)
     {
-        $delta = time() - \Skif\Users\AuthUtils::SESSION_LIFE_TIME;
+        $delta = time() - self::SESSION_LIFE_TIME;
         $query = "DELETE FROM sessions WHERE user_id=? AND timestamp<=?";
-        \Skif\DB\DBWrapper::query($query, array($user_id, $delta));
+        DBWrapper::query($query, array($user_id, $delta));
     }
 
     /**
@@ -78,7 +89,7 @@ class AuthUtils
      */
     public static function getHash($password)
     {
-        $salt = \Skif\Conf\ConfWrapper::value('salt');
+        $salt = ConfWrapper::value('salt');
 
         $hash = md5($salt . $password);
 
@@ -101,9 +112,9 @@ class AuthUtils
     public static function clearUserSession($user_id)
     {
         $query = "DELETE FROM sessions WHERE session=?";
-        \Skif\DB\DBWrapper::query($query, array($_COOKIE['auth_session']));
+        DBWrapper::query($query, array($_COOKIE['auth_session']));
 
-        \Skif\Users\AuthUtils::clearOldSessionsByUserId($user_id);
+        self::clearOldSessionsByUserId($user_id);
 
         self::clearAuthCookie();
         //self::removeUserFromAuthCache($user_id);
@@ -135,7 +146,7 @@ class AuthUtils
 
         if (array_key_exists('auth_session', $_COOKIE)) {
             $query = "SELECT user_id FROM sessions WHERE session=?";
-            $user_id = \Skif\DB\DBWrapper::readField($query, array($_COOKIE['auth_session']));
+            $user_id = DBWrapper::readField($query, array($_COOKIE['auth_session']));
             $user_session_unique_id = $user_id;
 
             return $user_id;
@@ -154,7 +165,7 @@ class AuthUtils
             return false;
         }
 
-        $user_obj = \Skif\Users\User::factory($user_id, false);
+        $user_obj = User::factory($user_id, false);
         if (!$user_obj) {
             return false;
         }
@@ -173,10 +184,10 @@ class AuthUtils
      */
     public static function currentUserHasAccessByRoleDesignation($role_designation)
     {
-        $user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+        $user_id = self::getCurrentUserId();
 
         if ($user_id) {
-            $user_obj = \Skif\Users\User::factory($user_id);
+            $user_obj = User::factory($user_id);
 
             if ($user_obj->hasRoleByDesignation($role_designation)) {
                 return true;
@@ -186,12 +197,17 @@ class AuthUtils
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public static function useSocialLogin()
     {
-        $social_config = \Skif\Conf\ConfWrapper::value('auth.hybrid');
+        $social_config = ConfWrapper::value('auth.hybrid');
         if (!empty($social_config)) {
             return true;
         }
+
+        return false;
     }
 
     /**
@@ -201,20 +217,20 @@ class AuthUtils
      */
     public static function socialLogin($provider_name, $destination)
     {
-        $config = \Skif\Conf\ConfWrapper::value('auth.hybrid');
+        $config = ConfWrapper::value('auth.hybrid');
 
         $params = array();
 
         $message = "Неизвестная ошибка авторизации";
 
         if (!array_key_exists($provider_name, $config['providers'])) {
-            \Skif\Messages::setError($message);
+            Messages::setError($message);
             return null;
         }
 
         $filtered_destination = filter_var($destination, FILTER_VALIDATE_URL);
         if ($filtered_destination) {
-            $params['hauth_return_to'] = \Skif\UrlManager::getUriNoQueryString() . '?destination='
+            $params['hauth_return_to'] = UrlManager::getUriNoQueryString() . '?destination='
                 . $filtered_destination . '&Provider=' . $provider_name;
             //$params['hauth_return_to'] = $filtered_destination;
         }
@@ -254,25 +270,30 @@ class AuthUtils
                 default:
                     $message = "Unspecified error!";
             }
-            \Skif\Messages::setError($message);
+            Messages::setError($message);
         }
 
         return null;
     }
 
+    /**
+     * @param $provider
+     * @param $provider_uid
+     * @return bool|int
+     */
     public static function getUserIdIfExistByProvider($provider, $provider_uid)
     {
-        $query = "SELECT id FROM " . \Skif\Users\User::DB_TABLE_NAME . " WHERE provider = ? AND provider_uid = ?";
-        $result = \Skif\DB\DBWrapper::readField(
+        $query = "SELECT id FROM " . User::DB_TABLE_NAME . " WHERE provider = ? AND provider_uid = ?";
+        $result = DBWrapper::readField(
             $query,
-            array($provider, $provider_uid)
+            [$provider, $provider_uid]
         );
 
         if ($result === false) {
             return false;
         }
 
-        return $result;
+        return (int)$result;
     }
 
     /**
@@ -282,7 +303,7 @@ class AuthUtils
      */
     public static function registerUserByHybridAuthProfile($user_profile, $provider)
     {
-        $user_obj = new \Skif\Users\User();
+        $user_obj = new User();
 
         $user_obj->setProvider($provider);
         $user_obj->setProviderUid($user_profile->identifier);
@@ -315,9 +336,9 @@ class AuthUtils
         }
 
         // Roles
-        $role_id = \Skif\Conf\ConfWrapper::value('user.default_role_id', 0);
+        $role_id = ConfWrapper::value('user.default_role_id', 0);
 
-        $user_role_obj = new \Skif\Users\UserRole();
+        $user_role_obj = new UserRole();
         $user_role_obj->setUserId($user_obj->getId());
         $user_role_obj->setRoleId($role_id);
         $user_role_obj->save();
@@ -325,12 +346,15 @@ class AuthUtils
         return $user_obj->getId();
     }
 
+    /**
+     * @param string $image_path
+     * @return string
+     */
     public static function saveRemoteUserProfileImage($image_path)
     {
-        $image_manager = new \Skif\Image\ImageManager();
+        $image_manager = new ImageManager();
         $image_name = $image_manager->storeRemoteImageFile($image_path, 'user');
 
         return $image_name;
     }
-
 }

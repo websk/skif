@@ -2,33 +2,39 @@
 
 namespace Skif\Users;
 
+use Skif\Conf\ConfWrapper;
+use Skif\DB\DBWrapper;
 
 class UsersUtils
 {
     public static function getRolesIdsArr()
     {
-        $query = "SELECT id FROM " . \Skif\Users\Role::DB_TABLE_NAME . " ORDER BY name";
-        return \Skif\DB\DBWrapper::readColumn($query);
+        $query = "SELECT id FROM " . Role::DB_TABLE_NAME . " ORDER BY name";
+        return DBWrapper::readColumn($query);
     }
 
     public static function getRoleIdByDesignation($designation)
     {
-        $query = "SELECT id FROM " . \Skif\Users\Role::DB_TABLE_NAME . " WHERE designation=?";
-        return \Skif\DB\DBWrapper::readField($query, array($designation));
+        $query = "SELECT id FROM " . Role::DB_TABLE_NAME . " WHERE designation=?";
+        return DBWrapper::readField($query, array($designation));
     }
 
+    /**
+     * @param int|null $role_id
+     * @return array
+     */
     public static function getUsersIdsArr($role_id = null)
     {
-        $param_arr = array();
+        $param_arr = [];
 
-        $query = "SELECT u.id FROM " . \Skif\Users\User::DB_TABLE_NAME . " u";
+        $query = "SELECT u.id FROM " . User::DB_TABLE_NAME . " u";
         if ($role_id) {
             $query .= " JOIN users_roles ur ON (ur.user_id=u.id) WHERE ur.role_id=?";
             $param_arr[] = $role_id;
         }
         $query .= " ORDER BY u.name";
 
-        return \Skif\DB\DBWrapper::readColumn($query, $param_arr);
+        return DBWrapper::readColumn($query, $param_arr);
     }
 
     /**
@@ -81,7 +87,7 @@ class UsersUtils
      */
     public static function getUserIdByEmail($email, $current_user_id = null)
     {
-        $query = "SELECT id FROM " . \Skif\Users\User::DB_TABLE_NAME . " WHERE email=?";
+        $query = "SELECT id FROM " . User::DB_TABLE_NAME . " WHERE email=?";
         $param_arr = array($email);
 
         if ($current_user_id) {
@@ -91,7 +97,7 @@ class UsersUtils
 
         $query .= " LIMIT 1";
 
-        return \Skif\DB\DBWrapper::readField($query, $param_arr);
+        return DBWrapper::readField($query, $param_arr);
     }
 
     /**
@@ -102,7 +108,7 @@ class UsersUtils
      */
     public static function hasUserByEmail($email, $current_user_id = null)
     {
-        $has_user_id = \Skif\Users\UsersUtils::getUserIdByEmail($email, $current_user_id);
+        $has_user_id = self::getUserIdByEmail($email, $current_user_id);
         if ($has_user_id) {
             return true;
         }
@@ -116,7 +122,7 @@ class UsersUtils
      */
     public static function generateConfirmCode()
     {
-        $salt = \Skif\Conf\ConfWrapper::value('salt');
+        $salt = ConfWrapper::value('salt');
         $salt .= $salt;
 
         $confirm_code = md5($salt . time() . uniqid());
@@ -131,8 +137,8 @@ class UsersUtils
      */
     public static function getUserIdByConfirmCode($confirm_code)
     {
-        $query = "SELECT id FROM " . \Skif\Users\User::DB_TABLE_NAME . " WHERE confirm_code=? LIMIT 1";
+        $query = "SELECT id FROM " . User::DB_TABLE_NAME . " WHERE confirm_code=? LIMIT 1";
 
-        return \Skif\DB\DBWrapper::readField($query, array($confirm_code));
+        return DBWrapper::readField($query, array($confirm_code));
     }
 }

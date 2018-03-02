@@ -2,6 +2,11 @@
 
 namespace Skif\Users;
 
+use Skif\Captcha\Captcha;
+use Skif\Conf\ConfWrapper;
+use Skif\Http;
+use Skif\Messages;
+use Skif\PhpTemplate;
 
 class AuthController
 {
@@ -111,29 +116,29 @@ class AuthController
      */
     public function registrationFormAction()
     {
-        $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+        $current_user_id = AuthUtils::getCurrentUserId();
         if ($current_user_id) {
-            \Skif\Http::redirect(\Skif\Users\UserController::getEditProfileUrl($current_user_id));
+            Http::redirect(UserController::getEditProfileUrl($current_user_id));
         }
 
         $content = '';
 
-        if (\Skif\Users\AuthUtils::useSocialLogin()) {
-            $content .= \Skif\PhpTemplate::renderTemplateBySkifModule(
+        if (AuthUtils::useSocialLogin()) {
+            $content .= PhpTemplate::renderTemplateBySkifModule(
                 'Users',
                 'social_buttons.tpl.php'
             );
         }
 
-        $content .= \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $content .= PhpTemplate::renderTemplateBySkifModule(
             'Users',
             'registration_form.tpl.php'
         );
 
         $breadcrumbs_arr = array();
 
-        echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.main'),
+        echo PhpTemplate::renderTemplate(
+            ConfWrapper::value('layout.main'),
             array(
                 'content' => $content,
                 'title' => 'Регистрация на сайте',
@@ -158,43 +163,43 @@ class AuthController
         $error_destination = self::getRegistrationFormUrl();
 
         if (!array_key_exists('captcha', $_REQUEST)) {
-            \Skif\Http::redirect($error_destination);
+            Http::redirect($error_destination);
         }
 
-        if (!\Skif\Captcha\Captcha::checkWithMessage()) {
-            \Skif\Http::redirect($error_destination);
+        if (!Captcha::checkWithMessage()) {
+            Http::redirect($error_destination);
         }
 
         if (empty($email)) {
-            \Skif\Messages::setError('Ошибка! Не указан Email.');
-            \Skif\Http::redirect($error_destination);
+            Messages::setError('Ошибка! Не указан Email.');
+            Http::redirect($error_destination);
         }
 
         if (empty($name)) {
-            \Skif\Messages::setError('Ошибка! Не указано Имя.');
-            \Skif\Http::redirect($error_destination);
+            Messages::setError('Ошибка! Не указано Имя.');
+            Http::redirect($error_destination);
         }
 
-        $has_user_id = \Skif\Users\UsersUtils::hasUserByEmail($email);
+        $has_user_id = UsersUtils::hasUserByEmail($email);
         if ($has_user_id) {
-            \Skif\Messages::setError('Ошибка! Пользователь с таким адресом электронной почты ' . $email . ' уже зарегистрирован.');
-            \Skif\Http::redirect($error_destination);
+            Messages::setError('Ошибка! Пользователь с таким адресом электронной почты ' . $email . ' уже зарегистрирован.');
+            Http::redirect($error_destination);
         }
 
         if (!$new_password_first && !$new_password_second) {
-            \Skif\Messages::setError('Ошибка! Не введен пароль.');
-            \Skif\Http::redirect($error_destination);
+            Messages::setError('Ошибка! Не введен пароль.');
+            Http::redirect($error_destination);
         }
 
         if ($new_password_first || $new_password_second) {
             if ($new_password_first != $new_password_second) {
-                \Skif\Messages::setError('Ошибка! Пароль не подтвержден, либо подтвержден неверно.');
-                \Skif\Http::redirect($error_destination);
+                Messages::setError('Ошибка! Пароль не подтвержден, либо подтвержден неверно.');
+                Http::redirect($error_destination);
             }
         }
 
 
-        $user_obj = new \Skif\Users\User();
+        $user_obj = new User();
 
         $user_obj->setName($name);
         if ($first_name) {
@@ -204,9 +209,9 @@ class AuthController
             $user_obj->setLastName($last_name);
         }
         $user_obj->setEmail($email);
-        $user_obj->setPassw(\Skif\Users\AuthUtils::getHash($new_password_first));
+        $user_obj->setPassw(AuthUtils::getHash($new_password_first));
 
-        $confirm_code = \Skif\Users\UsersUtils::generateConfirmCode();
+        $confirm_code = UsersUtils::generateConfirmCode();
         $user_obj->setConfirmCode($confirm_code);
 
         $user_obj->setCreatedAt(date('Y-m-d H:i:s'));
@@ -214,9 +219,9 @@ class AuthController
         $user_obj->save();
 
         // Roles
-        $role_id = \Skif\Conf\ConfWrapper::value('user.default_role_id', 0);
+        $role_id = ConfWrapper::value('user.default_role_id', 0);
 
-        $user_role_obj = new \Skif\Users\UserRole();
+        $user_role_obj = new UserRole();
         $user_role_obj->setUserId($user_obj->getId());
         $user_role_obj->setRoleId($role_id);
         $user_role_obj->save();
@@ -226,16 +231,16 @@ class AuthController
         $message = 'Вы успешно зарегистрированы на сайте. ';
         $message .= 'Для завершения процедуры регистрации, на указанный вами адрес электронной почты, отправлено письмо с ссылкой для подтверждения.';
 
-        \Skif\Messages::setMessage($message);
+        Messages::setMessage($message);
 
-        \Skif\Http::redirect($destination);
+        Http::redirect($destination);
     }
 
     protected static function sendConfirmMail($name, $email, $confirm_code)
     {
-        $site_email = \Skif\Conf\ConfWrapper::value('site_email');
-        $site_url = \Skif\Conf\ConfWrapper::value('site_url');
-        $site_name = \Skif\Conf\ConfWrapper::value('site_name');
+        $site_email = ConfWrapper::value('site_email');
+        $site_url = ConfWrapper::value('site_url');
+        $site_name = ConfWrapper::value('site_name');
 
         $confirm_url = 'http://' . $site_url . self::getConfirmUrl($confirm_code);
 
@@ -265,24 +270,24 @@ class AuthController
      */
     public function confirmRegistrationAction($confirm_code)
     {
-        $user_id = \Skif\Users\UsersUtils::getUserIdByConfirmCode($confirm_code);
+        $user_id = UsersUtils::getUserIdByConfirmCode($confirm_code);
 
         $destination = self::getLoginFormUrl();
 
         if (!$user_id) {
-            \Skif\Messages::setError('Ошибка! Неверный код подтверждения. <a href="' . self::getSendConfirmCodeUrl() . '">Выслать код подтверждения повторно.</a>');
-            \Skif\Http::redirect($destination);
+            Messages::setError('Ошибка! Неверный код подтверждения. <a href="' . self::getSendConfirmCodeUrl() . '">Выслать код подтверждения повторно.</a>');
+            Http::redirect($destination);
         }
 
-        $user_obj = \Skif\Users\User::factory($user_id);
+        $user_obj = User::factory($user_id);
         $user_obj->setConfirm(1);
         $user_obj->setConfirmCode('');
         $user_obj->save();
 
         $message = 'Поздравляем! Процесс регистрации успешно завершен. Теперь вы можете войти на сайт.';
 
-        \Skif\Messages::setMessage($message);
-        \Skif\Http::redirect($destination);
+        Messages::setMessage($message);
+        Http::redirect($destination);
     }
 
     /**
@@ -290,15 +295,15 @@ class AuthController
      */
     public function sendConfirmCodeFormAction()
     {
-        $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $content = PhpTemplate::renderTemplateBySkifModule(
             'Users',
             'send_confirm_code_form.tpl.php'
         );
 
         $breadcrumbs_arr = array();
 
-        echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.main'),
+        echo PhpTemplate::renderTemplate(
+            ConfWrapper::value('layout.main'),
             array(
                 'content' => $content,
                 'title' => 'Подтверждение регистрации на сайте',
@@ -316,54 +321,54 @@ class AuthController
         $destination = self::getSendConfirmCodeFormUrl();
 
         if (!array_key_exists('captcha', $_REQUEST)) {
-            \Skif\Http::redirect($destination);
+            Http::redirect($destination);
         }
 
-        if (!\Skif\Captcha\Captcha::checkWithMessage()) {
-            \Skif\Http::redirect($destination);
+        if (!Captcha::checkWithMessage()) {
+            Http::redirect($destination);
         }
 
         if (empty($email)) {
-            \Skif\Messages::setError('Ошибка! Не указан адрес электронной почты (Email).');
-            \Skif\Http::redirect($destination);
+            Messages::setError('Ошибка! Не указан адрес электронной почты (Email).');
+            Http::redirect($destination);
         }
 
-        if (!\Skif\Users\UsersUtils::hasUserByEmail($email)) {
-            \Skif\Messages::setError('Ошибка! Пользователь с таким адресом электронной почты не зарегистрирован на сайте.');
-            \Skif\Http::redirect($destination);
+        if (!UsersUtils::hasUserByEmail($email)) {
+            Messages::setError('Ошибка! Пользователь с таким адресом электронной почты не зарегистрирован на сайте.');
+            Http::redirect($destination);
         }
 
-        $user_id = \Skif\Users\UsersUtils::getUserIdByEmail($email);
+        $user_id = UsersUtils::getUserIdByEmail($email);
 
-        $user_obj = \Skif\Users\User::factory($user_id);
+        $user_obj = User::factory($user_id);
 
         if ($user_obj->isConfirm()) {
-            \Skif\Messages::setError('Ошибка! Пользователь с таким адресом электронной почты уже зарегистрирован.');
-            \Skif\Http::redirect($destination);
+            Messages::setError('Ошибка! Пользователь с таким адресом электронной почты уже зарегистрирован.');
+            Http::redirect($destination);
         }
 
-        $confirm_code = \Skif\Users\UsersUtils::generateConfirmCode();
+        $confirm_code = UsersUtils::generateConfirmCode();
 
         self::sendConfirmMail($user_obj->getName(), $email, $confirm_code);
 
         $message = 'Для завершения процедуры регистрации, на указанный вами адрес электронной почты, отправлено письмо с ссылкой для подтверждения.';
 
-        \Skif\Messages::setMessage($message);
+        Messages::setMessage($message);
 
-        \Skif\Http::redirect($destination);
+        Http::redirect($destination);
     }
 
     public function forgotPasswordFormAction()
     {
-        $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $content = PhpTemplate::renderTemplateBySkifModule(
             'Users',
             'forgot_password_form.tpl.php'
         );
 
         $breadcrumbs_arr = array();
 
-        echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.main'),
+        echo PhpTemplate::renderTemplate(
+            ConfWrapper::value('layout.main'),
             array(
                 'content' => $content,
                 'title' => 'Восстановление пароля',
@@ -381,34 +386,34 @@ class AuthController
         $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : self::getForgotPasswordFormUrl();
 
         if (!array_key_exists('captcha', $_REQUEST)) {
-            \Skif\Http::redirect($destination);
+            Http::redirect($destination);
         }
 
-        if (!\Skif\Captcha\Captcha::checkWithMessage()) {
-            \Skif\Http::redirect($destination);
+        if (!Captcha::checkWithMessage()) {
+            Http::redirect($destination);
         }
 
         if (empty($email)) {
-            \Skif\Messages::setError('Ошибка! Не указан адрес электронной почты (Email).');
-            \Skif\Http::redirect($destination);
+            Messages::setError('Ошибка! Не указан адрес электронной почты (Email).');
+            Http::redirect($destination);
         }
 
-        if (!\Skif\Users\UsersUtils::hasUserByEmail($email)) {
-            \Skif\Messages::setError('Ошибка! Пользователь с таким адресом электронной почты не зарегистрирован на сайте.');
-            \Skif\Http::redirect($destination);
+        if (!UsersUtils::hasUserByEmail($email)) {
+            Messages::setError('Ошибка! Пользователь с таким адресом электронной почты не зарегистрирован на сайте.');
+            Http::redirect($destination);
         }
 
-        $user_id = \Skif\Users\UsersUtils::getUserIdByEmail($email);
+        $user_id = UsersUtils::getUserIdByEmail($email);
 
-        $user_obj = \Skif\Users\User::factory($user_id);
+        $user_obj = User::factory($user_id);
 
-        \Skif\Users\UserController::createAndSendPasswordToUser($user_id);
+        UserController::createAndSendPasswordToUser($user_id);
 
         $message = 'Временный пароль отправлен на указанный вами адрес электронной почты.';
 
-        \Skif\Messages::setMessage($message);
+        Messages::setMessage($message);
 
-        \Skif\Http::redirect(self::getLoginFormUrl());
+        Http::redirect(self::getLoginFormUrl());
     }
 
     /**
@@ -416,29 +421,29 @@ class AuthController
      */
     public function loginFormAction()
     {
-        $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+        $current_user_id = AuthUtils::getCurrentUserId();
         if ($current_user_id) {
-            \Skif\Http::redirect(\Skif\Users\UserController::getEditProfileUrl($current_user_id));
+            Http::redirect(UserController::getEditProfileUrl($current_user_id));
         }
 
         $content = '';
 
-        if (\Skif\Users\AuthUtils::useSocialLogin()) {
-            $content .= \Skif\PhpTemplate::renderTemplateBySkifModule(
+        if (AuthUtils::useSocialLogin()) {
+            $content .= PhpTemplate::renderTemplateBySkifModule(
                 'Users',
                 'social_buttons.tpl.php'
             );
         }
 
-        $content .= \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $content .= PhpTemplate::renderTemplateBySkifModule(
             'Users',
             'login_form.tpl.php'
         );
 
         $breadcrumbs_arr = array();
 
-        echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.main'),
+        echo PhpTemplate::renderTemplate(
+            ConfWrapper::value('layout.main'),
             array(
                 'content' => $content,
                 'title' => 'Вход на сайт',
@@ -456,27 +461,27 @@ class AuthController
     {
         if (array_key_exists('email', $_REQUEST) && array_key_exists('password', $_REQUEST)) {
             $save_auth = array_key_exists('save_auth', $_REQUEST) ? true : false;
-            \Skif\Users\AuthUtils::doLogin($_REQUEST['email'], $_REQUEST['password'], $save_auth);
+            AuthUtils::doLogin($_REQUEST['email'], $_REQUEST['password'], $save_auth);
 
             $destination = '/';
             if (isset($_REQUEST['destination'])) {
                 $destination = $_REQUEST['destination'];
             }
 
-            \Skif\Http::redirect($destination);
+            Http::redirect($destination);
         }
     }
 
     public function logoutAction()
     {
-        \Skif\Users\AuthUtils::logout();
+        AuthUtils::logout();
 
         $destination = '/';
         if (isset($_REQUEST['destination'])) {
             $destination = $_REQUEST['destination'];
         }
 
-        \Skif\Http::redirect($destination);
+        Http::redirect($destination);
     }
 
     public function socialAuthAction($request_provider)
@@ -487,15 +492,15 @@ class AuthController
         }
 
 
-        $provider = \Skif\Users\AuthUtils::socialLogin($request_provider, $destination);
+        $provider = AuthUtils::socialLogin($request_provider, $destination);
         if (!$provider) {
-            \Skif\Http::redirect($destination);
+            Http::redirect($destination);
         }
 
         $is_connected = $provider->isUserConnected();
         if (!$is_connected) {
-            \Skif\Messages::setError("Не удалось соединиться с " . $request_provider);
-            \Skif\Http::redirect($destination);
+            Messages::setError("Не удалось соединиться с " . $request_provider);
+            Http::redirect($destination);
         }
 
         /**
@@ -503,7 +508,7 @@ class AuthController
          */
         $user_profile = $provider->getUserProfile();
 
-        $user_id = \Skif\Users\AuthUtils::getUserIdIfExistByProvider(
+        $user_id = AuthUtils::getUserIdIfExistByProvider(
             $request_provider,
             $user_profile->identifier
         );
@@ -511,31 +516,31 @@ class AuthController
         // Пользователь не найден в базе, регистрируем
         if (!$user_id) {
             if ($user_profile->email) {
-                $user_id = \Skif\Users\UsersUtils::getUserIdByEmail($user_profile->email);
+                $user_id = UsersUtils::getUserIdByEmail($user_profile->email);
 
                 if ($user_id) {
-                    \Skif\Messages::setError("Пользователь с таким адресом электронной почты " . $user_profile->email . ' уже зарегистрирован');
-                    \Skif\Http::redirect($destination);
+                    Messages::setError("Пользователь с таким адресом электронной почты " . $user_profile->email . ' уже зарегистрирован');
+                    Http::redirect($destination);
                 }
             }
 
-            $user_id = \Skif\Users\AuthUtils::registerUserByHybridAuthProfile(
+            $user_id = AuthUtils::registerUserByHybridAuthProfile(
                 $user_profile,
                 $request_provider
             );
 
             if (!$user_id) {
-                \Skif\Messages::setError("Не удалось зарегистрировать нового пользователя");
-                \Skif\Http::redirect($destination);
+                Messages::setError("Не удалось зарегистрировать нового пользователя");
+                Http::redirect($destination);
             }
         }
 
         $session = sha1(time() . $user_id);
-        $delta = time() + \Skif\Users\AuthUtils::SESSION_LIFE_TIME;
+        $delta = time() + AuthUtils::SESSION_LIFE_TIME;
 
-        \Skif\Users\AuthUtils::storeUserSession($user_id, $session, $delta);
+        AuthUtils::storeUserSession($user_id, $session, $delta);
 
-        \Skif\Http::redirect($destination);
+        Http::redirect($destination);
     }
 
     public function gateAction()
@@ -557,5 +562,4 @@ class AuthController
         return;
     }
     */
-
 }

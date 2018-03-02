@@ -2,6 +2,13 @@
 
 namespace Skif\Users;
 
+use Skif\Conf\ConfWrapper;
+use Skif\Http;
+use Skif\Image\ImageConstants;
+use Skif\Image\ImageController;
+use Skif\Messages;
+use Skif\PhpTemplate;
+use Skif\Utils;
 
 class UserController
 {
@@ -21,17 +28,17 @@ class UserController
      */
     public function listAction()
     {
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        Http::exit403If(!AuthUtils::currentUserIsAdmin());
 
-        $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $content = PhpTemplate::renderTemplateBySkifModule(
             'Users',
             'users_list.tpl.php'
         );
 
         $breadcrumbs_arr = array();
 
-        echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.admin'),
+        echo PhpTemplate::renderTemplate(
+            ConfWrapper::value('layout.admin'),
             array(
                 'content' => $content,
                 'title' => 'Пользователи',
@@ -50,31 +57,31 @@ class UserController
     public function editAction($user_id, $layout_file = null)
     {
         if (!$layout_file) {
-            $layout_file = \Skif\Conf\ConfWrapper::value('layout.main');
+            $layout_file = ConfWrapper::value('layout.main');
         }
 
         if ($user_id != 'new') {
-            $user_obj = \Skif\Users\User::factory($user_id);
+            $user_obj = User::factory($user_id);
 
             if (!$user_obj) {
-                \Skif\Http::exit404();
+                Http::exit404();
             }
 
-            $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+            $current_user_id = AuthUtils::getCurrentUserId();
 
-            if (($current_user_id != $user_id) && !\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-                \Skif\Http::exit403();
+            if (($current_user_id != $user_id) && !AuthUtils::currentUserIsAdmin()) {
+                Http::exit403();
             }
         }
 
         $content = '';
 
         $editor_nav_arr = array();
-        if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
+        if (AuthUtils::currentUserIsAdmin()) {
             //$editor_nav_arr = array($user_obj->getEditorUrl() => 'Редактировать');
         }
 
-        $content .= \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $content .= PhpTemplate::renderTemplateBySkifModule(
             'Users',
             'profile_form_edit.tpl.php',
             array('user_id' => $user_id)
@@ -82,13 +89,13 @@ class UserController
 
         $breadcrumbs_arr = array();
 
-        if ($layout_file == \Skif\Conf\ConfWrapper::value('layout.admin')) {
+        if ($layout_file == ConfWrapper::value('layout.admin')) {
             $breadcrumbs_arr = array(
                 'Пользователи' => '/admin/users'
             );
         }
 
-        echo \Skif\PhpTemplate::renderTemplate(
+        echo PhpTemplate::renderTemplate(
             $layout_file,
             array(
                 'content' => $content,
@@ -107,20 +114,20 @@ class UserController
      */
     public function saveAction($user_id)
     {
-        $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+        $current_user_id = AuthUtils::getCurrentUserId();
 
         if ($user_id != 'new') {
-            $user_obj = \Skif\Users\User::factory($user_id);
+            $user_obj = User::factory($user_id);
 
             if (!$user_obj) {
-                \Skif\Http::exit403();
+                Http::exit403();
             }
 
-            if (($current_user_id != $user_id) && !\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-                \Skif\Http::exit403();
+            if (($current_user_id != $user_id) && !AuthUtils::currentUserIsAdmin()) {
+                Http::exit403();
             }
         } else {
-            $user_obj = new \Skif\Users\User();
+            $user_obj = new User();
         }
 
         $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : '/user/edit/' . $user_id;
@@ -140,13 +147,13 @@ class UserController
         $new_password_second = array_key_exists('new_password_second', $_REQUEST) ? $_REQUEST['new_password_second'] : '';
 
         if (empty($email)) {
-            \Skif\Messages::setError('Ошибка! Не указан Email.');
-            \Skif\Http::redirect($destination);
+            Messages::setError('Ошибка! Не указан Email.');
+            Http::redirect($destination);
         }
 
         if (empty($name)) {
-            \Skif\Messages::setError('Ошибка! Не указаны Фамилия Имя Отчество.');
-            \Skif\Http::redirect($destination);
+            Messages::setError('Ошибка! Не указаны Фамилия Имя Отчество.');
+            Http::redirect($destination);
         }
 
         /*
@@ -157,37 +164,37 @@ class UserController
         */
 
         if ($user_id == 'new') {
-            $has_user_id = \Skif\Users\UsersUtils::hasUserByEmail($email);
+            $has_user_id = UsersUtils::hasUserByEmail($email);
             if ($has_user_id) {
-                \Skif\Messages::setError('Ошибка! Пользователь с таким адресом электронной почты ' . $email . ' уже существует.');
-                \Skif\Http::redirect($destination);
+                Messages::setError('Ошибка! Пользователь с таким адресом электронной почты ' . $email . ' уже существует.');
+                Http::redirect($destination);
             }
 
             if (!$new_password_first && !$new_password_second) {
-                \Skif\Messages::setError('Ошибка! Не введен пароль.');
-                \Skif\Http::redirect($destination);
+                Messages::setError('Ошибка! Не введен пароль.');
+                Http::redirect($destination);
             }
 
             $user_obj->setCreatedAt(date('Y-m-d H:i:s'));
         } else {
-            $has_user_id = \Skif\Users\UsersUtils::hasUserByEmail($email, $user_id);
+            $has_user_id = UsersUtils::hasUserByEmail($email, $user_id);
             if ($has_user_id) {
-                \Skif\Messages::setError('Ошибка! Пользователь с таким адресом электронной почты ' . $email . ' уже существует.');
-                \Skif\Http::redirect($destination);
+                Messages::setError('Ошибка! Пользователь с таким адресом электронной почты ' . $email . ' уже существует.');
+                Http::redirect($destination);
             }
         }
 
         // Пароль
         if ($new_password_first || $new_password_second) {
             if ($new_password_first != $new_password_second) {
-                \Skif\Messages::setError('Ошибка! Пароль не подтвержден, либо подтвержден неверно.');
-                \Skif\Http::redirect($destination);
+                Messages::setError('Ошибка! Пароль не подтвержден, либо подтвержден неверно.');
+                Http::redirect($destination);
             }
 
-            $user_obj->setPassw(\Skif\Users\AuthUtils::getHash($new_password_first));
+            $user_obj->setPassw(AuthUtils::getHash($new_password_first));
         }
 
-        if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
+        if (AuthUtils::currentUserIsAdmin()) {
             $user_obj->setConfirm($confirm);
         }
 
@@ -204,12 +211,12 @@ class UserController
 
 
         // Roles
-        if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
+        if (AuthUtils::currentUserIsAdmin()) {
             $user_obj->deleteUserRoles();
 
             if ($roles_ids_arr) {
                 foreach ($roles_ids_arr as $role_id) {
-                    $user_role_obj = new \Skif\Users\UserRole();
+                    $user_role_obj = new UserRole();
                     $user_role_obj->setUserId($user_obj->getId());
                     $user_role_obj->setRoleId($role_id);
                     $user_role_obj->save();
@@ -221,37 +228,37 @@ class UserController
         if (array_key_exists('image_file', $_FILES)) {
             $file = $_FILES['image_file'];
             if (array_key_exists('name', $file) && !empty($file['name'])) {
-                $root_images_folder = \Skif\Image\ImageConstants::IMG_ROOT_FOLDER;
-                $file_name = \Skif\Image\ImageController::processUpload($file, 'user', $root_images_folder);
+                $root_images_folder = ImageConstants::IMG_ROOT_FOLDER;
+                $file_name = ImageController::processUpload($file, 'user', $root_images_folder);
                 if (!$file_name) {
-                    \Skif\Messages::setError('Не удалось загрузить фотографию.');
-                    \Skif\Http::redirect('/user/edit/' . $user_obj->getId());
+                    Messages::setError('Не удалось загрузить фотографию.');
+                    Http::redirect('/user/edit/' . $user_obj->getId());
                 }
 
-                $user_obj = \Skif\Users\User::factory($user_id);
+                $user_obj = User::factory($user_id);
                 $user_obj->setPhoto($file_name);
                 $user_obj->save();
             }
         }
 
-        \Skif\Messages::setMessage('Информация о пользователе была успешно сохранена');
+        Messages::setMessage('Информация о пользователе была успешно сохранена');
 
         $destination = str_replace('/new', '/' . $user_obj->getId(), $destination);
 
-        \Skif\Http::redirect($destination);
+        Http::redirect($destination);
     }
 
     public function createPasswordAction($user_id)
     {
-        \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        Http::exit403if(!AuthUtils::currentUserIsAdmin());
 
         $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : self::getEditProfileUrl($user_id);
 
-        $new_password = \Skif\Users\UserController::createAndSendPasswordToUser($user_id);
+        $new_password = self::createAndSendPasswordToUser($user_id);
 
-        \Skif\Messages::setMessage('Новый пароль' . $new_password);
+        Messages::setMessage('Новый пароль' . $new_password);
 
-        \Skif\Http::redirect($destination);
+        Http::redirect($destination);
     }
 
     /**
@@ -261,25 +268,25 @@ class UserController
      */
     public static function createAndSendPasswordToUser($user_id)
     {
-        $new_password = \Skif\Users\UsersUtils::generatePassword(8);
+        $new_password = UsersUtils::generatePassword(8);
 
-        $user_obj = \Skif\Users\User::factory($user_id);
-        $user_obj->setPassw(\Skif\Users\AuthUtils::getHash($new_password));
+        $user_obj = User::factory($user_id);
+        $user_obj->setPassw(AuthUtils::getHash($new_password));
         $user_obj->save();
 
         if ($user_obj->getEmail()) {
-            $site_email = \Skif\Conf\ConfWrapper::value('site_email');
-            $site_url = \Skif\Conf\ConfWrapper::value('site_url');
-            $site_name = \Skif\Conf\ConfWrapper::value('site_name');
+            $site_email = ConfWrapper::value('site_email');
+            $site_url = ConfWrapper::value('site_url');
+            $site_name = ConfWrapper::value('site_name');
 
             $mail_message = "<p>Добрый день, " . $user_obj->getName() . "</p>";
             $mail_message .= "<p>Вы воспользовались формой восстановления пароля на сайте " . $site_name. "</p>";
             $mail_message .= "<p>Ваш новый пароль: " . $new_password  . "<br>";
             $mail_message .= "Ваш email для входа: ".  $user_obj->getEmail() . "</p>";
             $mail_message .= "<p>Рекомендуем сменить пароль после входа на сайт.</p>";
-            $mail_message .= '<p>http://' . \Skif\Utils::appendHttp($site_url) . "</p>";
+            $mail_message .= '<p>http://' . Utils::appendHttp($site_url) . "</p>";
 
-            $subject = "Смена пароля на сайте " . \Skif\Conf\ConfWrapper::value('site_name');
+            $subject = "Смена пароля на сайте " . ConfWrapper::value('site_name');
 
             $mail = new \PHPMailer;
             $mail->CharSet = "utf-8";
@@ -288,7 +295,7 @@ class UserController
             $mail->isHTML(true);
             $mail->Subject = $subject;
             $mail->Body = $mail_message;
-            $mail->AltBody = \Skif\Utils::checkPlain($mail_message);
+            $mail->AltBody = Utils::checkPlain($mail_message);
             $mail->send();
         }
 
@@ -301,35 +308,35 @@ class UserController
      */
     public static function addPhotoAction($user_id)
     {
-        $user_obj = \Skif\Users\User::factory($user_id);
+        $user_obj = User::factory($user_id);
 
         if (!$user_obj) {
-            \Skif\Http::exit404();
+            Http::exit404();
         }
 
-        $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+        $current_user_id = AuthUtils::getCurrentUserId();
 
-        if (($current_user_id != $user_id) && !\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-            \Skif\Http::exit403();
+        if (($current_user_id != $user_id) && !AuthUtils::currentUserIsAdmin()) {
+            Http::exit403();
         }
 
         $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : '/user/edit/' . $user_id;
 
-        $root_images_folder = \Skif\Image\ImageConstants::IMG_ROOT_FOLDER;
+        $root_images_folder = ImageConstants::IMG_ROOT_FOLDER;
         $file = $_FILES['image_file'];
-        $file_name = \Skif\Image\ImageController::processUpload($file, 'user', $root_images_folder);
+        $file_name = ImageController::processUpload($file, 'user', $root_images_folder);
         if (!$file_name) {
-            \Skif\Messages::setError('Не удалось загрузить фотографию.');
-            \Skif\Http::redirect('/user/edit/' . $user_obj->getId());
+            Messages::setError('Не удалось загрузить фотографию.');
+            Http::redirect('/user/edit/' . $user_obj->getId());
         }
 
-        $user_obj = \Skif\Users\User::factory($user_id);
+        $user_obj = User::factory($user_id);
         $user_obj->setPhoto($file_name);
         $user_obj->save();
 
-        \Skif\Messages::setMessage('Фотография была успешно добавлена');
+        Messages::setMessage('Фотография была успешно добавлена');
 
-        \Skif\Http::redirect($destination);
+        Http::redirect($destination);
     }
 
     /**
@@ -338,28 +345,28 @@ class UserController
      */
     public static function deletePhotoAction($user_id)
     {
-        $user_obj = \Skif\Users\User::factory($user_id);
+        $user_obj = User::factory($user_id);
 
         if (!$user_obj) {
-            \Skif\Http::exit404();
+            Http::exit404();
         }
 
-        $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+        $current_user_id = AuthUtils::getCurrentUserId();
 
-        if (($current_user_id != $user_id) && !\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-            \Skif\Http::exit403();
+        if (($current_user_id != $user_id) && !AuthUtils::currentUserIsAdmin()) {
+            Http::exit403();
         }
 
         $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : '/user/edit/' . $user_id;
 
         if (!$user_obj->deletePhoto()) {
-            \Skif\Messages::setError('Не удалось удалить фотографию.');
-            \Skif\Http::redirect($destination);
+            Messages::setError('Не удалось удалить фотографию.');
+            Http::redirect($destination);
         }
 
-        \Skif\Messages::setMessage('Фотография была успешно удалена');
+        Messages::setMessage('Фотография была успешно удалена');
 
-        \Skif\Http::redirect($destination);
+        Http::redirect($destination);
     }
 
     /**
@@ -368,25 +375,25 @@ class UserController
      */
     public function deleteAction($user_id)
     {
-        $user_obj = \Skif\Users\User::factory($user_id);
+        $user_obj = User::factory($user_id);
 
         if (!$user_obj) {
-            \Skif\Http::exit404();
+            Http::exit404();
         }
 
-        $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+        $current_user_id = AuthUtils::getCurrentUserId();
 
-        if (($current_user_id != $user_id) && !\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-            \Skif\Http::exit403();
+        if (($current_user_id != $user_id) && !AuthUtils::currentUserIsAdmin()) {
+            Http::exit403();
         }
 
         $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : '/';
 
         $user_obj->delete();
 
-        \Skif\Messages::setMessage('Пользователь ' . $user_obj->getName() . ' был успешно удален');
+        Messages::setMessage('Пользователь ' . $user_obj->getName() . ' был успешно удален');
 
-        \Skif\Http::redirect($destination);
+        Http::redirect($destination);
     }
 
     /**
@@ -394,9 +401,9 @@ class UserController
      */
     public function listUsersRolesAction()
     {
-        \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        Http::exit403if(!AuthUtils::currentUserIsAdmin());
 
-        $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $content = PhpTemplate::renderTemplateBySkifModule(
             'Users',
             'roles_list.tpl.php'
         );
@@ -405,8 +412,8 @@ class UserController
             'Пользователи' => '/admin/users'
         );
 
-        echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.admin'),
+        echo PhpTemplate::renderTemplate(
+            ConfWrapper::value('layout.admin'),
             array(
                 'content' => $content,
                 'title' => 'Роли пользователей',
@@ -423,9 +430,9 @@ class UserController
      */
     public function editUsersRoleAction($role_id)
     {
-        \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        Http::exit403if(!AuthUtils::currentUserIsAdmin());
 
-        $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $content = PhpTemplate::renderTemplateBySkifModule(
             'Users',
             'role_form_edit.tpl.php',
             array('role_id' => $role_id)
@@ -436,8 +443,8 @@ class UserController
             'Роли пользователей' => '/admin/users/roles',
         );
 
-        echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.admin'),
+        echo PhpTemplate::renderTemplate(
+            ConfWrapper::value('layout.admin'),
             array(
                 'content' => $content,
                 'title' => 'Редактирование роли пользователей',
@@ -454,13 +461,13 @@ class UserController
      */
     public function saveUsersRoleAction($role_id)
     {
-        \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        Http::exit403if(!AuthUtils::currentUserIsAdmin());
 
 
         if ($role_id == 'new') {
-            $role_obj = new \Skif\Users\Role;
+            $role_obj = new Role;
         } else {
-            $role_obj = \Skif\Users\Role::factory($role_id);
+            $role_obj = Role::factory($role_id);
         }
 
         $name = array_key_exists('name', $_REQUEST) ? $_REQUEST['name'] : '';
@@ -470,9 +477,9 @@ class UserController
         $role_obj->setDesignation($designation);
         $role_obj->save();
 
-        \Skif\Messages::setMessage('Изменения сохранены');
+        Messages::setMessage('Изменения сохранены');
 
-        \Skif\Http::redirect('/admin/users/roles');
+        Http::redirect('/admin/users/roles');
     }
 
     /**
@@ -481,22 +488,22 @@ class UserController
      */
     public function deleteUsersRoleAction($role_id)
     {
-        \Skif\Http::exit403if(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        Http::exit403if(!AuthUtils::currentUserIsAdmin());
 
 
-        $role_obj = \Skif\Users\Role::factory($role_id);
+        $role_obj = Role::factory($role_id);
 
-        $user_ids_arr = \Skif\Users\UsersUtils::getUsersIdsArr($role_id);
+        $user_ids_arr = UsersUtils::getUsersIdsArr($role_id);
 
         if (!empty($user_ids_arr)) {
-            \Skif\Messages::setError('Нельзя удалить роль ' . $role_obj->getName() . ', т.к. она назначена пользователям');
-            \Skif\Http::redirect('/admin/users/roles');
+            Messages::setError('Нельзя удалить роль ' . $role_obj->getName() . ', т.к. она назначена пользователям');
+            Http::redirect('/admin/users/roles');
         }
 
         $role_obj->delete();
 
-        \Skif\Messages::setMessage('Роль ' . $role_obj->getName() . ' была успешно удалена');
+        Messages::setMessage('Роль ' . $role_obj->getName() . ' была успешно удалена');
 
-        \Skif\Http::redirect('/admin/users/roles');
+        Http::redirect('/admin/users/roles');
     }
 }

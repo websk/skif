@@ -5,7 +5,6 @@ namespace Skif\Users;
 use Skif\Conf\ConfWrapper;
 use Skif\Image\ImageConstants;
 use Skif\Image\ImageManager;
-use Skif\Logger\Logger;
 use Skif\Model\FactoryTrait;
 use Skif\Model\InterfaceDelete;
 use Skif\Model\InterfaceFactory;
@@ -503,7 +502,5 @@ class User implements
         $this->deleteUserRoles();
 
         self::removeObjFromCacheById($this->getId());
-
-        Logger::logObjectEvent($this, 'удаление');
     }
 }
