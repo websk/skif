@@ -7,7 +7,9 @@ use Skif\Http;
 use Skif\Image\ImageManager;
 use Skif\UrlManager;
 use Skif\Users\AuthUtils;
+use Skif\Users\Role;
 use Skif\Users\User;
+use Skif\Users\UsersUtils;
 
 if ($user_id == 'new') {
     $user_obj = new User();
@@ -65,9 +67,9 @@ $destination = UrlManager::getUriNoQueryString();
                 <div class="col-md-8">
                     <div>
                         <?php
-                        $roles_ids_arr = \Skif\Users\UsersUtils::getRolesIdsArr();
+                        $roles_ids_arr = UsersUtils::getRolesIdsArr();
                         foreach ($roles_ids_arr as $role_id) {
-                            $role_obj = \Skif\Users\Role::factory($role_id);
+                            $role_obj = Role::factory($role_id);
                             ?>
                             <div class="checkbox">
                                 <label for="roles_<?php echo $role_id; ?>">
