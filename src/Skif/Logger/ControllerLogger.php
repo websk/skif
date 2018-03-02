@@ -2,84 +2,76 @@
 
 namespace Skif\Logger;
 
+use Skif\Conf\ConfWrapper;
+use Skif\DB\DBWrapper;
+use Skif\Http;
+use Skif\PhpTemplate;
+use Skif\Users\AuthUtils;
+use Skif\Users\User;
+use Skif\Utils;
 
 class ControllerLogger
 {
 
+    /**
+     *
+     */
     public function listAction()
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        Http::exit403If(!AuthUtils::currentUserIsAdmin());
 
-        $logger_objs_arr = \Skif\DB\DBWrapper::readObjects(
+        $logger_objs_arr = DBWrapper::readObjects(
             "SELECT entity_id FROM admin_log GROUP BY entity_id"
         );
 
-        $html = \Skif\PhpTemplate::renderTemplateBySkifModule('Logger', 'list.tpl.php', array(
+        $html = PhpTemplate::renderTemplateBySkifModule('Logger', 'list.tpl.php', array(
                 'logger_objs_arr' => $logger_objs_arr
             )
         );
 
-        echo \Skif\PhpTemplate::renderTemplate(\Skif\Conf\ConfWrapper::value('layout.admin'), array(
+        echo PhpTemplate::renderTemplate(ConfWrapper::value('layout.admin'), array(
                 'title' => 'Logger',
                 'content' => $html
             )
         );
     }
 
+    /**
+     *
+     */
     public function object_logAction()
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        Http::exit403If(!AuthUtils::currentUserIsAdmin());
 
-        $logger_objs_id = urldecode(\Skif\Utils::url_arg(3));
+        $logger_objs_id = urldecode(Utils::url_arg(3));
 
-        $logger_objs_arr = \Skif\DB\DBWrapper::readObjects(
+        $logger_objs_arr = DBWrapper::readObjects(
             "SELECT id, user_id, action, ts, ip FROM admin_log WHERE entity_id = ? ORDER BY ts DESC",
             array($logger_objs_id)
         );
 
-        $html = \Skif\PhpTemplate::renderTemplateBySkifModule('Logger', 'object_log.tpl.php', array(
+        $html = PhpTemplate::renderTemplateBySkifModule('Logger', 'object_log.tpl.php', array(
                 'logger_objs_arr' => $logger_objs_arr
             )
         );
 
-        echo \Skif\PhpTemplate::renderTemplate(\Skif\Conf\ConfWrapper::value('layout.admin'), array(
+        echo PhpTemplate::renderTemplate(ConfWrapper::value('layout.admin'), array(
                 'title' => 'История "' . $logger_objs_id . '"',
                 'content' => $html
              )
         );
     }
 
-    /*
-    static public function lite_object_logAction($obj)
-    {
-        // Проверка прав доступа
-        \Skif\CRUDUtils::exit404If(!\Skif\User\DrupalUserFactory::currentUserHasRoles(
-            array(\Skif\User\DrupalUser::ROLE_ADMIN)
-        ));
-
-        $entity_id = \Skif\CRUDUtils::getFullObjectId($obj);
-
-        $logger_objs_arr = \Skif\DB\DBWrapper::readObjects(
-            "SELECT id, user_id, action, ts FROM admin_log WHERE entity_id = ? ORDER BY ts DESC",
-            array($entity_id)
-        );
-
-        $html = \Skif\PhpTemplate::template('Skif/Logger/views/object_log.tpl.php', array(
-                'logger_objs_arr' => $logger_objs_arr
-            )
-        );
-
-        return $html;
-    }
-    */
-
+    /**
+     * @return string
+     */
     public function recordAction()
     {
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        Http::exit403If(!AuthUtils::currentUserIsAdmin());
 
-        $record_id = \Skif\Utils::url_arg(3);
+        $record_id = Utils::url_arg(3);
 
         $html = '';
 
@@ -87,7 +79,7 @@ class ControllerLogger
         $html .= self::delta($record_id);
         $html .= self::renderObjectFields($record_id);
 
-        $record_obj = \Skif\DB\DBWrapper::readObject(
+        $record_obj = DBWrapper::readObject(
             "SELECT user_id, ts, ip, action, entity_id, object FROM admin_log WHERE id = ?",
             array($record_id)
         );
@@ -96,7 +88,7 @@ class ControllerLogger
             return 'missing record';
         }
 
-        echo \Skif\PhpTemplate::renderTemplate(\Skif\Conf\ConfWrapper::value('layout.admin'), array(
+        echo PhpTemplate::renderTemplate(ConfWrapper::value('layout.admin'), array(
                 'title' => 'Запись ' . $record_obj->ts,
                 'content' => $html,
                 'breadcrumbs_arr' => array('История' => '/admin/logger/object_log/' . urlencode($record_obj->entity_id))
@@ -105,15 +97,15 @@ class ControllerLogger
 
     }
 
-    static public function renderRecordHead($record_id)
+    public static function renderRecordHead($record_id)
     {
-        $record_obj = \Skif\DB\DBWrapper::readObject(
+        $record_obj = DBWrapper::readObject(
             "SELECT user_id, ts, ip, action, entity_id, object FROM admin_log WHERE id = ?",
             array($record_id)
         );
 
 
-        $user_obj = \Skif\Users\User::factory($record_obj->user_id);
+        $user_obj = User::factory($record_obj->user_id, false);
 
         $username = $user_obj ? $user_obj->getName() : '';
 
@@ -138,7 +130,7 @@ class ControllerLogger
     {
         $html = '<h2>Все поля объекта</h2>';
 
-        $logger_objs_arr = \Skif\DB\DBWrapper::readObject(
+        $logger_objs_arr = DBWrapper::readObject(
             "SELECT user_id, ts, ip, action, entity_id, object FROM admin_log WHERE id = ?",
             array($record_id)
         );
@@ -148,7 +140,6 @@ class ControllerLogger
         $value_as_list = self::convertValueToList($record_objs);
         ksort($value_as_list); // сортируем для красоты
 
-        //$html .= '<table class="table">';
         $last_path = '';
 
         foreach ($value_as_list as $path => $value) {
@@ -161,13 +152,6 @@ class ControllerLogger
                     $path_to_display = '<span style="color: #999">' . implode('.', $elems) . '</span>.' . $last_elem;
                 }
             }
-
-            /*
-            $html .= '<tr>';
-            $html .= '<td>' . $path_to_display . '</td>';
-            $html .= '<td><pre style="white-space: pre-wrap;">' . $value . '</pre></td>';
-            $html .= '</tr>';
-            */
 
             if (strlen($value) > 100){
                 $html .= '<div style="padding: 5px 0px; border-bottom: 1px solid #ddd;">';
@@ -186,23 +170,30 @@ class ControllerLogger
 
             $last_path = $path;
         }
-        //$html .= '</table>';
 
         return $html;
     }
 
-    static public function getPathWithoutLastElement($path)
+    /**
+     * @param $path
+     * @return string
+     */
+    public static function getPathWithoutLastElement($path)
     {
         $elems = explode('.', $path);
         array_pop($elems);
         return implode('.', $elems);
     }
 
-    static public function delta($current_record_id)
+    /**
+     * @param $current_record_id
+     * @return string
+     */
+    public static function delta($current_record_id)
     {
         $html = '';
 
-        $current_record_obj = \Skif\DB\DBWrapper::readObject(
+        $current_record_obj = DBWrapper::readObject(
             "SELECT id, user_id, ts, ip, action, entity_id, object FROM admin_log WHERE id = ?",
             array($current_record_id)
         );
@@ -213,8 +204,10 @@ class ControllerLogger
 
         // находим предыдущую запись лога для этого объекта
 
-        $prev_record_obj = \Skif\DB\DBWrapper::readObject(
-            "SELECT id, user_id, ts, ip, action, entity_id, object FROM admin_log WHERE id < ? AND entity_id = ? ORDER BY id DESC LIMIT 1",
+        $prev_record_obj = DBWrapper::readObject(
+            "SELECT id, user_id, ts, ip, action, entity_id, object 
+                    FROM admin_log 
+                    WHERE id < ? AND entity_id = ? ORDER BY id DESC LIMIT 1",
             array($current_record_id, $current_record_obj->entity_id)
         );
 
@@ -283,7 +276,11 @@ class ControllerLogger
         return $html;
     }
 
-    static public function renderDeltaValue($v)
+    /**
+     * @param $v
+     * @return string
+     */
+    public static function renderDeltaValue($v)
     {
         $limit = 300;
 
@@ -294,7 +291,12 @@ class ControllerLogger
         return mb_substr($v, 0, $limit) . '...';
     }
 
-    static public function convertValueToList($value_value, $value_path = '')
+    /**
+     * @param $value_value
+     * @param string $value_path
+     * @return array
+     */
+    public static function convertValueToList($value_value, $value_path = '')
     {
         if (is_null($value_value)) {
             return array($value_path => '#NULL#');
@@ -350,6 +352,4 @@ class ControllerLogger
 
         return $output_array;
     }
-
-
 }
