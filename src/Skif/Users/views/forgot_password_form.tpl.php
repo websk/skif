@@ -1,6 +1,9 @@
 <?php
+
+use Skif\Captcha\Captcha;
+use Skif\Users\AuthController;
 ?>
-<form action="<?php echo \Skif\Users\AuthController::getForgotPasswordUrl(); ?>" method="post" class="form-horizontal">
+<form action="<?php echo AuthController::getForgotPasswordUrl(); ?>" method="post" class="form-horizontal">
     <div class="form-group">
         <label class="col-md-2 control-label">Email</label>
         <div class="col-md-10">
@@ -11,7 +14,7 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <img src="<?php echo \Skif\Captcha\Captcha::getUrl(); ?>" border="0" alt="Введите этот защитный код">
+            <img src="<?php echo Captcha::getUrl(); ?>" border="0" alt="Введите этот защитный код">
             <input type="text" size="5" name="captcha" class="form-control">
             <span class="help-block">Введите код, изображенный на картинке</span>
         </div>
@@ -25,7 +28,7 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <a href="<?php echo \Skif\Users\AuthController::getRegistrationFormUrl(); ?>">Регистрация</a>
+            <a href="<?php echo AuthController::getRegistrationFormUrl(); ?>">Регистрация</a>
         </div>
     </div>
 </form>

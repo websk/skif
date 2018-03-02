@@ -76,10 +76,12 @@ class UserController
 
         $content = '';
 
-        $editor_nav_arr = array();
+        $editor_nav_arr = [];
+        /*
         if (AuthUtils::currentUserIsAdmin()) {
-            //$editor_nav_arr = array($user_obj->getEditorUrl() => 'Редактировать');
+            $editor_nav_arr = array($user_obj->getEditorUrl() => 'Редактировать');
         }
+        */
 
         $content .= PhpTemplate::renderTemplateBySkifModule(
             'Users',
@@ -117,11 +119,9 @@ class UserController
         $current_user_id = AuthUtils::getCurrentUserId();
 
         if ($user_id != 'new') {
-            $user_obj = User::factory($user_id);
+            $user_obj = User::factory($user_id, false);
 
-            if (!$user_obj) {
-                Http::exit403();
-            }
+            Http::exit403If(!$user_obj);
 
             if (($current_user_id != $user_id) && !AuthUtils::currentUserIsAdmin()) {
                 Http::exit403();
@@ -248,6 +248,9 @@ class UserController
         Http::redirect($destination);
     }
 
+    /**
+     * @param int $user_id
+     */
     public function createPasswordAction($user_id)
     {
         Http::exit403if(!AuthUtils::currentUserIsAdmin());
@@ -276,7 +279,7 @@ class UserController
 
         if ($user_obj->getEmail()) {
             $site_email = ConfWrapper::value('site_email');
-            $site_url = ConfWrapper::value('site_url');
+            $site_domain = ConfWrapper::value('site_domain');
             $site_name = ConfWrapper::value('site_name');
 
             $mail_message = "<p>Добрый день, " . $user_obj->getName() . "</p>";
@@ -284,7 +287,7 @@ class UserController
             $mail_message .= "<p>Ваш новый пароль: " . $new_password  . "<br>";
             $mail_message .= "Ваш email для входа: ".  $user_obj->getEmail() . "</p>";
             $mail_message .= "<p>Рекомендуем сменить пароль после входа на сайт.</p>";
-            $mail_message .= '<p>http://' . Utils::appendHttp($site_url) . "</p>";
+            $mail_message .= '<p>' . $site_domain . "</p>";
 
             $subject = "Смена пароля на сайте " . ConfWrapper::value('site_name');
 
@@ -375,17 +378,14 @@ class UserController
      */
     public function deleteAction($user_id)
     {
-        $user_obj = User::factory($user_id);
-
-        if (!$user_obj) {
-            Http::exit404();
-        }
-
         $current_user_id = AuthUtils::getCurrentUserId();
 
         if (($current_user_id != $user_id) && !AuthUtils::currentUserIsAdmin()) {
             Http::exit403();
         }
+
+        $user_obj = User::factory($user_id, false);
+        Http::exit404If(!$user_obj);
 
         $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : '/';
 

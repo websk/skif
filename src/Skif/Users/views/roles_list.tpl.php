@@ -2,6 +2,10 @@
 /**
  *
  */
+
+use Skif\Users\Role;
+use Skif\Users\UsersUtils;
+
 ?>
 <p class="padding_top_10 padding_bottom_10">
     <a href="/admin/users/roles/edit/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить роль</a>
@@ -16,9 +20,9 @@
             <col class="col-md-3 col-sm-5 col-xs-5">
         </colgroup>
     <?php
-    $roles_ids_arr = \Skif\Users\UsersUtils::getRolesIdsArr();
+    $roles_ids_arr = UsersUtils::getRolesIdsArr();
     foreach ($roles_ids_arr as $role_id) {
-        $role_obj = \Skif\Users\Role::factory($role_id);
+        $role_obj = Role::factory($role_id);
         ?>
         <tr>
             <td><?php echo $role_obj->getId(); ?></td>

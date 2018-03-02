@@ -1,14 +1,16 @@
 <?php
 /**
- * @var $destination
+ * @var string $destination
  */
+
+use Skif\Users\AuthController;
 
 if (!isset($destination)) {
     $destination = '/';
 }
 ?>
 
-<form action="<?php echo \Skif\Users\AuthController::getLoginUrl(); ?>" class="form-inline" method="post">
+<form action="<?php echo AuthController::getLoginUrl(); ?>" class="form-inline" method="post">
     <div class="form-group">
         <label class="sr-only">Email</label>
         <div class="input-group">

@@ -1,9 +1,14 @@
 <?php
-$destination = \Skif\Users\AuthController::getLoginFormUrl();
 
-$user_obj = new \Skif\Users\User();
+use Skif\Captcha\Captcha;
+use Skif\Users\AuthController;
+use Skif\Users\User;
+
+$destination = AuthController::getLoginFormUrl();
+
+$user_obj = new User();
 ?>
-<form id="registration_form" action="<?php echo \Skif\Users\AuthController::getRegistrationUrl(); ?>" autocomplete="off" method="post" class="form-horizontal">
+<form id="registration_form" action="<?php echo AuthController::getRegistrationUrl(); ?>" autocomplete="off" method="post" class="form-horizontal">
     <div xmlns="http://www.w3.org/1999/html">
         <div class="form-group">
             <label class="col-md-4 control-label">Имя на сайте</label>
@@ -35,7 +40,7 @@ $user_obj = new \Skif\Users\User();
 
     <div class="form-group">
         <div class="col-md-offset-4 col-md-8">
-            <img src="<?php echo \Skif\Captcha\Captcha::getUrl(); ?>" border="0" alt="Введите этот защитный код">
+            <img src="<?php echo Captcha::getUrl(); ?>" border="0" alt="Введите этот защитный код">
             <input type="text" size="5" name="captcha" class="form-control">
             <span class="help-block">Введите код, изображенный на картинке</span>
         </div>

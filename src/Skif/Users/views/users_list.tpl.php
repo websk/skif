@@ -3,6 +3,11 @@
  *
  */
 
+use Skif\Image\ImageManager;
+use Skif\Users\Role;
+use Skif\Users\User;
+use Skif\Users\UsersUtils;
+
 $requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id'] : 0;
 ?>
 <div class="panel panel-default">
@@ -16,9 +21,9 @@ $requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id
                         <select name="role_id" class="form-control">
                             <option value="0">Все</option>
                             <?php
-                            $roles_ids_arr = \Skif\Users\UsersUtils::getRolesIdsArr();
+                            $roles_ids_arr = UsersUtils::getRolesIdsArr();
                             foreach ($roles_ids_arr as $role_id) {
-                                $role_obj = \Skif\Users\Role::factory($role_id);
+                                $role_obj = Role::factory($role_id);
                                 echo '<option value="' . $role_id . '" ' . ($role_id == $requested_role_id ? 'selected' : '') . '>' . $role_obj->getName() . '</option>';
                             }
                             ?>
@@ -51,16 +56,16 @@ $requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id
             <col class="col-md-3 col-sm-5 col-xs-5">
         </colgroup>
         <?php
-        $users_ids_arr = \Skif\Users\UsersUtils::getUsersIdsArr($requested_role_id);
+        $users_ids_arr = UsersUtils::getUsersIdsArr($requested_role_id);
         foreach ($users_ids_arr as $user_id) {
-            $user_obj = \Skif\Users\User::factory($user_id);
+            $user_obj = User::factory($user_id);
             ?>
             <tr>
                 <td><?php echo $user_obj->getId(); ?></td>
                 <td class="hidden-xs hidden-sm">
                     <?php
                     if ($user_obj->getPhoto()) {
-                        echo '<img src="' . \Skif\Image\ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(), '30_30') . '" class="img-thumbnail">';
+                        echo '<img src="' . ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(), '30_30') . '" class="img-thumbnail">';
                     }
                     ?>
                 </td>
@@ -72,7 +77,7 @@ $requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id
                     <a href="/admin/users/edit/<?php echo $user_id; ?>" title="Редактировать" class="btn btn-outline btn-default btn-sm">
                         <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
                     </a>
-                    <a href="/user/delete/<?php echo $user_id; ?>?destination=/admin/users" onClick="return confirm('Вы уверены, что хотите удалить?')" title="Удалить" class="btn btn-outline btn-default btn-sm">
+                    <a href="/user/delete/<?php echo $user_id; ?>?destination=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>" onClick="return confirm('Вы уверены, что хотите удалить?')" title="Удалить" class="btn btn-outline btn-default btn-sm">
                         <span class="fa fa-trash-o fa-lg text-danger fa-fw"></span>
                     </a>
                 </td>

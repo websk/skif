@@ -1,12 +1,14 @@
 <?php
 /**
- * @var $role_id
+ * @var int $role_id
  */
 
+use Skif\Users\Role;
+
 if ($role_id == 'new') {
-    $users_role_obj = new \Skif\Users\Role;
+    $users_role_obj = new Role;
 } else {
-    $users_role_obj = \Skif\Users\Role::factory($role_id);
+    $users_role_obj = Role::factory($role_id);
 }
 
 ?>

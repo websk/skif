@@ -1,22 +1,28 @@
 <?php
 /**
- * @var $user_id
+ * @var int $user_id
  */
 
+use Skif\Http;
+use Skif\Image\ImageManager;
+use Skif\UrlManager;
+use Skif\Users\AuthUtils;
+use Skif\Users\User;
+
 if ($user_id == 'new') {
-    $user_obj = new \Skif\Users\User();
+    $user_obj = new User();
 } else {
-    $user_obj = \Skif\Users\User::factory($user_id);
+    $user_obj = User::factory($user_id);
 }
 
-$current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
-$current_user_obj = \Skif\Users\User::factory($current_user_id);
+$current_user_id = AuthUtils::getCurrentUserId();
+$current_user_obj = User::factory($current_user_id);
 
-if (($current_user_id != $user_id) && !\Skif\Users\AuthUtils::currentUserIsAdmin()) {
-    \Skif\Http::exit403();
+if (($current_user_id != $user_id) && !AuthUtils::currentUserIsAdmin()) {
+    Http::exit403();
 }
 
-$destination = \Skif\UrlManager::getUriNoQueryString();
+$destination = UrlManager::getUriNoQueryString();
 
 ?>
 <form id="profile_form" action="/user/save/<?php echo $user_id; ?>" autocomplete="off" method="post"
@@ -51,7 +57,7 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
             </div>
         </div>
         <?php
-        if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
+        if (AuthUtils::currentUserIsAdmin()) {
             ?>
             <div class="form-group">
                 <label class="col-md-4 control-label">Роль</label>
@@ -154,7 +160,7 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
             </div>
 
             <?php
-            if (($user_id != 'new') && \Skif\Users\AuthUtils::currentUserIsAdmin()) {
+            if (($user_id != 'new') && AuthUtils::currentUserIsAdmin()) {
                 ?>
                 <div class="form-group">
                     <div class="col-md-offset-4 col-md-8">
@@ -186,9 +192,9 @@ $destination = \Skif\UrlManager::getUriNoQueryString();
                     });
                 </script>
                 <a id="user_photo"
-                   href="<?php echo \Skif\Image\ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(), '600_auto'); ?>">
+                   href="<?php echo ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(), '600_auto'); ?>">
                     <img
-                        src="<?php echo \Skif\Image\ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(), '200_auto'); ?>"
+                        src="<?php echo ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(), '200_auto'); ?>"
                         border="0" class="img-responsive img-thumbnail">
                 </a>
 
