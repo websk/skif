@@ -4,6 +4,8 @@
  * @var $content_type
  */
 
+use Skif\Logger\LoggerUtils;
+
 $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
 
 if ($content_id == 'new') {
@@ -55,7 +57,7 @@ if ($content_id == 'new') {
             <li role="presentation"><a href="#rubrics" role="tab" id="rubrics-tab" data-toggle="tab" aria-controls="rubrics">Рубрики</a></li>
             <li role="presentation"><a href="#seo" role="tab" id="seo-tab" data-toggle="tab" aria-controls="seo">SEO</a></li>
             <li role="presentation"><a href="<?php echo $content_obj->getUrl(); ?>" role="tab" target="_blank">Просмотр&nbsp;<sup><span class="glyphicon glyphicon-new-window"></span></sup></a></li>
-            <li role="presentation"><a href="<?php echo \Skif\Logger\LoggerUtils::getLoggerUrlByObject($content_obj); ?>" target="_blank">Журнал&nbsp;<sup><span class="glyphicon glyphicon-new-window"></span></sup></a></li>
+            <li role="presentation"><a href="<?php echo LoggerUtils::getLoggerUrlByObject($content_obj); ?>" target="_blank">Журнал&nbsp;<sup><span class="glyphicon glyphicon-new-window"></span></sup></a></li>
         </ul>
         <p></p>
         <div class="tab-content">

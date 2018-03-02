@@ -4,6 +4,7 @@
  */
 
 use Skif\Image\ImageManager;
+use Skif\Logger\LoggerUtils;
 use Skif\Users\Role;
 use Skif\Users\User;
 use Skif\Users\UsersUtils;
@@ -76,6 +77,9 @@ $requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id
                 <td align="right">
                     <a href="/admin/users/edit/<?php echo $user_id; ?>" title="Редактировать" class="btn btn-outline btn-default btn-sm">
                         <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
+                    </a>
+                    <a href="<?php echo LoggerUtils::getLoggerUrlByObject($user_obj); ?>" title="Журнал" class="btn btn-outline btn-default btn-sm">
+                        <span class="fa fa-history fa-lg fa-fw"></span>
                     </a>
                     <a href="/user/delete/<?php echo $user_id; ?>?destination=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>" onClick="return confirm('Вы уверены, что хотите удалить?')" title="Удалить" class="btn btn-outline btn-default btn-sm">
                         <span class="fa fa-trash-o fa-lg text-danger fa-fw"></span>
