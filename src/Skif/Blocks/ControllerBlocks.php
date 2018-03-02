@@ -3,6 +3,8 @@
 namespace Skif\Blocks;
 
 
+use Skif\Logger\Logger;
+
 class ControllerBlocks
 {
     const COOKIE_CURRENT_TEMPLATE_ID = 'skif_blocks_current_template_id';
@@ -161,7 +163,7 @@ class ControllerBlocks
         \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($prev_region, $block_obj->getTemplateId());
         \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache(\Skif\Blocks\Block::BLOCK_REGION_NONE, $block_obj->getTemplateId());
 
-        \Skif\Logger\Logger::logObjectEvent($block_obj, 'отключение');
+        Logger::logObjectEvent($block_obj, 'отключение');
 
         \Skif\Messages::setWarning('Блок &laquo;' . $block_obj->getTitle() . '&raquo; был выключен. <a href="' . $restore_url . '">Отменить</a>');
 
@@ -395,7 +397,7 @@ class ControllerBlocks
         $source_region = $block_obj->getPageRegionId();
         $block_obj->setPageRegionId($target_region);
 
-        \Skif\Logger\Logger::logObjectEvent($block_obj, 'перемещение');
+        Logger::logObjectEvent($block_obj, 'перемещение');
 
         $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionId($target_region, $block_obj->getTemplateId());
 

@@ -134,7 +134,7 @@ class AuthUtils
 
     /**
      * UserID авторизованного пользователя
-     * @return null
+     * @return int|null
      */
     public static function getCurrentUserId()
     {
@@ -146,7 +146,7 @@ class AuthUtils
 
         if (array_key_exists('auth_session', $_COOKIE)) {
             $query = "SELECT user_id FROM sessions WHERE session=?";
-            $user_id = DBWrapper::readField($query, array($_COOKIE['auth_session']));
+            $user_id = (int)DBWrapper::readField($query, array($_COOKIE['auth_session']));
             $user_session_unique_id = $user_id;
 
             return $user_id;

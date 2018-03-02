@@ -3,6 +3,9 @@
 namespace Skif\CRUD;
 
 
+use Skif\Model\Helper;
+use Skif\Utils;
+
 class CRUDUtils
 {
 
@@ -32,7 +35,7 @@ class CRUDUtils
 
     public static function getObjContainerObj($obj)
     {
-        \Skif\Utils::assert($obj);
+        Utils::assert($obj);
 
         $obj_class_name = get_class($obj);
 
@@ -47,7 +50,7 @@ class CRUDUtils
 
             $container_obj = new $container_model_class_name;
             $container_is_loaded = $container_obj->load($container_model_id);
-            \Skif\Utils::assert($container_is_loaded);
+            Utils::assert($container_is_loaded);
 
             return $container_obj;
         }
@@ -57,7 +60,7 @@ class CRUDUtils
 
     public static function getContainerObjByLinkFieldName($obj, $field_name)
     {
-        \Skif\Utils::assert($obj);
+        Utils::assert($obj);
 
         $obj_class_name = get_class($obj);
 
@@ -109,7 +112,7 @@ class CRUDUtils
 
     public static function exceptionIfClassNotImplementsInterface($class_name, $interface_class_name)
     {
-        \Skif\Model\Helper::exceptionIfClassNotImplementsInterface($class_name, $interface_class_name);
+        Helper::exceptionIfClassNotImplementsInterface($class_name, $interface_class_name);
     }
 
     public static function getModelTitle($model_class_name, $obj_id)
@@ -126,7 +129,7 @@ class CRUDUtils
 
     public static function getModelTitleForObj($obj)
     {
-        \Skif\Utils::assert($obj);
+        Utils::assert($obj);
 
         $obj_class_name = get_class($obj);
 
@@ -141,7 +144,7 @@ class CRUDUtils
 
     public static function getModelClassScreenNameForObj($obj)
     {
-        \Skif\Utils::assert($obj);
+        Utils::assert($obj);
 
         $obj_class_name = get_class($obj);
 
@@ -167,7 +170,7 @@ class CRUDUtils
             }
         }
 
-        \Skif\Utils::assert($field_prop_obj);
+        Utils::assert($field_prop_obj);
 
         $field_prop_obj->setAccessible(true);
         return $field_prop_obj->getValue($obj);
@@ -364,7 +367,7 @@ class CRUDUtils
         self::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceLoad');
 
         $obj = new $model_class_name;
-        \Skif\Utils::assert($obj->load($obj_id));
+        Utils::assert($obj->load($obj_id));
 
         return $obj;
     }

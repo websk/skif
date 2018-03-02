@@ -13,11 +13,10 @@ class DBWrapper
      * @param string $query
      * @param array $params_arr
      * @return \PDOStatement
-     * @throws \Exception
      */
     static public function query($query, $params_arr = array())
     {
-        $db_obj = \Skif\DB\DBFactory::getDB();
+        $db_obj = DBFactory::getDB();
         if (!$db_obj) {
             throw new \Exception('getDB failed');
         }
@@ -108,7 +107,7 @@ class DBWrapper
 
     static public function lastInsertId()
     {
-        $db_obj = \Skif\DB\DBFactory::getDB();
+        $db_obj = DBFactory::getDB();
         if (!$db_obj) {
             throw new \Exception('getDB failed');
         }
