@@ -8,6 +8,7 @@ class Path
 {
     const ASSETS_DIR_NAME = 'assets';
     const VIEWS_DIR_NAME = 'views';
+    const SRC_DIR_NAME = 'src';
     const SKIF_NAMESPACE = 'Skif';
 
 
@@ -26,14 +27,28 @@ class Path
         return dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . self::ASSETS_DIR_NAME;
     }
 
+    /**
+     * @return string
+     */
     public static function getSkifViewsPath()
     {
         return dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . self::VIEWS_DIR_NAME;
     }
 
+    /**
+     * @return string
+     */
     public static function getSiteViewsPath()
     {
         return self::getRootSitePath() . DIRECTORY_SEPARATOR . self::VIEWS_DIR_NAME;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getSiteSrcPath()
+    {
+        return self::getRootSitePath() . DIRECTORY_SEPARATOR . self::SRC_DIR_NAME;
     }
 
     /**
