@@ -2,9 +2,12 @@
 
 namespace Skif\CRUD;
 
-use Skif\CRUD\CRUDUtils;
+use Skif\BaseController;
+use Skif\Conf\ConfWrapper;
 use Skif\Http;
+use Skif\Messages;
 use Skif\PhpTemplate;
+use Skif\UrlManager;
 use Skif\Utils;
 
 /**
@@ -12,14 +15,14 @@ use Skif\Utils;
  * Если умеет загружаться - круд может показывать такие модели.
  * Если умеет сохраняться - круд может редактировать такие модели.
  */
-class CRUDController extends \Skif\BaseController
+class CRUDController extends BaseController
 {
     protected static $model_class_name = '';
     protected static $controller_class_name = '';
 
     protected static function getLayoutTemplateFile()
     {
-        return \Skif\Conf\ConfWrapper::value('layout.admin');
+        return ConfWrapper::value('layout.admin');
     }
 
     protected static function getBreadcrumbsArr()
@@ -35,7 +38,6 @@ class CRUDController extends \Skif\BaseController
 
         if (class_exists($model_class_name . 'Controller')) {
             return $model_class_name . 'Controller';
-            //return \Skif\UrlManager::$current_controller_obj;
         }
 
         return '\Skif\CRUD\CRUDController';
@@ -47,7 +49,7 @@ class CRUDController extends \Skif\BaseController
             return static::$model_class_name;
         }
 
-        $current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
+        $current_url_no_query = UrlManager::getUriNoQueryString();
 
         if (preg_match('@^/crud/([\d\w\%]+)/(.+)@i', $current_url_no_query, $matches_arr)) {
             return urldecode($matches_arr[1]);
@@ -305,15 +307,6 @@ class CRUDController extends \Skif\BaseController
             );
         }
 
-        /*
-        $container_obj = \Skif\CRUD\CRUDUtils::getObjContainerObj($edited_obj);
-        if ($container_obj) {
-            $container_obj_url = static::getEditUrlForObj($container_obj);
-            $container_obj_full_title = \Skif\CRUD\CRUDUtils::getFullObjectTitle($container_obj);
-            $breadcrumbs_arr[$container_obj_full_title] = $container_obj_url;
-        }
-        */
-
         echo PhpTemplate::renderTemplate(
             static::getLayoutTemplateFile(),
             array(
@@ -370,7 +363,7 @@ class CRUDController extends \Skif\BaseController
 
             // Проверка на заполнение обязательных полей
             if ((($_REQUEST[$prop_name] == '') && (CRUDUtils::isRequiredField($model_class_name, $prop_obj->getName())))) {
-                \Skif\Messages::setError('поле ' . $prop_obj->getName() . ' обязательно для заполнения');
+                Messages::setError('поле ' . $prop_obj->getName() . ' обязательно для заполнения');
                 Http::redirect($redirect_url);
             }
 
@@ -414,7 +407,7 @@ class CRUDController extends \Skif\BaseController
 
         static::afterSave($obj_id);
 
-        \Skif\Messages::setMessage('Изменения сохранены');
+        Messages::setMessage('Изменения сохранены');
 
         Http::redirect($redirect_url);
     }
@@ -461,7 +454,7 @@ class CRUDController extends \Skif\BaseController
             $redirect_url .= $separator . 'crud_obj_model_class=' . urlencode($model_class_name) . '&crud_obj_id=' . $obj->getId();
         }
 
-        \Skif\Messages::setMessage('Изменения сохранены');
+        Messages::setMessage('Изменения сохранены');
 
         Http::redirect($redirect_url);
     }
@@ -494,15 +487,14 @@ class CRUDController extends \Skif\BaseController
         $message = $obj->delete();
 
         if ($message !== true) {
-            \Skif\Messages::setError($message);
+            Messages::setError($message);
             Http::redirect($redirect_url);
         }
 
         static::afterDelete($obj);
 
-        \Skif\Messages::setMessage('Удаление выполнено успешно');
+        Messages::setMessage('Удаление выполнено успешно');
 
         Http::redirect($redirect_url);
     }
-
 }
