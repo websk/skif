@@ -2,16 +2,24 @@
 
 namespace Skif\CRUD;
 
+use Skif\PhpTemplate;
+use Skif\Utils;
 
 class Widgets
 {
 
+    /**
+     * @param string $field_name
+     * @param $obj
+     * @param string $field_value
+     * @return mixed|string
+     */
     public static function renderFieldWithWidget($field_name, $obj, $field_value = '')
     {
         $widget_name = self::getFieldWidgetName($field_name, $obj);
 
         if (!$field_value) {
-            $field_value = \Skif\CRUD\CRUDUtils::getObjectFieldValue($obj, $field_name);
+            $field_value = CRUDUtils::getObjectFieldValue($obj, $field_name);
         }
 
         $widget_options = self::getWidgetSettings($field_name, $obj);
@@ -25,7 +33,7 @@ class Widgets
                 $o = self::widgetGetNodeIdByUrl($field_name, $field_value);
                 break;
             case 'textarea':
-                $o = self::widgetTextArea($field_name, $field_value);
+                $o = self::widgetTextArea($field_name, $field_value, $obj);
                 break;
             case 'checkbox':
                 $o = self::widgetCheckbox($field_name, $field_value);
@@ -42,16 +50,22 @@ class Widgets
 
     }
 
+    /**
+     * @param string $field_name
+     * @param $obj
+     * @param $field_value
+     * @return mixed|string
+     */
     public static function renderListFieldWithWidget($field_name, $obj, $field_value = '')
     {
         $widget_name = self::getListWidgetName($field_name, $obj);
 
         if (!$field_value) {
-            $field_value = \Skif\CRUD\CRUDUtils::getObjectFieldValue($obj, $field_name);
+            $field_value = CRUDUtils::getObjectFieldValue($obj, $field_name);
         }
 
         if ($widget_name) {
-            \Skif\Utils::assert(is_callable($widget_name));
+            Utils::assert(is_callable($widget_name));
             $widget_options = self::getWidgetSettings($field_name, $obj);
 
             return call_user_func_array($widget_name, array($field_name, $field_value, $widget_options));
@@ -60,9 +74,14 @@ class Widgets
         return $field_value;
     }
 
+    /**
+     * @param string $field_name
+     * @param $obj
+     * @return string
+     */
     public static function getFieldWidgetName($field_name, $obj)
     {
-        $crud_editor_fields_arr = \Skif\CRUD\CRUDUtils::getCrudEditorFieldsArrForObj($obj);
+        $crud_editor_fields_arr = CRUDUtils::getCrudEditorFieldsArrForObj($obj);
 
         if (!$crud_editor_fields_arr) {
             return '';
@@ -79,9 +98,14 @@ class Widgets
         return $crud_editor_fields_arr[$field_name]['widget'];
     }
 
+    /**
+     * @param string $field_name
+     * @param $obj
+     * @return string
+     */
     public static function getListWidgetName($field_name, $obj)
     {
-        $crud_editor_fields_arr = \Skif\CRUD\CRUDUtils::getCrudEditorFieldsArrForObj($obj);
+        $crud_editor_fields_arr = CRUDUtils::getCrudEditorFieldsArrForObj($obj);
 
         if (!$crud_editor_fields_arr) {
             return '';
@@ -98,9 +122,14 @@ class Widgets
         return $crud_editor_fields_arr[$field_name]['list_widget'];
     }
 
+    /**
+     * @param string $field_name
+     * @param $obj
+     * @return array
+     */
     public static function getWidgetSettings($field_name, $obj)
     {
-        $crud_editor_fields_arr = \Skif\CRUD\CRUDUtils::getCrudEditorFieldsArrForObj($obj);
+        $crud_editor_fields_arr = CRUDUtils::getCrudEditorFieldsArrForObj($obj);
 
         if (!$crud_editor_fields_arr) {
             return array();
@@ -117,9 +146,14 @@ class Widgets
         return $crud_editor_fields_arr[$field_name]['widget_settings'];
     }
 
+    /**
+     * @param string $field_name
+     * @param $obj
+     * @return array
+     */
     public static function getFieldWidgetOptionsArr($field_name, $obj)
     {
-        $crud_editor_fields_arr = \Skif\CRUD\CRUDUtils::getCrudEditorFieldsArrForObj($obj);
+        $crud_editor_fields_arr = CRUDUtils::getCrudEditorFieldsArrForObj($obj);
 
         if (!$crud_editor_fields_arr) {
             return array();
@@ -136,9 +170,14 @@ class Widgets
         return $crud_editor_fields_arr[$field_name]['options_arr'];
     }
 
+    /**
+     * @param string $field_name
+     * @param $field_value
+     * @return string
+     */
     public static function widgetGetNodeIdByUrl($field_name, $field_value)
     {
-        $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $html = PhpTemplate::renderTemplateBySkifModule(
             'CRUD',
             'content_id.tpl.php',
             array(
@@ -150,40 +189,12 @@ class Widgets
         return $html;
     }
 
-    /*
-    public static function widgetGetNodeIdByUrlAjax()
-    {
-        if (array_key_exists('node-url', $_POST)) {
-            if ($_POST['node-url'] != '') {
-                if (!preg_match('/^[0-9]+$/', $_POST['node-url'])) {
-                    $url = str_replace(\Skif\Conf\Common::get()['news_domain'], "", $_POST['node-url']);
-                    $parts = explode('?', $url);
-                    $node_id = \Skif\Content\ContentUtils::getContentIdByUrl($parts[0]);
-                } else {
-                    $node_id = $_POST['node-url'];
-                }
-
-                $node_obj = \Skif\Node\NodeFactory::loadNode($node_id);
-
-                $node_title = $node_obj->getTitle();
-                if (!\Skif\CRUD\CRUDUtils::stringCanBeUsedAsLinkText($node_title)) {
-                    $node_title = $node_id;
-                }
-
-                $json = array("node_id" => $node_id, "node_title" => $node_title);
-                $html = json_encode($json);
-            }
-        } else {
-            $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
-                'CRUD',
-                'node_id_form.tpl.php'
-            );
-        }
-
-        echo $html;
-    }
-    */
-
+    /**
+     * @param string $field_name
+     * @param $field_value
+     * @param $obj
+     * @return string
+     */
     public static function widgetInput($field_name, $field_value, $obj)
     {
         $widget_options = self::getWidgetSettings($field_name, $obj);
@@ -192,12 +203,25 @@ class Widgets
             . (($obj->getId() && array_key_exists('disabled', $widget_options)) ? ' disabled' : '') . '>';
     }
 
-    public static function widgetTextArea($field_name, $field_value)
+    /**
+     * @param $field_name
+     * @param $field_value
+     * @param $obj
+     * @return string
+     */
+    public static function widgetTextArea($field_name, $field_value, $obj)
     {
+        $widget_options = self::getWidgetSettings($field_name, $obj);
 
-        return '<textarea name="' . $field_name . '" class="form-control" rows="10">' . htmlspecialchars($field_value) . '</textarea>';
+        return '<textarea name="' . $field_name . '" class="form-control" rows="10"'
+            . (($obj->getId() && array_key_exists('disabled', $widget_options)) ? ' disabled' : '') . '>' . htmlspecialchars($field_value) . '</textarea>';
     }
 
+    /**
+     * @param string $field_name
+     * @param $field_value
+     * @return string
+     */
     public static function widgetCheckbox($field_name, $field_value)
     {
         $checked_str = '';
@@ -217,6 +241,12 @@ class Widgets
         return $hidden_field_for_unchecked_state . $visible_checkbox;
     }
 
+    /**
+     * @param string $field_name
+     * @param $field_value
+     * @param $options_arr
+     * @return string
+     */
     public static function widgetOptions($field_name, $field_value, $options_arr)
     {
         $options = '<option></option>';
@@ -232,5 +262,4 @@ class Widgets
 
         return '<select name="' . $field_name . '" class="form-control">' . $options . '</select>';
     }
-
 }
