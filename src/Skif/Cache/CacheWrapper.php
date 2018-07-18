@@ -4,33 +4,41 @@ namespace Skif\Cache;
 
 class CacheWrapper
 {
-    static protected $storage_arr = array();
-    
-    static public function get($key)
+    protected static $storage_arr = array();
+
+    /**
+     * @param $key
+     * @return bool|mixed
+     */
+    public static function get($key)
     {
-    	if (isset(self::$storage_arr[$key])){
-        	return self::$storage_arr[$key];
+        if (isset(self::$storage_arr[$key])) {
+            return self::$storage_arr[$key];
         }
-        
-        $cache_obj = \Skif\Cache\CacheFactory::getCacheObj();
+
+        $cache_obj = CacheFactory::getCacheObj();
         if (!$cache_obj->connected) {
             return false;
         }
 
         $value = $cache_obj->get($key);
 
-        if ($value !== false){
-        	self::$storage_arr[$key] = $value;
+        if ($value !== false) {
+            self::$storage_arr[$key] = $value;
         }
 
         return $value;
     }
 
-    static public function delete($key)
+    /**
+     * @param $key
+     * @return bool
+     */
+    public static function delete($key)
     {
-    	unset(self::$storage_arr[$key]);
+        unset(self::$storage_arr[$key]);
 
-        $cache_obj = \Skif\Cache\CacheFactory::getCacheObj();
+        $cache_obj = CacheFactory::getCacheObj();
         if (!$cache_obj->connected) {
             return false;
         }
@@ -38,15 +46,22 @@ class CacheWrapper
         return $cache_obj->delete($key);
     }
 
-    static public function set($key, $value, $expire = -1)
+    /**
+     * @param $key
+     * @param $value
+     * @param int $expire
+     * @return bool
+     * @throws \Exception
+     */
+    public static function set($key, $value, $expire = -1)
     {
-    	if($key == '' || is_object($key)){
-    		throw new \Exception('static storage wrong key in set');
-    	}
-    	
-    	self::$storage_arr[$key] = $value;
+        if ($key == '' || is_object($key)) {
+            throw new \Exception('static storage wrong key in set');
+        }
 
-        $cache_obj = \Skif\Cache\CacheFactory::getCacheObj();
+        self::$storage_arr[$key] = $value;
+
+        $cache_obj = CacheFactory::getCacheObj();
         if (!$cache_obj->connected) {
             return false;
         }
@@ -56,7 +71,7 @@ class CacheWrapper
 
     /**
      * Обновляет время жизни кеша
-     * @param $cache_key
+     * @param string $cache_key
      * @param $expire
      */
     public static function updateExpireByCacheKey($cache_key, $expire)

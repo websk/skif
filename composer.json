@@ -6,7 +6,8 @@
     "imagine/imagine": "0.6.3",
     "ckeditor/ckeditor": "4.7.*",
     "hybridauth/hybridauth": "2.9.*",
-    "phpmailer/phpmailer": "5.2.*"
+    "phpmailer/phpmailer": "5.2.*",
+    "predis/predis": "1.*"
   },
   "autoload": {
     "psr-0": {

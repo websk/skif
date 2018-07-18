@@ -2,19 +2,35 @@
 
 namespace Skif\Cache;
 
-class CacheFactory {
-    /**
-     * @return Cache
-     */
-    static public function getCacheObj()
-    {
-        static $cache_obj;
+use Skif\Cache\Engines\CacheEngineInterface;
+use Skif\Cache\Engines\CacheMemcache;
+use Skif\Cache\Engines\CacheRedis;
+use Skif\Conf\ConfWrapper;
 
-        if (isset($cache_obj)) {
-            return $cache_obj;
+class CacheFactory
+{
+    protected static $cache_obj = null;
+
+
+    /**
+     * @return CacheEngineInterface
+     */
+    public static function getCacheObj()
+    {
+        if (!empty(self::$cache_obj)) {
+            return self::$cache_obj;
         }
 
-        $cache_obj = new \Skif\Cache\Cache();
-        return $cache_obj;
+        $engine = ConfWrapper::value('cache.engine', 'memcache');
+
+        if ($engine == 'memcache') {
+            self::$cache_obj = new CacheMemcache();
+        } elseif ($engine == 'redis') {
+            self::$cache_obj = new CacheRedis();
+        } else {
+            throw new \Exception('Cache engine failed');
+        }
+
+        return self::$cache_obj;
     }
 }
