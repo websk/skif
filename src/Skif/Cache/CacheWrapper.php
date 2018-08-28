@@ -2,6 +2,8 @@
 
 namespace Skif\Cache;
 
+use Skif\Cache\Engines\CacheEngineInterface;
+
 class CacheWrapper
 {
     protected static $storage_arr = array();
@@ -17,11 +19,11 @@ class CacheWrapper
         }
 
         $cache_obj = CacheFactory::getCacheObj();
-        if (!$cache_obj->connected) {
+        if (!($cache_obj instanceof CacheEngineInterface)) {
             return false;
         }
 
-        $value = $cache_obj->get($key);
+        $value = $cache_obj::get($key);
 
         if ($value !== false) {
             self::$storage_arr[$key] = $value;
@@ -39,11 +41,11 @@ class CacheWrapper
         unset(self::$storage_arr[$key]);
 
         $cache_obj = CacheFactory::getCacheObj();
-        if (!$cache_obj->connected) {
+        if (!($cache_obj instanceof CacheEngineInterface)) {
             return false;
         }
 
-        return $cache_obj->delete($key);
+        return $cache_obj::delete($key);
     }
 
     /**
@@ -62,11 +64,11 @@ class CacheWrapper
         self::$storage_arr[$key] = $value;
 
         $cache_obj = CacheFactory::getCacheObj();
-        if (!$cache_obj->connected) {
+        if (!($cache_obj instanceof CacheEngineInterface)) {
             return false;
         }
 
-        return $cache_obj->set($key, $value, $expire);
+        return $cache_obj::set($key, $value, $expire);
     }
 
     /**
