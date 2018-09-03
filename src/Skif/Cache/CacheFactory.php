@@ -11,7 +11,6 @@ class CacheFactory
 {
     protected static $cache_obj = null;
 
-
     /**
      * @return CacheEngineInterface
      */
