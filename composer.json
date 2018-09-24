@@ -3,6 +3,9 @@
   "description": "Skif Admin",
   "homepage": "https://websk.ru/",
   "require": {
+    "slim/slim": "^3.0",
+    "websk/php-cache": "1.0",
+    "websk/php-utils": "dev-master",
     "imagine/imagine": "0.6.3",
     "ckeditor/ckeditor": "4.7.*",
     "hybridauth/hybridauth": "2.9.*",
@@ -10,8 +13,10 @@
     "predis/predis": "1.*"
   },
   "autoload": {
-    "psr-0": {
-      "Skif" : "src/"
-    }
-  }
+    "psr-4" : {
+      "" : "src/"
+    },
+    "files" : [
+      "config/Conf.php"
+    ]  }
 }
