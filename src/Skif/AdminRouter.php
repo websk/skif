@@ -10,14 +10,6 @@ class AdminRouter
             return;
         }
 
-        Router::route(
-            '@^'. self::getIndexUrl() . '$@',
-            array(new AdminController(), 'indexAction'),
-            0
-        );
-
-        //\Skif\UrlManager::route('@^/admin/$@i', '\Skif\AdminController', 'indexAction', 0);
-
         // Admin Logger
         UrlManager::route('@^/admin/logger/list$@i', '\Skif\Logger\ControllerLogger', 'listAction', 0);
         UrlManager::route('@^/admin/logger/object_log/@i', '\Skif\Logger\ControllerLogger', 'object_logAction', 0);
@@ -66,10 +58,5 @@ class AdminRouter
         UrlManager::route('@^/admin/users/roles/edit/(.+)@', '\Skif\Users\UserController', 'editUsersRoleAction');
         UrlManager::route('@^/admin/users/roles/save/(.+)@', '\Skif\Users\UserController', 'saveUsersRoleAction');
         UrlManager::route('@^/admin/users/roles/delete/(.+)@', '\Skif\Users\UserController', 'deleteUsersRoleAction');
-    }
-
-    public static function getIndexUrl()
-    {
-        return '/admin';
     }
 }

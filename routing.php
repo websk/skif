@@ -20,7 +20,6 @@ $default_route_based_crud_arr = array(
     '/admin/poll_question' => '\Skif\Poll\PollQuestionController',
     '/admin/form' => '\Skif\Form\FormController',
     '/admin/form_field' => '\Skif\Form\FormFieldController',
-    '/admin/task' => '\Skif\Task\TaskController',
     '/admin/rating' => '\Skif\Rating\RatingController',
 );
 
@@ -42,9 +41,6 @@ foreach ($route_based_crud_arr as $base_url => $controller) {
     UrlManager::route('@^' . $base_url . '/delete/(\d+)$@i', $controller, 'deleteAction', 0);
     UrlManager::route('@^' . $base_url . '$@i', $controller, 'listAction', 0);
 }
-
-// Admin
-\Skif\AdminRouter::route();
 
 // Captcha
 UrlManager::route('@^/captcha/(.+)$@i', '\Skif\Captcha\CaptchaController', 'mainAction');
