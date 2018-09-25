@@ -59,7 +59,7 @@ class Path
     {
         $skifUrlPath = ConfWrapper::value('skif_url_path');
 
-        return $skifUrlPath . Utils::appendLeadingSlash($resource);
+        return ltrim($skifUrlPath, '/') . Utils::appendLeadingSlash($resource);
     }
 
     /**

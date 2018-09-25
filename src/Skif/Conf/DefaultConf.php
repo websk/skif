@@ -39,7 +39,7 @@ class DefaultConf
             ),
         );
 
-        $conf['skif_url_path'] = '/skif';
+        $conf['skif_url_path'] = '/admin';
         $conf['skif_assets_version'] = 1;
 
         $conf['assets_url_path'] = '/assets';

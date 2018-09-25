@@ -31,8 +31,6 @@ if (!AuthUtils::currentUserIsAdmin()) {
 }
 
 $user_obj = User::factory($user_id);
-
-$skif_path = ConfWrapper::value('skif_path');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +44,7 @@ $skif_path = ConfWrapper::value('skif_path');
 
     <title>СКИФ - Система управления сайтом</title>
 
-    <link href="<?php echo $skif_path; ?>/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="<?php echo \Skif\Path::wrapSkifUrlPath('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
 
     <!-- jQuery -->
     <script src="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery/jquery.min.js'); ?>"></script>

@@ -1,5 +1,5 @@
 .idea/
-configs/Conf.php
-configs/config.php
+config/Conf.php
+config/config.php
 /composer.lock
 /vendor

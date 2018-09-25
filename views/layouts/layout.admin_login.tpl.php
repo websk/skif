@@ -6,7 +6,6 @@
 use Skif\Path;
 use Skif\Users\AuthController;
 
-$skif_path = \Skif\Conf\ConfWrapper::value('skif_path');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +19,10 @@ $skif_path = \Skif\Conf\ConfWrapper::value('skif_path');
 
     <title>СКИФ - Система управления сайтом</title>
 
-    <link href="<?php echo $skif_path; ?>/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="<?php echo \Skif\Path::wrapSkifUrlPath('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
+
+    <!-- jQuery -->
+    <script src="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery/jquery.min.js'); ?>"></script>
 
     <!-- Bootstrap -->
     <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
