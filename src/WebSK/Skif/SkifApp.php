@@ -3,7 +3,8 @@
 namespace WebSK\Skif;
 
 use Psr\Container\ContainerInterface;
-use Skif\AdminRouter;
+use Skif\AdminRoutes;
+use Skif\Users\UserRoutes;
 use Slim\App;
 use Slim\Handlers\Strategies\RequestResponseArgs;
 use WebSK\Cache\CacheServerSettings;
@@ -59,6 +60,7 @@ class SkifApp extends App
 
         });
 
-        AdminRouter::route();
+        AdminRoutes::route();
+        UserRoutes::route();
     }
 }

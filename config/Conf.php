@@ -11,7 +11,7 @@ class Conf
         // MySQL
         $conf['db'] = array(
             'host' => 'mysql',
-            'db_name' => 'cil',
+            'db_name' => 'skif',
             'user' => 'root',
             'pass' => 'root'
         );

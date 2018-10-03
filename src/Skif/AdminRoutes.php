@@ -2,7 +2,7 @@
 
 namespace Skif;
 
-class AdminRouter
+class AdminRoutes
 {
     public static function route()
     {
