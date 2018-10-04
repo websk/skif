@@ -154,3 +154,70 @@ CREATE TABLE `form_field` (
   KEY `form` (`form_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `page_regions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `template_id` int(11) DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_template_id` (`name`,`template_id`),
+  KEY `template_id` (`template_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `blocks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `template_id` int(11) DEFAULT NULL,
+  `weight` int(11) NOT NULL DEFAULT '0',
+  `pages` text NOT NULL,
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `cache` tinyint(4) NOT NULL DEFAULT '1',
+  `body` longtext NOT NULL,
+  `format` smallint(6) DEFAULT '0',
+  `page_region_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `template_id` (`template_id`),
+  KEY `title` (`title`),
+  KEY `page_region_id` (`page_region_id`),
+  KEY `list` (`page_region_id`,`weight`,`title`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `blocks_roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `block_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `role_id` (`role_id`),
+  KEY `block_id_role_id` (`block_id`,`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `site_menu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '0',
+  `url` varchar(512) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `site_menu_item` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(512) NOT NULL DEFAULT '',
+  `url` varchar(512) NOT NULL DEFAULT '',
+  `content_id` int(11) unsigned DEFAULT NULL,
+  `weight` int(11) unsigned NOT NULL DEFAULT '0',
+  `parent_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `is_published` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `menu_id` int(11) DEFAULT NULL,
+  KEY `id` (`id`),
+  KEY `parent_weight` (`parent_id`,`weight`),
+  KEY `menu_type_id` (`menu_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL DEFAULT 'Новая группа',
+  `designation` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `designation` (`designation`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+

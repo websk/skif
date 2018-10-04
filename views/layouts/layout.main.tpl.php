@@ -46,10 +46,11 @@
 <div id="html">
     <div id="header" class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-            <a href="/"><img src="/skif/images/admin/skif.gif" border="0" alt="" title="" class="img-responsive"></a>
+            <a href="/"><img src="/assets/images/admin/skif_small_logo.png" border="0" alt="" title="" class="img-responsive"></a>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" align="right">
             <div class="row icon_row" align="right">
+                Демо-сайт
             </div>
         </div>
     </div>

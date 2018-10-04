@@ -49,10 +49,6 @@ class Conf
             'uploadDir' => '../../../../../public/files'
         ];
 
-        $conf['ckeditor'] = [
-            'styles'=> ['/assets/' . $conf['assets_version'] . '/styles/common.css']
-        ];
-
         $conf['skif_url_path'] = '/';
 
         return $conf;

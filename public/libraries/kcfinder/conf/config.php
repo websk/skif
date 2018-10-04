@@ -19,7 +19,7 @@
 use Skif\Conf\ConfWrapper;
 use Skif\Users\AuthUtils;
 
-require_once __DIR__ . '/../../../../../autoload.php';
+require __DIR__ . '/../../../../vendor/autoload.php';
 
 $uploadURL = ConfWrapper::value('kcfinder.uploadURL');
 $uploadDir = ConfWrapper::value('kcfinder.uploadDir');
@@ -199,5 +199,3 @@ $_CONFIG = array(
     //'_jsMinCmd' => "java -jar /path/to/yuicompressor.jar --type js {file}",
 
 );
-
-?>

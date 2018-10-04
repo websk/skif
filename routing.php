@@ -1,6 +1,6 @@
 <?php
 
-use Skif\Content\ContentRouter;
+use Skif\Content\ContentRoutes;
 use Skif\UrlManager;
 
 $current_url_no_query = UrlManager::getUriNoQueryString();
@@ -18,8 +18,6 @@ $default_route_based_crud_arr = array(
     '/admin/comments' => '\Skif\Comment\CommentController',
     '/admin/poll' => '\Skif\Poll\PollController',
     '/admin/poll_question' => '\Skif\Poll\PollQuestionController',
-    '/admin/form' => '\Skif\Form\FormController',
-    '/admin/form_field' => '\Skif\Form\FormFieldController',
     '/admin/rating' => '\Skif\Rating\RatingController',
 );
 
@@ -61,11 +59,8 @@ UrlManager::route('@^/poll/(\d+)/vote$@', '\Skif\Poll\PollController', 'voteActi
 // Rating
 UrlManager::route('@^/rating/(\d+)/rate$@', '\Skif\Rating\RatingController', 'rateAction');
 
-
 // Form
-UrlManager::route('@^@', '\Skif\Form\FormController', 'viewAction');
-UrlManager::route('@^/form/(\d+)/send$@', '\Skif\Form\FormController', 'sendAction');
-
+\Skif\Form\FormRoutes::route();
 
 // Country
 UrlManager::route('@^/autocomplete/countries$@', '\Skif\CountryController', 'CountriesAutoCompleteAction');
@@ -76,7 +71,7 @@ UrlManager::route('@^/images/upload$@', '\Skif\Image\ImageController', 'uploadAc
 //\Skif\UrlManager::route('@^/images/upload_to_files$@', '\Skif\Image\ImageController', 'uploadToFilesAction');
 //\Skif\UrlManager::route('@^/images/upload_to_images$@', '\Skif\Image\ImageController', 'uploadToImagesAction');
 
-ContentRouter::route();
+ContentRoutes::route();
 
 //UrlManager::route('@^@', '\Skif\Content\ContentController', 'viewAction');
 UrlManager::route('@^@', '\Skif\Content\RubricController', 'listAction');

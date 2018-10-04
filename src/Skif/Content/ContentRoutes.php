@@ -4,7 +4,7 @@ namespace Skif\Content;
 
 use Skif\Router;
 
-class ContentRouter
+class ContentRoutes
 {
     public static function route()
     {

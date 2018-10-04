@@ -4,6 +4,8 @@ namespace WebSK\Skif;
 
 use Psr\Container\ContainerInterface;
 use Skif\AdminRoutes;
+use Skif\Content\ContentRoutes;
+use Skif\Form\FormRoutes;
 use Skif\Users\UserRoutes;
 use Slim\App;
 use Slim\Handlers\Strategies\RequestResponseArgs;
@@ -62,5 +64,7 @@ class SkifApp extends App
 
         AdminRoutes::route();
         UserRoutes::route();
+        ContentRoutes::route();
+        FormRoutes::route();
     }
 }
