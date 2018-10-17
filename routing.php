@@ -1,7 +1,11 @@
 <?php
 
+use Skif\Comment\CommentRoutes;
 use Skif\Content\ContentRoutes;
+use Skif\Form\FormRoutes;
+use Skif\Poll\PollRoutes;
 use Skif\UrlManager;
+use Skif\Users\UserRoutes;
 
 $current_url_no_query = UrlManager::getUriNoQueryString();
 
@@ -15,9 +19,6 @@ $default_route_based_crud_arr = array(
     '/crud/[\d\w\%]+' => '\Skif\CRUD\CRUDController',
     '/admin/key_value' => '\Skif\KeyValue\KeyValueController',
     '/admin/redirect' => '\Skif\Redirect\RedirectController',
-    '/admin/comments' => '\Skif\Comment\CommentController',
-    '/admin/poll' => '\Skif\Poll\PollController',
-    '/admin/poll_question' => '\Skif\Poll\PollQuestionController',
     '/admin/rating' => '\Skif\Rating\RatingController',
 );
 
@@ -45,22 +46,19 @@ UrlManager::route('@^/captcha/(.+)$@i', '\Skif\Captcha\CaptchaController', 'main
 
 
 // User
-\Skif\Users\UserRoutes::route();
+UserRoutes::route();
 
 // Comment
-UrlManager::route('@^/comments/list$@', '\Skif\Comment\CommentController', 'listWebAction');
-UrlManager::route('@^/comments/add$@', '\Skif\Comment\CommentController', 'saveWebAction');
-UrlManager::route('@^/comments/delete/(\d+)$@', '\Skif\Comment\CommentController', 'deleteWebAction');
-
-// Poll
-UrlManager::route('@^/poll/(\d+)$@', '\Skif\Poll\PollController', 'viewAction');
-UrlManager::route('@^/poll/(\d+)/vote$@', '\Skif\Poll\PollController', 'voteAction');
+CommentRoutes::route();
 
 // Rating
 UrlManager::route('@^/rating/(\d+)/rate$@', '\Skif\Rating\RatingController', 'rateAction');
 
 // Form
-\Skif\Form\FormRoutes::route();
+FormRoutes::route();
+
+// Poll
+PollRoutes::route();
 
 // Country
 UrlManager::route('@^/autocomplete/countries$@', '\Skif\CountryController', 'CountriesAutoCompleteAction');
@@ -72,7 +70,3 @@ UrlManager::route('@^/images/upload$@', '\Skif\Image\ImageController', 'uploadAc
 //\Skif\UrlManager::route('@^/images/upload_to_images$@', '\Skif\Image\ImageController', 'uploadToImagesAction');
 
 ContentRoutes::route();
-
-//UrlManager::route('@^@', '\Skif\Content\ContentController', 'viewAction');
-UrlManager::route('@^@', '\Skif\Content\RubricController', 'listAction');
-UrlManager::route('@^/(.+)$@i', '\Skif\Content\ContentController', 'listAction');

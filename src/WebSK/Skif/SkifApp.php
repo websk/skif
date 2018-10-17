@@ -3,9 +3,13 @@
 namespace WebSK\Skif;
 
 use Psr\Container\ContainerInterface;
-use Skif\AdminRoutes;
+use Skif\Blocks\BlockRoutes;
+use Skif\Comment\CommentRoutes;
 use Skif\Content\ContentRoutes;
 use Skif\Form\FormRoutes;
+use Skif\Logger\LoggerRoutes;
+use Skif\Poll\PollRoutes;
+use Skif\SiteMenu\SiteMenuRoutes;
 use Skif\Users\UserRoutes;
 use Slim\App;
 use Slim\Handlers\Strategies\RequestResponseArgs;
@@ -62,9 +66,13 @@ class SkifApp extends App
 
         });
 
-        AdminRoutes::route();
+        LoggerRoutes::route();
+        BlockRoutes::route();
+        SiteMenuRoutes::route();
         UserRoutes::route();
         ContentRoutes::route();
         FormRoutes::route();
+        PollRoutes::route();
+        CommentRoutes::route();
     }
 }

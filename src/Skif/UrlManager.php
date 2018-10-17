@@ -2,6 +2,8 @@
 
 namespace Skif;
 
+use Skif\Conf\ConfWrapper;
+use Skif\DB\DBWrapper;
 
 class UrlManager {
 
@@ -65,7 +67,7 @@ class UrlManager {
     function routeRedirect($url_mask, $target_url){
         $current_url = $_SERVER['REQUEST_URI'];
         if (preg_match($url_mask, $current_url)){
-            \Skif\Http::redirect($target_url);
+            Http::redirect($target_url);
         }
     }
 
@@ -82,7 +84,7 @@ class UrlManager {
     {
         $url_data_tables_arr = array('content', 'rubrics', 'form');
 
-        $config_url_data_tables_arr =\Skif\Conf\ConfWrapper::value('url_data_tables_arr');
+        $config_url_data_tables_arr = ConfWrapper::value('url_data_tables_arr');
         if ($config_url_data_tables_arr) {
             $url_data_tables_arr = array_merge($url_data_tables_arr, $config_url_data_tables_arr);
             $url_data_tables_arr = array_unique($url_data_tables_arr);
@@ -97,7 +99,7 @@ class UrlManager {
             $not_found_counter = 0;
             foreach ($url_data_tables_arr as $data_table) {
                 $query = 'SELECT url FROM ' . $data_table . ' WHERE url = ?';
-                $found_urls = \Skif\DB\DBWrapper::readField($query, array($new_url));
+                $found_urls = DBWrapper::readField($query, array($new_url));
                 if ($found_urls) {
                     $unique_id = '-' . substr(uniqid(), 6);
                     break; // we found duplicate go to unique id generation
@@ -115,4 +117,23 @@ class UrlManager {
         return false;
     }
 
+    /**
+     * @param $base_url
+     * @param $controller_class_name
+     */
+    public static function routeBasedCrud($base_url, $controller_class_name)
+    {
+        $current_url_no_query = UrlManager::getUriNoQueryString();
+
+        if (!preg_match('@^' . $base_url . '?(.+)@i', $current_url_no_query, $matches_arr)) {
+            return;
+        }
+
+        UrlManager::route('@^' . $base_url . '/add$@', $controller_class_name, 'addAction', 0);
+        UrlManager::route('@^' . $base_url . '/create$@', $controller_class_name, 'createAction', 0);
+        UrlManager::route('@^' . $base_url . '/edit/(.+)$@', $controller_class_name, 'editAction', 0);
+        UrlManager::route('@^' . $base_url . '/save/(.+)$@i', $controller_class_name, 'saveAction', 0);
+        UrlManager::route('@^' . $base_url . '/delete/(\d+)$@i', $controller_class_name, 'deleteAction', 0);
+        UrlManager::route('@^' . $base_url . '$@i', $controller_class_name, 'listAction', 0);
+    }
 }

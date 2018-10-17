@@ -211,6 +211,7 @@ class UserController
 
 
         // Roles
+        // TODO: убрать
         if (AuthUtils::currentUserIsAdmin()) {
             $user_obj->deleteUserRoles();
 
