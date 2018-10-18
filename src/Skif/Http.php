@@ -2,16 +2,21 @@
 
 namespace Skif;
 
-
 class Http {
 
-    public static function redirect($url)
+    /**
+     * @param string $url
+     */
+    public static function redirect(string $url)
     {
         header('Location: ' . $url);
         exit;
     }
 
-    static public function redirect301($url)
+    /**
+     * @param string $url
+     */
+    public static function redirect301(string $url)
     {
         header("HTTP/1.0 301 Moved Permanently");
         header('Location: ' . $url);
@@ -26,41 +31,51 @@ class Http {
         header('Cache-Control: max-age=' . $cache_sec . ', public');
     }
 
-    static public function exit404If($exit_condition)
+    /**
+     * @param $exit_condition
+     */
+    public static function exit404If($exit_condition)
     {
         if (!$exit_condition) {
             return;
         }
 
-        \Skif\Http::exit404();
+        self::exit404();
     }
 
-    static public function exit404()
+    public static function exit404()
     {
         header("HTTP/1.0 404 Not Found");
-        \Skif\Http::errorPageAction(404);
+        self::errorPageAction(404);
         exit();
     }
 
-    static public function exit403()
+    public static function exit403()
     {
         header("HTTP/1.0 403 Forbidden");
-        \Skif\Http::errorPageAction(403);
-        exit();
+        self::errorPageAction(403);
+        exit;
     }
 
-    static public function exit403If($exit_condition)
+    /**
+     * @param $exit_condition
+     */
+    public static function exit403If($exit_condition)
     {
         if (!$exit_condition) {
             return;
         }
 
-        \Skif\Http::exit403();
+        self::exit403();
     }
 
-    public static function errorPageAction($error_code)
+    /**
+     * @param int $error_code
+     * @deprecated
+     */
+    protected static function errorPageAction(int $error_code)
     {
-        echo \Skif\PhpTemplate::renderTemplate(
+        echo PhpTemplate::renderTemplate(
             'errors/error_page.tpl.php',
             array('error_code' => $error_code)
         );

@@ -1,3 +1,115 @@
+# Services
+
+CREATE TABLE `admin_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `ts` datetime DEFAULT NULL,
+  `ip` varchar(15) NOT NULL,
+  `entity_id` varchar(255) DEFAULT NULL,
+  `action` varchar(255) DEFAULT NULL,
+  `object` text,
+  PRIMARY KEY (`id`),
+  KEY `entity_id` (`entity_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `redirect_rewrites` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `src` varchar(255) NOT NULL,
+  `dst` varchar(255) NOT NULL,
+  `code` int(11) NOT NULL,
+  `kind` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `src` (`src`,`kind`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `key_value` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL DEFAULT '',
+  `value` mediumtext NOT NULL,
+  `description` text,
+  PRIMARY KEY (`id`),
+  KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `template` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `title` varchar(100) NOT NULL DEFAULT '',
+  `css` varchar(50) NOT NULL DEFAULT '',
+  `is_default` smallint(6) DEFAULT '0',
+  `layout_template_file` varchar(50) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `is_default` (`is_default`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `template` (`id`, `name`, `title`, `css`, `is_default`, `layout_template_file`)
+VALUES
+       (1, 'main', 'Сайт. Три колонки', 'main.css', 1, 'layout.main.tpl.php'),
+       (2, 'admin', 'Система управления сайтом', 'admin.css', 0, 'layout.admin.tpl.php');
+
+
+# Blocks
+
+CREATE TABLE `page_regions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `template_id` int(11) DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_template_id` (`name`,`template_id`),
+  KEY `template_id` (`template_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `page_regions` (`id`, `name`, `template_id`, `title`)
+VALUES
+       (1, 'right_column', 1, 'Правая колонка'),
+       (2, 'left_column', 1, 'Левая колонка'),
+       (3, 'under_content', 1, 'Под контентом'),
+       (4, 'above_content', 1, 'Над контентом'),
+       (5, 'inside_head', 1, 'Внутри head'),
+       (6, 'right_column', 3, 'Правая колонка'),
+       (7, 'above_content', 3, 'Над контентом'),
+       (8, 'under_content', 3, 'Под контентом');
+
+CREATE TABLE `blocks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `template_id` int(11) DEFAULT NULL,
+  `weight` int(11) NOT NULL DEFAULT '0',
+  `pages` text NOT NULL,
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `cache` tinyint(4) NOT NULL DEFAULT '1',
+  `body` longtext NOT NULL,
+  `format` smallint(6) DEFAULT '0',
+  `page_region_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `template_id` (`template_id`),
+  KEY `title` (`title`),
+  KEY `page_region_id` (`page_region_id`),
+  KEY `list` (`page_region_id`,`weight`,`title`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `blocks_roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `block_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `role_id` (`role_id`),
+  KEY `block_id_role_id` (`block_id`,`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# Auth. Users
+
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL DEFAULT '',
+  `designation` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `designation` (`designation`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `roles` (`id`, `name`, `designation`) VALUES (1, 'Администраторы', 'ADMINS');
+
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(100) DEFAULT NULL,
@@ -23,10 +135,8 @@ CREATE TABLE `users` (
   KEY `confirm_code` (`confirm_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
 INSERT INTO `users` (`id`, `email`, `passw`, `name`, `first_name`, `last_name`, `photo`, `birthday`, `phone`, `city`, `address`, `company`, `comment`, `confirm`, `confirm_code`, `provider`, `provider_uid`, `profile_url`, `created_at`)
-VALUES
-       (2, 'sergey.kulkov@gmail.com', '1f737832e84fb946d5a4f50c567334be', 'Кульков Сергей Сергеевич', '', '', '2425687555a543479031adeaae68a3ff55e98622ee548890594593.jpg', '04.04.1981', '+7 (499) 978-75-98', '', 'sergey', '', '', 1, '', '', NULL, NULL, NULL);
+VALUES (1, 'support@websk.ru', '1f737832e84fb946d5a4f50c567334be', 'Администратор', '', '', '', '', '', '', '', '', '', 1, '', '', NULL, NULL, NULL);
 
 CREATE TABLE `users_roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -36,17 +146,7 @@ CREATE TABLE `users_roles` (
   UNIQUE KEY `user_id_role_id` (`user_id`,`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `admin_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `ts` datetime DEFAULT NULL,
-  `ip` varchar(15) NOT NULL,
-  `entity_id` varchar(255) DEFAULT NULL,
-  `action` varchar(255) DEFAULT NULL,
-  `object` text,
-  PRIMARY KEY (`id`),
-  KEY `entity_id` (`entity_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+INSERT INTO `users_roles` (`id`, `user_id`, `role_id`) VALUES (1, 1, 1);
 
 CREATE TABLE `sessions` (
   `user_id` int(10) unsigned NOT NULL,
@@ -57,6 +157,8 @@ CREATE TABLE `sessions` (
   KEY `timestamp` (`timestamp`),
   KEY `uid` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# Contents
 
 CREATE TABLE `content` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -118,17 +220,7 @@ CREATE TABLE `rubrics` (
   KEY `url` (`url`(255))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `template` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL DEFAULT '',
-  `title` varchar(100) NOT NULL DEFAULT '',
-  `css` varchar(50) NOT NULL DEFAULT '',
-  `is_default` smallint(6) DEFAULT '0',
-  `layout_template_file` varchar(50) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
-  KEY `is_default` (`is_default`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+# Forms
 
 CREATE TABLE `form` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -154,41 +246,7 @@ CREATE TABLE `form_field` (
   KEY `form` (`form_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `page_regions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) DEFAULT NULL,
-  `template_id` int(11) DEFAULT NULL,
-  `title` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name_template_id` (`name`,`template_id`),
-  KEY `template_id` (`template_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `blocks` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `template_id` int(11) DEFAULT NULL,
-  `weight` int(11) NOT NULL DEFAULT '0',
-  `pages` text NOT NULL,
-  `title` varchar(255) NOT NULL DEFAULT '',
-  `cache` tinyint(4) NOT NULL DEFAULT '1',
-  `body` longtext NOT NULL,
-  `format` smallint(6) DEFAULT '0',
-  `page_region_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `template_id` (`template_id`),
-  KEY `title` (`title`),
-  KEY `page_region_id` (`page_region_id`),
-  KEY `list` (`page_region_id`,`weight`,`title`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `blocks_roles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `block_id` int(11) NOT NULL,
-  `role_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `role_id` (`role_id`),
-  KEY `block_id_role_id` (`block_id`,`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+# Site Menu
 
 CREATE TABLE `site_menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -211,15 +269,25 @@ CREATE TABLE `site_menu_item` (
   KEY `menu_type_id` (`menu_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `roles` (
+# Comments
+
+CREATE TABLE `comments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL DEFAULT 'Новая группа',
-  `designation` varchar(100) DEFAULT NULL,
+  `parent_id` int(11) NOT NULL DEFAULT '0',
+  `url` text,
+  `url_md5` varbinary(32) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_name` varchar(100) DEFAULT NULL,
+  `user_email` varchar(100) DEFAULT NULL,
+  `comment` text,
+  `date_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `designation` (`designation`)
+  KEY `user_id` (`user_id`),
+  KEY `parent_id` (`parent_id`),
+  KEY `url_md5` (`url_md5`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `roles` (`id`, `name`, `designation`) VALUES (1, 'Администраторы', 'ADMINS');
+# Poll
 
 CREATE TABLE `poll` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -243,22 +311,25 @@ CREATE TABLE `poll_question` (
   KEY `poll_id` (`poll_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `comments` (
+# Ratings
+
+CREATE TABLE `rating` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) NOT NULL DEFAULT '0',
-  `url` text,
-  `url_md5` varbinary(32) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_name` varchar(100) DEFAULT NULL,
-  `user_email` varchar(100) DEFAULT NULL,
-  `comment` text,
-  `date_time` datetime DEFAULT NULL,
+  `name` varchar(100) NOT NULL DEFAULT '',
+  `rating` float NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `parent_id` (`parent_id`),
-  KEY `url_md5` (`url_md5`)
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-
+CREATE TABLE `rating_voice` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `rating_id` int(11) NOT NULL,
+  `rating` float NOT NULL DEFAULT '0',
+  `comment` text,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `rating_id_user_id` (`rating_id`,`user_id`),
+  KEY `rating_id` (`rating_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

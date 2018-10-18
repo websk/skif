@@ -4,6 +4,7 @@
   "homepage": "https://websk.ru/",
   "require": {
     "slim/slim": "^3.0",
+    "slim/php-view": "^2.2",
     "websk/php-cache": "1.0",
     "websk/php-utils": "dev-master",
     "imagine/imagine": "0.6.3",

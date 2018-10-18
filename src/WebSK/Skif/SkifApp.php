@@ -7,15 +7,22 @@ use Skif\Blocks\BlockRoutes;
 use Skif\Comment\CommentRoutes;
 use Skif\Content\ContentRoutes;
 use Skif\Form\FormRoutes;
+use Skif\Http;
+use Skif\KeyValue\KeyValueRoutes;
 use Skif\Logger\LoggerRoutes;
 use Skif\Poll\PollRoutes;
+use Skif\Rating\RatingRoutes;
+use Skif\Redirect\RedirectRoutes;
 use Skif\SiteMenu\SiteMenuRoutes;
+use Skif\UrlManager;
 use Skif\Users\UserRoutes;
 use Slim\App;
 use Slim\Handlers\Strategies\RequestResponseArgs;
 use WebSK\Cache\CacheServerSettings;
 use WebSK\Cache\CacheService;
 use WebSK\Cache\Engines\CacheEngineInterface;
+use WebSK\Skif\RequestHandlers\AdminHandler;
+use WebSK\Skif\RequestHandlers\ErrorHandler;
 
 class SkifApp extends App
 {
@@ -66,13 +73,30 @@ class SkifApp extends App
 
         });
 
+        UrlManager::route('@^/errors/(.+)$@', Http::class, 'errorPageAction');
+
+        RedirectRoutes::route();
+        KeyValueRoutes::route();
         LoggerRoutes::route();
+
+        UserRoutes::route();
+
         BlockRoutes::route();
         SiteMenuRoutes::route();
-        UserRoutes::route();
         ContentRoutes::route();
         FormRoutes::route();
-        PollRoutes::route();
+
         CommentRoutes::route();
+
+        PollRoutes::route();
+        RatingRoutes::route();
+
+        $container['errorHandler'] = function ($container) {
+            return new ErrorHandler($container);
+        };
+
+        $container['phpErrorHandler'] = function ($container) {
+            return new ErrorHandler($container);
+        };
     }
 }

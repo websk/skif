@@ -1,6 +1,6 @@
 <?php
 
-namespace WebSK\Skif;
+namespace WebSK\Skif\RequestHandlers;
 
 use Skif\Http;
 use Skif\PhpTemplate;
