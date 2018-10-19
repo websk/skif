@@ -9,6 +9,7 @@ use Skif\Conf\ConfWrapper;
 use Skif\Content\ContentRoutes;
 use Skif\CRUD\CRUDRoutes;
 use Skif\Form\FormRoutes;
+use Skif\Image\ImageRoutes;
 use Skif\KeyValue\KeyValueRoutes;
 use Skif\Logger\LoggerRoutes;
 use Skif\Poll\PollRoutes;
@@ -79,6 +80,7 @@ class SkifApp extends App
         RedirectRoutes::route();
         KeyValueRoutes::route();
         LoggerRoutes::route();
+        ImageRoutes::routes();
 
         CRUDRoutes::route();
 
@@ -92,8 +94,8 @@ class SkifApp extends App
         UserRoutes::route();
 
         BlockRoutes::route();
-        SiteMenuRoutes::route();
         ContentRoutes::route();
+        SiteMenuRoutes::route();
         FormRoutes::route();
 
         CommentRoutes::route();

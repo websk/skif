@@ -2,12 +2,20 @@
 
 namespace Skif;
 
+use Skif\DB\DBWrapper;
+
 class BaseController
 {
+    /** @var bool */
     protected $context_is_known = false;
+    /** @var null|int */
     protected $requested_id = null;
+    /** @var string */
     protected $url_table = 'url';
 
+    /**
+     * @return null|int
+     */
     public function getRequestedId()
     {
         if (!$this->context_is_known) {
@@ -19,17 +27,20 @@ class BaseController
 
     protected function readContext()
     {
-        $alias = \Skif\UrlManager::$current_url;
+        $alias = UrlManager::$current_url;
 
         $this->requested_id = self::getEntityIdByAlias($alias);
 
         $this->context_is_known = true;
     }
 
-    protected function getEntityIdByAlias($alias)
+    /**
+     * @param string $alias
+     * @return int
+     */
+    protected function getEntityIdByAlias(string $alias)
     {
         $query = 'SELECT id FROM ' . $this->url_table . ' WHERE url = ?';
-        return \Skif\DB\DBWrapper::readField($query, array($alias));
+        return (int)DBWrapper::readField($query, array($alias));
     }
-
 }

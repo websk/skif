@@ -2,9 +2,14 @@
 
 namespace Skif;
 
+use Skif\DB\DBWrapper;
 
 class CountryController
 {
+    const COUNTRY_ID_RUSSIA = 402;
+
+    // UrlManager::route('@^/autocomplete/countries$@', CountryController::class, 'CountriesAutoCompleteAction');
+
     /**
      * Автокомплит для поля "страна"
      */
@@ -15,7 +20,7 @@ class CountryController
         $query_param_arr = array($term .'%');
 
         $query = "SELECT id, name FROM lands WHERE name LIKE ?";
-        $countries_arr = \Skif\DB\DBWrapper::readObjects($query, $query_param_arr);
+        $countries_arr = DBWrapper::readObjects($query, $query_param_arr);
 
         $output_arr = array();
         foreach ($countries_arr as $country_obj) {
@@ -29,5 +34,4 @@ class CountryController
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode($output_arr);
     }
-
-} 
+}

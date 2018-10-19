@@ -2,26 +2,43 @@
 
 namespace Skif;
 
+use Skif\Cache\CacheWrapper;
+
 /**
  * Базовая фабрика объектов.
  */
 class Factory
 {
+    /**
+     * @param $class_name
+     * @param $object_id
+     * @return string
+     */
     protected static function getObjectCacheId($class_name, $object_id){
         return $class_name . '::' . $object_id;
     }
 
+    /**
+     * @param $class_name
+     * @param $object_id
+     */
     public static function removeObjectFromCache($class_name, $object_id)
     {
         $cache_key = self::getObjectCacheId($class_name, $object_id);
-        \Skif\Cache\CacheWrapper::delete($cache_key);
+        CacheWrapper::delete($cache_key);
     }
 
+    /**
+     * @param $class_name
+     * @param $object_id
+     * @return bool|mixed|null
+     * @throws \Exception
+     */
     public static function createAndLoadObject($class_name, $object_id)
     {
         $cache_key = self::getObjectCacheId($class_name, $object_id);
 
-        $cached_obj = \Skif\Cache\CacheWrapper::get($cache_key);
+        $cached_obj = CacheWrapper::get($cache_key);
 
         if ($cached_obj !== false) {
             return $cached_obj;
@@ -41,22 +58,27 @@ class Factory
             $cache_ttl_seconds = $obj->getCacheTtlSeconds();
         }
 
-        \Skif\Cache\CacheWrapper::set($cache_key, $obj, $cache_ttl_seconds);
+        CacheWrapper::set($cache_key, $obj, $cache_ttl_seconds);
 
         return $obj;
     }
 
+    /**
+     * @param $class_name
+     * @param $fields_arr
+     * @return bool|mixed|null
+     * @throws \Exception
+     */
     public static function createAndLoadObjectByFieldsArr($class_name, $fields_arr)
     {
         $obj = new $class_name;
 
         if (!($obj instanceof \Skif\Model\InterfaceLoad)) {
-            \Skif\Utils::assert($obj);
+            Utils::assert($obj);
         }
 
         $id_to_load = call_user_func_array(array($obj, "getIdByFieldNamesArr"), array($fields_arr));
 
-        return \Skif\Factory::createAndLoadObject($class_name, $id_to_load);
+        return self::createAndLoadObject($class_name, $id_to_load);
     }
-
 }
