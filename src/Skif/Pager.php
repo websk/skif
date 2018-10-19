@@ -2,7 +2,6 @@
 
 namespace Skif;
 
-
 class Pager
 {
     public static function getPageOffset()

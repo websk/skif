@@ -5,7 +5,7 @@ namespace Skif\Poll;
 use Skif\Conf\ConfWrapper;
 use Skif\CRUD\CRUDController;
 use Skif\Http;
-use Skif\Messages;
+use Websk\Skif\Messages;
 use Skif\PhpTemplate;
 
 class PollController extends CRUDController

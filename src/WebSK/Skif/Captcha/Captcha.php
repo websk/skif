@@ -1,9 +1,9 @@
 <?php
 
-namespace Skif\Captcha;
+namespace Websk\Skif\Captcha;
 
-use Skif\Messages;
-use Skif\Path;
+use Websk\Skif\Messages;
+use Websk\Skif\Path;
 
 class Captcha
 {
@@ -18,19 +18,6 @@ class Captcha
         }
 
         return false;
-    }
-
-    /**
-     * Проверка для Jquery Form Validation
-     * @return string
-     */
-    public static function checkAjax()
-    {
-        if (self::check()) {
-            return 'true';
-        }
-
-        return 'false';
     }
 
     /**
@@ -150,10 +137,10 @@ class Captcha
 
         $_SESSION['captcha'] = mb_strtolower(implode('', $CODE));
 
-        header("Content-type: image/png");
         imagepng($src);
         imagedestroy($src);
-        exit;
+
+        return;
     }
 
     public static function getUrl()

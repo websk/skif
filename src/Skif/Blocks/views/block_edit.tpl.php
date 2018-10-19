@@ -3,7 +3,7 @@
  * @var $block_id
  */
 
-use Skif\Path;
+use Websk\Skif\Path;
 use Skif\Utils;
 
 $block_obj = \Skif\Blocks\ControllerBlocks::getBlockObj($block_id);

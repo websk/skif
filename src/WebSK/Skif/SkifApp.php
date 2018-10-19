@@ -5,9 +5,10 @@ namespace WebSK\Skif;
 use Psr\Container\ContainerInterface;
 use Skif\Blocks\BlockRoutes;
 use Skif\Comment\CommentRoutes;
+use Skif\Conf\ConfWrapper;
 use Skif\Content\ContentRoutes;
+use Skif\CRUD\CRUDRoutes;
 use Skif\Form\FormRoutes;
-use Skif\Http;
 use Skif\KeyValue\KeyValueRoutes;
 use Skif\Logger\LoggerRoutes;
 use Skif\Poll\PollRoutes;
@@ -21,8 +22,10 @@ use Slim\Handlers\Strategies\RequestResponseArgs;
 use WebSK\Cache\CacheServerSettings;
 use WebSK\Cache\CacheService;
 use WebSK\Cache\Engines\CacheEngineInterface;
+use WebSK\Skif\Captcha\CaptchaRoutes;
 use WebSK\Skif\RequestHandlers\AdminHandler;
 use WebSK\Skif\RequestHandlers\ErrorHandler;
+use WebSK\Skif\RequestHandlers\NotFoundHandler;
 
 class SkifApp extends App
 {
@@ -73,11 +76,18 @@ class SkifApp extends App
 
         });
 
-        UrlManager::route('@^/errors/(.+)$@', Http::class, 'errorPageAction');
-
         RedirectRoutes::route();
         KeyValueRoutes::route();
         LoggerRoutes::route();
+
+        CRUDRoutes::route();
+
+        $route_based_crud_arr = ConfWrapper::value('route_based_crud_arr', []);
+        if ($route_based_crud_arr) {
+            foreach ($route_based_crud_arr as $base_url => $controller_class_name) {
+                UrlManager::routeBasedCrud($base_url, $controller_class_name);
+            }
+        }
 
         UserRoutes::route();
 
@@ -91,12 +101,18 @@ class SkifApp extends App
         PollRoutes::route();
         RatingRoutes::route();
 
-        $container['errorHandler'] = function ($container) {
-            return new ErrorHandler($container);
+        CaptchaRoutes::route($this);
+
+        $container['errorHandler'] = function () {
+            return new ErrorHandler();
         };
 
-        $container['phpErrorHandler'] = function ($container) {
-            return new ErrorHandler($container);
+        $container['phpErrorHandler'] = function () {
+            return new ErrorHandler();
+        };
+
+        $container['notFoundHandler'] = function () {
+            return new NotFoundHandler();
         };
     }
 }

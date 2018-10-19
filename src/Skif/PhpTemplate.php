@@ -2,6 +2,8 @@
 
 namespace Skif;
 
+use Websk\Skif\Path;
+
 class PhpTemplate
 {
     /**

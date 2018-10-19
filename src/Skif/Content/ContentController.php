@@ -9,7 +9,7 @@ use Skif\Http;
 use Skif\Image\ImageConstants;
 use Skif\Image\ImageController;
 use Skif\Image\ImageManager;
-use Skif\Messages;
+use Websk\Skif\Messages;
 use Skif\PhpTemplate;
 use Skif\Sitemap\InterfaceSitemapController;
 use Skif\UrlManager;

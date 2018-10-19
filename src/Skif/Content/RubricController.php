@@ -159,7 +159,7 @@ class RubricController extends \Skif\BaseController
 
         $rubric_obj->save();
 
-        \Skif\Messages::setMessage('Изменения сохранены');
+        \Websk\Skif\Messages::setMessage('Изменения сохранены');
 
         \Skif\Http::redirect($rubric_obj->getEditorUrl());
     }
@@ -174,9 +174,9 @@ class RubricController extends \Skif\BaseController
         $message = $rubric_obj->delete();
 
         if ($message === true) {
-            \Skif\Messages::setMessage('Рубрика ' . $rubric_obj->getName() . ' была успешно удалена');
+            \Websk\Skif\Messages::setMessage('Рубрика ' . $rubric_obj->getName() . ' была успешно удалена');
         } else {
-            \Skif\Messages::setError($message);
+            \Websk\Skif\Messages::setError($message);
         }
 
         \Skif\Http::redirect(\Skif\Content\RubricController::getRubricsListUrlByContentType($content_type));

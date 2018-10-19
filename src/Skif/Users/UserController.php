@@ -6,7 +6,7 @@ use Skif\Conf\ConfWrapper;
 use Skif\Http;
 use Skif\Image\ImageConstants;
 use Skif\Image\ImageController;
-use Skif\Messages;
+use Websk\Skif\Messages;
 use Skif\PhpTemplate;
 use Skif\Utils;
 
@@ -158,7 +158,7 @@ class UserController
 
         /*
         if (!\Skif\Users\UsersUtils::checkBirthDay::checkBirthDay($birthday)) {
-            \Skif\Messages::setError('Указана неверная дата рождения');
+            \Websk\Skif\Messages::setError('Указана неверная дата рождения');
             \Skif\Http::redirect($destination);
         }
         */

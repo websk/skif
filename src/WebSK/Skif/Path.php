@@ -1,30 +1,40 @@
 <?php
 
-namespace Skif;
+namespace Websk\Skif;
 
 use Skif\Conf\ConfWrapper;
+use Skif\Utils;
 
 class Path
 {
+    const PUBLIC_DIR_NAME = 'public';
     const ASSETS_DIR_NAME = 'assets';
     const VIEWS_DIR_NAME = 'views';
     const SRC_DIR_NAME = 'src';
     const SKIF_NAMESPACE = 'Skif';
 
-
+    /**
+     * @return string
+     */
     public static function getRootSitePath()
     {
-        return dirname(dirname(dirname(dirname(dirname(__DIR__)))));
+        return dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))));
     }
 
+    /**
+     * @return string
+     */
     public static function getSkifAppPath()
     {
-        return dirname(__DIR__) . DIRECTORY_SEPARATOR . self::SKIF_NAMESPACE;
+        return __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . self::SKIF_NAMESPACE;
     }
 
+    /**
+     * @return string
+     */
     public static function getSkifAssetsPath()
     {
-        return dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . self::ASSETS_DIR_NAME;
+        return __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . self::PUBLIC_DIR_NAME . DIRECTORY_SEPARATOR . self::ASSETS_DIR_NAME;
     }
 
     /**
@@ -32,7 +42,7 @@ class Path
      */
     public static function getSkifViewsPath()
     {
-        return dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . self::VIEWS_DIR_NAME;
+        return __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . self::VIEWS_DIR_NAME;
     }
 
     /**

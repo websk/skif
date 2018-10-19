@@ -68,7 +68,7 @@ class SiteMenuController
         $move_item_id = array_key_exists('move_item_id', $_REQUEST) ? $_REQUEST['move_item_id'] : null;
 
         if (!$move_item_id) {
-            \Skif\Messages::setError('Не выбран пункт меню');
+            \Websk\Skif\Messages::setError('Не выбран пункт меню');
             \Skif\Http::redirect('/admin/site_menu/' . $site_menu_id . '/items/list/' . $site_menu_item_parent_id);
         }
 
@@ -147,7 +147,7 @@ class SiteMenuController
             $weight++;
         }
 
-        \Skif\Messages::setMessage('Пункт меню &laquo;' . $site_menu_item_obj->getName() . '&raquo; перемещен');
+        \Websk\Skif\Messages::setMessage('Пункт меню &laquo;' . $site_menu_item_obj->getName() . '&raquo; перемещен');
 
         \Skif\Http::redirect('/admin/site_menu/' . $site_menu_id . '/items/list/' . $destination_parent_item_id);
     }
@@ -209,7 +209,7 @@ class SiteMenuController
         }
 
         if (!$name){
-            \Skif\Messages::setError('Отсутствует название');
+            \Websk\Skif\Messages::setError('Отсутствует название');
         }
 
         $site_menu_item_obj->setName($name);
@@ -234,7 +234,7 @@ class SiteMenuController
         $site_menu_item_obj->save();
 
 
-        \Skif\Messages::setMessage('Изменения в &laquo;' . $site_menu_item_obj->getName() . '&raquo; сохранены');
+        \Websk\Skif\Messages::setMessage('Изменения в &laquo;' . $site_menu_item_obj->getName() . '&raquo; сохранены');
 
         \Skif\Http::redirect($site_menu_item_obj->getEditorUrl());
     }
@@ -248,7 +248,7 @@ class SiteMenuController
 
         $site_menu_item_obj->delete();
 
-        \Skif\Messages::setMessage('Пункт меню ' . $site_menu_item_obj->getName() . ' удален');
+        \Websk\Skif\Messages::setMessage('Пункт меню ' . $site_menu_item_obj->getName() . ' удален');
 
         \Skif\Http::redirect('/admin/site_menu/' . $site_menu_id . '/items/list/' . $site_menu_item_obj->getParentId());
     }
@@ -304,14 +304,14 @@ class SiteMenuController
         }
 
         if (!$name){
-            \Skif\Messages::setError('Отсутствует название');
+            \Websk\Skif\Messages::setError('Отсутствует название');
         }
 
         $site_menu_obj->setName($name);
         $site_menu_obj->setUrl($url);
         $site_menu_obj->save();
 
-        \Skif\Messages::setMessage('Изменения сохранены');
+        \Websk\Skif\Messages::setMessage('Изменения сохранены');
 
         \Skif\Http::redirect('/admin/site_menu');
     }
@@ -325,7 +325,7 @@ class SiteMenuController
 
         $site_menu_obj->delete();
 
-        \Skif\Messages::setMessage('Меню ' . $site_menu_obj->getName() . ' удалено');
+        \Websk\Skif\Messages::setMessage('Меню ' . $site_menu_obj->getName() . ' удалено');
 
         \Skif\Http::redirect('/admin/site_menu');
     }

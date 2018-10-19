@@ -12,15 +12,15 @@ class ErrorHandler
     /**
      * @param Request $request
      * @param Response $response
-     * @param int $error_code
+     * @param \Exception $exception
      * @return ResponseInterface
      */
-    public function __invoke(Request $request, Response $response, int $error_code)
+    public function __invoke(Request $request, Response $response, $exception)
     {
-        $response = $response->withStatus($error_code);
+        $response = $response->withStatus(500);
 
         $data = [
-            'error_code' => $error_code,
+            'error_code' => 500,
             'response' => $response
         ];
 

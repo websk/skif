@@ -55,7 +55,7 @@ class ControllerBlocks
     {
         self::setCurrentTemplateId($template_id);
 
-        \Skif\Messages::setMessage('Тема изменена');
+        \Websk\Skif\Messages::setMessage('Тема изменена');
 
         \Skif\Http::redirect(\Skif\Blocks\ControllerBlocks::getBlocksListUrl());
     }
@@ -165,7 +165,7 @@ class ControllerBlocks
 
         Logger::logObjectEvent($block_obj, 'отключение');
 
-        \Skif\Messages::setWarning('Блок &laquo;' . $block_obj->getTitle() . '&raquo; был выключен. <a href="' . $restore_url . '">Отменить</a>');
+        \Websk\Skif\Messages::setWarning('Блок &laquo;' . $block_obj->getTitle() . '&raquo; был выключен. <a href="' . $restore_url . '">Отменить</a>');
 
         \Skif\Http::redirect(\Skif\Blocks\ControllerBlocks::getBlocksListUrl());
     }
@@ -282,7 +282,7 @@ class ControllerBlocks
         }
 
 
-        \Skif\Messages::setMessage('Изменения сохранены');
+        \Websk\Skif\Messages::setMessage('Изменения сохранены');
 
         // Redirects
         if (array_key_exists('_redirect_to_on_success', $_REQUEST) && $_REQUEST['_redirect_to_on_success'] != '') {
@@ -333,7 +333,7 @@ class ControllerBlocks
         $block_obj->setCache($_POST['cache']);
         $block_obj->save();
 
-        \Skif\Messages::setMessage('Изменения сохранены');
+        \Websk\Skif\Messages::setMessage('Изменения сохранены');
 
         \Skif\Http::redirect($block_obj->getEditorUrl() . '/caching');
     }
@@ -471,7 +471,7 @@ class ControllerBlocks
         \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId(), $block_obj->getTemplateId());
 
 
-        \Skif\Messages::setMessage('Блок &laquo;' . $block_obj->getTitle() . '&raquo; перемещен');
+        \Websk\Skif\Messages::setMessage('Блок &laquo;' . $block_obj->getTitle() . '&raquo; перемещен');
 
         \Skif\Http::redirect($block_obj->getEditorUrl() . '/position');
     }
@@ -549,7 +549,7 @@ class ControllerBlocks
 
         $block_obj->delete();
 
-        \Skif\Messages::setMessage('Блок &laquo;' . $block_name . '&raquo; удален');
+        \Websk\Skif\Messages::setMessage('Блок &laquo;' . $block_name . '&raquo; удален');
 
         \Skif\Http::redirect(\Skif\Blocks\ControllerBlocks::getBlocksListUrl());
     }
@@ -576,10 +576,10 @@ class ControllerBlocks
             );
 
             if (count($blocks_ids_arr) == 0) {
-                \Skif\Messages::SetWarning('Ничего не найдено');
+                \Websk\Skif\Messages::SetWarning('Ничего не найдено');
             }
         } else {
-            \Skif\Messages::SetWarning('Слишком короткий запрос');
+            \Websk\Skif\Messages::SetWarning('Слишком короткий запрос');
         }
 
         $html .= \Skif\PhpTemplate::renderTemplateBySkifModule(

@@ -86,7 +86,7 @@
                 ?>
 
                 <?php
-                echo \Skif\Messages::renderMessages();
+                echo \Websk\Skif\Messages::renderMessages();
                 ?>
 
                 <?php

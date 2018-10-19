@@ -67,7 +67,7 @@ class CommentController extends \Skif\CRUD\CRUDController
         $comment = array_key_exists('comment', $_REQUEST) ? $_REQUEST['comment'] : '';
 
         if (!$comment) {
-            \Skif\Messages::setError('Не указано сообщение');
+            \Websk\Skif\Messages::setError('Не указано сообщение');
             \Skif\Http::redirect($url);
         }
 
@@ -84,7 +84,7 @@ class CommentController extends \Skif\CRUD\CRUDController
         $comment_obj->setComment($comment);
         $comment_obj->save();
 
-        \Skif\Messages::setMessage('Ваше сообщение добавлено');
+        \Websk\Skif\Messages::setMessage('Ваше сообщение добавлено');
 
         \Skif\Http::redirect($url . '#comments');
     }

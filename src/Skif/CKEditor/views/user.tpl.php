@@ -7,7 +7,7 @@
  */
 
 use Skif\Conf\ConfWrapper;
-use Skif\Path;
+use Websk\Skif\Path;
 
 $config_styles = ConfWrapper::value('ckeditor.styles', []);
 $contents_css_files = [];

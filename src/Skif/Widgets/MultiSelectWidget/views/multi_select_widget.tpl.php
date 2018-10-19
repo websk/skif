@@ -5,7 +5,7 @@
  * @var $values_arr
  */
 
-use Skif\Path;
+use Websk\Skif\Path;
 
 ?>
 <script type="text/javascript" src="<?php echo Path::wrapAssetsVersion('/libraries/bootstrap-multiselect/dist/js/bootstrap-multiselect.js'); ?>"></script>

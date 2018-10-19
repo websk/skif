@@ -70,7 +70,7 @@ class FormController extends \Skif\CRUD\CRUDController
             $message .= $name . ": " . $field_value . '<br>';
 
             if ($form_field_obj->getStatus() && !$field_value) {
-                \Skif\Messages::setError("Вы не указали " . $name);
+                \Websk\Skif\Messages::setError("Вы не указали " . $name);
                 \Skif\Http::redirect($form_obj->getUrl());
             }
         }
@@ -84,12 +84,12 @@ class FormController extends \Skif\CRUD\CRUDController
         }
 
         if (!$user_email) {
-            \Skif\Messages::setError('Вы не указали свой E-mail');
+            \Websk\Skif\Messages::setError('Вы не указали свой E-mail');
             \Skif\Http::redirect($form_obj->getUrl());
         }
 
         if (!\Skif\Utils::checkEmail($user_email)) {
-            \Skif\Messages::setError('Указан не существующий E-mail');
+            \Websk\Skif\Messages::setError('Указан не существующий E-mail');
             \Skif\Http::redirect($form_obj->getUrl());
         }
 
@@ -113,7 +113,7 @@ class FormController extends \Skif\CRUD\CRUDController
         $mail->AltBody = \Skif\Utils::checkPlain($message);
         $mail->send();
 
-        \Skif\Messages::setMessage($response_mail_message);
+        \Websk\Skif\Messages::setMessage($response_mail_message);
 
         $response_mail_message .= "<br><br>";
         $response_mail_message .= $to_mail . "<br>";

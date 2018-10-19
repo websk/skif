@@ -6,7 +6,7 @@
  */
 
 use Skif\Image\ImageManager;
-use Skif\Path;
+use Websk\Skif\Path;
 
 if ($field_value) {
     $image_path = $target_folder . DIRECTORY_SEPARATOR . $field_value;

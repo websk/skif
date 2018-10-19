@@ -1,7 +1,6 @@
 <?php
 
-namespace Skif;
-
+namespace Websk\Skif;
 
 class Messages {
 
@@ -49,5 +48,4 @@ class Messages {
 
         return $messages;
     }
-
 }
