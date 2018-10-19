@@ -17,10 +17,11 @@
     "predis/predis": "1.*"
   },
   "autoload": {
-    "psr-4" : {
-      "" : "src/"
+    "psr-4": {
+      "": "src/"
     },
-    "files" : [
+    "files": [
       "config/Conf.php"
-    ]  }
+    ]
+  }
 }

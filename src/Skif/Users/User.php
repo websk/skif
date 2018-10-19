@@ -261,17 +261,16 @@ class User implements
             return true;
         }
 
-        $file_path = ConfWrapper::value('site_path') . '/' . ImageConstants::IMG_ROOT_FOLDER . '/' . $this->getPhotoPath();
+        $this->setPhoto('');
+        $this->save();
 
+        $file_path = ConfWrapper::value('site_path') . '/' . ImageConstants::IMG_ROOT_FOLDER . '/' . $this->getPhotoPath();
         if (!file_exists($file_path)) {
             return false;
         }
 
         $image_manager = new ImageManager();
         $image_manager->removeImageFile($this->getPhotoPath());
-
-        $this->setPhoto('');
-        $this->save();
 
         return true;
     }
