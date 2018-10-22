@@ -9,6 +9,7 @@ use Websk\Skif\Messages;
 use Skif\PhpTemplate;
 use Skif\UrlManager;
 use Skif\Utils;
+use Websk\Utils\Assert;
 
 /**
  * CRUD проверяет, реализует ли модель функционал моделей.
@@ -140,7 +141,7 @@ class CRUDController extends BaseController
 
         Http::exit403If(!CRUDUtils::currentUserHasRightsToListModel($model_class_name));
 
-        Utils::assert($model_class_name);
+        Assert::assert($model_class_name);
 
         $list_html = static::renderList();
 
@@ -220,7 +221,7 @@ class CRUDController extends BaseController
 
         Http::exit403If(!CRUDUtils::currentUserHasRightsToEditModel($model_class_name, 'new'));
 
-        Utils::assert($model_class_name);
+        Assert::assert($model_class_name);
 
         CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceLoad');
         CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceSave');
@@ -277,8 +278,8 @@ class CRUDController extends BaseController
 
         Http::exit403If(!CRUDUtils::currentUserHasRightsToEditModel($model_class_name, $obj_id));
 
-        Utils::assert($model_class_name);
-        Utils::assert($obj_id);
+        Assert::assert($model_class_name);
+        Assert::assert($obj_id);
         CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceLoad');
 
         $edited_obj = CRUDUtils::createAndLoadObject($model_class_name, $obj_id);
@@ -384,8 +385,8 @@ class CRUDController extends BaseController
 
         Http::exit403If(!CRUDUtils::currentUserHasRightsToEditModel($model_class_name, $obj_id));
 
-        Utils::assert($model_class_name);
-        Utils::assert($obj_id);
+        Assert::assert($model_class_name);
+        Assert::assert($obj_id);
 
         CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceLoad');
         CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceSave');
@@ -423,7 +424,7 @@ class CRUDController extends BaseController
 
         Http::exit403If(!CRUDUtils::currentUserHasRightsToEditModel($model_class_name, 'new'));
 
-        Utils::assert($model_class_name);
+        Assert::assert($model_class_name);
         CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceLoad');
         CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceSave');
 
@@ -470,8 +471,8 @@ class CRUDController extends BaseController
 
         Http::exit403If(!CRUDUtils::currentUserHasRightsToEditModel($model_class_name, $obj_id));
 
-        Utils::assert($model_class_name);
-        Utils::assert($obj_id);
+        Assert::assert($model_class_name);
+        Assert::assert($obj_id);
         CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceDelete');
 
         CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceDelete');

@@ -41,6 +41,7 @@ use Skif\UrlManager;
 use Skif\Util\ActiveRecord;
 use Skif\Util\ActiveRecordHelper;
 use Skif\Utils;
+use Websk\Utils\Assert;
 
 class Content implements
     InterfaceLoad,
@@ -384,7 +385,7 @@ class Content implements
         $new_url = substr($new_url, 0, 255);
 
         $unique_new_url = UrlManager::getUniqueUrl($new_url);
-        Utils::assert($unique_new_url);
+        Assert::assert($unique_new_url);
 
         return $unique_new_url;
     }

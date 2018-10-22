@@ -15,6 +15,7 @@ use Skif\Sitemap\InterfaceSitemapController;
 use Skif\UrlManager;
 use Skif\Users\AuthUtils;
 use Skif\Utils;
+use Websk\Utils\Assert;
 
 class ContentController extends BaseController implements InterfaceSitemapController
 {
@@ -386,7 +387,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
     protected static function deleteImageByContentId($content_id)
     {
         $content_obj = Content::factory($content_id);
-        Utils::assert($content_obj);
+        Assert::assert($content_obj);
 
         if (!$content_obj->getImage()) {
             return;

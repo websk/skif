@@ -4,6 +4,7 @@ namespace Skif\CRUD;
 
 use Skif\PhpTemplate;
 use Skif\Utils;
+use Websk\Utils\Assert;
 
 class Widgets
 {
@@ -65,7 +66,7 @@ class Widgets
         }
 
         if ($widget_name) {
-            Utils::assert(is_callable($widget_name));
+            Assert::assert(is_callable($widget_name));
             $widget_options = self::getWidgetSettings($field_name, $obj);
 
             return call_user_func_array($widget_name, array($field_name, $field_value, $widget_options));

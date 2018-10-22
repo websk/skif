@@ -8,6 +8,7 @@ use Skif\Model\InterfaceFactory;
 use Skif\Model\InterfaceLoad;
 use Skif\Model\InterfaceLogger;
 use Skif\Utils;
+use Websk\Utils\Assert;
 
 /**
  * Для работы с ActiveRecord необходимо:
@@ -80,7 +81,7 @@ trait ActiveRecord
         // Проверяем связанные данные
         if (isset($model_class_name::$related_models_arr)) {
             foreach ($model_class_name::$related_models_arr as $related_model_class_name => $related_model_data) {
-                Utils::assert(array_key_exists('link_field', $related_model_data));
+                Assert::assert(array_key_exists('link_field', $related_model_data));
 
                 $related_ids_arr = $this->$related_model_data['field_name'];
                 if (!empty($related_ids_arr)

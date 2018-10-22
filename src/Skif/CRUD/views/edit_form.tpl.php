@@ -11,8 +11,9 @@ use Skif\CRUD\Widgets;
 use Skif\Model\InterfaceSave;
 use Skif\PhpTemplate;
 use Skif\Utils;
+use Websk\Utils\Assert;
 
-Utils::assert($obj);
+Assert::assert($obj);
 $model_class_name = get_class($obj);
 
 $reflect = new \ReflectionClass($model_class_name);
@@ -139,7 +140,7 @@ if (property_exists($model_class_name, 'related_models_arr')) {
             continue;
         }
 
-        Utils::assert(array_key_exists('link_field', $related_model_data));
+        Assert::assert(array_key_exists('link_field', $related_model_data));
 
         $relation_field_name = $related_model_data['link_field'];
 

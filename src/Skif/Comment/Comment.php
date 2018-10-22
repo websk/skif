@@ -3,6 +3,9 @@
 namespace Skif\Comment;
 
 
+use Skif\Users\User;
+use Websk\Utils\Assert;
+
 class Comment  implements
     \Skif\Model\InterfaceLoad,
     \Skif\Model\InterfaceFactory,
@@ -194,8 +197,8 @@ class Comment  implements
     public function getUserName()
     {
         if ($this->user_id) {
-            $user_obj = \Skif\Users\User::factory($this->user_id);
-            \Skif\Utils::assert($user_obj);
+            $user_obj = User::factory($this->user_id);
+            Assert::assert($user_obj);
 
             return $user_obj->getName();
         }
@@ -218,7 +221,7 @@ class Comment  implements
     public function getUserEmail()
     {
         if ($this->user_id) {
-            $user_obj = \Skif\Users\User::factory($this->user_id);
+            $user_obj = User::factory($this->user_id);
 
             return $user_obj->getEmail();
         }

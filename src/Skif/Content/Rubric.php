@@ -2,6 +2,10 @@
 
 namespace Skif\Content;
 
+use Skif\Translit;
+use Skif\UrlManager;
+use Skif\Util\ActiveRecordHelper;
+use Websk\Utils\Assert;
 
 class Rubric implements
     \Skif\Model\InterfaceLoad,
@@ -29,21 +33,21 @@ class Rubric implements
 
     public function getEditorUrl()
     {
-        $content_type_obj = \Skif\Content\ContentType::factory($this->getContentTypeId());
+        $content_type_obj = ContentType::factory($this->getContentTypeId());
 
         return '/admin/content/' . $content_type_obj->getType() . '/rubrics/edit/' . $this->getId();
     }
 
     public function getDeleteUrl()
     {
-        $content_type_obj = \Skif\Content\ContentType::factory($this->getContentTypeId());
+        $content_type_obj = ContentType::factory($this->getContentTypeId());
 
         return '/admin/content/' . $content_type_obj->getType() . '/rubrics/delete/' . $this->getId();
     }
 
     public function load($id)
     {
-        $is_loaded = \Skif\Util\ActiveRecordHelper::loadModelObj($this, $id);
+        $is_loaded = ActiveRecordHelper::loadModelObj($this, $id);
         if (!$is_loaded) {
             return false;
         }
@@ -135,7 +139,7 @@ class Rubric implements
             return $this->getTemplateId();
         }
 
-        $content_type_obj = \Skif\Content\ContentType::factory($this->getContentTypeId());
+        $content_type_obj = ContentType::factory($this->getContentTypeId());
 
         return $content_type_obj->getTemplateId();
     }
@@ -181,15 +185,15 @@ class Rubric implements
             return '';
         }
 
-        $title_for_url = \Skif\Translit::translit($this->getName());
+        $title_for_url = Translit::translit($this->getName());
 
         $new_url = $title_for_url;
         $new_url = '/' . ltrim($new_url, '/');
 
         $new_url = substr($new_url, 0, 255);
 
-        $unique_new_url = \Skif\UrlManager::getUniqueUrl($new_url);
-        \Skif\Utils::assert($unique_new_url);
+        $unique_new_url = UrlManager::getUniqueUrl($new_url);
+        Assert::assert($unique_new_url);
 
         return $unique_new_url;
     }
@@ -200,14 +204,13 @@ class Rubric implements
 
         self::removeObjFromCacheById($id);
 
-        \Skif\Content\ContentType::afterUpdate($rubric_obj->getContentTypeId());
+        ContentType::afterUpdate($rubric_obj->getContentTypeId());
     }
 
     public function afterDelete()
     {
         self::removeObjFromCacheById($this->getId());
 
-        \Skif\Content\ContentType::afterUpdate($this->getContentTypeId());
+        ContentType::afterUpdate($this->getContentTypeId());
     }
-
 }

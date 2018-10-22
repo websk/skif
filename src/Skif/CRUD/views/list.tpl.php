@@ -8,7 +8,9 @@
  * @var $current_controller_obj
  */
 
-\Skif\Utils::assert($model_class_name);
+use Websk\Utils\Assert;
+
+Assert::assert($model_class_name);
 
 // готовим список полей, которые будем выводить в таблицу
 $reflect = new \ReflectionClass($model_class_name);

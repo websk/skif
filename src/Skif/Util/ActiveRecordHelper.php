@@ -4,6 +4,7 @@ namespace Skif\Util;
 
 use Skif\DB\DBWrapper;
 use Skif\Utils;
+use Websk\Utils\Assert;
 
 class ActiveRecordHelper
 {
@@ -120,7 +121,7 @@ class ActiveRecordHelper
         // Подгружаем связанные даннные
         if (isset($model_class_name::$related_models_arr)) {
             foreach ($model_class_name::$related_models_arr as $related_model_class_name => $related_model_data) {
-                Utils::assert(array_key_exists('link_field', $related_model_data));
+                Assert::assert(array_key_exists('link_field', $related_model_data));
 
                 $related_db_table_name = $related_model_class_name::DB_TABLE_NAME;
                 $related_model_obj = new $related_model_class_name();

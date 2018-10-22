@@ -5,6 +5,7 @@ namespace Skif\CRUD;
 
 use Skif\Model\Helper;
 use Skif\Utils;
+use Websk\Utils\Assert;
 
 class CRUDUtils
 {
@@ -35,7 +36,7 @@ class CRUDUtils
 
     public static function getObjContainerObj($obj)
     {
-        Utils::assert($obj);
+        Assert::assert($obj);
 
         $obj_class_name = get_class($obj);
 
@@ -50,7 +51,7 @@ class CRUDUtils
 
             $container_obj = new $container_model_class_name;
             $container_is_loaded = $container_obj->load($container_model_id);
-            Utils::assert($container_is_loaded);
+            Assert::assert($container_is_loaded);
 
             return $container_obj;
         }
@@ -60,7 +61,7 @@ class CRUDUtils
 
     public static function getContainerObjByLinkFieldName($obj, $field_name)
     {
-        Utils::assert($obj);
+        Assert::assert($obj);
 
         $obj_class_name = get_class($obj);
 
@@ -129,7 +130,7 @@ class CRUDUtils
 
     public static function getModelTitleForObj($obj)
     {
-        Utils::assert($obj);
+        Assert::assert($obj);
 
         $obj_class_name = get_class($obj);
 
@@ -144,7 +145,7 @@ class CRUDUtils
 
     public static function getModelClassScreenNameForObj($obj)
     {
-        Utils::assert($obj);
+        Assert::assert($obj);
 
         $obj_class_name = get_class($obj);
 
@@ -170,7 +171,7 @@ class CRUDUtils
             }
         }
 
-        Utils::assert($field_prop_obj);
+        Assert::assert($field_prop_obj);
 
         $field_prop_obj->setAccessible(true);
         return $field_prop_obj->getValue($obj);
@@ -367,7 +368,7 @@ class CRUDUtils
         self::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceLoad');
 
         $obj = new $model_class_name;
-        Utils::assert($obj->load($obj_id));
+        Assert::assert($obj->load($obj_id));
 
         return $obj;
     }

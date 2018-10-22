@@ -2,6 +2,10 @@
 
 namespace Skif\Form;
 
+use Skif\Translit;
+use Skif\UrlManager;
+use Websk\Utils\Assert;
+
 class Form implements
     \Skif\Model\InterfaceLoad,
     \Skif\Model\InterfaceFactory,
@@ -216,15 +220,15 @@ class Form implements
             return '';
         }
 
-        $title_for_url = \Skif\Translit::translit($this->getTitle());
+        $title_for_url = Translit::translit($this->getTitle());
 
         $new_url = $title_for_url;
         $new_url = '/' . ltrim($new_url, '/');
 
         $new_url = substr($new_url, 0, 255);
 
-        $unique_new_url = \Skif\UrlManager::getUniqueUrl($new_url);
-        \Skif\Utils::assert($unique_new_url);
+        $unique_new_url = UrlManager::getUniqueUrl($new_url);
+        Assert::assert($unique_new_url);
 
         return $unique_new_url;
     }
@@ -243,7 +247,7 @@ class Form implements
             $url = '/' . ltrim($this->url, '/');
 
             if ($url != $this->getUrl()) {
-                \Skif\UrlManager::getUniqueUrl($url);
+                UrlManager::getUniqueUrl($url);
             }
         } else {
             $url = $this->generateUrl();

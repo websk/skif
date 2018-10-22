@@ -3,6 +3,7 @@
 namespace Skif;
 
 use Skif\Cache\CacheWrapper;
+use Websk\Utils\Assert;
 
 /**
  * Базовая фабрика объектов.
@@ -74,7 +75,7 @@ class Factory
         $obj = new $class_name;
 
         if (!($obj instanceof \Skif\Model\InterfaceLoad)) {
-            Utils::assert($obj);
+            Assert::assert($obj);
         }
 
         $id_to_load = call_user_func_array(array($obj, "getIdByFieldNamesArr"), array($fields_arr));
