@@ -2,11 +2,13 @@
 
 namespace Skif\Cache;
 
-use Skif\Cache\Engines\CacheEngineInterface;
+use WebSK\Cache\CacheService;
+use Websk\Skif\Container;
+use WebSK\Skif\SkifApp;
 
 class CacheWrapper
 {
-    protected static $storage_arr = array();
+    protected static $storage_arr = [];
 
     /**
      * @param $key
@@ -14,22 +16,12 @@ class CacheWrapper
      */
     public static function get($key)
     {
-        if (isset(self::$storage_arr[$key])) {
-            return self::$storage_arr[$key];
-        }
+        $container = Container::self();
 
-        $cache_obj = CacheFactory::getCacheObj();
-        if (!($cache_obj instanceof CacheEngineInterface)) {
-            return false;
-        }
+        /** @var CacheService $cache_service */
+        $cache_service = $container->get(SkifApp::SKIF_CACHE_SERVICE);
 
-        $value = $cache_obj::get($key);
-
-        if ($value !== false) {
-            self::$storage_arr[$key] = $value;
-        }
-
-        return $value;
+        return $cache_service->get($key);
     }
 
     /**
@@ -38,14 +30,12 @@ class CacheWrapper
      */
     public static function delete($key)
     {
-        unset(self::$storage_arr[$key]);
+        $container = Container::self();
 
-        $cache_obj = CacheFactory::getCacheObj();
-        if (!($cache_obj instanceof CacheEngineInterface)) {
-            return false;
-        }
+        /** @var CacheService $cache_service */
+        $cache_service = $container->get(SkifApp::SKIF_CACHE_SERVICE);
 
-        return $cache_obj::delete($key);
+        return $cache_service->delete($key);
     }
 
     /**
@@ -57,18 +47,12 @@ class CacheWrapper
      */
     public static function set($key, $value, $expire = -1)
     {
-        if ($key == '' || is_object($key)) {
-            throw new \Exception('static storage wrong key in set');
-        }
+        $container = Container::self();
 
-        self::$storage_arr[$key] = $value;
+        /** @var CacheService $cache_service */
+        $cache_service = $container->get(SkifApp::SKIF_CACHE_SERVICE);
 
-        $cache_obj = CacheFactory::getCacheObj();
-        if (!($cache_obj instanceof CacheEngineInterface)) {
-            return false;
-        }
-
-        return $cache_obj::set($key, $value, $expire);
+        return $cache_service->set($key, $value, $expire);
     }
 
     /**

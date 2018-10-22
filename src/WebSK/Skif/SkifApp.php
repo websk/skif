@@ -32,6 +32,8 @@ class SkifApp extends App
 {
     const ROUTE_NAME_ADMIN = 'admin:main';
 
+    const SKIF_CACHE_SERVICE = 'skif.cache_service';
+
     /**
      * CoreApp constructor.
      * @param array $config
@@ -46,7 +48,7 @@ class SkifApp extends App
          * @param ContainerInterface $container
          * @return CacheService
          */
-        $container['skif.cache_service'] = function (ContainerInterface $container) {
+        $container[self::SKIF_CACHE_SERVICE] = function (ContainerInterface $container) {
             $cache_config = $container['settings']['cache'];
 
             $cache_servers_arr = [];
@@ -76,6 +78,8 @@ class SkifApp extends App
                 ->setName(self::ROUTE_NAME_ADMIN);
 
         });
+
+        Facade::setFacadeApplication($this);
 
         RedirectRoutes::route();
         KeyValueRoutes::route();
