@@ -23,6 +23,9 @@ use Slim\Handlers\Strategies\RequestResponseArgs;
 use WebSK\Cache\CacheServerSettings;
 use WebSK\Cache\CacheService;
 use WebSK\Cache\Engines\CacheEngineInterface;
+use Websk\DB\DBConnectorMySQL;
+use Websk\DB\DBService;
+use Websk\DB\DBSettings;
 use WebSK\Skif\Captcha\CaptchaRoutes;
 use WebSK\Skif\RequestHandlers\AdminHandler;
 use WebSK\Skif\RequestHandlers\ErrorHandler;
@@ -33,6 +36,9 @@ class SkifApp extends App
     const ROUTE_NAME_ADMIN = 'admin:main';
 
     const SKIF_CACHE_SERVICE = 'skif.cache_service';
+    const SKIF_DB_SERVICE = 'skif.db_service';
+
+    const DB_ID = 'db_skif';
 
     /**
      * CoreApp constructor.
@@ -61,6 +67,28 @@ class SkifApp extends App
             $cache_engine = new $cache_engine_class_name($cache_servers_arr, $cache_config['cache_key_prefix']);
 
             return new CacheService($cache_engine);
+        };
+
+        /**
+         * @param ContainerInterface $container
+         * @return DBService
+         */
+        $container[self::SKIF_DB_SERVICE] = function (ContainerInterface $container) {
+            $db_config = $container['settings']['db'][self::DB_ID];
+
+            $db_connector = new DBConnectorMySQL(
+                $db_config['host'],
+                $db_config['db_name'],
+                $db_config['user'],
+                $db_config['password']
+            );
+
+            $db_settings = new DBSettings(
+                'mysql',
+                __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'dump.sql'
+            );
+
+            return new DBService($db_connector, $db_settings);
         };
 
         $this->registerRoutes();

@@ -2,6 +2,10 @@
 
 namespace Skif\DB;
 
+use Websk\DB\DBService;
+use Websk\Skif\Container;
+use WebSK\Skif\SkifApp;
+
 /**
  * Class DBWrapper
  * @package DB
@@ -9,109 +13,129 @@ namespace Skif\DB;
 class DBWrapper
 {
     /**
-     *
      * @param string $query
      * @param array $params_arr
      * @return \PDOStatement
+     * @throws \Exception
      */
-    static public function query($query, $params_arr = array())
+    public static function query(string $query, $params_arr = array())
     {
-        $db_obj = DBFactory::getDB();
-        if (!$db_obj) {
-            throw new \Exception('getDB failed');
-        }
+        $container = Container::self();
 
-        try {
-            return $db_obj->query($query, $params_arr);
-        }
-        catch(\PDOException $e) {
-            throw new \PDOException("\r\nUrl: ".$_SERVER['REQUEST_URI']."\r\n".$e->getMessage());
-        }
+        /** @var DBService $db_service */
+        $db_service = $container->get(SkifApp::SKIF_DB_SERVICE);
+
+        return $db_service->query($query, $params_arr);
     }
-
-    static public function readObjects($query, $params_arr = array(), $field_name_for_keys = '')
-    {
-        $statement_obj = self::query($query, $params_arr);
-
-        $output_arr = array();
-
-        while (($row_obj = $statement_obj->fetchObject()) !== false) {
-            if ($field_name_for_keys != '') {
-                $key = $row_obj->$field_name_for_keys;
-                $output_arr[$key] = $row_obj;
-            }
-            else {
-                $output_arr[] = $row_obj;
-            }
-        }
-
-        return $output_arr;
-    }
-
-    static public function readObject($query, $params_arr = array()) {
-        $statement_obj = self::query($query, $params_arr);
-
-        return $statement_obj->fetch(\PDO::FETCH_OBJ);
-    }
-
 
     /**
-     * @param $query
+     * @param string $query
      * @param array $params_arr
+     * @param string $field_name_for_keys
      * @return array
+     * @throws \Exception
      */
-    static public function readAssoc($query, $params_arr = array())
+    public static function readObjects(string $query, array $params_arr = [], string $field_name_for_keys = '')
     {
-        $statement_obj = self::query($query, $params_arr);
+        $container = Container::self();
 
-        $output_arr = array();
+        /** @var DBService $db_service */
+        $db_service = $container->get(SkifApp::SKIF_DB_SERVICE);
 
-        while (($row_arr = $statement_obj->fetch(\PDO::FETCH_ASSOC)) !== false) {
-            $output_arr[] = $row_arr;
-        }
-
-        return $output_arr;
-    }
-
-    static public function readColumn($query, $params_arr = array())
-    {
-        $statement_obj = self::query($query, $params_arr);
-
-        $output_arr = [];
-
-        while (($field = $statement_obj->fetch(\PDO::FETCH_COLUMN)) !== false) {
-            $output_arr[] = $field;
-        }
-
-        return $output_arr;
-    }
-
-    static public function readAssocRow($query, $params_arr = array())
-    {
-        $statement_obj = self::query($query, $params_arr);
-
-        return $statement_obj->fetch(\PDO::FETCH_ASSOC);
+        return $db_service->readObjects($query, $params_arr, $field_name_for_keys);
     }
 
     /**
-     * Возвращает false при ошибке или если нет записей.
-     * @param $query
+     * @param string $query
      * @param array $params_arr
      * @return mixed
+     * @throws \Exception
      */
-    static public function readField($query, $params_arr = array())
-    {
-        $statement_obj = self::query($query, $params_arr);
-        return $statement_obj->fetch(\PDO::FETCH_COLUMN);
+    public static function readObject(string $query, array $params_arr = []) {
+        $container = Container::self();
+
+        /** @var DBService $db_service */
+        $db_service = $container->get(SkifApp::SKIF_DB_SERVICE);
+
+        return $db_service->readObject($query, $params_arr);
     }
 
-    static public function lastInsertId()
+    /**
+     * @param string $query
+     * @param array $params_arr
+     * @return array
+     * @throws \Exception
+     */
+    public static function readAssoc(string $query, array $params_arr = [])
     {
-        $db_obj = DBFactory::getDB();
-        if (!$db_obj) {
-            throw new \Exception('getDB failed');
-        }
+        $container = Container::self();
 
-        return $db_obj->lastInsertId();
+        /** @var DBService $db_service */
+        $db_service = $container->get(SkifApp::SKIF_DB_SERVICE);
+
+        return $db_service->readAssoc($query, $params_arr);
+    }
+
+    /**
+     * @param string $query
+     * @param array $params_arr
+     * @return array
+     * @throws \Exception
+     */
+    public static function readColumn(string $query, array $params_arr = [])
+    {
+        $container = Container::self();
+
+        /** @var DBService $db_service */
+        $db_service = $container->get(SkifApp::SKIF_DB_SERVICE);
+
+        return $db_service->readColumn($query, $params_arr);
+    }
+
+    /**
+     * @param string $query
+     * @param array $params_arr
+     * @return mixed
+     * @throws \Exception
+     */
+    public static function readAssocRow(string $query, array $params_arr = [])
+    {
+        $container = Container::self();
+
+        /** @var DBService $db_service */
+        $db_service = $container->get(SkifApp::SKIF_DB_SERVICE);
+
+        return $db_service->readAssocRow($query, $params_arr);
+    }
+
+    /**
+     * @param string $query
+     * @param array $params_arr
+     * @return false|mixed
+     * @throws \Exception
+     */
+    public static function readField(string $query, array $params_arr = [])
+    {
+        $container = Container::self();
+
+        /** @var DBService $db_service */
+        $db_service = $container->get(SkifApp::SKIF_DB_SERVICE);
+
+        return $db_service->readField($query, $params_arr);
+    }
+
+    /**
+     * @param string $db_sequence_name
+     * @return string
+     * @throws \Exception
+     */
+    public static function lastInsertId(string $db_sequence_name = '')
+    {
+        $container = Container::self();
+
+        /** @var DBService $db_service */
+        $db_service = $container->get(SkifApp::SKIF_DB_SERVICE);
+
+        return $db_service->lastInsertId($db_sequence_name);
    }
 }

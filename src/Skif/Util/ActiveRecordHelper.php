@@ -67,7 +67,8 @@ class ActiveRecordHelper
                 array_values($fields_to_save_arr)
             );
 
-            $last_insert_id = DBWrapper::lastInsertId();
+            $db_sequence_name = $db_table_name . '_' . $db_id_field_name . '_seq';
+            $last_insert_id = DBWrapper::lastInsertId($db_sequence_name);
             $property_obj->setValue($model_obj, $last_insert_id);
 
         } else {
