@@ -3,7 +3,6 @@
 namespace Skif\Util;
 
 use Websk\Skif\DBWrapper;
-use Skif\Utils;
 use Websk\Utils\Assert;
 
 class ActiveRecordHelper

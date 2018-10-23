@@ -5,17 +5,32 @@ namespace Skif;
 use WebSK\Skif\ConfWrapper;
 use Websk\Skif\DBWrapper;
 
-class UrlManager {
+/**
+ * Class UrlManager
+ * @deprecated
+ * @package Skif
+ */
+class UrlManager
+{
 
     const CONTINUE_ROUTING = 'CONTINUE_ROUTING';
 
-    // текущий (т.е. послдений созданный) объект контроллера
-    static public $current_controller_obj = null;
+    /**
+     * @var object|null
+     * текущий (т.е. последний созданный) объект контроллера
+     */
+    public static $current_controller_obj = null;
 
-    // текущий адрес запроса
-    static public $current_url = '';
+    /**
+     * @var string
+     * текущий адрес запроса
+     */
+    public static $current_url = '';
 
-    static public function getUriNoQueryString()
+    /**
+     * @return string
+     */
+    public static function getUriNoQueryString()
     {
         $parts = array_key_exists('REQUEST_URI', $_SERVER) ? explode('?', $_SERVER['REQUEST_URI']) : '';
         $parts_second = explode('&', $parts[0]);
@@ -24,8 +39,20 @@ class UrlManager {
         return $uri;
     }
 
-    static public function route($url_regexp, $controller_class_name, $action_method_name, $cache_time = null, $layout_file = null)
-    {
+    /**
+     * @param string $url_regexp
+     * @param string $controller_class_name
+     * @param string $action_method_name
+     * @param int|null $cache_time
+     * @param string|null $layout_file
+     */
+    public static function route(
+        string $url_regexp,
+        string $controller_class_name,
+        string $action_method_name,
+        int $cache_time = null,
+        string $layout_file = null
+    ) {
         $matches_arr = array();
         self::$current_url = self::getUriNoQueryString();
 
@@ -39,7 +66,7 @@ class UrlManager {
         }
 
         $decoded_matches_arr = array();
-        foreach ($matches_arr as $arg_value){
+        foreach ($matches_arr as $arg_value) {
             $decoded_matches_arr[] = urldecode($arg_value);
         }
 
@@ -48,15 +75,16 @@ class UrlManager {
         }
 
         self::$current_controller_obj = new $controller_class_name();
-        $action_result = call_user_func_array(array(self::$current_controller_obj, $action_method_name), $decoded_matches_arr);
+        $action_result = call_user_func_array(array(self::$current_controller_obj, $action_method_name),
+            $decoded_matches_arr);
 
         //$action_result = call_user_func_array(array($controller_class_name, $action_method_name), $decoded_matches_arr);
 
-        if ($action_result == null){
+        if ($action_result == null) {
             exit;
         }
 
-        if ($action_result != self::CONTINUE_ROUTING){
+        if ($action_result != self::CONTINUE_ROUTING) {
             exit;
         }
 
@@ -64,23 +92,31 @@ class UrlManager {
         self::$current_controller_obj = null;
     }
 
-    function routeRedirect($url_mask, $target_url){
+    /**
+     * @param string $url_mask
+     * @param string $target_url
+     */
+    function routeRedirect(string $url_mask, string $target_url)
+    {
         $current_url = $_SERVER['REQUEST_URI'];
-        if (preg_match($url_mask, $current_url)){
+        if (preg_match($url_mask, $current_url)) {
             Http::redirect($target_url);
         }
     }
 
+    /**
+     * @return null|object
+     */
     public static function getCurrentControllerObj()
     {
         return self::$current_controller_obj;
     }
 
     /**
-     * @param $url string Url to check uniqueness
-     * @return bool | string Unique url or false if there is some error
+     * @param string $url Url to check uniqueness
+     * @return bool|string Unique url or false if there is some error
      */
-    public static function getUniqueUrl($url)
+    public static function getUniqueUrl(string $url)
     {
         $url_data_tables_arr = array('content', 'rubrics', 'form');
 
@@ -118,10 +154,10 @@ class UrlManager {
     }
 
     /**
-     * @param $base_url
-     * @param $controller_class_name
+     * @param string $base_url
+     * @param string $controller_class_name
      */
-    public static function routeBasedCrud($base_url, $controller_class_name)
+    public static function routeBasedCrud(string $base_url, string $controller_class_name)
     {
         $current_url_no_query = UrlManager::getUriNoQueryString();
 

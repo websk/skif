@@ -5,7 +5,8 @@ namespace WebSK\Skif\RequestHandlers;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Slim\Views\PhpRenderer;
+use WebSK\Skif\HTTP;
+use WebSK\Skif\PhpRender;
 
 class ErrorHandler
 {
@@ -17,15 +18,13 @@ class ErrorHandler
      */
     public function __invoke(Request $request, Response $response, $exception)
     {
-        $response = $response->withStatus(500);
+        $response = $response->withStatus(HTTP::STATUS_INTERNAL_SERVER_ERROR);
 
         $data = [
-            'error_code' => 500,
+            'error_code' => HTTP::STATUS_INTERNAL_SERVER_ERROR,
             'response' => $response
         ];
 
-        $php_renderer = new PhpRenderer(__DIR__ .'/../../../../views');
-
-        return $php_renderer->render($response, '/errors/error_page.tpl.php', $data);
+        return  PhpRender::render($response, '/errors/error_page.tpl.php', $data);
     }
 }

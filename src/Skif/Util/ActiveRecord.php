@@ -7,7 +7,6 @@ use Skif\Logger\Logger;
 use Skif\Model\InterfaceFactory;
 use Skif\Model\InterfaceLoad;
 use Skif\Model\InterfaceLogger;
-use Skif\Utils;
 use Websk\Utils\Assert;
 
 /**

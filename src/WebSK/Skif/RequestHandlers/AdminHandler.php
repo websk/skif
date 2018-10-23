@@ -2,11 +2,11 @@
 
 namespace WebSK\Skif\RequestHandlers;
 
-use Skif\Http;
 use Skif\Users\AuthUtils;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Slim\Views\PhpRenderer;
+use WebSK\Skif\HTTP;
+use WebSK\Skif\PhpRender;
 
 class AdminHandler
 {
@@ -16,16 +16,14 @@ class AdminHandler
      */
     public function __invoke(Request $request, Response $response)
     {
-        if (AuthUtils::getCurrentUserId()) {
-            if (AuthUtils::currentUserIsAdmin()) {
-                Http::redirect('/admin/content/page');
-            }
-
-            Http::exit403();
+        if (!AuthUtils::getCurrentUserId()) {
+            return PhpRender::render($response, '/layouts/layout.admin_login.tpl.php');
         }
 
-        $php_renderer = new PhpRenderer(__DIR__ .'/../../../../views');
+        if (!AuthUtils::currentUserIsAdmin()) {
+            return $response->withStatus(HTTP::STATUS_FORBIDDEN);
+        }
 
-        return $php_renderer->render($response, '/layouts/layout.admin_login.tpl.php');
+        return $response->withRedirect('/admin/content/page');
     }
 }

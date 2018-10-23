@@ -2,6 +2,8 @@
 
 namespace Skif;
 
+use Websk\Skif\DBWrapper;
+
 class Utils
 {
     protected static $countries_arr;
@@ -53,7 +55,7 @@ class Utils
         }
 
         $query = "SELECT * FROM lands ORDER BY name";
-        $countries_arr = \Websk\Skif\DBWrapper::readObjects($query);
+        $countries_arr = DBWrapper::readObjects($query);
 
         return $countries_arr;
     }
@@ -61,7 +63,7 @@ class Utils
     public static function getCountryNameById($country_id)
     {
         $query = "SELECT name FROM lands WHERE id=?";
-        return \Websk\Skif\DBWrapper::readField($query, array($country_id));
+        return DBWrapper::readField($query, array($country_id));
     }
 
     public static function mb_str_ireplace($search, $replace, $subject, $count = -1)

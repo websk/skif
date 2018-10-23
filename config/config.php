@@ -27,8 +27,8 @@ $config = [
         'site_url' => '/skif',
         'site_path' => '/var/www/skif/public',
         'static_data_path' => '/var/www/skif/public/static',
-        'kcfinder' => '../../../../../public/files'
-
+        'kcfinder' => '../../../../../public/files',
+        'salt' => 'irbis'
     ]
 ];
 

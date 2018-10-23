@@ -2,7 +2,7 @@
 
 namespace Skif\Users;
 
-use Skif\Captcha\Captcha;
+use Websk\Skif\Captcha\Captcha;
 use WebSK\Skif\ConfWrapper;
 use Skif\Http;
 use Websk\Skif\Messages;
