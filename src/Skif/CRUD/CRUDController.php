@@ -3,7 +3,7 @@
 namespace Skif\CRUD;
 
 use Skif\BaseController;
-use Skif\Conf\ConfWrapper;
+use WebSK\Skif\ConfWrapper;
 use Skif\Http;
 use Websk\Skif\Messages;
 use Skif\PhpTemplate;

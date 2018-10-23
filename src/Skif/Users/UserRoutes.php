@@ -2,7 +2,7 @@
 
 namespace Skif\Users;
 
-use Skif\Conf\ConfWrapper;
+use WebSK\Skif\ConfWrapper;
 use Skif\Router;
 use Skif\UrlManager;
 

@@ -131,7 +131,7 @@ class KeyValue
         $key_value_obj = \Skif\KeyValue\KeyValue::factory($key_value_id);
 
         $cache_key = \Skif\KeyValue\KeyValueUtils::getValueByNameCacheKey($key_value_obj->getName());
-        \Skif\Cache\CacheWrapper::delete($cache_key);
+        \Websk\Skif\CacheWrapper::delete($cache_key);
 
         self::removeObjFromCacheById($key_value_id);
     }
@@ -139,7 +139,7 @@ class KeyValue
     public function afterDelete()
     {
         $cache_key = \Skif\KeyValue\KeyValueUtils::getValueByNameCacheKey($this->getName());
-        \Skif\Cache\CacheWrapper::delete($cache_key);
+        \Websk\Skif\CacheWrapper::delete($cache_key);
 
         self::removeObjFromCacheById($this->getId());
     }

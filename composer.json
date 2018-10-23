@@ -20,9 +20,6 @@
   "autoload": {
     "psr-4": {
       "": "src/"
-    },
-    "files": [
-      "config/Conf.php"
-    ]
+    }
   }
 }

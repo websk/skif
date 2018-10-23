@@ -38,16 +38,16 @@ class PageRegionsUtils
     {
         $cache_key = self::getPageRegionIdByNameAndTemplateIdCacheKey($name, $template_id);
 
-        $cache = \Skif\Cache\CacheWrapper::get($cache_key);
+        $cache = \Websk\Skif\CacheWrapper::get($cache_key);
         if ($cache !== false) {
             return $cache;
         }
 
         $query = "SELECT id FROM " . \Skif\Blocks\PageRegion::DB_TABLE_NAME . " WHERE name=? AND template_id=?";
 
-        $page_region_id = \Skif\DB\DBWrapper::readField($query, array($name, $template_id));
+        $page_region_id = \Websk\Skif\DBWrapper::readField($query, array($name, $template_id));
 
-        \Skif\Cache\CacheWrapper::set($cache_key, $page_region_id, 3600);
+        \Websk\Skif\CacheWrapper::set($cache_key, $page_region_id, 3600);
 
         return $page_region_id;
     }
@@ -105,7 +105,7 @@ class PageRegionsUtils
         if (!array_key_exists($template_id, $static_page_region_ids_arr)) {
             $query = "SELECT id FROM " . \Skif\Blocks\PageRegion::DB_TABLE_NAME . " WHERE template_id = ?";
 
-            $page_region_ids_arr = \Skif\DB\DBWrapper::readColumn($query, array($template_id));
+            $page_region_ids_arr = \Websk\Skif\DBWrapper::readColumn($query, array($template_id));
         }
 
         $page_region_ids_arr[] = \Skif\Blocks\Block::BLOCK_REGION_NONE;

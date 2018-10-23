@@ -2,7 +2,10 @@
 
 namespace Skif;
 
-use Skif\Cache\CacheWrapper;
+use WebSK\Skif\ConfWrapper;
+use Skif\Model\InterfaceCacheTtlSeconds;
+use Skif\Model\InterfaceLoad;
+use Websk\Skif\CacheWrapper;
 use Websk\Utils\Assert;
 
 /**
@@ -53,9 +56,9 @@ class Factory
             return null;
         }
 
-        $cache_ttl_seconds = Conf\ConfWrapper::value('cache.expire');
+        $cache_ttl_seconds = ConfWrapper::value('cache.expire');
 
-        if ($obj instanceof \Skif\Model\InterfaceCacheTtlSeconds) {
+        if ($obj instanceof InterfaceCacheTtlSeconds) {
             $cache_ttl_seconds = $obj->getCacheTtlSeconds();
         }
 
@@ -74,7 +77,7 @@ class Factory
     {
         $obj = new $class_name;
 
-        if (!($obj instanceof \Skif\Model\InterfaceLoad)) {
+        if (!($obj instanceof InterfaceLoad)) {
             Assert::assert($obj);
         }
 

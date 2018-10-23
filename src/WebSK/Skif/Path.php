@@ -2,7 +2,7 @@
 
 namespace Websk\Skif;
 
-use Skif\Conf\ConfWrapper;
+use WebSK\Skif\ConfWrapper;
 use Skif\Utils;
 
 class Path

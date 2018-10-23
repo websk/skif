@@ -12,7 +12,8 @@ $config = [
                     'host' => 'memcached',
                     'port' => 11211
                 ]
-            ]
+            ],
+            'expire' => 60
         ],
         'db' => [
             'db_skif' => [
@@ -21,8 +22,13 @@ $config = [
                 'user' => 'root',
                 'password' => 'root',
             ],
-
         ],
+        'skif_url_path' => '/',
+        'site_url' => '/skif',
+        'site_path' => '/var/www/skif/public',
+        'static_data_path' => '/var/www/skif/public/static',
+        'kcfinder' => '../../../../../public/files'
+
     ]
 ];
 

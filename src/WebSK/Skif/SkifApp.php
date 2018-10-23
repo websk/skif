@@ -5,7 +5,6 @@ namespace WebSK\Skif;
 use Psr\Container\ContainerInterface;
 use Skif\Blocks\BlockRoutes;
 use Skif\Comment\CommentRoutes;
-use Skif\Conf\ConfWrapper;
 use Skif\Content\ContentRoutes;
 use Skif\CRUD\CRUDRoutes;
 use Skif\Form\FormRoutes;
@@ -116,7 +115,7 @@ class SkifApp extends App
 
         CRUDRoutes::route();
 
-        $route_based_crud_arr = ConfWrapper::value('route_based_crud_arr', []);
+        $route_based_crud_arr = $container['settings']['route_based_crud_arr'] ?? [];
         if ($route_based_crud_arr) {
             foreach ($route_based_crud_arr as $base_url => $controller_class_name) {
                 UrlManager::routeBasedCrud($base_url, $controller_class_name);

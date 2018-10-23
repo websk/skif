@@ -2,9 +2,9 @@
 
 namespace Skif\Redirect;
 
-use Skif\Cache\CacheWrapper;
+use Websk\Skif\CacheWrapper;
 use Skif\CRUD\CRUDController;
-use Skif\DB\DBWrapper;
+use Websk\Skif\DBWrapper;
 use Skif\UrlManager;
 use Skif\Utils;
 

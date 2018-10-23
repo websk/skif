@@ -145,7 +145,7 @@ class Redirect implements
 
         if ($redirect_id_obj->getKind() == self::REDIRECT_KIND_REGEXP) {
             $cache_key = \Skif\Redirect\RedirectController::getCacheKeyRegexpRedirectArr();
-            \Skif\Cache\CacheWrapper::delete($cache_key);
+            \Websk\Skif\CacheWrapper::delete($cache_key);
         }
 
         self::removeObjFromCacheById($redirect_id);
@@ -155,7 +155,7 @@ class Redirect implements
     {
         if ($this->getKind() == self::REDIRECT_KIND_REGEXP) {
             $cache_key = \Skif\Redirect\RedirectController::getCacheKeyRegexpRedirectArr();
-            \Skif\Cache\CacheWrapper::delete($cache_key);
+            \Websk\Skif\CacheWrapper::delete($cache_key);
         }
 
         self::removeObjFromCacheById($this->getId());

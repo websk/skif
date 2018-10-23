@@ -3,7 +3,7 @@
  * @var $rubric_id
  */
 
-use Skif\Conf\ConfWrapper;
+use WebSK\Skif\ConfWrapper;
 use Skif\Content\Content;
 use Skif\Content\ContentType;
 use Skif\Content\ContentUtils;

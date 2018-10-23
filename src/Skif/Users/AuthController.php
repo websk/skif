@@ -3,7 +3,7 @@
 namespace Skif\Users;
 
 use Skif\Captcha\Captcha;
-use Skif\Conf\ConfWrapper;
+use WebSK\Skif\ConfWrapper;
 use Skif\Http;
 use Websk\Skif\Messages;
 use Skif\PhpTemplate;

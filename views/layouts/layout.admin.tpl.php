@@ -5,7 +5,7 @@
  * @var $content
  */
 
-use Skif\Conf\ConfWrapper;
+use WebSK\Skif\ConfWrapper;
 use Skif\Content\ContentType;
 use Skif\Content\ContentUtils;
 use Skif\Http;

@@ -53,7 +53,7 @@ class Rubric implements
         }
 
         $query = "SELECT content_id FROM " . \Skif\Content\ContentRubrics::DB_TABLE_NAME ." WHERE rubric_id = ?";
-        $this->content_ids_arr = \Skif\DB\DBWrapper::readColumn(
+        $this->content_ids_arr = \Websk\Skif\DBWrapper::readColumn(
             $query,
             array($this->id)
         );

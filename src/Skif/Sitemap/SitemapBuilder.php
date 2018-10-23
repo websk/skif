@@ -1,7 +1,7 @@
 <?php
 namespace Skif\Sitemap;
 
-use \Skif\Conf\ConfWrapper;
+use WebSK\Skif\ConfWrapper;
 
 class SitemapBuilder implements InterfaceSitemapBuilder
 {

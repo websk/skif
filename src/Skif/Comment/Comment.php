@@ -295,12 +295,12 @@ class Comment  implements
         if ($comment_obj->getParentId()) {
             self::removeObjFromCacheById($comment_obj->getParentId());
 
-            if (\Skif\Conf\ConfWrapper::value('comments.send_answer_to_email')) {
+            if (\WebSK\Skif\ConfWrapper::value('comments.send_answer_to_email')) {
                 $parent_comment_obj = \Skif\Comment\Comment::factory($comment_obj->getParentId());
                 if ($parent_comment_obj->getUserEmail()) {
-                    $site_email = \Skif\Conf\ConfWrapper::value('site_email');
-                    $site_url = \Skif\Conf\ConfWrapper::value('site_url');
-                    $site_name = \Skif\Conf\ConfWrapper::value('site_name');
+                    $site_email = \WebSK\Skif\ConfWrapper::value('site_email');
+                    $site_url = \WebSK\Skif\ConfWrapper::value('site_url');
+                    $site_name = \WebSK\Skif\ConfWrapper::value('site_name');
 
                     $mail_message = 'Здравствуйте, ' . $parent_comment_obj->getUserEmail() . '!<br />';
                     $mail_message .= 'Получен ответ на ваше сообщение:<br />';

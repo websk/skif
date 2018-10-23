@@ -115,7 +115,7 @@ class ControllerBlocks
         );
 
         echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.admin'),
+            \WebSK\Skif\ConfWrapper::value('layout.admin'),
             array(
                 'title' => 'Блоки',
                 'content' => $html,
@@ -188,7 +188,7 @@ class ControllerBlocks
         );
 
         echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.admin'),
+            \WebSK\Skif\ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
                 'content' => $html,
@@ -317,7 +317,7 @@ class ControllerBlocks
         );
 
         echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.admin'),
+            \WebSK\Skif\ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
                 'content' => $html,
@@ -364,7 +364,7 @@ class ControllerBlocks
         );
 
         echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.admin'),
+            \WebSK\Skif\ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
                 'content' => $html,
@@ -493,7 +493,7 @@ class ControllerBlocks
         );
 
         echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.admin'),
+            \WebSK\Skif\ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
                 'content' => $html,
@@ -522,7 +522,7 @@ class ControllerBlocks
         );
 
         echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.admin'),
+            \WebSK\Skif\ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
                 'content' => $html,
@@ -570,7 +570,7 @@ class ControllerBlocks
         $template_id = \Skif\Blocks\ControllerBlocks::getCurrentTemplateId();
 
         if ((mb_strlen($_POST["search"]) > 3)) {
-            $blocks_ids_arr = \Skif\DB\DBWrapper::readColumn(
+            $blocks_ids_arr = \Websk\Skif\DBWrapper::readColumn(
                 "SELECT id FROM " . \Skif\Blocks\Block::DB_TABLE_NAME . " WHERE body LIKE ? AND template_id = ? LIMIT 100",
                 array("%" . str_replace('\\', '\\\\', $search_value) . "%", $template_id)
             );
@@ -591,7 +591,7 @@ class ControllerBlocks
         );
 
         echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.admin'),
+            \WebSK\Skif\ConfWrapper::value('layout.admin'),
             array(
                 'title' => 'Поиск блоков',
                 'content' => $html,

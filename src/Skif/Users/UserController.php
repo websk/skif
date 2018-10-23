@@ -2,7 +2,7 @@
 
 namespace Skif\Users;
 
-use Skif\Conf\ConfWrapper;
+use WebSK\Skif\ConfWrapper;
 use Skif\Http;
 use Skif\Image\ImageConstants;
 use Skif\Image\ImageController;

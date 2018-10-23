@@ -2,7 +2,7 @@
 
 namespace Skif;
 
-use Skif\DB\DBWrapper;
+use Websk\Skif\DBWrapper;
 
 class BaseController
 {

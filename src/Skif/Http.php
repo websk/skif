@@ -2,6 +2,11 @@
 
 namespace Skif;
 
+/**
+ * Class Http
+ * @deprecated
+ * @package Skif
+ */
 class Http {
 
     /**

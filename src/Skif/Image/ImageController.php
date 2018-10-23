@@ -75,7 +75,7 @@ class ImageController
 
 		$file = $_FILES[0];
 
-        $root_images_folder = $site_path = \Skif\Conf\ConfWrapper::value('site_path') . '/images';
+        $root_images_folder = $site_path = \WebSK\Skif\ConfWrapper::value('site_path') . '/images';
 
 		$file_name = self::processUpload($file, '', $root_images_folder);
 

@@ -21,7 +21,7 @@ class SiteMenuController
 
         $breadcrumbs_arr = \Skif\SiteMenu\SiteMenuController::getBreadcrumbsArr($site_menu_id, $site_menu_item_id);
 
-        echo \Skif\PhpTemplate::renderTemplate(\Skif\Conf\ConfWrapper::value('layout.admin'), array(
+        echo \Skif\PhpTemplate::renderTemplate(\WebSK\Skif\ConfWrapper::value('layout.admin'), array(
                 'title' => $site_menu_obj->getName(),
                 'content' => $html,
                 'breadcrumbs_arr' => $breadcrumbs_arr
@@ -82,7 +82,7 @@ class SiteMenuController
 
         $breadcrumbs_arr = \Skif\SiteMenu\SiteMenuController::getBreadcrumbsArr($site_menu_id, $site_menu_item_parent_id);
 
-        echo \Skif\PhpTemplate::renderTemplate(\Skif\Conf\ConfWrapper::value('layout.admin'), array(
+        echo \Skif\PhpTemplate::renderTemplate(\WebSK\Skif\ConfWrapper::value('layout.admin'), array(
                 'title' => $site_menu_obj->getName(),
                 'content' => $html,
                 'breadcrumbs_arr' => $breadcrumbs_arr
@@ -176,7 +176,7 @@ class SiteMenuController
             )
         );
 
-        echo \Skif\PhpTemplate::renderTemplate(\Skif\Conf\ConfWrapper::value('layout.admin'), array(
+        echo \Skif\PhpTemplate::renderTemplate(\WebSK\Skif\ConfWrapper::value('layout.admin'), array(
                 'title' => ($site_menu_item_id == 'new') ? 'Добавление пункта меню' : 'Редактирование пункта меню',
                 'content' => $html,
                 'breadcrumbs_arr' => $breadcrumbs_arr
@@ -260,7 +260,7 @@ class SiteMenuController
 
         $html = \Skif\PhpTemplate::renderTemplateBySkifModule('SiteMenu', 'admin_site_menu_list.tpl.php');
 
-        echo \Skif\PhpTemplate::renderTemplate(\Skif\Conf\ConfWrapper::value('layout.admin'), array(
+        echo \Skif\PhpTemplate::renderTemplate(\WebSK\Skif\ConfWrapper::value('layout.admin'), array(
                 'title' => 'Менеджер меню',
                 'content' => $html,
                 'breadcrumbs_arr' => array()
@@ -279,7 +279,7 @@ class SiteMenuController
             array('site_menu_id' => $site_menu_id)
         );
 
-        echo \Skif\PhpTemplate::renderTemplate(\Skif\Conf\ConfWrapper::value('layout.admin'), array(
+        echo \Skif\PhpTemplate::renderTemplate(\WebSK\Skif\ConfWrapper::value('layout.admin'), array(
                 'title' => 'Редактирование меню',
                 'content' => $html,
                 'breadcrumbs_arr' => array(

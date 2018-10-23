@@ -2,8 +2,8 @@
 
 namespace Skif\Users;
 
-use Skif\Conf\ConfWrapper;
-use Skif\DB\DBWrapper;
+use WebSK\Skif\ConfWrapper;
+use Websk\Skif\DBWrapper;
 use Skif\Image\ImageManager;
 use Websk\Skif\Messages;
 use Skif\UrlManager;
@@ -123,7 +123,7 @@ class AuthUtils
     /*
     public static function removeUserFromAuthCache($user_session_id)
     {
-        \Skif\Cache\CacheWrapper::delete('auth_user_' . $user_session_id);
+        \Websk\Skif\CacheWrapper::delete('auth_user_' . $user_session_id);
     }
     */
 

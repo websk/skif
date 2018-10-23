@@ -8,7 +8,7 @@ class Image
 
     public static function uploadAndResizeImage($destination_file_path, $resize_value, $prefix, $index, $quality, $to_width = true)
     {
-        $tmp_dir = \Skif\Conf\ConfWrapper::value('tmp_path');
+        $tmp_dir = \WebSK\Skif\ConfWrapper::value('tmp_path');
 
         if (!is_dir($tmp_dir)) {
             $tmp_dir = '';

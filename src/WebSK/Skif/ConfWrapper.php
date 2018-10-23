@@ -1,7 +1,11 @@
 <?php
-namespace Skif\Conf;
+namespace WebSK\Skif;
 
-class ConfWrapper 
+/**
+ * Class ConfWrapper
+ * @package WebSK\Skif
+ */
+class ConfWrapper
 {
  
     /**
@@ -11,14 +15,16 @@ class ConfWrapper
      * @param mixed $default Value to use if the path was not found
      * @return mixed
      */
-    static public function value($path, $default = ''){
+    public static function value($path, $default = ''){
     	
     	if (empty($path)) {
     		return '';
     	}
 
-    	$value = \Skif\Conf::get();
- 
+        $container = Container::self();
+
+    	$value = $container['settings'] ?? [];
+
         $parts = explode(".", $path);
  
         foreach ($parts as $part) {

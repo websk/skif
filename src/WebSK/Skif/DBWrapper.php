@@ -1,10 +1,8 @@
 <?php
 
-namespace Skif\DB;
+namespace Websk\Skif;
 
 use Websk\DB\DBService;
-use Websk\Skif\Container;
-use WebSK\Skif\SkifApp;
 
 /**
  * Class DBWrapper

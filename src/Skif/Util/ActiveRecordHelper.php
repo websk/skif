@@ -2,7 +2,7 @@
 
 namespace Skif\Util;
 
-use Skif\DB\DBWrapper;
+use Websk\Skif\DBWrapper;
 use Skif\Utils;
 use Websk\Utils\Assert;
 

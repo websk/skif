@@ -29,7 +29,7 @@ ENGINE=InnoDB
 
 namespace Skif\Content;
 
-use Skif\DB\DBWrapper;
+use Websk\Skif\DBWrapper;
 use Skif\Model\FactoryTrait;
 use Skif\Model\InterfaceDelete;
 use Skif\Model\InterfaceFactory;

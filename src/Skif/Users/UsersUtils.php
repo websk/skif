@@ -2,8 +2,8 @@
 
 namespace Skif\Users;
 
-use Skif\Conf\ConfWrapper;
-use Skif\DB\DBWrapper;
+use WebSK\Skif\ConfWrapper;
+use Websk\Skif\DBWrapper;
 
 class UsersUtils
 {

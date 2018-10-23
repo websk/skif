@@ -14,7 +14,7 @@ class CommentUtils
      */
     public static function getCommentsIdsArrByUrl($url, $page = 1, $parent_id = 0)
     {
-        $message_to_page = \Skif\Conf\ConfWrapper::value('comments.message_to_page', 20);
+        $message_to_page = \WebSK\Skif\ConfWrapper::value('comments.message_to_page', 20);
         $start = ($page - 1) * $message_to_page;
 
         $query = "SELECT id FROM comments
@@ -23,7 +23,7 @@ class CommentUtils
             LIMIT " . $start . ', ' . $message_to_page;
         $param_arr = array(md5($url), $parent_id);
 
-        return \Skif\DB\DBWrapper::readColumn($query, $param_arr);
+        return \Websk\Skif\DBWrapper::readColumn($query, $param_arr);
     }
 
     /**
@@ -34,7 +34,7 @@ class CommentUtils
     public static function getCountCommentsByUrl($url)
     {
         $query = "SELECT count(id) FROM comments WHERE url_md5=? AND parent_id=0";
-        return \Skif\DB\DBWrapper::readField($query, array(md5($url)));
+        return \Websk\Skif\DBWrapper::readField($query, array(md5($url)));
     }
 
     /**

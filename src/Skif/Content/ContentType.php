@@ -69,7 +69,7 @@ class ContentType implements
         }
 
         $query = "SELECT id FROM " . \Skif\Content\Rubric::DB_TABLE_NAME ." WHERE content_type_id = ?";
-        $this->rubric_ids_arr = \Skif\DB\DBWrapper::readColumn(
+        $this->rubric_ids_arr = \Websk\Skif\DBWrapper::readColumn(
             $query,
             array($this->id)
         );

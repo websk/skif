@@ -38,7 +38,7 @@ class FormController extends \Skif\CRUD\CRUDController
         );
 
         echo \Skif\PhpTemplate::renderTemplate(
-            \Skif\Conf\ConfWrapper::value('layout.main'),
+            \WebSK\Skif\ConfWrapper::value('layout.main'),
             array(
                 'title' => $form_obj->getTitle(),
                 'content' => $content,
@@ -48,9 +48,9 @@ class FormController extends \Skif\CRUD\CRUDController
 
     public function sendAction($form_id)
     {
-        $site_name = \Skif\Conf\ConfWrapper::value('site_name');
-        $site_email = \Skif\Conf\ConfWrapper::value('site_email');
-        $site_url = \Skif\Conf\ConfWrapper::value('site_url');
+        $site_name = \WebSK\Skif\ConfWrapper::value('site_name');
+        $site_email = \WebSK\Skif\ConfWrapper::value('site_email');
+        $site_url = \WebSK\Skif\ConfWrapper::value('site_url');
 
         $user_email = $_REQUEST['email'];
 

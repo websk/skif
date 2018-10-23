@@ -1,11 +1,13 @@
 <?php
 
-namespace Skif\Cache;
+namespace Websk\Skif;
 
 use WebSK\Cache\CacheService;
-use Websk\Skif\Container;
-use WebSK\Skif\SkifApp;
 
+/**
+ * Class CacheWrapper
+ * @package Websk\Skif
+ */
 class CacheWrapper
 {
     protected static $storage_arr = [];
@@ -45,7 +47,7 @@ class CacheWrapper
      * @return bool
      * @throws \Exception
      */
-    public static function set($key, $value, $expire = -1)
+    public static function set($key, $value, $expire = 0)
     {
         $container = Container::self();
 

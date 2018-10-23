@@ -133,11 +133,11 @@ class Network
         return false;
 
         $cache_key = 'video_networks_blacklist';
-        $networks_arr = \Skif\Cache\CacheWrapper::get($cache_key);
+        $networks_arr = \Websk\Skif\CacheWrapper::get($cache_key);
 
         if ($networks_arr === false){
             $networks_arr = \Skif\Util\KeyValue::get("video_networks_blacklist", null);
-            \Skif\Cache\CacheWrapper::set($cache_key, $networks_arr, 30);
+            \Websk\Skif\CacheWrapper::set($cache_key, $networks_arr, 30);
         }
 
         if (!$networks_arr){

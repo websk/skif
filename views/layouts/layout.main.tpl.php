@@ -114,7 +114,7 @@
     </div>
 
     <div id="footer" class="row">
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">&copy; <?php echo \Skif\Conf\ConfWrapper::value('site_name'); ?>, <?php echo date('Y'); ?></div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">&copy; <?php echo \WebSK\Skif\ConfWrapper::value('site_name'); ?>, <?php echo date('Y'); ?></div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><?php echo \Skif\SiteMenu\SiteMenuRender::renderSiteMenu(8); ?></div>
     </div>
 </div>

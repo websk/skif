@@ -206,7 +206,7 @@ class Block implements
     public function getBlockRoleIdsArr()
     {
         $query = "SELECT id FROM " . \Skif\Blocks\BlockRole::DB_TABLE_NAME . " WHERE block_id = ?";
-        $block_role_ids_arr = \Skif\DB\DBWrapper::readColumn(
+        $block_role_ids_arr = \Websk\Skif\DBWrapper::readColumn(
             $query,
             array($this->getId())
         );

@@ -2,7 +2,7 @@
 
 namespace Skif\Poll;
 
-use Skif\DB\DBWrapper;
+use Websk\Skif\DBWrapper;
 use Skif\PhpTemplate;
 
 class PollUtils

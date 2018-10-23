@@ -8,7 +8,7 @@ $user_email = '';
 
 $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
 
-if (\Skif\Conf\ConfWrapper::value('comments.no_add_comments_for_unregistered_users')) {
+if (\WebSK\Skif\ConfWrapper::value('comments.no_add_comments_for_unregistered_users')) {
     ?>
     <div>
         Неавторизованные пользователи не могут оставлять комментарии.

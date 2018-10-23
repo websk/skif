@@ -160,7 +160,7 @@ class Template implements
         $template_obj = \Skif\Content\Template::factory($template_id);
 
         $cache_key = \Skif\Content\TemplateUtils::getTemplateIdByNameCacheKey($template_obj->getName());
-        \Skif\Cache\CacheWrapper::delete($cache_key);
+        \Websk\Skif\CacheWrapper::delete($cache_key);
 
         self::removeObjFromCacheById($template_id);
     }
@@ -168,7 +168,7 @@ class Template implements
     public function afterDelete()
     {
         $cache_key = \Skif\Content\TemplateUtils::getTemplateIdByNameCacheKey($this->getName());
-        \Skif\Cache\CacheWrapper::delete($cache_key);
+        \Websk\Skif\CacheWrapper::delete($cache_key);
 
         self::removeObjFromCacheById($this->getId());
     }

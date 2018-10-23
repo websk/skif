@@ -2,7 +2,7 @@
 
 namespace Skif\Rating;
 
-use Skif\DB\DBWrapper;
+use Websk\Skif\DBWrapper;
 
 class RatingUtils
 {

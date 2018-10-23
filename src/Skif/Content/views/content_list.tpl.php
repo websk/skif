@@ -3,7 +3,7 @@
  * @var $content_type
  */
 
-use Skif\Conf\ConfWrapper;
+use WebSK\Skif\ConfWrapper;
 use Skif\Content\Content;
 use Skif\Content\ContentUtils;
 use Skif\PhpTemplate;

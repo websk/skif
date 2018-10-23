@@ -2,18 +2,24 @@
 
 namespace Skif\Blocks;
 
+use Skif\Network;
+use Skif\Users\User;
+use Skif\Util\FilterFactory;
+use Websk\Skif\CacheWrapper;
+use Websk\Skif\DBWrapper;
+
 class BlockUtils
 {
 
     /**
      * Видимость блока для пользователя
-     * @param $block_id
-     * @param $user_id
+     * @param int $block_id
+     * @param int $user_id
      * @return bool
      */
-    public static function blockIsVisibleByUserId($block_id, $user_id)
+    public static function blockIsVisibleByUserId(int $block_id, int $user_id)
     {
-        $block_obj = \Skif\Blocks\Block::factory($block_id);
+        $block_obj = Block::factory($block_id);
 
         // Проверяем блок на видимость для ролей
         $block_role_ids_arr = $block_obj->getRoleIdsArr();
@@ -26,7 +32,7 @@ class BlockUtils
             return false;
         }
 
-        $user_obj = \Skif\Users\User::factory($user_id, false);
+        $user_obj = User::factory($user_id, false);
         if (!$user_obj) {
             return false;
         }
@@ -46,9 +52,9 @@ class BlockUtils
      * @param string $page_url
      * @return bool
      */
-    public static function blockIsVisibleOnPage($block_id, $page_url)
+    public static function blockIsVisibleOnPage(int $block_id, string $page_url)
     {
-        $block_obj = \Skif\Blocks\Block::factory($block_id);
+        $block_obj = Block::factory($block_id);
 
         if ($block_obj->getPages()) {
             return self::checkBlockComplexVisibility($block_id, $page_url);
@@ -57,9 +63,14 @@ class BlockUtils
         return false;
     }
 
-    protected static function checkBlockComplexVisibility($block_id, $real_path = '')
+    /**
+     * @param int $block_id
+     * @param string $real_path
+     * @return bool
+     */
+    protected static function checkBlockComplexVisibility(int $block_id, string $real_path = '')
     {
-        $block_obj = \Skif\Blocks\Block::factory($block_id);
+        $block_obj = Block::factory($block_id);
         $pages = $block_obj->getPages();
 
         // parse pages
@@ -82,7 +93,7 @@ class BlockUtils
 
             if (strlen($page_filter_str) > 2) {
                 // convert filter string to object
-                $filter_obj = \Skif\Util\FilterFactory::getFilter($page_filter_str);
+                $filter_obj = FilterFactory::getFilter($page_filter_str);
 
                 if ($filter_obj->matchesPage($real_path)) {
                     if ($filter_obj->is_positive) {
@@ -105,21 +116,21 @@ class BlockUtils
      * @param int $block_id
      * @return string
      */
-    public static function getContentByBlockId($block_id)
+    public static function getContentByBlockId(int $block_id)
     {
-        $block_obj = \Skif\Blocks\Block::factory($block_id);
+        $block_obj = Block::factory($block_id);
 
         $cache_enabled = true;
 
-        if ($block_obj->getCache() == \Skif\Blocks\Block::BLOCK_NO_CACHE) {
+        if ($block_obj->getCache() == Block::BLOCK_NO_CACHE) {
             $cache_enabled = false;
         }
 
 
-        $cache_key = \Skif\Blocks\BlockUtils::getBlockContentCacheKey($block_id);
+        $cache_key = self::getBlockContentCacheKey($block_id);
 
         if ($cache_enabled) {
-            $cached_content = \Skif\Cache\CacheWrapper::get($cache_key);
+            $cached_content = CacheWrapper::get($cache_key);
 
             if ($cached_content !== false) {
                 return $cached_content;
@@ -128,12 +139,12 @@ class BlockUtils
 
         $block_content = $block_obj->getBody();
 
-        if ($block_obj->getFormat() == \Skif\Blocks\Block::BLOCK_FORMAT_TYPE_PHP) {
+        if ($block_obj->getFormat() == Block::BLOCK_FORMAT_TYPE_PHP) {
             $block_content = $block_obj->evalContentPHPBlock();
         }
 
         if ($cache_enabled) {
-            \Skif\Cache\CacheWrapper::set($cache_key, $block_content);
+            CacheWrapper::set($cache_key, $block_content);
         }
 
         return $block_content;
@@ -145,19 +156,19 @@ class BlockUtils
      */
     protected static function getBlockContentCacheKey($block_id)
     {
-        $block_obj = \Skif\Blocks\Block::factory($block_id);
+        $block_obj = Block::factory($block_id);
 
         $cid_parts = array('block_content');
         $cid_parts[] = $block_obj->getId();
 
         // Кешируем блоки по полному урлу $_SERVER['REQUEST_URI'], в т.ч. с $_GET параметрами.
         // Т.к. содержимое блока может различаться в зависимости от $_GET параметров.
-        if ($block_obj->getCache() == \Skif\Blocks\Block::BLOCK_CACHE_PER_PAGE) {
+        if ($block_obj->getCache() == Block::BLOCK_CACHE_PER_PAGE) {
             $cid_parts[] = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         }
 
-        if ($block_obj->getCache() == \Skif\Blocks\Block::BLOCK_CACHE_PER_USER) {
-            $cid_parts[] = \Skif\Network::getClientIpXff();
+        if ($block_obj->getCache() == Block::BLOCK_CACHE_PER_USER) {
+            $cid_parts[] = Network::getClientIpXff();
         }
 
         return implode(':', $cid_parts);
@@ -171,8 +182,8 @@ class BlockUtils
      */
     public static function getBlockIdsArrByTemplateId($template_id)
     {
-        $blocks_ids_arr = \Skif\DB\DBWrapper::readColumn(
-            "SELECT id FROM " . \Skif\Blocks\Block::DB_TABLE_NAME . " WHERE template_id = ? ORDER BY page_region_id, weight, title",
+        $blocks_ids_arr = DBWrapper::readColumn(
+            "SELECT id FROM " . Block::DB_TABLE_NAME . " WHERE template_id = ? ORDER BY page_region_id, weight, title",
             array($template_id)
         );
 
@@ -181,23 +192,23 @@ class BlockUtils
 
     /**
      * Массив Block Id в регионе
-     * @param $page_region_id
-     * @param $template_id
+     * @param int $page_region_id
+     * @param int $template_id
      * @return array|bool|mixed
      * @throws \Exception
      */
-    public static function getBlockIdsArrByPageRegionId($page_region_id, $template_id)
+    public static function getBlockIdsArrByPageRegionId(int $page_region_id, int $template_id)
     {
         $cache_key = self::getBlockIdsArrByPageRegionIdCacheKey($page_region_id, $template_id);
 
-        $blocks_ids_arr = \Skif\Cache\CacheWrapper::get($cache_key);
+        $blocks_ids_arr = CacheWrapper::get($cache_key);
         if ($blocks_ids_arr !== false) {
             return $blocks_ids_arr;
         }
 
-        $query = "SELECT id FROM " . \Skif\Blocks\Block::DB_TABLE_NAME . " WHERE page_region_id = ? AND template_id=? ORDER BY weight, title";
+        $query = "SELECT id FROM " . Block::DB_TABLE_NAME . " WHERE page_region_id = ? AND template_id=? ORDER BY weight, title";
 
-        $blocks_ids_arr = \Skif\DB\DBWrapper::readColumn(
+        $blocks_ids_arr = DBWrapper::readColumn(
             $query,
             array(
                 $page_region_id,
@@ -205,22 +216,31 @@ class BlockUtils
             )
         );
 
-        \Skif\Cache\CacheWrapper::set($cache_key, $blocks_ids_arr, 3600);
+        CacheWrapper::set($cache_key, $blocks_ids_arr, 3600);
 
         return $blocks_ids_arr;
     }
 
-    public static function clearBlockIdsArrByPageRegionIdCache($page_region_id, $template_id)
+    /**
+     * @param int $page_region_id
+     * @param int $template_id
+     */
+    public static function clearBlockIdsArrByPageRegionIdCache(int $page_region_id, int $template_id)
     {
         $cache_key = self::getBlockIdsArrByPageRegionIdCacheKey($page_region_id, $template_id);
-        \Skif\Cache\CacheWrapper::delete($cache_key);
+        CacheWrapper::delete($cache_key);
     }
 
-    protected static function getBlockIdsArrByPageRegionIdCacheKey($page_region_id, $template_id)
+    /**
+     * @param int $page_region_id
+     * @param int $template_id
+     * @return string
+     */
+    protected static function getBlockIdsArrByPageRegionIdCacheKey(int $page_region_id, int $template_id)
     {
         $cache_key = 'template_id_' . $template_id . '_block_ids_arr_by_page_region_id_';
 
-        if ($page_region_id == \Skif\Blocks\Block::BLOCK_REGION_NONE) {
+        if ($page_region_id == Block::BLOCK_REGION_NONE) {
             return $cache_key . 'disabled';
         }
 
@@ -234,9 +254,9 @@ class BlockUtils
     public static function getFormatsArr()
     {
         return array(
-            \Skif\Blocks\Block::BLOCK_FORMAT_TYPE_PLAIN => 'Текст',
-            \Skif\Blocks\Block::BLOCK_FORMAT_TYPE_HTML => 'HTML',
-            \Skif\Blocks\Block::BLOCK_FORMAT_TYPE_PHP => 'PHP code'
+            Block::BLOCK_FORMAT_TYPE_PLAIN => 'Текст',
+            Block::BLOCK_FORMAT_TYPE_HTML => 'HTML',
+            Block::BLOCK_FORMAT_TYPE_PHP => 'PHP code'
         );
     }
 
@@ -247,10 +267,10 @@ class BlockUtils
     public static function getCachesArr()
     {
         return array(
-            \Skif\Blocks\Block::BLOCK_NO_CACHE => 'не кэшировать',
-            \Skif\Blocks\Block::BLOCK_CACHE_PER_USER => 'кэшировать для каждого пользователя',
-            \Skif\Blocks\Block::BLOCK_CACHE_PER_PAGE => 'кэшировать для каждого урла',
-            \Skif\Blocks\Block::BLOCK_CACHE_GLOBAL => 'кэшировать глобально'
+            Block::BLOCK_NO_CACHE => 'не кэшировать',
+            Block::BLOCK_CACHE_PER_USER => 'кэшировать для каждого пользователя',
+            Block::BLOCK_CACHE_PER_PAGE => 'кэшировать для каждого урла',
+            Block::BLOCK_CACHE_GLOBAL => 'кэшировать глобально'
         );
     }
 }

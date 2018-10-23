@@ -6,7 +6,7 @@
  * @var $dir
  */
 
-use Skif\Conf\ConfWrapper;
+use WebSK\Skif\ConfWrapper;
 use Websk\Skif\Path;
 
 $config_styles = ConfWrapper::value('ckeditor.styles', []);

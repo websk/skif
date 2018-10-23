@@ -8,7 +8,7 @@ class KeyValueUtils
 
     public static function getKeyValueIdsArr()
     {
-        $key_value_ids_arr = \Skif\DB\DBWrapper::readColumn(
+        $key_value_ids_arr = \Websk\Skif\DBWrapper::readColumn(
             "SELECT id FROM " . \Skif\KeyValue\KeyValue::DB_TABLE_NAME . " ORDER BY name"
         );
 
@@ -25,13 +25,13 @@ class KeyValueUtils
     {
         $cache_key = self::getValueByNameCacheKey($name);
 
-        $cache = \Skif\Cache\CacheWrapper::get($cache_key);
+        $cache = \Websk\Skif\CacheWrapper::get($cache_key);
 
         if ($cache !== false) {
             return $cache;
         }
 
-        $value = \Skif\DB\DBWrapper::readField(
+        $value = \Websk\Skif\DBWrapper::readField(
             'SELECT value FROM ' . \Skif\KeyValue\KeyValue::DB_TABLE_NAME . ' WHERE name = ?',
             array($name)
         );
@@ -40,7 +40,7 @@ class KeyValueUtils
             $value = $default_value;
         }
 
-        \Skif\Cache\CacheWrapper::set($cache_key, $value, 86400);
+        \Websk\Skif\CacheWrapper::set($cache_key, $value, 86400);
 
         return $value;
     }

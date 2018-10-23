@@ -2,7 +2,7 @@
 
 namespace Skif\Content;
 
-use Skif\DB\DBWrapper;
+use Websk\Skif\DBWrapper;
 use Skif\PhpTemplate;
 
 class ContentUtils
