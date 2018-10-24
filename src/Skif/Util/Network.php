@@ -1,58 +1,71 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: ologinov
- * Date: 11/8/13
- * Time: 10:45 PM
- */
 
 namespace Skif\Util;
-
 
 class Network
 {
     static public function is_private_network($ip)
     {
-        if (preg_match("/unknown/", $ip))
+        if (preg_match("/unknown/", $ip)) {
             return true;
-        if (preg_match("/127\.0\./", $ip))
+        }
+        if (preg_match("/127\.0\./", $ip)) {
             return true;
-        if (preg_match("/^192\.168\./", $ip))
+        }
+        if (preg_match("/^192\.168\./", $ip)) {
             return true;
-        if (preg_match("/^10\./", $ip))
+        }
+        if (preg_match("/^10\./", $ip)) {
             return true;
-        if (preg_match("/^172\.16\./", $ip))
+        }
+        if (preg_match("/^172\.16\./", $ip)) {
             return true;
-        if (preg_match("/^172\.17\./", $ip))
+        }
+        if (preg_match("/^172\.17\./", $ip)) {
             return true;
-        if (preg_match("/^172\.18\./", $ip))
+        }
+        if (preg_match("/^172\.18\./", $ip)) {
             return true;
-        if (preg_match("/^172\.19\./", $ip))
+        }
+        if (preg_match("/^172\.19\./", $ip)) {
             return true;
-        if (preg_match("/^172\.20\./", $ip))
+        }
+        if (preg_match("/^172\.20\./", $ip)) {
             return true;
-        if (preg_match("/^172\.21\./", $ip))
+        }
+        if (preg_match("/^172\.21\./", $ip)) {
             return true;
-        if (preg_match("/^172\.22\./", $ip))
+        }
+        if (preg_match("/^172\.22\./", $ip)) {
             return true;
-        if (preg_match("/^172\.23\./", $ip))
+        }
+        if (preg_match("/^172\.23\./", $ip)) {
             return true;
-        if (preg_match("/^172\.24\./", $ip))
+        }
+        if (preg_match("/^172\.24\./", $ip)) {
             return true;
-        if (preg_match("/^172\.25\./", $ip))
+        }
+        if (preg_match("/^172\.25\./", $ip)) {
             return true;
-        if (preg_match("/^172\.26\./", $ip))
+        }
+        if (preg_match("/^172\.26\./", $ip)) {
             return true;
-        if (preg_match("/^172\.27\./", $ip))
+        }
+        if (preg_match("/^172\.27\./", $ip)) {
             return true;
-        if (preg_match("/^172\.28\./", $ip))
+        }
+        if (preg_match("/^172\.28\./", $ip)) {
             return true;
-        if (preg_match("/^172\.29\./", $ip))
+        }
+        if (preg_match("/^172\.29\./", $ip)) {
             return true;
-        if (preg_match("/^172\.30\./", $ip))
+        }
+        if (preg_match("/^172\.30\./", $ip)) {
             return true;
-        if (preg_match("/^172\.31\./", $ip))
+        }
+        if (preg_match("/^172\.31\./", $ip)) {
             return true;
+        }
 
         return false;
     }
@@ -68,8 +81,9 @@ class Network
 
             // TODO: move private network determination to helper
             foreach ($list as $ip) {
-                if (self::is_private_network($ip))
+                if (self::is_private_network($ip)) {
                     break;
+                }
 
                 $remote_addr = $ip;
             }
@@ -117,7 +131,8 @@ class Network
 
         $country_code = geoip_country_code_by_name($remote_addr);
 
-        if (preg_match("/^192\.168\./", $remote_addr) || preg_match("/^10\./", $remote_addr) || preg_match("/^127\./", $remote_addr)) {
+        if (preg_match("/^192\.168\./", $remote_addr) || preg_match("/^10\./", $remote_addr) || preg_match("/^127\./",
+                $remote_addr)) {
             $country_code = 'RU';
         }
 
@@ -135,25 +150,25 @@ class Network
         $cache_key = 'video_networks_blacklist';
         $networks_arr = \Websk\Skif\CacheWrapper::get($cache_key);
 
-        if ($networks_arr === false){
+        if ($networks_arr === false) {
             $networks_arr = \Skif\Util\KeyValue::get("video_networks_blacklist", null);
             \Websk\Skif\CacheWrapper::set($cache_key, $networks_arr, 30);
         }
 
-        if (!$networks_arr){
+        if (!$networks_arr) {
             return false;
         }
 
-        if (!is_array($networks_arr)){
+        if (!is_array($networks_arr)) {
             return false;
         }
 
         foreach ($networks_arr as $value) {
             list ($net, $mask) = explode('/', $value);
-            if (!$mask){
+            if (!$mask) {
                 $mask = 32;
             }
-            if ((ip2long($remote_addr) & ~((1 << (32 - $mask)) - 1)) == ip2long($net)){
+            if ((ip2long($remote_addr) & ~((1 << (32 - $mask)) - 1)) == ip2long($net)) {
                 return true;
             }
         }

@@ -2,24 +2,35 @@
 
 namespace Websk\Skif;
 
-class Messages {
-
-    protected static function setMessageValue($key, $value)
+/**
+ * Class Messages
+ * @package Websk\Skif
+ */
+class Messages
+{
+    /**
+     * @param string $key
+     * @param string $value
+     */
+    protected static function setMessageValue(string $key, string $value)
     {
         $_SESSION['messages'][$key] = $value;
     }
 
     /**
-     * @param $message
+     * @param string $message
      */
-    public static function setError($message)
+    public static function setError(string $message)
     {
-        self::setMessageValue('danger',  $message);
+        self::setMessageValue('danger', $message);
     }
 
-    public static function setWarning($message)
+    /**
+     * @param string $message
+     */
+    public static function setWarning(string $message)
     {
-        self::setMessageValue('warning',  $message);
+        self::setMessageValue('warning', $message);
     }
 
     /**
@@ -27,9 +38,12 @@ class Messages {
      */
     public static function setMessage($message)
     {
-        self::setMessageValue('success',  $message);
+        self::setMessageValue('success', $message);
     }
 
+    /**
+     * @return string
+     */
     public static function renderMessages()
     {
         if (!isset($_SESSION)) {
@@ -41,7 +55,7 @@ class Messages {
         }
 
         $messages = '';
-        foreach($_SESSION['messages'] as $key => $message) {
+        foreach ($_SESSION['messages'] as $key => $message) {
             $messages .= '<p class="alert alert-' . $key . ' flash-' . $key . '">' . $message . "</p>";
             unset($_SESSION['messages'][$key]);
         }

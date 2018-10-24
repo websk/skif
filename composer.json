@@ -11,6 +11,7 @@
     "websk/php-cache": "1.1",
     "websk/php-db": "1.2",
     "websk/php-utils": "dev-master",
+    "websk/php-entity": "dev-master",
     "imagine/imagine": "0.6.3",
     "ckeditor/ckeditor": "4.7.*",
     "hybridauth/hybridauth": "2.9.*",

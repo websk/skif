@@ -2,6 +2,10 @@
 
 namespace WebSK\Skif;
 
+/**
+ * Class HTTP
+ * @package WebSK\Skif
+ */
 class HTTP
 {
     const METHOD_GET = 'GET';

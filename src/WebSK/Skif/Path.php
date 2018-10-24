@@ -2,9 +2,12 @@
 
 namespace Websk\Skif;
 
-use WebSK\Skif\ConfWrapper;
 use Skif\Utils;
 
+/**
+ * Class Path
+ * @package Websk\Skif
+ */
 class Path
 {
     const PUBLIC_DIR_NAME = 'public';

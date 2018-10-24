@@ -1,36 +1,37 @@
 <?php
-/**
-    CREATE TABLE `key_value` (
-        `id` INT(11) NOT NULL AUTO_INCREMENT,
-        `name` VARCHAR(128) NOT NULL DEFAULT '',
-        `value` MEDIUMTEXT NOT NULL,
-        `description` TEXT NULL,
-        PRIMARY KEY (`id`),
-        INDEX `name` (`name`)
-    )
-*/
 
 namespace Skif\KeyValue;
+
+use Skif\Model\FactoryTrait;
+use Skif\Model\InterfaceDelete;
+use Skif\Model\InterfaceFactory;
+use Skif\Model\InterfaceLoad;
+use Skif\Model\InterfaceSave;
+use Skif\Util\ActiveRecord;
+use Websk\Skif\CacheWrapper;
 
 /**
  * Class KeyValue
  * @package Skif\KeyValue
  */
-class KeyValue
-    implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete
+class KeyValue implements
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete
 {
-    use \Skif\Util\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+    use ActiveRecord;
+    use FactoryTrait;
 
     const DB_TABLE_NAME = 'key_value';
 
+    /** @var int */
     protected $id;
+    /** @var string */
     protected $name;
+    /** @var string */
     protected $description;
+    /** @var string */
     protected $value;
 
 
@@ -61,85 +62,76 @@ class KeyValue
         'value' => array('widget' => 'textarea'),
     );
 
-
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @param mixed $id
+     * @return string
      */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }
 
     /**
-     * @param mixed $value
+     * @param string $value
      */
-    public function setValue($value)
+    public function setValue(string $value)
     {
         $this->value = $value;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
     /**
-     * @param mixed $description
+     * @param string $description
      */
-    public function setDescription($description)
+    public function setDescription(string $description)
     {
         $this->description = $description;
     }
 
     public static function afterUpdate($key_value_id)
     {
-        $key_value_obj = \Skif\KeyValue\KeyValue::factory($key_value_id);
+        $key_value_obj = self::factory($key_value_id);
 
-        $cache_key = \Skif\KeyValue\KeyValueUtils::getValueByNameCacheKey($key_value_obj->getName());
-        \Websk\Skif\CacheWrapper::delete($cache_key);
+        $cache_key = KeyValueUtils::getValueByNameCacheKey($key_value_obj->getName());
+        CacheWrapper::delete($cache_key);
 
         self::removeObjFromCacheById($key_value_id);
     }
 
     public function afterDelete()
     {
-        $cache_key = \Skif\KeyValue\KeyValueUtils::getValueByNameCacheKey($this->getName());
-        \Websk\Skif\CacheWrapper::delete($cache_key);
+        $cache_key = KeyValueUtils::getValueByNameCacheKey($this->getName());
+        CacheWrapper::delete($cache_key);
 
         self::removeObjFromCacheById($this->getId());
     }
