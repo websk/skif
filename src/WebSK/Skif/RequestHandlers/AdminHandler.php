@@ -5,7 +5,7 @@ namespace WebSK\Skif\RequestHandlers;
 use Skif\Users\AuthUtils;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use WebSK\Skif\HTTP;
+use WebSK\Utils\HTTP;
 use WebSK\Skif\PhpRender;
 
 class AdminHandler

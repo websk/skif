@@ -5,7 +5,7 @@ namespace WebSK\Skif\Captcha;
 use Slim\App;
 use WebSK\Skif\Captcha\RequestHandlers\CheckCaptchaAjaxHandler;
 use WebSK\Skif\Captcha\RequestHandlers\RenderCaptchaHandler;
-use WebSK\Skif\HTTP;
+use WebSK\Utils\HTTP;
 
 class CaptchaRoutes
 {
