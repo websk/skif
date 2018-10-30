@@ -7,7 +7,7 @@ use Websk\Skif\DBWrapper;
 use Skif\Http;
 use Skif\PhpTemplate;
 use Skif\Users\AuthUtils;
-use Skif\Users\User;
+use WebSK\Skif\Users\User;
 use Skif\Utils;
 
 class ControllerLogger

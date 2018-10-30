@@ -3,6 +3,7 @@
 namespace Websk\Skif;
 
 use WebSK\Cache\CacheService;
+use WebSK\Skif\SkifServiceProvider;
 
 /**
  * Class CacheWrapper
@@ -21,7 +22,7 @@ class CacheWrapper
         $container = Container::self();
 
         /** @var CacheService $cache_service */
-        $cache_service = $container->get(SkifApp::SKIF_CACHE_SERVICE);
+        $cache_service = $container->get(SkifServiceProvider::SKIF_CACHE_SERVICE);
 
         return $cache_service->get($key);
     }
@@ -35,7 +36,7 @@ class CacheWrapper
         $container = Container::self();
 
         /** @var CacheService $cache_service */
-        $cache_service = $container->get(SkifApp::SKIF_CACHE_SERVICE);
+        $cache_service = $container->get(SkifServiceProvider::SKIF_CACHE_SERVICE);
 
         return $cache_service->delete($key);
     }
@@ -52,7 +53,7 @@ class CacheWrapper
         $container = Container::self();
 
         /** @var CacheService $cache_service */
-        $cache_service = $container->get(SkifApp::SKIF_CACHE_SERVICE);
+        $cache_service = $container->get(SkifServiceProvider::SKIF_CACHE_SERVICE);
 
         return $cache_service->set($key, $value, $expire);
     }

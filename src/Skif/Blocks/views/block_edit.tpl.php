@@ -75,7 +75,7 @@ $items = array();
                             $roles_ids_arr = \Skif\Users\UsersUtils::getRolesIdsArr();
 
                             foreach ($roles_ids_arr as $role_id) {
-                                $role_obj = \Skif\Users\Role::factory($role_id);
+                                $role_obj = \WebSK\Skif\Users\Role::factory($role_id);
                                 ?>
                                 <div class="checkbox">
                                     <label>

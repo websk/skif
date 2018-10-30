@@ -6,9 +6,14 @@ use WebSK\Skif\ConfWrapper;
 use Skif\Http;
 use Skif\Image\ImageConstants;
 use Skif\Image\ImageController;
+use Websk\Skif\Container;
 use Websk\Skif\Messages;
 use Skif\PhpTemplate;
 use Skif\Utils;
+use WebSK\Skif\Users\Role;
+use WebSK\Skif\Users\User;
+use WebSK\Skif\Users\UserRole;
+use WebSK\Skif\Users\UserService;
 
 class UserController
 {
@@ -118,8 +123,12 @@ class UserController
     {
         $current_user_id = AuthUtils::getCurrentUserId();
 
+        $container = Container::self();
+        /** @var UserService $user_service */
+        $user_service = $container->get(User::ENTITY_SERVICE_CONTAINER_ID);
+
         if ($user_id != 'new') {
-            $user_obj = User::factory($user_id, false);
+            $user_obj = $user_service->getById($user_id, false);
 
             Http::exit403If(!$user_obj);
 
@@ -174,8 +183,6 @@ class UserController
                 Messages::setError('Ошибка! Не введен пароль.');
                 Http::redirect($destination);
             }
-
-            $user_obj->setCreatedAt(date('Y-m-d H:i:s'));
         } else {
             $has_user_id = UsersUtils::hasUserByEmail($email, $user_id);
             if ($has_user_id) {
@@ -207,20 +214,23 @@ class UserController
         $user_obj->setCity($city);
         $user_obj->setAddress($address);
         $user_obj->setComment($comment);
-        $user_obj->save();
+
+        $user_service->save($user_obj);
 
 
         // Roles
         // TODO: убрать
         if (AuthUtils::currentUserIsAdmin()) {
-            $user_obj->deleteUserRoles();
+            $user_service->deleteUserRolesForUserId($user_id);
 
             if ($roles_ids_arr) {
+                $user_role_service = $container->get(UserRole::ENTITY_SERVICE_CONTAINER_ID);
+
                 foreach ($roles_ids_arr as $role_id) {
                     $user_role_obj = new UserRole();
                     $user_role_obj->setUserId($user_obj->getId());
                     $user_role_obj->setRoleId($role_id);
-                    $user_role_obj->save();
+                    $user_role_service->save($user_role_obj);
                 }
             }
         }
@@ -236,9 +246,9 @@ class UserController
                     Http::redirect('/user/edit/' . $user_obj->getId());
                 }
 
-                $user_obj = User::factory($user_id);
+                $user_obj = $user_service->getById($user_id);
                 $user_obj->setPhoto($file_name);
-                $user_obj->save();
+                $user_service->save($user_obj);
             }
         }
 

@@ -14,7 +14,7 @@ use Websk\Skif\Path;
 use Skif\PhpTemplate;
 use Skif\UrlManager;
 use Skif\Users\AuthUtils;
-use Skif\Users\User;
+use WebSK\Skif\Users\User;
 
 $user_id = AuthUtils::getCurrentUserId();
 

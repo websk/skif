@@ -3,7 +3,7 @@
  * @var int $role_id
  */
 
-use Skif\Users\Role;
+use WebSK\Skif\Users\Role;
 
 if ($role_id == 'new') {
     $users_role_obj = new Role;

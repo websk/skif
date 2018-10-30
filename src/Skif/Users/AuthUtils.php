@@ -7,11 +7,11 @@ use Websk\Skif\DBWrapper;
 use Skif\Image\ImageManager;
 use Websk\Skif\Messages;
 use Skif\UrlManager;
+use WebSK\Skif\Users\User;
+use WebSK\Skif\Users\UserRole;
 
 class AuthUtils
 {
-
-    const ROLE_ADMIN = 1;
     const SESSION_LIFE_TIME = 31536000; // 1 год
 
 

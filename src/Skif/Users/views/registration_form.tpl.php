@@ -2,7 +2,7 @@
 
 use Skif\Captcha\Captcha;
 use Skif\Users\AuthController;
-use Skif\Users\User;
+use WebSK\Skif\Users\User;
 
 $destination = AuthController::getLoginFormUrl();
 

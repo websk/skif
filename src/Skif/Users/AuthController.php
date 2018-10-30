@@ -8,6 +8,8 @@ use Skif\Http;
 use Websk\Skif\Messages;
 use Skif\PhpTemplate;
 use Skif\Utils;
+use WebSK\Skif\Users\User;
+use WebSK\Skif\Users\UserRole;
 
 class AuthController
 {

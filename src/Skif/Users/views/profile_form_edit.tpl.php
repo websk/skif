@@ -7,8 +7,8 @@ use Skif\Http;
 use Skif\Image\ImageManager;
 use Skif\UrlManager;
 use Skif\Users\AuthUtils;
-use Skif\Users\Role;
-use Skif\Users\User;
+use WebSK\Skif\Users\Role;
+use WebSK\Skif\Users\User;
 use Skif\Users\UsersUtils;
 
 if ($user_id == 'new') {

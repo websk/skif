@@ -3,7 +3,7 @@
 namespace Skif\Blocks;
 
 use Skif\Network;
-use Skif\Users\User;
+use WebSK\Skif\Users\User;
 use Skif\Util\FilterFactory;
 use Websk\Skif\CacheWrapper;
 use Websk\Skif\DBWrapper;

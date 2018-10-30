@@ -24,11 +24,12 @@ CREATE TABLE `redirect_rewrites` (
 
 CREATE TABLE `key_value` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(128) NOT NULL DEFAULT '',
-  `value` mediumtext NOT NULL,
-  `description` text,
+  `created_at_ts` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL,
+  `value` mediumtext,
+  `description` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  KEY `name` (`name`)
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `template` (

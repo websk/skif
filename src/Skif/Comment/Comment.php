@@ -3,7 +3,7 @@
 namespace Skif\Comment;
 
 
-use Skif\Users\User;
+use WebSK\Skif\Users\User;
 use Websk\Utils\Assert;
 
 class Comment  implements

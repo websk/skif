@@ -3,7 +3,7 @@
  * @var array $logger_objs_arr
  */
 
-use Skif\Users\User;
+use WebSK\Skif\Users\User;
 ?>
 <table class="table table-hover table-condensed">
 	<thead>

@@ -3,6 +3,7 @@
 namespace Websk\Skif;
 
 use Websk\DB\DBService;
+use WebSK\Skif\SkifServiceProvider;
 
 /**
  * Class DBWrapper
@@ -21,7 +22,7 @@ class DBWrapper
         $container = Container::self();
 
         /** @var DBService $db_service */
-        $db_service = $container->get(SkifApp::SKIF_DB_SERVICE);
+        $db_service = $container->get(SkifServiceProvider::SKIF_DB_SERVICE);
 
         return $db_service->query($query, $params_arr);
     }
@@ -38,7 +39,7 @@ class DBWrapper
         $container = Container::self();
 
         /** @var DBService $db_service */
-        $db_service = $container->get(SkifApp::SKIF_DB_SERVICE);
+        $db_service = $container->get(SkifServiceProvider::SKIF_DB_SERVICE);
 
         return $db_service->readObjects($query, $params_arr, $field_name_for_keys);
     }
@@ -53,7 +54,7 @@ class DBWrapper
         $container = Container::self();
 
         /** @var DBService $db_service */
-        $db_service = $container->get(SkifApp::SKIF_DB_SERVICE);
+        $db_service = $container->get(SkifServiceProvider::SKIF_DB_SERVICE);
 
         return $db_service->readObject($query, $params_arr);
     }
@@ -69,7 +70,7 @@ class DBWrapper
         $container = Container::self();
 
         /** @var DBService $db_service */
-        $db_service = $container->get(SkifApp::SKIF_DB_SERVICE);
+        $db_service = $container->get(SkifServiceProvider::SKIF_DB_SERVICE);
 
         return $db_service->readAssoc($query, $params_arr);
     }
@@ -85,7 +86,7 @@ class DBWrapper
         $container = Container::self();
 
         /** @var DBService $db_service */
-        $db_service = $container->get(SkifApp::SKIF_DB_SERVICE);
+        $db_service = $container->get(SkifServiceProvider::SKIF_DB_SERVICE);
 
         return $db_service->readColumn($query, $params_arr);
     }
@@ -101,7 +102,7 @@ class DBWrapper
         $container = Container::self();
 
         /** @var DBService $db_service */
-        $db_service = $container->get(SkifApp::SKIF_DB_SERVICE);
+        $db_service = $container->get(SkifServiceProvider::SKIF_DB_SERVICE);
 
         return $db_service->readAssocRow($query, $params_arr);
     }
@@ -117,7 +118,7 @@ class DBWrapper
         $container = Container::self();
 
         /** @var DBService $db_service */
-        $db_service = $container->get(SkifApp::SKIF_DB_SERVICE);
+        $db_service = $container->get(SkifServiceProvider::SKIF_DB_SERVICE);
 
         return $db_service->readField($query, $params_arr);
     }
@@ -132,7 +133,7 @@ class DBWrapper
         $container = Container::self();
 
         /** @var DBService $db_service */
-        $db_service = $container->get(SkifApp::SKIF_DB_SERVICE);
+        $db_service = $container->get(SkifServiceProvider::SKIF_DB_SERVICE);
 
         return $db_service->lastInsertId($db_sequence_name);
    }

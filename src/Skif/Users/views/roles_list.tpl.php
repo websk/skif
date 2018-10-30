@@ -3,7 +3,7 @@
  *
  */
 
-use Skif\Users\Role;
+use WebSK\Skif\Users\Role;
 use Skif\Users\UsersUtils;
 
 ?>

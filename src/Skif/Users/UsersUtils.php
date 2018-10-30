@@ -4,6 +4,8 @@ namespace Skif\Users;
 
 use WebSK\Skif\ConfWrapper;
 use Websk\Skif\DBWrapper;
+use WebSK\Skif\Users\Role;
+use WebSK\Skif\Users\User;
 
 class UsersUtils
 {
@@ -11,12 +13,6 @@ class UsersUtils
     {
         $query = "SELECT id FROM " . Role::DB_TABLE_NAME . " ORDER BY name";
         return DBWrapper::readColumn($query);
-    }
-
-    public static function getRoleIdByDesignation($designation)
-    {
-        $query = "SELECT id FROM " . Role::DB_TABLE_NAME . " WHERE designation=?";
-        return DBWrapper::readField($query, array($designation));
     }
 
     /**
