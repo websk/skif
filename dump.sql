@@ -103,6 +103,7 @@ CREATE TABLE `blocks_roles` (
 
 CREATE TABLE `roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at_ts` int(11) NOT NULL DEFAULT '0',
   `name` varchar(100) NOT NULL DEFAULT '',
   `designation` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -130,17 +131,18 @@ CREATE TABLE `users` (
   `provider` varchar(100) NOT NULL DEFAULT '',
   `provider_uid` varchar(255) DEFAULT '',
   `profile_url` varchar(1000) DEFAULT '',
-  `created_at` datetime DEFAULT NULL,
+  `created_at_ts` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   KEY `confirm_code` (`confirm_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `users` (`id`, `email`, `passw`, `name`, `first_name`, `last_name`, `photo`, `birthday`, `phone`, `city`, `address`, `company`, `comment`, `confirm`, `confirm_code`, `provider`, `provider_uid`, `profile_url`, `created_at`)
+INSERT INTO `users` (`id`, `email`, `passw`, `name`, `first_name`, `last_name`, `photo`, `birthday`, `phone`, `city`, `address`, `company`, `comment`, `confirm`, `confirm_code`, `provider`, `provider_uid`, `profile_url`, `created_at_ts`)
 VALUES (1, 'support@websk.ru', '1f737832e84fb946d5a4f50c567334be', 'Администратор', '', '', '', '', '', '', '', '', '', 1, '', '', NULL, NULL, NULL);
 
 CREATE TABLE `users_roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at_ts` int(11) NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
@@ -150,11 +152,14 @@ CREATE TABLE `users_roles` (
 INSERT INTO `users_roles` (`id`, `user_id`, `role_id`) VALUES (1, 1, 1);
 
 CREATE TABLE `sessions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at_ts` int(11) NOT NULL DEFAULT '0',
   `user_id` int(10) unsigned NOT NULL,
   `session` varchar(64) NOT NULL DEFAULT '',
   `hostname` varchar(128) NOT NULL DEFAULT '',
   `timestamp` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`session`),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `session` (`session`),
   KEY `timestamp` (`timestamp`),
   KEY `uid` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

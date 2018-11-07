@@ -6,7 +6,7 @@
 $user_name = '';
 $user_email = '';
 
-$current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+$current_user_id = \WebSK\Skif\Users\AuthUtils::getCurrentUserId();
 
 if (\WebSK\Skif\ConfWrapper::value('comments.no_add_comments_for_unregistered_users')) {
     ?>
@@ -27,7 +27,7 @@ if (\WebSK\Skif\ConfWrapper::value('comments.no_add_comments_for_unregistered_us
         </div>
     </div>
     <?php
-    if (!\Skif\Users\AuthUtils::getCurrentUserId()) {
+    if (!\WebSK\Skif\Users\AuthUtils::getCurrentUserId()) {
         ?>
         <div class="form-group">
             <label class="col-md-2">Имя</label>

@@ -1,15 +1,16 @@
 <?php
 /**
  * @var int $user_id
+ * @var array $user_roles_ids_arr
  */
 
 use Skif\Http;
 use Skif\Image\ImageManager;
 use Skif\UrlManager;
-use Skif\Users\AuthUtils;
+use WebSK\Skif\Users\AuthUtils;
 use WebSK\Skif\Users\Role;
 use WebSK\Skif\Users\User;
-use Skif\Users\UsersUtils;
+use WebSK\Skif\Users\UsersUtils;
 
 if ($user_id == 'new') {
     $user_obj = new User();
@@ -75,7 +76,7 @@ $destination = UrlManager::getUriNoQueryString();
                                 <label for="roles_<?php echo $role_id; ?>">
                                     <input value="<?php echo $role_id; ?>" id="roles_<?php echo $role_id; ?>"
                                            type="checkbox"
-                                           name="roles[]"<?php echo(in_array($role_id, $user_obj->getRoleIdsArr()) ? ' checked' : '') ?>>
+                                           name="roles[]"<?php echo(in_array($role_id, $user_roles_ids_arr) ? ' checked' : '') ?>>
                                     <?php echo $role_obj->getName(); ?>
                                 </label>
                             </div>

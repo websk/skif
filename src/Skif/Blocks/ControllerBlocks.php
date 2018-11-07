@@ -105,7 +105,7 @@ class ControllerBlocks
     public function listAction()
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Users\AuthUtils::currentUserIsAdmin());
 
         self::blocksPageActions();
 
@@ -143,7 +143,7 @@ class ControllerBlocks
     public static function disableBlock($block_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Users\AuthUtils::currentUserIsAdmin());
 
         $block_obj = \Skif\Blocks\Block::factory($block_id);
 
@@ -177,7 +177,7 @@ class ControllerBlocks
     public function editAction($block_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Users\AuthUtils::currentUserIsAdmin());
 
         self::actions($block_id);
 
@@ -237,7 +237,7 @@ class ControllerBlocks
     public static function saveContent($block_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Users\AuthUtils::currentUserIsAdmin());
 
         $block_obj = self::getBlockObj($block_id);
 
@@ -306,7 +306,7 @@ class ControllerBlocks
     public function cachingTabAction($block_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Users\AuthUtils::currentUserIsAdmin());
 
         self::actions($block_id);
 
@@ -345,7 +345,7 @@ class ControllerBlocks
     public function placeInRegionTabAction($block_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Users\AuthUtils::currentUserIsAdmin());
 
         $block_obj = self::getBlockObj($block_id);
 
@@ -383,7 +383,7 @@ class ControllerBlocks
     static public function moveBlock($block_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Users\AuthUtils::currentUserIsAdmin());
 
         $target_weight = $_REQUEST['target_weight'];
         $target_region = $_REQUEST['target_region'];
@@ -482,7 +482,7 @@ class ControllerBlocks
     public function chooseRegionTabAction($block_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Users\AuthUtils::currentUserIsAdmin());
 
         self::actions($block_id);
 
@@ -511,7 +511,7 @@ class ControllerBlocks
     public function deleteTabAction($block_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Users\AuthUtils::currentUserIsAdmin());
 
         self::actions($block_id);
 
@@ -541,7 +541,7 @@ class ControllerBlocks
     public static function deleteBlock($block_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Users\AuthUtils::currentUserIsAdmin());
 
         $block_obj = \Skif\Blocks\Block::factory($block_id);
 
@@ -560,7 +560,7 @@ class ControllerBlocks
     public function searchAction()
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\Skif\Users\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Users\AuthUtils::currentUserIsAdmin());
 
         $html = '';
 

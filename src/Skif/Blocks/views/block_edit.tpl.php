@@ -3,12 +3,15 @@
  * @var $block_id
  */
 
+use Skif\Blocks\ControllerBlocks;
+use Skif\PhpTemplate;
+use WebSK\Skif\Users\UsersUtils;
 use Websk\Skif\Path;
-use Skif\Utils;
+use WebSK\Skif\Users\Role;
 
-$block_obj = \Skif\Blocks\ControllerBlocks::getBlockObj($block_id);
+$block_obj = ControllerBlocks::getBlockObj($block_id);
 
-echo \Skif\PhpTemplate::renderTemplateBySkifModule(
+echo PhpTemplate::renderTemplateBySkifModule(
     'Blocks',
     'block_edit_menu.tpl.php',
     array('block_id' => $block_id)
@@ -72,10 +75,10 @@ $items = array();
                         <span id="roles">
                             <?php
                             $block_role_ids_arr = $block_obj->getRoleIdsArr();
-                            $roles_ids_arr = \Skif\Users\UsersUtils::getRolesIdsArr();
+                            $roles_ids_arr = UsersUtils::getRolesIdsArr();
 
                             foreach ($roles_ids_arr as $role_id) {
-                                $role_obj = \WebSK\Skif\Users\Role::factory($role_id);
+                                $role_obj = Role::factory($role_id);
                                 ?>
                                 <div class="checkbox">
                                     <label>
@@ -154,7 +157,7 @@ $items = array();
 
     $('#regions-btn-js').on('click', function() {
         $('#body').val(editor.getValue());
-        $('#_redirect_to_on_success').val('<?php echo \Skif\Blocks\ControllerBlocks::getRegionsListUrl($block_id); ?>');
+        $('#_redirect_to_on_success').val('<?php echo ControllerBlocks::getRegionsListUrl($block_id); ?>');
 
         form.submit();
     });

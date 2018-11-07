@@ -13,7 +13,7 @@ use Websk\Skif\Messages;
 use Websk\Skif\Path;
 use Skif\PhpTemplate;
 use Skif\UrlManager;
-use Skif\Users\AuthUtils;
+use WebSK\Skif\Users\AuthUtils;
 use WebSK\Skif\Users\User;
 
 $user_id = AuthUtils::getCurrentUserId();

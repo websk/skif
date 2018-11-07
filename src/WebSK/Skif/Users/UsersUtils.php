@@ -1,17 +1,24 @@
 <?php
 
-namespace Skif\Users;
+namespace WebSK\Skif\Users;
 
 use WebSK\Skif\ConfWrapper;
 use Websk\Skif\DBWrapper;
-use WebSK\Skif\Users\Role;
-use WebSK\Skif\Users\User;
 
+/**
+ * Class UsersUtils
+ * @package WebSK\Skif\Users
+ */
 class UsersUtils
 {
+    /**
+     * @return array
+     * @throws \Exception
+     */
     public static function getRolesIdsArr()
     {
         $query = "SELECT id FROM " . Role::DB_TABLE_NAME . " ORDER BY name";
+
         return DBWrapper::readColumn($query);
     }
 

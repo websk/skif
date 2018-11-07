@@ -75,7 +75,7 @@ class FormController extends \Skif\CRUD\CRUDController
             }
         }
 
-        $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+        $current_user_id = \WebSK\Skif\Users\AuthUtils::getCurrentUserId();
 
         if (!$current_user_id) {
             if (!\Skif\Captcha\Captcha::checkWithMessage()) {

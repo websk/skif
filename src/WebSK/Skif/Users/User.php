@@ -4,6 +4,10 @@ namespace WebSK\Skif\Users;
 
 use WebSK\Entity\BaseEntity;
 
+/**
+ * Class User
+ * @package WebSK\Skif\Users
+ */
 class User extends BaseEntity
 {
     const ENTITY_SERVICE_CONTAINER_ID = 'users.user_service';
@@ -315,29 +319,18 @@ class User extends BaseEntity
     }
 
     /**
-     * @return array
-     */
-    public function getRoleIdsArr()
-    {
-    }
-
-    /**
      * Регистрация пользователя подтверждена
      * @return bool
      */
-    public function isConfirm()
+    public function isConfirm(): bool
     {
-        if ($this->confirm) {
-            return true;
-        }
-
-        return false;
+        return $this->confirm;
     }
 
     /**
-     * @param int $confirm
+     * @param bool $confirm
      */
-    public function setConfirm(int $confirm)
+    public function setConfirm(bool $confirm)
     {
         $this->confirm = $confirm;
     }

@@ -14,12 +14,9 @@ class UserRoleRepository extends BaseEntityRepository
      */
     public function findIdsArrForUserId(int $user_id): array
     {
-        $db_table_name = $this->getTableName();
-        $db_id_field_name = $this->getIdFieldName();
-
         return $this->db_service->readColumn(
-            'SELECT ' . Sanitize::sanitizeSqlColumnName($db_id_field_name)
-            . ' FROM ' . Sanitize::sanitizeSqlColumnName($db_table_name)
+            'SELECT ' . Sanitize::sanitizeSqlColumnName($this->getIdFieldName())
+            . ' FROM ' . Sanitize::sanitizeSqlColumnName($this->getTableName())
             . ' WHERE ' . Sanitize::sanitizeSqlColumnName(UserRole::_USER_ID) . '=?',
             [$user_id]
         );

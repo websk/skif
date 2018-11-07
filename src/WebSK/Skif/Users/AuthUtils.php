@@ -1,19 +1,21 @@
 <?php
 
-namespace Skif\Users;
+namespace WebSK\Skif\Users;
 
 use WebSK\Skif\ConfWrapper;
+use Websk\Skif\Container;
 use Websk\Skif\DBWrapper;
 use Skif\Image\ImageManager;
 use Websk\Skif\Messages;
 use Skif\UrlManager;
-use WebSK\Skif\Users\User;
-use WebSK\Skif\Users\UserRole;
 
+/**
+ * Class AuthUtils
+ * @package WebSK\Skif\Users
+ */
 class AuthUtils
 {
     const SESSION_LIFE_TIME = 31536000; // 1 год
-
 
     /**
      * Авторизация на сайте
@@ -27,13 +29,14 @@ class AuthUtils
         $salt_password = self::getHash($password);
 
         $query = "SELECT id FROM " . User::DB_TABLE_NAME . " WHERE email=? AND passw=? LIMIT 1";
-        $user_id = DBWrapper::readField($query, array($email, $salt_password));
+        $user_id = DBWrapper::readField($query, [$email, $salt_password]);
 
         if (!$user_id) {
             return false;
         }
 
-        $user_obj = User::factory($user_id);
+        $container = Container::self();
+        $user_obj = UsersServiceProvider::getUserService($container)->getById($user_id);
 
         // Регистрация не подтверждена
         if (!$user_obj->isConfirm()) {
@@ -63,7 +66,7 @@ class AuthUtils
         $time = time();
 
         $query = "INSERT INTO sessions SET user_id=?, session=?, hostname=?, timestamp=?";
-        DBWrapper::query($query, array($user_id, $session, $_SERVER['REMOTE_ADDR'], $time));
+        DBWrapper::query($query, [$user_id, $session, $_SERVER['REMOTE_ADDR'], $time]);
 
         setcookie('auth_session', $session, $delta, '/');
 
@@ -104,7 +107,11 @@ class AuthUtils
         $user_id = self::getCurrentUserId();
 
         if ($user_id) {
-            self::clearUserSession($user_id);
+            $container = Container::self();
+
+            $session_service = UsersServiceProvider::getSessionService($container);
+
+            $session_service->clearUserSession($user_id);
         }
         //\Hybrid_Auth::logoutAllProviders();
     }
@@ -117,15 +124,7 @@ class AuthUtils
         self::clearOldSessionsByUserId($user_id);
 
         self::clearAuthCookie();
-        //self::removeUserFromAuthCache($user_id);
     }
-
-    /*
-    public static function removeUserFromAuthCache($user_session_id)
-    {
-        \Websk\Skif\CacheWrapper::delete('auth_user_' . $user_session_id);
-    }
-    */
 
     public static function clearAuthCookie()
     {
@@ -165,12 +164,16 @@ class AuthUtils
             return false;
         }
 
-        $user_obj = User::factory($user_id, false);
+        $container = Container::self();
+
+        $user_service = UsersServiceProvider::getUserService($container);
+
+        $user_obj = $user_service->getById($user_id, false);
         if (!$user_obj) {
             return false;
         }
 
-        if ($user_obj->hasRoleAdmin()) {
+        if ($user_service->hasRoleAdminByUserId($user_id)) {
             return true;
         }
 
@@ -187,9 +190,11 @@ class AuthUtils
         $user_id = self::getCurrentUserId();
 
         if ($user_id) {
-            $user_obj = User::factory($user_id);
+            $container = Container::self();
 
-            if ($user_obj->hasRoleByDesignation($role_designation)) {
+            $user_service = UsersServiceProvider::getUserService($container);
+
+            if ($user_service->hasRoleByUserIdAndDesignation($user_id, $role_designation)) {
                 return true;
             }
         }
@@ -245,25 +250,25 @@ class AuthUtils
             return $provider;
         } catch (\Exception $e) {
             switch ($e->getCode()) {
-                case 0 :
+                case 0:
                     $message = "Unspecified error.";
                     break;
-                case 1 :
+                case 1:
                     $message = "Hybriauth configuration error.";
                     break;
-                case 2 :
+                case 2:
                     $message = "Provider not properly configured.";
                     break;
-                case 3 :
+                case 3:
                     $message = "Unknown or disabled provider.";
                     break;
-                case 4 :
+                case 4:
                     $message = "Missing provider application credentials.";
                     break;
-                case 5 :
+                case 5:
                     $message = "Authentication failed. The user has canceled the authentication or the provider refused the connection.";
                     break;
-                case 6 :
+                case 6:
                     $message = "Authentication failed. The user has canceled the authentication or the provider refused the connection.";
                     break;
 
@@ -317,11 +322,11 @@ class AuthUtils
             $user_obj->setEmail($user_profile->email);
         }
 
+        /*
         if (!empty($user_profile->email)) {
             $user_obj->email_verified = ($user_profile->emailVerified === $user_profile->email);
         }
-
-        $user_obj->setCreatedAt(date('Y-m-d H:i:s'));
+        */
 
         if (!empty($user_profile->photoURL)) {
             // save remote image to local
@@ -329,7 +334,10 @@ class AuthUtils
             $user_obj->setPhoto($photo);
         }
 
-        $user_obj->save();
+        $container = Container::self();
+
+        $user_service = UsersServiceProvider::getUserService($container);
+        $user_service->save($user_obj);
 
         if (!$user_obj->getId()) {
             return false;
@@ -341,7 +349,9 @@ class AuthUtils
         $user_role_obj = new UserRole();
         $user_role_obj->setUserId($user_obj->getId());
         $user_role_obj->setRoleId($role_id);
-        $user_role_obj->save();
+
+        $user_role_service = UsersServiceProvider::getUserRoleService($container);
+        $user_role_service->save($user_role_obj);
 
         return $user_obj->getId();
     }

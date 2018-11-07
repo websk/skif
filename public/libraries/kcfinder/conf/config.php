@@ -17,7 +17,7 @@
    See http://kcfinder.sunhater.com/install for setting descriptions */
 
 use WebSK\Skif\ConfWrapper;
-use Skif\Users\AuthUtils;
+use WebSK\Skif\Users\AuthUtils;
 
 require __DIR__ . '/../../../../vendor/autoload.php';
 

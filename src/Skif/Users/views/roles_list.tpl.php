@@ -4,7 +4,7 @@
  */
 
 use WebSK\Skif\Users\Role;
-use Skif\Users\UsersUtils;
+use WebSK\Skif\Users\UsersUtils;
 
 ?>
 <p class="padding_top_10 padding_bottom_10">

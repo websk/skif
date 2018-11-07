@@ -4,7 +4,7 @@
  * @var $url
  */
 
-$current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+$current_user_id = \WebSK\Skif\Users\AuthUtils::getCurrentUserId();
 ?>
     <script type="text/javascript">
         <?php
@@ -50,14 +50,14 @@ foreach ($comments_ids_arr as $comment_id) {
         <div class="panel-heading">
             <?php echo nl2br($comment_obj->getComment()); ?>
             <?php
-            if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
+            if (\WebSK\Skif\Users\AuthUtils::currentUserIsAdmin()) {
                 echo ' [&nbsp;<a href="' . \Skif\Comment\CommentController::getEditUrl(\Skif\Comment\CommentController::getModelClassName(), $comment_id) . '?destination=' . $url . '#comments">Изменить</a>&nbsp;]';
                 echo ' [&nbsp;<a href="' . \Skif\Comment\CommentController::getDeleteUrl(\Skif\Comment\CommentController::getModelClassName(), $comment_id) . '?destination=' . $url . '#comments" onClick="return confirm(\'Вы уверены, что хотите удалить?\')">Удалить</a>&nbsp;]';
             }
             ?>
             <div class="text-muted"><small><?= $comment_obj->getUserName() ?>, <?= date('d.m.Y', $comment_obj->getUnixTime()) ?>
                 <?php
-                if (\Skif\Users\AuthUtils::currentUserIsAdmin() && $comment_obj->getUserEmail()) {
+                if (\WebSK\Skif\Users\AuthUtils::currentUserIsAdmin() && $comment_obj->getUserEmail()) {
                     echo ', ' . $comment_obj->getUserEmail();
                 }
                 ?>
@@ -70,7 +70,7 @@ foreach ($comments_ids_arr as $comment_id) {
             $children_comment_obj = \Skif\Comment\Comment::factory($children_comment_id);
 
             echo '<div class="panel-body">' . nl2br($children_comment_obj->getComment());
-            if (\Skif\Users\AuthUtils::currentUserIsAdmin()) {
+            if (\WebSK\Skif\Users\AuthUtils::currentUserIsAdmin()) {
                 echo ' [&nbsp;<a href="' . \Skif\Comment\CommentController::getEditUrl(\Skif\Comment\CommentController::getModelClassName(), $children_comment_id) . '?destination=' . $url . '#comments">Изменить</a>&nbsp;]';
                 echo ' [&nbsp;<a href="' . \Skif\Comment\CommentController::getDeleteUrl(\Skif\Comment\CommentController::getModelClassName(), $children_comment_id) . '?destination=' . $url . '#comments" onClick="return confirm(\'Вы уверены, что хотите удалить?\')">Удалить</a>&nbsp;]';
             }

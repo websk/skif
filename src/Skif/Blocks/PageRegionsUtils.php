@@ -76,7 +76,7 @@ class PageRegionsUtils
 
         $visible_blocks_ids_arr = array();
 
-        $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+        $current_user_id = \WebSK\Skif\Users\AuthUtils::getCurrentUserId();
 
         foreach ($blocks_ids_arr as $block_id) {
             if (!\Skif\Blocks\BlockUtils::blockIsVisibleByUserId($block_id, $current_user_id)) {

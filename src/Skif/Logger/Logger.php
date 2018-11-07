@@ -5,7 +5,7 @@ namespace Skif\Logger;
 use Skif\CRUD\CRUDUtils;
 use Websk\Skif\DBWrapper;
 use Skif\Model\InterfaceLoad;
-use Skif\Users\AuthUtils;
+use WebSK\Skif\Users\AuthUtils;
 use Skif\Util\Network;
 use Skif\Utils;
 

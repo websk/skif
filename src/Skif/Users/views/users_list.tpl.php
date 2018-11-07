@@ -7,7 +7,7 @@ use Skif\Image\ImageManager;
 use Skif\Logger\LoggerUtils;
 use WebSK\Skif\Users\Role;
 use WebSK\Skif\Users\User;
-use Skif\Users\UsersUtils;
+use WebSK\Skif\Users\UsersUtils;
 
 $requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id'] : 0;
 ?>

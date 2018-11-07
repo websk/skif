@@ -31,7 +31,7 @@ class Comment  implements
 
     public function __construct()
     {
-        $this->user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+        $this->user_id = \WebSK\Skif\Users\AuthUtils::getCurrentUserId();
         $this->date_time = date('Y-m-d H:i:s');
     }
 

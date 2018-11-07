@@ -10,10 +10,13 @@ use Websk\Skif\Container;
 use Websk\Skif\Messages;
 use Skif\PhpTemplate;
 use Skif\Utils;
+use WebSK\Skif\Users\AuthUtils;
 use WebSK\Skif\Users\Role;
 use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UserRole;
 use WebSK\Skif\Users\UserService;
+use WebSK\Skif\Users\UsersServiceProvider;
+use WebSK\Skif\Users\UsersUtils;
 
 class UserController
 {
@@ -65,8 +68,12 @@ class UserController
             $layout_file = ConfWrapper::value('layout.main');
         }
 
+        $container = Container::self();
+
+        $user_service = UsersServiceProvider::getUserService($container);
+
         if ($user_id != 'new') {
-            $user_obj = User::factory($user_id);
+            $user_obj = $user_service->getById($user_id);
 
             if (!$user_obj) {
                 Http::exit404();
@@ -88,10 +95,15 @@ class UserController
         }
         */
 
+        $user_roles_ids_arr = $user_service->getRoleIdsArrByUserId($user_id);
+
         $content .= PhpTemplate::renderTemplateBySkifModule(
             'Users',
             'profile_form_edit.tpl.php',
-            array('user_id' => $user_id)
+            [
+                'user_id' => $user_id,
+                'user_roles_ids_arr' => $user_roles_ids_arr
+            ]
         );
 
         $breadcrumbs_arr = array();
@@ -124,8 +136,7 @@ class UserController
         $current_user_id = AuthUtils::getCurrentUserId();
 
         $container = Container::self();
-        /** @var UserService $user_service */
-        $user_service = $container->get(User::ENTITY_SERVICE_CONTAINER_ID);
+        $user_service = UsersServiceProvider::getUserService($container);
 
         if ($user_id != 'new') {
             $user_obj = $user_service->getById($user_id, false);
@@ -145,7 +156,7 @@ class UserController
         $first_name = array_key_exists('first_name', $_REQUEST) ? $_REQUEST['first_name'] : '';
         $last_name = array_key_exists('last_name', $_REQUEST) ? $_REQUEST['last_name'] : '';
         $roles_ids_arr = array_key_exists('roles', $_REQUEST) ? $_REQUEST['roles'] : null;
-        $confirm = array_key_exists('confirm', $_REQUEST) ? $_REQUEST['confirm'] : '';
+        $confirm = array_key_exists('confirm', $_REQUEST) ? $_REQUEST['confirm'] : false;
         $birthday = array_key_exists('birthday', $_REQUEST) ? $_REQUEST['birthday'] : '';
         $email = array_key_exists('email', $_REQUEST) ? $_REQUEST['email'] : '';
         $phone = array_key_exists('phone', $_REQUEST) ? $_REQUEST['phone'] : '';
@@ -166,7 +177,7 @@ class UserController
         }
 
         /*
-        if (!\Skif\Users\UsersUtils::checkBirthDay::checkBirthDay($birthday)) {
+        if (!\WebSK\Skif\Users\UsersUtils::checkBirthDay::checkBirthDay($birthday)) {
             \Websk\Skif\Messages::setError('Указана неверная дата рождения');
             \Skif\Http::redirect($destination);
         }
@@ -224,7 +235,7 @@ class UserController
             $user_service->deleteUserRolesForUserId($user_id);
 
             if ($roles_ids_arr) {
-                $user_role_service = $container->get(UserRole::ENTITY_SERVICE_CONTAINER_ID);
+                $user_role_service = UsersServiceProvider::getUserRoleService($container);
 
                 foreach ($roles_ids_arr as $role_id) {
                     $user_role_obj = new UserRole();

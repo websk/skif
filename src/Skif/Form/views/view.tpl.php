@@ -45,7 +45,7 @@ $form_field_ids_arr = $form_obj->getFormFieldIdsArr();
         <?php
     }
 
-    $current_user_id = \Skif\Users\AuthUtils::getCurrentUserId();
+    $current_user_id = \WebSK\Skif\Users\AuthUtils::getCurrentUserId();
     if ($current_user_id) {
         $current_user_obj = \WebSK\Skif\Users\User::factory($current_user_id);
         echo '<input type="hidden" name="email" value="' . $current_user_obj->getEmail() . '">';
