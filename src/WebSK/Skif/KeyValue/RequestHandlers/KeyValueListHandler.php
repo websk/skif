@@ -5,9 +5,9 @@ namespace WebSK\Skif\KeyValue\RequestHandlers;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Websk\Skif\Container;
+use WebSK\Skif\AdminRender;
 use WebSK\Skif\LayoutDTO;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\UI\BreadcrumbItemDTO;
 use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Form\CRUDFormRow;
@@ -24,7 +24,7 @@ use WebSK\Skif\KeyValue\KeyValueRoutes;
  * Class KeyValueListHandler
  * @package WebSK\Skif\KeyValue\RequestHandlers
  */
-class KeyValueListHandler
+class KeyValueListHandler extends BaseHandler
 {
     /**
      * @param Request $request
@@ -33,11 +33,9 @@ class KeyValueListHandler
      */
     public function __invoke(Request $request, Response $response)
     {
-        $container = Container::self();
-
-        $crud_table_obj = CRUDServiceProvider::getCrud($container)->createTable(
+        $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
             KeyValue::class,
-            CRUDServiceProvider::getCrud($container)->createForm(
+            CRUDServiceProvider::getCrud($this->container)->createForm(
                 'keyvalue_create_rand8476256485',
                 new KeyValue(),
                 [
@@ -78,6 +76,6 @@ class KeyValueListHandler
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 
-        return PhpRender::render($response, '/layouts/layout.admin.tpl.php');
+        return AdminRender::renderLayout($response, $layout_dto);
     }
 }

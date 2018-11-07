@@ -2,9 +2,9 @@
 
 namespace WebSK\Skif;
 
-use VitrinaTV\Core\UI\BreadcrumbItemDTO;
-use VitrinaTV\Core\UI\MenuItemDTO;
-use VitrinaTV\Core\UI\NavTabItemDTO;
+use WebSK\UI\BreadcrumbItemDTO;
+use WebSK\UI\MenuItemDTO;
+use WebSK\UI\NavTabItemDTO;
 
 class LayoutDTO
 {

@@ -12,6 +12,7 @@ class KeyValue extends BaseEntity
 {
     const ENTITY_SERVICE_CONTAINER_ID = 'keyvalue.keyvalue_service';
     const ENTITY_REPOSITORY_CONTAINER_ID = 'keyvalue.keyvalue_repository';
+    const DB_TABLE_NAME = 'key_value';
 
     const _NAME = 'name';
     /** @var string */

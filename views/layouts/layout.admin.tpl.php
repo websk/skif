@@ -3,12 +3,14 @@
  * @var $title
  * @var $breadcrumbs
  * @var $content
+ * @var LayoutDTO $layout_dto
  */
 
 use WebSK\Skif\ConfWrapper;
 use Skif\Content\ContentType;
 use Skif\Content\ContentUtils;
 use Skif\Http;
+use WebSK\Skif\LayoutDTO;
 use Websk\Skif\Messages;
 use Websk\Skif\Path;
 use Skif\PhpTemplate;
@@ -29,6 +31,12 @@ if (!$user_id) {
 if (!AuthUtils::currentUserIsAdmin()) {
     Http::exit403();
 }
+
+if (isset($layout_dto)) {
+    $title = $layout_dto->getTitle();
+    $content = $layout_dto->getContentHtml();
+}
+
 
 $user_obj = UsersUtils::loadUser($user_id);
 $user_name = $user_obj->getName();

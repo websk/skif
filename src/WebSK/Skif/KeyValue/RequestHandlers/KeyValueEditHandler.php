@@ -5,9 +5,10 @@ namespace WebSK\Skif\KeyValue\RequestHandlers;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use WebSK\Skif\AdminRender;
 use Websk\Skif\Container;
 use WebSK\Skif\LayoutDTO;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Utils\HTTP;
 use WebSK\UI\BreadcrumbItemDTO;
 use WebSK\UI\NavTabItemDTO;
@@ -24,7 +25,7 @@ use WebSK\Skif\Logger\LoggerRender;
  * Class KeyValueEditHandler
  * @package VitrinaTV\KeyValue\RequestHandlers
  */
-class KeyValueEditHandler
+class KeyValueEditHandler extends BaseHandler
 {
     /**
      * @param Request $request
@@ -34,14 +35,12 @@ class KeyValueEditHandler
      */
     public function __invoke(Request $request, Response $response, int $keyvalue_id)
     {
-        $container = Container::self();
-
-        $keyvalue_obj = KeyValueServiceProvider::getKeyValueService($container)->getById($keyvalue_id, false);
+        $keyvalue_obj = KeyValueServiceProvider::getKeyValueService($this->container)->getById($keyvalue_id, false);
         if (!$keyvalue_obj) {
             return $response->withStatus(HTTP::STATUS_NOT_FOUND);
         }
 
-        $crud_table_obj = CRUDServiceProvider::getCrud($container)->createForm(
+        $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createForm(
             'keyvalue_edit_form_884772948',
             $keyvalue_obj,
             [
@@ -70,6 +69,6 @@ class KeyValueEditHandler
             new BreadcrumbItemDTO('Параметры', $this->pathFor(KeyValueListHandler::class))
         ]);
 
-        return PhpRender::render($response, '/layouts/layout.admin.tpl.php');
+        return AdminRender::renderLayout($response, $layout_dto);
     }
 }

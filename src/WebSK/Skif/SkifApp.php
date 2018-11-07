@@ -8,7 +8,6 @@ use Skif\Content\ContentRoutes;
 use Skif\CRUD\CRUDRoutes;
 use Skif\Form\FormRoutes;
 use Skif\Image\ImageRoutes;
-use Skif\KeyValue\KeyValueRoutes;
 use Skif\Logger\LoggerRoutes;
 use Skif\Poll\PollRoutes;
 use Skif\Rating\RatingRoutes;
@@ -18,7 +17,10 @@ use Skif\UrlManager;
 use Skif\Users\UserRoutes;
 use Slim\App;
 use Slim\Handlers\Strategies\RequestResponseArgs;
+use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\Skif\Captcha\CaptchaRoutes;
+use WebSK\Skif\KeyValue\KeyValueRoutes;
+use WebSK\Skif\KeyValue\KeyValueServiceProvider;
 use WebSK\Skif\RequestHandlers\AdminHandler;
 use WebSK\Skif\RequestHandlers\ErrorHandler;
 use WebSK\Skif\RequestHandlers\NotFoundHandler;
@@ -40,6 +42,8 @@ class SkifApp extends App
 
         SkifServiceProvider::register($container);
         UsersServiceProvider::register($container);
+        CRUDServiceProvider::register($container);
+        KeyValueServiceProvider::register($container);
 
         $this->registerRoutes();
     }
@@ -54,12 +58,14 @@ class SkifApp extends App
         $this->group('/admin', function (App $app) {
             $app->get('', AdminHandler::class)
                 ->setName(self::ROUTE_NAME_ADMIN);
+
+            KeyValueRoutes::route($app);
         });
 
         Facade::setFacadeApplication($this);
 
         RedirectRoutes::route();
-        KeyValueRoutes::route();
+
         LoggerRoutes::route();
         ImageRoutes::routes();
 

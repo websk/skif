@@ -2,8 +2,6 @@
 
 namespace WebSK\Skif\KeyValue;
 
-use OLOG\FullObjectId;
-use VitrinaTV\Core\Auth\Auth;
 use WebSK\Entity\BaseEntityService;
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Skif\Logger\Logger;
@@ -78,10 +76,9 @@ class KeyValueService extends BaseEntityService
         $cache_key = $this->getOptionalValueForKeyCacheKey($key_value_obj->getName());
         $this->cache_service->delete($cache_key);
 
-        Logger::logObjectEvent(
+        Logger::logObjectEventForCurrentUser(
             $key_value_obj,
-            'save',
-            FullObjectId::getFullObjectId(Auth::getCurrentUserObj())
+            'save'
         );
     }
 
@@ -95,10 +92,9 @@ class KeyValueService extends BaseEntityService
         $cache_key = $this->getOptionalValueForKeyCacheKey($key_value_obj->getName());
         $this->cache_service->delete($cache_key);
 
-        Logger::logObjectEvent(
+        Logger::logObjectEventForCurrentUser(
             $key_value_obj,
-            'delete',
-            FullObjectId::getFullObjectId(Auth::getCurrentUserObj())
+            'delete'
         );
     }
 }

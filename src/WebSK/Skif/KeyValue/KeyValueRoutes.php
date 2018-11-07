@@ -3,7 +3,7 @@
 namespace WebSK\Skif\KeyValue;
 
 use Slim\App;
-use WebSK\Skif\Auth\Middleware\CurrentUserHasAnyOfPermissions;
+use WebSK\Skif\Users\Middleware\CurrentUserHasAnyOfPermissions;
 use WebSK\Utils\HTTP;
 use WebSK\Skif\KeyValue\RequestHandlers\KeyValueEditHandler;
 use WebSK\Skif\KeyValue\RequestHandlers\KeyValueListHandler;
@@ -19,9 +19,9 @@ class KeyValueRoutes
     /**
      * @param App $app
      */
-    public static function registerAdmin(App $app): void
+    public static function route(App $app): void
     {
-        $app->group('/keyvalue', function (App $app) {
+        $app->group('/key_value', function (App $app) {
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', KeyValueListHandler::class)
                 ->setName(KeyValueListHandler::class);
 
