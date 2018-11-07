@@ -1,6 +1,6 @@
 <?php
 
-use Skif\Captcha\Captcha;
+use Websk\Skif\Captcha\Captcha;
 use Skif\Users\AuthController;
 use WebSK\Skif\Users\User;
 

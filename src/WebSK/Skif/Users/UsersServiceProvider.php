@@ -19,8 +19,19 @@ class UsersServiceProvider
         $container[Role::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
             return new RoleService(
                 Role::class,
-                $container[User::ENTITY_REPOSITORY_CONTAINER_ID],
+                $container->get(Role::ENTITY_REPOSITORY_CONTAINER_ID),
                 $container->get(SkifServiceProvider::SKIF_CACHE_SERVICE)
+            );
+        };
+
+        /**
+         * @param ContainerInterface $container
+         * @return RoleRepository
+         */
+        $container[Role::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
+            return new RoleRepository(
+                Role::class,
+                $container->get(SkifServiceProvider::SKIF_DB_SERVICE)
             );
         };
 
@@ -31,8 +42,19 @@ class UsersServiceProvider
         $container[UserRole::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
             return new UserRoleService(
                 UserRole::class,
-                $container[User::ENTITY_REPOSITORY_CONTAINER_ID],
+                $container->get(UserRole::ENTITY_REPOSITORY_CONTAINER_ID),
                 $container->get(SkifServiceProvider::SKIF_CACHE_SERVICE)
+            );
+        };
+
+        /**
+         * @param ContainerInterface $container
+         * @return UserRoleRepository
+         */
+        $container[UserRole::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
+            return new UserRoleRepository(
+                UserRole::class,
+                $container->get(SkifServiceProvider::SKIF_DB_SERVICE)
             );
         };
 
@@ -43,7 +65,7 @@ class UsersServiceProvider
         $container[User::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
             return new UserService(
                 User::class,
-                $container[User::ENTITY_REPOSITORY_CONTAINER_ID],
+                $container->get(User::ENTITY_REPOSITORY_CONTAINER_ID),
                 $container->get(SkifServiceProvider::SKIF_CACHE_SERVICE),
                 $container->get(Role::ENTITY_SERVICE_CONTAINER_ID),
                 $container->get(UserRole::ENTITY_SERVICE_CONTAINER_ID)
@@ -57,7 +79,7 @@ class UsersServiceProvider
         $container[User::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
             return new UserRepository(
                 User::class,
-                $container->get(User::ENTITY_REPOSITORY_CONTAINER_ID)
+                $container->get(SkifServiceProvider::SKIF_DB_SERVICE)
             );
         };
 
@@ -68,7 +90,7 @@ class UsersServiceProvider
         $container[Sessions::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
             return new SessionsService(
                 Sessions::class,
-                $container[User::ENTITY_REPOSITORY_CONTAINER_ID],
+                $container->get(User::ENTITY_REPOSITORY_CONTAINER_ID),
                 $container->get(SkifServiceProvider::SKIF_CACHE_SERVICE)
             );
         };

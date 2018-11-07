@@ -3,6 +3,7 @@
 namespace WebSK\Skif\Users;
 
 use WebSK\Skif\ConfWrapper;
+use Websk\Skif\Container;
 use Websk\Skif\DBWrapper;
 
 /**
@@ -11,6 +12,39 @@ use Websk\Skif\DBWrapper;
  */
 class UsersUtils
 {
+
+    /**
+     * @param int $user_id
+     * @param bool $exception_if_not_loaded
+     * @return User
+     * @deprecated
+     * @throws \Exception
+     */
+    public static function loadUser(int $user_id, bool $exception_if_not_loaded = true)
+    {
+        $container = Container::self();
+
+        $user_service = UsersServiceProvider::getUserService($container);
+
+        return $user_service->getById($user_id, $exception_if_not_loaded);
+    }
+
+    /**
+     * @param int $role_id
+     * @param bool $exception_if_not_loaded
+     * @return Role
+     * @deprecated
+     * @throws \Exception
+     */
+    public static function loadRole(int $role_id, bool $exception_if_not_loaded = true)
+    {
+        $container = Container::self();
+
+        $role_service = UsersServiceProvider::getRoleService($container);
+
+        return $role_service->getById($role_id, $exception_if_not_loaded);
+    }
+
     /**
      * @return array
      * @throws \Exception

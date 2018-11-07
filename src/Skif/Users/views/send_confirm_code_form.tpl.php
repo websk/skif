@@ -1,5 +1,5 @@
 <?php
-use Skif\Captcha\Captcha;
+use Websk\Skif\Captcha\Captcha;
 use Skif\Users\AuthController;
 ?>
 

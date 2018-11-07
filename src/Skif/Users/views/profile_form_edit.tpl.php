@@ -15,11 +15,11 @@ use WebSK\Skif\Users\UsersUtils;
 if ($user_id == 'new') {
     $user_obj = new User();
 } else {
-    $user_obj = User::factory($user_id);
+    $user_obj = UsersUtils::loadUser($user_id);
 }
 
 $current_user_id = AuthUtils::getCurrentUserId();
-$current_user_obj = User::factory($current_user_id);
+$current_user_obj = UsersUtils::loadUser($current_user_id);
 
 if (($current_user_id != $user_id) && !AuthUtils::currentUserIsAdmin()) {
     Http::exit403();
@@ -70,7 +70,7 @@ $destination = UrlManager::getUriNoQueryString();
                         <?php
                         $roles_ids_arr = UsersUtils::getRolesIdsArr();
                         foreach ($roles_ids_arr as $role_id) {
-                            $role_obj = Role::factory($role_id);
+                            $role_obj = UsersUtils::loadRole($role_id);
                             ?>
                             <div class="checkbox">
                                 <label for="roles_<?php echo $role_id; ?>">

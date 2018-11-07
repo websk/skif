@@ -14,7 +14,7 @@ use Websk\Skif\Path;
 use Skif\PhpTemplate;
 use Skif\UrlManager;
 use WebSK\Skif\Users\AuthUtils;
-use WebSK\Skif\Users\User;
+use WebSK\Skif\Users\UsersUtils;
 
 $user_id = AuthUtils::getCurrentUserId();
 
@@ -30,7 +30,8 @@ if (!AuthUtils::currentUserIsAdmin()) {
     Http::exit403();
 }
 
-$user_obj = User::factory($user_id);
+$user_obj = UsersUtils::loadUser($user_id);
+$user_name = $user_obj->getName();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -107,7 +108,7 @@ $user_obj = User::factory($user_id);
                 </a>
                 <ul class="dropdown-menu">
                     <li></li>
-                    <li><a href="/admin/users/edit/<?php echo $user_id; ?>"><i class="fa fa-user fa-fw"></i> <?php echo $user_obj->getName(); ?></a>
+                    <li><a href="/admin/users/edit/<?php echo $user_id; ?>"><i class="fa fa-user fa-fw"></i> <?php echo $user_name; ?></a>
                     </li>
                     <li class="divider"></li>
                     <li><a href="/user/logout?destination=/admin"><i class="fa fa-sign-out fa-fw"></i> Выход</a>

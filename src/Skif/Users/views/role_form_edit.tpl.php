@@ -4,11 +4,12 @@
  */
 
 use WebSK\Skif\Users\Role;
+use WebSK\Skif\Users\UsersUtils;
 
 if ($role_id == 'new') {
     $users_role_obj = new Role;
 } else {
-    $users_role_obj = Role::factory($role_id);
+    $users_role_obj = UsersUtils::loadRole($role_id);
 }
 
 ?>

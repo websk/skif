@@ -5,8 +5,6 @@
 
 use Skif\Image\ImageManager;
 use Skif\Logger\LoggerUtils;
-use WebSK\Skif\Users\Role;
-use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UsersUtils;
 
 $requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id'] : 0;
@@ -24,7 +22,7 @@ $requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id
                             <?php
                             $roles_ids_arr = UsersUtils::getRolesIdsArr();
                             foreach ($roles_ids_arr as $role_id) {
-                                $role_obj = Role::factory($role_id);
+                                $role_obj = UsersUtils::loadRole($role_id);
                                 echo '<option value="' . $role_id . '" ' . ($role_id == $requested_role_id ? 'selected' : '') . '>' . $role_obj->getName() . '</option>';
                             }
                             ?>
@@ -44,7 +42,8 @@ $requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id
 </div>
 
 <p class="padding_top_10 padding_bottom_10">
-    <a href="/admin/users/edit/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить пользователя</a>
+    <a href="/admin/users/edit/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить
+        пользователя</a>
 </p>
 
 <div>
@@ -59,14 +58,15 @@ $requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id
         <?php
         $users_ids_arr = UsersUtils::getUsersIdsArr($requested_role_id);
         foreach ($users_ids_arr as $user_id) {
-            $user_obj = User::factory($user_id);
+            $user_obj = UsersUtils::loadUser($user_id);
             ?>
             <tr>
                 <td><?php echo $user_obj->getId(); ?></td>
                 <td class="hidden-xs hidden-sm">
                     <?php
                     if ($user_obj->getPhoto()) {
-                        echo '<img src="' . ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(), '30_30') . '" class="img-thumbnail">';
+                        echo '<img src="' . ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(),
+                                '30_30') . '" class="img-thumbnail">';
                     }
                     ?>
                 </td>
@@ -75,13 +75,17 @@ $requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id
                 </td>
                 <td class="hidden-xs hidden-sm"><?php echo $user_obj->getEmail(); ?></td>
                 <td align="right">
-                    <a href="/admin/users/edit/<?php echo $user_id; ?>" title="Редактировать" class="btn btn-outline btn-default btn-sm">
+                    <a href="/admin/users/edit/<?php echo $user_id; ?>" title="Редактировать"
+                       class="btn btn-outline btn-default btn-sm">
                         <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
                     </a>
-                    <a href="<?php echo LoggerUtils::getLoggerUrlByObject($user_obj); ?>" target="_blank" title="Журнал" class="btn btn-outline btn-default btn-sm">
+                    <a href="<?php echo LoggerUtils::getLoggerUrlByObject($user_obj); ?>" target="_blank" title="Журнал"
+                       class="btn btn-outline btn-default btn-sm">
                         <span class="fa fa-history fa-lg fa-fw"></span>
                     </a>
-                    <a href="/user/delete/<?php echo $user_id; ?>?destination=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>" onClick="return confirm('Вы уверены, что хотите удалить?')" title="Удалить" class="btn btn-outline btn-default btn-sm">
+                    <a href="/user/delete/<?php echo $user_id; ?>?destination=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>"
+                       onClick="return confirm('Вы уверены, что хотите удалить?')" title="Удалить"
+                       class="btn btn-outline btn-default btn-sm">
                         <span class="fa fa-trash-o fa-lg text-danger fa-fw"></span>
                     </a>
                 </td>
