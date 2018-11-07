@@ -5,12 +5,14 @@ namespace Skif\Users;
 use Websk\Skif\Captcha\Captcha;
 use WebSK\Skif\ConfWrapper;
 use Skif\Http;
+use Websk\Skif\Container;
 use Websk\Skif\Messages;
 use Skif\PhpTemplate;
 use Skif\Utils;
 use WebSK\Skif\Users\AuthUtils;
 use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UserRole;
+use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Skif\Users\UsersUtils;
 
 class AuthController
@@ -203,6 +205,9 @@ class AuthController
             }
         }
 
+        $container = Container::self();
+
+        $user_service = UsersServiceProvider::getUserService($container);
 
         $user_obj = new User();
 
@@ -219,17 +224,17 @@ class AuthController
         $confirm_code = UsersUtils::generateConfirmCode();
         $user_obj->setConfirmCode($confirm_code);
 
-        $user_obj->setCreatedAt(date('Y-m-d H:i:s'));
-
-        $user_obj->save();
+        $user_service->save($user_obj);
 
         // Roles
         $role_id = ConfWrapper::value('user.default_role_id', 0);
 
+        $user_role_service = UsersServiceProvider::getUserRoleService($container);
+
         $user_role_obj = new UserRole();
         $user_role_obj->setUserId($user_obj->getId());
         $user_role_obj->setRoleId($role_id);
-        $user_role_obj->save();
+        $user_role_service->save($user_role_obj);
 
         self::sendConfirmMail($name, $email, $confirm_code);
 
@@ -284,10 +289,14 @@ class AuthController
             Http::redirect($destination);
         }
 
-        $user_obj = User::factory($user_id);
+        $container = Container::self();
+
+        $user_service = UsersServiceProvider::getUserService($container);
+
+        $user_obj = $user_service->getById($user_id);
         $user_obj->setConfirm(1);
         $user_obj->setConfirmCode('');
-        $user_obj->save();
+        $user_service->save($user_obj);
 
         $message = 'Поздравляем! Процесс регистрации успешно завершен. Теперь вы можете войти на сайт.';
 
@@ -345,7 +354,11 @@ class AuthController
 
         $user_id = UsersUtils::getUserIdByEmail($email);
 
-        $user_obj = User::factory($user_id);
+        $container = Container::self();
+
+        $user_service = UsersServiceProvider::getUserService($container);
+
+        $user_obj = $user_service->getById($user_id);
 
         if ($user_obj->isConfirm()) {
             Messages::setError('Ошибка! Пользователь с таким адресом электронной почты уже зарегистрирован.');
@@ -409,8 +422,6 @@ class AuthController
         }
 
         $user_id = UsersUtils::getUserIdByEmail($email);
-
-        $user_obj = User::factory($user_id);
 
         UserController::createAndSendPasswordToUser($user_id);
 

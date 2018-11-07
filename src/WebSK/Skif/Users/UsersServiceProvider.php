@@ -14,6 +14,18 @@ class UsersServiceProvider
     {
         /**
          * @param ContainerInterface $container
+         * @return RoleService
+         */
+        $container[Role::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
+            return new RoleService(
+                Role::class,
+                $container[User::ENTITY_REPOSITORY_CONTAINER_ID],
+                $container->get(SkifServiceProvider::SKIF_CACHE_SERVICE)
+            );
+        };
+
+        /**
+         * @param ContainerInterface $container
          * @return UserRoleService
          */
         $container[UserRole::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
@@ -60,6 +72,15 @@ class UsersServiceProvider
                 $container->get(SkifServiceProvider::SKIF_CACHE_SERVICE)
             );
         };
+    }
+
+    /**
+     * @param ContainerInterface $container
+     * @return RoleService
+     */
+    public static function getRoleService(ContainerInterface $container)
+    {
+        return $container->get(Role::ENTITY_SERVICE_CONTAINER_ID);
     }
 
     /**

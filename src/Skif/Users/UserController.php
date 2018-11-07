@@ -14,7 +14,6 @@ use WebSK\Skif\Users\AuthUtils;
 use WebSK\Skif\Users\Role;
 use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UserRole;
-use WebSK\Skif\Users\UserService;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Skif\Users\UsersUtils;
 
@@ -295,9 +294,13 @@ class UserController
     {
         $new_password = UsersUtils::generatePassword(8);
 
-        $user_obj = User::factory($user_id);
+        $container = Container::self();
+
+        $user_service = UsersServiceProvider::getUserService($container);
+
+        $user_obj = $user_service->getById($user_id);
         $user_obj->setPassw(AuthUtils::getHash($new_password));
-        $user_obj->save();
+        $user_service->save($user_obj);
 
         if ($user_obj->getEmail()) {
             $site_email = ConfWrapper::value('site_email');
@@ -333,11 +336,15 @@ class UserController
      */
     public static function addPhotoAction($user_id)
     {
-        $user_obj = User::factory($user_id);
-
-        if (!$user_obj) {
+        if (!$user_id) {
             Http::exit404();
         }
+
+        $container = Container::self();
+
+        $user_service = UsersServiceProvider::getUserService($container);
+
+        $user_obj = $user_service->getById($user_id);
 
         $current_user_id = AuthUtils::getCurrentUserId();
 
@@ -355,9 +362,10 @@ class UserController
             Http::redirect('/user/edit/' . $user_obj->getId());
         }
 
-        $user_obj = User::factory($user_id);
+        $user_obj = $user_service->getById($user_id);
         $user_obj->setPhoto($file_name);
-        $user_obj->save();
+
+        $user_service->save($user_obj);
 
         Messages::setMessage('Фотография была успешно добавлена');
 
@@ -370,9 +378,7 @@ class UserController
      */
     public static function deletePhotoAction($user_id)
     {
-        $user_obj = User::factory($user_id);
-
-        if (!$user_obj) {
+        if (!$user_id) {
             Http::exit404();
         }
 
@@ -382,9 +388,15 @@ class UserController
             Http::exit403();
         }
 
+        $container = Container::self();
+
+        $user_service = UsersServiceProvider::getUserService($container);
+
+        $user_obj = $user_service->getById($user_id);
+
         $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : '/user/edit/' . $user_id;
 
-        if (!$user_obj->deletePhoto()) {
+        if (!$user_service->deletePhoto($user_obj)) {
             Messages::setError('Не удалось удалить фотографию.');
             Http::redirect($destination);
         }
@@ -406,12 +418,16 @@ class UserController
             Http::exit403();
         }
 
-        $user_obj = User::factory($user_id, false);
+        $container = Container::self();
+
+        $user_service = UsersServiceProvider::getUserService($container);
+
+        $user_obj = $user_service->getById($user_id, false);
         Http::exit404If(!$user_obj);
 
         $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : '/';
 
-        $user_obj->delete();
+        $user_service->delete($user_obj);
 
         Messages::setMessage('Пользователь ' . $user_obj->getName() . ' был успешно удален');
 
@@ -485,11 +501,14 @@ class UserController
     {
         Http::exit403if(!AuthUtils::currentUserIsAdmin());
 
+        $container = Container::self();
+
+        $role_service = UsersServiceProvider::getRoleService($container);
 
         if ($role_id == 'new') {
             $role_obj = new Role;
         } else {
-            $role_obj = Role::factory($role_id);
+            $role_obj = $role_service->getById($role_id);
         }
 
         $name = array_key_exists('name', $_REQUEST) ? $_REQUEST['name'] : '';
@@ -497,7 +516,7 @@ class UserController
 
         $role_obj->setName($name);
         $role_obj->setDesignation($designation);
-        $role_obj->save();
+        $role_service->save($role_obj);
 
         Messages::setMessage('Изменения сохранены');
 
@@ -512,8 +531,11 @@ class UserController
     {
         Http::exit403if(!AuthUtils::currentUserIsAdmin());
 
+        $container = Container::self();
 
-        $role_obj = Role::factory($role_id);
+        $role_service = UsersServiceProvider::getRoleService($container);
+
+        $role_obj = $role_service->getById($role_id);
 
         $user_ids_arr = UsersUtils::getUsersIdsArr($role_id);
 
@@ -522,7 +544,7 @@ class UserController
             Http::redirect('/admin/users/roles');
         }
 
-        $role_obj->delete();
+        $role_service->delete($role_obj);
 
         Messages::setMessage('Роль ' . $role_obj->getName() . ' была успешно удалена');
 
