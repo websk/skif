@@ -65,6 +65,8 @@ class SkifApp extends App
             UsersRoutes::registerAdmin($app);
         })->add(new CurrentUserIsAdmin());
 
+        UsersRoutes::register($this);
+
         Facade::setFacadeApplication($this);
 
         RedirectRoutes::route();

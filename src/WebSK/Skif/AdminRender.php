@@ -6,6 +6,10 @@ use Psr\Http\Message\ResponseInterface;
 use WebSK\Skif\Users\AuthUtils;
 use WebSK\Skif\Users\UsersServiceProvider;
 
+/**
+ * Class AdminRender
+ * @package WebSK\Skif
+ */
 class AdminRender
 {
     const ADMIN_LAYOUT_TEMPLATE = '/layouts/layout.admin.tpl.php';

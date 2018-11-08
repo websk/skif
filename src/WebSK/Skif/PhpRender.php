@@ -109,7 +109,7 @@ class PhpRender
         extract($variables, EXTR_SKIP);
         ob_start();
 
-        require Path::getSkifAppPath() . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . Path::VIEWS_DIR_NAME . DIRECTORY_SEPARATOR . $template_file;
+        require Path::getWebSKSkifAppPath() . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . Path::VIEWS_DIR_NAME . DIRECTORY_SEPARATOR . $template_file;
         $contents = ob_get_contents();
 
         ob_end_clean();

@@ -1,20 +1,19 @@
 <?php
 
-namespace WebSK\Skif\Users\RequestHandlers\Admin;
+namespace WebSK\Skif\Users\RequestHandlers;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use WebSK\Skif\AdminRender;
 use WebSK\Skif\LayoutDTO;
 use WebSK\Skif\PhpRender;
 use WebSK\Skif\RequestHandlers\BaseHandler;
+use WebSK\Skif\Users\AuthUtils;
 use WebSK\Skif\Users\UsersServiceProvider;
-use WebSK\UI\BreadcrumbItemDTO;
 use WebSK\Utils\HTTP;
 
 /**
  * Class UserEditHandler
- * @package WebSK\Skif\Users\RequestHandlers\Admin
+ * @package WebSK\Skif\Users\RequestHandlers
  */
 class UserEditHandler extends BaseHandler
 {
@@ -30,6 +29,12 @@ class UserEditHandler extends BaseHandler
         $user_service = UsersServiceProvider::getUserService($this->container);
 
         if ($user_id != 'new') {
+            $current_user_id = AuthUtils::getCurrentUserId();
+
+            if (($current_user_id != $user_id) && !AuthUtils::currentUserIsAdmin()) {
+                return $response->withStatus(HTTP::STATUS_FORBIDDEN);
+            }
+
             $user_obj = $user_service->getById($user_id, false);
 
             if (!$user_obj) {
@@ -54,11 +59,20 @@ class UserEditHandler extends BaseHandler
         $layout_dto->setTitle('Редактирование профиля');
         $layout_dto->setContentHtml($content);
 
-        $breadcrumbs_arr = [
-            new BreadcrumbItemDTO('Пользователи', '/admin/users'),
-        ];
+        $breadcrumbs_arr = [];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 
-        return AdminRender::renderLayout($response, $layout_dto);
+        return PhpRender::render(
+            $response,
+            '/layouts/layout.main.tpl.php',
+            [
+                'content' => $content,
+                'editor_nav_arr' => [],
+                'title' => 'Редактирование профиля',
+                'keywords' => '',
+                'description' => '',
+                'breadcrumbs_arr' => $breadcrumbs_arr
+            ]
+        );
     }
 }

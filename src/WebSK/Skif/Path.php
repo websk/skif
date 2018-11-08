@@ -15,6 +15,7 @@ class Path
     const VIEWS_DIR_NAME = 'views';
     const SRC_DIR_NAME = 'src';
     const SKIF_NAMESPACE = 'Skif';
+    const WEBSK_SKIF_NAMESPACE = 'WebSK/Skif';
 
     /**
      * @return string
@@ -30,6 +31,14 @@ class Path
     public static function getSkifAppPath()
     {
         return __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . self::SKIF_NAMESPACE;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getWebSKSkifAppPath()
+    {
+        return __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . self::WEBSK_SKIF_NAMESPACE;
     }
 
     /**
