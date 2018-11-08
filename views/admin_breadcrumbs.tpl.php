@@ -1,17 +1,23 @@
 <?php
 /**
- * @var $breadcrumbs_arr
+ * @var BreadcrumbItemDTO[] $breadcrumbs_arr
  */
+
+use WebSK\UI\BreadcrumbItemDTO;
+use Websk\Utils\Assert;
+use WebSK\Utils\Sanitize;
 
 ?>
 <ol class="breadcrumb">
     <?php
-    foreach ($breadcrumbs_arr as $breadcrumb_title => $breadcrumb_link) {
-        if (empty($breadcrumb_link)) {
-            echo '<li class="active">' . $breadcrumb_title . '</li>';
-        } else {
-            echo '<li><a href="' . $breadcrumb_link . '">' . $breadcrumb_title . '</a></li>';
+    foreach ($breadcrumbs_arr as $breadcrumb_item_dto) {
+        Assert::assert($breadcrumb_item_dto instanceof BreadcrumbItemDTO);
+        if (!$breadcrumb_item_dto->getUrl()) {
+            echo '<li class="active">' . $breadcrumb_item_dto->getName() . '</li>';
+            continue;
         }
+
+        echo '<li><a href="' . Sanitize::sanitizeUrl($breadcrumb_item_dto->getUrl()) . '">' . Sanitize::sanitizeTagContent($breadcrumb_item_dto->getName()) . '</a></li>';
     }
     ?>
 </ol>

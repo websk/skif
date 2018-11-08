@@ -21,34 +21,6 @@ class UserController
     }
 
     /**
-     * Список ролей
-     */
-    public function listUsersRolesAction()
-    {
-        Http::exit403if(!AuthUtils::currentUserIsAdmin());
-
-        $content = PhpTemplate::renderTemplateBySkifModule(
-            'Users',
-            'roles_list.tpl.php'
-        );
-
-        $breadcrumbs_arr = array(
-            'Пользователи' => '/admin/users'
-        );
-
-        echo PhpTemplate::renderTemplate(
-            ConfWrapper::value('layout.admin'),
-            array(
-                'content' => $content,
-                'title' => 'Роли пользователей',
-                'keywords' => '',
-                'description' => '',
-                'breadcrumbs_arr' => $breadcrumbs_arr
-            )
-        );
-    }
-
-    /**
      * Редактирование роли
      * @param $role_id
      */

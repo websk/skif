@@ -63,6 +63,37 @@ class PhpRender
     }
 
     /**
+     * Вывод шаблона относительно views
+     * @param $template_file
+     * @param array $variables
+     * @return string
+     */
+    public static function renderTemplate($template_file, $variables = [])
+    {
+        $relative_to_site_views_file_path = Path::getSiteViewsPath() . DIRECTORY_SEPARATOR . $template_file;
+
+        if (file_exists($relative_to_site_views_file_path)) {
+            return self::renderTemplateRelativeToRootSitePath($template_file, $variables);
+        }
+
+        $relative_to_skif_views_file_path = Path::getSkifViewsPath() . DIRECTORY_SEPARATOR . $template_file;
+
+        if (file_exists($relative_to_skif_views_file_path)) {
+            extract($variables, EXTR_SKIP);
+            ob_start();
+
+            require $relative_to_skif_views_file_path;
+
+            $contents = ob_get_contents();
+            ob_end_clean();
+
+            return $contents;
+        }
+
+        return '';
+    }
+
+    /**
      * @param $template_file
      * @param array $variables
      * @return string

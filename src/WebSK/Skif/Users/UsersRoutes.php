@@ -6,6 +6,7 @@ use Slim\App;
 use WebSK\Skif\Users\Middleware\CurrentUserHasRightToEditUser;
 use WebSK\Skif\Users\RequestHandlers\Admin\UserEditHandler as AdminUserEditHandler;
 use WebSK\Skif\Users\RequestHandlers\Admin\UserListHandler;
+use WebSK\Skif\Users\RequestHandlers\Admin\RoleListHandler;
 use WebSK\Skif\Users\RequestHandlers\UserAddPhotoHandler;
 use WebSK\Skif\Users\RequestHandlers\UserCreatePasswordHandler;
 use WebSK\Skif\Users\RequestHandlers\UserDeleteHandler;
@@ -25,11 +26,16 @@ class UsersRoutes
     public static function registerAdmin(App $app)
     {
         $app->group('/users', function (App $app) {
+            $app->get('', UserListHandler::class)
+                ->setName(UserListHandler::class);
+
             $app->get('/edit/{user_id:\d+}', AdminUserEditHandler::class)
                 ->setName(AdminUserEditHandler::class);
 
-            $app->get('', UserListHandler::class)
-                ->setName(UserListHandler::class);
+            $app->group('/roles', function (App $app) {
+                $app->get('', RoleListHandler::class)
+                    ->setName(RoleListHandler::class);
+            });
         });
     }
 

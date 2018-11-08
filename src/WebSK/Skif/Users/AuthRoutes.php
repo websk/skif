@@ -10,7 +10,6 @@ class AuthRoutes
     public static function route()
     {
         if (Router::matchGroup('@/admin@')) {
-            UrlManager::route('@^/admin/users/roles$@', UserController::class, 'listUsersRolesAction');
             UrlManager::route('@^/admin/users/roles/edit/(.+)@', UserController::class, 'editUsersRoleAction');
             UrlManager::route('@^/admin/users/roles/save/(.+)@', UserController::class, 'saveUsersRoleAction');
             UrlManager::route('@^/admin/users/roles/delete/(.+)@', UserController::class, 'deleteUsersRoleAction');

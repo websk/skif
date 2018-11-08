@@ -15,8 +15,10 @@ use Websk\Skif\Messages;
 use Websk\Skif\Path;
 use Skif\PhpTemplate;
 use Skif\UrlManager;
+use WebSK\Skif\PhpRender;
 use WebSK\Skif\Users\AuthUtils;
 use WebSK\Skif\Users\UsersUtils;
+use WebSK\UI\BreadcrumbItemDTO;
 
 $user_id = AuthUtils::getCurrentUserId();
 
@@ -28,18 +30,14 @@ if (!$user_id) {
     return;
 }
 
-if (!AuthUtils::currentUserIsAdmin()) {
-    Http::exit403();
-}
+$user_obj = UsersUtils::loadUser($user_id);
+$user_name = $user_obj->getName();
 
 if (isset($layout_dto)) {
     $title = $layout_dto->getTitle();
     $content = $layout_dto->getContentHtml();
+    $breadcrumbs_arr = $layout_dto->getBreadcrumbsDtoArr();
 }
-
-
-$user_obj = UsersUtils::loadUser($user_id);
-$user_name = $user_obj->getName();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,31 +55,44 @@ $user_name = $user_obj->getName();
 
     <!-- jQuery -->
     <script src="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery/jquery.min.js'); ?>"></script>
-    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery-ui/themes/base/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery-ui/jquery-ui.min.js'); ?>"></script>
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery-ui/themes/base/jquery-ui.min.css'); ?>"
+          rel="stylesheet" type="text/css">
+    <script type="text/javascript"
+            src="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery-ui/jquery-ui.min.js'); ?>"></script>
 
     <!-- Bootstrap -->
-    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>"
+          rel="stylesheet" type="text/css">
     <script src="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap/js/bootstrap.min.js'); ?>"></script>
 
     <!-- MetisMenu CSS -->
-    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/metisMenu/metisMenu.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/metisMenu/metisMenu.min.css'); ?>" rel="stylesheet"
+          type="text/css">
 
-    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/sb-admin-2/css/sb-admin-2.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/sb-admin-2/css/sb-admin-2.css'); ?>" rel="stylesheet"
+          type="text/css">
 
-    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/font-awesome/css/font-awesome.min.css'); ?>"
+          rel="stylesheet" type="text/css">
 
     <link href="<?php echo Path::wrapSkifAssetsVersion('/styles/admin.css'); ?>" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery-validation/jquery.validate.min.js'); ?>"></script>
+    <script type="text/javascript"
+            src="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery-validation/jquery.validate.min.js'); ?>"></script>
 
-    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/fancybox/jquery.fancybox.pack.js"'); ?>></script>
-    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/fancybox/jquery.fancybox.css'); ?>" rel="stylesheet" type="text/css">
+    <script type="text/javascript"
+            src="<?php echo Path::wrapSkifAssetsVersion('/libraries/fancybox/jquery.fancybox.pack.js"'); ?>></script>
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/fancybox/jquery.fancybox.css'); ?>" rel="stylesheet"
+    type="text/css">
 
-    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/moment/moment.min.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/moment/moment.ru.min.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); ?>"></script>
-    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>" rel="stylesheet" type="text/css">
+    <script type="text/javascript"
+            src="<?php echo Path::wrapSkifAssetsVersion('/libraries/moment/moment.min.js'); ?>"></script>
+    <script type="text/javascript"
+            src="<?php echo Path::wrapSkifAssetsVersion('/libraries/moment/moment.ru.min.js'); ?>"></script>
+    <script type="text/javascript"
+            src="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); ?>"></script>
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>"
+          rel="stylesheet" type="text/css">
 
     <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
 </head>
@@ -99,7 +110,8 @@ $user_name = $user_obj->getName();
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/admin">
-                <img src="<?php echo Path::wrapSkifAssetsVersion('images/admin/skif_small_logo.png'); ?>" alt="СКИФ" border="0" height="39" title="Система управления сайтом СКИФ / websk.ru">
+                <img src="<?php echo Path::wrapSkifAssetsVersion('images/admin/skif_small_logo.png'); ?>" alt="СКИФ"
+                     border="0" height="39" title="Система управления сайтом СКИФ / websk.ru">
             </a>
         </div>
 
@@ -112,11 +124,12 @@ $user_name = $user_obj->getName();
 
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu">
                     <li></li>
-                    <li><a href="/admin/users/edit/<?php echo $user_id; ?>"><i class="fa fa-user fa-fw"></i> <?php echo $user_name; ?></a>
+                    <li><a href="/admin/users/edit/<?php echo $user_id; ?>"><i
+                                    class="fa fa-user fa-fw"></i> <?php echo $user_name; ?></a>
                     </li>
                     <li class="divider"></li>
                     <li><a href="/user/logout?destination=/admin"><i class="fa fa-sign-out fa-fw"></i> Выход</a>
@@ -157,9 +170,10 @@ $user_name = $user_obj->getName();
                     foreach ($admin_menu_arr as $menu_item_arr) {
 
                         $class = ($current_url_no_query == $menu_item_arr['link']) ? ' active' : '';
-                        $target = array_key_exists('target', $menu_item_arr) ? 'target="' . $menu_item_arr['target'] .'""' : '';
+                        $target = array_key_exists('target',
+                            $menu_item_arr) ? 'target="' . $menu_item_arr['target'] . '""' : '';
                         ?>
-                        <li <?php echo ( $class ? 'class="' . $class . '"' : ''); ?>>
+                        <li <?php echo($class ? 'class="' . $class . '"' : ''); ?>>
                             <a href="<?php echo $menu_item_arr['link']; ?>" <?php echo $target; ?>>
                                 <?php
                                 if (array_key_exists('icon', $menu_item_arr)) {
@@ -178,11 +192,11 @@ $user_name = $user_obj->getName();
                                         <li>
                                             <a href="<?php echo $sub_menu_item_arr['link']; ?>"><?php echo $sub_menu_item_arr['name']; ?></a>
                                         </li>
-                                    <?php
+                                        <?php
                                     }
                                     ?>
                                 </ul>
-                            <?php
+                                <?php
                             }
                             ?>
                         </li>
@@ -201,15 +215,18 @@ $user_name = $user_obj->getName();
                     <div>
                         <?php
                         if (!isset($breadcrumbs_arr)) {
-                            $breadcrumbs_arr = array();
+                            $breadcrumbs_arr = [];
                         }
 
                         $breadcrumbs_arr = array_merge(
-                            array('Главная' => '/admin'),
+                            [new BreadcrumbItemDTO('Главная', '/admin')],
                             $breadcrumbs_arr
                         );
 
-                        echo PhpTemplate::renderTemplate('/admin_breadcrumbs.tpl.php', array('breadcrumbs_arr' => $breadcrumbs_arr));
+                        echo PhpRender::renderTemplate(
+                            '/admin_breadcrumbs.tpl.php',
+                            ['breadcrumbs_arr' => $breadcrumbs_arr]
+                        );
 
                         if (!empty($title)) {
                             echo '<h1 class="page-header">' . $title . '</h1>';
