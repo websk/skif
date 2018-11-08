@@ -19,13 +19,13 @@ class ImageUploadWidget {
 
     public static function getIconImagePresetFolder()
     {
-        return \Skif\Image\ImageManager::getPresetUrlByName(\Skif\Image\ImagePresets::IMAGE_PRESET_200_auto);
+        return \WebSK\Skif\Image\ImageManager::getPresetUrlByName(\WebSK\Skif\Image\ImagePresets::IMAGE_PRESET_200_auto);
     }
 
     public static function getIconFileUrlByFilename($file_name)
     {
         //return self::getIconFolder().DIRECTORY_SEPARATOR.$file_name;
-        return \Skif\Image\ImageManager::getImgUrlByPreset($file_name, \Skif\Image\ImagePresets::IMAGE_PRESET_200_auto);
+        return \WebSK\Skif\Image\ImageManager::getImgUrlByPreset($file_name, \WebSK\Skif\Image\ImagePresets::IMAGE_PRESET_200_auto);
     }
 
 }

@@ -7,7 +7,7 @@ use Skif\Comment\CommentRoutes;
 use Skif\Content\ContentRoutes;
 use Skif\CRUD\CRUDRoutes;
 use Skif\Form\FormRoutes;
-use Skif\Image\ImageRoutes;
+use WebSK\Skif\Image\ImageRoutes;
 use Skif\Logger\LoggerRoutes;
 use Skif\Poll\PollRoutes;
 use Skif\Rating\RatingRoutes;

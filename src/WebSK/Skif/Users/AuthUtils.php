@@ -5,7 +5,7 @@ namespace WebSK\Skif\Users;
 use WebSK\Skif\ConfWrapper;
 use Websk\Skif\Container;
 use Websk\Skif\DBWrapper;
-use Skif\Image\ImageManager;
+use WebSK\Skif\Image\ImageManager;
 use Websk\Skif\Messages;
 use Skif\UrlManager;
 

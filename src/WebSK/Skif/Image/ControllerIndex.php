@@ -1,10 +1,10 @@
 <?php
 
-namespace Skif\Image;
+namespace WebSK\Skif\Image;
 
 /**
  * Class ControllerIndex
- * @package Skif\Image
+ * @package WebSK\Skif\Image
  */
 class ControllerIndex
 {

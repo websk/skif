@@ -1,7 +1,14 @@
 <?php
 
-namespace Skif\Image;
+namespace WebSK\Skif\Image;
 
+use Skif\Http;
+use WebSK\Skif\ConfWrapper;
+
+/**
+ * Class ImageController
+ * @package WebSK\Skif\Image
+ */
 class ImageController
 {
     /*
@@ -25,15 +32,14 @@ class ImageController
 
     public function uploadAction()
     {
-        // Проверка прав доступа
-        //\Skif\Http::exit403If();
+        // TODO: Проверка прав доступа
 
-        echo \Skif\Image\ImageController::processUploadImage();
+        echo self::processUploadImage();
     }
 
     public static function processUploadImage()
     {
-        $root_images_folder = \Skif\Image\ImageConstants::IMG_ROOT_FOLDER;
+        $root_images_folder = ImageConstants::IMG_ROOT_FOLDER;
 
         $json_arr = array();
 
@@ -44,11 +50,11 @@ class ImageController
         }
 
         $target_folder = '';
-        if (array_key_exists('target_folder', $_POST)){
+        if (array_key_exists('target_folder', $_POST)) {
             $target_folder = $_POST['target_folder'];
         }
 
-        $file_name = \Skif\Image\ImageController::processUpload($files_arr[0], $target_folder, $root_images_folder);
+        $file_name = \WebSK\Skif\Image\ImageController::processUpload($files_arr[0], $target_folder, $root_images_folder);
         if (!$file_name) {
             $json_arr['status'] = 'error';
         }
@@ -58,8 +64,8 @@ class ImageController
         $json_arr['files'][] = array(
             'name' => $file_name,
             'size' => 902604,
-            'url' => \Skif\Image\ImageManager::getImgUrlByFileName($image_path),
-            'thumbnailUrl' => \Skif\Image\ImageManager::getImgUrlByPreset($image_path, '160_auto'),
+            'url' => ImageManager::getImgUrlByFileName($image_path),
+            'thumbnailUrl' => ImageManager::getImgUrlByPreset($image_path, '160_auto'),
             'deleteUrl' => "",
             'deleteType' => "DELETE"
         );
@@ -69,37 +75,37 @@ class ImageController
         return json_encode($json_arr);
     }
 
-	public static function uploadToFilesAction()
-	{
-		\Skif\Http::exit404If(!(count($_FILES) > 0));
-
-		$file = $_FILES[0];
-
-        $root_images_folder = $site_path = \WebSK\Skif\ConfWrapper::value('site_path') . '/images';
-
-		$file_name = self::processUpload($file, '', $root_images_folder);
-
-		$response = array(
-			'fileName' => $file_name,
-			'filePath' => $root_images_folder,
-		);
-
-		echo json_encode($response);
-
-		return;
-	}
-
-    public static function uploadToImagesAction()
+    public static function uploadToFilesAction()
     {
-        \Skif\Http::exit404If(!(count($_FILES) > 0));
+        Http::exit404If(!(count($_FILES) > 0));
 
         $file = $_FILES[0];
 
-        $root_images_folder = \Skif\Image\ImageConstants::IMG_ROOT_FOLDER;
+        $root_images_folder = $site_path = ConfWrapper::value('site_path') . '/images';
+
+        $file_name = self::processUpload($file, '', $root_images_folder);
+
+        $response = array(
+            'fileName' => $file_name,
+            'filePath' => $root_images_folder,
+        );
+
+        echo json_encode($response);
+
+        return;
+    }
+
+    public static function uploadToImagesAction()
+    {
+        Http::exit404If(!(count($_FILES) > 0));
+
+        $file = $_FILES[0];
+
+        $root_images_folder = ImageConstants::IMG_ROOT_FOLDER;
 
         $target_folder_in_images = '';
 
-        if (array_key_exists('target_folder', $_POST)){
+        if (array_key_exists('target_folder', $_POST)) {
             $target_folder_in_images = $_POST['target_folder'];
         }
 
@@ -118,12 +124,12 @@ class ImageController
     }
 
     /**
-     * Returns internal file name
-     *
-     * @param $file string
+     * @param $file
+     * @param string $target_folder_in_images
+     * @param string $root_images_folder
      * @return string
      */
-    public static function processUpload($file, $target_folder_in_images, $root_images_folder = '')
+    public static function processUpload($file, string $target_folder_in_images, string $root_images_folder = '')
     {
         $allowed_extensions = array("gif", "jpeg", "jpg", "png");
         $allowed_types = array("image/gif", "image/jpeg", "image/jpg", "image/pjpeg", "image/x-png", "image/png");
@@ -131,16 +137,17 @@ class ImageController
         $pathinfo = pathinfo($file["name"]);
         $file_extension = mb_strtolower($pathinfo['extension']);
 
-        \Skif\Http::exit404If(!in_array($file["type"], $allowed_types));
-        \Skif\Http::exit404If(!in_array($file_extension, $allowed_extensions));
+        Http::exit404If(!in_array($file["type"], $allowed_types));
+        Http::exit404If(!in_array($file_extension, $allowed_extensions));
 
-        \Skif\Http::exit404If($file["error"] > 0);
+        Http::exit404If($file["error"] > 0);
 
 
-        $image_manager = new \Skif\Image\ImageManager($root_images_folder);
-        $internal_file_name = $image_manager->storeUploadedImageFile($file["name"], $file["tmp_name"], $target_folder_in_images);
-        \Skif\Http::exit404If(!$internal_file_name);
+        $image_manager = new ImageManager($root_images_folder);
+        $internal_file_name = $image_manager->storeUploadedImageFile($file["name"], $file["tmp_name"],
+            $target_folder_in_images);
+        Http::exit404If(!$internal_file_name);
 
         return $internal_file_name;
     }
-} 
+}

@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Users;
 
-use Skif\Image\ImageManager;
+use WebSK\Skif\Image\ImageManager;
 use WebSK\Cache\CacheService;
 use WebSK\Entity\BaseEntityRepository;
 use WebSK\Entity\BaseEntityService;

@@ -124,8 +124,8 @@ if ($content_id == 'new') {
                             </script>
 
                             <div class="form-group" id="image_area">
-                                <a id="image" href="<?php echo \Skif\Image\ImageManager::getImgUrlByFileName($content_obj->getImagePath()) . '?d=' . time(); ?>">
-                                    <img src="<?php echo  \Skif\Image\ImageManager::getImgUrlByPreset($content_obj->getImagePath(), '120_auto') . '?d=' . time(); ?>" class="img-responsive img-thumbnail" border="0">
+                                <a id="image" href="<?php echo \WebSK\Skif\Image\ImageManager::getImgUrlByFileName($content_obj->getImagePath()) . '?d=' . time(); ?>">
+                                    <img src="<?php echo  \WebSK\Skif\Image\ImageManager::getImgUrlByPreset($content_obj->getImagePath(), '120_auto') . '?d=' . time(); ?>" class="img-responsive img-thumbnail" border="0">
                                 </a>
                                 <a href="#image_delete" id="image_delete">Удалить</a>
                             </div>

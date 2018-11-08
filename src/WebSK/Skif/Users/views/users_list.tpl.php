@@ -3,7 +3,7 @@
  *
  */
 
-use Skif\Image\ImageManager;
+use WebSK\Skif\Image\ImageManager;
 use Skif\Logger\LoggerUtils;
 use WebSK\Skif\Users\UsersUtils;
 

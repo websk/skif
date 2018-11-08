@@ -111,7 +111,7 @@ foreach ($dirty_images_subdirs_arr as $subdir) {
         <?php
         if ($field_value) {
             ?>
-            <img src="<?php echo \Skif\Image\ImageManager::getImgUrlByPreset($field_value, '131_91') ?>">
+            <img src="<?php echo \WebSK\Skif\Image\ImageManager::getImgUrlByPreset($field_value, '131_91') ?>">
         <?php } ?>
     </div>
     <input type="hidden" name="<?php echo $field_name ?>" class="internal-file-name" value="<?php echo $field_value ?>">

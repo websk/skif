@@ -1,10 +1,14 @@
 <?php
 
-namespace Skif\Image;
+namespace WebSK\Skif\Image;
 
 use Imagine\Gd\Imagine;
 use Skif\Http;
 
+/**
+ * Class ImageManager
+ * @package WebSK\Skif\Image
+ */
 class ImageManager
 {
 
@@ -239,5 +243,4 @@ class ImageManager
     {
         return DIRECTORY_SEPARATOR . ImageConstants::IMG_ROOT_FOLDER . DIRECTORY_SEPARATOR . ImageConstants::IMG_PRESETS_FOLDER . DIRECTORY_SEPARATOR . $preset_name;
     }
-
 }

@@ -17,7 +17,7 @@ if (!$content) {
 if ($content_obj->getImage()) {
     ?>
     <p>
-        <img src="<?php echo \Skif\Image\ImageManager::getImgUrlByPreset($content_obj->getImagePath(), '400_auto'); ?>"
+        <img src="<?php echo \WebSK\Skif\Image\ImageManager::getImgUrlByPreset($content_obj->getImagePath(), '400_auto'); ?>"
             alt="<?php echo $content_obj->getTitle(); ?>" title="<?php echo $content_obj->getTitle(); ?>" class="img-responsive">
     </p>
 <?php

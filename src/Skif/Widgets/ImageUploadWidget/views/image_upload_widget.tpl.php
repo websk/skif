@@ -5,7 +5,7 @@
  * @var $field_value string
  */
 
-use Skif\Image\ImageManager;
+use WebSK\Skif\Image\ImageManager;
 use Websk\Skif\Path;
 
 if ($field_value) {

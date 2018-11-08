@@ -1,9 +1,13 @@
 <?php
 
-namespace Skif\Image;
+namespace WebSK\Skif\Image;
 
 use Skif\UrlManager;
 
+/**
+ * Class ImageRoutes
+ * @package WebSK\Skif\Image
+ */
 class ImageRoutes
 {
     public static function routes()

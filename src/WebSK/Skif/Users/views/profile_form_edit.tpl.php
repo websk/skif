@@ -5,7 +5,7 @@
  */
 
 use Skif\Http;
-use Skif\Image\ImageManager;
+use WebSK\Skif\Image\ImageManager;
 use Skif\UrlManager;
 use WebSK\Skif\Users\AuthUtils;
 use WebSK\Skif\Users\Role;
