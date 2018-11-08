@@ -30,6 +30,11 @@ class UsersRoutes
     const ROUTE_NAME_USER_UPDATE = 'users:update';
     const ROUTE_NAME_USER_DELETE = 'users:delete';
 
+    const ROUTE_NAME_USER_CREATE_PASSWORD = 'users:create_password';
+
+    const ROUTE_NAME_USER_ADD_PHOTO = 'users:add_photo';
+    const ROUTE_NAME_USER_DELETE_PHOTO = 'users:delete_photo';
+
     const ROUTE_NAME_ROLE_LIST = 'users:role:list';
     const ROUTE_NAME_ROLE_CREATE = 'users:role:create';
     const ROUTE_NAME_ROLE_EDIT = 'users:role:edit';
@@ -93,13 +98,13 @@ class UsersRoutes
                 ->setName(self::ROUTE_NAME_USER_DELETE);
 
             $app->get('/create_password/{user_id:\d+}', UserCreatePasswordHandler::class)
-                ->setName(UserCreatePasswordHandler::class);
+                ->setName(self::ROUTE_NAME_USER_CREATE_PASSWORD);
 
             $app->get('/add_photo/{user_id:\d+}', UserAddPhotoHandler::class)
-                ->setName(UserAddPhotoHandler::class);
+                ->setName(self::ROUTE_NAME_USER_ADD_PHOTO);
 
             $app->get('/delete_photo/{user_id:\d+}', UserDeletePhotoHandler::class)
-                ->setName(UserDeletePhotoHandler::class);
+                ->setName(self::ROUTE_NAME_USER_DELETE_PHOTO);
         })->add(new CurrentUserHasRightToEditUser());
     }
 }
