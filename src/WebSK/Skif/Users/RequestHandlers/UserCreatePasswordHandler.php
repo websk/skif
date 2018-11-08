@@ -8,6 +8,10 @@ use Websk\Skif\Messages;
 use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Skif\Users\UsersUtils;
 
+/**
+ * Class UserCreatePasswordHandler
+ * @package WebSK\Skif\Users\RequestHandlers
+ */
 class UserCreatePasswordHandler extends BaseHandler
 {
     /**

@@ -5,7 +5,7 @@ namespace WebSK\Skif\Users;
 use Skif\Router;
 use Skif\UrlManager;
 
-class UserRoutes
+class AuthRoutes
 {
     public static function route()
     {
@@ -15,9 +15,6 @@ class UserRoutes
             UrlManager::route('@^/admin/users/roles/save/(.+)@', UserController::class, 'saveUsersRoleAction');
             UrlManager::route('@^/admin/users/roles/delete/(.+)@', UserController::class, 'deleteUsersRoleAction');
         }
-
-        UrlManager::route('@^/user/add_photo/(.+)@', UserController::class, 'addPhotoAction');
-        UrlManager::route('@^/user/delete_photo/(.+)@', UserController::class, 'deletePhotoAction');
 
         UrlManager::route('@^/user/forgot_password$@', AuthController::class, 'forgotPasswordAction');
         UrlManager::route('@^/user/forgot_password_form@', AuthController::class, 'forgotPasswordFormAction');

@@ -4,15 +4,12 @@ namespace WebSK\Skif\Users;
 
 use WebSK\Skif\ConfWrapper;
 use Skif\Http;
-use Skif\Image\ImageConstants;
-use Skif\Image\ImageController;
 use Websk\Skif\Container;
 use Websk\Skif\Messages;
 use Skif\PhpTemplate;
 
 class UserController
 {
-
     /**
      * URL формы редактирования профиля
      * @param $user_id
@@ -21,82 +18,6 @@ class UserController
     public static function getEditProfileUrl($user_id)
     {
         return '/user/edit/' . $user_id;
-    }
-
-    /**
-     * Добавление фотографии пользователя
-     * @param $user_id
-     */
-    public static function addPhotoAction($user_id)
-    {
-        if (!$user_id) {
-            Http::exit404();
-        }
-
-        $container = Container::self();
-
-        $user_service = UsersServiceProvider::getUserService($container);
-
-        $user_obj = $user_service->getById($user_id);
-
-        $current_user_id = AuthUtils::getCurrentUserId();
-
-        if (($current_user_id != $user_id) && !AuthUtils::currentUserIsAdmin()) {
-            Http::exit403();
-        }
-
-        $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : '/user/edit/' . $user_id;
-
-        $root_images_folder = ImageConstants::IMG_ROOT_FOLDER;
-        $file = $_FILES['image_file'];
-        $file_name = ImageController::processUpload($file, 'user', $root_images_folder);
-        if (!$file_name) {
-            Messages::setError('Не удалось загрузить фотографию.');
-            Http::redirect('/user/edit/' . $user_obj->getId());
-        }
-
-        $user_obj = $user_service->getById($user_id);
-        $user_obj->setPhoto($file_name);
-
-        $user_service->save($user_obj);
-
-        Messages::setMessage('Фотография была успешно добавлена');
-
-        Http::redirect($destination);
-    }
-
-    /**
-     * Удаление фотографии пользователя
-     * @param $user_id
-     */
-    public static function deletePhotoAction($user_id)
-    {
-        if (!$user_id) {
-            Http::exit404();
-        }
-
-        $current_user_id = AuthUtils::getCurrentUserId();
-
-        if (($current_user_id != $user_id) && !AuthUtils::currentUserIsAdmin()) {
-            Http::exit403();
-        }
-
-        $container = Container::self();
-
-        $user_service = UsersServiceProvider::getUserService($container);
-
-        $user_obj = $user_service->getById($user_id);
-
-        $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : '/user/edit/' . $user_id;
-
-        if (!$user_service->deletePhoto($user_obj)) {
-            Messages::setError('Не удалось удалить фотографию.');
-            Http::redirect($destination);
-        }
-
-        Messages::setMessage('Фотография была успешно удалена');
-
-        Http::redirect($destination);
     }
 
     /**

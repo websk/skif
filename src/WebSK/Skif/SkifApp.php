@@ -14,7 +14,7 @@ use Skif\Rating\RatingRoutes;
 use Skif\Redirect\RedirectRoutes;
 use Skif\SiteMenu\SiteMenuRoutes;
 use Skif\UrlManager;
-use WebSK\Skif\Users\UserRoutes;
+use WebSK\Skif\Users\AuthRoutes;
 use Slim\App;
 use Slim\Handlers\Strategies\RequestResponseArgs;
 use WebSK\CRUD\CRUDServiceProvider;
@@ -83,7 +83,7 @@ class SkifApp extends App
             }
         }
 
-        UserRoutes::route();
+        AuthRoutes::route();
 
         BlockRoutes::route();
         ContentRoutes::route();

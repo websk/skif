@@ -6,8 +6,10 @@ use Slim\App;
 use WebSK\Skif\Users\Middleware\CurrentUserHasRightToEditUser;
 use WebSK\Skif\Users\RequestHandlers\Admin\UserEditHandler as AdminUserEditHandler;
 use WebSK\Skif\Users\RequestHandlers\Admin\UserListHandler;
+use WebSK\Skif\Users\RequestHandlers\UserAddPhotoHandler;
 use WebSK\Skif\Users\RequestHandlers\UserCreatePasswordHandler;
 use WebSK\Skif\Users\RequestHandlers\UserDeleteHandler;
+use WebSK\Skif\Users\RequestHandlers\UserDeletePhotoHandler;
 use WebSK\Skif\Users\RequestHandlers\UserEditHandler;
 use WebSK\Skif\Users\RequestHandlers\UserSaveHandler;
 
@@ -48,6 +50,12 @@ class UsersRoutes
 
             $app->get('/create_password/{user_id:\d+}', UserCreatePasswordHandler::class)
                 ->setName(UserCreatePasswordHandler::class);
+
+            $app->get('/add_photo/{user_id:\d+}', UserAddPhotoHandler::class)
+                ->setName(UserAddPhotoHandler::class);
+
+            $app->get('/delete_photo/{user_id:\d+}', UserDeletePhotoHandler::class)
+                ->setName(UserDeletePhotoHandler::class);
         })->add(new CurrentUserHasRightToEditUser());
     }
 }
