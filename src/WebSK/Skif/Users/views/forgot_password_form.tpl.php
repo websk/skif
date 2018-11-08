@@ -1,7 +1,7 @@
 <?php
 
 use Websk\Skif\Captcha\Captcha;
-use Skif\Users\AuthController;
+use WebSK\Skif\Users\AuthController;
 
 ?>
 <form action="<?php echo AuthController::getForgotPasswordUrl(); ?>" method="post" class="form-horizontal">

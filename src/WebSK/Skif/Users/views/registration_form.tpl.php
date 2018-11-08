@@ -1,7 +1,7 @@
 <?php
 
 use Websk\Skif\Captcha\Captcha;
-use Skif\Users\AuthController;
+use WebSK\Skif\Users\AuthController;
 use WebSK\Skif\Users\User;
 
 $destination = AuthController::getLoginFormUrl();

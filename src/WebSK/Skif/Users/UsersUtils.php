@@ -2,13 +2,14 @@
 
 namespace WebSK\Skif\Users;
 
+use Skif\Utils;
 use WebSK\Skif\ConfWrapper;
 use Websk\Skif\Container;
 use Websk\Skif\DBWrapper;
 
 /**
  * Class UsersUtils
- * @package WebSK\Skif\Users
+ * @package WebSK\WebSK\Skif\Users
  */
 class UsersUtils
 {
@@ -177,5 +178,50 @@ class UsersUtils
         $query = "SELECT id FROM " . User::DB_TABLE_NAME . " WHERE confirm_code=? LIMIT 1";
 
         return DBWrapper::readField($query, array($confirm_code));
+    }
+
+    /**
+     * Смена и отправка пароля пользователю
+     * @param $user_id
+     * @return string
+     */
+    public static function createAndSendPasswordToUser($user_id)
+    {
+        $new_password = UsersUtils::generatePassword(8);
+
+        $container = Container::self();
+
+        $user_service = UsersServiceProvider::getUserService($container);
+
+        $user_obj = $user_service->getById($user_id);
+        $user_obj->setPassw(AuthUtils::getHash($new_password));
+        $user_service->save($user_obj);
+
+        if ($user_obj->getEmail()) {
+            $site_email = ConfWrapper::value('site_email');
+            $site_domain = ConfWrapper::value('site_domain');
+            $site_name = ConfWrapper::value('site_name');
+
+            $mail_message = "<p>Добрый день, " . $user_obj->getName() . "</p>";
+            $mail_message .= "<p>Вы воспользовались формой восстановления пароля на сайте " . $site_name . "</p>";
+            $mail_message .= "<p>Ваш новый пароль: " . $new_password . "<br>";
+            $mail_message .= "Ваш email для входа: " . $user_obj->getEmail() . "</p>";
+            $mail_message .= "<p>Рекомендуем сменить пароль после входа на сайт.</p>";
+            $mail_message .= '<p>' . $site_domain . "</p>";
+
+            $subject = "Смена пароля на сайте " . ConfWrapper::value('site_name');
+
+            $mail = new \PHPMailer;
+            $mail->CharSet = "utf-8";
+            $mail->setFrom($site_email, $site_name);
+            $mail->addAddress($user_obj->getEmail());
+            $mail->isHTML(true);
+            $mail->Subject = $subject;
+            $mail->Body = $mail_message;
+            $mail->AltBody = Utils::checkPlain($mail_message);
+            $mail->send();
+        }
+
+        return $new_password;
     }
 }

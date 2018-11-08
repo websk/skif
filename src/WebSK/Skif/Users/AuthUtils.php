@@ -11,7 +11,7 @@ use Skif\UrlManager;
 
 /**
  * Class AuthUtils
- * @package WebSK\Skif\Users
+ * @package WebSK\WebSK\Skif\Users
  */
 class AuthUtils
 {

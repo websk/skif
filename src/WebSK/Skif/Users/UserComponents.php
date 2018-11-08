@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Users;
+namespace WebSK\Skif\Users;
 
 use Skif\PhpTemplate;
 

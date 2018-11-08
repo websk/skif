@@ -6,7 +6,7 @@ use WebSK\Entity\BaseEntity;
 
 /**
  * Class Sessions
- * @package WebSK\Skif\Users
+ * @package WebSK\WebSK\Skif\Users
  */
 class Sessions extends BaseEntity
 {

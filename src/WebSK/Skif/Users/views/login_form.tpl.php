@@ -1,6 +1,6 @@
 <?php
 
-use Skif\Users\AuthController;
+use WebSK\Skif\Users\AuthController;
 
 $destination = '/';
 if (isset($_REQUEST['destination'])) {

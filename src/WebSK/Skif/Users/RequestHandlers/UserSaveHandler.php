@@ -17,7 +17,7 @@ use WebSK\Utils\HTTP;
 
 /**
  * Class UserSaveHandler
- * @package WebSK\Skif\Users\RequestHandlers
+ * @package WebSK\WebSK\Skif\Users\RequestHandlers
  */
 class UserSaveHandler extends BaseHandler
 {
@@ -33,12 +33,6 @@ class UserSaveHandler extends BaseHandler
         $user_service = UsersServiceProvider::getUserService($this->container);
 
         if ($user_id != 'new') {
-            $current_user_id = AuthUtils::getCurrentUserId();
-
-            if (($current_user_id != $user_id) && !AuthUtils::currentUserIsAdmin()) {
-                return $response->withStatus(HTTP::STATUS_FORBIDDEN);
-            }
-
             $user_obj = $user_service->getById($user_id, false);
 
             if (!$user_obj) {
@@ -48,21 +42,21 @@ class UserSaveHandler extends BaseHandler
             $user_obj = new User();
         }
 
-        $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : '/user/edit/' . $user_id;
+        $destination = $request->getParam('destination', '/user/edit/' . $user_id);
 
-        $name = array_key_exists('name', $_REQUEST) ? $_REQUEST['name'] : '';
-        $first_name = array_key_exists('first_name', $_REQUEST) ? $_REQUEST['first_name'] : '';
-        $last_name = array_key_exists('last_name', $_REQUEST) ? $_REQUEST['last_name'] : '';
-        $roles_ids_arr = array_key_exists('roles', $_REQUEST) ? $_REQUEST['roles'] : null;
-        $confirm = array_key_exists('confirm', $_REQUEST) ? $_REQUEST['confirm'] : false;
-        $birthday = array_key_exists('birthday', $_REQUEST) ? $_REQUEST['birthday'] : '';
-        $email = array_key_exists('email', $_REQUEST) ? $_REQUEST['email'] : '';
-        $phone = array_key_exists('phone', $_REQUEST) ? $_REQUEST['phone'] : '';
-        $city = array_key_exists('city', $_REQUEST) ? $_REQUEST['city'] : '';
-        $address = array_key_exists('address', $_REQUEST) ? $_REQUEST['address'] : '';
-        $comment = array_key_exists('comment', $_REQUEST) ? $_REQUEST['comment'] : '';
-        $new_password_first = array_key_exists('new_password_first', $_REQUEST) ? $_REQUEST['new_password_first'] : '';
-        $new_password_second = array_key_exists('new_password_second', $_REQUEST) ? $_REQUEST['new_password_second'] : '';
+        $name = $request->getParam('name', '');
+        $first_name = $request->getParam('first_name', '');
+        $last_name = $request->getParam('last_name', '');
+        $roles_ids_arr = $request->getParam('roles', null);
+        $confirm = $request->getParam('confirm', false);
+        $birthday = $request->getParam('birthday', '');
+        $email = $request->getParam('email', '');
+        $phone = $request->getParam('phone', '');
+        $city = $request->getParam('city', '');
+        $address = $request->getParam('address', '');
+        $comment = $request->getParam('comment', '');
+        $new_password_first = $request->getParam('new_password_first', '');
+        $new_password_second = $request->getParam('new_password_second', '');
 
         if (empty($email)) {
             Messages::setError('Ошибка! Не указан Email.');
@@ -73,13 +67,6 @@ class UserSaveHandler extends BaseHandler
             Messages::setError('Ошибка! Не указаны Фамилия Имя Отчество.');
             return $response->withRedirect($destination);
         }
-
-        /*
-        if (!\WebSK\Skif\Users\UsersUtils::checkBirthDay::checkBirthDay($birthday)) {
-            \Websk\Skif\Messages::setError('Указана неверная дата рождения');
-            \Skif\Http::redirect($destination);
-        }
-        */
 
         if ($user_id == 'new') {
             $has_user_id = UsersUtils::hasUserByEmail($email);

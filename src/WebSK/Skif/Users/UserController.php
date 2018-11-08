@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Users;
+namespace WebSK\Skif\Users;
 
 use WebSK\Skif\ConfWrapper;
 use Skif\Http;
@@ -9,13 +9,6 @@ use Skif\Image\ImageController;
 use Websk\Skif\Container;
 use Websk\Skif\Messages;
 use Skif\PhpTemplate;
-use Skif\Utils;
-use WebSK\Skif\Users\AuthUtils;
-use WebSK\Skif\Users\Role;
-use WebSK\Skif\Users\User;
-use WebSK\Skif\Users\UserRole;
-use WebSK\Skif\Users\UsersServiceProvider;
-use WebSK\Skif\Users\UsersUtils;
 
 class UserController
 {
@@ -28,93 +21,6 @@ class UserController
     public static function getEditProfileUrl($user_id)
     {
         return '/user/edit/' . $user_id;
-    }
-
-    /**
-     * Список пользователей
-     */
-    public function listAction()
-    {
-        Http::exit403If(!AuthUtils::currentUserIsAdmin());
-
-        $content = PhpTemplate::renderTemplateBySkifModule(
-            'Users',
-            'users_list.tpl.php'
-        );
-
-        $breadcrumbs_arr = array();
-
-        echo PhpTemplate::renderTemplate(
-            ConfWrapper::value('layout.admin'),
-            array(
-                'content' => $content,
-                'title' => 'Пользователи',
-                'keywords' => '',
-                'description' => '',
-                'breadcrumbs_arr' => $breadcrumbs_arr
-            )
-        );
-    }
-
-    /**
-     * @param int $user_id
-     */
-    public function createPasswordAction($user_id)
-    {
-        Http::exit403if(!AuthUtils::currentUserIsAdmin());
-
-        $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : self::getEditProfileUrl($user_id);
-
-        $new_password = self::createAndSendPasswordToUser($user_id);
-
-        Messages::setMessage('Новый пароль' . $new_password);
-
-        Http::redirect($destination);
-    }
-
-    /**
-     * Смена и отправка пароля пользователю
-     * @param $user_id
-     * @return string
-     */
-    public static function createAndSendPasswordToUser($user_id)
-    {
-        $new_password = UsersUtils::generatePassword(8);
-
-        $container = Container::self();
-
-        $user_service = UsersServiceProvider::getUserService($container);
-
-        $user_obj = $user_service->getById($user_id);
-        $user_obj->setPassw(AuthUtils::getHash($new_password));
-        $user_service->save($user_obj);
-
-        if ($user_obj->getEmail()) {
-            $site_email = ConfWrapper::value('site_email');
-            $site_domain = ConfWrapper::value('site_domain');
-            $site_name = ConfWrapper::value('site_name');
-
-            $mail_message = "<p>Добрый день, " . $user_obj->getName() . "</p>";
-            $mail_message .= "<p>Вы воспользовались формой восстановления пароля на сайте " . $site_name. "</p>";
-            $mail_message .= "<p>Ваш новый пароль: " . $new_password  . "<br>";
-            $mail_message .= "Ваш email для входа: ".  $user_obj->getEmail() . "</p>";
-            $mail_message .= "<p>Рекомендуем сменить пароль после входа на сайт.</p>";
-            $mail_message .= '<p>' . $site_domain . "</p>";
-
-            $subject = "Смена пароля на сайте " . ConfWrapper::value('site_name');
-
-            $mail = new \PHPMailer;
-            $mail->CharSet = "utf-8";
-            $mail->setFrom($site_email, $site_name);
-            $mail->addAddress($user_obj->getEmail());
-            $mail->isHTML(true);
-            $mail->Subject = $subject;
-            $mail->Body = $mail_message;
-            $mail->AltBody = Utils::checkPlain($mail_message);
-            $mail->send();
-        }
-
-        return $new_password;
     }
 
     /**
@@ -189,34 +95,6 @@ class UserController
         }
 
         Messages::setMessage('Фотография была успешно удалена');
-
-        Http::redirect($destination);
-    }
-
-    /**
-     * Удаление пользователя
-     * @param $user_id
-     */
-    public function deleteAction($user_id)
-    {
-        $current_user_id = AuthUtils::getCurrentUserId();
-
-        if (($current_user_id != $user_id) && !AuthUtils::currentUserIsAdmin()) {
-            Http::exit403();
-        }
-
-        $container = Container::self();
-
-        $user_service = UsersServiceProvider::getUserService($container);
-
-        $user_obj = $user_service->getById($user_id, false);
-        Http::exit404If(!$user_obj);
-
-        $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : '/';
-
-        $user_service->delete($user_obj);
-
-        Messages::setMessage('Пользователь ' . $user_obj->getName() . ' был успешно удален');
 
         Http::redirect($destination);
     }

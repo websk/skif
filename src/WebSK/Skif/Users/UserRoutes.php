@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Users;
+namespace WebSK\Skif\Users;
 
 use Skif\Router;
 use Skif\UrlManager;
@@ -10,15 +10,12 @@ class UserRoutes
     public static function route()
     {
         if (Router::matchGroup('@/admin@')) {
-            UrlManager::route('@^/admin/users$@', UserController::class, 'listAction');
             UrlManager::route('@^/admin/users/roles$@', UserController::class, 'listUsersRolesAction');
             UrlManager::route('@^/admin/users/roles/edit/(.+)@', UserController::class, 'editUsersRoleAction');
             UrlManager::route('@^/admin/users/roles/save/(.+)@', UserController::class, 'saveUsersRoleAction');
             UrlManager::route('@^/admin/users/roles/delete/(.+)@', UserController::class, 'deleteUsersRoleAction');
         }
 
-        UrlManager::route('@^/user/delete/(.+)@', UserController::class, 'deleteAction');
-        UrlManager::route('@^/user/create_password/(\d+)@', UserController::class, 'createPasswordAction');
         UrlManager::route('@^/user/add_photo/(.+)@', UserController::class, 'addPhotoAction');
         UrlManager::route('@^/user/delete_photo/(.+)@', UserController::class, 'deletePhotoAction');
 

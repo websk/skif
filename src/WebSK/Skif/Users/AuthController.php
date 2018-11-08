@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Users;
+namespace WebSK\Skif\Users;
 
 use Websk\Skif\Captcha\Captcha;
 use WebSK\Skif\ConfWrapper;
@@ -9,11 +9,6 @@ use Websk\Skif\Container;
 use Websk\Skif\Messages;
 use Skif\PhpTemplate;
 use Skif\Utils;
-use WebSK\Skif\Users\AuthUtils;
-use WebSK\Skif\Users\User;
-use WebSK\Skif\Users\UserRole;
-use WebSK\Skif\Users\UsersServiceProvider;
-use WebSK\Skif\Users\UsersUtils;
 
 class AuthController
 {
@@ -423,7 +418,7 @@ class AuthController
 
         $user_id = UsersUtils::getUserIdByEmail($email);
 
-        UserController::createAndSendPasswordToUser($user_id);
+        UsersUtils::createAndSendPasswordToUser($user_id);
 
         $message = 'Временный пароль отправлен на указанный вами адрес электронной почты.';
 

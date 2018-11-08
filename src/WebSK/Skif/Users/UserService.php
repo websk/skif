@@ -12,7 +12,7 @@ use WebSK\Skif\ConfWrapper;
 /**
  * Class UserService
  * @method User getById($entity_id, $exception_if_not_loaded = true)
- * @package WebSK\Skif\Users
+ * @package WebSK\WebSK\Skif\Users
  */
 class UserService extends BaseEntityService
 {
