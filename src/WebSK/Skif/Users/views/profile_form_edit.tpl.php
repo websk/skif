@@ -1,34 +1,20 @@
 <?php
 /**
- * @var int $user_id
+ * @var User $user_obj
  * @var array $user_roles_ids_arr
+ * @var string $save_handler_url
  */
 
-use Skif\Http;
 use WebSK\Skif\Image\ImageManager;
 use Skif\UrlManager;
 use WebSK\Skif\Users\AuthUtils;
-use WebSK\Skif\Users\Role;
 use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UsersUtils;
-
-if ($user_id == 'new') {
-    $user_obj = new User();
-} else {
-    $user_obj = UsersUtils::loadUser($user_id);
-}
-
-$current_user_id = AuthUtils::getCurrentUserId();
-$current_user_obj = UsersUtils::loadUser($current_user_id);
-
-if (($current_user_id != $user_id) && !AuthUtils::currentUserIsAdmin()) {
-    Http::exit403();
-}
 
 $destination = UrlManager::getUriNoQueryString();
 
 ?>
-<form id="profile_form" action="/user/save/<?php echo $user_id; ?>" autocomplete="off" method="post"
+<form id="profile_form" action="<?php echo $save_handler_url; ?>" autocomplete="off" method="post"
       class="form-horizontal" enctype="multipart/form-data">
     <div xmlns="http://www.w3.org/1999/html">
         <div class="form-group has-warning">
@@ -138,7 +124,7 @@ $destination = UrlManager::getUriNoQueryString();
         </div>
 
         <?php
-        if ($user_id != 'new') {
+        if ($user_obj) {
             ?>
             <div class="form-group">
                 <div class="col-md-offset-4 col-md-8">
@@ -163,11 +149,11 @@ $destination = UrlManager::getUriNoQueryString();
             </div>
 
             <?php
-            if (($user_id != 'new') && AuthUtils::currentUserIsAdmin()) {
+            if ($user_obj && AuthUtils::currentUserIsAdmin()) {
                 ?>
                 <div class="form-group">
                     <div class="col-md-offset-4 col-md-8">
-                        <a href="/user/create_password/<?= $user_id ?>?destination=<?php echo $destination; ?>">Сгенерировать
+                        <a href="/user/create_password/<?= $user_obj->getId() ?>?destination=<?php echo $destination; ?>">Сгенерировать
                             пароль и выслать пользователю</a>
                     </div>
                 </div>
@@ -202,7 +188,7 @@ $destination = UrlManager::getUriNoQueryString();
                 </a>
 
                 <div>
-                    <a href="/user/delete_photo/<?php echo $user_id; ?>?destination=<?php echo $destination; ?>"
+                    <a href="/user/delete_photo/<?php echo $user_obj->getId(); ?>?destination=<?php echo $destination; ?>"
                        class="btn btn-default">Удалить фото</a>
                 </div>
                 <?php

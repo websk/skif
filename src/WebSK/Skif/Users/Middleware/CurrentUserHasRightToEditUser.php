@@ -23,7 +23,7 @@ class CurrentUserHasRightToEditUser
     {
         $user_id = $request->getAttribute('routeInfo')[2]['user_id'];
 
-        if ($user_id == 'new') {
+        if (!isset($user_id)) {
             $response = $next($request, $response);
 
             return $response;

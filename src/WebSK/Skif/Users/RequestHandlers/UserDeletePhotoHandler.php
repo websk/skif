@@ -6,6 +6,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Websk\Skif\Messages;
 use WebSK\Skif\RequestHandlers\BaseHandler;
+use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Utils\HTTP;
 
@@ -32,7 +33,7 @@ class UserDeletePhotoHandler extends BaseHandler
             return $response->withStatus(HTTP::STATUS_NOT_FOUND);
         }
 
-        $destination = $request->getAttribute('destination', $this->pathFor(UserEditHandler::class, ['user_id' => $user_id]));
+        $destination = $request->getAttribute('destination', $this->pathFor(UsersRoutes::ROUTE_NAME_USER_EDIT, ['user_id' => $user_id]));
 
         $user_obj = $user_service->getById($user_id);
 

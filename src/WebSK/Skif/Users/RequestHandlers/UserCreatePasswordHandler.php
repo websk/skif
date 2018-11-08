@@ -6,6 +6,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Websk\Skif\Messages;
 use WebSK\Skif\RequestHandlers\BaseHandler;
+use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersUtils;
 
 /**
@@ -22,7 +23,7 @@ class UserCreatePasswordHandler extends BaseHandler
      */
     public function __invoke(Request $request, Response $response, int $user_id)
     {
-        $destination = $request->getAttribute('destination', $this->pathFor(UserEditHandler::class, ['user_id' => $user_id]));
+        $destination = $request->getAttribute('destination', $this->pathFor(UsersRoutes::ROUTE_NAME_USER_EDIT, ['user_id' => $user_id]));
 
         $new_password = UsersUtils::createAndSendPasswordToUser($user_id);
 

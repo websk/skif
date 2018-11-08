@@ -42,7 +42,7 @@ $requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id
 </div>
 
 <p class="padding_top_10 padding_bottom_10">
-    <a href="/admin/users/edit/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить
+    <a href="/admin/users/add" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить
         пользователя</a>
 </p>
 

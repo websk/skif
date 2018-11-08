@@ -23,6 +23,13 @@ use WebSK\Skif\Users\RequestHandlers\UserSaveHandler;
  */
 class UsersRoutes
 {
+    const ROUTE_NAME_USER_LIST = 'users:list';
+    const ROUTE_NAME_USER_CREATE = 'users:create';
+    const ROUTE_NAME_USER_EDIT = 'users:edit';
+    const ROUTE_NAME_USER_ADD = 'users:add';
+    const ROUTE_NAME_USER_UPDATE = 'users:update';
+    const ROUTE_NAME_USER_DELETE = 'users:delete';
+
     const ROUTE_NAME_ROLE_LIST = 'users:role:list';
     const ROUTE_NAME_ROLE_CREATE = 'users:role:create';
     const ROUTE_NAME_ROLE_EDIT = 'users:role:edit';
@@ -70,14 +77,20 @@ class UsersRoutes
     public static function register(App $app)
     {
         $app->group('/user', function (App $app) {
+            $app->get('/add', UserEditHandler::class)
+                ->setName(self::ROUTE_NAME_USER_CREATE);
+
             $app->get('/edit/{user_id:\d+}', UserEditHandler::class)
-                ->setName(UserEditHandler::class);
+                ->setName(self::ROUTE_NAME_USER_EDIT);
+
+            $app->post('/add', UserSaveHandler::class)
+                ->setName(self::ROUTE_NAME_USER_ADD);
 
             $app->post('/save/{user_id:\d+}', UserSaveHandler::class)
-                ->setName(UserSaveHandler::class);
+                ->setName(self::ROUTE_NAME_USER_UPDATE);
 
-            $app->post('/delete/{user_id:\d+}', UserDeleteHandler::class)
-                ->setName(UserDeleteHandler::class);
+            $app->get('/delete/{user_id:\d+}', UserDeleteHandler::class)
+                ->setName(self::ROUTE_NAME_USER_DELETE);
 
             $app->get('/create_password/{user_id:\d+}', UserCreatePasswordHandler::class)
                 ->setName(UserCreatePasswordHandler::class);

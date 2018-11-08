@@ -11,6 +11,7 @@ use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Skif\Users\AuthUtils;
 use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UserRole;
+use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Skif\Users\UsersUtils;
 use WebSK\Utils\HTTP;
@@ -28,21 +29,22 @@ class UserSaveHandler extends BaseHandler
      * @return \Psr\Http\Message\ResponseInterface|Response
      * @throws \Exception
      */
-    public function __invoke(Request $request, Response $response, ?int $user_id)
+    public function __invoke(Request $request, Response $response, ?int $user_id = null)
     {
         $user_service = UsersServiceProvider::getUserService($this->container);
 
-        if ($user_id != 'new') {
+        if (!is_null($user_id)) {
             $user_obj = $user_service->getById($user_id, false);
 
             if (!$user_obj) {
                 return $response->withStatus(HTTP::STATUS_NOT_FOUND);
             }
+
+            $destination = $request->getParam('destination', $this->pathFor(UsersRoutes::ROUTE_NAME_USER_EDIT, ['user_id' => $user_id]));
         } else {
             $user_obj = new User();
+            $destination = $request->getParam('destination', $this->pathFor(UsersRoutes::ROUTE_NAME_USER_CREATE));
         }
-
-        $destination = $request->getParam('destination', '/user/edit/' . $user_id);
 
         $name = $request->getParam('name', '');
         $first_name = $request->getParam('first_name', '');
@@ -139,7 +141,7 @@ class UserSaveHandler extends BaseHandler
                 $file_name = ImageController::processUpload($file, 'user', $root_images_folder);
                 if (!$file_name) {
                     Messages::setError('Не удалось загрузить фотографию.');
-                    return $response->withRedirect('/user/edit/' . $user_obj->getId());
+                    return $response->withRedirect($destination);
                 }
 
                 $user_obj = $user_service->getById($user_id);
@@ -150,7 +152,7 @@ class UserSaveHandler extends BaseHandler
 
         Messages::setMessage('Информация о пользователе была успешно сохранена');
 
-        $destination = str_replace('/new', '/' . $user_obj->getId(), $destination);
+        //$destination = str_replace('/new', '/' . $user_obj->getId(), $destination);
 
         return $response->withRedirect($destination);
     }
