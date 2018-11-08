@@ -1,12 +1,13 @@
 <?php
 /**
  * @var Role $role_obj
+ * @var string $save_handler_url
  */
 
 use WebSK\Skif\Users\Role;
 
 ?>
-<form action="/admin/users/roles/save/<?php echo $role_obj->getId(); ?>" method="post" class="form-horizontal">
+<form action="<?php echo $save_handler_url; ?>" method="post" class="form-horizontal">
     <div class="form-group">
         <label class="col-md-4 control-label">Название</label>
 

@@ -7,6 +7,7 @@ use Slim\Http\Response;
 use Websk\Skif\Messages;
 use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Skif\Users\Role;
+use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Utils\HTTP;
 
@@ -23,11 +24,11 @@ class RoleSaveHandler extends BaseHandler
      * @return Response
      * @throws \Exception
      */
-    public function __invoke(Request $request, Response $response, ?int $role_id)
+    public function __invoke(Request $request, Response $response, ?int $role_id = null)
     {
         $role_service = UsersServiceProvider::getRoleService($this->container);
 
-        if ($role_id == 'new') {
+        if (is_null($role_id)) {
             $role_obj = new Role;
         } else {
             $role_obj = $role_service->getById($role_id, false);
@@ -45,6 +46,6 @@ class RoleSaveHandler extends BaseHandler
 
         Messages::setMessage('Изменения сохранены');
 
-        return $response->withRedirect($this->pathFor(RoleListHandler::class));
+        return $response->withRedirect($this->pathFor(UsersRoutes::ROUTE_NAME_ROLE_LIST));
     }
 }

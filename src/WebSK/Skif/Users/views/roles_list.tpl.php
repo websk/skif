@@ -3,11 +3,14 @@
  *
  */
 
+use WebSK\Skif\Router;
+use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersUtils;
 
 ?>
 <p class="padding_top_10 padding_bottom_10">
-    <a href="/admin/users/roles/edit/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>
+    <a href="<?php echo Router::pathFor(UsersRoutes::ROUTE_NAME_ROLE_CREATE); ?>" class="btn btn-primary"><span
+                class="glyphicon glyphicon-plus"></span>
         Добавить роль</a>
 </p>
 
@@ -27,17 +30,20 @@ use WebSK\Skif\Users\UsersUtils;
             <tr>
                 <td><?php echo $role_obj->getId(); ?></td>
                 <td>
-                    <a href="/admin/users/roles/edit/<?php echo $role_id; ?>"><?php echo $role_obj->getName(); ?></a>
+                    <a href="<?php echo Router::pathFor(UsersRoutes::ROUTE_NAME_ROLE_EDIT,
+                        ['role_id' => $role_id]); ?>"><?php echo $role_obj->getName(); ?></a>
                 </td>
                 <td class="hidden-sm hidden-xs">
                     <?php echo $role_obj->getDesignation(); ?>
                 </td>
                 <td align="right">
-                    <a href="/admin/users/roles/edit/<?php echo $role_id; ?>" title="Редактировать"
+                    <a href="<?php echo Router::pathFor(UsersRoutes::ROUTE_NAME_ROLE_EDIT, ['role_id' => $role_id]); ?>"
+                       title="Редактировать"
                        class="btn btn-outline btn-default btn-sm">
                         <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
                     </a>
-                    <a href="/admin/users/roles/delete/<?php echo $role_id; ?>"
+                    <a href="<?php echo Router::pathFor(UsersRoutes::ROUTE_NAME_ROLE_DELETE,
+                        ['role_id' => $role_id]); ?>"
                        onClick="return confirm('Вы уверены, что хотите удалить?')" title="Удалить"
                        class="btn btn-outline btn-default btn-sm">
                         <span class="fa fa-trash-o fa-lg text-danger fa-fw"></span>

@@ -23,6 +23,13 @@ use WebSK\Skif\Users\RequestHandlers\UserSaveHandler;
  */
 class UsersRoutes
 {
+    const ROUTE_NAME_ROLE_LIST = 'users:role:list';
+    const ROUTE_NAME_ROLE_CREATE = 'users:role:create';
+    const ROUTE_NAME_ROLE_EDIT = 'users:role:edit';
+    const ROUTE_NAME_ROLE_ADD = 'users:role:add';
+    const ROUTE_NAME_ROLE_UPDATE = 'users:role:update';
+    const ROUTE_NAME_ROLE_DELETE = 'users:role:delete';
+
     /**
      * @param App $app
      */
@@ -37,16 +44,22 @@ class UsersRoutes
 
             $app->group('/roles', function (App $app) {
                 $app->get('', RoleListHandler::class)
-                    ->setName(RoleListHandler::class);
+                    ->setName(self::ROUTE_NAME_ROLE_LIST);
+
+                $app->get('/create', RoleEditHandler::class)
+                    ->setName(self::ROUTE_NAME_ROLE_CREATE);
 
                 $app->get('/edit/{role_id:\d+}', RoleEditHandler::class)
-                    ->setName(RoleEditHandler::class);
+                    ->setName(self::ROUTE_NAME_ROLE_EDIT);
 
-                $app->post('/save/{role_id:\d+}', RoleSaveHandler::class)
-                    ->setName(RoleSaveHandler::class);
+                $app->post('/add', RoleSaveHandler::class)
+                    ->setName(self::ROUTE_NAME_ROLE_ADD);
 
-                $app->post('/delete/{role_id:\d+}', RoleDeleteHandler::class)
-                    ->setName(RoleDeleteHandler::class);
+                $app->post('/update/{role_id:\d+}', RoleSaveHandler::class)
+                    ->setName(self::ROUTE_NAME_ROLE_UPDATE);
+
+                $app->get('/delete/{role_id:\d+}', RoleDeleteHandler::class)
+                    ->setName(self::ROUTE_NAME_ROLE_DELETE);
             });
         });
     }

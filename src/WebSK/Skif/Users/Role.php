@@ -17,10 +17,10 @@ class Role extends BaseEntity
     const ROLE_ADMIN = 1;
 
     /** @var string */
-    protected $name;
+    protected $name = '';
 
     /** @var string */
-    protected $designation;
+    protected $designation = '';
 
     /**
      * @return string

@@ -9,6 +9,7 @@ use WebSK\Skif\LayoutDTO;
 use WebSK\Skif\PhpRender;
 use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Skif\Users\Role;
+use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\UI\BreadcrumbItemDTO;
 use WebSK\Utils\HTTP;
@@ -26,23 +27,26 @@ class RoleEditHandler extends BaseHandler
      * @return \Psr\Http\Message\ResponseInterface|Response
      * @throws \Exception
      */
-    public function __invoke(Request $request, Response $response, ?int $role_id)
+    public function __invoke(Request $request, Response $response, ?int $role_id = null)
     {
         $role_service = UsersServiceProvider::getRoleService($this->container);
 
-        if ($role_id == 'new') {
+        if (is_null($role_id)) {
             $role_obj = new Role;
+            $save_handler_url = $this->pathFor(UsersRoutes::ROUTE_NAME_ROLE_ADD);
         } else {
             $role_obj = $role_service->getById($role_id, false);
             if (!$role_obj) {
                 return $response->withStatus(HTTP::STATUS_NOT_FOUND);
             }
+
+            $save_handler_url = $this->pathFor(UsersRoutes::ROUTE_NAME_ROLE_UPDATE, ['role_id' => $role_id]);
         }
 
         $content = PhpRender::renderTemplateBySkifModule(
             'Users',
             'role_form_edit.tpl.php',
-            array('role_obj' => $role_obj)
+            ['role_obj' => $role_obj, 'save_handler_url' => $save_handler_url]
         );
 
         $layout_dto = new LayoutDTO();
@@ -51,7 +55,7 @@ class RoleEditHandler extends BaseHandler
 
         $breadcrumbs_arr = [
             new BreadcrumbItemDTO('Пользователи', $this->pathFor(UserListHandler::class)),
-            new BreadcrumbItemDTO('Роли пользователей', $this->pathFor(RoleListHandler::class)),
+            new BreadcrumbItemDTO('Роли пользователей', $this->pathFor(UsersRoutes::ROUTE_NAME_ROLE_LIST)),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 
