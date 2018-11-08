@@ -24,6 +24,8 @@ use WebSK\Skif\KeyValue\KeyValueServiceProvider;
 use WebSK\Skif\RequestHandlers\AdminHandler;
 use WebSK\Skif\RequestHandlers\ErrorHandler;
 use WebSK\Skif\RequestHandlers\NotFoundHandler;
+use WebSK\Skif\Users\Middleware\CurrentUserIsAdmin;
+use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersServiceProvider;
 
 class SkifApp extends App
@@ -59,8 +61,9 @@ class SkifApp extends App
             $app->get('', AdminHandler::class)
                 ->setName(self::ROUTE_NAME_ADMIN);
 
-            KeyValueRoutes::route($app);
-        });
+            KeyValueRoutes::registerAdmin($app);
+            UsersRoutes::registerAdmin($app);
+        })->add(new CurrentUserIsAdmin());
 
         Facade::setFacadeApplication($this);
 

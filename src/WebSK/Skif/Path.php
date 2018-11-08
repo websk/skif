@@ -21,7 +21,7 @@ class Path
      */
     public static function getRootSitePath()
     {
-        return dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))));
+        return __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
     }
 
     /**

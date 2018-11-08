@@ -6,7 +6,6 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Skif\AdminRender;
-use Websk\Skif\Container;
 use WebSK\Skif\LayoutDTO;
 use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Utils\HTTP;

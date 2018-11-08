@@ -19,7 +19,7 @@ class KeyValueRoutes
     /**
      * @param App $app
      */
-    public static function route(App $app): void
+    public static function registerAdmin(App $app): void
     {
         $app->group('/key_value', function (App $app) {
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', KeyValueListHandler::class)

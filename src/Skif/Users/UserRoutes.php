@@ -12,7 +12,6 @@ class UserRoutes
     {
         if (Router::matchGroup('@/admin@')) {
             UrlManager::route('@^/admin/users$@', UserController::class, 'listAction');
-            UrlManager::route('@^/admin/users/edit/(.+)@', UserController::class, 'editAction', 0, ConfWrapper::value('layout.admin'));
             UrlManager::route('@^/admin/users/roles$@', UserController::class, 'listUsersRolesAction');
             UrlManager::route('@^/admin/users/roles/edit/(.+)@', UserController::class, 'editUsersRoleAction');
             UrlManager::route('@^/admin/users/roles/save/(.+)@', UserController::class, 'saveUsersRoleAction');
