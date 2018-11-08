@@ -33,7 +33,7 @@ class RoleListHandler extends BaseHandler
         $layout_dto->setContentHtml($content);
 
         $breadcrumbs_arr = [
-            new BreadcrumbItemDTO('Пользователи', '/admin/users'),
+            new BreadcrumbItemDTO('Пользователи', $this->pathFor(UserListHandler::class)),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 

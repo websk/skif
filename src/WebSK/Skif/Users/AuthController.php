@@ -13,6 +13,16 @@ use Skif\Utils;
 class AuthController
 {
     /**
+     * URL формы редактирования профиля
+     * @param $user_id
+     * @return string
+     */
+    public static function getEditProfileUrl($user_id)
+    {
+        return '/user/edit/' . $user_id;
+    }
+
+    /**
      * URL формы входа на сайт
      * @return string
      */
@@ -120,7 +130,7 @@ class AuthController
     {
         $current_user_id = AuthUtils::getCurrentUserId();
         if ($current_user_id) {
-            Http::redirect(UserController::getEditProfileUrl($current_user_id));
+            Http::redirect(self::getEditProfileUrl($current_user_id));
         }
 
         $content = '';
@@ -434,7 +444,7 @@ class AuthController
     {
         $current_user_id = AuthUtils::getCurrentUserId();
         if ($current_user_id) {
-            Http::redirect(UserController::getEditProfileUrl($current_user_id));
+            Http::redirect(self::getEditProfileUrl($current_user_id));
         }
 
         $content = '';

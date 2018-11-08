@@ -4,6 +4,9 @@ namespace WebSK\Skif\Users;
 
 use Slim\App;
 use WebSK\Skif\Users\Middleware\CurrentUserHasRightToEditUser;
+use WebSK\Skif\Users\RequestHandlers\Admin\RoleDeleteHandler;
+use WebSK\Skif\Users\RequestHandlers\Admin\RoleEditHandler;
+use WebSK\Skif\Users\RequestHandlers\Admin\RoleSaveHandler;
 use WebSK\Skif\Users\RequestHandlers\Admin\UserEditHandler as AdminUserEditHandler;
 use WebSK\Skif\Users\RequestHandlers\Admin\UserListHandler;
 use WebSK\Skif\Users\RequestHandlers\Admin\RoleListHandler;
@@ -35,6 +38,15 @@ class UsersRoutes
             $app->group('/roles', function (App $app) {
                 $app->get('', RoleListHandler::class)
                     ->setName(RoleListHandler::class);
+
+                $app->get('/edit/{role_id:\d+}', RoleEditHandler::class)
+                    ->setName(RoleEditHandler::class);
+
+                $app->post('/save/{role_id:\d+}', RoleSaveHandler::class)
+                    ->setName(RoleSaveHandler::class);
+
+                $app->post('/delete/{role_id:\d+}', RoleDeleteHandler::class)
+                    ->setName(RoleDeleteHandler::class);
             });
         });
     }
