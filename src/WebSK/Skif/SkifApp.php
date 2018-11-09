@@ -86,8 +86,6 @@ class SkifApp extends App
             }
         }
 
-        AuthRoutes::route();
-
         BlockRoutes::route();
         ContentRoutes::route();
         SiteMenuRoutes::route();

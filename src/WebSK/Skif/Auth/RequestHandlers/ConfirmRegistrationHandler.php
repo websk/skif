@@ -10,6 +10,10 @@ use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Skif\Users\UsersUtils;
 
+/**
+ * Class ConfirmRegistrationHandler
+ * @package WebSK\Skif\Auth\RequestHandlers
+ */
 class ConfirmRegistrationHandler extends BaseHandler
 {
     /**
@@ -26,7 +30,9 @@ class ConfirmRegistrationHandler extends BaseHandler
         $destination = $this->pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGIN_FORM);
 
         if (!$user_id) {
-            Messages::setError('Ошибка! Неверный код подтверждения. <a href="' . self::getSendConfirmCodeUrl() . '">Выслать код подтверждения повторно.</a>');
+            Messages::setError(
+                'Ошибка! Неверный код подтверждения. <a href="' . $this->pathFor(AuthRoutes::ROUTE_NAME_AUTH_SEND_CONFIRM_CODE_FORM) . '">Выслать код подтверждения повторно.</a>'
+            );
             return $response->withRedirect($destination);
         }
 
@@ -40,6 +46,7 @@ class ConfirmRegistrationHandler extends BaseHandler
         $message = 'Поздравляем! Процесс регистрации успешно завершен. Теперь вы можете войти на сайт.';
 
         Messages::setMessage($message);
+
         return $response->withRedirect($destination);
     }
 }

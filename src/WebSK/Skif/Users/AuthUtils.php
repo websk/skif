@@ -282,16 +282,16 @@ class AuthUtils
     }
 
     /**
-     * @param $provider
+     * @param $provider_name
      * @param $provider_uid
      * @return bool|int
      */
-    public static function getUserIdIfExistByProvider($provider, $provider_uid)
+    public static function getUserIdIfExistByProvider($provider_name, $provider_uid)
     {
         $query = "SELECT id FROM " . User::DB_TABLE_NAME . " WHERE provider = ? AND provider_uid = ?";
         $result = DBWrapper::readField(
             $query,
-            [$provider, $provider_uid]
+            [$provider_name, $provider_uid]
         );
 
         if ($result === false) {

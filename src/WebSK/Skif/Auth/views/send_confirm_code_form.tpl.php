@@ -2,12 +2,11 @@
 
 use WebSK\Skif\Auth\AuthRoutes;
 use Websk\Skif\Captcha\Captcha;
-use WebSK\Skif\Auth\AuthController;
 use WebSK\Skif\Router;
 
 ?>
 
-<form action="<?php echo AuthController::getSendConfirmCodeUrl(); ?>" method="post" class="form-horizontal">
+<form action="<?php echo Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_SEND_CONFIRM_CODE); ?>" method="post" class="form-horizontal">
     <div class="form-group">
         <label class="col-md-2 control-label">Email</label>
         <div class="col-md-10">
