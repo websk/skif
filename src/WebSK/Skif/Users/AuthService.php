@@ -3,7 +3,9 @@
 namespace WebSK\Skif\Users;
 
 use Skif\Utils;
+use WebSK\Skif\Auth\AuthRoutes;
 use WebSK\Skif\ConfWrapper;
+use WebSK\Skif\Router;
 
 /**
  * Class AuthService
@@ -16,13 +18,19 @@ class AuthService
 
     }
 
-    public function sendConfirmMail($name, $email, $confirm_code)
+    /**
+     * @param string $name
+     * @param string $email
+     * @param int $confirm_code
+     * @throws \phpmailerException
+     */
+    public function sendConfirmMail(string $name, string $email, int $confirm_code)
     {
         $site_email = ConfWrapper::value('site_email');
         $site_domain = ConfWrapper::value('site_domain');
         $site_name = ConfWrapper::value('site_name');
 
-        $confirm_url = $site_domain . self::getConfirmUrl($confirm_code);
+        $confirm_url = $site_domain . Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_CONFIRM_REGISTRATION, ['confirm_code' => $confirm_code]);
 
         $mail_message = 'Здравствуйте, ' . $name . '!<br />';
         $mail_message .= '<p>На сайте ' .  $site_domain . ' была создана регистрационная запись, в которой был указал ваш электронный адрес (e-mail).</p>';

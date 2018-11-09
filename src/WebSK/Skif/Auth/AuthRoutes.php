@@ -4,6 +4,7 @@ namespace WebSK\Skif\Auth;
 
 use Skif\UrlManager;
 use Slim\App;
+use WebSK\Skif\Auth\RequestHandlers\ConfirmRegistrationHandler;
 use WebSK\Skif\Auth\RequestHandlers\ForgotPasswordFormHandler;
 use WebSK\Skif\Auth\RequestHandlers\ForgotPasswordHandler;
 use WebSK\Skif\Auth\RequestHandlers\LoginFormHandler;
@@ -25,10 +26,10 @@ class AuthRoutes
     const ROUTE_NAME_AUTH_FORGOT_PASSWORD = 'auth:forgot_password';
     const ROUTE_NAME_AUTH_REGISTRATION_FORM = 'auth:registration_form';
     const ROUTE_NAME_AUTH_REGISTRATION = 'auth:registration';
+    const ROUTE_NAME_AUTH_CONFIRM_REGISTRATION = 'auth:confirm_registration';
 
     public static function route()
     {
-        UrlManager::route('@^/user/confirm_registration/(.+)@', AuthController::class, 'confirmRegistrationAction');
         UrlManager::route('@^/user/send_confirm_code@', AuthController::class, 'sendConfirmCodeAction');
         UrlManager::route('@^/user/send_confirm_code_form@', AuthController::class, 'sendConfirmCodeFormAction');
         UrlManager::route('@^/user/social_login/(.+)@', AuthController::class, 'socialAuthAction');
@@ -61,6 +62,9 @@ class AuthRoutes
 
             $app->post('/registration', RegistrationHandler::class)
                 ->setName(self::ROUTE_NAME_AUTH_REGISTRATION);
+
+            $app->post('/confirm_registration/{confirm_code:\d+}', ConfirmRegistrationHandler::class)
+                ->setName(self::ROUTE_NAME_AUTH_CONFIRM_REGISTRATION);
         });
     }
 }

@@ -7,9 +7,7 @@ use WebSK\Skif\ConfWrapper;
 use Skif\Http;
 use Websk\Skif\Container;
 use Websk\Skif\Messages;
-use Skif\Utils;
 use WebSK\Skif\PhpRender;
-use WebSK\Skif\Router;
 use WebSK\Skif\Users\AuthUtils;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Skif\Users\UsersUtils;
@@ -31,16 +29,6 @@ class AuthController
     }
 
     /**
-     * URL подтверждения регистрации на сайте
-     * @param $confirm_code
-     * @return string
-     */
-    public static function getConfirmUrl($confirm_code)
-    {
-        return '/user/confirm_registration/' . $confirm_code;
-    }
-
-    /**
      * URL отправки повторно кода подтверждения регистрации на сайте
      * @return string
      */
@@ -56,36 +44,6 @@ class AuthController
     public static function getSendConfirmCodeFormUrl()
     {
         return '/user/send_confirm_code_form';
-    }
-
-    /**
-     * Подтверждение регистрации на сайте
-     * @param $confirm_code
-     */
-    public function confirmRegistrationAction($confirm_code)
-    {
-        $user_id = UsersUtils::getUserIdByConfirmCode($confirm_code);
-
-        $destination = Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGIN_FORM);
-
-        if (!$user_id) {
-            Messages::setError('Ошибка! Неверный код подтверждения. <a href="' . self::getSendConfirmCodeUrl() . '">Выслать код подтверждения повторно.</a>');
-            Http::redirect($destination);
-        }
-
-        $container = Container::self();
-
-        $user_service = UsersServiceProvider::getUserService($container);
-
-        $user_obj = $user_service->getById($user_id);
-        $user_obj->setConfirm(1);
-        $user_obj->setConfirmCode('');
-        $user_service->save($user_obj);
-
-        $message = 'Поздравляем! Процесс регистрации успешно завершен. Теперь вы можете войти на сайт.';
-
-        Messages::setMessage($message);
-        Http::redirect($destination);
     }
 
     /**
