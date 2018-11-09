@@ -7,21 +7,16 @@ use WebSK\Skif\ConfWrapper;
 use Skif\Http;
 use Websk\Skif\Container;
 use Websk\Skif\Messages;
-use Skif\PhpTemplate;
 use Skif\Utils;
+use WebSK\Skif\PhpRender;
+use WebSK\Skif\Router;
 
+/**
+ * Class AuthController
+ * @package WebSK\Skif\Users
+ */
 class AuthController
 {
-    /**
-     * URL формы редактирования профиля
-     * @param $user_id
-     * @return string
-     */
-    public static function getEditProfileUrl($user_id)
-    {
-        return '/user/edit/' . $user_id;
-    }
-
     /**
      * URL формы входа на сайт
      * @return string
@@ -130,26 +125,26 @@ class AuthController
     {
         $current_user_id = AuthUtils::getCurrentUserId();
         if ($current_user_id) {
-            Http::redirect(self::getEditProfileUrl($current_user_id));
+            Http::redirect(Router::pathFor(UsersRoutes::ROUTE_NAME_ADMIN_USER_EDIT, ['user_id' => $current_user_id]));
         }
 
         $content = '';
 
         if (AuthUtils::useSocialLogin()) {
-            $content .= PhpTemplate::renderTemplateBySkifModule(
+            $content .= PhpRender::renderTemplateBySkifModule(
                 'Users',
                 'social_buttons.tpl.php'
             );
         }
 
-        $content .= PhpTemplate::renderTemplateBySkifModule(
+        $content .= PhpRender::renderTemplateBySkifModule(
             'Users',
             'registration_form.tpl.php'
         );
 
         $breadcrumbs_arr = array();
 
-        echo PhpTemplate::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.main'),
             array(
                 'content' => $content,
@@ -314,14 +309,14 @@ class AuthController
      */
     public function sendConfirmCodeFormAction()
     {
-        $content = PhpTemplate::renderTemplateBySkifModule(
+        $content = PhpRender::renderTemplateBySkifModule(
             'Users',
             'send_confirm_code_form.tpl.php'
         );
 
         $breadcrumbs_arr = array();
 
-        echo PhpTemplate::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.main'),
             array(
                 'content' => $content,
@@ -383,14 +378,14 @@ class AuthController
 
     public function forgotPasswordFormAction()
     {
-        $content = PhpTemplate::renderTemplateBySkifModule(
+        $content = PhpRender::renderTemplateBySkifModule(
             'Users',
             'forgot_password_form.tpl.php'
         );
 
         $breadcrumbs_arr = array();
 
-        echo PhpTemplate::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.main'),
             array(
                 'content' => $content,
@@ -444,26 +439,26 @@ class AuthController
     {
         $current_user_id = AuthUtils::getCurrentUserId();
         if ($current_user_id) {
-            Http::redirect(self::getEditProfileUrl($current_user_id));
+            Http::redirect(Router::pathFor(UsersRoutes::ROUTE_NAME_ADMIN_USER_EDIT, ['user_id' => $current_user_id]));
         }
 
         $content = '';
 
         if (AuthUtils::useSocialLogin()) {
-            $content .= PhpTemplate::renderTemplateBySkifModule(
+            $content .= PhpRender::renderTemplateBySkifModule(
                 'Users',
                 'social_buttons.tpl.php'
             );
         }
 
-        $content .= PhpTemplate::renderTemplateBySkifModule(
+        $content .= PhpRender::renderTemplateBySkifModule(
             'Users',
             'login_form.tpl.php'
         );
 
         $breadcrumbs_arr = array();
 
-        echo PhpTemplate::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.main'),
             array(
                 'content' => $content,
