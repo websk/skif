@@ -38,13 +38,13 @@ class RoleDeleteHandler extends BaseHandler
 
         if (!empty($user_ids_arr)) {
             Messages::setError('Нельзя удалить роль ' . $role_obj->getName() . ', т.к. она назначена пользователям');
-            return $response->withRedirect($this->pathFor(UsersRoutes::ROUTE_NAME_ROLE_LIST));
+            return $response->withRedirect($this->pathFor(UsersRoutes::ROUTE_NAME_ADMIN_ROLE_LIST));
         }
 
         $role_service->delete($role_obj);
 
         Messages::setMessage('Роль ' . $role_obj->getName() . ' была успешно удалена');
 
-        return $response->withRedirect($this->pathFor(UsersRoutes::ROUTE_NAME_ROLE_LIST));
+        return $response->withRedirect($this->pathFor(UsersRoutes::ROUTE_NAME_ADMIN_ROLE_LIST));
     }
 }

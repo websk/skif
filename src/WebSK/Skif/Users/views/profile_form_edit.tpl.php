@@ -7,8 +7,10 @@
 
 use WebSK\Skif\Image\ImageManager;
 use Skif\UrlManager;
+use WebSK\Skif\Router;
 use WebSK\Skif\Users\AuthUtils;
 use WebSK\Skif\Users\User;
+use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersUtils;
 
 $destination = UrlManager::getUriNoQueryString();
@@ -124,7 +126,7 @@ $destination = UrlManager::getUriNoQueryString();
         </div>
 
         <?php
-        if ($user_obj) {
+        if ($user_obj->getId()) {
             ?>
             <div class="form-group">
                 <div class="col-md-offset-4 col-md-8">
@@ -149,11 +151,11 @@ $destination = UrlManager::getUriNoQueryString();
             </div>
 
             <?php
-            if ($user_obj && AuthUtils::currentUserIsAdmin()) {
+            if ($user_obj->getId() && AuthUtils::currentUserIsAdmin()) {
                 ?>
                 <div class="form-group">
                     <div class="col-md-offset-4 col-md-8">
-                        <a href="/user/create_password/<?= $user_obj->getId() ?>?destination=<?php echo $destination; ?>">Сгенерировать
+                        <a href="<?php echo Router::pathFor(UsersRoutes::ROUTE_NAME_USER_CREATE_PASSWORD, ['user_id' => $user_obj->getId()], ['destination' => $destination]) ?>">Сгенерировать
                             пароль и выслать пользователю</a>
                     </div>
                 </div>
@@ -188,7 +190,7 @@ $destination = UrlManager::getUriNoQueryString();
                 </a>
 
                 <div>
-                    <a href="/user/delete_photo/<?php echo $user_obj->getId(); ?>?destination=<?php echo $destination; ?>"
+                    <a href="<?php echo Router::pathFor(UsersRoutes::ROUTE_NAME_USER_DELETE_PHOTO, ['user_id' => $user_obj->getId()], ['destination' => $destination]); ?>"
                        class="btn btn-default">Удалить фото</a>
                 </div>
                 <?php

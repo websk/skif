@@ -23,7 +23,7 @@ class UserCreatePasswordHandler extends BaseHandler
      */
     public function __invoke(Request $request, Response $response, int $user_id)
     {
-        $destination = $request->getAttribute('destination', $this->pathFor(UsersRoutes::ROUTE_NAME_USER_EDIT, ['user_id' => $user_id]));
+        $destination = $request->getQueryParam('destination', $this->pathFor(UsersRoutes::ROUTE_NAME_USER_EDIT, ['user_id' => $user_id]));
 
         $new_password = UsersUtils::createAndSendPasswordToUser($user_id);
 

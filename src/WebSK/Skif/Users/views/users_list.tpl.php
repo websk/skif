@@ -5,15 +5,18 @@
 
 use WebSK\Skif\Image\ImageManager;
 use Skif\Logger\LoggerUtils;
+use WebSK\Skif\Request;
+use WebSK\Skif\Router;
+use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersUtils;
 
-$requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id'] : 0;
+$requested_role_id = Request::getQueryParam('role_id', 0);
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="row">
             <div class="col-md-8">
-                <form action="/admin/users" class="form-inline">
+                <form action="<?php echo Router::pathFor(UsersRoutes::ROUTE_NAME_ADMIN_USER_LIST); ?>" class="form-inline">
                     <div class="form-group">
                         <label>Роль</label>
 
@@ -34,7 +37,7 @@ $requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id
                 </form>
             </div>
             <div class="col-md-4">
-                <a href="/admin/users/roles" class="btn btn-outline btn-info">
+                <a href="<?php echo Router::pathFor(UsersRoutes::ROUTE_NAME_ADMIN_ROLE_LIST); ?>" class="btn btn-outline btn-info">
                     <span class="glyphicon glyphicon-wrench"></span> Редактировать роли</a>
             </div>
         </div>
@@ -42,7 +45,7 @@ $requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id
 </div>
 
 <p class="padding_top_10 padding_bottom_10">
-    <a href="/admin/users/add" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить
+    <a href="<?php echo Router::pathFor(UsersRoutes::ROUTE_NAME_ADMIN_USER_CREATE); ?>" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить
         пользователя</a>
 </p>
 
@@ -65,17 +68,16 @@ $requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id
                 <td class="hidden-xs hidden-sm">
                     <?php
                     if ($user_obj->getPhoto()) {
-                        echo '<img src="' . ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(),
-                                '30_30') . '" class="img-thumbnail">';
+                        echo '<img src="' . ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(), '30_30') . '" class="img-thumbnail">';
                     }
                     ?>
                 </td>
                 <td>
-                    <a href="/admin/users/edit/<?php echo $user_id; ?>"><?php echo $user_obj->getName(); ?></a>
+                    <a href="<?php echo Router::pathFor(UsersRoutes::ROUTE_NAME_ADMIN_USER_EDIT, ['user_id' => $user_id]); ?>"><?php echo $user_obj->getName(); ?></a>
                 </td>
                 <td class="hidden-xs hidden-sm"><?php echo $user_obj->getEmail(); ?></td>
                 <td align="right">
-                    <a href="/admin/users/edit/<?php echo $user_id; ?>" title="Редактировать"
+                    <a href="<?php echo Router::pathFor(UsersRoutes::ROUTE_NAME_ADMIN_USER_EDIT, ['user_id' => $user_id]); ?>" title="Редактировать"
                        class="btn btn-outline btn-default btn-sm">
                         <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
                     </a>
@@ -83,7 +85,7 @@ $requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id
                        class="btn btn-outline btn-default btn-sm">
                         <span class="fa fa-history fa-lg fa-fw"></span>
                     </a>
-                    <a href="/user/delete/<?php echo $user_id; ?>?destination=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>"
+                    <a href="<?php echo Router::pathFor(UsersRoutes::ROUTE_NAME_USER_DELETE, ['user_id' => $user_id], ['destination' => Request::getUri()->getPath()]); ?>"
                        onClick="return confirm('Вы уверены, что хотите удалить?')" title="Удалить"
                        class="btn btn-outline btn-default btn-sm">
                         <span class="fa fa-trash-o fa-lg text-danger fa-fw"></span>

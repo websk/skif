@@ -8,6 +8,7 @@ use WebSK\Skif\AdminRender;
 use WebSK\Skif\LayoutDTO;
 use WebSK\Skif\PhpRender;
 use WebSK\Skif\RequestHandlers\BaseHandler;
+use WebSK\Skif\Users\UsersRoutes;
 use WebSK\UI\BreadcrumbItemDTO;
 
 /**
@@ -33,7 +34,7 @@ class RoleListHandler extends BaseHandler
         $layout_dto->setContentHtml($content);
 
         $breadcrumbs_arr = [
-            new BreadcrumbItemDTO('Пользователи', $this->pathFor(UserListHandler::class)),
+            new BreadcrumbItemDTO('Пользователи', $this->pathFor(UsersRoutes::ROUTE_NAME_ADMIN_USER_LIST)),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 

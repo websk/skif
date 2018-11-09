@@ -46,6 +46,6 @@ class RoleSaveHandler extends BaseHandler
 
         Messages::setMessage('Изменения сохранены');
 
-        return $response->withRedirect($this->pathFor(UsersRoutes::ROUTE_NAME_ROLE_LIST));
+        return $response->withRedirect($this->pathFor(UsersRoutes::ROUTE_NAME_ADMIN_ROLE_LIST));
     }
 }

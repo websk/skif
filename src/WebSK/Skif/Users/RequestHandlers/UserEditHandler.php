@@ -32,6 +32,7 @@ class UserEditHandler extends BaseHandler
         if (is_null($user_id)) {
             $user_obj = new User();
             $save_handler_url = $this->pathFor(UsersRoutes::ROUTE_NAME_USER_ADD);
+            $user_roles_ids_arr = [];
         } else {
             $user_obj = $user_service->getById($user_id, false);
 
@@ -40,11 +41,10 @@ class UserEditHandler extends BaseHandler
             }
 
             $save_handler_url = $this->pathFor(UsersRoutes::ROUTE_NAME_USER_UPDATE, ['user_id' => $user_id]);
+            $user_roles_ids_arr = $user_service->getRoleIdsArrByUserId($user_id);
         }
 
         $content = '';
-
-        $user_roles_ids_arr = $user_service->getRoleIdsArrByUserId($user_id);
 
         $content .= PhpRender::renderTemplateBySkifModule(
             'Users',

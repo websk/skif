@@ -15,37 +15,37 @@ class User extends BaseEntity
     const DB_TABLE_NAME = 'users';
 
     /** @var string */
-    protected $name;
+    protected $name = '';
 
     /** @var string */
-    protected $first_name;
+    protected $first_name = '';
 
     /** @var string */
-    protected $last_name;
+    protected $last_name = '';
 
     /** @var string */
-    protected $birthday;
+    protected $birthday = '';
 
     /** @var string */
-    protected $phone;
+    protected $phone = '';
 
     /** @var string */
-    protected $email;
+    protected $email = '';
 
     /** @var string */
-    protected $city;
+    protected $city = '';
 
     /** @var string */
-    protected $address;
+    protected $address = '';
 
     /** @var string */
-    protected $company;
+    protected $company = '';
 
     /** @var string */
-    protected $comment;
+    protected $comment = '';
 
     /** @var int */
-    protected $confirm;
+    protected $confirm = false;
 
     /** @var string */
     protected $confirm_code;

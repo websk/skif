@@ -33,9 +33,7 @@ class UserDeletePhotoHandler extends BaseHandler
             return $response->withStatus(HTTP::STATUS_NOT_FOUND);
         }
 
-        $destination = $request->getAttribute('destination', $this->pathFor(UsersRoutes::ROUTE_NAME_USER_EDIT, ['user_id' => $user_id]));
-
-        $user_obj = $user_service->getById($user_id);
+        $destination = $request->getQueryParam('destination', $this->pathFor(UsersRoutes::ROUTE_NAME_USER_EDIT, ['user_id' => $user_id]));
 
         if (!$user_service->deletePhoto($user_obj)) {
             Messages::setError('Не удалось удалить фотографию.');

@@ -33,14 +33,14 @@ class RoleEditHandler extends BaseHandler
 
         if (is_null($role_id)) {
             $role_obj = new Role;
-            $save_handler_url = $this->pathFor(UsersRoutes::ROUTE_NAME_ROLE_ADD);
+            $save_handler_url = $this->pathFor(UsersRoutes::ROUTE_NAME_ADMIN_ROLE_ADD);
         } else {
             $role_obj = $role_service->getById($role_id, false);
             if (!$role_obj) {
                 return $response->withStatus(HTTP::STATUS_NOT_FOUND);
             }
 
-            $save_handler_url = $this->pathFor(UsersRoutes::ROUTE_NAME_ROLE_UPDATE, ['role_id' => $role_id]);
+            $save_handler_url = $this->pathFor(UsersRoutes::ROUTE_NAME_ADMIN_ROLE_UPDATE, ['role_id' => $role_id]);
         }
 
         $content = PhpRender::renderTemplateBySkifModule(
@@ -54,8 +54,8 @@ class RoleEditHandler extends BaseHandler
         $layout_dto->setContentHtml($content);
 
         $breadcrumbs_arr = [
-            new BreadcrumbItemDTO('Пользователи', $this->pathFor(UserListHandler::class)),
-            new BreadcrumbItemDTO('Роли пользователей', $this->pathFor(UsersRoutes::ROUTE_NAME_ROLE_LIST)),
+            new BreadcrumbItemDTO('Пользователи', $this->pathFor(UsersRoutes::ROUTE_NAME_ADMIN_USER_LIST)),
+            new BreadcrumbItemDTO('Роли пользователей', $this->pathFor(UsersRoutes::ROUTE_NAME_ADMIN_ROLE_LIST)),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 

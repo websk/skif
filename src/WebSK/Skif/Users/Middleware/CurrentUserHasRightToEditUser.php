@@ -21,7 +21,7 @@ class CurrentUserHasRightToEditUser
      */
     public function __invoke(Request $request, Response $response, $next)
     {
-        $user_id = $request->getAttribute('routeInfo')[2]['user_id'];
+        $user_id = $request->getAttribute('routeInfo')[2]['user_id'] ?? null;
 
         if (!isset($user_id)) {
             $response = $next($request, $response);

@@ -23,7 +23,10 @@ use WebSK\Skif\Users\RequestHandlers\UserSaveHandler;
  */
 class UsersRoutes
 {
-    const ROUTE_NAME_USER_LIST = 'users:list';
+    const ROUTE_NAME_ADMIN_USER_CREATE = 'admin:users:create';
+    const ROUTE_NAME_ADMIN_USER_EDIT = 'admin:users:edit';
+    const ROUTE_NAME_ADMIN_USER_LIST = 'admin:users:list';
+
     const ROUTE_NAME_USER_CREATE = 'users:create';
     const ROUTE_NAME_USER_EDIT = 'users:edit';
     const ROUTE_NAME_USER_ADD = 'users:add';
@@ -35,12 +38,12 @@ class UsersRoutes
     const ROUTE_NAME_USER_ADD_PHOTO = 'users:add_photo';
     const ROUTE_NAME_USER_DELETE_PHOTO = 'users:delete_photo';
 
-    const ROUTE_NAME_ROLE_LIST = 'users:role:list';
-    const ROUTE_NAME_ROLE_CREATE = 'users:role:create';
-    const ROUTE_NAME_ROLE_EDIT = 'users:role:edit';
-    const ROUTE_NAME_ROLE_ADD = 'users:role:add';
-    const ROUTE_NAME_ROLE_UPDATE = 'users:role:update';
-    const ROUTE_NAME_ROLE_DELETE = 'users:role:delete';
+    const ROUTE_NAME_ADMIN_ROLE_LIST = 'admin:users:role:list';
+    const ROUTE_NAME_ADMIN_ROLE_CREATE = 'admin:users:role:create';
+    const ROUTE_NAME_ADMIN_ROLE_EDIT = 'admin:users:role:edit';
+    const ROUTE_NAME_ADMIN_ROLE_ADD = 'admin:users:role:add';
+    const ROUTE_NAME_ADMIN_ROLE_UPDATE = 'admin:users:role:update';
+    const ROUTE_NAME_ADMIN_ROLE_DELETE = 'admin:users:role:delete';
 
     /**
      * @param App $app
@@ -49,29 +52,32 @@ class UsersRoutes
     {
         $app->group('/users', function (App $app) {
             $app->get('', UserListHandler::class)
-                ->setName(UserListHandler::class);
+                ->setName(self::ROUTE_NAME_ADMIN_USER_LIST);
+
+            $app->get('/create', AdminUserEditHandler::class)
+                ->setName(self::ROUTE_NAME_ADMIN_USER_CREATE);
 
             $app->get('/edit/{user_id:\d+}', AdminUserEditHandler::class)
-                ->setName(AdminUserEditHandler::class);
+                ->setName(self::ROUTE_NAME_ADMIN_USER_EDIT);
 
             $app->group('/roles', function (App $app) {
                 $app->get('', RoleListHandler::class)
-                    ->setName(self::ROUTE_NAME_ROLE_LIST);
+                    ->setName(self::ROUTE_NAME_ADMIN_ROLE_LIST);
 
                 $app->get('/create', RoleEditHandler::class)
-                    ->setName(self::ROUTE_NAME_ROLE_CREATE);
+                    ->setName(self::ROUTE_NAME_ADMIN_ROLE_CREATE);
 
                 $app->get('/edit/{role_id:\d+}', RoleEditHandler::class)
-                    ->setName(self::ROUTE_NAME_ROLE_EDIT);
+                    ->setName(self::ROUTE_NAME_ADMIN_ROLE_EDIT);
 
                 $app->post('/add', RoleSaveHandler::class)
-                    ->setName(self::ROUTE_NAME_ROLE_ADD);
+                    ->setName(self::ROUTE_NAME_ADMIN_ROLE_ADD);
 
                 $app->post('/update/{role_id:\d+}', RoleSaveHandler::class)
-                    ->setName(self::ROUTE_NAME_ROLE_UPDATE);
+                    ->setName(self::ROUTE_NAME_ADMIN_ROLE_UPDATE);
 
                 $app->get('/delete/{role_id:\d+}', RoleDeleteHandler::class)
-                    ->setName(self::ROUTE_NAME_ROLE_DELETE);
+                    ->setName(self::ROUTE_NAME_ADMIN_ROLE_DELETE);
             });
         });
     }
@@ -82,7 +88,7 @@ class UsersRoutes
     public static function register(App $app)
     {
         $app->group('/user', function (App $app) {
-            $app->get('/add', UserEditHandler::class)
+            $app->get('/create', UserEditHandler::class)
                 ->setName(self::ROUTE_NAME_USER_CREATE);
 
             $app->get('/edit/{user_id:\d+}', UserEditHandler::class)
@@ -91,7 +97,7 @@ class UsersRoutes
             $app->post('/add', UserSaveHandler::class)
                 ->setName(self::ROUTE_NAME_USER_ADD);
 
-            $app->post('/save/{user_id:\d+}', UserSaveHandler::class)
+            $app->post('/update/{user_id:\d+}', UserSaveHandler::class)
                 ->setName(self::ROUTE_NAME_USER_UPDATE);
 
             $app->get('/delete/{user_id:\d+}', UserDeleteHandler::class)

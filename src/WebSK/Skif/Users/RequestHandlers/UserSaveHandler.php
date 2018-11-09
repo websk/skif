@@ -152,7 +152,7 @@ class UserSaveHandler extends BaseHandler
 
         Messages::setMessage('Информация о пользователе была успешно сохранена');
 
-        //$destination = str_replace('/new', '/' . $user_obj->getId(), $destination);
+        $destination = str_replace('/create', '/edit/' . $user_obj->getId(), $destination);
 
         return $response->withRedirect($destination);
     }

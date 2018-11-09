@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif\Users;
 
+use WebSK\Skif\Image\ImageConstants;
 use WebSK\Skif\Image\ImageManager;
 use WebSK\Cache\CacheService;
 use WebSK\Entity\BaseEntityRepository;

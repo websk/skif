@@ -8,7 +8,7 @@ use Slim\Interfaces\RouteInterface;
 
 /**
  * Class RouterFacade
- * @package VitrinaTV\Core
+ * @package WebSK\Skif
  * @method static RouteInterface map(array $methods, string $pattern, callable $handler)
  * @method static array dispatch(ServerRequestInterface $request)
  * @method static RouteGroupInterface pushGroup(string $pattern, callable $callable)
