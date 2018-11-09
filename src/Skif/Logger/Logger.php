@@ -5,7 +5,7 @@ namespace Skif\Logger;
 use Skif\CRUD\CRUDUtils;
 use Websk\Skif\DBWrapper;
 use Skif\Model\InterfaceLoad;
-use WebSK\Skif\Auth\AuthUtils;
+use WebSK\Skif\Auth\Auth;
 use Skif\Util\Network;
 use Skif\Utils;
 
@@ -40,7 +40,7 @@ class Logger
      */
     public static function currentUserId()
     {
-        $user_id = AuthUtils::getCurrentUserId();
+        $user_id = Auth::getCurrentUserId();
 
         return $user_id;
     }

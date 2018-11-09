@@ -5,7 +5,7 @@ namespace WebSK\Skif\Auth\RequestHandlers;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Skif\RequestHandlers\BaseHandler;
-use WebSK\Skif\Auth\AuthUtils;
+use WebSK\Skif\Auth\Auth;
 
 /**
  * Class LogoutHandler
@@ -20,7 +20,7 @@ class LogoutHandler extends BaseHandler
      */
     public function __invoke(Request $request, Response $response)
     {
-        AuthUtils::logout();
+        Auth::logout();
 
         $destination = $request->getQueryParam('destination', '/');
 

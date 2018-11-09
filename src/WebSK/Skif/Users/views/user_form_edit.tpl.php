@@ -8,7 +8,7 @@
 use WebSK\Skif\Image\ImageManager;
 use Skif\UrlManager;
 use WebSK\Skif\Router;
-use WebSK\Skif\Auth\AuthUtils;
+use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersUtils;
@@ -48,7 +48,7 @@ $destination = UrlManager::getUriNoQueryString();
             </div>
         </div>
         <?php
-        if (AuthUtils::currentUserIsAdmin()) {
+        if (Auth::currentUserIsAdmin()) {
             ?>
             <div class="form-group">
                 <label class="col-md-4 control-label">Роль</label>
@@ -151,7 +151,7 @@ $destination = UrlManager::getUriNoQueryString();
             </div>
 
             <?php
-            if ($user_obj->getId() && AuthUtils::currentUserIsAdmin()) {
+            if ($user_obj->getId() && Auth::currentUserIsAdmin()) {
                 ?>
                 <div class="form-group">
                     <div class="col-md-offset-4 col-md-8">

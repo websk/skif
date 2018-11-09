@@ -6,7 +6,7 @@ use WebSK\Skif\ConfWrapper;
 use Websk\Skif\DBWrapper;
 use Skif\Http;
 use Skif\PhpTemplate;
-use WebSK\Skif\Auth\AuthUtils;
+use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\User;
 use Skif\Utils;
 
@@ -19,7 +19,7 @@ class ControllerLogger
     public function listAction()
     {
         // Проверка прав доступа
-        Http::exit403If(!AuthUtils::currentUserIsAdmin());
+        Http::exit403If(!Auth::currentUserIsAdmin());
 
         $logger_objs_arr = DBWrapper::readObjects(
             "SELECT entity_id FROM admin_log GROUP BY entity_id"
@@ -43,7 +43,7 @@ class ControllerLogger
     public function object_logAction()
     {
         // Проверка прав доступа
-        Http::exit403If(!AuthUtils::currentUserIsAdmin());
+        Http::exit403If(!Auth::currentUserIsAdmin());
 
         $logger_objs_id = urldecode(Utils::url_arg(3));
 
@@ -69,7 +69,7 @@ class ControllerLogger
      */
     public function recordAction()
     {
-        Http::exit403If(!AuthUtils::currentUserIsAdmin());
+        Http::exit403If(!Auth::currentUserIsAdmin());
 
         $record_id = Utils::url_arg(3);
 

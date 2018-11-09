@@ -6,7 +6,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Skif\Auth\AuthRoutes;
 use WebSK\Skif\RequestHandlers\BaseHandler;
-use WebSK\Skif\Auth\AuthUtils;
+use WebSK\Skif\Auth\Auth;
 
 /**
  * Class LoginHandler
@@ -26,7 +26,7 @@ class LoginHandler extends BaseHandler
         }
 
         $save_auth = ((int)$request->getParam('save_auth') == 1) ? true : false;
-        AuthUtils::doLogin($request->getParam('email'), $request->getParam('password'), $save_auth);
+        Auth::doLogin($request->getParam('email'), $request->getParam('password'), $save_auth);
 
         $destination = $request->getParam('destination', '/');
 

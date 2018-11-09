@@ -6,7 +6,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Websk\Skif\Messages;
 use WebSK\Skif\RequestHandlers\BaseHandler;
-use WebSK\Skif\Auth\AuthUtils;
+use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\UsersUtils;
 
 /**
@@ -23,7 +23,7 @@ class SocialLoginHandler extends BaseHandler
         }
 
 
-        $provider = AuthUtils::socialLogin($provider_name, $destination);
+        $provider = Auth::socialLogin($provider_name, $destination);
         if (!$provider) {
             return $response->withRedirect($destination);
         }
@@ -39,7 +39,7 @@ class SocialLoginHandler extends BaseHandler
          */
         $user_profile = $provider->getUserProfile();
 
-        $user_id = AuthUtils::getUserIdIfExistByProvider(
+        $user_id = Auth::getUserIdIfExistByProvider(
             $provider_name,
             $user_profile->identifier
         );
@@ -55,7 +55,7 @@ class SocialLoginHandler extends BaseHandler
                 }
             }
 
-            $user_id = AuthUtils::registerUserByHybridAuthProfile(
+            $user_id = Auth::registerUserByHybridAuthProfile(
                 $user_profile,
                 $provider_name
             );
@@ -67,9 +67,9 @@ class SocialLoginHandler extends BaseHandler
         }
 
         $session = sha1(time() . $user_id);
-        $delta = time() + AuthUtils::SESSION_LIFE_TIME;
+        $delta = time() + Auth::SESSION_LIFE_TIME;
 
-        AuthUtils::storeUserSession($user_id, $session, $delta);
+        Auth::storeUserSession($user_id, $session, $delta);
 
         return $response->withRedirect($destination);
     }

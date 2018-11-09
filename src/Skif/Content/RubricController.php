@@ -64,7 +64,7 @@ class RubricController extends \Skif\BaseController
 
     public function listAdminRubricsAction($content_type)
     {
-        \Skif\Http::exit403if(!\WebSK\Skif\Auth\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403if(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
 
 
         $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
@@ -93,7 +93,7 @@ class RubricController extends \Skif\BaseController
 
     public function editRubricAction($content_type, $rubric_id)
     {
-        \Skif\Http::exit403if(!\WebSK\Skif\Auth\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403if(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
 
 
         $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
@@ -123,7 +123,7 @@ class RubricController extends \Skif\BaseController
 
     public function saveRubricAction($content_type, $rubric_id)
     {
-        \Skif\Http::exit403if(!\WebSK\Skif\Auth\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403if(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
 
 
         $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
@@ -166,7 +166,7 @@ class RubricController extends \Skif\BaseController
 
     public function deleteRubricAction($content_type, $rubric_id)
     {
-        \Skif\Http::exit403if(!\WebSK\Skif\Auth\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403if(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
 
 
         $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);

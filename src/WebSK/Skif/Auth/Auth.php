@@ -16,7 +16,7 @@ use WebSK\Skif\Users\UsersServiceProvider;
  * Class AuthUtils
  * @package WebSK\WebSK\Skif\Users
  */
-class AuthUtils
+class Auth
 {
     const SESSION_LIFE_TIME = 31536000; // 1 год
 
@@ -155,6 +155,21 @@ class AuthUtils
         }
 
         return null;
+    }
+
+    /**
+     * @return User
+     * @throws \Exception
+     */
+    public static function getCurrentUserObj()
+    {
+        $user_id = self::getCurrentUserId();
+
+        $container = Container::self();
+
+        $user_service = UsersServiceProvider::getUserService($container);
+
+        return $user_service->getById($user_id, false);
     }
 
     /**

@@ -8,7 +8,7 @@ use WebSK\Skif\ConfWrapper;
 use WebSK\Skif\PhpRender;
 use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Skif\Router;
-use WebSK\Skif\Auth\AuthUtils;
+use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\UsersRoutes;
 
 /**
@@ -24,7 +24,7 @@ class RegistrationFormHandler extends BaseHandler
      */
     public function __invoke(Request $request, Response $response)
     {
-        $current_user_id = AuthUtils::getCurrentUserId();
+        $current_user_id = Auth::getCurrentUserId();
         if ($current_user_id) {
             return $response->withRedirect(
                 Router::pathFor(UsersRoutes::ROUTE_NAME_ADMIN_USER_EDIT, ['user_id' => $current_user_id])
@@ -33,7 +33,7 @@ class RegistrationFormHandler extends BaseHandler
 
         $content = '';
 
-        if (AuthUtils::useSocialLogin()) {
+        if (Auth::useSocialLogin()) {
             $content .= PhpRender::renderTemplateBySkifModule(
                 'Auth',
                 'social_buttons.tpl.php'

@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\RequestHandlers;
 
-use WebSK\Skif\Auth\AuthUtils;
+use WebSK\Skif\Auth\Auth;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Utils\HTTP;
@@ -16,11 +16,11 @@ class AdminHandler
      */
     public function __invoke(Request $request, Response $response)
     {
-        if (!AuthUtils::getCurrentUserId()) {
+        if (!Auth::getCurrentUserId()) {
             return PhpRender::render($response, '/layouts/layout.admin_login.tpl.php');
         }
 
-        if (!AuthUtils::currentUserIsAdmin()) {
+        if (!Auth::currentUserIsAdmin()) {
             return $response->withStatus(HTTP::STATUS_FORBIDDEN);
         }
 

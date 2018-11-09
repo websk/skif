@@ -4,7 +4,7 @@ namespace WebSK\Skif\Logger\Entry;
 
 use OLOG\FullObjectId;
 use OLOG\IP;
-use VitrinaTV\Core\Auth\Auth;
+use WebSK\Skif\Auth\Auth;
 use WebSK\Entity\BaseEntityService;
 use WebSK\Entity\InterfaceEntity;
 

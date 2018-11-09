@@ -4,7 +4,7 @@ namespace WebSK\Skif\Users\Middleware;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use WebSK\Skif\Auth\AuthUtils;
+use WebSK\Skif\Auth\Auth;
 use WebSK\Utils\HTTP;
 
 /**
@@ -21,7 +21,7 @@ class CurrentUserIsAdmin
      */
     public function __invoke(Request $request, Response $response, $next)
     {
-        if (!AuthUtils::currentUserIsAdmin()) {
+        if (!Auth::currentUserIsAdmin()) {
             return $response->withStatus(HTTP::STATUS_FORBIDDEN);
         }
 

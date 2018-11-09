@@ -7,12 +7,12 @@ use WebSK\Skif\Auth\AuthRoutes;
 use WebSK\Skif\Captcha\CaptchaRoutes;
 use WebSK\Skif\ConfWrapper;
 use WebSK\Skif\Router;
-use WebSK\Skif\Auth\AuthUtils;
+use WebSK\Skif\Auth\Auth;
 
 $user_name = '';
 $user_email = '';
 
-$current_user_id = AuthUtils::getCurrentUserId();
+$current_user_id = Auth::getCurrentUserId();
 
 if (ConfWrapper::value('comments.no_add_comments_for_unregistered_users')) {
     ?>
@@ -33,7 +33,7 @@ if (ConfWrapper::value('comments.no_add_comments_for_unregistered_users')) {
         </div>
     </div>
     <?php
-    if (!AuthUtils::getCurrentUserId()) {
+    if (!Auth::getCurrentUserId()) {
         ?>
         <div class="form-group">
             <label class="col-md-2">Имя</label>

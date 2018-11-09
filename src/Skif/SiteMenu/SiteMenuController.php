@@ -8,7 +8,7 @@ class SiteMenuController
     public function listItemsAdminAction($site_menu_id, $site_menu_item_id = 0)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
 
         $site_menu_obj = \Skif\SiteMenu\SiteMenu::factory($site_menu_id);
 
@@ -63,7 +63,7 @@ class SiteMenuController
     public function listForMoveItemsAdminAction($site_menu_id, $site_menu_item_parent_id = 0)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
 
         $move_item_id = array_key_exists('move_item_id', $_REQUEST) ? $_REQUEST['move_item_id'] : null;
 
@@ -93,7 +93,7 @@ class SiteMenuController
     public function moveItemAdminAction($site_menu_id, $site_menu_item_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
 
         $destination_parent_item_id = array_key_exists('destination_parent_item_id', $_REQUEST) ? $_REQUEST['destination_parent_item_id'] : 0;
         $destination_item_id = array_key_exists('destination_item_id', $_REQUEST) ? $_REQUEST['destination_item_id'] : 0;
@@ -155,7 +155,7 @@ class SiteMenuController
     public function editItemAdminAction($site_menu_id, $site_menu_item_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
 
         $site_menu_parent_item_id = array_key_exists('site_menu_parent_item_id', $_REQUEST) ? $_REQUEST['site_menu_parent_item_id'] : 0;
 
@@ -187,7 +187,7 @@ class SiteMenuController
     public function saveItemAdminAction($site_menu_id, $site_menu_item_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
 
         $name = array_key_exists('name', $_REQUEST) ? $_REQUEST['name'] : '';
         $url = array_key_exists('url', $_REQUEST) ? $_REQUEST['url'] : '';
@@ -242,7 +242,7 @@ class SiteMenuController
     public function deleteItemAdminAction($site_menu_id, $site_menu_item_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
 
         $site_menu_item_obj = \Skif\SiteMenu\SiteMenuItem::factory($site_menu_item_id);
 
@@ -256,7 +256,7 @@ class SiteMenuController
     public function listAdminAction()
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
 
         $html = \Skif\PhpTemplate::renderTemplateBySkifModule('SiteMenu', 'admin_site_menu_list.tpl.php');
 
@@ -271,7 +271,7 @@ class SiteMenuController
     public function editAdminAction($site_menu_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
 
         $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
             'SiteMenu',
@@ -292,7 +292,7 @@ class SiteMenuController
     public function saveAdminAction($site_menu_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
 
         $name = array_key_exists('name', $_REQUEST) ? $_REQUEST['name'] : '';
         $url = array_key_exists('url', $_REQUEST) ? $_REQUEST['url'] : '';
@@ -319,7 +319,7 @@ class SiteMenuController
     public function deleteAdminAction($site_menu_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\AuthUtils::currentUserIsAdmin());
+        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
 
         $site_menu_obj = \Skif\SiteMenu\SiteMenu::factory($site_menu_id);
 

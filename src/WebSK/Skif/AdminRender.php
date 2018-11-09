@@ -3,7 +3,7 @@
 namespace WebSK\Skif;
 
 use Psr\Http\Message\ResponseInterface;
-use WebSK\Skif\Auth\AuthUtils;
+use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\UsersServiceProvider;
 
 /**
@@ -33,7 +33,7 @@ class AdminRender
         }
 
         if (!$layout_dto->getUserName()) {
-            $current_user_id = AuthUtils::getCurrentUserId();
+            $current_user_id = Auth::getCurrentUserId();
 
             if ($current_user_id) {
                 $container = Container::self();

@@ -3,7 +3,7 @@
 namespace Skif\Rating;
 
 use Skif\CRUD\CRUDController;
-use WebSK\Skif\Auth\AuthUtils;
+use WebSK\Skif\Auth\Auth;
 
 class RatingController extends CRUDController
 {
@@ -45,7 +45,7 @@ class RatingController extends CRUDController
         }
         */
 
-        $current_user_id = AuthUtils::getCurrentUserId();
+        $current_user_id = Auth::getCurrentUserId();
 
         if (!$current_user_id) {
             echo $current_rating;

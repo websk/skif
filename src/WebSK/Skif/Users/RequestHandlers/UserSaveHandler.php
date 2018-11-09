@@ -8,7 +8,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Websk\Skif\Messages;
 use WebSK\Skif\RequestHandlers\BaseHandler;
-use WebSK\Skif\Auth\AuthUtils;
+use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UserRole;
 use WebSK\Skif\Users\UsersRoutes;
@@ -96,10 +96,10 @@ class UserSaveHandler extends BaseHandler
                 return $response->withRedirect($destination);
             }
 
-            $user_obj->setPassw(AuthUtils::getHash($new_password_first));
+            $user_obj->setPassw(Auth::getHash($new_password_first));
         }
 
-        if (AuthUtils::currentUserIsAdmin()) {
+        if (Auth::currentUserIsAdmin()) {
             $user_obj->setConfirm($confirm);
         }
 
@@ -118,7 +118,7 @@ class UserSaveHandler extends BaseHandler
 
         // Roles
         // TODO: убрать
-        if (AuthUtils::currentUserIsAdmin()) {
+        if (Auth::currentUserIsAdmin()) {
             $user_service->deleteUserRolesForUserId($user_id);
 
             if ($roles_ids_arr) {

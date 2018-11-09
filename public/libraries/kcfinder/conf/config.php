@@ -17,7 +17,7 @@
    See http://kcfinder.sunhater.com/install for setting descriptions */
 
 use WebSK\Skif\ConfWrapper;
-use WebSK\Skif\Auth\AuthUtils;
+use WebSK\Skif\Auth\Auth;
 
 require __DIR__ . '/../../../../vendor/autoload.php';
 
@@ -26,7 +26,7 @@ $uploadDir = ConfWrapper::value('kcfinder.uploadDir');
 $disabled = ConfWrapper::value('kcfinder.disabled');
 
 if ($disabled === '') {
-    $disabled = AuthUtils::currentUserIsAdmin() ? false : true;
+    $disabled = Auth::currentUserIsAdmin() ? false : true;
 }
 
 $_CONFIG = array(

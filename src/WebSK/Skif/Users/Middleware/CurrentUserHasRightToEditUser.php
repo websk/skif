@@ -4,7 +4,7 @@ namespace WebSK\Skif\Users\Middleware;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use WebSK\Skif\Auth\AuthUtils;
+use WebSK\Skif\Auth\Auth;
 use WebSK\Utils\HTTP;
 
 /**
@@ -31,9 +31,9 @@ class CurrentUserHasRightToEditUser
 
         $user_id = (int)$user_id;
 
-        $current_user_id = AuthUtils::getCurrentUserId();
+        $current_user_id = Auth::getCurrentUserId();
 
-        if (($current_user_id != $user_id) && !AuthUtils::currentUserIsAdmin()) {
+        if (($current_user_id != $user_id) && !Auth::currentUserIsAdmin()) {
             return $response->withStatus(HTTP::STATUS_FORBIDDEN);
         }
 

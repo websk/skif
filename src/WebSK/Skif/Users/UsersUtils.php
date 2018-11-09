@@ -3,7 +3,7 @@
 namespace WebSK\Skif\Users;
 
 use Skif\Utils;
-use WebSK\Skif\Auth\AuthUtils;
+use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\ConfWrapper;
 use Websk\Skif\Container;
 use Websk\Skif\DBWrapper;
@@ -195,7 +195,7 @@ class UsersUtils
         $user_service = UsersServiceProvider::getUserService($container);
 
         $user_obj = $user_service->getById($user_id);
-        $user_obj->setPassw(AuthUtils::getHash($new_password));
+        $user_obj->setPassw(Auth::getHash($new_password));
         $user_service->save($user_obj);
 
         if ($user_obj->getEmail()) {

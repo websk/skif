@@ -16,11 +16,11 @@ use Websk\Skif\Path;
 use Skif\PhpTemplate;
 use Skif\UrlManager;
 use WebSK\Skif\PhpRender;
-use WebSK\Skif\Auth\AuthUtils;
+use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\UsersUtils;
 use WebSK\UI\BreadcrumbItemDTO;
 
-$user_id = AuthUtils::getCurrentUserId();
+$user_id = Auth::getCurrentUserId();
 
 if (!$user_id) {
     echo PhpTemplate::renderTemplate(

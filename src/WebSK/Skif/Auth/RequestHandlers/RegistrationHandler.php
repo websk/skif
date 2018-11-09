@@ -11,7 +11,7 @@ use WebSK\Skif\ConfWrapper;
 use Websk\Skif\Messages;
 use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Skif\Router;
-use WebSK\Skif\Auth\AuthUtils;
+use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UserRole;
 use WebSK\Skif\Users\UsersServiceProvider;
@@ -92,7 +92,7 @@ class RegistrationHandler extends BaseHandler
             $user_obj->setLastName($last_name);
         }
         $user_obj->setEmail($email);
-        $user_obj->setPassw(AuthUtils::getHash($new_password_first));
+        $user_obj->setPassw(Auth::getHash($new_password_first));
 
         $confirm_code = UsersUtils::generateConfirmCode();
         $user_obj->setConfirmCode($confirm_code);
