@@ -4,7 +4,7 @@
  */
 
 use Websk\Skif\Path;
-use WebSK\Skif\Users\AuthController;
+use WebSK\Skif\Auth\AuthController;
 
 ?>
 <!DOCTYPE html>

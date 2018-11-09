@@ -1,10 +1,12 @@
 <?php
 
+use WebSK\Skif\Auth\AuthRoutes;
 use Websk\Skif\Captcha\Captcha;
-use WebSK\Skif\Users\AuthController;
+use WebSK\Skif\Auth\AuthController;
+use WebSK\Skif\Router;
 use WebSK\Skif\Users\User;
 
-$destination = AuthController::getLoginFormUrl();
+$destination = Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGIN_FORM);
 
 $user_obj = new User();
 ?>

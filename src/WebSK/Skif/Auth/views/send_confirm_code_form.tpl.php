@@ -1,6 +1,6 @@
 <?php
 use Websk\Skif\Captcha\Captcha;
-use WebSK\Skif\Users\AuthController;
+use WebSK\Skif\Auth\AuthController;
 ?>
 
 <form action="<?php echo AuthController::getSendConfirmCodeUrl(); ?>" method="post" class="form-horizontal">

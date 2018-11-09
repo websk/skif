@@ -27,16 +27,16 @@ class UsersRoutes
     const ROUTE_NAME_ADMIN_USER_EDIT = 'admin:users:edit';
     const ROUTE_NAME_ADMIN_USER_LIST = 'admin:users:list';
 
-    const ROUTE_NAME_USER_CREATE = 'users:create';
-    const ROUTE_NAME_USER_EDIT = 'users:edit';
-    const ROUTE_NAME_USER_ADD = 'users:add';
-    const ROUTE_NAME_USER_UPDATE = 'users:update';
-    const ROUTE_NAME_USER_DELETE = 'users:delete';
+    const ROUTE_NAME_USER_CREATE = 'user:create';
+    const ROUTE_NAME_USER_EDIT = 'user:edit';
+    const ROUTE_NAME_USER_ADD = 'user:add';
+    const ROUTE_NAME_USER_UPDATE = 'user:update';
+    const ROUTE_NAME_USER_DELETE = 'user:delete';
 
-    const ROUTE_NAME_USER_CREATE_PASSWORD = 'users:create_password';
+    const ROUTE_NAME_USER_CREATE_PASSWORD = 'user:create_password';
 
-    const ROUTE_NAME_USER_ADD_PHOTO = 'users:add_photo';
-    const ROUTE_NAME_USER_DELETE_PHOTO = 'users:delete_photo';
+    const ROUTE_NAME_USER_ADD_PHOTO = 'user:add_photo';
+    const ROUTE_NAME_USER_DELETE_PHOTO = 'user:delete_photo';
 
     const ROUTE_NAME_ADMIN_ROLE_LIST = 'admin:users:role:list';
     const ROUTE_NAME_ADMIN_ROLE_CREATE = 'admin:users:role:create';

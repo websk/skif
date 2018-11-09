@@ -1,6 +1,8 @@
 <?php
 
-use WebSK\Skif\Users\AuthController;
+use WebSK\Skif\Auth\AuthRoutes;
+use WebSK\Skif\Router;
+use WebSK\Skif\Auth\AuthController;
 
 $destination = '/';
 if (isset($_REQUEST['destination'])) {
@@ -37,7 +39,7 @@ if (isset($_REQUEST['destination'])) {
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-8">
-            <a href="<?php echo AuthController::getForgotPasswordFormUrl(); ?>">Забыли пароль</a> /
+            <a href="<?php echo Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_FORGOT_PASSWORD); ?>">Забыли пароль</a> /
             <a href="<?php echo AuthController::getRegistrationFormUrl(); ?>">Регистрация</a>
         </div>
     </div>

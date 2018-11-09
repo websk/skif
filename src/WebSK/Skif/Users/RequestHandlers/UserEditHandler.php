@@ -4,6 +4,7 @@ namespace WebSK\Skif\Users\RequestHandlers;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
+use WebSK\Skif\ConfWrapper;
 use WebSK\Skif\LayoutDTO;
 use WebSK\Skif\PhpRender;
 use WebSK\Skif\RequestHandlers\BaseHandler;
@@ -48,7 +49,7 @@ class UserEditHandler extends BaseHandler
 
         $content .= PhpRender::renderTemplateBySkifModule(
             'Users',
-            'profile_form_edit.tpl.php',
+            'user_form_edit.tpl.php',
             [
                 'user_obj' => $user_obj,
                 'user_roles_ids_arr' => $user_roles_ids_arr,
@@ -60,19 +61,16 @@ class UserEditHandler extends BaseHandler
         $layout_dto->setTitle('Редактирование профиля');
         $layout_dto->setContentHtml($content);
 
-        $breadcrumbs_arr = [];
-        $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
-
         return PhpRender::render(
             $response,
-            '/layouts/layout.main.tpl.php',
+            ConfWrapper::value('layout.main'),
             [
                 'content' => $content,
                 'editor_nav_arr' => [],
                 'title' => 'Редактирование профиля',
                 'keywords' => '',
                 'description' => '',
-                'breadcrumbs_arr' => $breadcrumbs_arr
+                'breadcrumbs_arr' => []
             ]
         );
     }

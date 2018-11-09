@@ -50,7 +50,7 @@ class UserEditHandler extends BaseHandler
 
         $content .= PhpRender::renderTemplateBySkifModule(
             'Users',
-            'profile_form_edit.tpl.php',
+            'user_form_edit.tpl.php',
             [
                 'user_obj' => $user_obj,
                 'user_roles_ids_arr' => $user_roles_ids_arr,

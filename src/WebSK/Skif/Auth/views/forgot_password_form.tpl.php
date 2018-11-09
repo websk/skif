@@ -1,10 +1,12 @@
 <?php
 
 use Websk\Skif\Captcha\Captcha;
-use WebSK\Skif\Users\AuthController;
+use WebSK\Skif\Router;
+use WebSK\Skif\Auth\AuthController;
+use WebSK\Skif\Auth\AuthRoutes;
 
 ?>
-<form action="<?php echo AuthController::getForgotPasswordUrl(); ?>" method="post" class="form-horizontal">
+<form action="<?php echo Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_FORGOT_PASSWORD); ?>" method="post" class="form-horizontal">
     <div class="form-group">
         <label class="col-md-2 control-label">Email</label>
         <div class="col-md-10">

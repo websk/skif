@@ -1,6 +1,6 @@
 <?php
 
-namespace WebSK\Skif\Users;
+namespace WebSK\Skif\Auth;
 
 use Websk\Skif\Captcha\Captcha;
 use WebSK\Skif\ConfWrapper;
@@ -10,6 +10,12 @@ use Websk\Skif\Messages;
 use Skif\Utils;
 use WebSK\Skif\PhpRender;
 use WebSK\Skif\Router;
+use WebSK\Skif\Users\AuthUtils;
+use WebSK\Skif\Users\User;
+use WebSK\Skif\Users\UserRole;
+use WebSK\Skif\Users\UsersRoutes;
+use WebSK\Skif\Users\UsersServiceProvider;
+use WebSK\Skif\Users\UsersUtils;
 
 /**
  * Class AuthController
@@ -17,15 +23,6 @@ use WebSK\Skif\Router;
  */
 class AuthController
 {
-    /**
-     * URL формы входа на сайт
-     * @return string
-     */
-    public static function getLoginFormUrl()
-    {
-        return '/user/login_form';
-    }
-
     /**
      * URL авторизации на сайте
      * @return string
@@ -70,24 +67,6 @@ class AuthController
     public static function getLogoutUrl()
     {
         return '/user/logout';
-    }
-
-    /**
-     * URL восстановления пароля
-     * @return string
-     */
-    public static function getForgotPasswordUrl()
-    {
-        return '/user/forgot_password';
-    }
-
-    /**
-     * URL формы восстановления пароля
-     * @return string
-     */
-    public static function getForgotPasswordFormUrl()
-    {
-        return '/user/forgot_password_form';
     }
 
     /**
@@ -158,7 +137,7 @@ class AuthController
 
     public function registrationAction()
     {
-        $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : self::getLoginFormUrl();
+        $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGIN_FORM);
 
         $name = array_key_exists('name', $_REQUEST) ? trim($_REQUEST['name']) : '';
         $first_name = array_key_exists('first_name', $_REQUEST) ? trim($_REQUEST['first_name']) : '';
@@ -282,7 +261,7 @@ class AuthController
     {
         $user_id = UsersUtils::getUserIdByConfirmCode($confirm_code);
 
-        $destination = self::getLoginFormUrl();
+        $destination = Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGIN_FORM);
 
         if (!$user_id) {
             Messages::setError('Ошибка! Неверный код подтверждения. <a href="' . self::getSendConfirmCodeUrl() . '">Выслать код подтверждения повторно.</a>');
@@ -374,100 +353,6 @@ class AuthController
         Messages::setMessage($message);
 
         Http::redirect($destination);
-    }
-
-    public function forgotPasswordFormAction()
-    {
-        $content = PhpRender::renderTemplateBySkifModule(
-            'Users',
-            'forgot_password_form.tpl.php'
-        );
-
-        $breadcrumbs_arr = array();
-
-        echo PhpRender::renderTemplate(
-            ConfWrapper::value('layout.main'),
-            array(
-                'content' => $content,
-                'title' => 'Восстановление пароля',
-                'keywords' => '',
-                'description' => '',
-                'breadcrumbs_arr' => $breadcrumbs_arr
-            )
-        );
-    }
-
-    public function forgotPasswordAction()
-    {
-        $email = array_key_exists('email', $_REQUEST) ? $_REQUEST['email'] : '';
-
-        $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : self::getForgotPasswordFormUrl();
-
-        if (!array_key_exists('captcha', $_REQUEST)) {
-            Http::redirect($destination);
-        }
-
-        if (!Captcha::checkWithMessage()) {
-            Http::redirect($destination);
-        }
-
-        if (empty($email)) {
-            Messages::setError('Ошибка! Не указан адрес электронной почты (Email).');
-            Http::redirect($destination);
-        }
-
-        if (!UsersUtils::hasUserByEmail($email)) {
-            Messages::setError('Ошибка! Пользователь с таким адресом электронной почты не зарегистрирован на сайте.');
-            Http::redirect($destination);
-        }
-
-        $user_id = UsersUtils::getUserIdByEmail($email);
-
-        UsersUtils::createAndSendPasswordToUser($user_id);
-
-        $message = 'Временный пароль отправлен на указанный вами адрес электронной почты.';
-
-        Messages::setMessage($message);
-
-        Http::redirect(self::getLoginFormUrl());
-    }
-
-    /**
-     * Вход на сайт
-     */
-    public function loginFormAction()
-    {
-        $current_user_id = AuthUtils::getCurrentUserId();
-        if ($current_user_id) {
-            Http::redirect(Router::pathFor(UsersRoutes::ROUTE_NAME_ADMIN_USER_EDIT, ['user_id' => $current_user_id]));
-        }
-
-        $content = '';
-
-        if (AuthUtils::useSocialLogin()) {
-            $content .= PhpRender::renderTemplateBySkifModule(
-                'Users',
-                'social_buttons.tpl.php'
-            );
-        }
-
-        $content .= PhpRender::renderTemplateBySkifModule(
-            'Users',
-            'login_form.tpl.php'
-        );
-
-        $breadcrumbs_arr = array();
-
-        echo PhpRender::renderTemplate(
-            ConfWrapper::value('layout.main'),
-            array(
-                'content' => $content,
-                'title' => 'Вход на сайт',
-                'keywords' => '',
-                'description' => '',
-                'breadcrumbs_arr' => $breadcrumbs_arr
-            )
-        );
     }
 
     /**

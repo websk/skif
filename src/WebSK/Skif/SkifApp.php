@@ -14,7 +14,7 @@ use Skif\Rating\RatingRoutes;
 use Skif\Redirect\RedirectRoutes;
 use Skif\SiteMenu\SiteMenuRoutes;
 use Skif\UrlManager;
-use WebSK\Skif\Users\AuthRoutes;
+use WebSK\Skif\Auth\AuthRoutes;
 use Slim\App;
 use Slim\Handlers\Strategies\RequestResponseArgs;
 use WebSK\CRUD\CRUDServiceProvider;
@@ -66,6 +66,7 @@ class SkifApp extends App
         })->add(new CurrentUserIsAdmin());
 
         UsersRoutes::register($this);
+        AuthRoutes::register($this);
 
         Facade::setFacadeApplication($this);
 

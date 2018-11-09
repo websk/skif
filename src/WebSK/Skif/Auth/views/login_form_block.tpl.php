@@ -3,7 +3,7 @@
  * @var string $destination
  */
 
-use WebSK\Skif\Users\AuthController;
+use WebSK\Skif\Auth\AuthController;
 
 if (!isset($destination)) {
     $destination = '/';

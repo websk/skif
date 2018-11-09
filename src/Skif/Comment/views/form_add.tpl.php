@@ -3,16 +3,22 @@
  * @var $url
  */
 
+use Websk\Skif\Captcha\Captcha;
+use WebSK\Skif\Auth\AuthRoutes;
+use WebSK\Skif\ConfWrapper;
+use WebSK\Skif\Router;
+use WebSK\Skif\Users\AuthUtils;
+
 $user_name = '';
 $user_email = '';
 
-$current_user_id = \WebSK\Skif\Users\AuthUtils::getCurrentUserId();
+$current_user_id = AuthUtils::getCurrentUserId();
 
-if (\WebSK\Skif\ConfWrapper::value('comments.no_add_comments_for_unregistered_users')) {
+if (ConfWrapper::value('comments.no_add_comments_for_unregistered_users')) {
     ?>
     <div>
         Неавторизованные пользователи не могут оставлять комментарии.
-        Пожалуйста <a href="<?php echo \WebSK\Skif\Users\AuthController::getLoginFormUrl(); ?>">войдит на сайт</a> или <a href="<?php echo \WebSK\Skif\Users\AuthController::getRegistrationFormUrl(); ?>">зарегистрируйтесь</a>.
+        Пожалуйста <a href="<?php echo Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGIN_FORM); ?>">войдит на сайт</a> или <a href="<?php echo \WebSK\Skif\Auth\AuthController::getRegistrationFormUrl(); ?>">зарегистрируйтесь</a>.
     </div>
 <?php
     return;
@@ -27,7 +33,7 @@ if (\WebSK\Skif\ConfWrapper::value('comments.no_add_comments_for_unregistered_us
         </div>
     </div>
     <?php
-    if (!\WebSK\Skif\Users\AuthUtils::getCurrentUserId()) {
+    if (!AuthUtils::getCurrentUserId()) {
         ?>
         <div class="form-group">
             <label class="col-md-2">Имя</label>
@@ -45,7 +51,7 @@ if (\WebSK\Skif\ConfWrapper::value('comments.no_add_comments_for_unregistered_us
         ?>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <img src="<?php echo \Skif\Captcha\Captcha::getUrl(); ?>" border="0" alt="Введите этот защитный код">
+                    <img src="<?php echo Captcha::getUrl(); ?>" border="0" alt="Введите этот защитный код">
                     <input type="text" size="5" name="captcha" class="form-control">
                     <span class="help-block">Введите код, изображенный на картинке</span>
                 </div>
