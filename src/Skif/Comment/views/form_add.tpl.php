@@ -18,7 +18,7 @@ if (ConfWrapper::value('comments.no_add_comments_for_unregistered_users')) {
     ?>
     <div>
         Неавторизованные пользователи не могут оставлять комментарии.
-        Пожалуйста <a href="<?php echo Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGIN_FORM); ?>">войдит на сайт</a> или <a href="<?php echo \WebSK\Skif\Auth\AuthController::getRegistrationFormUrl(); ?>">зарегистрируйтесь</a>.
+        Пожалуйста <a href="<?php echo Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGIN_FORM); ?>">войдит на сайт</a> или <a href="<?php echo Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_REGISTRATION_FORM); ?>">зарегистрируйтесь</a>.
     </div>
 <?php
     return;

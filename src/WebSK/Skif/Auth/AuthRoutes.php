@@ -7,6 +7,10 @@ use Slim\App;
 use WebSK\Skif\Auth\RequestHandlers\ForgotPasswordFormHandler;
 use WebSK\Skif\Auth\RequestHandlers\ForgotPasswordHandler;
 use WebSK\Skif\Auth\RequestHandlers\LoginFormHandler;
+use WebSK\Skif\Auth\RequestHandlers\LoginHandler;
+use WebSK\Skif\Auth\RequestHandlers\LogoutHandler;
+use WebSK\Skif\Auth\RequestHandlers\RegistrationFormHandler;
+use WebSK\Skif\Auth\RequestHandlers\RegistrationHandler;
 
 /**
  * Class AuthRoutes
@@ -15,18 +19,18 @@ use WebSK\Skif\Auth\RequestHandlers\LoginFormHandler;
 class AuthRoutes
 {
     const ROUTE_NAME_AUTH_LOGIN_FORM = 'auth:login_form';
-    const ROUTE_NAME_AUTH_FORGOT_PASSWORD = 'user:forgot_password';
-    const ROUTE_NAME_AUTH_FORGOT_PASSWORD_FORM = 'user:forgot_password_form';
+    const ROUTE_NAME_AUTH_LOGIN = 'auth:login';
+    const ROUTE_NAME_AUTH_LOGOUT = 'auth:logout';
+    const ROUTE_NAME_AUTH_FORGOT_PASSWORD_FORM = 'auth:forgot_password_form';
+    const ROUTE_NAME_AUTH_FORGOT_PASSWORD = 'auth:forgot_password';
+    const ROUTE_NAME_AUTH_REGISTRATION_FORM = 'auth:registration_form';
+    const ROUTE_NAME_AUTH_REGISTRATION = 'auth:registration';
 
     public static function route()
     {
-        UrlManager::route('@^/user/registration_form@', AuthController::class, 'registrationFormAction');
-        UrlManager::route('@^/user/registration@', AuthController::class, 'registrationAction');
         UrlManager::route('@^/user/confirm_registration/(.+)@', AuthController::class, 'confirmRegistrationAction');
         UrlManager::route('@^/user/send_confirm_code@', AuthController::class, 'sendConfirmCodeAction');
         UrlManager::route('@^/user/send_confirm_code_form@', AuthController::class, 'sendConfirmCodeFormAction');
-        UrlManager::route('@^/user/logout@', AuthController::class, 'logoutAction');
-        UrlManager::route('@^/user/login@', AuthController::class, 'loginAction');
         UrlManager::route('@^/user/social_login/(.+)@', AuthController::class, 'socialAuthAction');
         UrlManager::route('@^/auth/gate$@i', AuthController::class, 'gateAction');
     }
@@ -40,11 +44,23 @@ class AuthRoutes
             $app->get('/login_form', LoginFormHandler::class)
                 ->setName(self::ROUTE_NAME_AUTH_LOGIN_FORM);
 
+            $app->post('/login', LoginHandler::class)
+                ->setName(self::ROUTE_NAME_AUTH_LOGIN);
+
+            $app->get('/logout', LogoutHandler::class)
+                ->setName(self::ROUTE_NAME_AUTH_LOGOUT);
+
             $app->get('/forgot_password_form', ForgotPasswordFormHandler::class)
                 ->setName(self::ROUTE_NAME_AUTH_FORGOT_PASSWORD_FORM);
 
             $app->post('/forgot_password', ForgotPasswordHandler::class)
                 ->setName(self::ROUTE_NAME_AUTH_FORGOT_PASSWORD);
+
+            $app->get('/registration_form', RegistrationFormHandler::class)
+                ->setName(self::ROUTE_NAME_AUTH_REGISTRATION_FORM);
+
+            $app->post('/registration', RegistrationHandler::class)
+                ->setName(self::ROUTE_NAME_AUTH_REGISTRATION);
         });
     }
 }

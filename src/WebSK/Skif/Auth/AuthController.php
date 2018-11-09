@@ -11,9 +11,6 @@ use Skif\Utils;
 use WebSK\Skif\PhpRender;
 use WebSK\Skif\Router;
 use WebSK\Skif\Users\AuthUtils;
-use WebSK\Skif\Users\User;
-use WebSK\Skif\Users\UserRole;
-use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Skif\Users\UsersUtils;
 
@@ -24,15 +21,6 @@ use WebSK\Skif\Users\UsersUtils;
 class AuthController
 {
     /**
-     * URL авторизации на сайте
-     * @return string
-     */
-    public static function getLoginUrl()
-    {
-        return '/user/login';
-    }
-
-    /**
      * URL авторизации на сайте через внешнего провайдера социальной сети
      * @param $provider
      * @return string
@@ -40,33 +28,6 @@ class AuthController
     public static function getSocialLoginUrl($provider)
     {
         return '/user/social_login/' . $provider;
-    }
-
-    /**
-     * URL формы регистрации на сайте
-     * @return string
-     */
-    public static function getRegistrationFormUrl()
-    {
-        return '/user/registration_form';
-    }
-
-    /**
-     * URL регистрации на сайте
-     * @return string
-     */
-    public static function getRegistrationUrl()
-    {
-        return '/user/registration';
-    }
-
-    /**
-     * URL деавторизации
-     * @return string
-     */
-    public static function getLogoutUrl()
-    {
-        return '/user/logout';
     }
 
     /**
@@ -95,162 +56,6 @@ class AuthController
     public static function getSendConfirmCodeFormUrl()
     {
         return '/user/send_confirm_code_form';
-    }
-
-    /**
-     * Регистрация на сайте
-     */
-    public function registrationFormAction()
-    {
-        $current_user_id = AuthUtils::getCurrentUserId();
-        if ($current_user_id) {
-            Http::redirect(Router::pathFor(UsersRoutes::ROUTE_NAME_ADMIN_USER_EDIT, ['user_id' => $current_user_id]));
-        }
-
-        $content = '';
-
-        if (AuthUtils::useSocialLogin()) {
-            $content .= PhpRender::renderTemplateBySkifModule(
-                'Users',
-                'social_buttons.tpl.php'
-            );
-        }
-
-        $content .= PhpRender::renderTemplateBySkifModule(
-            'Users',
-            'registration_form.tpl.php'
-        );
-
-        $breadcrumbs_arr = array();
-
-        echo PhpRender::renderTemplate(
-            ConfWrapper::value('layout.main'),
-            array(
-                'content' => $content,
-                'title' => 'Регистрация на сайте',
-                'keywords' => '',
-                'description' => '',
-                'breadcrumbs_arr' => $breadcrumbs_arr
-            )
-        );
-    }
-
-    public function registrationAction()
-    {
-        $destination = array_key_exists('destination', $_REQUEST) ? $_REQUEST['destination'] : Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGIN_FORM);
-
-        $name = array_key_exists('name', $_REQUEST) ? trim($_REQUEST['name']) : '';
-        $first_name = array_key_exists('first_name', $_REQUEST) ? trim($_REQUEST['first_name']) : '';
-        $last_name = array_key_exists('last_name', $_REQUEST) ? trim($_REQUEST['last_name']) : '';
-        $email = array_key_exists('email', $_REQUEST) ? trim($_REQUEST['email']) : '';
-        $new_password_first = array_key_exists('new_password_first', $_REQUEST) ? $_REQUEST['new_password_first'] : '';
-        $new_password_second = array_key_exists('new_password_second', $_REQUEST) ? $_REQUEST['new_password_second'] : '';
-
-        $error_destination = self::getRegistrationFormUrl();
-
-        if (!array_key_exists('captcha', $_REQUEST)) {
-            Http::redirect($error_destination);
-        }
-
-        if (!Captcha::checkWithMessage()) {
-            Http::redirect($error_destination);
-        }
-
-        if (empty($email)) {
-            Messages::setError('Ошибка! Не указан Email.');
-            Http::redirect($error_destination);
-        }
-
-        if (empty($name)) {
-            Messages::setError('Ошибка! Не указано Имя.');
-            Http::redirect($error_destination);
-        }
-
-        $has_user_id = UsersUtils::hasUserByEmail($email);
-        if ($has_user_id) {
-            Messages::setError('Ошибка! Пользователь с таким адресом электронной почты ' . $email . ' уже зарегистрирован.');
-            Http::redirect($error_destination);
-        }
-
-        if (!$new_password_first && !$new_password_second) {
-            Messages::setError('Ошибка! Не введен пароль.');
-            Http::redirect($error_destination);
-        }
-
-        if ($new_password_first || $new_password_second) {
-            if ($new_password_first != $new_password_second) {
-                Messages::setError('Ошибка! Пароль не подтвержден, либо подтвержден неверно.');
-                Http::redirect($error_destination);
-            }
-        }
-
-        $container = Container::self();
-
-        $user_service = UsersServiceProvider::getUserService($container);
-
-        $user_obj = new User();
-
-        $user_obj->setName($name);
-        if ($first_name) {
-            $user_obj->setFirstName($first_name);
-        }
-        if ($last_name) {
-            $user_obj->setLastName($last_name);
-        }
-        $user_obj->setEmail($email);
-        $user_obj->setPassw(AuthUtils::getHash($new_password_first));
-
-        $confirm_code = UsersUtils::generateConfirmCode();
-        $user_obj->setConfirmCode($confirm_code);
-
-        $user_service->save($user_obj);
-
-        // Roles
-        $role_id = ConfWrapper::value('user.default_role_id', 0);
-
-        $user_role_service = UsersServiceProvider::getUserRoleService($container);
-
-        $user_role_obj = new UserRole();
-        $user_role_obj->setUserId($user_obj->getId());
-        $user_role_obj->setRoleId($role_id);
-        $user_role_service->save($user_role_obj);
-
-        self::sendConfirmMail($name, $email, $confirm_code);
-
-        $message = 'Вы успешно зарегистрированы на сайте. ';
-        $message .= 'Для завершения процедуры регистрации, на указанный вами адрес электронной почты, отправлено письмо с ссылкой для подтверждения.';
-
-        Messages::setMessage($message);
-
-        Http::redirect($destination);
-    }
-
-    protected static function sendConfirmMail($name, $email, $confirm_code)
-    {
-        $site_email = ConfWrapper::value('site_email');
-        $site_domain = ConfWrapper::value('site_domain');
-        $site_name = ConfWrapper::value('site_name');
-
-        $confirm_url = $site_domain . self::getConfirmUrl($confirm_code);
-
-        $mail_message = 'Здравствуйте, ' . $name . '!<br />';
-        $mail_message .= '<p>На сайте ' .  $site_domain . ' была создана регистрационная запись, в которой был указал ваш электронный адрес (e-mail).</p>';
-        $mail_message .= '<p>Если вы не регистрировались на данном сайте, просто проигнорируйте это сообщение! Аккаунт будет автоматически удален через некоторое время.</p>';
-        $mail_message .= '<p>Если это были вы, то для завершения процедуры регистрации, пожалуйста перейдите по ссылке <a href="' . $confirm_url .  '">' . $confirm_url .  '</a></p>';
-
-        $mail_message .= '<p>С уважением, администрация сайта ' . $site_name . ', ' . $site_domain . '</p>';
-
-        $subject = 'Подтверждение регистрации на сайте ' . $site_name;
-
-        $mail = new \PHPMailer;
-        $mail->CharSet = "utf-8";
-        $mail->setFrom($site_email, $site_name);
-        $mail->addAddress($email);
-        $mail->isHTML(true);
-        $mail->Subject = $subject;
-        $mail->Body = $mail_message;
-        $mail->AltBody = Utils::checkPlain($mail_message);
-        $mail->send();
     }
 
     /**
@@ -346,41 +151,12 @@ class AuthController
 
         $confirm_code = UsersUtils::generateConfirmCode();
 
-        self::sendConfirmMail($user_obj->getName(), $email, $confirm_code);
+        $auth_service = AuthServiceProvider::getAuthService($container);
+        $auth_service->sendConfirmMail($user_obj->getName(), $email, $confirm_code);
 
         $message = 'Для завершения процедуры регистрации, на указанный вами адрес электронной почты, отправлено письмо с ссылкой для подтверждения.';
 
         Messages::setMessage($message);
-
-        Http::redirect($destination);
-    }
-
-    /**
-     * Проверка авторизации
-     */
-    public static function loginAction()
-    {
-        if (array_key_exists('email', $_REQUEST) && array_key_exists('password', $_REQUEST)) {
-            $save_auth = array_key_exists('save_auth', $_REQUEST) ? true : false;
-            AuthUtils::doLogin($_REQUEST['email'], $_REQUEST['password'], $save_auth);
-
-            $destination = '/';
-            if (isset($_REQUEST['destination'])) {
-                $destination = $_REQUEST['destination'];
-            }
-
-            Http::redirect($destination);
-        }
-    }
-
-    public function logoutAction()
-    {
-        AuthUtils::logout();
-
-        $destination = '/';
-        if (isset($_REQUEST['destination'])) {
-            $destination = $_REQUEST['destination'];
-        }
 
         Http::redirect($destination);
     }

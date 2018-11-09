@@ -2,7 +2,6 @@
 
 use Websk\Skif\Captcha\Captcha;
 use WebSK\Skif\Router;
-use WebSK\Skif\Auth\AuthController;
 use WebSK\Skif\Auth\AuthRoutes;
 
 ?>
@@ -31,7 +30,7 @@ use WebSK\Skif\Auth\AuthRoutes;
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <a href="<?php echo AuthController::getRegistrationFormUrl(); ?>">Регистрация</a>
+            <a href="<?php echo Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_REGISTRATION_FORM); ?>">Регистрация</a>
         </div>
     </div>
 </form>

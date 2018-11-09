@@ -3,14 +3,15 @@
  * @var string $destination
  */
 
-use WebSK\Skif\Auth\AuthController;
+use WebSK\Skif\Auth\AuthRoutes;
+use WebSK\Skif\Router;
 
 if (!isset($destination)) {
     $destination = '/';
 }
 ?>
 
-<form action="<?php echo AuthController::getLoginUrl(); ?>" class="form-inline" method="post">
+<form action="<?php echo Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGIN); ?>" class="form-inline" method="post">
     <div class="form-group">
         <label class="sr-only">Email</label>
         <div class="input-group">

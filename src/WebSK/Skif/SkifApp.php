@@ -7,6 +7,7 @@ use Skif\Comment\CommentRoutes;
 use Skif\Content\ContentRoutes;
 use Skif\CRUD\CRUDRoutes;
 use Skif\Form\FormRoutes;
+use WebSK\Skif\Auth\AuthServiceProvider;
 use WebSK\Skif\Image\ImageRoutes;
 use Skif\Logger\LoggerRoutes;
 use Skif\Poll\PollRoutes;
@@ -44,6 +45,7 @@ class SkifApp extends App
 
         SkifServiceProvider::register($container);
         UsersServiceProvider::register($container);
+        AuthServiceProvider::register($container);
         CRUDServiceProvider::register($container);
         KeyValueServiceProvider::register($container);
 

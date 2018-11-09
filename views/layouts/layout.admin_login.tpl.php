@@ -3,8 +3,9 @@
  *
  */
 
+use WebSK\Skif\Auth\AuthRoutes;
 use Websk\Skif\Path;
-use WebSK\Skif\Auth\AuthController;
+use WebSK\Skif\Router;
 
 ?>
 <!DOCTYPE html>
@@ -46,7 +47,7 @@ use WebSK\Skif\Auth\AuthController;
                     <h3 class="panel-title">Вход в систему управления</h3>
                 </div>
                 <div class="panel-body">
-                    <form action="<?php echo AuthController::getLoginUrl(); ?>" method="post">
+                    <form action="<?php echo Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGIN); ?>" method="post">
                         <div class="form-group">
                             <label class="sr-only">Email</label>
                             <div class="input-group">
