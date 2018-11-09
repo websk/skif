@@ -13,7 +13,7 @@ use Websk\Skif\Messages;
 use Skif\PhpTemplate;
 use Skif\Sitemap\InterfaceSitemapController;
 use Skif\UrlManager;
-use WebSK\Skif\Users\AuthUtils;
+use WebSK\Skif\Auth\AuthUtils;
 use Skif\Utils;
 use Websk\Utils\Assert;
 

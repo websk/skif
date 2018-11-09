@@ -1,6 +1,6 @@
 <?php
 
-namespace WebSK\Skif\Users;
+namespace WebSK\Skif\Auth;
 
 use WebSK\Skif\ConfWrapper;
 use Websk\Skif\Container;
@@ -8,6 +8,9 @@ use Websk\Skif\DBWrapper;
 use WebSK\Skif\Image\ImageManager;
 use Websk\Skif\Messages;
 use Skif\UrlManager;
+use WebSK\Skif\Users\User;
+use WebSK\Skif\Users\UserRole;
+use WebSK\Skif\Users\UsersServiceProvider;
 
 /**
  * Class AuthUtils

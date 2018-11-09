@@ -16,7 +16,7 @@ use Websk\Skif\Path;
 use Skif\PhpTemplate;
 use Skif\UrlManager;
 use WebSK\Skif\PhpRender;
-use WebSK\Skif\Users\AuthUtils;
+use WebSK\Skif\Auth\AuthUtils;
 use WebSK\Skif\Users\UsersUtils;
 use WebSK\UI\BreadcrumbItemDTO;
 

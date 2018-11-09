@@ -3,7 +3,6 @@
 namespace WebSK\Skif\Auth;
 
 use Psr\Container\ContainerInterface;
-use WebSK\Skif\Users\AuthService;
 
 class AuthServiceProvider
 {

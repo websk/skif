@@ -1,9 +1,8 @@
 <?php
 
-namespace WebSK\Skif\Users;
+namespace WebSK\Skif\Auth;
 
 use Skif\Utils;
-use WebSK\Skif\Auth\AuthRoutes;
 use WebSK\Skif\ConfWrapper;
 use WebSK\Skif\Router;
 

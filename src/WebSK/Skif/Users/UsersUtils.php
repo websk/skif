@@ -3,6 +3,7 @@
 namespace WebSK\Skif\Users;
 
 use Skif\Utils;
+use WebSK\Skif\Auth\AuthUtils;
 use WebSK\Skif\ConfWrapper;
 use Websk\Skif\Container;
 use Websk\Skif\DBWrapper;

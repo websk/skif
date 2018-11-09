@@ -3,7 +3,7 @@
 namespace Skif\Rating;
 
 use Skif\CRUD\CRUDController;
-use WebSK\Skif\Users\AuthUtils;
+use WebSK\Skif\Auth\AuthUtils;
 
 class RatingController extends CRUDController
 {

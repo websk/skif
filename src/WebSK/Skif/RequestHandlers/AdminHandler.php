@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\RequestHandlers;
 
-use WebSK\Skif\Users\AuthUtils;
+use WebSK\Skif\Auth\AuthUtils;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Utils\HTTP;

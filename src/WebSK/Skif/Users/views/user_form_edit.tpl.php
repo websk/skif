@@ -8,7 +8,7 @@
 use WebSK\Skif\Image\ImageManager;
 use Skif\UrlManager;
 use WebSK\Skif\Router;
-use WebSK\Skif\Users\AuthUtils;
+use WebSK\Skif\Auth\AuthUtils;
 use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersUtils;

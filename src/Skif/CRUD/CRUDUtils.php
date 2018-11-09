@@ -291,7 +291,7 @@ class CRUDUtils
                 ON (ut." . $model_class_name::$crud_relationships_with_users_table_link_field . " = t." . $db_id_field_name . ")";
 
             $where .= " AND ut.user_id=?";
-            $query_param_values_arr[] = \WebSK\Skif\Users\AuthUtils::getCurrentUserId();
+            $query_param_values_arr[] = \WebSK\Skif\Auth\AuthUtils::getCurrentUserId();
         }
 
         $query .= " WHERE " . $where . "
@@ -308,7 +308,7 @@ class CRUDUtils
 
     public static function currentUserHasRightsToEditModel($model_class_name, $obj_id = '')
     {
-        if (\WebSK\Skif\Users\AuthUtils::currentUserIsAdmin()) {
+        if (\WebSK\Skif\Auth\AuthUtils::currentUserIsAdmin()) {
             return true;
         }
 
@@ -319,7 +319,7 @@ class CRUDUtils
 
         if (property_exists($model_class_name, 'role_designation_arr_required_to_edit')) {
             foreach ($model_class_name::$role_designation_arr_required_to_edit as $role_designation) {
-                if (\WebSK\Skif\Users\AuthUtils::currentUserHasAccessByRoleDesignation($role_designation)) {
+                if (\WebSK\Skif\Auth\AuthUtils::currentUserHasAccessByRoleDesignation($role_designation)) {
                     return true;
                 }
             }
@@ -330,7 +330,7 @@ class CRUDUtils
 
     public static function currentUserHasRightsToListModel($model_class_name)
     {
-        if (\WebSK\Skif\Users\AuthUtils::currentUserIsAdmin()) {
+        if (\WebSK\Skif\Auth\AuthUtils::currentUserIsAdmin()) {
             return true;
         }
 
@@ -341,7 +341,7 @@ class CRUDUtils
 
         if (property_exists($model_class_name, 'role_designation_arr_required_to_edit')) {
             foreach ($model_class_name::$role_designation_arr_required_to_edit as $role_designation) {
-                if (\WebSK\Skif\Users\AuthUtils::currentUserHasAccessByRoleDesignation($role_designation)) {
+                if (\WebSK\Skif\Auth\AuthUtils::currentUserHasAccessByRoleDesignation($role_designation)) {
                     return true;
                 }
             }

@@ -7,7 +7,7 @@ use WebSK\Skif\Auth\AuthRoutes;
 use WebSK\Skif\Captcha\CaptchaRoutes;
 use WebSK\Skif\ConfWrapper;
 use WebSK\Skif\Router;
-use WebSK\Skif\Users\AuthUtils;
+use WebSK\Skif\Auth\AuthUtils;
 
 $user_name = '';
 $user_email = '';

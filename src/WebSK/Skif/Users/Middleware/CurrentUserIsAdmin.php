@@ -4,7 +4,7 @@ namespace WebSK\Skif\Users\Middleware;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use WebSK\Skif\Users\AuthUtils;
+use WebSK\Skif\Auth\AuthUtils;
 use WebSK\Utils\HTTP;
 
 /**

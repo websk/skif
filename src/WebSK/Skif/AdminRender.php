@@ -3,7 +3,7 @@
 namespace WebSK\Skif;
 
 use Psr\Http\Message\ResponseInterface;
-use WebSK\Skif\Users\AuthUtils;
+use WebSK\Skif\Auth\AuthUtils;
 use WebSK\Skif\Users\UsersServiceProvider;
 
 /**

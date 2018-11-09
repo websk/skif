@@ -6,7 +6,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Skif\Auth\AuthRoutes;
 use WebSK\Skif\RequestHandlers\BaseHandler;
-use WebSK\Skif\Users\AuthUtils;
+use WebSK\Skif\Auth\AuthUtils;
 
 /**
  * Class LoginHandler
