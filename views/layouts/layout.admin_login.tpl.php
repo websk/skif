@@ -20,7 +20,7 @@ use WebSK\Skif\Router;
 
     <title>СКИФ - Система управления сайтом</title>
 
-    <link href="<?php echo \Websk\Skif\Path::wrapSkifUrlPath('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
+    <link href="<?php echo Path::wrapSkifUrlPath('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
 
     <!-- jQuery -->
     <script src="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery/jquery.min.js'); ?>"></script>

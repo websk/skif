@@ -65,7 +65,7 @@ class SkifApp extends App
 
             KeyValueRoutes::registerAdmin($app);
             UsersRoutes::registerAdmin($app);
-        })->add(new CurrentUserIsAdmin());
+        });
 
         UsersRoutes::register($this);
         AuthRoutes::register($this);

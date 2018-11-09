@@ -92,7 +92,7 @@ $requested_role_id = Request::getQueryParam('role_id', 0);
                     </a>
                 </td>
             </tr>
-            <?
+            <?php
         }
         ?>
     </table>

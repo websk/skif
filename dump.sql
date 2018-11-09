@@ -149,8 +149,9 @@ CREATE TABLE `users` (
   KEY `confirm_code` (`confirm_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+# password '12345'
 INSERT INTO `users` (`id`, `email`, `passw`, `name`, `first_name`, `last_name`, `photo`, `birthday`, `phone`, `city`, `address`, `company`, `comment`, `confirm`, `confirm_code`, `provider`, `provider_uid`, `profile_url`, `created_at_ts`)
-VALUES (1, 'support@websk.ru', '1f737832e84fb946d5a4f50c567334be', 'Администратор', '', '', '', '', '', '', '', '', '', 1, '', '', NULL, NULL, NULL);
+VALUES (1, 'support@websk.ru', '15d4e4d0452f02c84e8703dd64b24bed', 'Администратор', '', '', '', '', '', '', '', '', '', 1, '', '', NULL, NULL, 0);
 
 CREATE TABLE `users_roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

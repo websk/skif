@@ -4,6 +4,7 @@ namespace WebSK\Skif\Users;
 
 use Slim\App;
 use WebSK\Skif\Users\Middleware\CurrentUserHasRightToEditUser;
+use WebSK\Skif\Users\Middleware\CurrentUserIsAdmin;
 use WebSK\Skif\Users\RequestHandlers\Admin\RoleDeleteHandler;
 use WebSK\Skif\Users\RequestHandlers\Admin\RoleEditHandler;
 use WebSK\Skif\Users\RequestHandlers\Admin\RoleSaveHandler;
@@ -79,7 +80,7 @@ class UsersRoutes
                 $app->get('/delete/{role_id:\d+}', RoleDeleteHandler::class)
                     ->setName(self::ROUTE_NAME_ADMIN_ROLE_DELETE);
             });
-        });
+        })->add(new CurrentUserIsAdmin());
     }
 
     /**
