@@ -1,7 +1,7 @@
 <?php
 
 use WebSK\Skif\Auth\AuthRoutes;
-use Websk\Skif\Captcha\Captcha;
+use WebSK\Skif\Captcha\CaptchaRoutes;
 use WebSK\Skif\Router;
 
 ?>
@@ -17,7 +17,7 @@ use WebSK\Skif\Router;
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <img src="<?php echo Captcha::getUrl(); ?>" border="0" alt="Введите этот защитный код">
+            <img src="<?php echo Router::pathFor(CaptchaRoutes::ROUTE_NAME_CAPTCHA_GENERATE); ?>" border="0" alt="Введите этот защитный код">
             <input type="text" size="5" name="captcha" class="form-control">
             <span class="help-block">Введите код, изображенный на картинке</span>
         </div>

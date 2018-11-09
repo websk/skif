@@ -142,9 +142,4 @@ class Captcha
 
         return;
     }
-
-    public static function getUrl()
-    {
-        return '/captcha/generate';
-    }
 }

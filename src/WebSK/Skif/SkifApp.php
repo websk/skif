@@ -96,7 +96,7 @@ class SkifApp extends App
         PollRoutes::route();
         RatingRoutes::route();
 
-        CaptchaRoutes::route($this);
+        CaptchaRoutes::register($this);
 
         $container['errorHandler'] = function () {
             return new ErrorHandler();
