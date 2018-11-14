@@ -14,7 +14,7 @@ class Form implements
     \Skif\Model\InterfaceGetUrl,
     \Skif\Model\InterfaceGetTitle
 {
-    use Skif\Model\ActiveRecord;
+    use \Skif\Model\ActiveRecord;
     use \Skif\Model\FactoryTrait;
 
     const DB_TABLE_NAME = 'form';

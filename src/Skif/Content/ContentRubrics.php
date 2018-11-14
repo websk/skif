@@ -9,7 +9,7 @@ class ContentRubrics implements
     \Skif\Model\InterfaceSave,
     \Skif\Model\InterfaceDelete
 {
-    use Skif\Model\ActiveRecord;
+    use \Skif\Model\ActiveRecord;
     use \Skif\Model\FactoryTrait;
 
     protected $id;

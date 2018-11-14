@@ -16,7 +16,7 @@ class Block implements
     \Skif\Model\InterfaceLogger,
     InterfaceEntity
 {
-    use Skif\Model\ActiveRecord;
+    use \Skif\Model\ActiveRecord;
     use \Skif\Model\FactoryTrait;
 
     const BLOCK_REGION_NONE = -1;

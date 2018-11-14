@@ -1,31 +1,4 @@
 <?php
-/*
-CREATE TABLE `content` (
-    `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `title` VARCHAR(255) NOT NULL DEFAULT '',
-    `short_title` VARCHAR(255) NOT NULL DEFAULT '',
-    `annotation` TEXT NOT NULL,
-    `body` MEDIUMTEXT NOT NULL,
-    `published_at` DATE NULL DEFAULT NULL,
-    `unpublished_at` DATE NULL DEFAULT NULL,
-    `is_published` SMALLINT(6) NOT NULL DEFAULT '0',
-    `created_at` DATETIME NULL DEFAULT NULL,
-    `image` VARCHAR(100) NOT NULL DEFAULT '',
-    `description` VARCHAR(255) NOT NULL DEFAULT '',
-    `keywords` VARCHAR(255) NOT NULL DEFAULT '',
-    `url` VARCHAR(1000) NOT NULL DEFAULT '',
-    `type` CHAR(20) NOT NULL DEFAULT '',
-    `last_modified_at` DATETIME NOT NULL,
-    `redirect_url` VARCHAR(1000) NOT NULL DEFAULT '',
-    `template_id` INT(11) NULL DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    INDEX `rubric_id` (`rubric_id`),
-    INDEX `type` (`type`)
-)
-COLLATE='utf8_general_ci'
-ENGINE=InnoDB
-;
-*/
 
 namespace Skif\Content;
 
@@ -56,7 +29,7 @@ class Content implements
     InterfaceLogger,
     InterfaceEntity
 {
-    use Skif\Model\ActiveRecord;
+    use ActiveRecord;
     use FactoryTrait;
 
     /** @var int */

@@ -13,7 +13,7 @@ class Comment  implements
     \Skif\Model\InterfaceDelete,
     \Skif\Model\InterfaceGetTitle
 {
-    use Skif\Model\ActiveRecord;
+    use \Skif\Model\ActiveRecord;
     use \Skif\Model\FactoryTrait;
 
     const DB_TABLE_NAME = 'comments';

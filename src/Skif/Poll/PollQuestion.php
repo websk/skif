@@ -17,7 +17,7 @@ class PollQuestion implements
     InterfaceDelete,
     InterfaceGetTitle
 {
-    use Skif\Model\ActiveRecord;
+    use ActiveRecord;
     use FactoryTrait;
 
     const DB_TABLE_NAME = 'poll_question';

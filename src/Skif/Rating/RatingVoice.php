@@ -15,7 +15,7 @@ class RatingVoice implements
     InterfaceSave,
     InterfaceDelete
 {
-    use Skif\Model\ActiveRecord;
+    use ActiveRecord;
     use FactoryTrait;
 
     const DB_TABLE_NAME = 'rating_voice';

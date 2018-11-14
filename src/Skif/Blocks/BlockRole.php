@@ -10,7 +10,7 @@ class BlockRole implements
     \Skif\Model\InterfaceDelete,
     \Skif\Model\InterfaceLogger
 {
-    use Skif\Model\ActiveRecord;
+    use \Skif\Model\ActiveRecord;
     use \Skif\Model\FactoryTrait;
 
     protected $id;
