@@ -9,7 +9,6 @@ use Skif\CRUD\CRUDRoutes;
 use Skif\Form\FormRoutes;
 use WebSK\Skif\Auth\AuthServiceProvider;
 use WebSK\Skif\Image\ImageRoutes;
-use Skif\Logger\LoggerRoutes;
 use Skif\Poll\PollRoutes;
 use Skif\Rating\RatingRoutes;
 use Skif\Redirect\RedirectRoutes;
@@ -22,10 +21,11 @@ use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\Skif\Captcha\CaptchaRoutes;
 use WebSK\Skif\KeyValue\KeyValueRoutes;
 use WebSK\Skif\KeyValue\KeyValueServiceProvider;
+use WebSK\Skif\Logger\LoggerRoutes;
+use WebSK\Skif\Logger\LoggerServiceProvider;
 use WebSK\Skif\RequestHandlers\AdminHandler;
 use WebSK\Skif\RequestHandlers\ErrorHandler;
 use WebSK\Skif\RequestHandlers\NotFoundHandler;
-use WebSK\Skif\Users\Middleware\CurrentUserIsAdmin;
 use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersServiceProvider;
 
@@ -48,6 +48,7 @@ class SkifApp extends App
         AuthServiceProvider::register($container);
         CRUDServiceProvider::register($container);
         KeyValueServiceProvider::register($container);
+        LoggerServiceProvider::register($container);
 
         $this->registerRoutes();
     }
@@ -65,6 +66,7 @@ class SkifApp extends App
 
             KeyValueRoutes::registerAdmin($app);
             UsersRoutes::registerAdmin($app);
+            LoggerRoutes::registerAdmin($app);
         });
 
         UsersRoutes::register($this);
@@ -74,7 +76,6 @@ class SkifApp extends App
 
         RedirectRoutes::route();
 
-        LoggerRoutes::route();
         ImageRoutes::routes();
 
         CRUDRoutes::route();

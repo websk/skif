@@ -29,6 +29,7 @@ ENGINE=InnoDB
 
 namespace Skif\Content;
 
+use WebSK\Entity\InterfaceEntity;
 use Websk\Skif\DBWrapper;
 use Skif\Model\FactoryTrait;
 use Skif\Model\InterfaceDelete;
@@ -43,12 +44,17 @@ use Skif\Util\ActiveRecordHelper;
 use Skif\Utils;
 use Websk\Utils\Assert;
 
+/**
+ * Class Content
+ * @package Skif\Content
+ */
 class Content implements
     InterfaceLoad,
     InterfaceFactory,
     InterfaceSave,
     InterfaceDelete,
-    InterfaceLogger
+    InterfaceLogger,
+    InterfaceEntity
 {
     use ActiveRecord;
     use FactoryTrait;

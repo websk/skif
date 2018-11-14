@@ -54,6 +54,7 @@ class RoleEditHandler extends BaseHandler
         $layout_dto->setContentHtml($content);
 
         $breadcrumbs_arr = [
+            new BreadcrumbItemDTO('Главная', '/admin'),
             new BreadcrumbItemDTO('Пользователи', $this->pathFor(UsersRoutes::ROUTE_NAME_ADMIN_USER_LIST)),
             new BreadcrumbItemDTO('Роли пользователей', $this->pathFor(UsersRoutes::ROUTE_NAME_ADMIN_ROLE_LIST)),
         ];

@@ -1,17 +1,5 @@
 # Services
 
-CREATE TABLE `admin_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `ts` datetime DEFAULT NULL,
-  `ip` varchar(15) NOT NULL,
-  `entity_id` varchar(255) DEFAULT NULL,
-  `action` varchar(255) DEFAULT NULL,
-  `object` text,
-  PRIMARY KEY (`id`),
-  KEY `entity_id` (`entity_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE `logger_entry` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `created_at_ts` int(11) NOT NULL DEFAULT '0',

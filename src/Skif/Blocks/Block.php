@@ -2,13 +2,19 @@
 
 namespace Skif\Blocks;
 
+use WebSK\Entity\InterfaceEntity;
 
+/**
+ * Class Block
+ * @package Skif\Blocks
+ */
 class Block implements
     \Skif\Model\InterfaceLoad,
     \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
     \Skif\Model\InterfaceDelete,
-    \Skif\Model\InterfaceLogger
+    \Skif\Model\InterfaceLogger,
+    InterfaceEntity
 {
     use \Skif\Util\ActiveRecord;
     use \Skif\Model\FactoryTrait;

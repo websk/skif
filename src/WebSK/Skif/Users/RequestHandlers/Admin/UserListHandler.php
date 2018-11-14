@@ -8,6 +8,7 @@ use WebSK\Skif\AdminRender;
 use WebSK\Skif\LayoutDTO;
 use WebSK\Skif\PhpRender;
 use WebSK\Skif\RequestHandlers\BaseHandler;
+use WebSK\UI\BreadcrumbItemDTO;
 
 /**
  * Class UserListHandler
@@ -31,7 +32,9 @@ class UserListHandler extends BaseHandler
         $layout_dto->setTitle('Пользователи');
         $layout_dto->setContentHtml($content);
 
-        $breadcrumbs_arr = [];
+        $breadcrumbs_arr = [
+            new BreadcrumbItemDTO('Главная', '/admin'),
+        ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 
         return AdminRender::renderLayout($response, $layout_dto);

@@ -3,10 +3,11 @@
 namespace Skif\Util;
 
 use Skif\Factory;
-use Skif\Logger\Logger;
 use Skif\Model\InterfaceFactory;
 use Skif\Model\InterfaceLoad;
 use Skif\Model\InterfaceLogger;
+use WebSK\Entity\InterfaceEntity;
+use WebSK\Skif\Logger\Logger;
 use Websk\Utils\Assert;
 
 /**
@@ -44,7 +45,8 @@ trait ActiveRecord
         }
     }
 
-    public function getFieldValueByName($field_name){
+    public function getFieldValueByName($field_name)
+    {
         return $this->$field_name;
     }
 
@@ -58,13 +60,14 @@ trait ActiveRecord
         ) {
             $this::afterUpdate($this->getId());
 
-            if ($this instanceof InterfaceLogger) {
-                Logger::logObjectEvent($this, 'изменение');
+            if (($this instanceof InterfaceLogger) && ($this instanceof InterfaceEntity)) {
+                Logger::logObjectEventForCurrentUser($this, 'изменение');
             }
         }
     }
 
-    public function getIdByFieldNamesArr($field_names_arr) {
+    public function getIdByFieldNamesArr($field_names_arr)
+    {
         return ActiveRecordHelper::getIdByFieldNamesArr($this, $field_names_arr);
     }
 
@@ -114,8 +117,8 @@ trait ActiveRecord
             ActiveRecordHelper::deleteModelObj($this);
         }
 
-        if ($this instanceof InterfaceLogger) {
-            Logger::logObjectEvent($this, 'удаление');
+        if (($this instanceof InterfaceLogger) && ($this instanceof InterfaceEntity)) {
+            Logger::logObjectEventForCurrentUser($this, 'удаление');
         }
 
         return true;

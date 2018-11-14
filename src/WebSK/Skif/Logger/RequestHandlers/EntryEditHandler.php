@@ -8,8 +8,8 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Skif\AdminRender;
 use WebSK\Skif\LayoutDTO;
-use VitrinaTV\Core\Auth\AuthRoutes;
 use WebSK\Skif\RequestHandlers\BaseHandler;
+use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Utils\HTTP;
 use WebSK\UI\BreadcrumbItemDTO;
@@ -17,6 +17,10 @@ use WebSK\Skif\Logger\LoggerConstants;
 use WebSK\Skif\Logger\LoggerRoutes;
 use WebSK\Skif\Logger\LoggerServiceProvider;
 
+/**
+ * Class EntryEditHandler
+ * @package WebSK\Skif\Logger\RequestHandlers
+ */
 class EntryEditHandler extends BaseHandler
 {
     /**
@@ -176,7 +180,7 @@ class EntryEditHandler extends BaseHandler
             return $user_str;
         }
 
-        $user_edit_url = $this->pathFor(AuthRoutes::ROUTE_NAME_ADMIN_AUTH_USER_EDIT, ['user_id' => $user_obj->getId()]);
+        $user_edit_url = $this->pathFor(UsersRoutes::ROUTE_NAME_ADMIN_USER_EDIT, ['user_id' => $user_obj->getId()]);
 
         return HTML::a($user_edit_url, $user_obj->getName());
     }

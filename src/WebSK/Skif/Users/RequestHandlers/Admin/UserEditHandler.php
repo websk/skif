@@ -63,6 +63,7 @@ class UserEditHandler extends BaseHandler
         $layout_dto->setContentHtml($content);
 
         $breadcrumbs_arr = [
+            new BreadcrumbItemDTO('Главная', '/admin'),
             new BreadcrumbItemDTO('Пользователи', '/admin/users'),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);

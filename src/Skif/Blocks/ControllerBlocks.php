@@ -2,9 +2,18 @@
 
 namespace Skif\Blocks;
 
+use Skif\Http;
+use Skif\PhpTemplate;
+use WebSK\Skif\Auth\Auth;
+use WebSK\Skif\ConfWrapper;
+use Websk\Skif\DBWrapper;
+use WebSK\Skif\Logger\Logger;
+use Websk\Skif\Messages;
 
-use Skif\Logger\Logger;
-
+/**
+ * Class ControllerBlocks
+ * @package Skif\Blocks
+ */
 class ControllerBlocks
 {
     const COOKIE_CURRENT_TEMPLATE_ID = 'skif_blocks_current_template_id';
@@ -55,22 +64,22 @@ class ControllerBlocks
     {
         self::setCurrentTemplateId($template_id);
 
-        \Websk\Skif\Messages::setMessage('Тема изменена');
+        Messages::setMessage('Тема изменена');
 
-        \Skif\Http::redirect(\Skif\Blocks\ControllerBlocks::getBlocksListUrl());
+        Http::redirect(\Skif\Blocks\ControllerBlocks::getBlocksListUrl());
     }
 
     /**
      * @param $block_id
-     * @return \Skif\Blocks\Block
+     * @return Block
      */
     public static function getBlockObj($block_id)
     {
         if ($block_id == 'new') {
-            return new \Skif\Blocks\Block();
+            return new Block();
         }
 
-        return \Skif\Blocks\Block::factory($block_id);
+        return Block::factory($block_id);
     }
 
     /**
@@ -80,13 +89,13 @@ class ControllerBlocks
      */
     static public function getBlockEditorPageTitle($block_id)
     {
-        $block_obj = \Skif\Blocks\ControllerBlocks::getBlockObj($block_id);
+        $block_obj = self::getBlockObj($block_id);
 
         if (!$block_obj->isLoaded()) {
             return 'Создание блока';
         }
 
-        $page_region_obj = \Skif\Blocks\PageRegion::factory($block_obj->getPageRegionId());
+        $page_region_obj = PageRegion::factory($block_obj->getPageRegionId());
         $region_for_title = $page_region_obj->getTitle();
 
         $page_title = $block_obj->getTitle();
@@ -105,17 +114,17 @@ class ControllerBlocks
     public function listAction()
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
+        Http::exit403If(!Auth::currentUserIsAdmin());
 
         self::blocksPageActions();
 
-        $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $html = PhpTemplate::renderTemplateBySkifModule(
             'Blocks',
             'blocks_list.tpl.php'
         );
 
-        echo \Skif\PhpTemplate::renderTemplate(
-            \WebSK\Skif\ConfWrapper::value('layout.admin'),
+        echo PhpTemplate::renderTemplate(
+            ConfWrapper::value('layout.admin'),
             array(
                 'title' => 'Блоки',
                 'content' => $html,
@@ -143,11 +152,11 @@ class ControllerBlocks
     public static function disableBlock($block_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
+        Http::exit403If(!Auth::currentUserIsAdmin());
 
-        $block_obj = \Skif\Blocks\Block::factory($block_id);
+        $block_obj = Block::factory($block_id);
 
-        if ($block_obj->getPageRegionId() == \Skif\Blocks\Block::BLOCK_REGION_NONE) {
+        if ($block_obj->getPageRegionId() == Block::BLOCK_REGION_NONE) {
             return;
         }
 
@@ -157,17 +166,17 @@ class ControllerBlocks
         $restore_url = $block_obj->getEditorUrl();
         $restore_url .= '/position?_action=move_block&target_region=' . $prev_region . '&target_weight=' . $prev_weight;
 
-        $block_obj->setPageRegionId(\Skif\Blocks\Block::BLOCK_REGION_NONE);
+        $block_obj->setPageRegionId(Block::BLOCK_REGION_NONE);
         $block_obj->save();
 
-        \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($prev_region, $block_obj->getTemplateId());
-        \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache(\Skif\Blocks\Block::BLOCK_REGION_NONE, $block_obj->getTemplateId());
+        BlockUtils::clearBlockIdsArrByPageRegionIdCache($prev_region, $block_obj->getTemplateId());
+        BlockUtils::clearBlockIdsArrByPageRegionIdCache(Block::BLOCK_REGION_NONE, $block_obj->getTemplateId());
 
-        Logger::logObjectEvent($block_obj, 'отключение');
+        Logger::logObjectEventForCurrentUser($block_obj, 'отключение');
 
-        \Websk\Skif\Messages::setWarning('Блок &laquo;' . $block_obj->getTitle() . '&raquo; был выключен. <a href="' . $restore_url . '">Отменить</a>');
+        Messages::setWarning('Блок &laquo;' . $block_obj->getTitle() . '&raquo; был выключен. <a href="' . $restore_url . '">Отменить</a>');
 
-        \Skif\Http::redirect(\Skif\Blocks\ControllerBlocks::getBlocksListUrl());
+        Http::redirect(self::getBlocksListUrl());
     }
 
     /**
@@ -177,22 +186,22 @@ class ControllerBlocks
     public function editAction($block_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
+        Http::exit403If(!Auth::currentUserIsAdmin());
 
         self::actions($block_id);
 
-        $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $html = PhpTemplate::renderTemplateBySkifModule(
             'Blocks',
             'block_edit.tpl.php',
             array('block_id' => $block_id)
         );
 
-        echo \Skif\PhpTemplate::renderTemplate(
-            \WebSK\Skif\ConfWrapper::value('layout.admin'),
+        echo PhpTemplate::renderTemplate(
+            ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
                 'content' => $html,
-                'breadcrumbs_arr' => array('Блоки' => \Skif\Blocks\ControllerBlocks::getBlocksListUrl())
+                'breadcrumbs_arr' => array('Блоки' => self::getBlocksListUrl())
             )
         );
     }
@@ -222,7 +231,7 @@ class ControllerBlocks
         }
 
         if ($action == 'save_caching') {
-            \Skif\Blocks\ControllerBlocks::saveCaching($block_id);
+            self::saveCaching($block_id);
         }
 
         if ($action == 'save_content') {
@@ -237,7 +246,7 @@ class ControllerBlocks
     public static function saveContent($block_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
+        Http::exit403If(!Auth::currentUserIsAdmin());
 
         $block_obj = self::getBlockObj($block_id);
 
@@ -256,7 +265,7 @@ class ControllerBlocks
         $is_new = !$block_obj->getId();
 
         if ($is_new) {
-            $template_id = \Skif\Blocks\ControllerBlocks::getCurrentTemplateId();
+            $template_id = self::getCurrentTemplateId();
 
             $block_obj->setTemplateId($template_id);
         }
@@ -278,11 +287,11 @@ class ControllerBlocks
 
         // Clear cache
         if ($is_new) {
-            \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId(), $block_obj->getTemplateId());
+            BlockUtils::clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId(), $block_obj->getTemplateId());
         }
 
 
-        \Websk\Skif\Messages::setMessage('Изменения сохранены');
+        Messages::setMessage('Изменения сохранены');
 
         // Redirects
         if (array_key_exists('_redirect_to_on_success', $_REQUEST) && $_REQUEST['_redirect_to_on_success'] != '') {
@@ -293,10 +302,10 @@ class ControllerBlocks
                 $redirect_to_on_success = str_replace('block_id', $block_obj->getId(), $redirect_to_on_success);
             }
 
-            \Skif\Http::redirect($redirect_to_on_success);
+            Http::redirect($redirect_to_on_success);
         }
 
-        \Skif\Http::redirect($block_obj->getEditorUrl());
+        Http::redirect($block_obj->getEditorUrl());
     }
 
     /**
@@ -306,36 +315,36 @@ class ControllerBlocks
     public function cachingTabAction($block_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
+        Http::exit403If(!Auth::currentUserIsAdmin());
 
         self::actions($block_id);
 
-        $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $html = PhpTemplate::renderTemplateBySkifModule(
             'Blocks',
             'block_caching.tpl.php',
             array('block_id' => $block_id)
         );
 
-        echo \Skif\PhpTemplate::renderTemplate(
-            \WebSK\Skif\ConfWrapper::value('layout.admin'),
+        echo PhpTemplate::renderTemplate(
+            ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
                 'content' => $html,
-                'breadcrumbs_arr' => array('Блоки' => \Skif\Blocks\ControllerBlocks::getBlocksListUrl())
+                'breadcrumbs_arr' => array('Блоки' => self::getBlocksListUrl())
             )
         );
     }
 
     public static function saveCaching($block_id)
     {
-        $block_obj = \Skif\Blocks\Block::factory($block_id);
+        $block_obj = Block::factory($block_id);
 
         $block_obj->setCache($_POST['cache']);
         $block_obj->save();
 
-        \Websk\Skif\Messages::setMessage('Изменения сохранены');
+        Messages::setMessage('Изменения сохранены');
 
-        \Skif\Http::redirect($block_obj->getEditorUrl() . '/caching');
+        Http::redirect($block_obj->getEditorUrl() . '/caching');
     }
 
     /**
@@ -345,7 +354,7 @@ class ControllerBlocks
     public function placeInRegionTabAction($block_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
+        Http::exit403If(!Auth::currentUserIsAdmin());
 
         $block_obj = self::getBlockObj($block_id);
 
@@ -357,19 +366,19 @@ class ControllerBlocks
             $target_region = $_GET['target_region'];
         }
 
-        $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $html = PhpTemplate::renderTemplateBySkifModule(
             'Blocks',
             'block_place_in_region.tpl.php',
             array('block_id' => $block_id, 'target_region' => $target_region)
         );
 
-        echo \Skif\PhpTemplate::renderTemplate(
-            \WebSK\Skif\ConfWrapper::value('layout.admin'),
+        echo PhpTemplate::renderTemplate(
+            ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
                 'content' => $html,
                 'breadcrumbs_arr' => array(
-                    'Блоки' => \Skif\Blocks\ControllerBlocks::getBlocksListUrl()
+                    'Блоки' => self::getBlocksListUrl()
                 )
             )
         );
@@ -383,7 +392,7 @@ class ControllerBlocks
     static public function moveBlock($block_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
+        Http::exit403If(!Auth::currentUserIsAdmin());
 
         $target_weight = $_REQUEST['target_weight'];
         $target_region = $_REQUEST['target_region'];
@@ -392,16 +401,16 @@ class ControllerBlocks
             return;
         }
 
-        $block_obj = \Skif\Blocks\Block::factory($block_id);
+        $block_obj = Block::factory($block_id);
 
         $source_region = $block_obj->getPageRegionId();
         $block_obj->setPageRegionId($target_region);
 
-        Logger::logObjectEvent($block_obj, 'перемещение');
+        Logger::logObjectEventForCurrentUser($block_obj, 'перемещение');
 
-        $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionId($target_region, $block_obj->getTemplateId());
+        $blocks_ids_arr = BlockUtils::getBlockIdsArrByPageRegionId($target_region, $block_obj->getTemplateId());
 
-        /** @var \Skif\Blocks\Block[] $arranged_blocks */
+        /** @var Block[] $arranged_blocks */
         $arranged_blocks = array();
 
         $block_inserted = false;
@@ -415,7 +424,7 @@ class ControllerBlocks
         $last_weight = -1;
 
         foreach ($blocks_ids_arr as $other_block_id) {
-            $other_block_obj = \Skif\Blocks\Block::factory($other_block_id);
+            $other_block_obj = Block::factory($other_block_id);
 
             if ($other_block_obj->getId() != $block_obj->getId()) {
                 // if not our block - copy it to arranged blocks
@@ -466,14 +475,14 @@ class ControllerBlocks
 
 
         if ($source_region != $block_obj->getPageRegionId()) {
-            \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($source_region, $block_obj->getTemplateId());
+            BlockUtils::clearBlockIdsArrByPageRegionIdCache($source_region, $block_obj->getTemplateId());
         }
-        \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId(), $block_obj->getTemplateId());
+        BlockUtils::clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId(), $block_obj->getTemplateId());
 
 
-        \Websk\Skif\Messages::setMessage('Блок &laquo;' . $block_obj->getTitle() . '&raquo; перемещен');
+        Messages::setMessage('Блок &laquo;' . $block_obj->getTitle() . '&raquo; перемещен');
 
-        \Skif\Http::redirect($block_obj->getEditorUrl() . '/position');
+        Http::redirect($block_obj->getEditorUrl() . '/position');
     }
 
     /**
@@ -482,23 +491,23 @@ class ControllerBlocks
     public function chooseRegionTabAction($block_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
+        Http::exit403If(!Auth::currentUserIsAdmin());
 
         self::actions($block_id);
 
-        $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $html = PhpTemplate::renderTemplateBySkifModule(
             'Blocks',
             'block_choose_region.tpl.php',
             array('block_id' => $block_id)
         );
 
-        echo \Skif\PhpTemplate::renderTemplate(
-            \WebSK\Skif\ConfWrapper::value('layout.admin'),
+        echo PhpTemplate::renderTemplate(
+            ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
                 'content' => $html,
                 'breadcrumbs_arr' => array(
-                    'Блоки' => \Skif\Blocks\ControllerBlocks::getBlocksListUrl()
+                    'Блоки' => self::getBlocksListUrl()
                 )
             )
         );
@@ -511,23 +520,23 @@ class ControllerBlocks
     public function deleteTabAction($block_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
+        Http::exit403If(!Auth::currentUserIsAdmin());
 
         self::actions($block_id);
 
-        $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $html = PhpTemplate::renderTemplateBySkifModule(
             'Blocks',
             'block_delete.tpl.php',
             array('block_id' => $block_id)
         );
 
-        echo \Skif\PhpTemplate::renderTemplate(
-            \WebSK\Skif\ConfWrapper::value('layout.admin'),
+        echo PhpTemplate::renderTemplate(
+            ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
                 'content' => $html,
                 'breadcrumbs_arr' => array(
-                    'Блоки' => \Skif\Blocks\ControllerBlocks::getBlocksListUrl()
+                    'Блоки' => self::getBlocksListUrl()
                 )
             )
         );
@@ -541,17 +550,17 @@ class ControllerBlocks
     public static function deleteBlock($block_id)
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
+        Http::exit403If(!Auth::currentUserIsAdmin());
 
-        $block_obj = \Skif\Blocks\Block::factory($block_id);
+        $block_obj = Block::factory($block_id);
 
         $block_name = $block_obj->getTitle();
 
         $block_obj->delete();
 
-        \Websk\Skif\Messages::setMessage('Блок &laquo;' . $block_name . '&raquo; удален');
+        Messages::setMessage('Блок &laquo;' . $block_name . '&raquo; удален');
 
-        \Skif\Http::redirect(\Skif\Blocks\ControllerBlocks::getBlocksListUrl());
+        Http::redirect(self::getBlocksListUrl());
     }
 
     /**
@@ -560,29 +569,29 @@ class ControllerBlocks
     public function searchAction()
     {
         // Проверка прав доступа
-        \Skif\Http::exit403If(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
+        Http::exit403If(!Auth::currentUserIsAdmin());
 
         $html = '';
 
         $blocks_ids_arr = array();
         $search_value = $_POST["search"];
 
-        $template_id = \Skif\Blocks\ControllerBlocks::getCurrentTemplateId();
+        $template_id = self::getCurrentTemplateId();
 
         if ((mb_strlen($_POST["search"]) > 3)) {
-            $blocks_ids_arr = \Websk\Skif\DBWrapper::readColumn(
-                "SELECT id FROM " . \Skif\Blocks\Block::DB_TABLE_NAME . " WHERE body LIKE ? AND template_id = ? LIMIT 100",
+            $blocks_ids_arr = DBWrapper::readColumn(
+                "SELECT id FROM " . Block::DB_TABLE_NAME . " WHERE body LIKE ? AND template_id = ? LIMIT 100",
                 array("%" . str_replace('\\', '\\\\', $search_value) . "%", $template_id)
             );
 
             if (count($blocks_ids_arr) == 0) {
-                \Websk\Skif\Messages::SetWarning('Ничего не найдено');
+                Messages::SetWarning('Ничего не найдено');
             }
         } else {
-            \Websk\Skif\Messages::SetWarning('Слишком короткий запрос');
+            Messages::SetWarning('Слишком короткий запрос');
         }
 
-        $html .= \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $html .= PhpTemplate::renderTemplateBySkifModule(
             'Blocks',
             'search_blocks.tpl.php',
             array(
@@ -590,14 +599,13 @@ class ControllerBlocks
             )
         );
 
-        echo \Skif\PhpTemplate::renderTemplate(
-            \WebSK\Skif\ConfWrapper::value('layout.admin'),
+        echo PhpTemplate::renderTemplate(
+            ConfWrapper::value('layout.admin'),
             array(
                 'title' => 'Поиск блоков',
                 'content' => $html,
-                'breadcrumbs_arr' => array('Блоки' => \Skif\Blocks\ControllerBlocks::getBlocksListUrl())
+                'breadcrumbs_arr' => array('Блоки' => self::getBlocksListUrl())
             )
         );
     }
-
 }

@@ -1,7 +1,6 @@
 <?php
 /**
  * @var $title
- * @var $breadcrumbs
  * @var $content
  * @var LayoutDTO $layout_dto
  */
@@ -9,7 +8,6 @@
 use WebSK\Skif\ConfWrapper;
 use Skif\Content\ContentType;
 use Skif\Content\ContentUtils;
-use Skif\Http;
 use WebSK\Skif\LayoutDTO;
 use Websk\Skif\Messages;
 use Websk\Skif\Path;
@@ -32,6 +30,8 @@ if (!$user_id) {
 
 $user_obj = UsersUtils::loadUser($user_id);
 $user_name = $user_obj->getName();
+
+$breadcrumbs_arr = [];
 
 if (isset($layout_dto)) {
     $title = $layout_dto->getTitle();
@@ -214,15 +214,6 @@ if (isset($layout_dto)) {
                 <div class="col-lg-12">
                     <div>
                         <?php
-                        if (!isset($breadcrumbs_arr)) {
-                            $breadcrumbs_arr = [];
-                        }
-
-                        $breadcrumbs_arr = array_merge(
-                            [new BreadcrumbItemDTO('Главная', '/admin')],
-                            $breadcrumbs_arr
-                        );
-
                         echo PhpRender::renderTemplate(
                             '/admin_breadcrumbs.tpl.php',
                             ['breadcrumbs_arr' => $breadcrumbs_arr]

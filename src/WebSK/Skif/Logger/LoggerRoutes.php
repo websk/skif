@@ -3,12 +3,16 @@
 namespace WebSK\Skif\Logger;
 
 use Slim\App;
-use VitrinaTV\Core\Auth\Middleware\CurrentUserHasAnyOfPermissions;
+use WebSK\Skif\Users\Middleware\CurrentUserIsAdmin;
 use WebSK\Utils\HTTP;
 use WebSK\Skif\Logger\RequestHandlers\EntriesListHandler;
 use WebSK\Skif\Logger\RequestHandlers\EntryEditHandler;
 use WebSK\Skif\Logger\RequestHandlers\ObjectEntriesListHandler;
 
+/**
+ * Class LoggerRoutes
+ * @package WebSK\Skif\Logger
+ */
 class LoggerRoutes
 {
     const ROUTE_NAME_ADMIN_LOGGER_ENTRIES_LIST = 'admin:logger:entries';
@@ -18,7 +22,7 @@ class LoggerRoutes
     /**
      * @param App $app
      */
-    public static function register(App $app)
+    public static function registerAdmin(App $app)
     {
         $app->group('/logger', function (App $app) {
             $app->group('/entry', function (App $app) {
@@ -30,8 +34,6 @@ class LoggerRoutes
             });
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], 'objectentries/{object_full_id}', ObjectEntriesListHandler::class)
                 ->setName(self::ROUTE_NAME_ADMIN_LOGGER_OBJECT_ENTRIES_LIST);
-        })->add(new CurrentUserHasAnyOfPermissions(
-            [LoggerPermissions::PERMISSION_LOGGER_ACCESS]
-        ));
+        })->add(new CurrentUserIsAdmin());
     }
 }

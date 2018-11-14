@@ -4,7 +4,7 @@
  */
 
 use WebSK\Skif\Image\ImageManager;
-use Skif\Logger\LoggerUtils;
+use WebSK\Skif\Logger\LoggerRender;
 use WebSK\Skif\Request;
 use WebSK\Skif\Router;
 use WebSK\Skif\Users\UsersRoutes;
@@ -81,7 +81,7 @@ $requested_role_id = Request::getQueryParam('role_id', 0);
                        class="btn btn-outline btn-default btn-sm">
                         <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
                     </a>
-                    <a href="<?php echo LoggerUtils::getLoggerUrlByObject($user_obj); ?>" target="_blank" title="Журнал"
+                    <a href="<?php echo LoggerRender::getLoggerLinkForEntityObj($user_obj); ?>" target="_blank" title="Журнал"
                        class="btn btn-outline btn-default btn-sm">
                         <span class="fa fa-history fa-lg fa-fw"></span>
                     </a>
