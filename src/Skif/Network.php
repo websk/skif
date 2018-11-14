@@ -1,34 +1,97 @@
 <?php
+
 namespace Skif;
 
-
+/**
+ * Class Network
+ * @package Skif
+ */
 class Network
 {
-    static public function is_private_network($ip)
+    /**
+     * @param $ip
+     * @return bool
+     */
+    protected static function isPrivateNetwork(string $ip)
     {
-        if (preg_match("/unknown/", $ip))
+        if (preg_match("/unknown/", $ip)) {
             return true;
-        if (preg_match("/127\.0\./", $ip))
+        }
+        if (preg_match("/127\.0\./", $ip)) {
             return true;
-        if (preg_match("/^192\.168\./", $ip))
+        }
+        if (preg_match("/^192\.168\./", $ip)) {
             return true;
-        if (preg_match("/^10\./", $ip))
+        }
+        if (preg_match("/^10\./", $ip)) {
             return true;
+        }
+        if (preg_match("/^172\.16\./", $ip)) {
+            return true;
+        }
+        if (preg_match("/^172\.17\./", $ip)) {
+            return true;
+        }
+        if (preg_match("/^172\.18\./", $ip)) {
+            return true;
+        }
+        if (preg_match("/^172\.19\./", $ip)) {
+            return true;
+        }
+        if (preg_match("/^172\.20\./", $ip)) {
+            return true;
+        }
+        if (preg_match("/^172\.21\./", $ip)) {
+            return true;
+        }
+        if (preg_match("/^172\.22\./", $ip)) {
+            return true;
+        }
+        if (preg_match("/^172\.23\./", $ip)) {
+            return true;
+        }
+        if (preg_match("/^172\.24\./", $ip)) {
+            return true;
+        }
+        if (preg_match("/^172\.25\./", $ip)) {
+            return true;
+        }
+        if (preg_match("/^172\.26\./", $ip)) {
+            return true;
+        }
+        if (preg_match("/^172\.27\./", $ip)) {
+            return true;
+        }
+        if (preg_match("/^172\.28\./", $ip)) {
+            return true;
+        }
+        if (preg_match("/^172\.29\./", $ip)) {
+            return true;
+        }
+        if (preg_match("/^172\.30\./", $ip)) {
+            return true;
+        }
+        if (preg_match("/^172\.31\./", $ip)) {
+            return true;
+        }
 
         return false;
     }
 
-    static public function getClientIpXff()
+    /**
+     * @return string
+     */
+    public static function getClientIpXff()
     {
         $remote_addr = $_SERVER['REMOTE_ADDR'];
 
         if (array_key_exists("HTTP_X_FORWARDED_FOR", $_SERVER) && $_SERVER['HTTP_X_FORWARDED_FOR']) {
-
             $list = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
 
             foreach ($list as $ip) {
-                if (self::is_private_network($ip))
+                if (self::isPrivateNetwork($ip)) {
                     break;
+                }
 
                 $remote_addr = $ip;
             }
@@ -37,7 +100,10 @@ class Network
         return $remote_addr;
     }
 
-    static public function getClientIpRemoteAddr()
+    /**
+     * @return string
+     */
+    public static function getClientIpRemoteAddr()
     {
         $remote_addr = $_SERVER['REMOTE_ADDR'];
 
@@ -50,7 +116,7 @@ class Network
      * @param $subnet_mask_arr
      * @return bool
      */
-    public static function checkIpBySubnetMask($ip, $subnet_mask_arr)
+    public static function checkIpBySubnetMask(string $ip, $subnet_mask_arr)
     {
         foreach ($subnet_mask_arr as $network) {
             if (empty($network)) {

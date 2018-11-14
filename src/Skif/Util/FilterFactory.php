@@ -2,8 +2,18 @@
 
 namespace Skif\Util;
 
-class FilterFactory {
-    static public function getFilter($filter_str){
-        return new \Skif\Util\Filter($filter_str);
+/**
+ * Class FilterFactory
+ * @package Skif\Util
+ */
+class FilterFactory
+{
+    /**
+     * @param string$filter_str
+     * @return Filter
+     */
+    public static function getFilter(string $filter_str)
+    {
+        return new Filter($filter_str);
     }
 }

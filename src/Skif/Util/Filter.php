@@ -2,6 +2,10 @@
 
 namespace Skif\Util;
 
+/**
+ * Class Filter
+ * @package Skif\Util
+ */
 class Filter
 {
     public $is_positive;
@@ -12,8 +16,8 @@ class Filter
 
     public function __construct($filter_str)
     {
-        $this->is_positive = FALSE;
-        $this->is_negative = FALSE;
+        $this->is_positive = false;
+        $this->is_negative = false;
         $this->mask = '';
         $this->sign = '';
         $this->target_url = '';
@@ -25,11 +29,11 @@ class Filter
         $this->sign = substr($filter_str, 0, 1);
 
         if ($this->sign == '+') {
-            $this->is_positive = TRUE;
+            $this->is_positive = true;
         }
 
         if ($this->sign == '-') {
-            $this->is_negative = TRUE;
+            $this->is_negative = true;
         }
 
         // process mask and url
@@ -39,7 +43,7 @@ class Filter
 
         $this->mask = $mask_source_arr[0];
 
-        if (array_key_exists(1, $mask_source_arr)){
+        if (array_key_exists(1, $mask_source_arr)) {
             $this->target_url = $mask_source_arr[1];
         }
     }
@@ -48,15 +52,15 @@ class Filter
     {
         $page_url = \Skif\UrlManager::getUriNoQueryString();
 
-        if ($real_url != ''){
+        if ($real_url != '') {
             $page_url = $real_url;
         }
 
         $mask = '@' . $this->mask . '@';
         if (preg_match($mask, $page_url)) {
-            return TRUE;
+            return true;
         }
 
-        return FALSE;
+        return false;
     }
 }

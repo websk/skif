@@ -1,7 +1,13 @@
 <?php
+
 namespace Skif\Util;
 
-class DateTime {
+/**
+ * Class DateTime
+ * @package Skif\Util
+ */
+class DateTime
+{
 
     const DAY_FULL = 1;
     const DAY_SHORT = 2;
@@ -23,12 +29,38 @@ class DateTime {
     const TIME_DISPLAY_SHOW = 1;
     const TIME_DISPLAY_HIDE = 2;
 
-    static function Format($date, $month_format, $year_format, $separator = ' ')
+    public static function Format($date, $month_format, $year_format, $separator = ' ')
     {
         $months_formats =
             array(
-                self::MONTH_SHORT => array('янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'),
-                self::MONTH_FULL => array('января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'),
+                self::MONTH_SHORT => array(
+                    'янв',
+                    'фев',
+                    'мар',
+                    'апр',
+                    'мая',
+                    'июн',
+                    'июл',
+                    'авг',
+                    'сен',
+                    'окт',
+                    'ноя',
+                    'дек'
+                ),
+                self::MONTH_FULL => array(
+                    'января',
+                    'февраля',
+                    'марта',
+                    'апреля',
+                    'мая',
+                    'июня',
+                    'июля',
+                    'августа',
+                    'сентября',
+                    'октября',
+                    'ноября',
+                    'декабря'
+                ),
                 self::MONTH_DIGIT => array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'),
             );
 
@@ -40,14 +72,14 @@ class DateTime {
         if ($matches) {
             $ret = (int)$matches['day'];
 
-            $ret .= ' '.$months_formats[$month_format][(int)$matches['month'] - 1];
+            $ret .= ' ' . $months_formats[$month_format][(int)$matches['month'] - 1];
 
-            switch($year_format) {
+            switch ($year_format) {
                 case self::YEAR_FULL:
-                    $ret .= $separator.$matches['year'];
+                    $ret .= $separator . $matches['year'];
                     break;
                 case self::YEAR_SHORT:
-                    $ret .= $separator.substr($matches['year'], 2, 2);
+                    $ret .= $separator . substr($matches['year'], 2, 2);
                     break;
             }
 
@@ -70,14 +102,60 @@ class DateTime {
      * @param int $time_display
      * @return bool|string
      */
-    public static function FormatFromUnixTime($unix_time = '', $day_format = self::DAY_FULL, $month_format = self::MONTH_SHORT, $year_display = self::YEAR_DISPLAY_AUTO, $year_format = self::YEAR_FULL, $separator = ' ', $time_display = self::TIME_DISPLAY_HIDE)
-    {
+    public static function FormatFromUnixTime(
+        $unix_time = '',
+        $day_format = self::DAY_FULL,
+        $month_format = self::MONTH_SHORT,
+        $year_display = self::YEAR_DISPLAY_AUTO,
+        $year_format = self::YEAR_FULL,
+        $separator = ' ',
+        $time_display = self::TIME_DISPLAY_HIDE
+    ) {
         $months_formats =
             array(
-                self::MONTH_SHORT => array('янв', 'фев', 'мар', 'апр', 'мая', 'июня', 'июля', 'авг', 'сен', 'окт', 'ноя', 'дек'),
-                self::MONTH_FULL => array('января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'),
+                self::MONTH_SHORT => array(
+                    'янв',
+                    'фев',
+                    'мар',
+                    'апр',
+                    'мая',
+                    'июня',
+                    'июля',
+                    'авг',
+                    'сен',
+                    'окт',
+                    'ноя',
+                    'дек'
+                ),
+                self::MONTH_FULL => array(
+                    'января',
+                    'февраля',
+                    'марта',
+                    'апреля',
+                    'мая',
+                    'июня',
+                    'июля',
+                    'августа',
+                    'сентября',
+                    'октября',
+                    'ноября',
+                    'декабря'
+                ),
                 self::MONTH_DIGIT => array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'),
-                self::MONTH_NODAY => array('январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'),
+                self::MONTH_NODAY => array(
+                    'январь',
+                    'февраль',
+                    'март',
+                    'апрель',
+                    'май',
+                    'июнь',
+                    'июль',
+                    'август',
+                    'сентябрь',
+                    'октябрь',
+                    'ноябрь',
+                    'декабрь'
+                ),
             );
 
         if (!$unix_time) {
@@ -86,24 +164,24 @@ class DateTime {
 
         $ret = '';
 
-		if($day_format == self::DAY_FULL) {
-			$ret = date('d', $unix_time);
-		}
+        if ($day_format == self::DAY_FULL) {
+            $ret = date('d', $unix_time);
+        }
 
-		if($day_format == self::DAY_SHORT) {
-			$ret = date('j', $unix_time);
-		}
+        if ($day_format == self::DAY_SHORT) {
+            $ret = date('j', $unix_time);
+        }
 
-		if($day_format == self::DAY_NO && $month_format != self::MONTH_SHORT) {
-			$month_format = self::MONTH_NODAY;
-		}
+        if ($day_format == self::DAY_NO && $month_format != self::MONTH_SHORT) {
+            $month_format = self::MONTH_NODAY;
+        }
 
         $ret .= $separator . $months_formats[$month_format][(int)date('m', $unix_time) - 1];
 
         if (($year_display == self::YEAR_DISPLAY_SHOW)
             || ((date('Y', $unix_time) != date('Y')) && $year_display == self::YEAR_DISPLAY_AUTO)
         ) {
-            switch($year_format) {
+            switch ($year_format) {
                 case self::YEAR_FULL:
                     $ret .= $separator . date('Y', $unix_time);
                     break;
@@ -114,7 +192,7 @@ class DateTime {
         }
 
         if ($time_display == self::TIME_DISPLAY_SHOW) {
-            $ret .= ' '.date('H', $unix_time) . ':' . date('i', $unix_time);
+            $ret .= ' ' . date('H', $unix_time) . ':' . date('i', $unix_time);
         }
 
         return $ret;
@@ -132,15 +210,29 @@ class DateTime {
     {
         $output = "";
 
-        $months_ru = array('dud', 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря');
+        $months_ru = array(
+            'dud',
+            'января',
+            'февраля',
+            'марта',
+            'апреля',
+            'мая',
+            'июня',
+            'июля',
+            'августа',
+            'сентября',
+            'октября',
+            'ноября',
+            'декабря'
+        );
 
         $dv = getdate($timestamp);
         $dvt = getdate(); // today
 
-        $is_today = FALSE;
+        $is_today = false;
 
         if (($dv['year'] == $dvt['year']) && ($dv['mon'] == $dvt['mon']) && ($dv['mday'] == $dvt['mday'])) {
-            $is_today = TRUE;
+            $is_today = true;
         }
 
         $hours = $dv['hours'];
