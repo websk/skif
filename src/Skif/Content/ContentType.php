@@ -10,7 +10,7 @@ class ContentType implements
     \Skif\Model\InterfaceDelete,
     \Skif\Model\InterfaceGetTitle
 {
-    use \Skif\Util\ActiveRecord;
+    use Skif\Model\ActiveRecord;
     use \Skif\Model\FactoryTrait;
 
     const DB_TABLE_NAME = 'content_types';
@@ -63,7 +63,7 @@ class ContentType implements
 
     public function load($id)
     {
-        $is_loaded = \Skif\Util\ActiveRecordHelper::loadModelObj($this, $id);
+        $is_loaded = \Skif\Model\ActiveRecordHelper::loadModelObj($this, $id);
         if (!$is_loaded) {
             return false;
         }

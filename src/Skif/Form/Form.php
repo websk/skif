@@ -14,7 +14,7 @@ class Form implements
     \Skif\Model\InterfaceGetUrl,
     \Skif\Model\InterfaceGetTitle
 {
-    use \Skif\Util\ActiveRecord;
+    use Skif\Model\ActiveRecord;
     use \Skif\Model\FactoryTrait;
 
     const DB_TABLE_NAME = 'form';
@@ -256,7 +256,7 @@ class Form implements
 
         $this->setUrl($url);
 
-        \Skif\Util\ActiveRecordHelper::saveModelObj($this);
+        \Skif\Model\ActiveRecordHelper::saveModelObj($this);
 
         self::afterUpdate($this->getId());
     }

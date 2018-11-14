@@ -10,7 +10,7 @@ use Skif\Model\InterfaceGetTitle;
 use Skif\Model\InterfaceGetUrl;
 use Skif\Model\InterfaceLoad;
 use Skif\Model\InterfaceSave;
-use Skif\Util\ActiveRecord;
+use Skif\Model\ActiveRecord;
 
 class Poll implements
     InterfaceLoad,
@@ -20,7 +20,7 @@ class Poll implements
     InterfaceGetUrl,
     InterfaceGetTitle
 {
-    use ActiveRecord;
+    use Skif\Model\ActiveRecord;
     use FactoryTrait;
 
     const DB_TABLE_NAME = 'poll';

@@ -4,7 +4,7 @@ namespace Skif\Content;
 
 use Skif\Translit;
 use Skif\UrlManager;
-use Skif\Util\ActiveRecordHelper;
+use Skif\Model\ActiveRecordHelper;
 use Websk\Utils\Assert;
 
 class Rubric implements
@@ -14,7 +14,7 @@ class Rubric implements
     \Skif\Model\InterfaceDelete,
     \Skif\Model\InterfaceLogger
 {
-    use \Skif\Util\ActiveRecord;
+    use Skif\Model\ActiveRecord;
     use \Skif\Model\FactoryTrait;
 
     protected $id;

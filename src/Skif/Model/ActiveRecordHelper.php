@@ -1,12 +1,20 @@
 <?php
 
-namespace Skif\Util;
+namespace Skif\Model;
 
 use Websk\Skif\DBWrapper;
 use Websk\Utils\Assert;
 
+/**
+ * Class ActiveRecordHelper
+ * @package Skif\Model
+ */
 class ActiveRecordHelper
 {
+    /**
+     * @param $model_obj
+     * @return string
+     */
     public static function getIdFieldName($model_obj)
     {
         $obj_class_name = get_class($model_obj);

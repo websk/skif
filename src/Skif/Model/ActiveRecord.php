@@ -1,11 +1,7 @@
 <?php
 
-namespace Skif\Util;
+namespace Skif\Model;
 
-use Skif\Factory;
-use Skif\Model\InterfaceFactory;
-use Skif\Model\InterfaceLoad;
-use Skif\Model\InterfaceLogger;
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Skif\Logger\Logger;
 use Websk\Utils\Assert;
@@ -29,7 +25,7 @@ use Websk\Utils\Assert;
  * - был нормальный доступ к данным объекта (в т.ч. защищенным)
  * - идешка видела методы ActiveRecord
  * Class ActiveRecord
- * @package Skif\Util
+ * @package Skif\Model
  */
 trait ActiveRecord
 {
@@ -106,7 +102,7 @@ trait ActiveRecord
             ($this instanceof InterfaceLoad) &&
             ($this instanceof InterfaceFactory)
         ) {
-            $check_message = $this->BeforeDelete();
+            $check_message = $this->beforeDelete();
             if ($check_message !== true) {
                 return $check_message;
             }

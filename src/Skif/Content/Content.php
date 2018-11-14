@@ -39,8 +39,8 @@ use Skif\Model\InterfaceLogger;
 use Skif\Model\InterfaceSave;
 use Skif\Translit;
 use Skif\UrlManager;
-use Skif\Util\ActiveRecord;
-use Skif\Util\ActiveRecordHelper;
+use Skif\Model\ActiveRecord;
+use Skif\Model\ActiveRecordHelper;
 use Skif\Utils;
 use Websk\Utils\Assert;
 
@@ -56,7 +56,7 @@ class Content implements
     InterfaceLogger,
     InterfaceEntity
 {
-    use ActiveRecord;
+    use Skif\Model\ActiveRecord;
     use FactoryTrait;
 
     /** @var int */

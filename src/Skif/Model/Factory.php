@@ -1,10 +1,8 @@
 <?php
 
-namespace Skif;
+namespace Skif\Model;
 
 use WebSK\Skif\ConfWrapper;
-use Skif\Model\InterfaceCacheTtlSeconds;
-use Skif\Model\InterfaceLoad;
 use Websk\Skif\CacheWrapper;
 use Websk\Utils\Assert;
 
@@ -18,7 +16,8 @@ class Factory
      * @param $object_id
      * @return string
      */
-    protected static function getObjectCacheId($class_name, $object_id){
+    protected static function getObjectCacheId($class_name, $object_id)
+    {
         return $class_name . '::' . $object_id;
     }
 

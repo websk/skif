@@ -8,7 +8,7 @@ class SiteMenuItem implements
     \Skif\Model\InterfaceSave,
     \Skif\Model\InterfaceDelete
 {
-    use \Skif\Util\ActiveRecord;
+    use Skif\Model\ActiveRecord;
     use \Skif\Model\FactoryTrait;
 
     protected $id;
@@ -29,7 +29,7 @@ class SiteMenuItem implements
 
     public function load($id)
     {
-        $is_loaded = \Skif\Util\ActiveRecordHelper::loadModelObj($this, $id);
+        $is_loaded = \Skif\Model\ActiveRecordHelper::loadModelObj($this, $id);
         if (!$is_loaded) {
             return false;
         }

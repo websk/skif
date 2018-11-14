@@ -11,7 +11,7 @@ class Template implements
     \Skif\Model\InterfaceGetTitle,
     \Skif\Model\InterfaceLogger
 {
-    use \Skif\Util\ActiveRecord;
+    use Skif\Model\ActiveRecord;
     use \Skif\Model\FactoryTrait;
 
     const DB_TABLE_NAME = 'template';

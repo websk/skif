@@ -8,7 +8,7 @@ class FormField implements
     \Skif\Model\InterfaceSave,
     \Skif\Model\InterfaceDelete
 {
-    use \Skif\Util\ActiveRecord;
+    use Skif\Model\ActiveRecord;
     use \Skif\Model\FactoryTrait;
 
     const FIELD_TYPE_STRING = 1;

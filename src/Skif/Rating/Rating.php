@@ -7,7 +7,7 @@ use Skif\Model\InterfaceDelete;
 use Skif\Model\InterfaceFactory;
 use Skif\Model\InterfaceLoad;
 use Skif\Model\InterfaceSave;
-use Skif\Util\ActiveRecord;
+use Skif\Model\ActiveRecord;
 
 class Rating implements
     InterfaceLoad,
@@ -15,7 +15,7 @@ class Rating implements
     InterfaceSave,
     InterfaceDelete
 {
-    use ActiveRecord;
+    use Skif\Model\ActiveRecord;
     use FactoryTrait;
 
     const DB_TABLE_NAME = 'rating';

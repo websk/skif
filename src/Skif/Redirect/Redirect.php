@@ -2,14 +2,19 @@
 
 namespace Skif\Redirect;
 
+use Websk\Skif\CacheWrapper;
 
+/**
+ * Class Redirect
+ * @package Skif\Redirect
+ */
 class Redirect implements
     \Skif\Model\InterfaceLoad,
     \Skif\Model\InterfaceFactory,
     \Skif\Model\InterfaceSave,
     \Skif\Model\InterfaceDelete
 {
-    use \Skif\Util\ActiveRecord;
+    use \Skif\Model\ActiveRecord;
     use \Skif\Model\FactoryTrait;
 
     const DB_TABLE_NAME = 'redirect_rewrites';
@@ -144,8 +149,8 @@ class Redirect implements
         $redirect_id_obj = \Skif\Redirect\Redirect::factory($redirect_id);
 
         if ($redirect_id_obj->getKind() == self::REDIRECT_KIND_REGEXP) {
-            $cache_key = \Skif\Redirect\RedirectController::getCacheKeyRegexpRedirectArr();
-            \Websk\Skif\CacheWrapper::delete($cache_key);
+            $cache_key = RedirectController::getCacheKeyRegexpRedirectArr();
+            CacheWrapper::delete($cache_key);
         }
 
         self::removeObjFromCacheById($redirect_id);
@@ -154,11 +159,10 @@ class Redirect implements
     public function afterDelete()
     {
         if ($this->getKind() == self::REDIRECT_KIND_REGEXP) {
-            $cache_key = \Skif\Redirect\RedirectController::getCacheKeyRegexpRedirectArr();
-            \Websk\Skif\CacheWrapper::delete($cache_key);
+            $cache_key = RedirectController::getCacheKeyRegexpRedirectArr();
+            CacheWrapper::delete($cache_key);
         }
 
         self::removeObjFromCacheById($this->getId());
     }
-
 }

@@ -5,10 +5,12 @@
 
 namespace Skif\Model;
 
-use Skif\Factory;
-use Skif\Utils;
 use Websk\Utils\Assert;
 
+/**
+ * Trait FactoryTrait
+ * @package Skif\Model
+ */
 trait FactoryTrait
 {
     /**
@@ -72,7 +74,6 @@ trait FactoryTrait
      * Базовая обработка изменения.
      * Если на это событие есть подписчики - нужно переопределить обработчик в самом классе и там eventmanager::invoke, где уже подписать остальных подписчиков.
      * сделано статиками чтобы можно было вызывать для других объектов не создавая, только по id.
-
      * @param $id
      */
     public static function afterUpdate($id)
@@ -98,7 +99,7 @@ trait FactoryTrait
         self::removeObjFromCacheById($id);
     }
 
-    public function BeforeDelete()
+    public function beforeDelete()
     {
         return true;
     }
