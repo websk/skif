@@ -4,11 +4,11 @@
  */
 
 use Skif\Blocks\ControllerBlocks;
-use Skif\UrlManager;
 use WebSK\Skif\Logger\LoggerRender;
+use WebSK\Utils\Url;
 
 $block_obj = ControllerBlocks::getBlockObj($block_id);
-$current_url_no_query = UrlManager::getUriNoQueryString();
+$current_url_no_query = Url::getUriNoQueryString();
 
 $menu_arr = array(
     array('link' => $block_obj->getEditorUrl(), 'name' => 'Содержимое и видимость'),

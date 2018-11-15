@@ -6,13 +6,14 @@ namespace Skif\CRUD;
 use Skif\Model\Helper;
 use Skif\Utils;
 use Websk\Utils\Assert;
+use WebSK\Utils\Url;
 
 class CRUDUtils
 {
 
     public static function getCurrentObjectId()
     {
-        $current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
+        $current_url_no_query = Url::getUriNoQueryString();
         
         if (preg_match('@/edit/(.+)$@', $current_url_no_query, $matches_arr)) {
             return $matches_arr[1];

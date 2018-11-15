@@ -3,6 +3,8 @@
 namespace Skif\Blocks;
 
 
+use WebSK\Utils\Url;
+
 class PageRegionsUtils
 {
     /**
@@ -69,7 +71,7 @@ class PageRegionsUtils
         if ($page_url == '') {
             // Берем url без $_GET параметров, т.к. это влияет на видимость блоков.
             // Блоки на странице Vidy_sporta/Avtosport$ должны выводиться, например, и по адресу Vidy_sporta/Avtosport
-            $page_url = \Skif\UrlManager::getUriNoQueryString();
+            $page_url = Url::getUriNoQueryString();
         }
 
         $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionId($page_region_id, $template_id);

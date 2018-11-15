@@ -3,6 +3,8 @@
 namespace Skif\SiteMenu;
 
 
+use WebSK\Utils\Url;
+
 class SiteMenuUtils
 {
     public static function getSiteMenuIdsArr()
@@ -20,7 +22,7 @@ class SiteMenuUtils
 
     public static function getCurrentSiteMenuItemId()
     {
-        $url = \Skif\UrlManager::getUriNoQueryString();
+        $url = Url::getUriNoQueryString();
 
         return self::getSiteMenuItemIdByUrl($url);
     }

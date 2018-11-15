@@ -3,8 +3,8 @@
 namespace Skif\Form;
 
 use WebSK\Utils\Transliteration;
-use Skif\UrlManager;
 use Websk\Utils\Assert;
+use WebSK\Utils\Url;
 
 class Form implements
     \Skif\Model\InterfaceLoad,
@@ -227,7 +227,7 @@ class Form implements
 
         $new_url = substr($new_url, 0, 255);
 
-        $unique_new_url = UrlManager::getUniqueUrl($new_url);
+        $unique_new_url = Url::getUniqueUrl($new_url);
         Assert::assert($unique_new_url);
 
         return $unique_new_url;
@@ -247,7 +247,7 @@ class Form implements
             $url = '/' . ltrim($this->url, '/');
 
             if ($url != $this->getUrl()) {
-                UrlManager::getUniqueUrl($url);
+                Url::getUniqueUrl($url);
             }
         } else {
             $url = $this->generateUrl();

@@ -6,10 +6,10 @@ use Skif\BaseController;
 use WebSK\Skif\ConfWrapper;
 use Websk\Skif\Messages;
 use Skif\PhpTemplate;
-use Skif\UrlManager;
 use Websk\Utils\Assert;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
+use WebSK\Utils\Url;
 
 /**
  * CRUD проверяет, реализует ли модель функционал моделей.
@@ -50,7 +50,7 @@ class CRUDController extends BaseController
             return static::$model_class_name;
         }
 
-        $current_url_no_query = UrlManager::getUriNoQueryString();
+        $current_url_no_query = Url::getUriNoQueryString();
 
         if (preg_match('@^/crud/([\d\w\%]+)/(.+)@i', $current_url_no_query, $matches_arr)) {
             return urldecode($matches_arr[1]);

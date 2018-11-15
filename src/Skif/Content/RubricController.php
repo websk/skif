@@ -5,6 +5,7 @@ namespace Skif\Content;
 
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
+use WebSK\Utils\Url;
 
 class RubricController extends \Skif\BaseController
 {
@@ -151,7 +152,7 @@ class RubricController extends \Skif\BaseController
             $url = '/' . ltrim($url, '/');
 
             if ($url != $rubric_obj->getUrl()) {
-                \Skif\UrlManager::getUniqueUrl($url);
+                Url::getUniqueUrl($url);
             }
         } else {
             $url = $rubric_obj->generateUrl();

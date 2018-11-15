@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Util;
+namespace WebSK\Utils;
 
 /**
  * Class Filter
@@ -8,13 +8,26 @@ namespace Skif\Util;
  */
 class Filter
 {
+    /** @var bool */
     public $is_positive;
+
+    /** @var bool */
     public $is_negative;
+
+    /** @var string */
     public $mask;
+
+    /** @var string */
     public $sign;
+
+    /** @var string */
     public $target_url;
 
-    public function __construct($filter_str)
+    /**
+     * Filter constructor.
+     * @param string $filter_str
+     */
+    public function __construct(string $filter_str)
     {
         $this->is_positive = false;
         $this->is_negative = false;
@@ -48,9 +61,13 @@ class Filter
         }
     }
 
-    public function matchesPage($real_url = '')
+    /**
+     * @param string $real_url
+     * @return bool
+     */
+    public function matchesPage(string $real_url = '')
     {
-        $page_url = \Skif\UrlManager::getUriNoQueryString();
+        $page_url = Url::getUriNoQueryString();
 
         if ($real_url != '') {
             $page_url = $real_url;

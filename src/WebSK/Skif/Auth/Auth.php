@@ -7,10 +7,10 @@ use Websk\Skif\Container;
 use Websk\Skif\DBWrapper;
 use WebSK\Skif\Image\ImageManager;
 use Websk\Skif\Messages;
-use Skif\UrlManager;
 use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UserRole;
 use WebSK\Skif\Users\UsersServiceProvider;
+use WebSK\Utils\Url;
 
 /**
  * Class AuthUtils
@@ -253,7 +253,7 @@ class Auth
 
         $filtered_destination = filter_var($destination, FILTER_VALIDATE_URL);
         if ($filtered_destination) {
-            $params['hauth_return_to'] = UrlManager::getUriNoQueryString() . '?destination='
+            $params['hauth_return_to'] = Url::getUriNoQueryString() . '?destination='
                 . $filtered_destination . '&Provider=' . $provider_name;
             //$params['hauth_return_to'] = $filtered_destination;
         }

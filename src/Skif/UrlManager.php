@@ -2,9 +2,8 @@
 
 namespace Skif;
 
-use WebSK\Skif\ConfWrapper;
-use Websk\Skif\DBWrapper;
 use WebSK\Utils\Redirects;
+use WebSK\Utils\Url;
 
 /**
  * Class UrlManager
@@ -13,7 +12,6 @@ use WebSK\Utils\Redirects;
  */
 class UrlManager
 {
-
     const CONTINUE_ROUTING = 'CONTINUE_ROUTING';
 
     /**
@@ -27,18 +25,6 @@ class UrlManager
      * текущий адрес запроса
      */
     public static $current_url = '';
-
-    /**
-     * @return string
-     */
-    public static function getUriNoQueryString()
-    {
-        $parts = array_key_exists('REQUEST_URI', $_SERVER) ? explode('?', $_SERVER['REQUEST_URI']) : '';
-        $parts_second = explode('&', $parts[0]);
-        $uri = $parts_second[0];
-
-        return $uri;
-    }
 
     /**
      * @param string $url_regexp
@@ -55,7 +41,7 @@ class UrlManager
         string $layout_file = null
     ) {
         $matches_arr = array();
-        self::$current_url = self::getUriNoQueryString();
+        self::$current_url = Url::getUriNoQueryString();
 
         if (!preg_match($url_regexp, self::$current_url, $matches_arr)) {
             return;
@@ -97,7 +83,7 @@ class UrlManager
      * @param string $url_mask
      * @param string $target_url
      */
-    function routeRedirect(string $url_mask, string $target_url)
+    protected function routeRedirect(string $url_mask, string $target_url)
     {
         $current_url = $_SERVER['REQUEST_URI'];
         if (preg_match($url_mask, $current_url)) {
@@ -114,53 +100,12 @@ class UrlManager
     }
 
     /**
-     * @param string $url Url to check uniqueness
-     * @return bool|string Unique url or false if there is some error
-     */
-    public static function getUniqueUrl(string $url)
-    {
-        $url_data_tables_arr = array('content', 'rubrics', 'form');
-
-        $config_url_data_tables_arr = ConfWrapper::value('url_data_tables_arr');
-        if ($config_url_data_tables_arr) {
-            $url_data_tables_arr = array_merge($url_data_tables_arr, $config_url_data_tables_arr);
-            $url_data_tables_arr = array_unique($url_data_tables_arr);
-        }
-
-        $unique_id = '';
-
-        $new_url = $url;
-
-        for ($i = 0; $i < 20; $i++) {
-            $new_url .= $unique_id;
-            $not_found_counter = 0;
-            foreach ($url_data_tables_arr as $data_table) {
-                $query = 'SELECT url FROM ' . $data_table . ' WHERE url = ?';
-                $found_urls = DBWrapper::readField($query, array($new_url));
-                if ($found_urls) {
-                    $unique_id = '-' . substr(uniqid(), 6);
-                    break; // we found duplicate go to unique id generation
-                }
-
-                $not_found_counter++;
-            }
-
-            if ($not_found_counter == count($url_data_tables_arr)) {//url not found in database
-                return $new_url;
-            }
-
-        }
-
-        return false;
-    }
-
-    /**
      * @param string $base_url
      * @param string $controller_class_name
      */
     public static function routeBasedCrud(string $base_url, string $controller_class_name)
     {
-        $current_url_no_query = UrlManager::getUriNoQueryString();
+        $current_url_no_query = Url::getUriNoQueryString();
 
         if (!preg_match('@^' . $base_url . '?(.+)@i', $current_url_no_query, $matches_arr)) {
             return;

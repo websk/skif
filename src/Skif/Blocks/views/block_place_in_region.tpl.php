@@ -4,6 +4,8 @@
  * @var $target_region
  */
 
+use WebSK\Utils\Url;
+
 $block_obj = \Skif\Blocks\ControllerBlocks::getBlockObj($block_id);
 
 echo \Skif\PhpTemplate::renderTemplateBySkifModule(
@@ -28,7 +30,7 @@ $page_region_obj = \Skif\Blocks\PageRegion::factory($target_region);
             <tr>
                 <td>---</td>
                 <td>---</td>
-                <td><a href="<?php echo \Skif\UrlManager::getUriNoQueryString() . '?_action=move_block&target_region=' . $target_region . '&target_weight=FIRST'; ?>">начало региона</a></td>
+                <td><a href="<?php echo Url::getUriNoQueryString() . '?_action=move_block&target_region=' . $target_region . '&target_weight=FIRST'; ?>">начало региона</a></td>
             </tr>
             <?php
             $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionId($target_region, $block_obj->getTemplateId());
@@ -41,7 +43,7 @@ $page_region_obj = \Skif\Blocks\PageRegion::factory($target_region);
                     $tr_class = ' class="active" ';
                 }
 
-                $move_block_url = \Skif\UrlManager::getUriNoQueryString() .
+                $move_block_url = Url::getUriNoQueryString() .
                     '?_action=move_block&target_region=' . $target_region . '&target_weight=' . $other_block_obj->getWeight();
 
                 echo '<tr ' . $tr_class . '>';

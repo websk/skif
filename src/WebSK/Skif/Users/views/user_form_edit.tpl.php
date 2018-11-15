@@ -6,14 +6,14 @@
  */
 
 use WebSK\Skif\Image\ImageManager;
-use Skif\UrlManager;
 use WebSK\Skif\Router;
 use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersUtils;
+use WebSK\Utils\Url;
 
-$destination = UrlManager::getUriNoQueryString();
+$destination = Url::getUriNoQueryString();
 
 ?>
 <form id="profile_form" action="<?php echo $save_handler_url; ?>" autocomplete="off" method="post"

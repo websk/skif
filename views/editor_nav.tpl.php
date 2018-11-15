@@ -2,11 +2,14 @@
 /**
  * @var $editor_nav_arr
  */
+
+use WebSK\Utils\Url;
+
 if (!isset($editor_nav_arr)) {
     return;
 }
 
-$current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
+$current_url_no_query = Url::getUriNoQueryString();
 ?>
 <nav class="navbar navbar-default">
     <div class="container-fluid">

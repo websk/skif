@@ -3,7 +3,9 @@
  * @var $parent_item_id
  */
 
-$current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
+use WebSK\Utils\Url;
+
+$current_url_no_query = Url::getUriNoQueryString();
 $current_site_menu_item_id = \Skif\SiteMenu\SiteMenuUtils::getCurrentSiteMenuItemId();
 
 $parent_item_obj = \Skif\SiteMenu\SiteMenuItem::factory($parent_item_id);

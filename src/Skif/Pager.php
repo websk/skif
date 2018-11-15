@@ -2,6 +2,8 @@
 
 namespace Skif;
 
+use WebSK\Utils\Url;
+
 /**
  * Class Pager
  * @package Skif
@@ -161,7 +163,7 @@ class Pager
     public static function renderJScrollPager($custom_url = '', $custom_offset = null)
     {
 
-        $url = \Skif\UrlManager::getUriNoQueryString();
+        $url = Url::getUriNoQueryString();
         if ($custom_url) {
             $url = $custom_url;
         }

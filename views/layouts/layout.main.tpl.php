@@ -7,6 +7,7 @@
  */
 
 use WebSK\Utils\Http;
+use WebSK\Utils\Url;
 
 Http::cacheHeaders();
 ?>
@@ -77,7 +78,7 @@ Http::cacheHeaders();
 
                 echo \Skif\PhpTemplate::renderTemplate('views/breadcrumbs.tpl.php', array('breadcrumbs_arr' => $breadcrumbs_arr));
 
-                $current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
+                $current_url_no_query = Url::getUriNoQueryString();
                 if ($current_url_no_query != '/') {
 
                     ?>

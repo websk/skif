@@ -8,6 +8,8 @@
 // чтобы создать форму быстрого добавления в классе должны быть следующие поля:
 // public static $crud_fast_create_field_name = 'answer_text', где answer_text - имя выводимого поля
 
+use WebSK\Utils\Url;
+
 if (!property_exists($model_class_name, 'crud_fast_create_field_name')) {
     return;
 }
@@ -29,7 +31,7 @@ $create_url = $current_controller_obj::getCreateUrl($model_class_name);
             echo '<input type="hidden" name="' . $context_arr_key . '" value="' . $context_arr_value . '">';
         }
         ?>
-        <input type="hidden" name="destination" value="<?php echo \Skif\UrlManager::getUriNoQueryString(); ?>">
+        <input type="hidden" name="destination" value="<?php echo Url::getUriNoQueryString(); ?>">
     </div>
     <div class="form-group">
         <?php

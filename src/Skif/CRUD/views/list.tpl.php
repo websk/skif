@@ -9,6 +9,7 @@
  */
 
 use Websk\Utils\Assert;
+use WebSK\Utils\Url;
 
 Assert::assert($model_class_name);
 
@@ -104,7 +105,7 @@ if (isset($list_title)) {
                             if (isset($model_class_name::$crud_allow_search)) {
                                 if ($model_class_name::$crud_allow_search == true) {
                                     ?>
-                                    <form action="<?php echo \Skif\UrlManager::getUriNoQueryString(); ?>">
+                                    <form action="<?php echo Url::getUriNoQueryString(); ?>">
                                         <input name="filter" value="<?php echo $filter; ?>">
                                         <input type="submit" value="искать">
                                     </form>

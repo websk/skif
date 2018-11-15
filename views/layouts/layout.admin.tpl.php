@@ -17,6 +17,7 @@ use WebSK\Skif\PhpRender;
 use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\UsersUtils;
 use WebSK\UI\BreadcrumbItemDTO;
+use WebSK\Utils\Url;
 
 $user_id = Auth::getCurrentUserId();
 
@@ -142,7 +143,7 @@ if (isset($layout_dto)) {
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <?php
-                    $current_url_no_query = UrlManager::getUriNoQueryString();
+                    $current_url_no_query = Url::getUriNoQueryString();
 
                     $admin_menu_contents_arr = [];
 

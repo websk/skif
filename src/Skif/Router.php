@@ -4,6 +4,7 @@ namespace Skif;
 
 use Skif\Sitemap\InterfaceSitemapController;
 use Skif\Sitemap\InterfaceSitemapBuilder;
+use WebSK\Utils\Url;
 
 /**
  * Class Router
@@ -74,7 +75,7 @@ class Router
         }
 
         $matches_arr = array();
-        $current_url = self::$current_url_by_cli !== null ? self::$current_url_by_cli : UrlManager::getUriNoQueryString();
+        $current_url = self::$current_url_by_cli !== null ? self::$current_url_by_cli : Url::getUriNoQueryString();
 
         if (!preg_match($url_regexp, $current_url, $matches_arr)) {
             return;
@@ -122,7 +123,7 @@ class Router
             return true;
         }
 
-        $current_url = self::$current_url_by_cli !== null ? self::$current_url_by_cli : UrlManager::getUriNoQueryString();
+        $current_url = self::$current_url_by_cli !== null ? self::$current_url_by_cli : Url::getUriNoQueryString();
 
         if (!preg_match($url_regexp, $current_url)) {
             return false;

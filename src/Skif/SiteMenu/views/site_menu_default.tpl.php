@@ -3,9 +3,11 @@
  * @var $site_menu_id
  */
 
+use WebSK\Utils\Url;
+
 $site_menu_item_ids_arr = \Skif\SiteMenu\SiteMenuUtils::getSiteMenuItemIdsArr($site_menu_id);
 
-$current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
+$current_url_no_query = Url::getUriNoQueryString();
 ?>
 <ul class="nav nav-stacked nav-pills nav-promote">
     <?php

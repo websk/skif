@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Util;
+namespace WebSK\Utils;
 
 /**
  * Class DateTime
@@ -8,7 +8,6 @@ namespace Skif\Util;
  */
 class DateTime
 {
-
     const DAY_FULL = 1;
     const DAY_SHORT = 2;
     const DAY_NO = 3;
@@ -29,7 +28,14 @@ class DateTime
     const TIME_DISPLAY_SHOW = 1;
     const TIME_DISPLAY_HIDE = 2;
 
-    public static function Format($date, $month_format, $year_format, $separator = ' ')
+    /**
+     * @param string $date
+     * @param int $month_format
+     * @param int $year_format
+     * @param string $separator
+     * @return int|string
+     */
+    public static function format(string $date, int $month_format, int $year_format, string $separator = ' ')
     {
         $months_formats =
             array(
@@ -65,9 +71,8 @@ class DateTime
             );
 
         $matches = array();
-        if (preg_match('#(?P<year>\d{4})(?P<month>\d{2})(?P<day>\d{2})#', $date, $matches)) {
 
-        }
+        preg_match('#(?P<year>\d{4})(?P<month>\d{2})(?P<day>\d{2})#', $date, $matches);
 
         if ($matches) {
             $ret = (int)$matches['day'];
@@ -93,7 +98,7 @@ class DateTime
      * Форматирует дату и время. Принимает unix time. По-умолчанию отдает дату в формате "20 апр".
      * Можно указать флаги форматирования дня (day_format), месяца (month_format) и года (year_format), разделитель (separator).
      * По-умолчанию год не выводится, force_year разрешает вывод года
-     * @param string $unix_time
+     * @param string $unix_ts
      * @param int $day_format
      * @param int $month_format
      * @param int $year_display
@@ -102,14 +107,14 @@ class DateTime
      * @param int $time_display
      * @return bool|string
      */
-    public static function FormatFromUnixTime(
-        $unix_time = '',
-        $day_format = self::DAY_FULL,
-        $month_format = self::MONTH_SHORT,
-        $year_display = self::YEAR_DISPLAY_AUTO,
-        $year_format = self::YEAR_FULL,
-        $separator = ' ',
-        $time_display = self::TIME_DISPLAY_HIDE
+    public static function formatFromUnixTs(
+        $unix_ts = '',
+        int $day_format = self::DAY_FULL,
+        int $month_format = self::MONTH_SHORT,
+        int $year_display = self::YEAR_DISPLAY_AUTO,
+        int $year_format = self::YEAR_FULL,
+        string $separator = ' ',
+        int $time_display = self::TIME_DISPLAY_HIDE
     ) {
         $months_formats =
             array(
@@ -158,47 +163,52 @@ class DateTime
                 ),
             );
 
-        if (!$unix_time) {
-            $unix_time = time();
+        if (!$unix_ts) {
+            $unix_ts = time();
         }
 
-        $ret = '';
+        $formated_time_str = '';
 
         if ($day_format == self::DAY_FULL) {
-            $ret = date('d', $unix_time);
+            $formated_time_str = date('d', $unix_ts);
         }
 
         if ($day_format == self::DAY_SHORT) {
-            $ret = date('j', $unix_time);
+            $formated_time_str = date('j', $unix_ts);
         }
 
         if ($day_format == self::DAY_NO && $month_format != self::MONTH_SHORT) {
             $month_format = self::MONTH_NODAY;
         }
 
-        $ret .= $separator . $months_formats[$month_format][(int)date('m', $unix_time) - 1];
+        $formated_time_str .= $separator . $months_formats[$month_format][(int)date('m', $unix_ts) - 1];
 
         if (($year_display == self::YEAR_DISPLAY_SHOW)
-            || ((date('Y', $unix_time) != date('Y')) && $year_display == self::YEAR_DISPLAY_AUTO)
+            || ((date('Y', $unix_ts) != date('Y')) && $year_display == self::YEAR_DISPLAY_AUTO)
         ) {
             switch ($year_format) {
                 case self::YEAR_FULL:
-                    $ret .= $separator . date('Y', $unix_time);
+                    $formated_time_str .= $separator . date('Y', $unix_ts);
                     break;
                 case self::YEAR_SHORT:
-                    $ret .= $separator . date('y', $unix_time);
+                    $formated_time_str .= $separator . date('y', $unix_ts);
                     break;
             }
         }
 
         if ($time_display == self::TIME_DISPLAY_SHOW) {
-            $ret .= ' ' . date('H', $unix_time) . ':' . date('i', $unix_time);
+            $formated_time_str .= ' ' . date('H', $unix_ts) . ':' . date('i', $unix_ts);
         }
 
-        return $ret;
+        return $formated_time_str;
     }
 
-    public static function getDeltaMinutesFromTwoUnixTimes($time_first, $time_second)
+    /**
+     * @param int $time_first
+     * @param int $time_second
+     * @return int
+     */
+    public static function getDeltaMinutesFromTwoUnixTimes(int $time_first, int $time_second)
     {
         $delta = $time_second - $time_first;
         $min = intval(($delta) / 60);
@@ -206,7 +216,11 @@ class DateTime
         return $min;
     }
 
-    public static function getDateTimeStr($timestamp)
+    /**
+     * @param int $unix_ts
+     * @return string
+     */
+    public static function getDateTimeStr(int $unix_ts)
     {
         $output = "";
 
@@ -226,7 +240,7 @@ class DateTime
             'декабря'
         );
 
-        $dv = getdate($timestamp);
+        $dv = getdate($unix_ts);
         $dvt = getdate(); // today
 
         $is_today = false;

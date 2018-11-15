@@ -11,11 +11,11 @@ use Skif\Model\InterfaceLoad;
 use Skif\Model\InterfaceLogger;
 use Skif\Model\InterfaceSave;
 use WebSK\Utils\Transliteration;
-use Skif\UrlManager;
 use Skif\Model\ActiveRecord;
 use Skif\Model\ActiveRecordHelper;
 use Skif\Utils;
 use Websk\Utils\Assert;
+use WebSK\Utils\Url;
 
 /**
  * Class Content
@@ -363,7 +363,7 @@ class Content implements
 
         $new_url = substr($new_url, 0, 255);
 
-        $unique_new_url = UrlManager::getUniqueUrl($new_url);
+        $unique_new_url = Url::getUniqueUrl($new_url);
         Assert::assert($unique_new_url);
 
         return $unique_new_url;

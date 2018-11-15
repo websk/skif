@@ -2,6 +2,8 @@
 
 namespace Skif\EditorTabs;
 
+use WebSK\Utils\Url;
+
 class Render
 {
 
@@ -23,7 +25,7 @@ class Render
                 $tab_pathname = $tab_obj->getUrl();
 
                 $li_class = '';
-                if ($tab_pathname == \Skif\UrlManager::getUriNoQueryString()) {
+                if ($tab_pathname == Url::getUriNoQueryString()) {
                     $li_class .= ' active ';
                 }
 
