@@ -8,8 +8,12 @@ namespace Skif;
  */
 class Utils
 {
-    protected static $countries_arr;
-
+    /**
+     * @param $current_page
+     * @param $count_records
+     * @param int $messages_to_page
+     * @return string
+     */
     public static function renderPagination($current_page, $count_records, $messages_to_page = 10)
     {
         $url = $_SERVER['REQUEST_URI'];
@@ -58,10 +62,10 @@ class Utils
 
     /**
      * Проверка Email
-     * @param $email
+     * @param string $email
      * @return bool
      */
-    public static function checkEmail($email)
+    public static function checkEmail(string $email)
     {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return true;
@@ -71,77 +75,19 @@ class Utils
     }
 
     /**
-     * Returns array of slash separated url parts.
-     * @return array Array of url parts.
-     */
-    static public function url_args()
-    {
-        $uri_no_getform = UrlManager::getUriNoQueryString();
-
-        // remove "/" at the beginning to avoid empty first arg and protect from uri without leading "/"
-
-        if (substr($uri_no_getform, 0, 1) == '/')
-            $uri_no_getform = substr($uri_no_getform, 1);
-
-        $args = explode('/', $uri_no_getform);
-        return $args;
-    }
-
-    /**
-     * Returns requested url part.
-     * @param int $index Index of requested url part.
-     * @param string $default Default value - returned when requested url part missed.
-     * @return string Requested url part or default value.
-     */
-    static public function url_arg($index, $default = '')
-    {
-        $args = self::url_args();
-
-        if (isset($args[$index]))
-            return $args[$index];
-
-        return $default;
-    }
-
-    /**
-     * @param $text
+     * @param string $text
      * @return string
      */
-    static public function checkPlain($text)
+    public static function checkPlain(string $text)
     {
         return htmlspecialchars($text, ENT_QUOTES, 'UTF-8', false);
     }
 
     /**
-     * Проверка на русские символы в строке
-     * @param $text
-     * @return int
+     * @param array $files_arr
+     * @return array
      */
-    public static function checkRussian($text)
-    {
-        $text = str_replace("\n", "", $text);
-        $text = str_replace("\r", "", $text);
-        $text = str_replace(",", "", $text);
-        $text = str_replace(".", "", $text);
-        $text = str_replace("!", "", $text);
-        $text = str_replace("?", "", $text);
-        $text = str_replace(";", "", $text);
-        $text = str_replace(":", "", $text);
-        $text = str_replace(")", "", $text);
-        $text = str_replace("(", "", $text);
-        $text = str_replace("-", "", $text);
-        $text = str_replace(" ", "", $text);
-
-        $patern = "|^[-а-я]+$|i";
-
-        if (preg_match($patern, $text)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public static function rebuildFilesArray($files_arr)
+    public static function rebuildFilesArray(array $files_arr)
     {
         $output_files_arr = array();
         foreach ($files_arr as $key1 => $value1) {
@@ -153,7 +99,11 @@ class Utils
         return $output_files_arr;
     }
 
-    public static function appendLeadingSlash($url)
+    /**
+     * @param string $url
+     * @return string
+     */
+    public static function appendLeadingSlash(string $url)
     {
         // append leading slash
         if (substr($url, 0, 5) != 'http:') {
@@ -165,7 +115,11 @@ class Utils
         return $url;
     }
 
-    public static function appendHttp($url)
+    /**
+     * @param string $url
+     * @return string
+     */
+    public static function appendHttp(string $url)
     {
         $parsed = parse_url($url);
         if (empty($parsed['scheme'])) {
@@ -180,9 +134,11 @@ class Utils
      * param  $number Integer Число на основе которого нужно сформировать окончание
      * param  $endingsArray  Array Массив слов или окончаний для чисел (1, 4, 5),
      *         например array('яблоко', 'яблока', 'яблок')
-     * return string
+     * @param int $number
+     * @param array $ending_array
+     * @return string
      */
-    public static function getDeclensionOfNumerals($number, $ending_array)
+    public static function getDeclensionOfNumerals(int $number, array $ending_array)
     {
         $number = $number % 100;
         if ($number >= 11 && $number <= 19) {

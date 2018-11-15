@@ -2,7 +2,7 @@
 
 namespace Skif\Form;
 
-use Skif\Translit;
+use WebSK\Utils\Transliteration;
 use Skif\UrlManager;
 use Websk\Utils\Assert;
 
@@ -220,7 +220,7 @@ class Form implements
             return '';
         }
 
-        $title_for_url = Translit::translit($this->getTitle());
+        $title_for_url = Transliteration::transliteration($this->getTitle());
 
         $new_url = $title_for_url;
         $new_url = '/' . ltrim($new_url, '/');

@@ -3,6 +3,9 @@
 namespace Skif\Content;
 
 
+use WebSK\Utils\Exits;
+use WebSK\Utils\Redirects;
+
 class RubricController extends \Skif\BaseController
 {
     protected $url_table = "rubrics";
@@ -64,7 +67,7 @@ class RubricController extends \Skif\BaseController
 
     public function listAdminRubricsAction($content_type)
     {
-        \Skif\Http::exit403if(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
+        Exits::exit403if(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
 
 
         $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
@@ -93,7 +96,7 @@ class RubricController extends \Skif\BaseController
 
     public function editRubricAction($content_type, $rubric_id)
     {
-        \Skif\Http::exit403if(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
+        Exits::exit403if(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
 
 
         $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
@@ -123,7 +126,7 @@ class RubricController extends \Skif\BaseController
 
     public function saveRubricAction($content_type, $rubric_id)
     {
-        \Skif\Http::exit403if(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
+        Exits::exit403if(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
 
 
         $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
@@ -161,12 +164,12 @@ class RubricController extends \Skif\BaseController
 
         \Websk\Skif\Messages::setMessage('Изменения сохранены');
 
-        \Skif\Http::redirect($rubric_obj->getEditorUrl());
+        Redirects::redirect($rubric_obj->getEditorUrl());
     }
 
     public function deleteRubricAction($content_type, $rubric_id)
     {
-        \Skif\Http::exit403if(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
+        Exits::exit403if(!\WebSK\Skif\Auth\Auth::currentUserIsAdmin());
 
 
         $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
@@ -179,7 +182,7 @@ class RubricController extends \Skif\BaseController
             \Websk\Skif\Messages::setError($message);
         }
 
-        \Skif\Http::redirect(\Skif\Content\RubricController::getRubricsListUrlByContentType($content_type));
+        Redirects::redirect(\Skif\Content\RubricController::getRubricsListUrlByContentType($content_type));
     }
 
 }

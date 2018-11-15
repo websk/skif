@@ -5,7 +5,6 @@ namespace Skif\Content;
 use Skif\BaseController;
 use WebSK\Skif\ConfWrapper;
 use Websk\Skif\DBWrapper;
-use Skif\Http;
 use WebSK\Skif\Image\ImageConstants;
 use WebSK\Skif\Image\ImageController;
 use WebSK\Skif\Image\ImageManager;
@@ -16,6 +15,8 @@ use Skif\UrlManager;
 use WebSK\Skif\Auth\Auth;
 use Skif\Utils;
 use Websk\Utils\Assert;
+use WebSK\Utils\Exits;
+use WebSK\Utils\Redirects;
 
 class ContentController extends BaseController implements InterfaceSitemapController
 {
@@ -63,16 +64,16 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $content_obj = Content::factory($content_id);
         if (!$content_obj) {
-            Http::exit404();
+            Exits::exit404();
         }
 
         if (!$content_obj->isPublished()) {
-            Http::exit404If(!Auth::currentUserIsAdmin());
+            Exits::exit404If(!Auth::currentUserIsAdmin());
         }
 
         $content_type_id = $content_obj->getContentTypeId();
 
-        Http::exit404If(!$content_type_id);
+        Exits::exit404If(!$content_type_id);
 
         $content_type_obj = ContentType::factory($content_type_id);
         $content_type = $content_type_obj->getType();
@@ -182,7 +183,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
     public function editAdminAction($content_type, $content_id)
     {
         // Проверка прав доступа
-        Http::exit403If(!Auth::currentUserIsAdmin());
+        Exits::exit403If(!Auth::currentUserIsAdmin());
 
         $html = PhpTemplate::renderTemplateBySkifModule(
             'Content',
@@ -207,7 +208,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
     public function listAdminAction($content_type)
     {
         // Проверка прав доступа
-        Http::exit403If(!Auth::currentUserIsAdmin());
+        Exits::exit403If(!Auth::currentUserIsAdmin());
 
         $html = PhpTemplate::renderTemplateBySkifModule(
             'Content',
@@ -230,7 +231,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
     public function saveAdminAction($content_type, $content_id)
     {
         // Проверка прав доступа
-        Http::exit403If(!Auth::currentUserIsAdmin());
+        Exits::exit403If(!Auth::currentUserIsAdmin());
 
         if ($content_id == 'new') {
             $content_obj = new Content();
@@ -244,7 +245,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         if (!$title){
             Messages::setError('Отсутствует заголовок');
-            Http::redirect('/admin/content/' . $content_type . '/edit/' . $content_id);
+            Redirects::redirect('/admin/content/' . $content_type . '/edit/' . $content_id);
         }
 
         $annotation = array_key_exists('annotation', $_REQUEST) ? $_REQUEST['annotation'] : '';
@@ -343,7 +344,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
                 $content_obj->save();
 
                 Messages::setError('Не указана главная рубрика');
-                Http::redirect('/admin/content/' . $content_type . '/edit/' . $content_obj->getId());
+                Redirects::redirect('/admin/content/' . $content_type . '/edit/' . $content_obj->getId());
             }
         }
 
@@ -363,7 +364,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         Messages::setMessage('Изменения сохранены');
 
-        Http::redirect('/admin/content/' . $content_type_obj->getType() . '/edit/' . $content_obj->getId());
+        Redirects::redirect('/admin/content/' . $content_type_obj->getType() . '/edit/' . $content_obj->getId());
     }
 
     /**
@@ -374,7 +375,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
     public function deleteImageAction($content_type, $content_id)
     {
         // Проверка прав доступа
-        Http::exit403If(!Auth::currentUserIsAdmin());
+        Exits::exit403If(!Auth::currentUserIsAdmin());
 
         self::deleteImageByContentId($content_id);
 
@@ -403,7 +404,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
     public function deleteAction($content_type, $content_id)
     {
         // Проверка прав доступа
-        Http::exit403If(!Auth::currentUserIsAdmin());
+        Exits::exit403If(!Auth::currentUserIsAdmin());
 
         $content_obj = Content::factory($content_id);
 
@@ -413,7 +414,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $content_type_obj = ContentType::factory($content_obj->getContentTypeId());
 
-        Http::redirect('/admin/content/' . $content_type_obj->getType());
+        Redirects::redirect('/admin/content/' . $content_type_obj->getType());
     }
 
     /**

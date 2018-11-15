@@ -6,6 +6,7 @@
     "ext-gd": "*",
     "ext-mbstring": "*",
     "ext-pdo": "*",
+    "ext-xmlwriter": "*",
     "slim/slim": "^3.0",
     "slim/php-view": "^2.2",
     "websk/php-cache": "1.1",

@@ -2,7 +2,7 @@
 
 namespace Skif\Blocks;
 
-use Skif\Network;
+use WebSK\Utils\Network;
 use Skif\Util\Filter;
 use Websk\Skif\Container;
 use Websk\Skif\CacheWrapper;

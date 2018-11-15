@@ -1,14 +1,29 @@
 <?php
 
-namespace Skif;
+namespace WebSK\Skif\Image;
 
+use WebSK\Skif\ConfWrapper;
 
-class Image
+/**
+ * Class Image
+ * @package Skif
+ */
+class ImageUtils
 {
 
+    /**
+     * @param $destination_file_path
+     * @param $resize_value
+     * @param $prefix
+     * @param $index
+     * @param $quality
+     * @param bool $to_width
+     * @return array
+     * @throws \Exception
+     */
     public static function uploadAndResizeImage($destination_file_path, $resize_value, $prefix, $index, $quality, $to_width = true)
     {
-        $tmp_dir = \WebSK\Skif\ConfWrapper::value('tmp_path');
+        $tmp_dir = ConfWrapper::value('tmp_path');
 
         if (!is_dir($tmp_dir)) {
             $tmp_dir = '';
@@ -146,6 +161,4 @@ class Image
 
         return true;
     }
-
-
-} 
+}

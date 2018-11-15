@@ -2,7 +2,7 @@
 
 namespace Skif\Content;
 
-use Skif\Translit;
+use WebSK\Utils\Transliteration;
 use Skif\UrlManager;
 use Skif\Model\ActiveRecordHelper;
 use Websk\Utils\Assert;
@@ -185,7 +185,7 @@ class Rubric implements
             return '';
         }
 
-        $title_for_url = Translit::translit($this->getName());
+        $title_for_url = Transliteration::transliteration($this->getName());
 
         $new_url = $title_for_url;
         $new_url = '/' . ltrim($new_url, '/');

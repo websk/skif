@@ -5,10 +5,11 @@ namespace WebSK\Skif\Image;
 use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
 use Imagine\Image\Point;
+use WebSK\Utils\Exits;
 
 /**
  * Class ImagePresets
- * @package WebSK\Skif\Image
+ * @package WebSK\WebSK\Skif\Image\Image
  */
 class ImagePresets
 {
@@ -126,7 +127,7 @@ class ImagePresets
                 break;
 
             default:
-                \Skif\Http::exit404();
+                Exits::exit404();
                 error_log('Preset "' . $presetName . '" is not set');
                 break;
         }

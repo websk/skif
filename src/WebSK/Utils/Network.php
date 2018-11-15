@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif;
+namespace WebSK\Utils;
 
 /**
  * Class Network
@@ -113,10 +113,10 @@ class Network
     /**
      * Проверка IP на вхождение в диапазон по маске сети
      * @param $ip
-     * @param $subnet_mask_arr
+     * @param array $subnet_mask_arr
      * @return bool
      */
-    public static function checkIpBySubnetMask(string $ip, $subnet_mask_arr)
+    public static function checkIpBySubnetMask(string $ip, array $subnet_mask_arr)
     {
         foreach ($subnet_mask_arr as $network) {
             if (empty($network)) {

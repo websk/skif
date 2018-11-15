@@ -4,12 +4,12 @@ namespace Skif\CRUD;
 
 use Skif\BaseController;
 use WebSK\Skif\ConfWrapper;
-use Skif\Http;
 use Websk\Skif\Messages;
 use Skif\PhpTemplate;
 use Skif\UrlManager;
-use Skif\Utils;
 use Websk\Utils\Assert;
+use WebSK\Utils\Exits;
+use WebSK\Utils\Redirects;
 
 /**
  * CRUD проверяет, реализует ли модель функционал моделей.
@@ -139,7 +139,7 @@ class CRUDController extends BaseController
     {
         $model_class_name = static::getModelClassName();
 
-        Http::exit403If(!CRUDUtils::currentUserHasRightsToListModel($model_class_name));
+        Exits::exit403If(!CRUDUtils::currentUserHasRightsToListModel($model_class_name));
 
         Assert::assert($model_class_name);
 
@@ -219,7 +219,7 @@ class CRUDController extends BaseController
     {
         $model_class_name = static::getModelClassName();
 
-        Http::exit403If(!CRUDUtils::currentUserHasRightsToEditModel($model_class_name, 'new'));
+        Exits::exit403If(!CRUDUtils::currentUserHasRightsToEditModel($model_class_name, 'new'));
 
         Assert::assert($model_class_name);
 
@@ -276,7 +276,7 @@ class CRUDController extends BaseController
     {
         $model_class_name = static::getModelClassName();
 
-        Http::exit403If(!CRUDUtils::currentUserHasRightsToEditModel($model_class_name, $obj_id));
+        Exits::exit403If(!CRUDUtils::currentUserHasRightsToEditModel($model_class_name, $obj_id));
 
         Assert::assert($model_class_name);
         Assert::assert($obj_id);
@@ -365,7 +365,7 @@ class CRUDController extends BaseController
             // Проверка на заполнение обязательных полей
             if ((($_REQUEST[$prop_name] == '') && (CRUDUtils::isRequiredField($model_class_name, $prop_obj->getName())))) {
                 Messages::setError('поле ' . $prop_obj->getName() . ' обязательно для заполнения');
-                Http::redirect($redirect_url);
+                Redirects::redirect($redirect_url);
             }
 
             $new_prop_values_arr[$prop_name] = $_REQUEST[$prop_name];
@@ -383,7 +383,7 @@ class CRUDController extends BaseController
     {
         $model_class_name = static::getModelClassName();
 
-        Http::exit403If(!CRUDUtils::currentUserHasRightsToEditModel($model_class_name, $obj_id));
+        Exits::exit403If(!CRUDUtils::currentUserHasRightsToEditModel($model_class_name, $obj_id));
 
         Assert::assert($model_class_name);
         Assert::assert($obj_id);
@@ -410,7 +410,7 @@ class CRUDController extends BaseController
 
         Messages::setMessage('Изменения сохранены');
 
-        Http::redirect($redirect_url);
+        Redirects::redirect($redirect_url);
     }
 
     protected static function afterCreate($obj_id)
@@ -422,7 +422,7 @@ class CRUDController extends BaseController
     {
         $model_class_name = static::getModelClassName();
 
-        Http::exit403If(!CRUDUtils::currentUserHasRightsToEditModel($model_class_name, 'new'));
+        Exits::exit403If(!CRUDUtils::currentUserHasRightsToEditModel($model_class_name, 'new'));
 
         Assert::assert($model_class_name);
         CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, 'Skif\Model\InterfaceLoad');
@@ -434,7 +434,7 @@ class CRUDController extends BaseController
         $new_prop_values_arr = static::fillPropValuesArrFromRequest($model_class_name, $redirect_url);
 
         if (!static::createValidation()) {
-            Http::redirect($redirect_url);
+            Redirects::redirect($redirect_url);
         }
 
         $obj = new $model_class_name;
@@ -457,7 +457,7 @@ class CRUDController extends BaseController
 
         Messages::setMessage('Изменения сохранены');
 
-        Http::redirect($redirect_url);
+        Redirects::redirect($redirect_url);
     }
 
     protected static function afterDelete($obj)
@@ -469,7 +469,7 @@ class CRUDController extends BaseController
     {
         $model_class_name = static::getModelClassName();
 
-        Http::exit403If(!CRUDUtils::currentUserHasRightsToEditModel($model_class_name, $obj_id));
+        Exits::exit403If(!CRUDUtils::currentUserHasRightsToEditModel($model_class_name, $obj_id));
 
         Assert::assert($model_class_name);
         Assert::assert($obj_id);
@@ -489,13 +489,13 @@ class CRUDController extends BaseController
 
         if ($message !== true) {
             Messages::setError($message);
-            Http::redirect($redirect_url);
+            Redirects::redirect($redirect_url);
         }
 
         static::afterDelete($obj);
 
         Messages::setMessage('Удаление выполнено успешно');
 
-        Http::redirect($redirect_url);
+        Redirects::redirect($redirect_url);
     }
 }

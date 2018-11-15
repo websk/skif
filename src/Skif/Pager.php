@@ -2,6 +2,10 @@
 
 namespace Skif;
 
+/**
+ * Class Pager
+ * @package Skif
+ */
 class Pager
 {
     public static function getPageOffset()
@@ -80,11 +84,11 @@ class Pager
     public static function renderPager($elements_count = null)
     {
         $pager_needed = false;
-        if (self::hasPrevPage()){
+        if (self::hasPrevPage()) {
             $pager_needed = true;
         }
 
-        if (is_null($elements_count) || self::hasNextPage($elements_count)){
+        if (is_null($elements_count) || self::hasNextPage($elements_count)) {
             $pager_needed = true;
         }
 
@@ -107,8 +111,8 @@ class Pager
         }
 
         if (self::hasPrevPage()) {
-            $html .= '<li><a href="' . $page_url . 'page_offset=0&page_size='.self::getPageSize().'"><span class="glyphicon glyphicon-home"></span> 0-' . self::getPageSize() . '</a></li>';
-            $html .= '<li><a href="' . $page_url . 'page_offset=' . self::getPrevPageStart() . '&page_size='.self::getPageSize().'"><span class="glyphicon glyphicon-arrow-left"></span> ' . self::getPrevPageStart() . '-' . (self::getPrevPageStart() + self::getPageSize()) . '</a></li>';
+            $html .= '<li><a href="' . $page_url . 'page_offset=0&page_size=' . self::getPageSize() . '"><span class="glyphicon glyphicon-home"></span> 0-' . self::getPageSize() . '</a></li>';
+            $html .= '<li><a href="' . $page_url . 'page_offset=' . self::getPrevPageStart() . '&page_size=' . self::getPageSize() . '"><span class="glyphicon glyphicon-arrow-left"></span> ' . self::getPrevPageStart() . '-' . (self::getPrevPageStart() + self::getPageSize()) . '</a></li>';
         } else {
             $html .= '<li class="disabled"><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>';
             $html .= '<li class="disabled"><a href="#"><span class="glyphicon glyphicon-arrow-left"></span></a></li>';
@@ -117,7 +121,7 @@ class Pager
         $html .= "<li class='active'><a href='#'>" . self::getPageOffset() . '-' . (self::getPageOffset() + self::getPageSize()) . '</a></li>';
 
         if (!$elements_count || self::hasNextPage($elements_count)) {
-            $html .= "<li><a class='next-page' href='" . $page_url . "page_offset=" . self::getNextPageStart() . "&page_size=".self::getPageSize()."'>" . self::getNextPageStart() . "-" . (self::getNextPageStart() + self::getPageSize()) . ' <span class="glyphicon glyphicon-arrow-right"></span></a></a></li>';
+            $html .= "<li><a class='next-page' href='" . $page_url . "page_offset=" . self::getNextPageStart() . "&page_size=" . self::getPageSize() . "'>" . self::getNextPageStart() . "-" . (self::getNextPageStart() + self::getPageSize()) . ' <span class="glyphicon glyphicon-arrow-right"></span></a></a></li>';
         } else {
             $html .= '<li class="disabled"><a href="#"><span class="glyphicon glyphicon-arrow-right"></span></a></li>';
         }
@@ -135,7 +139,7 @@ class Pager
      */
     public static function hasNextPage($elements_count)
     {
-        if (is_null($elements_count)){
+        if (is_null($elements_count)) {
             return true;
         }
 
@@ -158,16 +162,16 @@ class Pager
     {
 
         $url = \Skif\UrlManager::getUriNoQueryString();
-        if($custom_url){
+        if ($custom_url) {
             $url = $custom_url;
         }
 
         $offset = self::getNextPageStart();
-        if($custom_offset){
+        if ($custom_offset) {
             $offset = $custom_offset;
         }
         $args_symbol_separator = '?';
-        if(strpos($url, '?') !== false){
+        if (strpos($url, '?') !== false) {
             $args_symbol_separator = '&';
         }
 

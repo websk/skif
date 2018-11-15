@@ -3,6 +3,9 @@
 namespace Skif\Comment;
 
 
+use WebSK\Utils\Exits;
+use WebSK\Utils\Redirects;
+
 class CommentController extends \Skif\CRUD\CRUDController
 {
 
@@ -52,7 +55,7 @@ class CommentController extends \Skif\CRUD\CRUDController
     public static function saveWebAction($comment_id = null)
     {
         if (!array_key_exists('url', $_REQUEST)) {
-            \Skif\Http::exit404();
+            Exits::exit404();
         }
 
         $url = $_REQUEST['url'];
@@ -60,7 +63,7 @@ class CommentController extends \Skif\CRUD\CRUDController
 
         if (array_key_exists('captcha', $_REQUEST)) {
             if (!\Skif\Captcha\Captcha::checkWithMessage()) {
-                \Skif\Http::redirect($url);
+                Redirects::redirect($url);
             }
         }
 
@@ -68,7 +71,7 @@ class CommentController extends \Skif\CRUD\CRUDController
 
         if (!$comment) {
             \Websk\Skif\Messages::setError('Не указано сообщение');
-            \Skif\Http::redirect($url);
+            Redirects::redirect($url);
         }
 
         $user_name = array_key_exists('user_name', $_REQUEST) ? $_REQUEST['user_name'] : '';
@@ -86,7 +89,7 @@ class CommentController extends \Skif\CRUD\CRUDController
 
         \Websk\Skif\Messages::setMessage('Ваше сообщение добавлено');
 
-        \Skif\Http::redirect($url . '#comments');
+        Redirects::redirect($url . '#comments');
     }
 
 } 

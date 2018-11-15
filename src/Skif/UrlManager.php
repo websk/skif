@@ -4,6 +4,7 @@ namespace Skif;
 
 use WebSK\Skif\ConfWrapper;
 use Websk\Skif\DBWrapper;
+use WebSK\Utils\Redirects;
 
 /**
  * Class UrlManager
@@ -100,7 +101,7 @@ class UrlManager
     {
         $current_url = $_SERVER['REQUEST_URI'];
         if (preg_match($url_mask, $current_url)) {
-            Http::redirect($target_url);
+            Redirects::redirect($target_url);
         }
     }
 

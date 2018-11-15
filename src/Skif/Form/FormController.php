@@ -3,6 +3,9 @@
 namespace Skif\Form;
 
 
+use WebSK\Utils\Exits;
+use WebSK\Utils\Redirects;
+
 class FormController extends \Skif\CRUD\CRUDController
 {
 
@@ -29,7 +32,7 @@ class FormController extends \Skif\CRUD\CRUDController
 
 
         $form_obj = \Skif\Form\Form::factory($form_id, false);
-        \Skif\Http::exit404If(!$form_obj);
+        Exits::exit404If(!$form_obj);
 
         $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
             'Form',
@@ -71,7 +74,7 @@ class FormController extends \Skif\CRUD\CRUDController
 
             if ($form_field_obj->getStatus() && !$field_value) {
                 \Websk\Skif\Messages::setError("Вы не указали " . $name);
-                \Skif\Http::redirect($form_obj->getUrl());
+                Redirects::redirect($form_obj->getUrl());
             }
         }
 
@@ -79,18 +82,18 @@ class FormController extends \Skif\CRUD\CRUDController
 
         if (!$current_user_id) {
             if (!\Skif\Captcha\Captcha::checkWithMessage()) {
-                \Skif\Http::redirect($form_obj->getUrl());
+                Redirects::redirect($form_obj->getUrl());
             }
         }
 
         if (!$user_email) {
             \Websk\Skif\Messages::setError('Вы не указали свой E-mail');
-            \Skif\Http::redirect($form_obj->getUrl());
+            Redirects::redirect($form_obj->getUrl());
         }
 
         if (!\Skif\Utils::checkEmail($user_email)) {
             \Websk\Skif\Messages::setError('Указан не существующий E-mail');
-            \Skif\Http::redirect($form_obj->getUrl());
+            Redirects::redirect($form_obj->getUrl());
         }
 
         $title = $form_obj->getTitle();
@@ -129,7 +132,7 @@ class FormController extends \Skif\CRUD\CRUDController
         $mail->AltBody = \Skif\Utils::checkPlain($response_mail_message);
         $mail->send();
 
-        \Skif\Http::redirect($form_obj->getUrl());
+        Redirects::redirect($form_obj->getUrl());
     }
 
 }

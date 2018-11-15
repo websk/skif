@@ -2,19 +2,19 @@
 
 namespace WebSK\Skif\Image;
 
-use Skif\Http;
 use WebSK\Skif\ConfWrapper;
+use WebSK\Utils\Exits;
 
 /**
  * Class ImageController
- * @package WebSK\Skif\Image
+ * @package WebSK\WebSK\Skif\Image\Image
  */
 class ImageController
 {
     /*
     public static function uploadAction()
     {
-        \Skif\Http::exit404If(!(count($_FILES) > 0));
+        Exits::exit404If(!(count($_FILES) > 0));
 
         $file = $_FILES[0];
 
@@ -77,7 +77,7 @@ class ImageController
 
     public static function uploadToFilesAction()
     {
-        Http::exit404If(!(count($_FILES) > 0));
+        Exits::exit404If(!(count($_FILES) > 0));
 
         $file = $_FILES[0];
 
@@ -97,7 +97,7 @@ class ImageController
 
     public static function uploadToImagesAction()
     {
-        Http::exit404If(!(count($_FILES) > 0));
+        Exits::exit404If(!(count($_FILES) > 0));
 
         $file = $_FILES[0];
 
@@ -137,16 +137,16 @@ class ImageController
         $pathinfo = pathinfo($file["name"]);
         $file_extension = mb_strtolower($pathinfo['extension']);
 
-        Http::exit404If(!in_array($file["type"], $allowed_types));
-        Http::exit404If(!in_array($file_extension, $allowed_extensions));
+        Exits::exit404If(!in_array($file["type"], $allowed_types));
+        Exits::exit404If(!in_array($file_extension, $allowed_extensions));
 
-        Http::exit404If($file["error"] > 0);
+        Exits::exit404If($file["error"] > 0);
 
 
         $image_manager = new ImageManager($root_images_folder);
         $internal_file_name = $image_manager->storeUploadedImageFile($file["name"], $file["tmp_name"],
             $target_folder_in_images);
-        Http::exit404If(!$internal_file_name);
+        Exits::exit404If(!$internal_file_name);
 
         return $internal_file_name;
     }

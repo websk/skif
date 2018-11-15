@@ -6,7 +6,9 @@
  * @var $content
  */
 
-\Skif\Http::cacheHeaders();
+use WebSK\Utils\Http;
+
+Http::cacheHeaders();
 ?>
 <!DOCTYPE html>
 <html lang="ru">

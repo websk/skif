@@ -2,13 +2,14 @@
 
 namespace Skif\Blocks;
 
-use Skif\Http;
 use Skif\PhpTemplate;
 use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\ConfWrapper;
 use Websk\Skif\DBWrapper;
 use WebSK\Skif\Logger\Logger;
 use Websk\Skif\Messages;
+use WebSK\Utils\Exits;
+use WebSK\Utils\Redirects;
 
 /**
  * Class ControllerBlocks
@@ -66,7 +67,7 @@ class ControllerBlocks
 
         Messages::setMessage('Тема изменена');
 
-        Http::redirect(\Skif\Blocks\ControllerBlocks::getBlocksListUrl());
+        Redirects::redirect(\Skif\Blocks\ControllerBlocks::getBlocksListUrl());
     }
 
     /**
@@ -114,7 +115,7 @@ class ControllerBlocks
     public function listAction()
     {
         // Проверка прав доступа
-        Http::exit403If(!Auth::currentUserIsAdmin());
+        Exits::exit403If(!Auth::currentUserIsAdmin());
 
         self::blocksPageActions();
 
@@ -152,7 +153,7 @@ class ControllerBlocks
     public static function disableBlock($block_id)
     {
         // Проверка прав доступа
-        Http::exit403If(!Auth::currentUserIsAdmin());
+        Exits::exit403If(!Auth::currentUserIsAdmin());
 
         $block_obj = Block::factory($block_id);
 
@@ -176,7 +177,7 @@ class ControllerBlocks
 
         Messages::setWarning('Блок &laquo;' . $block_obj->getTitle() . '&raquo; был выключен. <a href="' . $restore_url . '">Отменить</a>');
 
-        Http::redirect(self::getBlocksListUrl());
+        Redirects::redirect(self::getBlocksListUrl());
     }
 
     /**
@@ -186,7 +187,7 @@ class ControllerBlocks
     public function editAction($block_id)
     {
         // Проверка прав доступа
-        Http::exit403If(!Auth::currentUserIsAdmin());
+        Exits::exit403If(!Auth::currentUserIsAdmin());
 
         self::actions($block_id);
 
@@ -246,7 +247,7 @@ class ControllerBlocks
     public static function saveContent($block_id)
     {
         // Проверка прав доступа
-        Http::exit403If(!Auth::currentUserIsAdmin());
+        Exits::exit403If(!Auth::currentUserIsAdmin());
 
         $block_obj = self::getBlockObj($block_id);
 
@@ -302,10 +303,10 @@ class ControllerBlocks
                 $redirect_to_on_success = str_replace('block_id', $block_obj->getId(), $redirect_to_on_success);
             }
 
-            Http::redirect($redirect_to_on_success);
+            Redirects::redirect($redirect_to_on_success);
         }
 
-        Http::redirect($block_obj->getEditorUrl());
+        Redirects::redirect($block_obj->getEditorUrl());
     }
 
     /**
@@ -315,7 +316,7 @@ class ControllerBlocks
     public function cachingTabAction($block_id)
     {
         // Проверка прав доступа
-        Http::exit403If(!Auth::currentUserIsAdmin());
+        Exits::exit403If(!Auth::currentUserIsAdmin());
 
         self::actions($block_id);
 
@@ -344,7 +345,7 @@ class ControllerBlocks
 
         Messages::setMessage('Изменения сохранены');
 
-        Http::redirect($block_obj->getEditorUrl() . '/caching');
+        Redirects::redirect($block_obj->getEditorUrl() . '/caching');
     }
 
     /**
@@ -354,7 +355,7 @@ class ControllerBlocks
     public function placeInRegionTabAction($block_id)
     {
         // Проверка прав доступа
-        Http::exit403If(!Auth::currentUserIsAdmin());
+        Exits::exit403If(!Auth::currentUserIsAdmin());
 
         $block_obj = self::getBlockObj($block_id);
 
@@ -392,7 +393,7 @@ class ControllerBlocks
     static public function moveBlock($block_id)
     {
         // Проверка прав доступа
-        Http::exit403If(!Auth::currentUserIsAdmin());
+        Exits::exit403If(!Auth::currentUserIsAdmin());
 
         $target_weight = $_REQUEST['target_weight'];
         $target_region = $_REQUEST['target_region'];
@@ -482,7 +483,7 @@ class ControllerBlocks
 
         Messages::setMessage('Блок &laquo;' . $block_obj->getTitle() . '&raquo; перемещен');
 
-        Http::redirect($block_obj->getEditorUrl() . '/position');
+        Redirects::redirect($block_obj->getEditorUrl() . '/position');
     }
 
     /**
@@ -491,7 +492,7 @@ class ControllerBlocks
     public function chooseRegionTabAction($block_id)
     {
         // Проверка прав доступа
-        Http::exit403If(!Auth::currentUserIsAdmin());
+        Exits::exit403If(!Auth::currentUserIsAdmin());
 
         self::actions($block_id);
 
@@ -520,7 +521,7 @@ class ControllerBlocks
     public function deleteTabAction($block_id)
     {
         // Проверка прав доступа
-        Http::exit403If(!Auth::currentUserIsAdmin());
+        Exits::exit403If(!Auth::currentUserIsAdmin());
 
         self::actions($block_id);
 
@@ -550,7 +551,7 @@ class ControllerBlocks
     public static function deleteBlock($block_id)
     {
         // Проверка прав доступа
-        Http::exit403If(!Auth::currentUserIsAdmin());
+        Exits::exit403If(!Auth::currentUserIsAdmin());
 
         $block_obj = Block::factory($block_id);
 
@@ -560,7 +561,7 @@ class ControllerBlocks
 
         Messages::setMessage('Блок &laquo;' . $block_name . '&raquo; удален');
 
-        Http::redirect(self::getBlocksListUrl());
+        Redirects::redirect(self::getBlocksListUrl());
     }
 
     /**
@@ -569,7 +570,7 @@ class ControllerBlocks
     public function searchAction()
     {
         // Проверка прав доступа
-        Http::exit403If(!Auth::currentUserIsAdmin());
+        Exits::exit403If(!Auth::currentUserIsAdmin());
 
         $html = '';
 

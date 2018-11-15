@@ -4,9 +4,10 @@ namespace Skif\Poll;
 
 use WebSK\Skif\ConfWrapper;
 use Skif\CRUD\CRUDController;
-use Skif\Http;
 use Websk\Skif\Messages;
 use Skif\PhpTemplate;
+use WebSK\Utils\Exits;
+use WebSK\Utils\Redirects;
 
 class PollController extends CRUDController
 {
@@ -39,7 +40,7 @@ class PollController extends CRUDController
         if (isset($_COOKIE[$cookie_key]) && ($_COOKIE[$cookie_key] == 'no')) {
             Messages::setError('Вы уже проголосовали ранее!');
 
-            Http::redirect($poll_obj->getUrl());
+            Redirects::redirect($poll_obj->getUrl());
         }
 
         if (!empty($poll_question_id)) {
@@ -56,7 +57,7 @@ class PollController extends CRUDController
             Messages::setError('Вы не проголосовали, т.к. не выбрали ответ.');
         }
 
-        Http::redirect($poll_obj->getUrl());
+        Redirects::redirect($poll_obj->getUrl());
     }
 
     /**
@@ -66,7 +67,7 @@ class PollController extends CRUDController
     public static function viewAction($poll_id)
     {
         $poll_obj = Poll::factory($poll_id, false);
-        Http::exit404If(!$poll_obj);
+        Exits::exit404If(!$poll_obj);
 
         $content = PhpTemplate::renderTemplateBySkifModule(
             'Poll',

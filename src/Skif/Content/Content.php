@@ -10,7 +10,7 @@ use Skif\Model\InterfaceFactory;
 use Skif\Model\InterfaceLoad;
 use Skif\Model\InterfaceLogger;
 use Skif\Model\InterfaceSave;
-use Skif\Translit;
+use WebSK\Utils\Transliteration;
 use Skif\UrlManager;
 use Skif\Model\ActiveRecord;
 use Skif\Model\ActiveRecordHelper;
@@ -353,7 +353,7 @@ class Content implements
         }
 
 
-        $title_for_url = Translit::translit($this->getTitle());
+        $title_for_url = Transliteration::transliteration($this->getTitle());
 
         $content_type_id = $this->getContentTypeId();
         $content_type_obj = ContentType::factory($content_type_id);

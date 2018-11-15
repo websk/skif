@@ -3,11 +3,11 @@
 namespace WebSK\Skif\Image;
 
 use Imagine\Gd\Imagine;
-use Skif\Http;
+use WebSK\Utils\Exits;
 
 /**
  * Class ImageManager
- * @package WebSK\Skif\Image
+ * @package WebSK\WebSK\Skif\Image\Image
  */
 class ImageManager
 {
@@ -128,7 +128,7 @@ class ImageManager
             $imgPath = $this->getImagesRootFolder() . DIRECTORY_SEPARATOR . $imageName;
 
             if (!file_exists($imgPath)) {
-                Http::exit404();
+                Exits::exit404();
             }
 
             $res = $this->moveImageByPreset($imgPath, $fullpath, $presetName);

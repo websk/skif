@@ -1,8 +1,13 @@
 <?php
+
 namespace Skif\Sitemap;
 
 use WebSK\Skif\ConfWrapper;
 
+/**
+ * Class SitemapBuilder
+ * @package Skif\Sitemap
+ */
 class SitemapBuilder implements InterfaceSitemapBuilder
 {
     const XML_URL_STEP = 100;
@@ -39,6 +44,10 @@ class SitemapBuilder implements InterfaceSitemapBuilder
         }
     }
 
+    /**
+     * @param $url
+     * @param string $freq
+     */
     public function add($url, $freq = 'never')
     {
         if ($this->current_file_name === null) {
@@ -83,7 +92,7 @@ class SitemapBuilder implements InterfaceSitemapBuilder
         $this->writer->writeAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
 
         foreach ($this->xml_files_arr as $i => $xml_file_name) {
-            $xml_file_url = $current_domain . '/sitemap-' . $this->sitemap_build_time .'-' . ($i + 1) . '.xml';
+            $xml_file_url = $current_domain . '/sitemap-' . $this->sitemap_build_time . '-' . ($i + 1) . '.xml';
             $this->writer->startElement('sitemap');
             $this->writer->writeElement('loc', $xml_file_url);
             $this->writer->writeElement('lastmod', date('Y-m-d\TH:i:sP', $this->sitemap_build_time));
