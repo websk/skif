@@ -2,8 +2,10 @@
 
 namespace Skif;
 
-use Websk\Skif\DBWrapper;
-
+/**
+ * Class Utils
+ * @package Skif
+ */
 class Utils
 {
     protected static $countries_arr;
@@ -44,28 +46,6 @@ class Utils
         return $html;
     }
 
-    /**
-     * Список стран
-     * @return array
-     */
-    public static function getCountriesArr()
-    {
-        if (isset(self::$countries_arr)) {
-            return self::$countries_arr;
-        }
-
-        $query = "SELECT * FROM lands ORDER BY name";
-        $countries_arr = DBWrapper::readObjects($query);
-
-        return $countries_arr;
-    }
-
-    public static function getCountryNameById($country_id)
-    {
-        $query = "SELECT name FROM lands WHERE id=?";
-        return DBWrapper::readField($query, array($country_id));
-    }
-
     public static function mb_str_ireplace($search, $replace, $subject, $count = -1)
     {
         mb_internal_encoding('utf-8');
@@ -91,33 +71,12 @@ class Utils
     }
 
     /**
-     * @param $obj
-     * @return string
-     */
-    public static function getFullObjectId($obj)
-    {
-        if (!is_object($obj)) {
-            return 'not_object';
-        }
-
-        $obj_id_parts = array();
-        $obj_id_parts[] = get_class($obj);
-
-        // TODO: заменить на проверку интерфеса?
-        if (method_exists($obj, 'getId')) {
-            $obj_id_parts[] = $obj->getId();
-        }
-
-        return implode('.', $obj_id_parts);
-    }
-
-    /**
      * Returns array of slash separated url parts.
      * @return array Array of url parts.
      */
     static public function url_args()
     {
-        $uri_no_getform = \Skif\UrlManager::getUriNoQueryString();
+        $uri_no_getform = UrlManager::getUriNoQueryString();
 
         // remove "/" at the beginning to avoid empty first arg and protect from uri without leading "/"
 

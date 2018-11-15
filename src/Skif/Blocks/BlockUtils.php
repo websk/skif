@@ -3,11 +3,16 @@
 namespace Skif\Blocks;
 
 use Skif\Network;
-use WebSK\Skif\Users\User;
-use Skif\Util\FilterFactory;
+use Skif\Util\Filter;
+use Websk\Skif\Container;
 use Websk\Skif\CacheWrapper;
 use Websk\Skif\DBWrapper;
+use WebSK\Skif\Users\UsersServiceProvider;
 
+/**
+ * Class BlockUtils
+ * @package Skif\Blocks
+ */
 class BlockUtils
 {
 
@@ -32,13 +37,16 @@ class BlockUtils
             return false;
         }
 
-        $user_obj = User::factory($user_id, false);
+        $container = Container::self();
+        $user_service = UsersServiceProvider::getUserService($container);
+
+        $user_obj = $user_service->getById($user_id, false);
         if (!$user_obj) {
             return false;
         }
 
         foreach ($block_role_ids_arr as $role_id) {
-            if (in_array($role_id, $user_obj->getRoleIdsArr())) {
+            if (in_array($role_id, $user_service->getRoleIdsArrByUserId($user_id))) {
                 return true;
             }
         }
@@ -93,7 +101,7 @@ class BlockUtils
 
             if (strlen($page_filter_str) > 2) {
                 // convert filter string to object
-                $filter_obj = FilterFactory::getFilter($page_filter_str);
+                $filter_obj = new Filter($page_filter_str);
 
                 if ($filter_obj->matchesPage($real_path)) {
                     if ($filter_obj->is_positive) {

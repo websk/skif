@@ -4,6 +4,11 @@ namespace Skif;
 
 use Websk\Skif\Path;
 
+/**
+ * Class PhpTemplate
+ * @package Skif
+ * @deprecated
+ */
 class PhpTemplate
 {
     /**

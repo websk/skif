@@ -5,6 +5,10 @@ namespace Skif;
 use Skif\Sitemap\InterfaceSitemapController;
 use Skif\Sitemap\InterfaceSitemapBuilder;
 
+/**
+ * Class Router
+ * @package Skif
+ */
 class Router
 {
     const CONTINUE_ROUTING = 'CONTINUE_ROUTING';

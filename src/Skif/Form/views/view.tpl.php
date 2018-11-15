@@ -3,7 +3,16 @@
  * @var $form_id
  */
 
-$form_obj = \Skif\Form\Form::factory($form_id);
+use Skif\Form\Form;
+use Skif\Form\FormController;
+use Skif\Form\FormField;
+use WebSK\Skif\Auth\Auth;
+use WebSK\Skif\Captcha\CaptchaRoutes;
+use Websk\Skif\Container;
+use WebSK\Skif\Router;
+use WebSK\Skif\Users\UsersServiceProvider;
+
+$form_obj = Form::factory($form_id);
 
 if ($form_obj->getComment()) {
     ?>
@@ -13,10 +22,10 @@ if ($form_obj->getComment()) {
 
 $form_field_ids_arr = $form_obj->getFormFieldIdsArr();
 ?>
-<form method="post" action="<?php echo \Skif\Form\FormController::getSendUrl($form_id); ?>" class="form-horizontal">
+<form method="post" action="<?php echo FormController::getSendUrl($form_id); ?>" class="form-horizontal">
     <?php
     foreach ($form_field_ids_arr as $form_field_id) {
-        $form_field_obj = \Skif\Form\FormField::factory($form_field_id);
+        $form_field_obj = FormField::factory($form_field_id);
 
         $length = $form_field_obj->getSize();
         if (!$length) {
@@ -32,9 +41,9 @@ $form_field_ids_arr = $form_obj->getFormFieldIdsArr();
         }
 
         $field_html = '';
-        if ($form_field_obj->getType() == \Skif\Form\FormField::FIELD_TYPE_STRING) {
+        if ($form_field_obj->getType() == FormField::FIELD_TYPE_STRING) {
             $field_html = '<input type=text name="field_' . $form_field_id . '" maxlength="' . $length . '" value="" size="' . $length . '" class="form-control">';
-        } else if ($form_field_obj->getType() == \Skif\Form\FormField::FIELD_TYPE_TEXTAREA) {
+        } else if ($form_field_obj->getType() == FormField::FIELD_TYPE_TEXTAREA) {
             $field_html = '<textarea name="field_' . $form_field_id . '" cols="50" rows="' . $length . '" class="form-control"></textarea>';
         }
         ?>
@@ -45,9 +54,12 @@ $form_field_ids_arr = $form_obj->getFormFieldIdsArr();
         <?php
     }
 
-    $current_user_id = \WebSK\Skif\Auth\Auth::getCurrentUserId();
+    $current_user_id = Auth::getCurrentUserId();
     if ($current_user_id) {
-        $current_user_obj = \WebSK\Skif\Users\User::factory($current_user_id);
+        $container = Container::self();
+        $user_service = UsersServiceProvider::getUserService($container);
+
+        $current_user_obj = $user_service->getById($current_user_id);
         echo '<input type="hidden" name="email" value="' . $current_user_obj->getEmail() . '">';
     } else {
         ?>
@@ -58,7 +70,7 @@ $form_field_ids_arr = $form_obj->getFormFieldIdsArr();
 
         <div class="form-group">
             <div class="col-md-offset-3 col-md-9">
-                <img src="<?php echo \Skif\Captcha\Captcha::getUrl(); ?>" border="0" alt="Введите этот защитный код">
+                <img src="<?php echo Router::pathFor(CaptchaRoutes::ROUTE_NAME_CAPTCHA_GENERATE); ?>" border="0" alt="Введите этот защитный код">
                 <input type="text" size="5" name="captcha" class="form-control">
                 <span class="help-block">Введите код, изображенный на картинке</span>
             </div>

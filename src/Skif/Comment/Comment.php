@@ -2,19 +2,32 @@
 
 namespace Skif\Comment;
 
-
-use WebSK\Skif\Users\User;
+use Skif\CRUD\DatepickerWidget\DatepickerWidget;
+use Skif\CRUD\ModelReferenceWidget\ModelReferenceWidget;
+use Skif\Model\ActiveRecord;
+use Skif\Model\ActiveRecordHelper;
+use Skif\Model\FactoryTrait;
+use Skif\Model\InterfaceDelete;
+use Skif\Model\InterfaceFactory;
+use Skif\Model\InterfaceGetTitle;
+use Skif\Model\InterfaceLoad;
+use Skif\Model\InterfaceSave;
+use Skif\Utils;
+use WebSK\Skif\Auth\Auth;
+use WebSK\Skif\ConfWrapper;
+use Websk\Skif\Container;
+use WebSK\Skif\Users\UsersServiceProvider;
 use Websk\Utils\Assert;
 
-class Comment  implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete,
-    \Skif\Model\InterfaceGetTitle
+class Comment implements
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete,
+    InterfaceGetTitle
 {
-    use \Skif\Model\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+    use ActiveRecord;
+    use FactoryTrait;
 
     const DB_TABLE_NAME = 'comments';
 
@@ -31,7 +44,7 @@ class Comment  implements
 
     public function __construct()
     {
-        $this->user_id = \WebSK\Skif\Users\AuthUtils::getCurrentUserId();
+        $this->user_id = Auth::getCurrentUserId();
         $this->date_time = date('Y-m-d H:i:s');
     }
 
@@ -72,13 +85,13 @@ class Comment  implements
         'user_email' => array(),
         'url' => array(),
         'parent_id' => array(
-            'widget' => array('\Skif\CRUD\ModelReferenceWidget\ModelReferenceWidget', 'renderWidget'),
+            'widget' => array(ModelReferenceWidget::class, 'renderWidget'),
             'widget_settings' => array(
-                'model_class_name' => '\Skif\Comment\Comment'
+                'model_class_name' => self::class
             )
         ),
         'date_time' => array(
-            'widget' => array('\Skif\CRUD\DatepickerWidget\DatepickerWidget', 'renderWidget'),
+            'widget' => array(DatepickerWidget::class, 'renderWidget'),
             'widget_settings' => array(
                 'date_format' => 'YYYY-MM-DD HH:mm:ss'
             ),
@@ -89,7 +102,7 @@ class Comment  implements
     public static $crud_fast_create_field_name = 'comment';
 
     public static $related_models_arr = array(
-        '\Skif\Comment\Comment' => array(
+        self::class => array(
             'link_field' => 'parent_id',
             'field_name' => 'children_ids_arr',
             'list_title' => 'Ответы',
@@ -99,12 +112,12 @@ class Comment  implements
 
     public function load($id)
     {
-        $is_loaded = \Skif\Model\ActiveRecordHelper::loadModelObj($this, $id);
+        $is_loaded = ActiveRecordHelper::loadModelObj($this, $id);
         if (!$is_loaded) {
             return false;
         }
 
-        $this->children_ids_arr = \Skif\Comment\CommentUtils::getCommentsIdsArrByUrl($this->getUrl(), 1, $this->getId());
+        $this->children_ids_arr = CommentUtils::getCommentsIdsArrByUrl($this->getUrl(), 1, $this->getId());
 
         return true;
     }
@@ -197,7 +210,10 @@ class Comment  implements
     public function getUserName()
     {
         if ($this->user_id) {
-            $user_obj = User::factory($this->user_id);
+            $container = Container::self();
+            $user_service = UsersServiceProvider::getUserService($container);
+
+            $user_obj = $user_service->getById($this->user_id);
             Assert::assert($user_obj);
 
             return $user_obj->getName();
@@ -221,7 +237,10 @@ class Comment  implements
     public function getUserEmail()
     {
         if ($this->user_id) {
-            $user_obj = User::factory($this->user_id);
+            $container = Container::self();
+            $user_service = UsersServiceProvider::getUserService($container);
+
+            $user_obj = $user_service->getById($this->user_id);
 
             return $user_obj->getEmail();
         }
@@ -290,17 +309,17 @@ class Comment  implements
 
     public static function afterUpdate($comment_id)
     {
-        $comment_obj = \Skif\Comment\Comment::factory($comment_id);
+        $comment_obj = self::factory($comment_id);
 
         if ($comment_obj->getParentId()) {
             self::removeObjFromCacheById($comment_obj->getParentId());
 
-            if (\WebSK\Skif\ConfWrapper::value('comments.send_answer_to_email')) {
-                $parent_comment_obj = \Skif\Comment\Comment::factory($comment_obj->getParentId());
+            if (ConfWrapper::value('comments.send_answer_to_email')) {
+                $parent_comment_obj = self::factory($comment_obj->getParentId());
                 if ($parent_comment_obj->getUserEmail()) {
-                    $site_email = \WebSK\Skif\ConfWrapper::value('site_email');
-                    $site_url = \WebSK\Skif\ConfWrapper::value('site_url');
-                    $site_name = \WebSK\Skif\ConfWrapper::value('site_name');
+                    $site_email = ConfWrapper::value('site_email');
+                    $site_url = ConfWrapper::value('site_url');
+                    $site_name = ConfWrapper::value('site_name');
 
                     $mail_message = 'Здравствуйте, ' . $parent_comment_obj->getUserEmail() . '!<br />';
                     $mail_message .= 'Получен ответ на ваше сообщение:<br />';
@@ -317,7 +336,7 @@ class Comment  implements
                     $mail->isHTML(true);
                     $mail->Subject = $subject;
                     $mail->Body = $mail_message;
-                    $mail->AltBody = \Skif\Utils::checkPlain($mail_message);
+                    $mail->AltBody = Utils::checkPlain($mail_message);
                     $mail->send();
                 }
             }
@@ -331,7 +350,7 @@ class Comment  implements
         $children_ids_arr = $this->getChildrenIdsArr();
 
         foreach ($children_ids_arr as $children_comment_id) {
-            $children_comment_obj = \Skif\Comment\Comment::factory($children_comment_id);
+            $children_comment_obj = self::factory($children_comment_id);
             $children_comment_obj->delete();
         }
 
@@ -339,5 +358,4 @@ class Comment  implements
 
         self::removeObjFromCacheById($this->getId());
     }
-
 }

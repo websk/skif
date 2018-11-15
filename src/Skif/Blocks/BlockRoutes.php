@@ -2,17 +2,12 @@
 
 namespace Skif\Blocks;
 
-use Skif\Router;
 use Skif\UrlManager;
 
 class BlockRoutes
 {
     public static function route()
     {
-        if (!Router::matchGroup('@/admin@')) {
-            return;
-        }
-
         UrlManager::route('@^/admin/blocks$@i', ControllerBlocks::class, 'listAction', 0);
         UrlManager::route('@^/admin/blocks/list$@i', ControllerBlocks::class, 'listAction', 0);
         UrlManager::route('@^/admin/blocks/edit/(.+)/position@i', ControllerBlocks::class, 'placeInRegionTabAction', 0);

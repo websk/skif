@@ -3,11 +3,13 @@
  * @var $block_id
  */
 
+use Skif\Blocks\BlockUtils;
 use Skif\Blocks\ControllerBlocks;
 use Skif\PhpTemplate;
+use Websk\Skif\Container;
+use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Skif\Users\UsersUtils;
 use Websk\Skif\Path;
-use WebSK\Skif\Users\Role;
 
 $block_obj = ControllerBlocks::getBlockObj($block_id);
 
@@ -17,7 +19,7 @@ echo PhpTemplate::renderTemplateBySkifModule(
     array('block_id' => $block_id)
 );
 
-$items = array();
+$items = [];
 ?>
     <form role="form" action="<?php echo $block_obj->getEditorUrl(); ?>" method="post" id="edit_form">
         <input type="hidden" value="save_content" name="_action" id="_action"/>
@@ -47,7 +49,7 @@ $items = array();
             <label>Формат ввода</label>
             <select class="form-control" name="format" id="format">
                 <?php
-                $formats_arr = \Skif\Blocks\BlockUtils::getFormatsArr();
+                $formats_arr = BlockUtils::getFormatsArr();
 
                 $current_format = $block_obj->getFormat();
                 if (!$block_obj->isLoaded()) {
@@ -77,8 +79,11 @@ $items = array();
                             $block_role_ids_arr = $block_obj->getRoleIdsArr();
                             $roles_ids_arr = UsersUtils::getRolesIdsArr();
 
+                            $container = Container::self();
+                            $role_service = UsersServiceProvider::getRoleService($container);
+
                             foreach ($roles_ids_arr as $role_id) {
-                                $role_obj = Role::factory($role_id);
+                                $role_obj = $role_service->getById($role_id);
                                 ?>
                                 <div class="checkbox">
                                     <label>

@@ -2,17 +2,12 @@
 
 namespace Skif\SiteMenu;
 
-use Skif\Router;
 use Skif\UrlManager;
 
 class SiteMenuRoutes
 {
     public static function route()
     {
-        if (!Router::matchGroup('@/admin@')) {
-            return;
-        }
-
         UrlManager::route('@^/admin/site_menu$@i', SiteMenuController::class, 'listAdminAction', 0);
         UrlManager::route('@^/admin/site_menu/edit/(.+)$@i', SiteMenuController::class, 'editAdminAction', 0);
         UrlManager::route('@^/admin/site_menu/save/(.+)$@i', SiteMenuController::class, 'saveAdminAction', 0);
