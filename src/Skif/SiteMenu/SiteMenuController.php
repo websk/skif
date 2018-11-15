@@ -2,7 +2,6 @@
 
 namespace Skif\SiteMenu;
 
-
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
 

@@ -3,6 +3,8 @@
  * @var $error_code
  */
 
+use WebSK\Utils\Url;
+
 $error_messages_arr = array(
     404 => array(
         'title' => 'документ не найден',
@@ -71,7 +73,7 @@ $skif_path = \WebSK\Skif\ConfWrapper::value('skif_path');
         $site_email = \WebSK\Skif\ConfWrapper::value('site_email');
         ?>
 
-        Зайдите с <a href="<?php echo \Skif\Utils::appendHttp($site_url); ?>">главной страницы</a>
+        Зайдите с <a href="<?php echo Url::appendHttp($site_url); ?>">главной страницы</a>
         <span class="inline_block">или напишите <a href="mailto:<?php echo $site_email; ?>" title="написать администратору">администратору</a>.</span>
     </p>
 

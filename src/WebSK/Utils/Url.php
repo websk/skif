@@ -64,4 +64,34 @@ class Url
 
         return false;
     }
+
+    /**
+     * @param string $url
+     * @return string
+     */
+    public static function appendLeadingSlash(string $url)
+    {
+        // append leading slash
+        if (substr($url, 0, 5) != 'http:') {
+            if (substr($url, 0, 1) != '/') {
+                $url = '/' . $url;
+            }
+        }
+
+        return $url;
+    }
+
+    /**
+     * @param string $url
+     * @return string
+     */
+    public static function appendHttp(string $url)
+    {
+        $parsed = parse_url($url);
+        if (empty($parsed['scheme'])) {
+            $url = 'http://' . ltrim($url, '/');
+        }
+
+        return $url;
+    }
 }

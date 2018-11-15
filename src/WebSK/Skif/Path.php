@@ -3,6 +3,7 @@
 namespace Websk\Skif;
 
 use Skif\Utils;
+use WebSK\Utils\Url;
 
 /**
  * Class Path
@@ -81,7 +82,7 @@ class Path
     {
         $skifUrlPath = ConfWrapper::value('skif_url_path');
 
-        return ltrim($skifUrlPath, '/') . Utils::appendLeadingSlash($resource);
+        return ltrim($skifUrlPath, '/') . Url::appendLeadingSlash($resource);
     }
 
     /**
@@ -92,7 +93,7 @@ class Path
     {
         $skifAssetsVersion = ConfWrapper::value('skif_assets_version', 1);
 
-        return self::wrapSkifUrlPath('/' . self::ASSETS_DIR_NAME . '/'. $skifAssetsVersion . Utils::appendLeadingSlash($resource));
+        return self::wrapSkifUrlPath('/' . self::ASSETS_DIR_NAME . '/'. $skifAssetsVersion . Url::appendLeadingSlash($resource));
     }
 
     /**
@@ -104,6 +105,6 @@ class Path
         $assetsVersion = ConfWrapper::value('assets_version', 1);
         $assetsUrlPath = ConfWrapper::value('assets_url_path', self::ASSETS_DIR_NAME);
 
-        return Utils::appendLeadingSlash($assetsUrlPath . '/'. $assetsVersion . Utils::appendLeadingSlash($resource));
+        return Url::appendLeadingSlash($assetsUrlPath . '/' . $assetsVersion . Url::appendLeadingSlash($resource));
     }
 }

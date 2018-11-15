@@ -17,6 +17,7 @@ use Skif\Utils;
 use Websk\Utils\Assert;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
+use WebSK\Utils\Url;
 
 class ContentController extends BaseController implements InterfaceSitemapController
 {
@@ -45,7 +46,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
             foreach ($content_ids_arr as $content_id) {
                 $content_obj = Content::factory($content_id);
 
-                $urls[] = ['url' => $current_domain . Utils::appendLeadingSlash($content_obj->getUrl())];
+                $urls[] = ['url' => $current_domain . Url::appendLeadingSlash($content_obj->getUrl())];
             }
         }
 

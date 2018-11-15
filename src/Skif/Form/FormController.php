@@ -5,6 +5,7 @@ namespace Skif\Form;
 
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
+use WebSK\Utils\Url;
 
 class FormController extends \Skif\CRUD\CRUDController
 {
@@ -120,7 +121,7 @@ class FormController extends \Skif\CRUD\CRUDController
 
         $response_mail_message .= "<br><br>";
         $response_mail_message .= $to_mail . "<br>";
-        $response_mail_message .= '<p>' . $site_name . ', <a href="' . \Skif\Utils::appendHttp($site_url) . '">' . $site_url . '</a></p>';
+        $response_mail_message .= '<p>' . $site_name . ', <a href="' . Url::appendHttp($site_url) . '">' . $site_url . '</a></p>';
 
         $mail = new \PHPMailer;
         $mail->CharSet = "utf-8";

@@ -4,6 +4,10 @@ namespace Skif;
 
 use Websk\Skif\DBWrapper;
 
+/**
+ * Class BaseController
+ * @package Skif
+ */
 class BaseController
 {
     /** @var bool */
