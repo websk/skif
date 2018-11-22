@@ -2,14 +2,25 @@
 
 namespace Skif\Form;
 
+use WebSK\Model\ActiveRecord;
+use WebSK\Model\FactoryTrait;
+use WebSK\Model\InterfaceDelete;
+use WebSK\Model\InterfaceFactory;
+use WebSK\Model\InterfaceLoad;
+use WebSK\Model\InterfaceSave;
+
+/**
+ * Class FormField
+ * @package Skif\Form
+ */
 class FormField implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete
 {
-    use \Skif\Model\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+    use ActiveRecord;
+    use FactoryTrait;
 
     const FIELD_TYPE_STRING = 1;
     const FIELD_TYPE_TEXTAREA = 2;

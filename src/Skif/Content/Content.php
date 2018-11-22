@@ -4,15 +4,15 @@ namespace Skif\Content;
 
 use WebSK\Entity\InterfaceEntity;
 use Websk\Skif\DBWrapper;
-use Skif\Model\FactoryTrait;
-use Skif\Model\InterfaceDelete;
-use Skif\Model\InterfaceFactory;
-use Skif\Model\InterfaceLoad;
-use Skif\Model\InterfaceLogger;
-use Skif\Model\InterfaceSave;
+use WebSK\Model\FactoryTrait;
+use WebSK\Model\InterfaceDelete;
+use WebSK\Model\InterfaceFactory;
+use WebSK\Model\InterfaceLoad;
+use WebSK\Model\InterfaceLogger;
+use WebSK\Model\InterfaceSave;
 use WebSK\Utils\Transliteration;
-use Skif\Model\ActiveRecord;
-use Skif\Model\ActiveRecordHelper;
+use WebSK\Model\ActiveRecord;
+use WebSK\Model\ActiveRecordHelper;
 use Skif\Utils;
 use Websk\Utils\Assert;
 use WebSK\Utils\Url;
@@ -99,7 +99,7 @@ class Content implements
             return false;
         }
 
-        $query = "SELECT id FROM " . ContentRubrics::DB_TABLE_NAME ." WHERE content_id = ?";
+        $query = "SELECT id FROM " . ContentRubrics::DB_TABLE_NAME . " WHERE content_id = ?";
         $this->content_rubrics_ids_arr = DBWrapper::readColumn(
             $query,
             array($this->id)
@@ -435,7 +435,7 @@ class Content implements
         }
 
         if ($this->getMainRubricId()) {
-            $main_rubric_obj = \Skif\Content\Rubric::factory($this->getMainRubricId());
+            $main_rubric_obj = Rubric::factory($this->getMainRubricId());
 
             return $main_rubric_obj->getTemplateId();
         }
@@ -475,7 +475,8 @@ class Content implements
     /**
      * @return int
      */
-    public function getCountRubricIdsArr() {
+    public function getCountRubricIdsArr()
+    {
         return count($this->getContentRubricsIdsArr());
     }
 
@@ -527,7 +528,8 @@ class Content implements
         return false;
     }
 
-    public function deleteContentRubrics() {
+    public function deleteContentRubrics()
+    {
         $content_rubrics_ids_arr = $this->getContentRubricsIdsArr();
         foreach ($content_rubrics_ids_arr as $content_rubrics_id) {
             $content_rubrics_obj = ContentRubrics::factory($content_rubrics_id);

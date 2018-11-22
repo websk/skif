@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Model;
+namespace WebSK\Model;
 
 interface InterfaceGetUrl {
     public function getUrl();

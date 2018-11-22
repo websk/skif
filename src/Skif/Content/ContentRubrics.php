@@ -2,15 +2,25 @@
 
 namespace Skif\Content;
 
+use WebSK\Model\ActiveRecord;
+use WebSK\Model\FactoryTrait;
+use WebSK\Model\InterfaceDelete;
+use WebSK\Model\InterfaceFactory;
+use WebSK\Model\InterfaceLoad;
+use WebSK\Model\InterfaceSave;
 
+/**
+ * Class ContentRubrics
+ * @package Skif\Content
+ */
 class ContentRubrics implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete
 {
-    use \Skif\Model\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+    use ActiveRecord;
+    use FactoryTrait;
 
     protected $id;
     protected $content_id;
@@ -60,10 +70,10 @@ class ContentRubrics implements
 
     public static function afterUpdate($content_rubrics_id)
     {
-        $content_rubrics_obj = \Skif\Content\ContentRubrics::factory($content_rubrics_id);
+        $content_rubrics_obj = self::factory($content_rubrics_id);
 
-        \Skif\Content\Content::afterUpdate($content_rubrics_obj->getContentId());
-        \Skif\Content\Rubric::afterUpdate($content_rubrics_obj->getRubricId());
+        Content::afterUpdate($content_rubrics_obj->getContentId());
+        Rubric::afterUpdate($content_rubrics_obj->getRubricId());
 
         self::removeObjFromCacheById($content_rubrics_id);
     }
@@ -72,8 +82,7 @@ class ContentRubrics implements
     {
         self::removeObjFromCacheById($this->getId());
 
-        \Skif\Content\Content::afterUpdate($this->getContentId());
-        \Skif\Content\Rubric::afterUpdate($this->getRubricId());
+        Content::afterUpdate($this->getContentId());
+        Rubric::afterUpdate($this->getRubricId());
     }
-
 }

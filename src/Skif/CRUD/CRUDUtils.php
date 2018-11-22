@@ -3,7 +3,7 @@
 namespace Skif\CRUD;
 
 
-use Skif\Model\Helper;
+use WebSK\Model\Helper;
 use Skif\Utils;
 use Websk\Utils\Assert;
 use WebSK\Utils\Url;

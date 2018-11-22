@@ -1,13 +1,13 @@
 <?php
 
-namespace Skif\Model;
+namespace WebSK\Model;
 
 use Websk\Skif\DBWrapper;
 use Websk\Utils\Assert;
 
 /**
  * Class ActiveRecordHelper
- * @package Skif\Model
+ * @package WebSK\Model
  */
 class ActiveRecordHelper
 {

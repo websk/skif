@@ -1,11 +1,12 @@
 <?php
 
-namespace Skif\Model;
+namespace WebSK\Model;
 
 /**
  * Interface InterfaceLogger
- * @package Skif\Model
+ * @package WebSK\Model
  * Если класс реализует этот интерфейс, то он его изменения логгируются
  */
-interface InterfaceLogger {
+interface InterfaceLogger
+{
 }

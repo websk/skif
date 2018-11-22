@@ -2,20 +2,32 @@
 
 namespace Skif\Form;
 
+use WebSK\Model\ActiveRecord;
+use WebSK\Model\FactoryTrait;
+use WebSK\Model\InterfaceDelete;
+use WebSK\Model\InterfaceFactory;
+use WebSK\Model\InterfaceGetTitle;
+use WebSK\Model\InterfaceGetUrl;
+use WebSK\Model\InterfaceLoad;
+use WebSK\Model\InterfaceSave;
 use WebSK\Utils\Transliteration;
 use Websk\Utils\Assert;
 use WebSK\Utils\Url;
 
+/**
+ * Class Form
+ * @package Skif\Form
+ */
 class Form implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete,
-    \Skif\Model\InterfaceGetUrl,
-    \Skif\Model\InterfaceGetTitle
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete,
+    InterfaceGetUrl,
+    InterfaceGetTitle
 {
-    use \Skif\Model\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+    use ActiveRecord;
+    use FactoryTrait;
 
     const DB_TABLE_NAME = 'form';
 
@@ -256,7 +268,7 @@ class Form implements
 
         $this->setUrl($url);
 
-        \Skif\Model\ActiveRecordHelper::saveModelObj($this);
+        \WebSK\Model\ActiveRecordHelper::saveModelObj($this);
 
         self::afterUpdate($this->getId());
     }

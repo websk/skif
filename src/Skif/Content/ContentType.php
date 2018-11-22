@@ -2,19 +2,28 @@
 
 namespace Skif\Content;
 
+use WebSK\Model\ActiveRecord;
+use WebSK\Model\FactoryTrait;
+use WebSK\Model\InterfaceDelete;
+use WebSK\Model\InterfaceFactory;
+use WebSK\Model\InterfaceGetTitle;
+use WebSK\Model\InterfaceLoad;
+use WebSK\Model\InterfaceSave;
+use Websk\Skif\DBWrapper;
+
 /**
  * Class ContentType
  * @package Skif\Content
  */
 class ContentType implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete,
-    \Skif\Model\InterfaceGetTitle
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete,
+    InterfaceGetTitle
 {
-    use \Skif\Model\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+    use ActiveRecord;
+    use FactoryTrait;
 
     const DB_TABLE_NAME = 'content_types';
 
@@ -66,13 +75,13 @@ class ContentType implements
 
     public function load($id)
     {
-        $is_loaded = \Skif\Model\ActiveRecordHelper::loadModelObj($this, $id);
+        $is_loaded = \WebSK\Model\ActiveRecordHelper::loadModelObj($this, $id);
         if (!$is_loaded) {
             return false;
         }
 
-        $query = "SELECT id FROM " . \Skif\Content\Rubric::DB_TABLE_NAME ." WHERE content_type_id = ?";
-        $this->rubric_ids_arr = \Websk\Skif\DBWrapper::readColumn(
+        $query = "SELECT id FROM " . Rubric::DB_TABLE_NAME ." WHERE content_type_id = ?";
+        $this->rubric_ids_arr = DBWrapper::readColumn(
             $query,
             array($this->id)
         );
@@ -172,5 +181,4 @@ class ContentType implements
     {
         return $this->rubric_ids_arr;
     }
-
 }

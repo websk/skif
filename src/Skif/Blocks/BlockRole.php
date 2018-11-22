@@ -4,14 +4,14 @@ namespace Skif\Blocks;
 
 
 class BlockRole implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete,
-    \Skif\Model\InterfaceLogger
+    \WebSK\Model\InterfaceLoad,
+    \WebSK\Model\InterfaceFactory,
+    \WebSK\Model\InterfaceSave,
+    \WebSK\Model\InterfaceDelete,
+    \WebSK\Model\InterfaceLogger
 {
-    use \Skif\Model\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+    use WebSK\Model\ActiveRecord;
+    use WebSK\Model\FactoryTrait;
 
     protected $id;
     protected $block_id;

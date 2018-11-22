@@ -4,14 +4,14 @@ namespace Skif\Blocks;
 
 
 class PageRegion implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete,
-    \Skif\Model\InterfaceLogger
+    \WebSK\Model\InterfaceLoad,
+    \WebSK\Model\InterfaceFactory,
+    \WebSK\Model\InterfaceSave,
+    \WebSK\Model\InterfaceDelete,
+    \WebSK\Model\InterfaceLogger
 {
-    use \Skif\Model\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+    use WebSK\Model\ActiveRecord;
+    use WebSK\Model\FactoryTrait;
 
     protected $id;
     protected $name;
@@ -31,7 +31,7 @@ class PageRegion implements
             return true;
         }
 
-        $is_loaded = \Skif\Model\ActiveRecordHelper::loadModelObj($this, $id);
+        $is_loaded = \WebSK\Model\ActiveRecordHelper::loadModelObj($this, $id);
         if (!$is_loaded) {
             return false;
         }

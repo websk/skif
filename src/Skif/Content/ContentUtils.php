@@ -5,6 +5,10 @@ namespace Skif\Content;
 use Websk\Skif\DBWrapper;
 use Skif\PhpTemplate;
 
+/**
+ * Class ContentUtils
+ * @package Skif\Content
+ */
 class ContentUtils
 {
     /**

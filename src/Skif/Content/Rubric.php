@@ -2,20 +2,32 @@
 
 namespace Skif\Content;
 
+use WebSK\Model\ActiveRecord;
+use WebSK\Model\FactoryTrait;
+use WebSK\Model\InterfaceDelete;
+use WebSK\Model\InterfaceFactory;
+use WebSK\Model\InterfaceLoad;
+use WebSK\Model\InterfaceLogger;
+use WebSK\Model\InterfaceSave;
+use Websk\Skif\DBWrapper;
 use WebSK\Utils\Transliteration;
-use Skif\Model\ActiveRecordHelper;
+use WebSK\Model\ActiveRecordHelper;
 use Websk\Utils\Assert;
 use WebSK\Utils\Url;
 
+/**
+ * Class Rubric
+ * @package Skif\Content
+ */
 class Rubric implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete,
-    \Skif\Model\InterfaceLogger
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete,
+    InterfaceLogger
 {
-    use \Skif\Model\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+    use ActiveRecord;
+    use FactoryTrait;
 
     protected $id;
     protected $name;
@@ -52,8 +64,8 @@ class Rubric implements
             return false;
         }
 
-        $query = "SELECT content_id FROM " . \Skif\Content\ContentRubrics::DB_TABLE_NAME ." WHERE rubric_id = ?";
-        $this->content_ids_arr = \Websk\Skif\DBWrapper::readColumn(
+        $query = "SELECT content_id FROM " . ContentRubrics::DB_TABLE_NAME ." WHERE rubric_id = ?";
+        $this->content_ids_arr = DBWrapper::readColumn(
             $query,
             array($this->id)
         );

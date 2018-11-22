@@ -1,12 +1,13 @@
 <?php
 
-namespace Skif\Model;
+namespace WebSK\Model;
 
 /**
  * Interface InterfaceGetTitle
- * @package Skif\Model
+ * @package WebSK\Model
  * Возвращает экранное, человекочитаемое имя модели, которое можно выводить в админке и т.п.
  */
-interface InterfaceGetTitle {
+interface InterfaceGetTitle
+{
     public function getTitle();
 } 

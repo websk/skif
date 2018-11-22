@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Model;
+namespace WebSK\Model;
 
 use WebSK\Skif\ConfWrapper;
 use Websk\Skif\CacheWrapper;

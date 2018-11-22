@@ -3,21 +3,29 @@
 namespace Skif\Blocks;
 
 use WebSK\Entity\InterfaceEntity;
+use WebSK\Model\ActiveRecord;
+use WebSK\Model\FactoryTrait;
+use WebSK\Model\InterfaceDelete;
+use WebSK\Model\InterfaceFactory;
+use WebSK\Model\InterfaceLoad;
+use WebSK\Model\InterfaceLogger;
+use WebSK\Model\InterfaceSave;
+use Websk\Skif\DBWrapper;
 
 /**
  * Class Block
  * @package Skif\Blocks
  */
 class Block implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete,
-    \Skif\Model\InterfaceLogger,
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete,
+    InterfaceLogger,
     InterfaceEntity
 {
-    use \Skif\Model\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+    use ActiveRecord;
+    use FactoryTrait;
 
     const BLOCK_REGION_NONE = -1;
 
@@ -211,8 +219,8 @@ class Block implements
 
     public function getBlockRoleIdsArr()
     {
-        $query = "SELECT id FROM " . \Skif\Blocks\BlockRole::DB_TABLE_NAME . " WHERE block_id = ?";
-        $block_role_ids_arr = \Websk\Skif\DBWrapper::readColumn(
+        $query = "SELECT id FROM " . BlockRole::DB_TABLE_NAME . " WHERE block_id = ?";
+        $block_role_ids_arr = DBWrapper::readColumn(
             $query,
             array($this->getId())
         );
@@ -227,7 +235,7 @@ class Block implements
         $role_ids_arr = array();
 
         foreach ($block_role_ids_arr as $block_role_id) {
-            $block_role_obj = \Skif\Blocks\BlockRole::factory($block_role_id);
+            $block_role_obj = BlockRole::factory($block_role_id);
 
             $role_ids_arr[] = $block_role_obj->getRoleId();
         }
@@ -254,7 +262,7 @@ class Block implements
         $block_role_ids_arr = $this->getBlockRoleIdsArr();
 
         foreach ($block_role_ids_arr as $block_role_id) {
-            $block_role_obj = \Skif\Blocks\BlockRole::factory($block_role_id);
+            $block_role_obj = BlockRole::factory($block_role_id);
 
             $block_role_obj->delete();
         }
@@ -264,8 +272,8 @@ class Block implements
     {
         $this->deleteBlocksRoles();
 
-        \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache($this->getPageRegionId(), $this->getTemplateId());
-        \Skif\Blocks\BlockUtils::clearBlockIdsArrByPageRegionIdCache(\Skif\Blocks\Block::BLOCK_REGION_NONE, $this->getTemplateId());
+        BlockUtils::clearBlockIdsArrByPageRegionIdCache($this->getPageRegionId(), $this->getTemplateId());
+        BlockUtils::clearBlockIdsArrByPageRegionIdCache(\Skif\Blocks\Block::BLOCK_REGION_NONE, $this->getTemplateId());
 
         self::removeObjFromCacheById($this->getId());
     }

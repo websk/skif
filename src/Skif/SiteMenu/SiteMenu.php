@@ -3,13 +3,13 @@
 namespace Skif\SiteMenu;
 
 class SiteMenu implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete
+    \WebSK\Model\InterfaceLoad,
+    \WebSK\Model\InterfaceFactory,
+    \WebSK\Model\InterfaceSave,
+    \WebSK\Model\InterfaceDelete
 {
-    use \Skif\Model\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+    use WebSK\Model\ActiveRecord;
+    use WebSK\Model\FactoryTrait;
 
     protected $id;
     protected $name;

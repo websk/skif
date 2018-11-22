@@ -2,6 +2,12 @@
 
 namespace Skif\Redirect;
 
+use WebSK\Model\ActiveRecord;
+use WebSK\Model\FactoryTrait;
+use WebSK\Model\InterfaceDelete;
+use WebSK\Model\InterfaceFactory;
+use WebSK\Model\InterfaceLoad;
+use WebSK\Model\InterfaceSave;
 use Websk\Skif\CacheWrapper;
 
 /**
@@ -9,13 +15,13 @@ use Websk\Skif\CacheWrapper;
  * @package Skif\Redirect
  */
 class Redirect implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete
 {
-    use \Skif\Model\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+    use ActiveRecord;
+    use FactoryTrait;
 
     const DB_TABLE_NAME = 'redirect_rewrites';
 

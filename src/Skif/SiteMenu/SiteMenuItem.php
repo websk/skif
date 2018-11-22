@@ -3,13 +3,13 @@
 namespace Skif\SiteMenu;
 
 class SiteMenuItem implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete
+    \WebSK\Model\InterfaceLoad,
+    \WebSK\Model\InterfaceFactory,
+    \WebSK\Model\InterfaceSave,
+    \WebSK\Model\InterfaceDelete
 {
-    use \Skif\Model\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+    use WebSK\Model\ActiveRecord;
+    use WebSK\Model\FactoryTrait;
 
     protected $id;
     protected $name;
@@ -29,7 +29,7 @@ class SiteMenuItem implements
 
     public function load($id)
     {
-        $is_loaded = \Skif\Model\ActiveRecordHelper::loadModelObj($this, $id);
+        $is_loaded = \WebSK\Model\ActiveRecordHelper::loadModelObj($this, $id);
         if (!$is_loaded) {
             return false;
         }

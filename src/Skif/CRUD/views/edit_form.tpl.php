@@ -8,9 +8,8 @@
 use Skif\CRUD\CRUDController;
 use Skif\CRUD\CRUDUtils;
 use Skif\CRUD\Widgets;
-use Skif\Model\InterfaceSave;
+use WebSK\Model\InterfaceSave;
 use Skif\PhpTemplate;
-use Skif\Utils;
 use Websk\Utils\Assert;
 
 Assert::assert($obj);
@@ -35,31 +34,6 @@ if ($crud_editor_fields_arr) {
         }
     }
 }
-
-echo \Skif\EditorTabs\Render::renderForObj($obj);
-
-/*
-if (property_exists($model_class_name, 'crud_extra_tabs') && count($model_class_name::$crud_extra_tabs) > 0) {
-    ?>
-    <ul class="nav nav-tabs" role="tablist">
-        <?php
-        foreach ($model_class_name::$crud_extra_tabs as $tab_pathname => $tab_title) {
-            //$tab_url = $tab_pathname.'?full_object_id='.\Skif\CRUDUtils::getFullObjectId($obj);
-            $tab_pathname = str_replace('#MODEL_ID#', $obj->getId(), $tab_pathname);
-            $tab_pathname = str_replace('#MODEL_CLASS_NAME#', urlencode($model_class_name), $tab_pathname);
-
-            $li_class = '';
-            if ($tab_pathname == \Skif\CRUDUtils::uri_no_getform()){
-                $li_class .= ' active ';
-            }
-
-            echo '<li class="' . $li_class . '"><a href="' . $tab_pathname . '">'.$tab_title.'</a></li>';
-        }
-        ?>
-    </ul>
-<?php
-}
-*/
 
 if ($obj instanceof InterfaceSave) {
     ?>

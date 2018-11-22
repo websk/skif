@@ -1,15 +1,15 @@
 <?php
 /**
- * Базовая реализация интерфейса \Skif\Model\InterfaceFactory
+ * Базовая реализация интерфейса \WebSK\Model\InterfaceFactory
  */
 
-namespace Skif\Model;
+namespace WebSK\Model;
 
 use Websk\Utils\Assert;
 
 /**
  * Trait FactoryTrait
- * @package Skif\Model
+ * @package WebSK\Model
  */
 trait FactoryTrait
 {

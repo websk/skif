@@ -71,7 +71,7 @@ class ModelReferenceWidget {
             return;
         }
 
-        if ( !($model_obj instanceof \Skif\Model\InterfaceGetTitle) ) {
+        if ( !($model_obj instanceof \WebSK\Model\InterfaceGetTitle) ) {
             echo json_encode(
                 array(
                     'success' => false,

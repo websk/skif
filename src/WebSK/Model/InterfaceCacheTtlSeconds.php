@@ -1,11 +1,12 @@
 <?php
 
-namespace Skif\Model;
+namespace WebSK\Model;
 
 /**
  * Interface InterfaceCacheTtlSeconds
- * @package Skif\Model
+ * @package WebSK\Model
  */
-interface InterfaceCacheTtlSeconds {
+interface InterfaceCacheTtlSeconds
+{
     public function getCacheTtlSeconds();
 }

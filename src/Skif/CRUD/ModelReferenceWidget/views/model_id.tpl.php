@@ -20,7 +20,7 @@ $additional_style = '';
 
 $model_obj = \Skif\CRUD\ModelReferenceWidget\ModelReferenceWidget::getModelObject($model_class_name, $field_value);
 if ($model_obj) {
-    if ( !($model_obj instanceof \Skif\Model\InterfaceGetTitle) ) {
+    if ( !($model_obj instanceof \WebSK\Model\InterfaceGetTitle) ) {
         throw new \Exception('Модель ' . $model_class_name . ' должна реализовывать интерфейс \Skif\Model\InterfaceGetTitle');
     }
 

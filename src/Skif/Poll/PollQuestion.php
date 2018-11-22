@@ -2,13 +2,13 @@
 
 namespace Skif\Poll;
 
-use Skif\Model\FactoryTrait;
-use Skif\Model\InterfaceDelete;
-use Skif\Model\InterfaceFactory;
-use Skif\Model\InterfaceGetTitle;
-use Skif\Model\InterfaceLoad;
-use Skif\Model\InterfaceSave;
-use Skif\Model\ActiveRecord;
+use WebSK\Model\FactoryTrait;
+use WebSK\Model\InterfaceDelete;
+use WebSK\Model\InterfaceFactory;
+use WebSK\Model\InterfaceGetTitle;
+use WebSK\Model\InterfaceLoad;
+use WebSK\Model\InterfaceSave;
+use WebSK\Model\ActiveRecord;
 
 class PollQuestion implements
     InterfaceLoad,

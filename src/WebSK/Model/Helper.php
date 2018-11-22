@@ -1,16 +1,23 @@
 <?php
 
-namespace Skif\Model;
+namespace WebSK\Model;
 
-class Helper {
+/**
+ * Class Helper
+ * @package WebSK\Model
+ */
+class Helper
+{
     /**
-     * Глобализация имен классов не является абсолютно необходимой, но в большом проекте проще и безопаснее всегда использовать глобальные имена классов.
+     * Глобализация имен классов не является абсолютно необходимой,
+     * но в большом проекте проще и безопаснее всегда использовать глобальные имена классов.
      * Пых всегда возвращает имена классов полные (со всеми неймспейсами), но не глобальные (без \ в начале).
      * @param $class_name
      * @return string
      */
-    static public function globalizeClassName($class_name){
-        if (!preg_match("@^\\\\@", $class_name)){ // если в начале имени класса нет слэша - добавляем
+    public static function globalizeClassName($class_name)
+    {
+        if (!preg_match("@^\\\\@", $class_name)) { // если в начале имени класса нет слэша - добавляем
             $class_name = '\\' . $class_name;
         }
 
@@ -22,7 +29,7 @@ class Helper {
      * @param $interface_class_name string Имя интерфейса, обязательно не глобальное!
      * @throws \Exception
      */
-    static public function exceptionIfClassNotImplementsInterface($class_name, $interface_class_name)
+    public static function exceptionIfClassNotImplementsInterface($class_name, $interface_class_name)
     {
         $global_class_name = self::globalizeClassName($class_name);
 
@@ -32,5 +39,4 @@ class Helper {
             throw new \Exception('model class ' . $class_name . ' does not implement ' . $interface_class_name);
         }
     }
-
 }

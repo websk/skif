@@ -2,17 +2,30 @@
 
 namespace Skif\Content;
 
+use WebSK\Model\ActiveRecord;
+use WebSK\Model\FactoryTrait;
+use WebSK\Model\InterfaceDelete;
+use WebSK\Model\InterfaceFactory;
+use WebSK\Model\InterfaceGetTitle;
+use WebSK\Model\InterfaceLoad;
+use WebSK\Model\InterfaceLogger;
+use WebSK\Model\InterfaceSave;
+use Websk\Skif\CacheWrapper;
 
+/**
+ * Class Template
+ * @package Skif\Content
+ */
 class Template implements
-    \Skif\Model\InterfaceLoad,
-    \Skif\Model\InterfaceFactory,
-    \Skif\Model\InterfaceSave,
-    \Skif\Model\InterfaceDelete,
-    \Skif\Model\InterfaceGetTitle,
-    \Skif\Model\InterfaceLogger
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete,
+    InterfaceGetTitle,
+    InterfaceLogger
 {
-    use \Skif\Model\ActiveRecord;
-    use \Skif\Model\FactoryTrait;
+    use ActiveRecord;
+    use FactoryTrait;
 
     const DB_TABLE_NAME = 'template';
 
@@ -157,18 +170,18 @@ class Template implements
 
     public static function afterUpdate($template_id)
     {
-        $template_obj = \Skif\Content\Template::factory($template_id);
+        $template_obj = self::factory($template_id);
 
-        $cache_key = \Skif\Content\TemplateUtils::getTemplateIdByNameCacheKey($template_obj->getName());
-        \Websk\Skif\CacheWrapper::delete($cache_key);
+        $cache_key = TemplateUtils::getTemplateIdByNameCacheKey($template_obj->getName());
+        CacheWrapper::delete($cache_key);
 
         self::removeObjFromCacheById($template_id);
     }
 
     public function afterDelete()
     {
-        $cache_key = \Skif\Content\TemplateUtils::getTemplateIdByNameCacheKey($this->getName());
-        \Websk\Skif\CacheWrapper::delete($cache_key);
+        $cache_key = TemplateUtils::getTemplateIdByNameCacheKey($this->getName());
+        CacheWrapper::delete($cache_key);
 
         self::removeObjFromCacheById($this->getId());
     }

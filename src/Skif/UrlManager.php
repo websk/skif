@@ -62,10 +62,10 @@ class UrlManager
         }
 
         self::$current_controller_obj = new $controller_class_name();
-        $action_result = call_user_func_array(array(self::$current_controller_obj, $action_method_name),
-            $decoded_matches_arr);
-
-        //$action_result = call_user_func_array(array($controller_class_name, $action_method_name), $decoded_matches_arr);
+        $action_result = call_user_func_array(
+            array(self::$current_controller_obj, $action_method_name),
+            $decoded_matches_arr
+        );
 
         if ($action_result == null) {
             exit;

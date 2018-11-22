@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Model;
+namespace WebSK\Model;
 
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Skif\Logger\Logger;
@@ -25,7 +25,7 @@ use Websk\Utils\Assert;
  * - был нормальный доступ к данным объекта (в т.ч. защищенным)
  * - идешка видела методы ActiveRecord
  * Class ActiveRecord
- * @package Skif\Model
+ * @package WebSK\Model
  */
 trait ActiveRecord
 {
