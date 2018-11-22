@@ -2,6 +2,10 @@
 
 namespace Websk\Skif;
 
+/**
+ * Class Facade
+ * @package Websk\Skif
+ */
 class Facade
 {
     /**

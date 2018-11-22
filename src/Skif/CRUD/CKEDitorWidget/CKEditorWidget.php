@@ -1,7 +1,15 @@
 <?php
+
 namespace Skif\CRUD\CKEditorWidget;
 
-class CKEditorWidget {
+use WebSK\Skif\CKEditor\CKEditor;
+
+/**
+ * Class CKEditorWidget
+ * @package Skif\CRUD\CKEditorWidget
+ */
+class CKEditorWidget
+{
 
     public static function renderWidget($field_name, $field_value, $widget_options = array())
     {
@@ -15,18 +23,17 @@ class CKEditorWidget {
             $height = $widget_options['height'];
         }
 
-        $type = \Skif\CKEditor\CKEditor::CKEDITOR_BASIC;
+        $type = CKEditor::CKEDITOR_BASIC;
         if (array_key_exists('type', $widget_options)) {
             $type = $widget_options['type'];
         }
 
-        if ($type == \Skif\CKEditor\CKEditor::CKEDITOR_FULL) {
-            $output = \Skif\CKEditor\CKEditor::createFullCKEditor($field_name, $field_value, $height, $dir);
+        if ($type == CKEditor::CKEDITOR_FULL) {
+            $output = CKEditor::createFullCKEditor($field_name, $field_value, $height, $dir);
         } else {
-            $output = \Skif\CKEditor\CKEditor::createBasicCKEditor($field_name, $field_value, $height, $dir);
+            $output = CKEditor::createBasicCKEditor($field_name, $field_value, $height, $dir);
         }
 
         return $output;
     }
-
 }

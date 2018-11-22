@@ -8,47 +8,6 @@ namespace Skif;
  */
 class Utils
 {
-    /**
-     * @param $current_page
-     * @param $count_records
-     * @param int $messages_to_page
-     * @return string
-     */
-    public static function renderPagination($current_page, $count_records, $messages_to_page = 10)
-    {
-        $url = $_SERVER['REQUEST_URI'];
-        $url = str_replace('&', '&amp;', $url);
-        $url = str_replace('?p=' . $current_page, '', $url);
-        $url = str_replace('&p=' . $current_page, '', $url);
-        $url = str_replace('&amp;p=' . $current_page, '', $url);
-
-        if (strpos($url, '?') === false) {
-            $url .= '?p=';
-        } else {
-            $url .= '&amp;p=';
-        }
-
-        $all = intval($count_records / $messages_to_page);
-
-        if ($messages_to_page > 1) {
-            $all++;
-        }
-
-        if ($all < 1) {
-            return '';
-        }
-
-        $html = '<ul class="pagination pagination-sm">';
-
-        for ($i = 1; $i <= $all; $i++) {
-            $html .= '<li ' . ($i == $current_page ? 'class="active"' : '') . '><a href="' . $url . $i . '">' . $i . '</a></li>';
-        }
-
-        $html .= '</ul>';
-
-
-        return $html;
-    }
 
     /**
      * @param $search

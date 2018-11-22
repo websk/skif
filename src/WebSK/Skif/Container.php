@@ -4,6 +4,10 @@ namespace Websk\Skif;
 
 use Psr\Container\ContainerInterface;
 
+/**
+ * Class Container
+ * @package Websk\Skif
+ */
 class Container extends Facade
 {
     /**

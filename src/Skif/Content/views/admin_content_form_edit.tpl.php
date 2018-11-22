@@ -4,15 +4,21 @@
  * @var $content_type
  */
 
-use Skif\Logger\LoggerUtils;
+use Skif\Content\Content;
+use Skif\Content\ContentType;
+use Skif\Content\Rubric;
+use Skif\Content\Template;
+use Skif\Content\TemplateUtils;
+use WebSK\Skif\CKEditor\CKEditor;
+use WebSK\Skif\Image\ImageManager;
 use WebSK\Skif\Logger\LoggerRender;
 
-$content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
+$content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
 
 if ($content_id == 'new') {
-    $content_obj = new \Skif\Content\Content();
+    $content_obj = new Content();
 } else {
-    $content_obj = \Skif\Content\Content::factory($content_id);
+    $content_obj = Content::factory($content_id);
 }
 ?>
 <script type="text/javascript">
@@ -77,7 +83,7 @@ if ($content_id == 'new') {
 
                     <div class="col-md-10">
                         <?php
-                        echo \Skif\CKEditor\CKEditor::createBasicCKEditor('annotation', $content_obj->getAnnotation(), 150, 'content');
+                        echo CKEditor::createBasicCKEditor('annotation', $content_obj->getAnnotation(), 150, 'content');
                         ?>
                     </div>
                 </div>
@@ -85,7 +91,7 @@ if ($content_id == 'new') {
                 <div class="form-group">
                     <div class="col-md-12">
                         <?php
-                        echo \Skif\CKEditor\CKEditor::createFullCKEditor('body', $content_obj->getBody(), 500, 'content');
+                        echo CKEditor::createFullCKEditor('body', $content_obj->getBody(), 500, 'content');
                         ?>
                     </div>
                 </div>
@@ -95,13 +101,13 @@ if ($content_id == 'new') {
 
                     <div class="col-md-10">
                         <?php
-                        $templates_ids_arr = \Skif\Content\TemplateUtils::getTemplatesIdsArr();
+                        $templates_ids_arr = TemplateUtils::getTemplatesIdsArr();
                         ?>
                         <select id="template_id" name="template_id" class="form-control">
                             <option value="0">Шаблон по-умолчанию</option>
                             <?
                             foreach ($templates_ids_arr as $template_id) {
-                                $template_obj = \Skif\Content\Template::factory($template_id);
+                                $template_obj = Template::factory($template_id);
                                 ?>
                                 <option value="<?php echo $template_id; ?>"<?php echo (($content_obj->getTemplateId() == $template_id) ? ' selected' : ''); ?>><?php echo $template_obj->getTitle(); ?></option>
                             <?
@@ -125,8 +131,8 @@ if ($content_id == 'new') {
                             </script>
 
                             <div class="form-group" id="image_area">
-                                <a id="image" href="<?php echo \WebSK\Skif\Image\ImageManager::getImgUrlByFileName($content_obj->getImagePath()) . '?d=' . time(); ?>">
-                                    <img src="<?php echo  \WebSK\Skif\Image\ImageManager::getImgUrlByPreset($content_obj->getImagePath(), '120_auto') . '?d=' . time(); ?>" class="img-responsive img-thumbnail" border="0">
+                                <a id="image" href="<?php echo ImageManager::getImgUrlByFileName($content_obj->getImagePath()) . '?d=' . time(); ?>">
+                                    <img src="<?php echo  ImageManager::getImgUrlByPreset($content_obj->getImagePath(), '120_auto') . '?d=' . time(); ?>" class="img-responsive img-thumbnail" border="0">
                                 </a>
                                 <a href="#image_delete" id="image_delete">Удалить</a>
                             </div>
@@ -200,7 +206,7 @@ if ($content_id == 'new') {
                             $content_rubrics_ids_arr = $content_obj->getRubricIdsArr();
 
                             foreach ($rubric_ids_arr as $rubric_id) {
-                                $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
+                                $rubric_obj = Rubric::factory($rubric_id);
                                 ?>
                                 <option value="<?php echo $rubric_obj->getId(); ?>"<?php echo (in_array($rubric_id, $content_rubrics_ids_arr) ? ' selected' : ''); ?>><?php echo $rubric_obj->getName(); ?></option>
                                 <?php
@@ -218,7 +224,7 @@ if ($content_id == 'new') {
                             $content_rubrics_ids_arr = $content_obj->getRubricIdsArr();
 
                             foreach ($rubric_ids_arr as $rubric_id) {
-                                $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
+                                $rubric_obj = Rubric::factory($rubric_id);
                                 ?>
                                 <option value="<?php echo $rubric_obj->getId(); ?>"<?php echo ($rubric_id == $content_obj->getMainRubricId() ? ' selected' : ''); ?>><?php echo $rubric_obj->getName(); ?></option>
                                 <?php

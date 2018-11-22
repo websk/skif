@@ -3,6 +3,8 @@
  * @var $content_type
  */
 
+use Skif\Pager;
+
 $content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
 
 $page = array_key_exists('p', $_GET) ? $_GET['p'] : 1;
@@ -105,5 +107,5 @@ foreach ($contents_ids_arr as $content_id) {
     </table>
 </div>
 <?php
-echo \Skif\Utils::renderPagination($page, $count_all_articles, $limit_to_page);
+echo Pager::renderPagination($page, $count_all_articles, $limit_to_page);
 ?>

@@ -80,7 +80,7 @@ class Form implements
             'widget' => array('\Skif\CRUD\CKEditorWidget\CKEditorWidget', 'renderWidget'),
             'widget_settings' => array(
                 'height' => 500,
-                'type' => \Skif\CKEditor\CKEditor::CKEDITOR_FULL,
+                'type' => \WebSK\Skif\CKEditor\CKEditor::CKEDITOR_FULL,
                 'dir' => 'form'
             ),
         ),

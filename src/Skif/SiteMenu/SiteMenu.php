@@ -2,14 +2,26 @@
 
 namespace Skif\SiteMenu;
 
+use Skif\Utils;
+use WebSK\Model\ActiveRecord;
+use WebSK\Model\FactoryTrait;
+use WebSK\Model\InterfaceDelete;
+use WebSK\Model\InterfaceFactory;
+use WebSK\Model\InterfaceLoad;
+use WebSK\Model\InterfaceSave;
+
+/**
+ * Class SiteMenu
+ * @package Skif\SiteMenu
+ */
 class SiteMenu implements
-    \WebSK\Model\InterfaceLoad,
-    \WebSK\Model\InterfaceFactory,
-    \WebSK\Model\InterfaceSave,
-    \WebSK\Model\InterfaceDelete
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete
 {
-    use WebSK\Model\ActiveRecord;
-    use WebSK\Model\FactoryTrait;
+    use ActiveRecord;
+    use FactoryTrait;
 
     protected $id;
     protected $name;
@@ -39,7 +51,7 @@ class SiteMenu implements
      */
     public function getName()
     {
-        return \Skif\Utils::checkPlain($this->name);
+        return Utils::checkPlain($this->name);
     }
 
     /**
@@ -65,5 +77,4 @@ class SiteMenu implements
     {
         $this->url = $url;
     }
-
 }

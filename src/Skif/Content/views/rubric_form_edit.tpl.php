@@ -4,15 +4,22 @@
  * @var $rubric_id
  */
 
-$content_type_obj = \Skif\Content\ContentType::factory($content_type_id);
+use Skif\Content\ContentType;
+use Skif\Content\Rubric;
+use Skif\Content\RubricController;
+use Skif\Content\Template;
+use Skif\Content\TemplateUtils;
+use WebSK\Skif\CKEditor\CKEditor;
+
+$content_type_obj = ContentType::factory($content_type_id);
 
 if ($rubric_id == 'new') {
-    $rubric_obj = new \Skif\Content\Rubric();
+    $rubric_obj = new Rubric();
 } else {
-    $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
+    $rubric_obj = Rubric::factory($rubric_id);
 }
 ?>
-<form action="<?php echo \Skif\Content\RubricController::getRubricsListUrlByContentType($content_type_obj->getType());?>/save/<?php echo $rubric_id; ?>" method="post" class="form-horizontal">
+<form action="<?php echo RubricController::getRubricsListUrlByContentType($content_type_obj->getType());?>/save/<?php echo $rubric_id; ?>" method="post" class="form-horizontal">
     <div class="form-group">
         <label class="col-md-4 control-label">Название</label>
 
@@ -25,7 +32,7 @@ if ($rubric_id == 'new') {
 
         <div class="col-md-8">
             <?php
-            echo \Skif\CKEditor\CKEditor::createBasicCKEditor('comment', $rubric_obj->getComment(), 150, 'content');
+            echo CKEditor::createBasicCKEditor('comment', $rubric_obj->getComment(), 150, 'content');
             ?>
         </div>
     </div>
@@ -34,13 +41,13 @@ if ($rubric_id == 'new') {
 
         <div class="col-md-10">
             <?php
-            $templates_ids_arr = \Skif\Content\TemplateUtils::getTemplatesIdsArr();
+            $templates_ids_arr = TemplateUtils::getTemplatesIdsArr();
             ?>
             <select id="template_id" name="template_id" class="form-control">
                 <option value="0">Шаблон по-умолчанию</option>
                 <?
                 foreach ($templates_ids_arr as $template_id) {
-                    $template_obj = \Skif\Content\Template::factory($template_id);
+                    $template_obj = Template::factory($template_id);
                     ?>
                     <option value="<?php echo $template_id; ?>"<?php echo (($rubric_obj->getTemplateId() == $template_id) ? ' selected' : ''); ?>><?php echo $template_obj->getTitle(); ?></option>
                     <?

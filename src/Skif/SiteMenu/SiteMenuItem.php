@@ -2,14 +2,27 @@
 
 namespace Skif\SiteMenu;
 
+use Skif\Utils;
+use WebSK\Model\ActiveRecord;
+use WebSK\Model\ActiveRecordHelper;
+use WebSK\Model\FactoryTrait;
+use WebSK\Model\InterfaceDelete;
+use WebSK\Model\InterfaceFactory;
+use WebSK\Model\InterfaceLoad;
+use WebSK\Model\InterfaceSave;
+
+/**
+ * Class SiteMenuItem
+ * @package Skif\SiteMenu
+ */
 class SiteMenuItem implements
-    \WebSK\Model\InterfaceLoad,
-    \WebSK\Model\InterfaceFactory,
-    \WebSK\Model\InterfaceSave,
-    \WebSK\Model\InterfaceDelete
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete
 {
-    use WebSK\Model\ActiveRecord;
-    use WebSK\Model\FactoryTrait;
+    use ActiveRecord;
+    use FactoryTrait;
 
     protected $id;
     protected $name;
@@ -29,12 +42,12 @@ class SiteMenuItem implements
 
     public function load($id)
     {
-        $is_loaded = \WebSK\Model\ActiveRecordHelper::loadModelObj($this, $id);
+        $is_loaded = ActiveRecordHelper::loadModelObj($this, $id);
         if (!$is_loaded) {
             return false;
         }
 
-        $this->children_ids_arr = \Skif\SiteMenu\SiteMenuUtils::getSiteMenuItemIdsArr($this->getMenuId(), $this->getId());
+        $this->children_ids_arr = SiteMenuUtils::getSiteMenuItemIdsArr($this->getMenuId(), $this->getId());
 
         return true;
     }
@@ -65,7 +78,7 @@ class SiteMenuItem implements
      */
     public function getName()
     {
-        return \Skif\Utils::checkPlain($this->name);
+        return Utils::checkPlain($this->name);
     }
 
     /**
@@ -185,10 +198,13 @@ class SiteMenuItem implements
     {
         $children_ids_arr = $this->getChildrenIdsArr();
         $descendants_ids_arr = $children_ids_arr;
-        foreach($children_ids_arr as $children_site_menu_item_id) {
-            $children_site_menu_item_obj = \Skif\SiteMenu\SiteMenuItem::factory($children_site_menu_item_id);
+        foreach ($children_ids_arr as $children_site_menu_item_id) {
+            $children_site_menu_item_obj = self::factory($children_site_menu_item_id);
 
-            $descendants_ids_arr = array_merge($descendants_ids_arr, $children_site_menu_item_obj->getDescendantsIdsArr());
+            $descendants_ids_arr = array_merge(
+                $descendants_ids_arr,
+                $children_site_menu_item_obj->getDescendantsIdsArr()
+            );
         }
         return $descendants_ids_arr;
     }
@@ -214,7 +230,7 @@ class SiteMenuItem implements
             }
 
             $ancestors_ids_arr[] = $parent_id;
-            $current_site_menu_item_obj = \Skif\SiteMenu\SiteMenuItem::factory($parent_id);
+            $current_site_menu_item_obj = self::factory($parent_id);
 
             $iteration++;
         }
@@ -224,7 +240,7 @@ class SiteMenuItem implements
 
     public static function afterUpdate($item_id)
     {
-        $item_obj = \Skif\SiteMenu\SiteMenuItem::factory($item_id);
+        $item_obj = self::factory($item_id);
 
         self::removeObjFromCacheById($item_id);
         self::removeObjFromCacheById($item_obj->getParentId());
@@ -235,7 +251,7 @@ class SiteMenuItem implements
         $children_ids_arr = $this->getChildrenIdsArr();
 
         foreach ($children_ids_arr as $children_site_menu_item_id) {
-            $children_site_menu_item_obj = \Skif\SiteMenu\SiteMenuItem::factory($children_site_menu_item_id);
+            $children_site_menu_item_obj = self::factory($children_site_menu_item_id);
             $children_site_menu_item_obj->delete();
         }
 

@@ -3,6 +3,7 @@
  * @var $rubric_id
  */
 
+use Skif\Pager;
 use WebSK\Skif\ConfWrapper;
 use Skif\Content\Content;
 use Skif\Content\ContentType;
@@ -37,4 +38,4 @@ foreach ($content_ids_arr as $content_id) {
 }
 
 $count_all_articles = ContentUtils::getCountPublishedContentsByRubricId($rubric_id);
-echo Utils::renderPagination($page, $count_all_articles, $limit_to_page);
+echo Pager::renderPagination($page, $count_all_articles, $limit_to_page);
