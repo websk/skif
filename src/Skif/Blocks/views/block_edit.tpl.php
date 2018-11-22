@@ -6,7 +6,7 @@
 use Skif\Blocks\BlockUtils;
 use Skif\Blocks\ControllerBlocks;
 use Skif\PhpTemplate;
-use Websk\Skif\Container;
+use Websk\Slim\Container;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Skif\Users\UsersUtils;
 use Websk\Skif\Path;

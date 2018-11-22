@@ -1,7 +1,7 @@
 <?php
 
 use WebSK\Skif\Captcha\CaptchaRoutes;
-use WebSK\Skif\Router;
+use WebSK\Slim\Router;
 use WebSK\Skif\Auth\AuthRoutes;
 
 ?>

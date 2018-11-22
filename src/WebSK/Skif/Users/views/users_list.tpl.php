@@ -5,8 +5,8 @@
 
 use WebSK\Skif\Image\ImageManager;
 use WebSK\Skif\Logger\LoggerRender;
-use WebSK\Skif\Request;
-use WebSK\Skif\Router;
+use WebSK\Slim\Request;
+use WebSK\Slim\Router;
 use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersUtils;
 

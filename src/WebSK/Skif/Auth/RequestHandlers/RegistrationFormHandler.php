@@ -7,7 +7,7 @@ use Slim\Http\Response;
 use WebSK\Skif\ConfWrapper;
 use WebSK\Skif\PhpRender;
 use WebSK\Skif\RequestHandlers\BaseHandler;
-use WebSK\Skif\Router;
+use WebSK\Slim\Router;
 use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\UsersRoutes;
 

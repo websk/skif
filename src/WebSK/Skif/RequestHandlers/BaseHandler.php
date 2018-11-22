@@ -3,7 +3,7 @@
 namespace WebSK\Skif\RequestHandlers;
 
 use Psr\Container\ContainerInterface;
-use Websk\Skif\Router;
+use WebSK\Slim\Router;
 
 /**
  * Class BaseHandler

@@ -10,7 +10,7 @@ use Websk\Skif\Captcha\Captcha;
 use WebSK\Skif\ConfWrapper;
 use Websk\Skif\Messages;
 use WebSK\Skif\RequestHandlers\BaseHandler;
-use WebSK\Skif\Router;
+use WebSK\Slim\Router;
 use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UserRole;

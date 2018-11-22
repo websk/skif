@@ -4,7 +4,7 @@ namespace WebSK\Skif\Auth;
 
 use Skif\Utils;
 use WebSK\Skif\ConfWrapper;
-use WebSK\Skif\Router;
+use WebSK\Slim\Router;
 
 /**
  * Class AuthService

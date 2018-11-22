@@ -3,6 +3,7 @@
 namespace Websk\Skif;
 
 use Websk\DB\DBService;
+use Websk\Slim\Container;
 
 /**
  * Class DBWrapper

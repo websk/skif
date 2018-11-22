@@ -1,7 +1,7 @@
 <?php
 
 use WebSK\Skif\Auth\AuthRoutes;
-use WebSK\Skif\Router;
+use WebSK\Slim\Router;
 
 $destination = '/';
 if (isset($_REQUEST['destination'])) {

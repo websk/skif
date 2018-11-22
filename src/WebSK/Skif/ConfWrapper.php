@@ -2,6 +2,8 @@
 
 namespace WebSK\Skif;
 
+use Websk\Slim\Container;
+
 /**
  * Class ConfWrapper
  * @package WebSK\Skif

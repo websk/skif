@@ -3,7 +3,7 @@
  *
  */
 
-use WebSK\Skif\Router;
+use WebSK\Slim\Router;
 use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersUtils;
 

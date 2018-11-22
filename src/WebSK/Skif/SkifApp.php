@@ -28,6 +28,7 @@ use WebSK\Skif\RequestHandlers\ErrorHandler;
 use WebSK\Skif\RequestHandlers\NotFoundHandler;
 use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersServiceProvider;
+use Websk\Slim\Facade;
 
 class SkifApp extends App
 {

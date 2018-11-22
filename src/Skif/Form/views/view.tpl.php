@@ -8,8 +8,8 @@ use Skif\Form\FormController;
 use Skif\Form\FormField;
 use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Captcha\CaptchaRoutes;
-use Websk\Skif\Container;
-use WebSK\Skif\Router;
+use Websk\Slim\Container;
+use WebSK\Slim\Router;
 use WebSK\Skif\Users\UsersServiceProvider;
 
 $form_obj = Form::factory($form_id);

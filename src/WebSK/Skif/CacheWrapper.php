@@ -4,6 +4,7 @@ namespace Websk\Skif;
 
 use WebSK\Cache\CacheService;
 use WebSK\Skif\SkifServiceProvider;
+use Websk\Slim\Container;
 
 /**
  * Class CacheWrapper

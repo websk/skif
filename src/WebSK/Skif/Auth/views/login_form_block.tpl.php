@@ -4,7 +4,7 @@
  */
 
 use WebSK\Skif\Auth\AuthRoutes;
-use WebSK\Skif\Router;
+use WebSK\Slim\Router;
 
 if (!isset($destination)) {
     $destination = '/';

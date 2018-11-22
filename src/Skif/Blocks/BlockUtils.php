@@ -4,7 +4,7 @@ namespace Skif\Blocks;
 
 use WebSK\Utils\Network;
 use WebSK\Utils\Filter;
-use Websk\Skif\Container;
+use Websk\Slim\Container;
 use Websk\Skif\CacheWrapper;
 use Websk\Skif\DBWrapper;
 use WebSK\Skif\Users\UsersServiceProvider;

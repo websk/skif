@@ -6,7 +6,7 @@
  */
 
 use WebSK\Skif\Image\ImageManager;
-use WebSK\Skif\Router;
+use WebSK\Slim\Router;
 use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UsersRoutes;

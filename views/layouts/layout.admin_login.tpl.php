@@ -5,7 +5,7 @@
 
 use WebSK\Skif\Auth\AuthRoutes;
 use Websk\Skif\Path;
-use WebSK\Skif\Router;
+use WebSK\Slim\Router;
 
 ?>
 <!DOCTYPE html>

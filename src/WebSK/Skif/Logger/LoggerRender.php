@@ -4,7 +4,7 @@ namespace WebSK\Skif\Logger;
 
 use OLOG\FullObjectId;
 use Slim\Interfaces\RouterInterface;
-use WebSK\Skif\Container;
+use Websk\Slim\Container;
 use WebSK\Entity\InterfaceEntity;
 
 class LoggerRender

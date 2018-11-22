@@ -5,6 +5,8 @@ namespace WebSK\Skif;
 use Psr\Http\Message\ResponseInterface;
 use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\UsersServiceProvider;
+use Websk\Slim\Container;
+use WebSK\Slim\Request;
 
 /**
  * Class AdminRender

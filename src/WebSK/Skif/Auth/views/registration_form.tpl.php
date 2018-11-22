@@ -2,7 +2,7 @@
 
 use WebSK\Skif\Auth\AuthRoutes;
 use WebSK\Skif\Captcha\CaptchaRoutes;
-use WebSK\Skif\Router;
+use WebSK\Slim\Router;
 use WebSK\Skif\Users\User;
 
 $destination = Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGIN_FORM);

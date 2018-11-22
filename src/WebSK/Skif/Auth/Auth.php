@@ -3,7 +3,7 @@
 namespace WebSK\Skif\Auth;
 
 use WebSK\Skif\ConfWrapper;
-use Websk\Skif\Container;
+use Websk\Slim\Container;
 use Websk\Skif\DBWrapper;
 use WebSK\Skif\Image\ImageManager;
 use Websk\Skif\Messages;
