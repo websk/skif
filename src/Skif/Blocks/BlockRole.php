@@ -2,62 +2,76 @@
 
 namespace Skif\Blocks;
 
+use WebSK\Model\ActiveRecord;
+use WebSK\Model\FactoryTrait;
+use WebSK\Model\InterfaceDelete;
+use WebSK\Model\InterfaceFactory;
+use WebSK\Model\InterfaceLoad;
+use WebSK\Model\InterfaceLogger;
+use WebSK\Model\InterfaceSave;
 
+/**
+ * Class BlockRole
+ * @package Skif\Blocks
+ */
 class BlockRole implements
-    \WebSK\Model\InterfaceLoad,
-    \WebSK\Model\InterfaceFactory,
-    \WebSK\Model\InterfaceSave,
-    \WebSK\Model\InterfaceDelete,
-    \WebSK\Model\InterfaceLogger
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete,
+    InterfaceLogger
 {
-    use WebSK\Model\ActiveRecord;
-    use WebSK\Model\FactoryTrait;
-
-    protected $id;
-    protected $block_id;
-    protected $role_id;
+    use ActiveRecord;
+    use FactoryTrait;
 
     const DB_TABLE_NAME = 'blocks_roles';
 
+    /** @var int */
+    protected $id;
+
+    /** @var int */
+    protected $block_id;
+
+    /** @var int */
+    protected $role_id;
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getBlockId()
+    public function getBlockId(): int
     {
         return $this->block_id;
     }
 
     /**
-     * @param mixed $block_id
+     * @param int $block_id
      */
-    public function setBlockId($block_id)
+    public function setBlockId(int $block_id): void
     {
         $this->block_id = $block_id;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getRoleId()
+    public function getRoleId(): int
     {
         return $this->role_id;
     }
 
     /**
-     * @param mixed $role_id
+     * @param int $role_id
      */
-    public function setRoleId($role_id)
+    public function setRoleId(int $role_id): void
     {
         $this->role_id = $role_id;
     }
-
 }

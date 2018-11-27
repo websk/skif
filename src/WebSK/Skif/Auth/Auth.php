@@ -158,21 +158,6 @@ class Auth
     }
 
     /**
-     * @return User
-     * @throws \Exception
-     */
-    public static function getCurrentUserObj()
-    {
-        $user_id = self::getCurrentUserId();
-
-        $container = Container::self();
-
-        $user_service = UsersServiceProvider::getUserService($container);
-
-        return $user_service->getById($user_id, false);
-    }
-
-    /**
      * @return bool
      */
     public static function currentUserIsAdmin()

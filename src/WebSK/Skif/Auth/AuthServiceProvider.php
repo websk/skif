@@ -3,7 +3,12 @@
 namespace WebSK\Skif\Auth;
 
 use Psr\Container\ContainerInterface;
+use WebSK\Skif\Users\UsersServiceProvider;
 
+/**
+ * Class AuthServiceProvider
+ * @package WebSK\Skif\Auth
+ */
 class AuthServiceProvider
 {
     const AUTH_SERVICE_CONTAINER_ID = 'auth_service_container_id';
@@ -19,6 +24,7 @@ class AuthServiceProvider
          */
         $container[self::AUTH_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
             return new AuthService(
+                UsersServiceProvider::getUserService($container)
             );
         };
     }

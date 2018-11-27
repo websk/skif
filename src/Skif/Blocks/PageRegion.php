@@ -2,28 +2,51 @@
 
 namespace Skif\Blocks;
 
+use WebSK\Model\ActiveRecord;
+use WebSK\Model\ActiveRecordHelper;
+use WebSK\Model\FactoryTrait;
+use WebSK\Model\InterfaceDelete;
+use WebSK\Model\InterfaceFactory;
+use WebSK\Model\InterfaceLoad;
+use WebSK\Model\InterfaceLogger;
+use WebSK\Model\InterfaceSave;
+use Websk\Skif\CacheWrapper;
 
+/**
+ * Class PageRegion
+ * @package Skif\Blocks
+ */
 class PageRegion implements
-    \WebSK\Model\InterfaceLoad,
-    \WebSK\Model\InterfaceFactory,
-    \WebSK\Model\InterfaceSave,
-    \WebSK\Model\InterfaceDelete,
-    \WebSK\Model\InterfaceLogger
+    InterfaceLoad,
+    InterfaceFactory,
+    InterfaceSave,
+    InterfaceDelete,
+    InterfaceLogger
 {
-    use WebSK\Model\ActiveRecord;
-    use WebSK\Model\FactoryTrait;
-
-    protected $id;
-    protected $name;
-    protected $template_id;
-    protected $title;
+    use ActiveRecord;
+    use FactoryTrait;
 
     const DB_TABLE_NAME = 'page_regions';
 
+    /** @var int */
+    protected $id;
 
+    /** @var string */
+    protected $name;
+
+    /** @var int */
+    protected $template_id;
+
+    /** @var string */
+    protected $title;
+
+    /**
+     * @param $id
+     * @return bool
+     */
     public function load($id)
     {
-        if ($id == \Skif\Blocks\Block::BLOCK_REGION_NONE) {
+        if ($id == Block::BLOCK_REGION_NONE) {
             $this->id = $id;
             $this->name = 'disabled';
             $this->title = 'Отключенные блоки';
@@ -31,7 +54,7 @@ class PageRegion implements
             return true;
         }
 
-        $is_loaded = \WebSK\Model\ActiveRecordHelper::loadModelObj($this, $id);
+        $is_loaded = ActiveRecordHelper::loadModelObj($this, $id);
         if (!$is_loaded) {
             return false;
         }
@@ -39,87 +62,86 @@ class PageRegion implements
         return true;
     }
 
-
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @param mixed $id
+     * @return string
      */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getTemplateId()
+    public function getTemplateId(): int
     {
         return $this->template_id;
     }
 
     /**
-     * @param mixed $template_id
+     * @param int $template_id
      */
-    public function setTemplateId($template_id)
+    public function setTemplateId(int $template_id): void
     {
         $this->template_id = $template_id;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
     /**
-     * @param mixed $title
+     * @param string $title
      */
-    public function setTitle($title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
+    /**
+     * @param $page_region_id
+     */
     public static function afterUpdate($page_region_id)
     {
-        $page_region_obj = \Skif\Blocks\PageRegion::factory($page_region_id);
+        $page_region_obj = self::factory($page_region_id);
 
-        $cache_key = \Skif\Blocks\PageRegionsUtils::getPageRegionIdByNameAndTemplateIdCacheKey($page_region_obj->getName(), $page_region_obj->getTemplateId());
-        \Websk\Skif\CacheWrapper::delete($cache_key);
+        $cache_key = PageRegionsUtils::getPageRegionIdByNameAndTemplateIdCacheKey(
+            $page_region_obj->getName(),
+            $page_region_obj->getTemplateId()
+        );
+        CacheWrapper::delete($cache_key);
 
         self::removeObjFromCacheById($page_region_id);
     }
 
     public function afterDelete()
     {
-        $cache_key = \Skif\Blocks\PageRegionsUtils::getPageRegionIdByNameAndTemplateIdCacheKey($this->getName(), $this->getTemplateId());
-        \Websk\Skif\CacheWrapper::delete($cache_key);
+        $cache_key = PageRegionsUtils::getPageRegionIdByNameAndTemplateIdCacheKey(
+            $this->getName(),
+            $this->getTemplateId()
+        );
+        CacheWrapper::delete($cache_key);
 
         self::removeObjFromCacheById($this->getId());
     }
-
 }

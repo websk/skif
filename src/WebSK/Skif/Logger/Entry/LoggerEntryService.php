@@ -4,9 +4,11 @@ namespace WebSK\Skif\Logger\Entry;
 
 use OLOG\FullObjectId;
 use OLOG\IP;
-use WebSK\Skif\Auth\Auth;
+use WebSK\Cache\CacheService;
+use WebSK\Entity\BaseEntityRepository;
 use WebSK\Entity\BaseEntityService;
 use WebSK\Entity\InterfaceEntity;
+use WebSK\Skif\Auth\AuthService;
 
 /**
  * Class EntryService
@@ -17,6 +19,27 @@ class LoggerEntryService extends BaseEntityService
 {
     /** @var LoggerEntryRepository */
     protected $repository;
+
+    /** @var AuthService */
+    protected $auth_service;
+
+    /**
+     * LoggerEntryService constructor.
+     * @param string $entity_class_name
+     * @param BaseEntityRepository $repository
+     * @param CacheService $cache_service
+     * @param AuthService $auth_service
+     */
+    public function __construct(
+        string $entity_class_name,
+        BaseEntityRepository $repository,
+        CacheService $cache_service,
+        AuthService $auth_service
+    ) {
+        $this->auth_service = $auth_service;
+
+        parent::__construct($entity_class_name, $repository, $cache_service);
+    }
 
     /**
      * @param int $current_entry_id
@@ -99,7 +122,7 @@ class LoggerEntryService extends BaseEntityService
             $object,
             FullObjectId::getFullObjectId($object),
             $comment,
-            FullObjectId::getFullObjectId(Auth::getCurrentUserObj())
+            FullObjectId::getFullObjectId($this->auth_service->getCurrentUserObj())
         );
     }
 

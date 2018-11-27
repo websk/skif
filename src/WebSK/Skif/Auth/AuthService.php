@@ -4,6 +4,8 @@ namespace WebSK\Skif\Auth;
 
 use Skif\Utils;
 use WebSK\Skif\ConfWrapper;
+use WebSK\Skif\Users\User;
+use WebSK\Skif\Users\UserService;
 use WebSK\Slim\Router;
 
 /**
@@ -12,9 +14,16 @@ use WebSK\Slim\Router;
  */
 class AuthService
 {
-    public function __construct()
-    {
+    /** @var UserService */
+    protected $user_service;
 
+    /**
+     * AuthService constructor.
+     * @param UserService $user_service
+     */
+    public function __construct(UserService $user_service)
+    {
+        $this->user_service = $user_service;
     }
 
     /**
@@ -49,5 +58,16 @@ class AuthService
         $mail->Body = $mail_message;
         $mail->AltBody = Utils::checkPlain($mail_message);
         $mail->send();
+    }
+
+    /**
+     * @return User
+     * @throws \Exception
+     */
+    public function getCurrentUserObj()
+    {
+        $user_id = Auth::getCurrentUserId();
+
+        return $this->user_service->getById($user_id, false);
     }
 }
