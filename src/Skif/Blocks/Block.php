@@ -27,6 +27,8 @@ class Block implements
     use ActiveRecord;
     use FactoryTrait;
 
+    const DB_TABLE_NAME = 'blocks';
+
     const BLOCK_REGION_NONE = -1;
 
     const BLOCK_NO_CACHE = -1;
@@ -47,8 +49,6 @@ class Block implements
     protected $cache = self::BLOCK_CACHE_GLOBAL;
     protected $body = '';
     protected $format = self::BLOCK_FORMAT_TYPE_PLAIN;
-
-    const DB_TABLE_NAME = 'blocks';
 
     public static $active_record_ignore_fields_arr = array(
     );

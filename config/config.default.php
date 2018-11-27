@@ -20,6 +20,12 @@ return [
                 'user' => '',
                 'password' => '',
             ],
+            'db_logger' => [
+                'host' => 'localhost',
+                'db_name' => 'skif',
+                'user' => '',
+                'password' => '',
+            ],
         ],
         'layout' => [
             'admin' => 'layouts/layout.admin.tpl.php',

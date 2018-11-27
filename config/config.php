@@ -22,6 +22,12 @@ $config = [
                 'user' => 'root',
                 'password' => 'root',
             ],
+            'db_logger' => [
+                'host' => 'mysql',
+                'db_name' => 'skif',
+                'user' => 'root',
+                'password' => 'root',
+            ],
         ],
         'skif_url_path' => '/',
         'site_url' => '/skif',
