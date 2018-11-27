@@ -8,7 +8,7 @@
 use WebSK\Skif\ConfWrapper;
 use Skif\Content\ContentType;
 use Skif\Content\ContentUtils;
-use WebSK\Skif\LayoutDTO;
+use WebSK\UI\LayoutDTO;
 use Websk\Skif\Messages;
 use Websk\Skif\Path;
 use Skif\PhpTemplate;

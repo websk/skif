@@ -50,7 +50,8 @@ class DBWrapper
      * @return mixed
      * @throws \Exception
      */
-    public static function readObject(string $query, array $params_arr = []) {
+    public static function readObject(string $query, array $params_arr = [])
+    {
         $container = Container::self();
 
         /** @var DBService $db_service */
@@ -136,5 +137,5 @@ class DBWrapper
         $db_service = $container->get(SkifServiceProvider::SKIF_DB_SERVICE);
 
         return $db_service->lastInsertId($db_sequence_name);
-   }
+    }
 }

@@ -10,6 +10,7 @@ use Websk\Slim\Container;
  */
 class ConfWrapper
 {
+    const SETTINGS_CONTAINER_ID = 'settings';
 
     /**
      * Get value an array by using "root.branch.leaf" notation
@@ -20,14 +21,13 @@ class ConfWrapper
      */
     public static function value($path, $default = '')
     {
-
         if (empty($path)) {
             return '';
         }
 
         $container = Container::self();
 
-        $value = $container['settings'] ?? [];
+        $value = $container[self::SETTINGS_CONTAINER_ID] ?? [];
 
         $parts = explode(".", $path);
 

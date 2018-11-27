@@ -5,7 +5,7 @@ namespace WebSK\Skif\Users\RequestHandlers\Admin;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Skif\AdminRender;
-use WebSK\Skif\LayoutDTO;
+use WebSK\UI\LayoutDTO;
 use WebSK\Skif\PhpRender;
 use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Skif\Users\User;

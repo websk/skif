@@ -1,6 +1,6 @@
 <?php
 
-namespace WebSK\Skif\Users\Middleware;
+namespace WebSK\Auth\Users\Middleware;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -8,10 +8,10 @@ use WebSK\Skif\Auth\Auth;
 use WebSK\Utils\HTTP;
 
 /**
- * Class CurrentUserIsAdmin
+ * Class CurrentUserHasRightToEditUser
  * @package WebSK\WebSK\Skif\Users\Middleware
  */
-class CurrentUserIsAdmin
+class CurrentUserHasRightToEditUser
 {
     /**
      * @param Request $request
@@ -21,7 +21,19 @@ class CurrentUserIsAdmin
      */
     public function __invoke(Request $request, Response $response, $next)
     {
-        if (!Auth::currentUserIsAdmin()) {
+        $user_id = $request->getAttribute('routeInfo')[2]['user_id'] ?? null;
+
+        if (!isset($user_id)) {
+            $response = $next($request, $response);
+
+            return $response;
+        }
+
+        $user_id = (int)$user_id;
+
+        $current_user_id = Auth::getCurrentUserId();
+
+        if (($current_user_id != $user_id) && !Auth::currentUserIsAdmin()) {
             return $response->withStatus(HTTP::STATUS_FORBIDDEN);
         }
 
@@ -30,3 +42,4 @@ class CurrentUserIsAdmin
         return $response;
     }
 }
+

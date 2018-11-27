@@ -3,8 +3,8 @@
 namespace WebSK\Skif\Users;
 
 use Slim\App;
-use WebSK\Skif\Users\Middleware\CurrentUserHasRightToEditUser;
-use WebSK\Skif\Users\Middleware\CurrentUserIsAdmin;
+use WebSK\Auth\Users\Middleware\CurrentUserHasRightToEditUser;
+use WebSK\Skif\Auth\Middleware\CurrentUserIsAdmin;
 use WebSK\Skif\Users\RequestHandlers\Admin\RoleDeleteHandler;
 use WebSK\Skif\Users\RequestHandlers\Admin\RoleEditHandler;
 use WebSK\Skif\Users\RequestHandlers\Admin\RoleSaveHandler;

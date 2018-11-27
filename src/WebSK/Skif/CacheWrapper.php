@@ -3,7 +3,6 @@
 namespace Websk\Skif;
 
 use WebSK\Cache\CacheService;
-use WebSK\Skif\SkifServiceProvider;
 use Websk\Slim\Container;
 
 /**
@@ -61,8 +60,9 @@ class CacheWrapper
 
     /**
      * Обновляет время жизни кеша
-     * @param string $cache_key
+     * @param $cache_key
      * @param $expire
+     * @throws \Exception
      */
     public static function updateExpireByCacheKey($cache_key, $expire)
     {

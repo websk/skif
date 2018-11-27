@@ -7,6 +7,7 @@ use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\UsersServiceProvider;
 use Websk\Slim\Container;
 use WebSK\Slim\Request;
+use WebSK\UI\LayoutDTO;
 
 /**
  * Class AdminRender

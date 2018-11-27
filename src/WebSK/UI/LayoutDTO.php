@@ -1,11 +1,11 @@
 <?php
 
-namespace WebSK\Skif;
+namespace WebSK\UI;
 
-use WebSK\UI\BreadcrumbItemDTO;
-use WebSK\UI\MenuItemDTO;
-use WebSK\UI\NavTabItemDTO;
-
+/**
+ * Class LayoutDTO
+ * @package WebSK\Skif
+ */
 class LayoutDTO
 {
     /** @var string */
