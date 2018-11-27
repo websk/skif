@@ -8,7 +8,7 @@ use WebSK\Model\InterfaceDelete;
 use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
-use Websk\Skif\CacheWrapper;
+use Websk\Cache\CacheWrapper;
 
 /**
  * Class Redirect

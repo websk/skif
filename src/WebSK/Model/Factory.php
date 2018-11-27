@@ -3,7 +3,7 @@
 namespace WebSK\Model;
 
 use WebSK\Skif\ConfWrapper;
-use Websk\Skif\CacheWrapper;
+use Websk\Cache\CacheWrapper;
 use Websk\Utils\Assert;
 
 /**

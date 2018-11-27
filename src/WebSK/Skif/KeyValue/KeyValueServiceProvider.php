@@ -3,6 +3,7 @@
 namespace WebSK\Skif\KeyValue;
 
 use Psr\Container\ContainerInterface;
+use WebSK\Cache\CacheServiceProvider;
 use WebSK\Skif\SkifServiceProvider;
 
 /**
@@ -20,7 +21,7 @@ class KeyValueServiceProvider
             return new KeyValueService(
                 KeyValue::class,
                 $container->get(KeyValue::ENTITY_REPOSITORY_CONTAINER_ID),
-                $container->get(SkifServiceProvider::SKIF_CACHE_SERVICE)
+                CacheServiceProvider::getCacheService($container)
             );
         };
 

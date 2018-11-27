@@ -10,7 +10,7 @@ use WebSK\Model\InterfaceGetTitle;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceLogger;
 use WebSK\Model\InterfaceSave;
-use Websk\Skif\CacheWrapper;
+use Websk\Cache\CacheWrapper;
 
 /**
  * Class Template

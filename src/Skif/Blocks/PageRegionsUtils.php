@@ -40,7 +40,7 @@ class PageRegionsUtils
     {
         $cache_key = self::getPageRegionIdByNameAndTemplateIdCacheKey($name, $template_id);
 
-        $cache = \Websk\Skif\CacheWrapper::get($cache_key);
+        $cache = \Websk\Cache\CacheWrapper::get($cache_key);
         if ($cache !== false) {
             return $cache;
         }
@@ -49,7 +49,7 @@ class PageRegionsUtils
 
         $page_region_id = \Websk\Skif\DBWrapper::readField($query, array($name, $template_id));
 
-        \Websk\Skif\CacheWrapper::set($cache_key, $page_region_id, 3600);
+        \Websk\Cache\CacheWrapper::set($cache_key, $page_region_id, 3600);
 
         return $page_region_id;
     }

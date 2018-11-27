@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "cd0fdc38ca28db22844491f672f7aa42",
+    "content-hash": "a776440a2373171570b7adb0a914e175",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
@@ -748,20 +748,22 @@
         },
         {
             "name": "websk/php-cache",
-            "version": "1.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-cache.git",
-                "reference": "00a77f58ffb6548a57e897acdd0d8b9b9167bee1"
+                "reference": "74ab00475ce14e34dfcb2b848ab730dec1e2ce10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-cache/zipball/00a77f58ffb6548a57e897acdd0d8b9b9167bee1",
-                "reference": "00a77f58ffb6548a57e897acdd0d8b9b9167bee1",
+                "url": "https://api.github.com/repos/websk/php-cache/zipball/74ab00475ce14e34dfcb2b848ab730dec1e2ce10",
+                "reference": "74ab00475ce14e34dfcb2b848ab730dec1e2ce10",
                 "shasum": ""
             },
             "require": {
                 "predis/predis": "1.*",
+                "psr/container": "^1.0",
+                "websk/php-slim": "dev-master",
                 "websk/php-utils": "dev-master"
             },
             "type": "library",
@@ -771,7 +773,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2018-10-22T13:52:22+00:00"
+            "time": "2018-11-27T14:06:39+00:00"
         },
         {
             "name": "websk/php-crud",
@@ -835,17 +837,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-entity.git",
-                "reference": "f91ecb6676135c1422890d120aedd08d3c8e5986"
+                "reference": "93b6a6ab5b08c9dbb3f13a6cf58cd930f35291c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-entity/zipball/f91ecb6676135c1422890d120aedd08d3c8e5986",
-                "reference": "f91ecb6676135c1422890d120aedd08d3c8e5986",
+                "url": "https://api.github.com/repos/websk/php-entity/zipball/93b6a6ab5b08c9dbb3f13a6cf58cd930f35291c6",
+                "reference": "93b6a6ab5b08c9dbb3f13a6cf58cd930f35291c6",
                 "shasum": ""
             },
             "require": {
                 "ext-pdo": "*",
-                "websk/php-cache": "1.1",
+                "websk/php-cache": "dev-master",
                 "websk/php-db": "1.2",
                 "websk/php-utils": "dev-master"
             },
@@ -856,7 +858,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2018-10-30T08:20:16+00:00"
+            "time": "2018-11-27T13:52:09+00:00"
         },
         {
             "name": "websk/php-slim",
@@ -915,6 +917,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "websk/php-cache": 20,
         "websk/php-utils": 20,
         "websk/php-entity": 20,
         "websk/php-crud": 20,

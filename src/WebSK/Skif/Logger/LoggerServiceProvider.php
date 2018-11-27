@@ -3,6 +3,7 @@
 namespace WebSK\Skif\Logger;
 
 use Psr\Container\ContainerInterface;
+use WebSK\Cache\CacheServiceProvider;
 use WebSK\Skif\Auth\AuthServiceProvider;
 use WebSK\Skif\Logger\Entry\LoggerEntry;
 use WebSK\Skif\Logger\Entry\LoggerEntryRepository;
@@ -28,7 +29,7 @@ class LoggerServiceProvider
             return new LoggerEntryService(
                 LoggerEntry::class,
                 $container[LoggerEntry::ENTITY_REPOSITORY_CONTAINER_ID],
-                $container->get(SkifServiceProvider::SKIF_CACHE_SERVICE),
+                CacheServiceProvider::getCacheService($container),
                 AuthServiceProvider::getAuthService($container)
             );
         };

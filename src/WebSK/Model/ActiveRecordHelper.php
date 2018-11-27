@@ -43,11 +43,10 @@ class ActiveRecordHelper
 
         $reflect = new \ReflectionClass($model_obj);
 
-	    $ignore_properties_names_arr = array();
-	    if ($reflect->hasProperty('active_record_ignore_fields_arr'))
-	    {
-		    $ignore_properties_names_arr = $reflect->getProperty('active_record_ignore_fields_arr')->getValue();
-	    }
+        $ignore_properties_names_arr = array();
+        if ($reflect->hasProperty('active_record_ignore_fields_arr')) {
+            $ignore_properties_names_arr = $reflect->getProperty('active_record_ignore_fields_arr')->getValue();
+        }
 
         foreach ($reflect->getProperties() as $property_obj) {
             if (
@@ -55,7 +54,7 @@ class ActiveRecordHelper
                 || in_array($property_obj->getName(), $ignore_properties_names_arr)
             ) {
                 continue; // игнорируем статические свойства класса - они относятся не к объекту, а только к классу (http://www.php.net/manual/en/language.oop5.static.php), и в них хранятся настройки ActiveRecord и CRUD
-	                        // также игнорируем свойства класса перечисленные в игнор листе $active_record_ignore_fields_arr
+                // также игнорируем свойства класса перечисленные в игнор листе $active_record_ignore_fields_arr
             }
             $property_obj->setAccessible(true);
             $fields_to_save_arr[$property_obj->getName()] = $property_obj->getValue($model_obj);
@@ -71,7 +70,8 @@ class ActiveRecordHelper
             $placeholders_arr = array_fill(0, count($fields_to_save_arr), '?');
 
             DBWrapper::query(
-                'insert into ' . $db_table_name . ' (' . implode(',', array_keys($fields_to_save_arr)) . ') values (' . implode(',', $placeholders_arr) . ')',
+                'insert into ' . $db_table_name . ' (' . implode(',',
+                    array_keys($fields_to_save_arr)) . ') values (' . implode(',', $placeholders_arr) . ')',
                 array_values($fields_to_save_arr)
             );
 
@@ -89,7 +89,8 @@ class ActiveRecordHelper
             $values_arr = array_values($fields_to_save_arr);
             array_push($values_arr, $model_id_value);
 
-            $query = 'update ' . $db_table_name . ' set ' . implode(',', $placeholders_arr) . ' where ' . $db_id_field_name . ' = ?';
+            $query = 'update ' . $db_table_name . ' set ' . implode(',',
+                    $placeholders_arr) . ' where ' . $db_id_field_name . ' = ?';
             DBWrapper::query($query, $values_arr);
         }
 
@@ -134,7 +135,7 @@ class ActiveRecordHelper
                 $related_model_obj = new $related_model_class_name();
                 $related_db_id_field_name = self::getIdFieldName($related_model_obj);
 
-                $query = "SELECT " . $related_db_id_field_name . " FROM " . $related_db_table_name ." WHERE " . $related_model_data['link_field'] . " = ?";
+                $query = "SELECT " . $related_db_id_field_name . " FROM " . $related_db_table_name . " WHERE " . $related_model_data['link_field'] . " = ?";
                 $related_ids_arr = DBWrapper::readColumn(
                     $query,
                     [$id]
@@ -165,7 +166,7 @@ class ActiveRecordHelper
             $param_arr[] = $field_value;
         }
 
-        $query .= " " . implode (' AND ', $queries_arr);
+        $query .= " " . implode(' AND ', $queries_arr);
 
         $id = DBWrapper::readField(
             $query,

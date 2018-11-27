@@ -10,7 +10,7 @@ class TemplateUtils
     {
         $cache_key = self::getTemplateIdByNameCacheKey($name);
 
-        $cache = \Websk\Skif\CacheWrapper::get($cache_key);
+        $cache = \Websk\Cache\CacheWrapper::get($cache_key);
         if ($cache !== false) {
             return $cache;
         }
@@ -19,7 +19,7 @@ class TemplateUtils
 
         $template_id = \Websk\Skif\DBWrapper::readField($query, array($name));
 
-        \Websk\Skif\CacheWrapper::set($cache_key, $template_id, 3600);
+        \Websk\Cache\CacheWrapper::set($cache_key, $template_id, 3600);
 
         return $template_id;
     }

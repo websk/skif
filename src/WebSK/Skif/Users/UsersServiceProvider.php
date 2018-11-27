@@ -3,6 +3,7 @@
 namespace WebSK\Skif\Users;
 
 use Psr\Container\ContainerInterface;
+use WebSK\Cache\CacheServiceProvider;
 use WebSK\Skif\SkifServiceProvider;
 
 class UsersServiceProvider
@@ -20,7 +21,7 @@ class UsersServiceProvider
             return new RoleService(
                 Role::class,
                 $container->get(Role::ENTITY_REPOSITORY_CONTAINER_ID),
-                $container->get(SkifServiceProvider::SKIF_CACHE_SERVICE)
+                CacheServiceProvider::getCacheService($container)
             );
         };
 
@@ -43,7 +44,7 @@ class UsersServiceProvider
             return new UserRoleService(
                 UserRole::class,
                 $container->get(UserRole::ENTITY_REPOSITORY_CONTAINER_ID),
-                $container->get(SkifServiceProvider::SKIF_CACHE_SERVICE)
+                CacheServiceProvider::getCacheService($container)
             );
         };
 
@@ -66,7 +67,7 @@ class UsersServiceProvider
             return new UserService(
                 User::class,
                 $container->get(User::ENTITY_REPOSITORY_CONTAINER_ID),
-                $container->get(SkifServiceProvider::SKIF_CACHE_SERVICE),
+                CacheServiceProvider::getCacheService($container),
                 $container->get(Role::ENTITY_SERVICE_CONTAINER_ID),
                 $container->get(UserRole::ENTITY_SERVICE_CONTAINER_ID)
             );
@@ -91,7 +92,7 @@ class UsersServiceProvider
             return new SessionsService(
                 Sessions::class,
                 $container->get(User::ENTITY_REPOSITORY_CONTAINER_ID),
-                $container->get(SkifServiceProvider::SKIF_CACHE_SERVICE)
+                CacheServiceProvider::getCacheService($container)
             );
         };
     }
