@@ -12,6 +12,17 @@ use Websk\Slim\Container;
 class DBWrapper
 {
     /**
+     * @return DBService
+     */
+    public static function getDBService()
+    {
+        $container = Container::self();
+
+        /** @var DBService $db_service */
+        return $container->get(SkifServiceProvider::SKIF_DB_SERVICE);
+    }
+
+    /**
      * @param string $query
      * @param array $params_arr
      * @return \PDOStatement
@@ -19,12 +30,7 @@ class DBWrapper
      */
     public static function query(string $query, $params_arr = array())
     {
-        $container = Container::self();
-
-        /** @var DBService $db_service */
-        $db_service = $container->get(SkifServiceProvider::SKIF_DB_SERVICE);
-
-        return $db_service->query($query, $params_arr);
+        return self::getDBService()->query($query, $params_arr);
     }
 
     /**
@@ -36,12 +42,7 @@ class DBWrapper
      */
     public static function readObjects(string $query, array $params_arr = [], string $field_name_for_keys = '')
     {
-        $container = Container::self();
-
-        /** @var DBService $db_service */
-        $db_service = $container->get(SkifServiceProvider::SKIF_DB_SERVICE);
-
-        return $db_service->readObjects($query, $params_arr, $field_name_for_keys);
+        return self::getDBService()->readObjects($query, $params_arr, $field_name_for_keys);
     }
 
     /**
@@ -52,12 +53,7 @@ class DBWrapper
      */
     public static function readObject(string $query, array $params_arr = [])
     {
-        $container = Container::self();
-
-        /** @var DBService $db_service */
-        $db_service = $container->get(SkifServiceProvider::SKIF_DB_SERVICE);
-
-        return $db_service->readObject($query, $params_arr);
+        return self::getDBService()->readObject($query, $params_arr);
     }
 
     /**
@@ -68,12 +64,7 @@ class DBWrapper
      */
     public static function readAssoc(string $query, array $params_arr = [])
     {
-        $container = Container::self();
-
-        /** @var DBService $db_service */
-        $db_service = $container->get(SkifServiceProvider::SKIF_DB_SERVICE);
-
-        return $db_service->readAssoc($query, $params_arr);
+        return self::getDBService()->readAssoc($query, $params_arr);
     }
 
     /**
@@ -84,12 +75,7 @@ class DBWrapper
      */
     public static function readColumn(string $query, array $params_arr = [])
     {
-        $container = Container::self();
-
-        /** @var DBService $db_service */
-        $db_service = $container->get(SkifServiceProvider::SKIF_DB_SERVICE);
-
-        return $db_service->readColumn($query, $params_arr);
+        return self::getDBService()->readColumn($query, $params_arr);
     }
 
     /**
@@ -100,12 +86,7 @@ class DBWrapper
      */
     public static function readAssocRow(string $query, array $params_arr = [])
     {
-        $container = Container::self();
-
-        /** @var DBService $db_service */
-        $db_service = $container->get(SkifServiceProvider::SKIF_DB_SERVICE);
-
-        return $db_service->readAssocRow($query, $params_arr);
+        return self::getDBService()->readAssocRow($query, $params_arr);
     }
 
     /**
@@ -116,12 +97,7 @@ class DBWrapper
      */
     public static function readField(string $query, array $params_arr = [])
     {
-        $container = Container::self();
-
-        /** @var DBService $db_service */
-        $db_service = $container->get(SkifServiceProvider::SKIF_DB_SERVICE);
-
-        return $db_service->readField($query, $params_arr);
+        return self::getDBService()->readField($query, $params_arr);
     }
 
     /**
@@ -131,11 +107,6 @@ class DBWrapper
      */
     public static function lastInsertId(string $db_sequence_name = '')
     {
-        $container = Container::self();
-
-        /** @var DBService $db_service */
-        $db_service = $container->get(SkifServiceProvider::SKIF_DB_SERVICE);
-
-        return $db_service->lastInsertId($db_sequence_name);
+        return self::getDBService()->lastInsertId($db_sequence_name);
     }
 }

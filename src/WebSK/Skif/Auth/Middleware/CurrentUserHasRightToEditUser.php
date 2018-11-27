@@ -1,6 +1,6 @@
 <?php
 
-namespace WebSK\Auth\Users\Middleware;
+namespace WebSK\Skif\Auth\Middleware;
 
 use Slim\Http\Request;
 use Slim\Http\Response;

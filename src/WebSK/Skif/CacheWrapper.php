@@ -13,18 +13,26 @@ class CacheWrapper
 {
     protected static $storage_arr = [];
 
+    protected static $cache_service;
+
+    /**
+     * @return CacheService
+     */
+    public static function getCacheService()
+    {
+        $container = Container::self();
+
+        /** @var CacheService $cache_service */
+        return $container->get(SkifServiceProvider::SKIF_CACHE_SERVICE);
+    }
+
     /**
      * @param $key
      * @return bool|mixed
      */
     public static function get($key)
     {
-        $container = Container::self();
-
-        /** @var CacheService $cache_service */
-        $cache_service = $container->get(SkifServiceProvider::SKIF_CACHE_SERVICE);
-
-        return $cache_service->get($key);
+        return self::getCacheService()->get($key);
     }
 
     /**
@@ -33,12 +41,7 @@ class CacheWrapper
      */
     public static function delete($key)
     {
-        $container = Container::self();
-
-        /** @var CacheService $cache_service */
-        $cache_service = $container->get(SkifServiceProvider::SKIF_CACHE_SERVICE);
-
-        return $cache_service->delete($key);
+        return self::getCacheService()->delete($key);
     }
 
     /**
@@ -50,12 +53,7 @@ class CacheWrapper
      */
     public static function set($key, $value, $expire = 0)
     {
-        $container = Container::self();
-
-        /** @var CacheService $cache_service */
-        $cache_service = $container->get(SkifServiceProvider::SKIF_CACHE_SERVICE);
-
-        return $cache_service->set($key, $value, $expire);
+        return self::getCacheService()->set($key, $value, $expire);
     }
 
     /**
