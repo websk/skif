@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Blocks;
+namespace WebSK\Skif\Blocks;
 
 use WebSK\Model\ActiveRecord;
 use WebSK\Model\ActiveRecordHelper;
@@ -14,7 +14,7 @@ use Websk\Cache\CacheWrapper;
 
 /**
  * Class PageRegion
- * @package Skif\Blocks
+ * @package WebSK\Skif\Blocks
  */
 class PageRegion implements
     InterfaceLoad,

@@ -3,9 +3,9 @@
  * @var $block_id
  */
 
-use Skif\Blocks\BlockUtils;
-use Skif\Blocks\ControllerBlocks;
-use Skif\PhpTemplate;
+use WebSK\Skif\Blocks\BlockUtils;
+use WebSK\Skif\Blocks\ControllerBlocks;
+use WebSK\Skif\PhpRender;
 use Websk\Slim\Container;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Skif\Users\UsersUtils;
@@ -13,7 +13,7 @@ use Websk\Skif\Path;
 
 $block_obj = ControllerBlocks::getBlockObj($block_id);
 
-echo PhpTemplate::renderTemplateBySkifModule(
+echo PhpRender::renderTemplateBySkifModule(
     'Blocks',
     'block_edit_menu.tpl.php',
     array('block_id' => $block_id)

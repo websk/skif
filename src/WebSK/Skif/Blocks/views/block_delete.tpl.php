@@ -3,9 +3,12 @@
  * @var $block_id
  */
 
-$block_obj = \Skif\Blocks\ControllerBlocks::getBlockObj($block_id);
+use WebSK\Skif\Blocks\ControllerBlocks;
+use WebSK\Skif\PhpRender;
 
-echo \Skif\PhpTemplate::renderTemplateBySkifModule(
+$block_obj = ControllerBlocks::getBlockObj($block_id);
+
+echo PhpRender::renderTemplateBySkifModule(
     'Blocks',
     'block_edit_menu.tpl.php',
     array('block_id' => $block_id)

@@ -4,11 +4,16 @@
  * @var $target_region
  */
 
+use WebSK\Skif\Blocks\Block;
+use WebSK\Skif\Blocks\BlockUtils;
+use WebSK\Skif\Blocks\ControllerBlocks;
+use WebSK\Skif\Blocks\PageRegion;
+use WebSK\Skif\PhpRender;
 use WebSK\Utils\Url;
 
-$block_obj = \Skif\Blocks\ControllerBlocks::getBlockObj($block_id);
+$block_obj = ControllerBlocks::getBlockObj($block_id);
 
-echo \Skif\PhpTemplate::renderTemplateBySkifModule(
+echo PhpRender::renderTemplateBySkifModule(
     'Blocks',
     'block_edit_menu.tpl.php',
     array('block_id' => $block_id)
@@ -19,7 +24,7 @@ if (!$block_obj->isLoaded()) {
     return;
 }
 
-$page_region_obj = \Skif\Blocks\PageRegion::factory($target_region);
+$page_region_obj = PageRegion::factory($target_region);
 
 ?>
 
@@ -33,10 +38,10 @@ $page_region_obj = \Skif\Blocks\PageRegion::factory($target_region);
                 <td><a href="<?php echo Url::getUriNoQueryString() . '?_action=move_block&target_region=' . $target_region . '&target_weight=FIRST'; ?>">начало региона</a></td>
             </tr>
             <?php
-            $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionId($target_region, $block_obj->getTemplateId());
+            $blocks_ids_arr = BlockUtils::getBlockIdsArrByPageRegionId($target_region, $block_obj->getTemplateId());
 
             foreach ($blocks_ids_arr as $other_block_id) {
-                $other_block_obj = \Skif\Blocks\Block::factory($other_block_id);
+                $other_block_obj = Block::factory($other_block_id);
 
                 $tr_class = '';
                 if ($other_block_obj->getId() == $block_obj->getId()) {

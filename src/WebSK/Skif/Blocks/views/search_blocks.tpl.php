@@ -4,9 +4,13 @@
  * @var $block_ids_arr
  */
 
+use WebSK\Skif\Blocks\Block;
+use WebSK\Skif\Blocks\PageRegion;
+use WebSK\Skif\PhpRender;
+
 $search_value = $_POST['search'];
 
-echo \Skif\PhpTemplate::renderTemplateBySkifModule(
+echo PhpRender::renderTemplateBySkifModule(
     'Blocks',
     'blocks_list_header.tpl.php',
     array('search_value' => $search_value)
@@ -21,9 +25,9 @@ echo \Skif\PhpTemplate::renderTemplateBySkifModule(
 
 <?php
 foreach ($block_ids_arr as $block_id) {
-    $block_obj = \Skif\Blocks\Block::factory($block_id);
+    $block_obj = Block::factory($block_id);
 
-    $page_region_obj = \Skif\Blocks\PageRegion::factory($block_obj->getPageRegionId());
+    $page_region_obj = PageRegion::factory($block_obj->getPageRegionId());
 
     echo '<tr>';
     echo '<td>' . $block_obj->getId() . '</td>';

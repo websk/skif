@@ -1,17 +1,25 @@
 <?php
-echo \Skif\PhpTemplate::renderTemplateBySkifModule(
+
+use WebSK\Skif\Blocks\Block;
+use WebSK\Skif\Blocks\BlockUtils;
+use WebSK\Skif\Blocks\ControllerBlocks;
+use WebSK\Skif\Blocks\PageRegion;
+use WebSK\Skif\Blocks\PageRegionsUtils;
+use WebSK\Skif\PhpRender;
+
+echo PhpRender::renderTemplateBySkifModule(
     'Blocks',
     'blocks_list_header.tpl.php'
 );
 
-$current_template_id = \Skif\Blocks\ControllerBlocks::getCurrentTemplateId();
+$current_template_id = ControllerBlocks::getCurrentTemplateId();
 
-$region_ids_arr = \Skif\Blocks\PageRegionsUtils::getPageRegionIdsArrByTemplateId($current_template_id);
+$region_ids_arr = PageRegionsUtils::getPageRegionIdsArrByTemplateId($current_template_id);
 
 foreach ($region_ids_arr as $page_region_id) {
-    $page_region_obj = \Skif\Blocks\PageRegion::factory($page_region_id);
+    $page_region_obj = PageRegion::factory($page_region_id);
 
-    $blocks_ids_arr = \Skif\Blocks\BlockUtils::getBlockIdsArrByPageRegionId($page_region_id, $current_template_id);
+    $blocks_ids_arr = BlockUtils::getBlockIdsArrByPageRegionId($page_region_id, $current_template_id);
     ?>
     <h4><?php echo $page_region_obj->getTitle() ?></h4>
 
@@ -23,12 +31,12 @@ foreach ($region_ids_arr as $page_region_id) {
         </colgroup>
         <?php
         foreach ($blocks_ids_arr as $block_id) {
-            $block_obj = \Skif\Blocks\Block::factory($block_id);
+            $block_obj = Block::factory($block_id);
 
             echo '<tr>';
             echo '<td>' . $block_obj->getId() . '</td>';
             echo '<td><a href="' . $block_obj->getEditorUrl() . '">' . $block_obj->getTitle() . '</td>';
-            if ($page_region_id != \Skif\Blocks\Block::BLOCK_REGION_NONE) {
+            if ($page_region_id != Block::BLOCK_REGION_NONE) {
                 ?>
                 <td align="right">
                     <a href="<?php echo $block_obj->getEditorUrl(); ?>" title="Редактировать" class="btn btn-outline btn-default btn-sm">

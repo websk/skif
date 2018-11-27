@@ -3,9 +3,14 @@
  * @var $block_id
  */
 
-$block_obj = \Skif\Blocks\ControllerBlocks::getBlockObj($block_id);
+use WebSK\Skif\Blocks\ControllerBlocks;
+use WebSK\Skif\Blocks\PageRegion;
+use WebSK\Skif\Blocks\PageRegionsUtils;
+use WebSK\Skif\PhpRender;
 
-echo \Skif\PhpTemplate::renderTemplateBySkifModule(
+$block_obj = ControllerBlocks::getBlockObj($block_id);
+
+echo PhpRender::renderTemplateBySkifModule(
     'Blocks',
     'block_edit_menu.tpl.php',
     array('block_id' => $block_id)
@@ -21,10 +26,10 @@ if (!$block_obj->isLoaded()) {
 
 <table class="table table-condensed">
     <?php
-    $region_ids_arr = \Skif\Blocks\PageRegionsUtils::getPageRegionIdsArrByTemplateId($block_obj->getTemplateId());
+    $region_ids_arr = PageRegionsUtils::getPageRegionIdsArrByTemplateId($block_obj->getTemplateId());
 
     foreach ($region_ids_arr as $page_region_id) {
-        $page_region_obj = \Skif\Blocks\PageRegion::factory($page_region_id);
+        $page_region_obj = PageRegion::factory($page_region_id);
 
         $tr_class = '';
 

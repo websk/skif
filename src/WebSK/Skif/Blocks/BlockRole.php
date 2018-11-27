@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Blocks;
+namespace WebSK\Skif\Blocks;
 
 use WebSK\Model\ActiveRecord;
 use WebSK\Model\FactoryTrait;
@@ -12,7 +12,7 @@ use WebSK\Model\InterfaceSave;
 
 /**
  * Class BlockRole
- * @package Skif\Blocks
+ * @package WebSK\Skif\Blocks
  */
 class BlockRole implements
     InterfaceLoad,

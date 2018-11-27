@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif;
 
-use Skif\Blocks\BlockRoutes;
+use WebSK\Skif\Blocks\BlockRoutes;
 use Skif\Comment\CommentRoutes;
 use Skif\Content\ContentRoutes;
 use Skif\CRUD\CRUDRoutes;

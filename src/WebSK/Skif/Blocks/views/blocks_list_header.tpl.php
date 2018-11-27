@@ -7,7 +7,7 @@ if (!isset($search_value)) {
     $search_value = '';
 }
 
-$current_template_id = \Skif\Blocks\ControllerBlocks::getCurrentTemplateId();
+$current_template_id = \WebSK\Skif\Blocks\ControllerBlocks::getCurrentTemplateId();
 ?>
 
 <script type="text/javascript">

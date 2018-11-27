@@ -215,7 +215,7 @@ if (isset($layout_dto)) {
                 <div class="col-lg-12">
                     <div>
                         <?php
-                        echo PhpRender::renderTemplate(
+                        echo PhpTemplate::renderTemplate(
                             '/admin_breadcrumbs.tpl.php',
                             ['breadcrumbs_arr' => $breadcrumbs_arr]
                         );

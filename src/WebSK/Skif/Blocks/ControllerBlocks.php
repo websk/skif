@@ -1,9 +1,9 @@
 <?php
 
-namespace Skif\Blocks;
+namespace WebSK\Skif\Blocks;
 
-use Skif\PhpTemplate;
 use WebSK\Skif\Auth\Auth;
+use WebSK\Skif\PhpRender;
 use WebSK\Slim\ConfWrapper;
 use Websk\Skif\DBWrapper;
 use WebSK\Skif\Logger\Logger;
@@ -13,7 +13,7 @@ use WebSK\Utils\Redirects;
 
 /**
  * Class ControllerBlocks
- * @package Skif\Blocks
+ * @package WebSK\Skif\Blocks
  */
 class ControllerBlocks
 {
@@ -67,7 +67,7 @@ class ControllerBlocks
 
         Messages::setMessage('Тема изменена');
 
-        Redirects::redirect(\Skif\Blocks\ControllerBlocks::getBlocksListUrl());
+        Redirects::redirect(\WebSK\Skif\Blocks\ControllerBlocks::getBlocksListUrl());
     }
 
     /**
@@ -119,12 +119,12 @@ class ControllerBlocks
 
         self::blocksPageActions();
 
-        $html = PhpTemplate::renderTemplateBySkifModule(
+        $html = PhpRender::renderTemplateBySkifModule(
             'Blocks',
             'blocks_list.tpl.php'
         );
 
-        echo PhpTemplate::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => 'Блоки',
@@ -191,13 +191,13 @@ class ControllerBlocks
 
         self::actions($block_id);
 
-        $html = PhpTemplate::renderTemplateBySkifModule(
+        $html = PhpRender::renderTemplateBySkifModule(
             'Blocks',
             'block_edit.tpl.php',
             array('block_id' => $block_id)
         );
 
-        echo PhpTemplate::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
@@ -279,7 +279,7 @@ class ControllerBlocks
 
         if (array_key_exists('roles', $_REQUEST)) {
             foreach ($_REQUEST['roles'] as $role_id) {
-                $block_role_obj = new \Skif\Blocks\BlockRole();
+                $block_role_obj = new \WebSK\Skif\Blocks\BlockRole();
                 $block_role_obj->setRoleId($role_id);
                 $block_role_obj->setBlockId($block_obj->getId());
                 $block_role_obj->save();
@@ -320,13 +320,13 @@ class ControllerBlocks
 
         self::actions($block_id);
 
-        $html = PhpTemplate::renderTemplateBySkifModule(
+        $html = PhpRender::renderTemplateBySkifModule(
             'Blocks',
             'block_caching.tpl.php',
             array('block_id' => $block_id)
         );
 
-        echo PhpTemplate::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
@@ -367,13 +367,13 @@ class ControllerBlocks
             $target_region = $_GET['target_region'];
         }
 
-        $html = PhpTemplate::renderTemplateBySkifModule(
+        $html = PhpRender::renderTemplateBySkifModule(
             'Blocks',
             'block_place_in_region.tpl.php',
             array('block_id' => $block_id, 'target_region' => $target_region)
         );
 
-        echo PhpTemplate::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
@@ -496,13 +496,13 @@ class ControllerBlocks
 
         self::actions($block_id);
 
-        $html = PhpTemplate::renderTemplateBySkifModule(
+        $html = PhpRender::renderTemplateBySkifModule(
             'Blocks',
             'block_choose_region.tpl.php',
             array('block_id' => $block_id)
         );
 
-        echo PhpTemplate::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
@@ -525,13 +525,13 @@ class ControllerBlocks
 
         self::actions($block_id);
 
-        $html = PhpTemplate::renderTemplateBySkifModule(
+        $html = PhpRender::renderTemplateBySkifModule(
             'Blocks',
             'block_delete.tpl.php',
             array('block_id' => $block_id)
         );
 
-        echo PhpTemplate::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
@@ -592,7 +592,7 @@ class ControllerBlocks
             Messages::SetWarning('Слишком короткий запрос');
         }
 
-        $html .= PhpTemplate::renderTemplateBySkifModule(
+        $html .= PhpRender::renderTemplateBySkifModule(
             'Blocks',
             'search_blocks.tpl.php',
             array(
@@ -600,7 +600,7 @@ class ControllerBlocks
             )
         );
 
-        echo PhpTemplate::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => 'Поиск блоков',

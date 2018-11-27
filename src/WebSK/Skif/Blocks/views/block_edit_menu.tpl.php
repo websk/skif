@@ -3,7 +3,7 @@
  * @var $block_id
  */
 
-use Skif\Blocks\ControllerBlocks;
+use WebSK\Skif\Blocks\ControllerBlocks;
 use WebSK\Skif\Logger\LoggerRender;
 use WebSK\Utils\Url;
 

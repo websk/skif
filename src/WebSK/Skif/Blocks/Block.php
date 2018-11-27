@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Blocks;
+namespace WebSK\Skif\Blocks;
 
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Model\ActiveRecord;
@@ -14,7 +14,7 @@ use Websk\Skif\DBWrapper;
 
 /**
  * Class Block
- * @package Skif\Blocks
+ * @package WebSK\Skif\Blocks
  */
 class Block implements
     InterfaceLoad,
@@ -273,7 +273,7 @@ class Block implements
         $this->deleteBlocksRoles();
 
         BlockUtils::clearBlockIdsArrByPageRegionIdCache($this->getPageRegionId(), $this->getTemplateId());
-        BlockUtils::clearBlockIdsArrByPageRegionIdCache(\Skif\Blocks\Block::BLOCK_REGION_NONE, $this->getTemplateId());
+        BlockUtils::clearBlockIdsArrByPageRegionIdCache(self::BLOCK_REGION_NONE, $this->getTemplateId());
 
         self::removeObjFromCacheById($this->getId());
     }

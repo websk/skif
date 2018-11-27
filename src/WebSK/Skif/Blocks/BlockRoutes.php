@@ -1,9 +1,13 @@
 <?php
 
-namespace Skif\Blocks;
+namespace WebSK\Skif\Blocks;
 
 use Skif\UrlManager;
 
+/**
+ * Class BlockRoutes
+ * @package WebSK\Skif\Blocks
+ */
 class BlockRoutes
 {
     public static function route()

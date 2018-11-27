@@ -3,7 +3,9 @@
  * @var int $block_id
  */
 
-$block_content = \Skif\Blocks\BlockUtils::getContentByBlockId($block_id);
+use WebSK\Skif\Blocks\BlockUtils;
+
+$block_content = BlockUtils::getContentByBlockId($block_id);
 if ($block_content == '') {
     return;
 }

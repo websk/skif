@@ -41,7 +41,7 @@ Http::cacheHeaders();
     <link type="text/css" rel="stylesheet" media="all" href="/assets/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"/>
 
     <?php
-    echo \Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('inside_head', 'main');
+    echo \WebSK\Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('inside_head', 'main');
     ?>
 </head>
 <body>
@@ -62,7 +62,7 @@ Http::cacheHeaders();
         <div class="row">
             <div id="sidebar" class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
                 <?php
-                echo \Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('left_column', 'main');
+                echo \WebSK\Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('left_column', 'main');
                 ?>
             </div>
             <div id="content" class="col-lg-8 col-md-6 col-sm-6 col-xs-12">
@@ -93,7 +93,7 @@ Http::cacheHeaders();
                 ?>
 
                 <?php
-                echo \Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('above_content', 'main');
+                echo \WebSK\Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('above_content', 'main');
                 ?>
 
                 <?php
@@ -105,12 +105,12 @@ Http::cacheHeaders();
                 <?php echo $content; ?>
 
                 <?php
-                echo \Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('under_content', 'main');
+                echo \WebSK\Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('under_content', 'main');
                 ?>
             </div>
             <div id="right" class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
                 <?php
-                echo \Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('right_column', 'main');
+                echo \WebSK\Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('right_column', 'main');
                 ?>
             </div>
         </div>

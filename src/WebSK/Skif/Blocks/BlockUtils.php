@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Blocks;
+namespace WebSK\Skif\Blocks;
 
 use WebSK\Utils\Network;
 use WebSK\Utils\Filter;
@@ -11,11 +11,10 @@ use WebSK\Skif\Users\UsersServiceProvider;
 
 /**
  * Class BlockUtils
- * @package Skif\Blocks
+ * @package WebSK\Skif\Blocks
  */
 class BlockUtils
 {
-
     /**
      * Видимость блока для пользователя
      * @param int $block_id
