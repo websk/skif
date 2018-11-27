@@ -5,7 +5,7 @@
 
 use WebSK\Skif\Auth\AuthRoutes;
 use WebSK\Skif\Captcha\CaptchaRoutes;
-use WebSK\Skif\ConfWrapper;
+use WebSK\Slim\ConfWrapper;
 use WebSK\Slim\Router;
 use WebSK\Skif\Auth\Auth;
 

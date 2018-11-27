@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Auth;
 
-use WebSK\Skif\ConfWrapper;
+use WebSK\Slim\ConfWrapper;
 use Websk\Slim\Container;
 use Websk\Skif\DBWrapper;
 use WebSK\Skif\Image\ImageManager;

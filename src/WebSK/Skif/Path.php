@@ -3,6 +3,7 @@
 namespace Websk\Skif;
 
 use Skif\Utils;
+use WebSK\Slim\ConfWrapper;
 use WebSK\Utils\Url;
 
 /**

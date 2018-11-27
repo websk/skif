@@ -14,7 +14,7 @@ class CommentUtils
      */
     public static function getCommentsIdsArrByUrl($url, $page = 1, $parent_id = 0)
     {
-        $message_to_page = \WebSK\Skif\ConfWrapper::value('comments.message_to_page', 20);
+        $message_to_page = \WebSK\Slim\ConfWrapper::value('comments.message_to_page', 20);
         $start = ($page - 1) * $message_to_page;
 
         $query = "SELECT id FROM comments

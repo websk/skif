@@ -4,7 +4,7 @@ namespace WebSK\Skif\Auth\RequestHandlers;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use WebSK\Skif\ConfWrapper;
+use WebSK\Slim\ConfWrapper;
 use WebSK\Skif\PhpRender;
 use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Slim\Router;

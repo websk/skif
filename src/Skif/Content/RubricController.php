@@ -84,7 +84,7 @@ class RubricController extends \Skif\BaseController
         );
 
         echo \Skif\PhpTemplate::renderTemplate(
-            \WebSK\Skif\ConfWrapper::value('layout.admin'),
+            \WebSK\Slim\ConfWrapper::value('layout.admin'),
             array(
                 'content' => $content,
                 'title' => 'Рубрики',
@@ -114,7 +114,7 @@ class RubricController extends \Skif\BaseController
         );
 
         echo \Skif\PhpTemplate::renderTemplate(
-            \WebSK\Skif\ConfWrapper::value('layout.admin'),
+            \WebSK\Slim\ConfWrapper::value('layout.admin'),
             array(
                 'content' => $content,
                 'title' => 'Редактирование рубрики',

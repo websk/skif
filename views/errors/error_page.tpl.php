@@ -19,7 +19,7 @@ if (!array_key_exists($error_code, $error_messages_arr)) {
     return;
 }
 
-$skif_path = \WebSK\Skif\ConfWrapper::value('skif_path');
+$skif_path = \WebSK\Slim\ConfWrapper::value('skif_path');
 ?>
 <!DOCTYPE html>
 <html>
@@ -68,9 +68,9 @@ $skif_path = \WebSK\Skif\ConfWrapper::value('skif_path');
     <p></p>
     <p>
         <?php
-        $site_name = \WebSK\Skif\ConfWrapper::value('site_name');
-        $site_url = \WebSK\Skif\ConfWrapper::value('site_url');
-        $site_email = \WebSK\Skif\ConfWrapper::value('site_email');
+        $site_name = \WebSK\Slim\ConfWrapper::value('site_name');
+        $site_url = \WebSK\Slim\ConfWrapper::value('site_url');
+        $site_email = \WebSK\Slim\ConfWrapper::value('site_email');
         ?>
 
         Зайдите с <a href="<?php echo Url::appendHttp($site_url); ?>">главной страницы</a>

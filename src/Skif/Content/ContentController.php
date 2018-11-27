@@ -3,7 +3,7 @@
 namespace Skif\Content;
 
 use Skif\BaseController;
-use WebSK\Skif\ConfWrapper;
+use WebSK\Slim\ConfWrapper;
 use Websk\Skif\DBWrapper;
 use WebSK\Skif\Image\ImageConstants;
 use WebSK\Skif\Image\ImageController;

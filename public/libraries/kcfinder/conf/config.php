@@ -16,7 +16,7 @@
    even if you are using session configuration.
    See http://kcfinder.sunhater.com/install for setting descriptions */
 
-use WebSK\Skif\ConfWrapper;
+use WebSK\Slim\ConfWrapper;
 use WebSK\Skif\Auth\Auth;
 
 require __DIR__ . '/../../../../vendor/autoload.php';

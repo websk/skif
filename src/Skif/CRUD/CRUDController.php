@@ -3,7 +3,7 @@
 namespace Skif\CRUD;
 
 use Skif\BaseController;
-use WebSK\Skif\ConfWrapper;
+use WebSK\Slim\ConfWrapper;
 use Websk\Skif\Messages;
 use Skif\PhpTemplate;
 use Websk\Utils\Assert;

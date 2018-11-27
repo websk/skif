@@ -2,7 +2,7 @@
 
 namespace WebSK\Model;
 
-use WebSK\Skif\ConfWrapper;
+use WebSK\Slim\ConfWrapper;
 use Websk\Cache\CacheWrapper;
 use Websk\Utils\Assert;
 
@@ -49,7 +49,7 @@ class Factory
 
         $obj = new $class_name;
 
-        $object_is_loaded = call_user_func_array(array($obj, "load"), array($object_id));
+        $object_is_loaded = call_user_func_array([$obj, "load"], [$object_id]);
 
         if (!$object_is_loaded) {
             return null;
@@ -80,7 +80,7 @@ class Factory
             Assert::assert($obj);
         }
 
-        $id_to_load = call_user_func_array(array($obj, "getIdByFieldNamesArr"), array($fields_arr));
+        $id_to_load = call_user_func_array([$obj, "getIdByFieldNamesArr"], [$fields_arr]);
 
         return self::createAndLoadObject($class_name, $id_to_load);
     }

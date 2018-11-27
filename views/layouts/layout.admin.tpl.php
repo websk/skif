@@ -5,7 +5,7 @@
  * @var LayoutDTO $layout_dto
  */
 
-use WebSK\Skif\ConfWrapper;
+use WebSK\Slim\ConfWrapper;
 use Skif\Content\ContentType;
 use Skif\Content\ContentUtils;
 use WebSK\UI\LayoutDTO;

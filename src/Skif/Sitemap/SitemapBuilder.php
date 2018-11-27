@@ -2,7 +2,7 @@
 
 namespace Skif\Sitemap;
 
-use WebSK\Skif\ConfWrapper;
+use WebSK\Slim\ConfWrapper;
 
 /**
  * Class SitemapBuilder

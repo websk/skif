@@ -4,7 +4,7 @@ namespace Skif\Blocks;
 
 use Skif\PhpTemplate;
 use WebSK\Skif\Auth\Auth;
-use WebSK\Skif\ConfWrapper;
+use WebSK\Slim\ConfWrapper;
 use Websk\Skif\DBWrapper;
 use WebSK\Skif\Logger\Logger;
 use Websk\Skif\Messages;

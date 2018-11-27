@@ -4,7 +4,7 @@
  * @var $page
  */
 
-$message_to_page = \WebSK\Skif\ConfWrapper::value('comments.message_to_page', 20);
+$message_to_page = \WebSK\Slim\ConfWrapper::value('comments.message_to_page', 20);
 $count_all_messages = \Skif\Comment\CommentUtils::getCountCommentsByUrl($url);
 $all = ceil($count_all_messages / $message_to_page);
 

@@ -4,7 +4,7 @@
  */
 
 use Skif\Pager;
-use WebSK\Skif\ConfWrapper;
+use WebSK\Slim\ConfWrapper;
 use Skif\Content\Content;
 use Skif\Content\ContentType;
 use Skif\Content\ContentUtils;

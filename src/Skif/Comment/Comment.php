@@ -14,7 +14,7 @@ use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
 use Skif\Utils;
 use WebSK\Skif\Auth\Auth;
-use WebSK\Skif\ConfWrapper;
+use WebSK\Slim\ConfWrapper;
 use Websk\Slim\Container;
 use WebSK\Skif\Users\UsersServiceProvider;
 use Websk\Utils\Assert;
