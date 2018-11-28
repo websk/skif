@@ -5,11 +5,14 @@
  * @var $site_menu_parent_item_id
  */
 
+use WebSK\Skif\Content\Content;
+use WebSK\Skif\SiteMenu\SiteMenuItem;
+
 if ($site_menu_item_id == 'new') {
-    $site_menu_item_obj = new \WebSK\Skif\SiteMenu\SiteMenuItem();
+    $site_menu_item_obj = new SiteMenuItem();
     $site_menu_item_obj->setIsPublished(true);
 } else {
-    $site_menu_item_obj = \WebSK\Skif\SiteMenu\SiteMenuItem::factory($site_menu_item_id);
+    $site_menu_item_obj = SiteMenuItem::factory($site_menu_item_id);
 }
 ?>
 <script type="text/javascript">
@@ -54,7 +57,7 @@ if ($site_menu_item_id == 'new') {
 $content_title = '';
 $url = $site_menu_item_obj->getUrl();
 if ($site_menu_item_obj->getContentId()) {
-    $content_obj = \WebSK\Skif\Content\Content::factory($site_menu_item_obj->getContentId());
+    $content_obj = Content::factory($site_menu_item_obj->getContentId());
 
     $content_title = $content_obj->getTitle();
     $url = $content_obj->getUrl();

@@ -3,6 +3,10 @@
  * @var $site_menu_id
  * @var $parent_id
  */
+
+use WebSK\Skif\SiteMenu\SiteMenuItem;
+use WebSK\Skif\SiteMenu\SiteMenuUtils;
+
 ?>
 <p class="padding_top_10 padding_bottom_10">
     <a href="/admin/site_menu/<?php echo $site_menu_id; ?>/item/edit/new?site_menu_parent_item_id=<?php echo $parent_id; ?>" class="btn btn-primary">
@@ -17,11 +21,11 @@
             <col class="col-md-3 col-sm-5 col-xs-5">
         </colgroup>
 <?php
-$site_menu_item_ids_arr = \WebSK\Skif\SiteMenu\SiteMenuUtils::getSiteMenuItemIdsArr($site_menu_id, $parent_id);
+$site_menu_item_ids_arr = SiteMenuUtils::getSiteMenuItemIdsArr($site_menu_id, $parent_id);
 
 $counter_item = 0;
 foreach ($site_menu_item_ids_arr as $site_menu_item_id) {
-    $site_menu_item_obj = \WebSK\Skif\SiteMenu\SiteMenuItem::factory($site_menu_item_id);
+    $site_menu_item_obj = SiteMenuItem::factory($site_menu_item_id);
     ?>
     <tr>
         <td><?php echo $site_menu_item_id; ?></td>

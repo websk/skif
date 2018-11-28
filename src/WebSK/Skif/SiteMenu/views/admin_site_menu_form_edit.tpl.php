@@ -3,10 +3,12 @@
  * @var $site_menu_id
  */
 
+use WebSK\Skif\SiteMenu\SiteMenu;
+
 if ($site_menu_id == 'new') {
-    $site_menu_obj = new \WebSK\Skif\SiteMenu\SiteMenu();
+    $site_menu_obj = new SiteMenu();
 } else {
-    $site_menu_obj = \WebSK\Skif\SiteMenu\SiteMenu::factory($site_menu_id);
+    $site_menu_obj = SiteMenu::factory($site_menu_id);
 }
 ?>
 <script type="text/javascript">
