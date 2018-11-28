@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif;
+namespace WebSK\Skif;
 
 use WebSK\Utils\Redirects;
 use WebSK\Utils\Url;
@@ -8,7 +8,7 @@ use WebSK\Utils\Url;
 /**
  * Class UrlManager
  * @deprecated
- * @package Skif
+ * @package WebSK\Skif
  */
 class UrlManager
 {

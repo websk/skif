@@ -166,12 +166,12 @@ if (isset($list_title)) {
     $model_class_interfaces_arr = class_implements($model_class_name);
 
     $show_delete_button = false;
-    if (array_key_exists('Skif\Model\InterfaceDelete', $model_class_interfaces_arr)) {
+    if (array_key_exists('WebSK\Skif\Model\InterfaceDelete', $model_class_interfaces_arr)) {
         $show_delete_button = true;
     }
 
     $show_url_button = false;
-    if (array_key_exists('Skif\Model\InterfaceGetUrl', $model_class_interfaces_arr)) {
+    if (array_key_exists('WebSK\Skif\Model\InterfaceGetUrl', $model_class_interfaces_arr)) {
         $show_url_button = true;
     }
 
@@ -317,7 +317,7 @@ if (isset($list_title)) {
         </table>
 
         <?php
-        echo \Skif\Pager::renderPager(count($objs_ids_arr));
+        echo \WebSK\Skif\Pager::renderPager(count($objs_ids_arr));
         }
         ?>
     </div>

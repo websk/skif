@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Blocks;
 
-use Skif\UrlManager;
+use WebSK\Skif\UrlManager;
 
 /**
  * Class BlockRoutes

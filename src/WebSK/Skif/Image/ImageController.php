@@ -44,7 +44,7 @@ class ImageController
         $json_arr = array();
 
         if (array_key_exists('name', $_FILES['upload_image']) && is_array($_FILES['upload_image']['name'])) {
-            $files_arr = \Skif\Utils::rebuildFilesArray($_FILES['upload_image']);
+            $files_arr = \WebSK\Skif\Utils::rebuildFilesArray($_FILES['upload_image']);
         } else {
             $files_arr[] = $_FILES['upload_image'];
         }

@@ -2,8 +2,8 @@
 
 namespace WebSK\Skif\Content;
 
-use Skif\Router;
-use Skif\UrlManager;
+use WebSK\Skif\Router;
+use WebSK\Skif\UrlManager;
 
 class ContentRoutes
 {

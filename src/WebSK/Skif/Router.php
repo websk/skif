@@ -1,14 +1,14 @@
 <?php
 
-namespace Skif;
+namespace WebSK\Skif;
 
-use Skif\Sitemap\InterfaceSitemapController;
-use Skif\Sitemap\InterfaceSitemapBuilder;
+use WebSK\Skif\Sitemap\InterfaceSitemapController;
+use WebSK\Skif\Sitemap\InterfaceSitemapBuilder;
 use WebSK\Utils\Url;
 
 /**
  * Class Router
- * @package Skif
+ * @package WebSK\Skif
  */
 class Router
 {

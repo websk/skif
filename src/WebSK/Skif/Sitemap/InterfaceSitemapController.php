@@ -1,10 +1,10 @@
 <?php
 
-namespace Skif\Sitemap;
+namespace WebSK\Skif\Sitemap;
 
 /**
  * Interface InterfaceSitemapController
- * @package Skif\Sitemap
+ * @package WebSK\Skif\Sitemap
  */
 interface InterfaceSitemapController
 {

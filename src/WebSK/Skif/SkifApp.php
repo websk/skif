@@ -14,7 +14,7 @@ use WebSK\Skif\Poll\PollRoutes;
 use WebSK\Skif\Rating\RatingRoutes;
 use WebSK\Skif\Redirect\RedirectRoutes;
 use WebSK\Skif\SiteMenu\SiteMenuRoutes;
-use Skif\UrlManager;
+use WebSK\Skif\UrlManager;
 use WebSK\Skif\Auth\AuthRoutes;
 use Slim\App;
 use Slim\Handlers\Strategies\RequestResponseArgs;

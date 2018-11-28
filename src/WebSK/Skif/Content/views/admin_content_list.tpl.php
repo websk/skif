@@ -3,7 +3,7 @@
  * @var $content_type
  */
 
-use Skif\Pager;
+use WebSK\Skif\Pager;
 use WebSK\Skif\Content\Content;
 use WebSK\Skif\Content\ContentType;
 use WebSK\Skif\Content\ContentUtils;

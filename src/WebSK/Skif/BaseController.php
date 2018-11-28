@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif;
 
-use Skif\UrlManager;
+use WebSK\Skif\UrlManager;
 
 /**
  * Class BaseController

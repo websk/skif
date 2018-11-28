@@ -6,7 +6,7 @@ use WebSK\Slim\ConfWrapper;
 
 /**
  * Class Image
- * @package Skif
+ * @package WebSK\Skif
  */
 class ImageUtils
 {

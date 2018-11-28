@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Rating;
 
-use Skif\UrlManager;
+use WebSK\Skif\UrlManager;
 
 class RatingRoutes
 {

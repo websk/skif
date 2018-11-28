@@ -5,7 +5,7 @@ namespace WebSK\Skif\Redirect;
 use Websk\Cache\CacheWrapper;
 use WebSK\Skif\CRUD\CRUDController;
 use Websk\Skif\DBWrapper;
-use Skif\UrlManager;
+use WebSK\Skif\UrlManager;
 use WebSK\Utils\Url;
 
 class RedirectController extends CRUDController

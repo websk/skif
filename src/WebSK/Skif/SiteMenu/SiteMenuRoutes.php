@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\SiteMenu;
 
-use Skif\UrlManager;
+use WebSK\Skif\UrlManager;
 
 class SiteMenuRoutes
 {

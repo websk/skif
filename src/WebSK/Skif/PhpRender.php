@@ -118,7 +118,7 @@ class PhpRender
      */
     public static function existsTemplateBySkifModuleRelativeToRootSitePath($module, $template_file)
     {
-        $relative_to_root_site_file_path = Path::getSiteViewsPath() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'Skif' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file;
+        $relative_to_root_site_file_path = Path::getSiteViewsPath() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'WebSK\Skif' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file;
 
         return file_exists($relative_to_root_site_file_path);
     }
@@ -132,7 +132,7 @@ class PhpRender
     public static function renderTemplateBySkifModule($module, $template_file, $variables = array())
     {
         if (self::existsTemplateBySkifModuleRelativeToRootSitePath($module, $template_file)) {
-            $relative_to_root_site_file_path = 'modules' . DIRECTORY_SEPARATOR . 'Skif' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file;
+            $relative_to_root_site_file_path = 'modules' . DIRECTORY_SEPARATOR . 'WebSK\Skif' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file;
 
             return self::renderTemplateRelativeToRootSitePath($relative_to_root_site_file_path, $variables);
         }
@@ -140,7 +140,7 @@ class PhpRender
         extract($variables, EXTR_SKIP);
         ob_start();
 
-        require Path::getWebSKSkifAppPath() . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . Path::VIEWS_DIR_NAME . DIRECTORY_SEPARATOR . $template_file;
+        require Path::getSkifAppPath() . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . Path::VIEWS_DIR_NAME . DIRECTORY_SEPARATOR . $template_file;
         $contents = ob_get_contents();
 
         ob_end_clean();

@@ -1,12 +1,12 @@
 <?php
 
-namespace Skif;
+namespace WebSK\Skif;
 
 use WebSK\Utils\Url;
 
 /**
  * Class Pager
- * @package Skif
+ * @package WebSK\Skif
  */
 class Pager
 {

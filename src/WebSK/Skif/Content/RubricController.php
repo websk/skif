@@ -3,7 +3,7 @@
 namespace WebSK\Skif\Content;
 
 use WebSK\Skif\BaseController;
-use Skif\UrlManager;
+use WebSK\Skif\UrlManager;
 use WebSK\Skif\Auth\Auth;
 use Websk\Skif\Messages;
 use WebSK\Skif\PhpRender;

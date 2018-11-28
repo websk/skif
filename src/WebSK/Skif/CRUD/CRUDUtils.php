@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\CRUD;
 
-use Skif\Pager;
+use WebSK\Skif\Pager;
 use WebSK\Model\Helper;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Skif\Auth\Auth;

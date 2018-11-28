@@ -1,10 +1,10 @@
 <?php
 
-namespace Skif;
+namespace WebSK\Skif;
 
 /**
  * Class Utils
- * @package Skif
+ * @package WebSK\Skif
  */
 class Utils
 {

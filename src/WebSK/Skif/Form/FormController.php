@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Form;
 
-use Skif\UrlManager;
+use WebSK\Skif\UrlManager;
 use WebSK\Skif\Auth\Auth;
 use Websk\Skif\Captcha\Captcha;
 use WebSK\Skif\CRUD\CRUDController;

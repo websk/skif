@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Form;
 
-use Skif\UrlManager;
+use WebSK\Skif\UrlManager;
 
 class FormRoutes
 {

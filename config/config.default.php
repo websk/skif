@@ -60,7 +60,7 @@ return [
     'skif_assets_version' => 1,
     'assets_url_path' => '/assets',
     'site_name' => 'Скиф',
-    'site_title' => 'Skif',
+    'site_title' => 'WebSK\Skif',
     'site_email' => 'support@websk.ru',
     'salt' => 'webskskif',
     'content' => [

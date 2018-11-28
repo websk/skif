@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\CRUD;
 
-use Skif\UrlManager;
+use WebSK\Skif\UrlManager;
 
 class CRUDRoutes
 {

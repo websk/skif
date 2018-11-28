@@ -4,7 +4,7 @@ namespace Websk\Skif;
 
 /**
  * Class Messages
- * @package Websk\Skif
+ * @package WebSK\Skif
  */
 class Messages
 {

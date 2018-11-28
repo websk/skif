@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Image;
 
-use Skif\UrlManager;
+use WebSK\Skif\UrlManager;
 
 /**
  * Class ImageRoutes

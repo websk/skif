@@ -4,7 +4,7 @@ namespace WebSK\UI;
 
 /**
  * Class LayoutDTO
- * @package WebSK\Skif
+ * @package WebSK\WebSK\Skif
  */
 class LayoutDTO
 {

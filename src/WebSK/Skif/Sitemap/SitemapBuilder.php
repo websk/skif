@@ -1,12 +1,12 @@
 <?php
 
-namespace Skif\Sitemap;
+namespace WebSK\Skif\Sitemap;
 
 use WebSK\Slim\ConfWrapper;
 
 /**
  * Class SitemapBuilder
- * @package Skif\Sitemap
+ * @package WebSK\Skif\Sitemap
  */
 class SitemapBuilder implements InterfaceSitemapBuilder
 {

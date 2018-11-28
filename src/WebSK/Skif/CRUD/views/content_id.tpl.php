@@ -8,7 +8,7 @@ $node_title_link = '<a href="'. $node_edit_url .'">' . $node_title . '</a>';
 
 if( $field_value != '' )
 {
-	$node_obj = \Skif\Node\NodeFactory::loadNode($field_value);
+	$node_obj = \WebSK\Skif\Node\NodeFactory::loadNode($field_value);
 	if($node_obj) {
         $node_title = $node_obj->getTitle();
         $node_edit_url = CRUDController::getEditUrl('\Skif\Node\Node', $field_value);

@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Comment;
 
-use Skif\UrlManager;
+use WebSK\Skif\UrlManager;
 
 class CommentRoutes
 {

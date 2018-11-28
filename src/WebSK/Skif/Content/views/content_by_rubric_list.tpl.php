@@ -3,7 +3,7 @@
  * @var $rubric_id
  */
 
-use Skif\Pager;
+use WebSK\Skif\Pager;
 use WebSK\Skif\PhpRender;
 use WebSK\Slim\ConfWrapper;
 use WebSK\Skif\Content\Content;

@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Redirect;
 
-use Skif\UrlManager;
+use WebSK\Skif\UrlManager;
 
 class RedirectRoutes
 {

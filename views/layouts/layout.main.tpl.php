@@ -6,6 +6,10 @@
  * @var $content
  */
 
+use WebSK\Skif\Blocks\PageRegionsUtils;
+use WebSK\Skif\PhpRender;
+use WebSK\Skif\SiteMenu\SiteMenuRender;
+use WebSK\Slim\ConfWrapper;
 use WebSK\Utils\Http;
 use WebSK\Utils\Url;
 
@@ -37,11 +41,13 @@ Http::cacheHeaders();
 
     <script type="text/javascript" src="/assets/libraries/moment/moment.min.js"></script>
     <script type="text/javascript" src="/assets/libraries/moment/moment.ru.min.js"></script>
-    <script type="text/javascript" src="/assets/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-    <link type="text/css" rel="stylesheet" media="all" href="/assets/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"/>
+    <script type="text/javascript"
+            src="/assets/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <link type="text/css" rel="stylesheet" media="all"
+          href="/assets/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"/>
 
     <?php
-    echo \WebSK\Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('inside_head', 'main');
+    echo PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('inside_head', 'main');
     ?>
 </head>
 <body>
@@ -49,7 +55,8 @@ Http::cacheHeaders();
 <div id="html">
     <div id="header" class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-            <a href="/"><img src="/assets/images/admin/skif_small_logo.png" border="0" alt="" title="" class="img-responsive"></a>
+            <a href="/"><img src="/assets/images/admin/skif_small_logo.png" border="0" alt="" title=""
+                             class="img-responsive"></a>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" align="right">
             <div class="row icon_row" align="right">
@@ -62,7 +69,7 @@ Http::cacheHeaders();
         <div class="row">
             <div id="sidebar" class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
                 <?php
-                echo \WebSK\Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('left_column', 'main');
+                echo PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('left_column', 'main');
                 ?>
             </div>
             <div id="content" class="col-lg-8 col-md-6 col-sm-6 col-xs-12">
@@ -76,7 +83,8 @@ Http::cacheHeaders();
                     $breadcrumbs_arr
                 );
 
-                echo \Skif\PhpTemplate::renderTemplate('views/breadcrumbs.tpl.php', array('breadcrumbs_arr' => $breadcrumbs_arr));
+                echo PhpRender::renderTemplate('views/breadcrumbs.tpl.php',
+                    array('breadcrumbs_arr' => $breadcrumbs_arr));
 
                 $current_url_no_query = Url::getUriNoQueryString();
                 if ($current_url_no_query != '/') {
@@ -84,7 +92,7 @@ Http::cacheHeaders();
                     ?>
                     <h1><?= $title ?></h1>
                     <hr class="hidden-xs hidden-sm">
-                <?
+                    <?
                 }
                 ?>
 
@@ -93,32 +101,34 @@ Http::cacheHeaders();
                 ?>
 
                 <?php
-                echo \WebSK\Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('above_content', 'main');
+                echo PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('above_content', 'main');
                 ?>
 
                 <?php
                 if (isset($editor_nav_arr)) {
-                    echo \Skif\PhpTemplate::renderTemplate('views/editor_nav.tpl.php', array('editor_nav_arr' => $editor_nav_arr));
+                    echo PhpRender::renderTemplate('views/editor_nav.tpl.php',
+                        array('editor_nav_arr' => $editor_nav_arr));
                 }
                 ?>
 
                 <?php echo $content; ?>
 
                 <?php
-                echo \WebSK\Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('under_content', 'main');
+                echo PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('under_content', 'main');
                 ?>
             </div>
             <div id="right" class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
                 <?php
-                echo \WebSK\Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('right_column', 'main');
+                echo PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('right_column', 'main');
                 ?>
             </div>
         </div>
     </div>
 
     <div id="footer" class="row">
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">&copy; <?php echo \WebSK\Slim\ConfWrapper::value('site_name'); ?>, <?php echo date('Y'); ?></div>
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><?php echo \WebSK\Skif\SiteMenu\SiteMenuRender::renderSiteMenu(8); ?></div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">&copy; <?php echo ConfWrapper::value('site_name'); ?>
+            , <?php echo date('Y'); ?></div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><?php echo SiteMenuRender::renderSiteMenu(8); ?></div>
     </div>
 </div>
 
