@@ -11,7 +11,7 @@ use WebSK\Cache\CacheServiceProvider;
 use WebSK\Skif\Auth\AuthServiceProvider;
 use WebSK\Skif\Image\ImageRoutes;
 use WebSK\Skif\Poll\PollRoutes;
-use Skif\Rating\RatingRoutes;
+use WebSK\Skif\Rating\RatingRoutes;
 use Skif\Redirect\RedirectRoutes;
 use Skif\SiteMenu\SiteMenuRoutes;
 use Skif\UrlManager;

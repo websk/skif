@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Rating;
+namespace WebSK\Skif\Rating;
 
 use WebSK\Model\FactoryTrait;
 use WebSK\Model\InterfaceDelete;

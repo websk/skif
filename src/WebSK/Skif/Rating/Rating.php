@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Rating;
+namespace WebSK\Skif\Rating;
 
 use WebSK\Model\FactoryTrait;
 use WebSK\Model\InterfaceDelete;
@@ -9,6 +9,10 @@ use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
 use WebSK\Model\ActiveRecord;
 
+/**
+ * Class Rating
+ * @package WebSK\Skif\Rating
+ */
 class Rating implements
     InterfaceLoad,
     InterfaceFactory,

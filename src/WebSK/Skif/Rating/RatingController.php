@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Rating;
+namespace WebSK\Skif\Rating;
 
 use WebSK\Skif\CRUD\CRUDController;
 use WebSK\Skif\Auth\Auth;
@@ -8,7 +8,7 @@ use WebSK\Skif\Auth\Auth;
 class RatingController extends CRUDController
 {
 
-    protected static $model_class_name = '\Skif\Rating\Rating';
+    protected static $model_class_name = Rating::class;
     public static $rating_cookie_prefix = 'rating_star_';
 
     public static function getCRUDBaseUrl($model_class_name)
