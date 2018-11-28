@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Form;
+namespace WebSK\Skif\Form;
 
 use WebSK\Model\ActiveRecord;
 use WebSK\Model\FactoryTrait;
@@ -8,10 +8,11 @@ use WebSK\Model\InterfaceDelete;
 use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
+use WebSK\Skif\CRUD\ModelReferenceWidget\ModelReferenceWidget;
 
 /**
  * Class FormField
- * @package Skif\Form
+ * @package WebSK\Skif\Form
  */
 class FormField implements
     InterfaceLoad,
@@ -64,9 +65,9 @@ class FormField implements
     public static $crud_editor_fields_arr = array(
         'name' => array(),
         'form_id' => array(
-            'widget' => array('\Skif\CRUD\ModelReferenceWidget\ModelReferenceWidget', 'renderWidget'),
+            'widget' => array(ModelReferenceWidget::class, 'renderWidget'),
             'widget_settings' => array(
-                'model_class_name' => '\Skif\Form\Form'
+                'model_class_name' => Form::class
             )
         ),
         'type' => array(
@@ -202,14 +203,13 @@ class FormField implements
 
         self::removeObjFromCacheById($id);
 
-        \Skif\Form\Form::afterUpdate($form_field_obj->getFormId());
+        Form::afterUpdate($form_field_obj->getFormId());
     }
 
     public function afterDelete()
     {
         self::removeObjFromCacheById($this->getId());
 
-        \Skif\Form\Form::afterUpdate($this->getFormId());
+        Form::afterUpdate($this->getFormId());
     }
-
 }

@@ -3,9 +3,9 @@
  * @var $form_id
  */
 
-use Skif\Form\Form;
-use Skif\Form\FormController;
-use Skif\Form\FormField;
+use WebSK\Skif\Form\Form;
+use WebSK\Skif\Form\FormController;
+use WebSK\Skif\Form\FormField;
 use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Captcha\CaptchaRoutes;
 use Websk\Slim\Container;

@@ -6,7 +6,7 @@ use WebSK\Skif\Blocks\BlockRoutes;
 use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Skif\Content\ContentRoutes;
 use WebSK\Skif\CRUD\CRUDRoutes;
-use Skif\Form\FormRoutes;
+use WebSK\Skif\Form\FormRoutes;
 use WebSK\Cache\CacheServiceProvider;
 use WebSK\Skif\Auth\AuthServiceProvider;
 use WebSK\Skif\Image\ImageRoutes;

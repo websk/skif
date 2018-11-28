@@ -1,20 +1,28 @@
 <?php
 
-namespace Skif\Form;
+namespace WebSK\Skif\Form;
 
+use Skif\UrlManager;
 use WebSK\Skif\Auth\Auth;
 use Websk\Skif\Captcha\Captcha;
+use WebSK\Skif\CRUD\CRUDController;
 use Websk\Skif\Messages;
+use WebSK\Skif\PhpRender;
+use WebSK\Slim\ConfWrapper;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Filters;
 use WebSK\Utils\Redirects;
 use WebSK\Utils\Url;
 
-class FormController extends \WebSK\Skif\CRUD\CRUDController
+/**
+ * Class FormController
+ * @package WebSK\Skif\Form
+ */
+class FormController extends CRUDController
 {
 
-    protected static $model_class_name = '\Skif\Form\Form';
-    protected $url_table = \Skif\Form\Form::DB_TABLE_NAME;
+    protected static $model_class_name = Form::class;
+    protected $url_table = Form::DB_TABLE_NAME;
 
     public static function getCRUDBaseUrl($model_class_name)
     {
@@ -31,21 +39,20 @@ class FormController extends \WebSK\Skif\CRUD\CRUDController
         $form_id = $this->getRequestedId();
 
         if (!$form_id) {
-            return \Skif\UrlManager::CONTINUE_ROUTING;
+            return UrlManager::CONTINUE_ROUTING;
         }
 
-
-        $form_obj = \Skif\Form\Form::factory($form_id, false);
+        $form_obj = Form::factory($form_id, false);
         Exits::exit404If(!$form_obj);
 
-        $content = \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $content = PhpRender::renderTemplateBySkifModule(
             'Form',
             'view.tpl.php',
             array('form_id' => $form_id)
         );
 
-        echo \Skif\PhpTemplate::renderTemplate(
-            \WebSK\Slim\ConfWrapper::value('layout.main'),
+        echo PhpRender::renderTemplate(
+            ConfWrapper::value('layout.main'),
             array(
                 'title' => $form_obj->getTitle(),
                 'content' => $content,
@@ -55,20 +62,20 @@ class FormController extends \WebSK\Skif\CRUD\CRUDController
 
     public function sendAction($form_id)
     {
-        $site_name = \WebSK\Slim\ConfWrapper::value('site_name');
-        $site_email = \WebSK\Slim\ConfWrapper::value('site_email');
-        $site_url = \WebSK\Slim\ConfWrapper::value('site_url');
+        $site_name = ConfWrapper::value('site_name');
+        $site_email = ConfWrapper::value('site_email');
+        $site_url = ConfWrapper::value('site_url');
 
         $user_email = $_REQUEST['email'];
 
         $message = 'E-mail: ' . $user_email . '<br>';
 
-        $form_obj = \Skif\Form\Form::factory($form_id);
+        $form_obj = Form::factory($form_id);
 
         $form_field_ids_arr = $form_obj->getFormFieldIdsArr();
 
         foreach ($form_field_ids_arr as $form_field_id) {
-            $form_field_obj = \Skif\Form\FormField::factory($form_field_id);
+            $form_field_obj = FormField::factory($form_field_id);
 
             $field_value = $_REQUEST['field_' . $form_field_id];
 
@@ -138,5 +145,4 @@ class FormController extends \WebSK\Skif\CRUD\CRUDController
 
         Redirects::redirect($form_obj->getUrl());
     }
-
 }

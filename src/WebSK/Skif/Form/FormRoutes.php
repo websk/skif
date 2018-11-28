@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Form;
+namespace WebSK\Skif\Form;
 
 use Skif\UrlManager;
 

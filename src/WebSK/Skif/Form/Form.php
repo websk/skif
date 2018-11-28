@@ -1,8 +1,9 @@
 <?php
 
-namespace Skif\Form;
+namespace WebSK\Skif\Form;
 
 use WebSK\Model\ActiveRecord;
+use WebSK\Model\ActiveRecordHelper;
 use WebSK\Model\FactoryTrait;
 use WebSK\Model\InterfaceDelete;
 use WebSK\Model\InterfaceFactory;
@@ -10,13 +11,15 @@ use WebSK\Model\InterfaceGetTitle;
 use WebSK\Model\InterfaceGetUrl;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
+use WebSK\Skif\CKEditor\CKEditor;
+use WebSK\Skif\CRUD\CKEditorWidget\CKEditorWidget;
 use WebSK\Utils\Transliteration;
 use Websk\Utils\Assert;
 use WebSK\Utils\Url;
 
 /**
  * Class Form
- * @package Skif\Form
+ * @package WebSK\Skif\Form
  */
 class Form implements
     InterfaceLoad,
@@ -44,7 +47,6 @@ class Form implements
     public static $active_record_ignore_fields_arr = array(
         'form_field_ids_arr',
     );
-
 
     public static $crud_create_button_required_fields_arr = array();
     public static $crud_create_button_title = 'Добавить форму';
@@ -77,10 +79,10 @@ class Form implements
         'email_copy' => array(),
         'button_label' => array(),
         'comment' => array(
-            'widget' => array('\Skif\CRUD\CKEditorWidget\CKEditorWidget', 'renderWidget'),
+            'widget' => array(CKEditorWidget::class, 'renderWidget'),
             'widget_settings' => array(
                 'height' => 500,
-                'type' => \WebSK\Skif\CKEditor\CKEditor::CKEDITOR_FULL,
+                'type' => CKEditor::CKEDITOR_FULL,
                 'dir' => 'form'
             ),
         ),
@@ -89,7 +91,7 @@ class Form implements
     );
 
     public static $related_models_arr = array(
-        '\Skif\Form\FormField' => array(
+        FormField::class => array(
             'link_field' => 'form_id',
             'field_name' => 'form_field_ids_arr',
             'list_title' => 'Набор полей формы',
@@ -268,9 +270,8 @@ class Form implements
 
         $this->setUrl($url);
 
-        \WebSK\Model\ActiveRecordHelper::saveModelObj($this);
+        ActiveRecordHelper::saveModelObj($this);
 
         self::afterUpdate($this->getId());
     }
-
 }
