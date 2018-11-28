@@ -4,8 +4,13 @@
  */
 
 use Skif\Pager;
+use WebSK\Skif\Content\Content;
+use WebSK\Skif\Content\ContentType;
+use WebSK\Skif\Content\ContentUtils;
+use WebSK\Skif\Content\Rubric;
+use WebSK\Skif\Content\RubricController;
 
-$content_type_obj = \Skif\Content\ContentType::factoryByFieldsArr(array('type' => $content_type));
+$content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
 
 $page = array_key_exists('p', $_GET) ? $_GET['p'] : 1;
 $requested_rubric_id = array_key_exists('rubric_id', $_GET) ? $_GET['rubric_id'] : 0;
@@ -13,11 +18,11 @@ $requested_rubric_id = array_key_exists('rubric_id', $_GET) ? $_GET['rubric_id']
 $limit_to_page = 100;
 
 if ($requested_rubric_id) {
-    $contents_ids_arr = \Skif\Content\ContentUtils::getContentsIdsArrByRubricId($requested_rubric_id, $limit_to_page, $page);
-    $count_all_articles = \Skif\Content\ContentUtils::getCountContentsByRubricId($requested_rubric_id);
+    $contents_ids_arr = ContentUtils::getContentsIdsArrByRubricId($requested_rubric_id, $limit_to_page, $page);
+    $count_all_articles = ContentUtils::getCountContentsByRubricId($requested_rubric_id);
 } else {
-    $contents_ids_arr = \Skif\Content\ContentUtils::getContentsIdsArrByType($content_type, $limit_to_page, $page);
-    $count_all_articles = \Skif\Content\ContentUtils::getCountContentsByType($content_type);
+    $contents_ids_arr = ContentUtils::getContentsIdsArrByType($content_type, $limit_to_page, $page);
+    $count_all_articles = ContentUtils::getCountContentsByType($content_type);
 }
 ?>
 <div class="panel panel-default">
@@ -33,7 +38,7 @@ if ($requested_rubric_id) {
                             <?php
                             $rubric_ids_arr = $content_type_obj->getRubricIdsArr();
                             foreach ($rubric_ids_arr as $rubric_id) {
-                                $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
+                                $rubric_obj = Rubric::factory($rubric_id);
 
                                 echo '<option value="' . $rubric_id . '" ' . ($rubric_id == $requested_rubric_id ? 'selected' : '') . '>' . $rubric_obj->getName() . '</option>';
                             }
@@ -46,7 +51,7 @@ if ($requested_rubric_id) {
                 </form>
             </div>
             <div class="col-md-4">
-                <a href="<?php echo \Skif\Content\RubricController::getRubricsListUrlByContentType($content_type);?>" class="btn btn-outline btn-info">
+                <a href="<?php echo RubricController::getRubricsListUrlByContentType($content_type);?>" class="btn btn-outline btn-info">
                     <span class="glyphicon glyphicon-wrench"></span> Редактировать рубрики
                 </a>
             </div>
@@ -70,7 +75,7 @@ if ($requested_rubric_id) {
         <tbody>
 <?php
 foreach ($contents_ids_arr as $content_id) {
-    $content_obj = \Skif\Content\Content::factory($content_id);
+    $content_obj = Content::factory($content_id);
     ?>
     <tr>
         <td><?php echo $content_obj->getId(); ?></td>
@@ -80,7 +85,7 @@ foreach ($contents_ids_arr as $content_id) {
             $rubric_ids_arr = $content_obj->getRubricIdsArr();
 
             foreach ($rubric_ids_arr as $rubric_id) {
-                $rubric_obj = \Skif\Content\Rubric::factory($rubric_id);
+                $rubric_obj = Rubric::factory($rubric_id);
                 ?>
                 <span class="badge"><?php echo $rubric_obj->getName(); ?></span>
                 <?php

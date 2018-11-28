@@ -10,6 +10,7 @@ use WebSK\Model\InterfaceDelete;
 use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
+use WebSK\Utils\Filters;
 
 /**
  * Class SiteMenuItem
@@ -78,7 +79,7 @@ class SiteMenuItem implements
      */
     public function getName()
     {
-        return Utils::checkPlain($this->name);
+        return Filters::checkPlain($this->name);
     }
 
     /**

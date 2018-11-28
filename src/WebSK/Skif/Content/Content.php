@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Content;
+namespace WebSK\Skif\Content;
 
 use WebSK\Entity\InterfaceEntity;
 use Websk\Skif\DBWrapper;
@@ -10,16 +10,16 @@ use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceLogger;
 use WebSK\Model\InterfaceSave;
+use WebSK\Utils\Filters;
 use WebSK\Utils\Transliteration;
 use WebSK\Model\ActiveRecord;
 use WebSK\Model\ActiveRecordHelper;
-use Skif\Utils;
 use Websk\Utils\Assert;
 use WebSK\Utils\Url;
 
 /**
  * Class Content
- * @package Skif\Content
+ * @package WebSK\Skif\Content
  */
 class Content implements
     InterfaceLoad,
@@ -102,7 +102,7 @@ class Content implements
         $query = "SELECT id FROM " . ContentRubrics::DB_TABLE_NAME . " WHERE content_id = ?";
         $this->content_rubrics_ids_arr = DBWrapper::readColumn(
             $query,
-            array($this->id)
+            [$this->id]
         );
 
         return true;
@@ -168,7 +168,7 @@ class Content implements
      */
     public function getTitle()
     {
-        return Utils::checkPlain($this->title);
+        return Filters::checkPlain($this->title);
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Content;
+namespace WebSK\Skif\Content;
 
 use WebSK\Model\ActiveRecord;
 use WebSK\Model\FactoryTrait;
@@ -13,7 +13,7 @@ use Websk\Skif\DBWrapper;
 
 /**
  * Class ContentType
- * @package Skif\Content
+ * @package WebSK\Skif\Content
  */
 class ContentType implements
     InterfaceLoad,

@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Content;
+namespace WebSK\Skif\Content;
 
 use Skif\Router;
 use Skif\UrlManager;

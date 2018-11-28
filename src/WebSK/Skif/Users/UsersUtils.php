@@ -7,6 +7,7 @@ use WebSK\Skif\Auth\Auth;
 use WebSK\Slim\ConfWrapper;
 use Websk\Slim\Container;
 use Websk\Skif\DBWrapper;
+use WebSK\Utils\Filters;
 
 /**
  * Class UsersUtils
@@ -219,7 +220,7 @@ class UsersUtils
             $mail->isHTML(true);
             $mail->Subject = $subject;
             $mail->Body = $mail_message;
-            $mail->AltBody = Utils::checkPlain($mail_message);
+            $mail->AltBody = Filters::checkPlain($mail_message);
             $mail->send();
         }
 

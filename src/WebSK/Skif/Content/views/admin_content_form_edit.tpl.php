@@ -4,11 +4,11 @@
  * @var $content_type
  */
 
-use Skif\Content\Content;
-use Skif\Content\ContentType;
-use Skif\Content\Rubric;
-use Skif\Content\Template;
-use Skif\Content\TemplateUtils;
+use WebSK\Skif\Content\Content;
+use WebSK\Skif\Content\ContentType;
+use WebSK\Skif\Content\Rubric;
+use WebSK\Skif\Content\Template;
+use WebSK\Skif\Content\TemplateUtils;
 use WebSK\Skif\CKEditor\CKEditor;
 use WebSK\Skif\Image\ImageManager;
 use WebSK\Skif\Logger\LoggerRender;

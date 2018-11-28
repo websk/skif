@@ -1,13 +1,12 @@
 <?php
 
-namespace Skif\Content;
+namespace WebSK\Skif\Content;
 
 use Websk\Skif\DBWrapper;
-use Skif\PhpTemplate;
 
 /**
  * Class ContentUtils
- * @package Skif\Content
+ * @package WebSK\Skif\Content
  */
 class ContentUtils
 {
@@ -222,18 +221,18 @@ class ContentUtils
         if (!$template_file) {
             $template_file = 'content_last_list.tpl.php';
 
-            if (PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type . '_last_list.tpl.php')) {
+            if (PhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type . '_last_list.tpl.php')) {
                 $template_file = 'content_' . $content_type . '_last_list.tpl.php';
             }
 
-            return PhpTemplate::renderTemplateBySkifModule(
+            return PhpRender::renderTemplateBySkifModule(
                 'Content',
                 $template_file,
                 array('contents_ids_arr' => $contents_ids_arr)
             );
         }
 
-        return PhpTemplate::renderTemplate($template_file, array('contents_ids_arr' => $contents_ids_arr));
+        return PhpRender::renderTemplate($template_file, array('contents_ids_arr' => $contents_ids_arr));
     }
 
     /**
@@ -250,7 +249,7 @@ class ContentUtils
         if (!$template_file) {
             $template_file = 'content_last_list.tpl.php';
 
-            if (PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_' . $rubric_id . '_last_list.tpl.php')) {
+            if (PhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_' . $rubric_id . '_last_list.tpl.php')) {
                 $template_file = 'content_by_rubric_' . $rubric_id . '_last_list.tpl.php';
             } else {
                 $rubric_obj = Rubric::factory($rubric_id);
@@ -259,19 +258,19 @@ class ContentUtils
                 $content_type_obj = ContentType::factory($content_type_id);
                 $content_type = $content_type_obj->getType();
 
-                if (PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type . '_last_list.tpl.php')) {
+                if (PhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type . '_last_list.tpl.php')) {
                     $template_file = 'content_' . $content_type . '_last_list.tpl.php';
                 }
             }
 
-            return PhpTemplate::renderTemplateBySkifModule(
+            return PhpRender::renderTemplateBySkifModule(
                 'Content',
                 $template_file,
                 array('contents_ids_arr' => $contents_ids_arr)
             );
         }
 
-        return PhpTemplate::renderTemplate($template_file, array('contents_ids_arr' => $contents_ids_arr));
+        return PhpRender::renderTemplate($template_file, array('contents_ids_arr' => $contents_ids_arr));
     }
 
     /**

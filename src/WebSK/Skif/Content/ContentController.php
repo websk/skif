@@ -1,24 +1,27 @@
 <?php
 
-namespace Skif\Content;
+namespace WebSK\Skif\Content;
 
 use Skif\BaseController;
+use WebSK\Skif\PhpRender;
 use WebSK\Slim\ConfWrapper;
 use Websk\Skif\DBWrapper;
 use WebSK\Skif\Image\ImageConstants;
 use WebSK\Skif\Image\ImageController;
 use WebSK\Skif\Image\ImageManager;
 use Websk\Skif\Messages;
-use Skif\PhpTemplate;
 use Skif\Sitemap\InterfaceSitemapController;
 use Skif\UrlManager;
 use WebSK\Skif\Auth\Auth;
-use Skif\Utils;
 use Websk\Utils\Assert;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
 use WebSK\Utils\Url;
 
+/**
+ * Class ContentController
+ * @package WebSK\Skif\Content
+ */
 class ContentController extends BaseController implements InterfaceSitemapController
 {
 
@@ -94,25 +97,30 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         if ($main_rubric_id) {
             $main_rubric_obj = Rubric::factory($main_rubric_id);
 
-            $breadcrumbs_arr = array($main_rubric_obj->getName() => $main_rubric_obj->getUrl() );
+            $breadcrumbs_arr = array($main_rubric_obj->getName() => $main_rubric_obj->getUrl());
         }
 
 
         $template_file = 'content_view.tpl.php';
 
-        if (PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type . '_view.tpl.php')) {
+        if (PhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('Content',
+            'content_' . $content_type . '_view.tpl.php')) {
             $template_file = 'content_' . $content_type . '_view.tpl.php';
         }
 
         if ($content_obj->getCountRubricIdsArr()) {
-            if (PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_' . $main_rubric_id .'_view.tpl.php')) {
-                $template_file = 'content_by_rubric_' . $main_rubric_id .'_view.tpl.php';
-            } else if (PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_view.tpl.php')) {
-                $template_file = 'content_by_rubric_view.tpl.php';
+            if (PhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('Content',
+                'content_by_rubric_' . $main_rubric_id . '_view.tpl.php')) {
+                $template_file = 'content_by_rubric_' . $main_rubric_id . '_view.tpl.php';
+            } else {
+                if (PhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('Content',
+                    'content_by_rubric_view.tpl.php')) {
+                    $template_file = 'content_by_rubric_view.tpl.php';
+                }
             }
         }
 
-        $content .= PhpTemplate::renderTemplateBySkifModule(
+        $content .= PhpRender::renderTemplateBySkifModule(
             'Content',
             $template_file,
             array('content_id' => $content_id)
@@ -123,7 +131,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $layout_template_file = TemplateUtils::getLayoutFileByTemplateId($template_id);
 
-        echo PhpTemplate::renderTemplate(
+        echo PhpRender::renderTemplate(
             $layout_template_file,
             array(
                 'content' => $content,
@@ -143,17 +151,18 @@ class ContentController extends BaseController implements InterfaceSitemapContro
      */
     public function listAction($content_type)
     {
-        if (!ConfWrapper::value('content.' . $content_type )) {
+        if (!ConfWrapper::value('content.' . $content_type)) {
             return UrlManager::CONTINUE_ROUTING;
         }
 
         $template_file = 'content_list.tpl.php';
 
-        if (PhpTemplate::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type. '_list.tpl.php')) {
-            $template_file = 'content_' . $content_type. '_list.tpl.php';
+        if (PhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('Content',
+            'content_' . $content_type . '_list.tpl.php')) {
+            $template_file = 'content_' . $content_type . '_list.tpl.php';
         }
 
-        $content = PhpTemplate::renderTemplateBySkifModule(
+        $content = PhpRender::renderTemplateBySkifModule(
             'Content',
             $template_file,
             array('content_type' => $content_type)
@@ -165,7 +174,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $layout_template_file = TemplateUtils::getLayoutFileByTemplateId($template_id);
 
-        echo PhpTemplate::renderTemplate(
+        echo PhpRender::renderTemplate(
             $layout_template_file,
             array(
                 'content' => $content,
@@ -186,7 +195,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
 
-        $html = PhpTemplate::renderTemplateBySkifModule(
+        $html = PhpRender::renderTemplateBySkifModule(
             'Content',
             'admin_content_form_edit.tpl.php',
             array('content_id' => $content_id, 'content_type' => $content_type)
@@ -194,7 +203,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
 
-        echo PhpTemplate::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => 'Редактирование материала',
@@ -211,7 +220,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
 
-        $html = PhpTemplate::renderTemplateBySkifModule(
+        $html = PhpRender::renderTemplateBySkifModule(
             'Content',
             'admin_content_list.tpl.php',
             array('content_type' => $content_type)
@@ -219,7 +228,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
 
-        echo PhpTemplate::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => $content_type_obj->getName(),
@@ -244,7 +253,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $title = array_key_exists('title', $_REQUEST) ? $_REQUEST['title'] : '';
 
-        if (!$title){
+        if (!$title) {
             Messages::setError('Отсутствует заголовок');
             Redirects::redirect('/admin/content/' . $content_type . '/edit/' . $content_id);
         }
@@ -295,7 +304,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
             $url = '/' . ltrim($url, '/');
 
             $content_type_url_length = strlen($content_type_obj->getUrl());
-            if (substr($url, 0, $content_type_url_length+1) != $content_type_obj->getUrl() . '/') {
+            if (substr($url, 0, $content_type_url_length + 1) != $content_type_obj->getUrl() . '/') {
                 $url = $content_type_obj->getUrl() . $url;
             }
 
@@ -326,7 +335,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
             $content_obj->deleteContentRubrics();
 
             foreach ($rubrics_arr as $rubric_id) {
-                $content_rubrics_obj = new \Skif\Content\ContentRubrics();
+                $content_rubrics_obj = new \WebSK\Skif\Content\ContentRubrics();
                 $content_rubrics_obj->setContentId($content_obj->getId());
                 $content_rubrics_obj->setRubricId($rubric_id);
                 $content_rubrics_obj->save();
@@ -425,7 +434,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
     {
         $term = array_key_exists('term', $_REQUEST) ? trim($_REQUEST['term']) : '';
 
-        $query_param_arr = array($term .'%');
+        $query_param_arr = array($term . '%');
 
         $query = "SELECT id FROM " . Content::DB_TABLE_NAME . " WHERE title LIKE ? LIMIT 20";
         $content_ids_arr = DBWrapper::readColumn($query, $query_param_arr);

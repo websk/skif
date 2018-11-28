@@ -18,6 +18,7 @@ use WebSK\Slim\ConfWrapper;
 use Websk\Slim\Container;
 use WebSK\Skif\Users\UsersServiceProvider;
 use Websk\Utils\Assert;
+use WebSK\Utils\Filters;
 
 class Comment implements
     InterfaceLoad,
@@ -336,7 +337,7 @@ class Comment implements
                     $mail->isHTML(true);
                     $mail->Subject = $subject;
                     $mail->Body = $mail_message;
-                    $mail->AltBody = Utils::checkPlain($mail_message);
+                    $mail->AltBody = Filters::checkPlain($mail_message);
                     $mail->send();
                 }
             }

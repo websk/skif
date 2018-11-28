@@ -25,10 +25,10 @@ $current_template_id = \WebSK\Skif\Blocks\ControllerBlocks::getCurrentTemplateId
                 <div class="form-group">
                     <select name="templates" id="templates" onchange="change_template()" class="form-control">';
                         <?php
-                        $templates_ids_arr = \Skif\Content\TemplateUtils::getTemplatesIdsArr();
+                        $templates_ids_arr = \WebSK\Skif\Content\TemplateUtils::getTemplatesIdsArr();
 
                         foreach ($templates_ids_arr as $template_id) {
-                            $template_obj = \Skif\Content\Template::factory($template_id);
+                            $template_obj = \WebSK\Skif\Content\Template::factory($template_id);
 
                             ?>
                             <option value="<?php echo $template_id; ?>"<?php echo (($template_id == $current_template_id) ? ' selected' : '') ?>><?php echo $template_obj->getTitle(); ?></option>

@@ -54,7 +54,7 @@ if ($site_menu_item_id == 'new') {
 $content_title = '';
 $url = $site_menu_item_obj->getUrl();
 if ($site_menu_item_obj->getContentId()) {
-    $content_obj = \Skif\Content\Content::factory($site_menu_item_obj->getContentId());
+    $content_obj = \WebSK\Skif\Content\Content::factory($site_menu_item_obj->getContentId());
 
     $content_title = $content_obj->getTitle();
     $url = $content_obj->getUrl();

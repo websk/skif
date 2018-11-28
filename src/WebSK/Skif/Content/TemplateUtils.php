@@ -1,8 +1,14 @@
 <?php
 
-namespace Skif\Content;
+namespace WebSK\Skif\Content;
 
+use Websk\Cache\CacheWrapper;
+use Websk\Skif\DBWrapper;
 
+/**
+ * Class TemplateUtils
+ * @package WebSK\Skif\Content
+ */
 class TemplateUtils
 {
 
@@ -10,16 +16,16 @@ class TemplateUtils
     {
         $cache_key = self::getTemplateIdByNameCacheKey($name);
 
-        $cache = \Websk\Cache\CacheWrapper::get($cache_key);
+        $cache = CacheWrapper::get($cache_key);
         if ($cache !== false) {
             return $cache;
         }
 
-        $query = "SELECT id FROM " . \Skif\Content\Template::DB_TABLE_NAME . " WHERE name=?";
+        $query = "SELECT id FROM " . Template::DB_TABLE_NAME . " WHERE name=?";
 
-        $template_id = \Websk\Skif\DBWrapper::readField($query, array($name));
+        $template_id = DBWrapper::readField($query, array($name));
 
-        \Websk\Cache\CacheWrapper::set($cache_key, $template_id, 3600);
+        CacheWrapper::set($cache_key, $template_id, 3600);
 
         return $template_id;
     }
@@ -35,13 +41,14 @@ class TemplateUtils
      */
     public static function getTemplatesIdsArr()
     {
-        $query = "SELECT id FROM " . \Skif\Content\Template::DB_TABLE_NAME;
-        return \Websk\Skif\DBWrapper::readColumn($query);
+        $query = "SELECT id FROM " . Template::DB_TABLE_NAME;
+
+        return DBWrapper::readColumn($query);
     }
 
     public static function getLayoutFileByTemplateId($template_id)
     {
-        $template_obj = \Skif\Content\Template::factory($template_id, false);
+        $template_obj = Template::factory($template_id, false);
         if (!$template_obj) {
             return 'layouts/layout.main.tpl.php';
         }

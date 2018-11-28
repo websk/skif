@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Content;
+namespace WebSK\Skif\Content;
 
 use WebSK\Model\ActiveRecord;
 use WebSK\Model\FactoryTrait;
@@ -11,7 +11,7 @@ use WebSK\Model\InterfaceSave;
 
 /**
  * Class ContentRubrics
- * @package Skif\Content
+ * @package WebSK\Skif\Content
  */
 class ContentRubrics implements
     InterfaceLoad,

@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Blocks;
 
-use Skif\Content\TemplateUtils;
+use WebSK\Skif\Content\TemplateUtils;
 use Websk\Cache\CacheWrapper;
 use WebSK\Skif\Auth\Auth;
 use Websk\Skif\DBWrapper;

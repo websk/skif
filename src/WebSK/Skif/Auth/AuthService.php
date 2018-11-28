@@ -7,6 +7,7 @@ use WebSK\Slim\ConfWrapper;
 use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UserService;
 use WebSK\Slim\Router;
+use WebSK\Utils\Filters;
 
 /**
  * Class AuthService
@@ -56,7 +57,7 @@ class AuthService
         $mail->isHTML(true);
         $mail->Subject = $subject;
         $mail->Body = $mail_message;
-        $mail->AltBody = Utils::checkPlain($mail_message);
+        $mail->AltBody = Filters::checkPlain($mail_message);
         $mail->send();
     }
 

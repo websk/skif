@@ -4,6 +4,7 @@ namespace Skif\Form;
 
 
 use WebSK\Utils\Exits;
+use WebSK\Utils\Filters;
 use WebSK\Utils\Redirects;
 use WebSK\Utils\Url;
 
@@ -92,7 +93,7 @@ class FormController extends \Skif\CRUD\CRUDController
             Redirects::redirect($form_obj->getUrl());
         }
 
-        if (!\Skif\Utils::checkEmail($user_email)) {
+        if (!Filters::checkEmail($user_email)) {
             \Websk\Skif\Messages::setError('Указан не существующий E-mail');
             Redirects::redirect($form_obj->getUrl());
         }
@@ -114,7 +115,7 @@ class FormController extends \Skif\CRUD\CRUDController
         $mail->isHTML(true);
         $mail->Subject = $title;
         $mail->Body = $message;
-        $mail->AltBody = \Skif\Utils::checkPlain($message);
+        $mail->AltBody = Filters::checkPlain($message);
         $mail->send();
 
         \Websk\Skif\Messages::setMessage($response_mail_message);
@@ -130,7 +131,7 @@ class FormController extends \Skif\CRUD\CRUDController
         $mail->isHTML(true);
         $mail->Subject = "Благодарим Вас за отправленную информацию!";
         $mail->Body = $response_mail_message;
-        $mail->AltBody = \Skif\Utils::checkPlain($response_mail_message);
+        $mail->AltBody = Filters::checkPlain($response_mail_message);
         $mail->send();
 
         Redirects::redirect($form_obj->getUrl());

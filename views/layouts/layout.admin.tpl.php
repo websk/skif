@@ -6,8 +6,8 @@
  */
 
 use WebSK\Slim\ConfWrapper;
-use Skif\Content\ContentType;
-use Skif\Content\ContentUtils;
+use WebSK\Skif\Content\ContentType;
+use WebSK\Skif\Content\ContentUtils;
 use WebSK\UI\LayoutDTO;
 use Websk\Skif\Messages;
 use Websk\Skif\Path;

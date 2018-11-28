@@ -4,11 +4,11 @@
  * @var $rubric_id
  */
 
-use Skif\Content\ContentType;
-use Skif\Content\Rubric;
-use Skif\Content\RubricController;
-use Skif\Content\Template;
-use Skif\Content\TemplateUtils;
+use WebSK\Skif\Content\ContentType;
+use WebSK\Skif\Content\Rubric;
+use WebSK\Skif\Content\RubricController;
+use WebSK\Skif\Content\Template;
+use WebSK\Skif\Content\TemplateUtils;
 use WebSK\Skif\CKEditor\CKEditor;
 
 $content_type_obj = ContentType::factory($content_type_id);

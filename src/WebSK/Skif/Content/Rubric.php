@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Content;
+namespace WebSK\Skif\Content;
 
 use WebSK\Model\ActiveRecord;
 use WebSK\Model\FactoryTrait;
@@ -17,7 +17,7 @@ use WebSK\Utils\Url;
 
 /**
  * Class Rubric
- * @package Skif\Content
+ * @package WebSK\Skif\Content
  */
 class Rubric implements
     InterfaceLoad,
