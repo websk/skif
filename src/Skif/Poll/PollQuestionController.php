@@ -2,7 +2,7 @@
 
 namespace Skif\Poll;
 
-class PollQuestionController extends \Skif\CRUD\CRUDController
+class PollQuestionController extends \WebSK\Skif\CRUD\CRUDController
 {
 
     protected static $model_class_name = '\Skif\Poll\PollQuestion';

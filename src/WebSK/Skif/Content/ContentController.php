@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Content;
 
-use Skif\BaseController;
+use WebSK\Skif\BaseController;
 use WebSK\Skif\PhpRender;
 use WebSK\Slim\ConfWrapper;
 use Websk\Skif\DBWrapper;

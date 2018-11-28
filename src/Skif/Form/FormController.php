@@ -2,13 +2,15 @@
 
 namespace Skif\Form;
 
-
+use WebSK\Skif\Auth\Auth;
+use Websk\Skif\Captcha\Captcha;
+use Websk\Skif\Messages;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Filters;
 use WebSK\Utils\Redirects;
 use WebSK\Utils\Url;
 
-class FormController extends \Skif\CRUD\CRUDController
+class FormController extends \WebSK\Skif\CRUD\CRUDController
 {
 
     protected static $model_class_name = '\Skif\Form\Form';
@@ -75,26 +77,26 @@ class FormController extends \Skif\CRUD\CRUDController
             $message .= $name . ": " . $field_value . '<br>';
 
             if ($form_field_obj->getStatus() && !$field_value) {
-                \Websk\Skif\Messages::setError("Вы не указали " . $name);
+                Messages::setError("Вы не указали " . $name);
                 Redirects::redirect($form_obj->getUrl());
             }
         }
 
-        $current_user_id = \WebSK\Skif\Auth\Auth::getCurrentUserId();
+        $current_user_id = Auth::getCurrentUserId();
 
         if (!$current_user_id) {
-            if (!\Skif\Captcha\Captcha::checkWithMessage()) {
+            if (!Captcha::checkWithMessage()) {
                 Redirects::redirect($form_obj->getUrl());
             }
         }
 
         if (!$user_email) {
-            \Websk\Skif\Messages::setError('Вы не указали свой E-mail');
+            Messages::setError('Вы не указали свой E-mail');
             Redirects::redirect($form_obj->getUrl());
         }
 
         if (!Filters::checkEmail($user_email)) {
-            \Websk\Skif\Messages::setError('Указан не существующий E-mail');
+            Messages::setError('Указан не существующий E-mail');
             Redirects::redirect($form_obj->getUrl());
         }
 
@@ -118,7 +120,7 @@ class FormController extends \Skif\CRUD\CRUDController
         $mail->AltBody = Filters::checkPlain($message);
         $mail->send();
 
-        \Websk\Skif\Messages::setMessage($response_mail_message);
+        Messages::setMessage($response_mail_message);
 
         $response_mail_message .= "<br><br>";
         $response_mail_message .= $to_mail . "<br>";

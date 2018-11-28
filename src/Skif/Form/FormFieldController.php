@@ -3,7 +3,7 @@
 namespace Skif\Form;
 
 
-class FormFieldController extends \Skif\CRUD\CRUDController
+class FormFieldController extends \WebSK\Skif\CRUD\CRUDController
 {
 
     protected static $model_class_name = '\Skif\Form\FormField';

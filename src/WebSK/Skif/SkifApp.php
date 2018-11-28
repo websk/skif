@@ -3,9 +3,9 @@
 namespace WebSK\Skif;
 
 use WebSK\Skif\Blocks\BlockRoutes;
-use Skif\Comment\CommentRoutes;
+use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Skif\Content\ContentRoutes;
-use Skif\CRUD\CRUDRoutes;
+use WebSK\Skif\CRUD\CRUDRoutes;
 use Skif\Form\FormRoutes;
 use WebSK\Cache\CacheServiceProvider;
 use WebSK\Skif\Auth\AuthServiceProvider;

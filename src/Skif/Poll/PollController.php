@@ -3,7 +3,7 @@
 namespace Skif\Poll;
 
 use WebSK\Slim\ConfWrapper;
-use Skif\CRUD\CRUDController;
+use WebSK\Skif\CRUD\CRUDController;
 use Websk\Skif\Messages;
 use Skif\PhpTemplate;
 use WebSK\Utils\Exits;

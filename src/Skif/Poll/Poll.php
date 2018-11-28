@@ -2,7 +2,7 @@
 
 namespace Skif\Poll;
 
-use Skif\CRUD\DatepickerWidget\DatepickerWidget;
+use WebSK\Skif\CRUD\DatepickerWidget\DatepickerWidget;
 use WebSK\Model\FactoryTrait;
 use WebSK\Model\InterfaceDelete;
 use WebSK\Model\InterfaceFactory;

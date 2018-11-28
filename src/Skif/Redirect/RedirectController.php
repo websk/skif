@@ -3,7 +3,7 @@
 namespace Skif\Redirect;
 
 use Websk\Cache\CacheWrapper;
-use Skif\CRUD\CRUDController;
+use WebSK\Skif\CRUD\CRUDController;
 use Websk\Skif\DBWrapper;
 use Skif\UrlManager;
 use Skif\Utils;

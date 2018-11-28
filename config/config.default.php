@@ -46,8 +46,8 @@ return [
                 'name' => 'Настройки<span class="fa arrow"></span>',
                 'icon' => '<i class="fa fa-wrench fa-fw"></i>',
                 'sub_menu' => [
-                    ['link' => \Skif\CRUD\CRUDController::getListUrl('\Skif\Content\ContentType'), 'name' => 'Типы контента'],
-                    ['link' => \Skif\CRUD\CRUDController::getListUrl('\Skif\Content\Template'), 'name' => 'Темы'],
+                    ['link' => \WebSK\Skif\CRUD\CRUDController::getListUrl('\Skif\Content\ContentType'), 'name' => 'Типы контента'],
+                    ['link' => \WebSK\Skif\CRUD\CRUDController::getListUrl('\Skif\Content\Template'), 'name' => 'Темы'],
                     ['link' => '/admin/redirect', 'name' => 'Редиректы'],
                     ['link' => '/admin/key_value', 'name' => 'Параметры'],
                 ]

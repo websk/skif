@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Content;
 
-use Skif\BaseController;
+use WebSK\Skif\BaseController;
 use Skif\UrlManager;
 use WebSK\Skif\Auth\Auth;
 use Websk\Skif\Messages;
