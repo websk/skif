@@ -23,10 +23,10 @@ class Filters
     }
 
     /**
-     * @param string $text
+     * @param mixed $text
      * @return string
      */
-    public static function checkPlain(string $text)
+    public static function checkPlain($text)
     {
         return htmlspecialchars($text, ENT_QUOTES, 'UTF-8', false);
     }

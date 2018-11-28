@@ -5,14 +5,14 @@
 
 use WebSK\Utils\Url;
 
-$site_menu_item_ids_arr = \Skif\SiteMenu\SiteMenuUtils::getSiteMenuItemIdsArr($site_menu_id);
+$site_menu_item_ids_arr = \WebSK\Skif\SiteMenu\SiteMenuUtils::getSiteMenuItemIdsArr($site_menu_id);
 
 $current_url_no_query = Url::getUriNoQueryString();
 ?>
 <ul class="nav nav-stacked nav-pills nav-promote">
     <?php
     foreach ($site_menu_item_ids_arr as $site_menu_item_id) {
-        $site_menu_type_obj = \Skif\SiteMenu\SiteMenuItem::factory($site_menu_item_id);
+        $site_menu_type_obj = \WebSK\Skif\SiteMenu\SiteMenuItem::factory($site_menu_item_id);
 
         if (!$site_menu_type_obj->isPublished()) {
             continue;

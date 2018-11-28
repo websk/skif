@@ -1,12 +1,11 @@
 <?php
 
-namespace Skif\Redirect;
+namespace WebSK\Skif\Redirect;
 
 use Websk\Cache\CacheWrapper;
 use WebSK\Skif\CRUD\CRUDController;
 use Websk\Skif\DBWrapper;
 use Skif\UrlManager;
-use Skif\Utils;
 use WebSK\Utils\Url;
 
 class RedirectController extends CRUDController
@@ -48,7 +47,8 @@ class RedirectController extends CRUDController
         if (!empty($exact_redirect_stdobj_arr)) {
             $exact_redirect_stdobj = array_shift($exact_redirect_stdobj_arr);
             $http_response_code = $exact_redirect_stdobj->code ? $exact_redirect_stdobj->code : 301;
-            header('Location: ' . Url::appendLeadingSlash($exact_redirect_stdobj->dst), true, intval($http_response_code));
+            header('Location: ' . Url::appendLeadingSlash($exact_redirect_stdobj->dst), true,
+                intval($http_response_code));
             exit;
         }
 
@@ -71,7 +71,6 @@ class RedirectController extends CRUDController
             $matches = array();
 
             if (preg_match($regexp_redirect_stdobj->src, $uri, $matches)) {
-
                 $dst = $regexp_redirect_stdobj->dst;
                 foreach ($matches as $match_k => $match_val) {
                     $dst = str_replace('$' . $match_k, $match_val, $dst);

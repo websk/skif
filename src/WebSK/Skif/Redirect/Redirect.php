@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Redirect;
+namespace WebSK\Skif\Redirect;
 
 use WebSK\Model\ActiveRecord;
 use WebSK\Model\FactoryTrait;
@@ -12,7 +12,7 @@ use Websk\Cache\CacheWrapper;
 
 /**
  * Class Redirect
- * @package Skif\Redirect
+ * @package WebSK\Skif\Redirect
  */
 class Redirect implements
     InterfaceLoad,
@@ -152,7 +152,7 @@ class Redirect implements
 
     public static function afterUpdate($redirect_id)
     {
-        $redirect_id_obj = \Skif\Redirect\Redirect::factory($redirect_id);
+        $redirect_id_obj = self::factory($redirect_id);
 
         if ($redirect_id_obj->getKind() == self::REDIRECT_KIND_REGEXP) {
             $cache_key = RedirectController::getCacheKeyRegexpRedirectArr();

@@ -4,9 +4,9 @@
  */
 
 if ($site_menu_id == 'new') {
-    $site_menu_obj = new \Skif\SiteMenu\SiteMenu();
+    $site_menu_obj = new \WebSK\Skif\SiteMenu\SiteMenu();
 } else {
-    $site_menu_obj = \Skif\SiteMenu\SiteMenu::factory($site_menu_id);
+    $site_menu_obj = \WebSK\Skif\SiteMenu\SiteMenu::factory($site_menu_id);
 }
 ?>
 <script type="text/javascript">

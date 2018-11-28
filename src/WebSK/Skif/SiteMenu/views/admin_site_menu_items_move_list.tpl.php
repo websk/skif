@@ -5,7 +5,7 @@
  * @var $move_item_id
  */
 
-$site_menu_move_item_obj = \Skif\SiteMenu\SiteMenuItem::factory($move_item_id);
+$site_menu_move_item_obj = \WebSK\Skif\SiteMenu\SiteMenuItem::factory($move_item_id);
 ?>
 
 <p class="alert alert-info">Выберите, после или внутри какого пункта расположить выбранный пункт
@@ -23,13 +23,13 @@ $site_menu_move_item_obj = \Skif\SiteMenu\SiteMenuItem::factory($move_item_id);
             <col class="col-md-3 col-sm-5 col-xs-5">
         </colgroup>
         <?php
-        $site_menu_item_ids_arr = \Skif\SiteMenu\SiteMenuUtils::getSiteMenuItemIdsArr($site_menu_id, $parent_id);
+        $site_menu_item_ids_arr = \WebSK\Skif\SiteMenu\SiteMenuUtils::getSiteMenuItemIdsArr($site_menu_id, $parent_id);
         ?>
         <tr>
             <td>
                 <?php
                 if ($parent_id) {
-                    $site_menu_parent_item_obj = \Skif\SiteMenu\SiteMenuItem::factory($parent_id);
+                    $site_menu_parent_item_obj = \WebSK\Skif\SiteMenu\SiteMenuItem::factory($parent_id);
                     ?>
                     <a href="/admin/site_menu/<?php echo $site_menu_id; ?>/items/list_for_move/<?php echo $site_menu_parent_item_obj->getParentId() ?>?move_item_id=<?php echo $move_item_id; ?>" title="Перейти на уровень выше">
                         <span class="fa fa-long-arrow-left fa-lg text-muted"></span>
@@ -47,7 +47,7 @@ $site_menu_move_item_obj = \Skif\SiteMenu\SiteMenuItem::factory($move_item_id);
         <?php
 
         foreach ($site_menu_item_ids_arr as $site_menu_item_id) {
-            $site_menu_item_obj = \Skif\SiteMenu\SiteMenuItem::factory($site_menu_item_id);
+            $site_menu_item_obj = \WebSK\Skif\SiteMenu\SiteMenuItem::factory($site_menu_item_id);
 
             if ($site_menu_item_id == $move_item_id) {
                 continue;

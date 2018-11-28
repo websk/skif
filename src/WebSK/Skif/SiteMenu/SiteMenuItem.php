@@ -1,8 +1,7 @@
 <?php
 
-namespace Skif\SiteMenu;
+namespace WebSK\Skif\SiteMenu;
 
-use Skif\Utils;
 use WebSK\Model\ActiveRecord;
 use WebSK\Model\ActiveRecordHelper;
 use WebSK\Model\FactoryTrait;
@@ -14,7 +13,7 @@ use WebSK\Utils\Filters;
 
 /**
  * Class SiteMenuItem
- * @package Skif\SiteMenu
+ * @package WebSK\Skif\SiteMenu
  */
 class SiteMenuItem implements
     InterfaceLoad,

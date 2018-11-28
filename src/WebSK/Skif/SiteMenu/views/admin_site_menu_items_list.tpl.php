@@ -17,11 +17,11 @@
             <col class="col-md-3 col-sm-5 col-xs-5">
         </colgroup>
 <?php
-$site_menu_item_ids_arr = \Skif\SiteMenu\SiteMenuUtils::getSiteMenuItemIdsArr($site_menu_id, $parent_id);
+$site_menu_item_ids_arr = \WebSK\Skif\SiteMenu\SiteMenuUtils::getSiteMenuItemIdsArr($site_menu_id, $parent_id);
 
 $counter_item = 0;
 foreach ($site_menu_item_ids_arr as $site_menu_item_id) {
-    $site_menu_item_obj = \Skif\SiteMenu\SiteMenuItem::factory($site_menu_item_id);
+    $site_menu_item_obj = \WebSK\Skif\SiteMenu\SiteMenuItem::factory($site_menu_item_id);
     ?>
     <tr>
         <td><?php echo $site_menu_item_id; ?></td>

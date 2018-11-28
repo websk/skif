@@ -10,10 +10,10 @@
             <col class="col-md-3 col-sm-5 col-xs-5">
         </colgroup>
 <?php
-$site_menu_ids_arr = \Skif\SiteMenu\SiteMenuUtils::getSiteMenuIdsArr();
+$site_menu_ids_arr = \WebSK\Skif\SiteMenu\SiteMenuUtils::getSiteMenuIdsArr();
 
 foreach ($site_menu_ids_arr as $site_menu_id) {
-    $site_menu_obj = \Skif\SiteMenu\SiteMenu::factory($site_menu_id);
+    $site_menu_obj = \WebSK\Skif\SiteMenu\SiteMenu::factory($site_menu_id);
     ?>
     <tr>
         <td><?php echo $site_menu_id; ?></td>

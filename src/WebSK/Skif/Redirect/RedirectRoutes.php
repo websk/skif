@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Redirect;
+namespace WebSK\Skif\Redirect;
 
 use Skif\UrlManager;
 

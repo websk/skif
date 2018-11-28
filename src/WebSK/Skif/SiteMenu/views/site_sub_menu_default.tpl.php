@@ -6,9 +6,9 @@
 use WebSK\Utils\Url;
 
 $current_url_no_query = Url::getUriNoQueryString();
-$current_site_menu_item_id = \Skif\SiteMenu\SiteMenuUtils::getCurrentSiteMenuItemId();
+$current_site_menu_item_id = \WebSK\Skif\SiteMenu\SiteMenuUtils::getCurrentSiteMenuItemId();
 
-$parent_item_obj = \Skif\SiteMenu\SiteMenuItem::factory($parent_item_id);
+$parent_item_obj = \WebSK\Skif\SiteMenu\SiteMenuItem::factory($parent_item_id);
 $children_ids_arr = $parent_item_obj->getChildrenIdsArr();
 
 if (!$children_ids_arr) {
@@ -23,7 +23,7 @@ if (!in_array($current_site_menu_item_id, $descendants_ids_arr)) {
 <ul>
     <?php
     foreach ($children_ids_arr as $children_site_menu_item_id) {
-        $children_site_menu_item_obj = \Skif\SiteMenu\SiteMenuItem::factory($children_site_menu_item_id);
+        $children_site_menu_item_obj = \WebSK\Skif\SiteMenu\SiteMenuItem::factory($children_site_menu_item_id);
 
         if (!$children_site_menu_item_obj->isPublished()) {
             continue;
