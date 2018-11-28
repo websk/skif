@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Poll;
+namespace WebSK\Skif\Poll;
 
 use WebSK\Skif\CRUD\DatepickerWidget\DatepickerWidget;
 use WebSK\Model\FactoryTrait;
@@ -12,6 +12,10 @@ use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
 use WebSK\Model\ActiveRecord;
 
+/**
+ * Class Poll
+ * @package WebSK\Skif\Poll
+ */
 class Poll implements
     InterfaceLoad,
     InterfaceFactory,

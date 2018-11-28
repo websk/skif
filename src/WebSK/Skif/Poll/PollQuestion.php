@@ -1,6 +1,6 @@
 <?php
 
-namespace Skif\Poll;
+namespace WebSK\Skif\Poll;
 
 use WebSK\Model\FactoryTrait;
 use WebSK\Model\InterfaceDelete;
@@ -9,7 +9,12 @@ use WebSK\Model\InterfaceGetTitle;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
 use WebSK\Model\ActiveRecord;
+use WebSK\Skif\CRUD\ModelReferenceWidget\ModelReferenceWidget;
 
+/**
+ * Class PollQuestion
+ * @package WebSK\Skif\Poll
+ */
 class PollQuestion implements
     InterfaceLoad,
     InterfaceFactory,
@@ -57,9 +62,9 @@ class PollQuestion implements
     public static $crud_editor_fields_arr = array(
         'title' => array(),
         'poll_id' => array(
-            'widget' => array('\Skif\CRUD\ModelReferenceWidget\ModelReferenceWidget', 'renderWidget'),
+            'widget' => array(ModelReferenceWidget::class, 'renderWidget'),
             'widget_settings' => array(
-                'model_class_name' => '\Skif\Poll\Poll'
+                'model_class_name' => Poll::class
             )
         ),
         'votes' => array(),
@@ -162,5 +167,4 @@ class PollQuestion implements
 
         Poll::afterUpdate($this->getPollId());
     }
-
 }

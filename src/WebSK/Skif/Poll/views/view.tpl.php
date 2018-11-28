@@ -3,9 +3,9 @@
  * @var $poll_id
  */
 
-use Skif\Poll\Poll;
-use Skif\Poll\PollQuestion;
-use Skif\Poll\PollUtils;
+use WebSK\Skif\Poll\Poll;
+use WebSK\Skif\Poll\PollQuestion;
+use WebSK\Skif\Poll\PollUtils;
 
 $poll_obj = Poll::factory($poll_id);
 

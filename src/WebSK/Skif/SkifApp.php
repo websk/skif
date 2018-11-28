@@ -10,7 +10,7 @@ use WebSK\Skif\Form\FormRoutes;
 use WebSK\Cache\CacheServiceProvider;
 use WebSK\Skif\Auth\AuthServiceProvider;
 use WebSK\Skif\Image\ImageRoutes;
-use Skif\Poll\PollRoutes;
+use WebSK\Skif\Poll\PollRoutes;
 use Skif\Rating\RatingRoutes;
 use Skif\Redirect\RedirectRoutes;
 use Skif\SiteMenu\SiteMenuRoutes;

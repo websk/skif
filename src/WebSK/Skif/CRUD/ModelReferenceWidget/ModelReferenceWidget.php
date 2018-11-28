@@ -2,8 +2,12 @@
 
 namespace WebSK\Skif\CRUD\ModelReferenceWidget;
 
+use WebSK\Model\InterfaceGetTitle;
+use WebSK\Skif\CRUD\CRUDController;
+use WebSK\Skif\PhpRender;
 
-class ModelReferenceWidget {
+class ModelReferenceWidget
+{
 
     /**
      * Отображает виджет
@@ -17,7 +21,7 @@ class ModelReferenceWidget {
         $widget_options['field_name'] = $field_name;
         $widget_options['field_value'] = $field_value;
 
-        $html = \Skif\PhpTemplate::renderTemplateBySkifModule(
+        $html = PhpRender::renderTemplateBySkifModule(
             'CRUD' . DIRECTORY_SEPARATOR . 'ModelReferenceWidget',
             'model_id.tpl.php',
             $widget_options
@@ -58,7 +62,7 @@ class ModelReferenceWidget {
         $model_class_name = urldecode($_POST['model_class_name']);
         $model_id = $_POST['model_id'];
 
-        $model_obj = \WebSK\Skif\CRUD\ModelReferenceWidget\ModelReferenceWidget::getModelObject($model_class_name, $model_id);
+        $model_obj = self::getModelObject($model_class_name, $model_id);
 
         if (!$model_obj) {
             echo json_encode(
@@ -71,7 +75,7 @@ class ModelReferenceWidget {
             return;
         }
 
-        if ( !($model_obj instanceof \WebSK\Model\InterfaceGetTitle) ) {
+        if (!($model_obj instanceof InterfaceGetTitle)) {
             echo json_encode(
                 array(
                     'success' => false,
@@ -86,8 +90,8 @@ class ModelReferenceWidget {
             array(
                 'success' => true,
                 'display_title' => $model_obj->getTitle(),
-                'href' => \WebSK\Skif\CRUD\CRUDController::getEditUrl($model_class_name, $model_id)
+                'href' => CRUDController::getEditUrl($model_class_name, $model_id)
             )
         );
     }
-} 
+}

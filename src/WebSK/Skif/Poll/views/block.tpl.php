@@ -3,18 +3,22 @@
  * @var $poll_id
  */
 
-$poll_obj = \Skif\Poll\Poll::factory($poll_id);
+use WebSK\Skif\Poll\Poll;
+use WebSK\Skif\Poll\PollController;
+use WebSK\Skif\Poll\PollQuestion;
+
+$poll_obj = Poll::factory($poll_id);
 ?>
 
 <div><?php echo $poll_obj->getTitle(); ?></div>
 
-<form action="<?php echo \Skif\Poll\PollController::getVoteUrl($poll_id); ?>" method="post">
+<form action="<?php echo PollController::getVoteUrl($poll_id); ?>" method="post">
 
     <?php
     $poll_question_ids_arr = $poll_obj->getPollQuestionsIdsArr();
 
     foreach ($poll_question_ids_arr as $poll_question_id) {
-        $poll_question_obj = \Skif\Poll\PollQuestion::factory($poll_question_id);
+        $poll_question_obj = PollQuestion::factory($poll_question_id);
         ?>
         <div class="radio">
             <label>

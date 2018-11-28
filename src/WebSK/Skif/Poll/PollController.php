@@ -1,18 +1,22 @@
 <?php
 
-namespace Skif\Poll;
+namespace WebSK\Skif\Poll;
 
+use WebSK\Skif\PhpRender;
 use WebSK\Slim\ConfWrapper;
 use WebSK\Skif\CRUD\CRUDController;
 use Websk\Skif\Messages;
-use Skif\PhpTemplate;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
 
+/**
+ * Class PollController
+ * @package WebSK\Skif\Poll
+ */
 class PollController extends CRUDController
 {
 
-    protected static $model_class_name = '\Skif\Poll\Poll';
+    protected static $model_class_name = Poll::class;
     public static $poll_cookie_prefix = 'poll_access_';
 
     public static function getCRUDBaseUrl($model_class_name)
@@ -69,13 +73,13 @@ class PollController extends CRUDController
         $poll_obj = Poll::factory($poll_id, false);
         Exits::exit404If(!$poll_obj);
 
-        $content = PhpTemplate::renderTemplateBySkifModule(
+        $content = PhpRender::renderTemplateBySkifModule(
             'Poll',
             'view.tpl.php',
             array('poll_id' => $poll_id)
         );
 
-        echo PhpTemplate::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.main'),
             array(
                 'title' => $poll_obj->getTitle(),

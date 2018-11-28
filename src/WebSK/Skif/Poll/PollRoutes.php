@@ -1,9 +1,13 @@
 <?php
 
-namespace Skif\Poll;
+namespace WebSK\Skif\Poll;
 
 use Skif\UrlManager;
 
+/**
+ * Class PollRoutes
+ * @package WebSK\Skif\Poll
+ */
 class PollRoutes
 {
     public static function route()

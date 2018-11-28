@@ -8,8 +8,10 @@
  * @var $current_controller_obj
  */
 
+use WebSK\Skif\CRUD\CRUDController;
 use WebSK\Skif\CRUD\CRUDUtils;
 use WebSK\Skif\CRUD\Widgets;
+use WebSK\Skif\PhpRender;
 use Websk\Utils\Assert;
 use WebSK\Utils\Url;
 
@@ -133,13 +135,13 @@ if (isset($list_title)) {
         if (property_exists($model_class_name, 'crud_fast_create_field_name')) {
             // create fast add block
 
-            echo \Skif\PhpTemplate::renderTemplateBySkifModule(
+            echo PhpRender::renderTemplateBySkifModule(
                 'CRUD',
                 'fast_create_form.tpl.php',
                 array(
                     'model_class_name' => $model_class_name,
                     'context_arr' => $context_arr,
-                    'current_controller_obj' => \WebSK\Skif\CRUD\CRUDController::getControllerClassNameByModelClassName($model_class_name)
+                    'current_controller_obj' => CRUDController::getControllerClassNameByModelClassName($model_class_name)
                 )
             );
         } else {

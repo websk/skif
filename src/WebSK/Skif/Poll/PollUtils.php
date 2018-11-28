@@ -1,10 +1,14 @@
 <?php
 
-namespace Skif\Poll;
+namespace WebSK\Skif\Poll;
 
 use Websk\Skif\DBWrapper;
-use Skif\PhpTemplate;
+use WebSK\Skif\PhpRender;
 
+/**
+ * Class PollUtils
+ * @package WebSK\Skif\Poll
+ */
 class PollUtils
 {
     /**
@@ -89,7 +93,7 @@ class PollUtils
             return '';
         }
 
-        return PhpTemplate::renderTemplateBySkifModule(
+        return PhpRender::renderTemplateBySkifModule(
             'Poll',
             'block.tpl.php',
             array('poll_id' => $poll_id)
