@@ -4,11 +4,11 @@
  */
 
 use WebSK\Skif\Blocks\ControllerBlocks;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
 
 $block_obj = ControllerBlocks::getBlockObj($block_id);
 
-echo PhpRender::renderTemplateBySkifModule(
+echo SkifPhpRender::renderTemplateBySkifModule(
     'Blocks',
     'block_edit_menu.tpl.php',
     array('block_id' => $block_id)

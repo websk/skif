@@ -5,9 +5,9 @@ namespace WebSK\Skif\KeyValue\RequestHandlers;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use WebSK\Skif\AdminRender;
-use WebSK\Views\LayoutDTO;
+use WebSK\Skif\SkifPhpRender;
 use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Views\LayoutDTO;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Form\CRUDFormRow;
@@ -24,7 +24,7 @@ use WebSK\Skif\KeyValue\KeyValueRoutes;
  * Class KeyValueListHandler
  * @package WebSK\Skif\KeyValue\RequestHandlers
  */
-class KeyValueListHandler extends \WebSK\Slim\RequestHandlers\BaseHandler
+class KeyValueListHandler extends BaseHandler
 {
     /**
      * @param Request $request
@@ -76,6 +76,6 @@ class KeyValueListHandler extends \WebSK\Slim\RequestHandlers\BaseHandler
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 
-        return AdminRender::renderLayout($response, $layout_dto);
+        return SkifPhpRender::renderLayout($response, $layout_dto);
     }
 }

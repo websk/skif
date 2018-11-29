@@ -5,9 +5,9 @@ use WebSK\Skif\Blocks\BlockUtils;
 use WebSK\Skif\Blocks\ControllerBlocks;
 use WebSK\Skif\Blocks\PageRegion;
 use WebSK\Skif\Blocks\PageRegionsUtils;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
 
-echo PhpRender::renderTemplateBySkifModule(
+echo SkifPhpRender::renderTemplateBySkifModule(
     'Blocks',
     'blocks_list_header.tpl.php'
 );

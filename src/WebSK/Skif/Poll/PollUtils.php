@@ -3,7 +3,7 @@
 namespace WebSK\Skif\Poll;
 
 use Websk\Skif\DBWrapper;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
 
 /**
  * Class PollUtils
@@ -93,7 +93,7 @@ class PollUtils
             return '';
         }
 
-        return PhpRender::renderTemplateBySkifModule(
+        return SkifPhpRender::renderTemplateBySkifModule(
             'Poll',
             'block.tpl.php',
             array('poll_id' => $poll_id)

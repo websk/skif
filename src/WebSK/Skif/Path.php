@@ -14,7 +14,6 @@ class Path
 {
     const PUBLIC_DIR_NAME = 'public';
     const ASSETS_DIR_NAME = 'assets';
-    const VIEWS_MODULES_DIR = 'modules';
     const SRC_DIR_NAME = 'src';
     const WEBSK_SKIF_NAMESPACE_DIR = 'WebSK' . DIRECTORY_SEPARATOR . 'Skif';
 
@@ -83,29 +82,4 @@ class Path
 
         return Url::appendLeadingSlash($assetsUrlPath . '/' . $assetsVersion . Url::appendLeadingSlash($resource));
     }
-
-    /**
-     * @return string
-     */
-    public static function getSiteRootPath()
-    {
-        return ConfWrapper::value('site_path') ?: self::getSkifRootPath() . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
-    }
-
-    /**
-     * @return string
-     */
-    public static function getSiteViewsPath()
-    {
-        return self::getSiteRootPath() . DIRECTORY_SEPARATOR . ViewsPath::VIEWS_DIR_NAME;
-    }
-
-    /**
-     * @return string
-     */
-    public static function getSiteModulesViewsPath()
-    {
-        return self::getSiteViewsPath() . DIRECTORY_SEPARATOR . self::VIEWS_MODULES_DIR;
-    }
 }
-

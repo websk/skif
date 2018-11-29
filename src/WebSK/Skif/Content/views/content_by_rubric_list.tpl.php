@@ -4,7 +4,7 @@
  */
 
 use WebSK\Skif\Pager;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
 use WebSK\Slim\ConfWrapper;
 use WebSK\Skif\Content\Content;
 use WebSK\Skif\Content\ContentType;
@@ -29,7 +29,7 @@ foreach ($content_ids_arr as $content_id) {
         continue;
     }
 
-    echo PhpRender::renderTemplateBySkifModule(
+    echo SkifPhpRender::renderTemplateBySkifModule(
         'Content',
         'content_in_list.tpl.php',
         array('content_id' => $content_id)

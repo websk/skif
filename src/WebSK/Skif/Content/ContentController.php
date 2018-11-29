@@ -4,7 +4,7 @@ namespace WebSK\Skif\Content;
 
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\BaseController;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
 use WebSK\Slim\ConfWrapper;
 use Websk\Skif\DBWrapper;
 use WebSK\Skif\Image\ImageConstants;
@@ -103,24 +103,24 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $template_file = 'content_view.tpl.php';
 
-        if (PhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('Content',
+        if (SkifPhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('Content',
             'content_' . $content_type . '_view.tpl.php')) {
             $template_file = 'content_' . $content_type . '_view.tpl.php';
         }
 
         if ($content_obj->getCountRubricIdsArr()) {
-            if (PhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('Content',
+            if (SkifPhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('Content',
                 'content_by_rubric_' . $main_rubric_id . '_view.tpl.php')) {
                 $template_file = 'content_by_rubric_' . $main_rubric_id . '_view.tpl.php';
             } else {
-                if (PhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('Content',
+                if (SkifPhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('Content',
                     'content_by_rubric_view.tpl.php')) {
                     $template_file = 'content_by_rubric_view.tpl.php';
                 }
             }
         }
 
-        $content .= PhpRender::renderTemplateBySkifModule(
+        $content .= SkifPhpRender::renderTemplateBySkifModule(
             'Content',
             $template_file,
             array('content_id' => $content_id)
@@ -131,7 +131,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $layout_template_file = TemplateUtils::getLayoutFileByTemplateId($template_id);
 
-        echo PhpRender::renderTemplate(
+        echo SkifPhpRender::renderTemplate(
             $layout_template_file,
             array(
                 'content' => $content,
@@ -157,12 +157,12 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $template_file = 'content_list.tpl.php';
 
-        if (PhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('Content',
+        if (SkifPhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('Content',
             'content_' . $content_type . '_list.tpl.php')) {
             $template_file = 'content_' . $content_type . '_list.tpl.php';
         }
 
-        $content = PhpRender::renderTemplateBySkifModule(
+        $content = SkifPhpRender::renderTemplateBySkifModule(
             'Content',
             $template_file,
             array('content_type' => $content_type)
@@ -174,7 +174,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $layout_template_file = TemplateUtils::getLayoutFileByTemplateId($template_id);
 
-        echo PhpRender::renderTemplate(
+        echo SkifPhpRender::renderTemplate(
             $layout_template_file,
             array(
                 'content' => $content,
@@ -195,7 +195,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
 
-        $html = PhpRender::renderTemplateBySkifModule(
+        $html = SkifPhpRender::renderTemplateBySkifModule(
             'Content',
             'admin_content_form_edit.tpl.php',
             array('content_id' => $content_id, 'content_type' => $content_type)
@@ -203,7 +203,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
 
-        echo PhpRender::renderTemplate(
+        echo SkifPhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => 'Редактирование материала',
@@ -220,7 +220,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
 
-        $html = PhpRender::renderTemplateBySkifModule(
+        $html = SkifPhpRender::renderTemplateBySkifModule(
             'Content',
             'admin_content_list.tpl.php',
             array('content_type' => $content_type)
@@ -228,7 +228,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
 
-        echo PhpRender::renderTemplate(
+        echo SkifPhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => $content_type_obj->getName(),

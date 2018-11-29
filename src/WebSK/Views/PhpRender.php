@@ -18,6 +18,26 @@ class PhpRender
      * @param array $data
      * @return ResponseInterface
      */
+    public static function render(
+        ResponseInterface $response,
+        string $template,
+        array $data = []
+    ) {
+        $data['response'] = $response;
+
+        $view_path = ViewsPath::getSiteViewsPath();
+
+        $php_renderer = new PhpRenderer($view_path);
+
+        return $php_renderer->render($response, $template, $data);
+    }
+
+    /**
+     * @param ResponseInterface $response
+     * @param string $template
+     * @param array $data
+     * @return ResponseInterface
+     */
     public static function renderLocal(
         ResponseInterface $response,
         string $template,
@@ -39,5 +59,32 @@ class PhpRender
         $php_renderer = new PhpRenderer($full_template_path);
 
         return $php_renderer->render($response, $template, $data);
+    }
+
+    /**
+     * @param string $template
+     * @param array $variables
+     * @return string
+     */
+    public static function renderTemplateByRelativeToRootSitePath(string $template, array $variables = array())
+    {
+        extract($variables, EXTR_SKIP);
+        ob_start();
+
+        require self::getRelativeToRootSiteTemplatePath($template);
+
+        $contents = ob_get_contents();
+        ob_end_clean();
+
+        return $contents;
+    }
+
+    /**
+     * @param string $template
+     * @return string
+     */
+    public static function getRelativeToRootSiteTemplatePath(string $template)
+    {
+        return ViewsPath::getSiteViewsPath() . DIRECTORY_SEPARATOR . $template;
     }
 }

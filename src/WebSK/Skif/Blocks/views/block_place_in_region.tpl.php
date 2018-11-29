@@ -8,12 +8,12 @@ use WebSK\Skif\Blocks\Block;
 use WebSK\Skif\Blocks\BlockUtils;
 use WebSK\Skif\Blocks\ControllerBlocks;
 use WebSK\Skif\Blocks\PageRegion;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
 use WebSK\Utils\Url;
 
 $block_obj = ControllerBlocks::getBlockObj($block_id);
 
-echo PhpRender::renderTemplateBySkifModule(
+echo SkifPhpRender::renderTemplateBySkifModule(
     'Blocks',
     'block_edit_menu.tpl.php',
     array('block_id' => $block_id)

@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\CRUD\UserWidget;
 
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
 
 class UserWidget
 {
@@ -11,7 +11,7 @@ class UserWidget
         $widget_options['field_name'] = $field_name;
         $widget_options['field_value'] = $field_value;
 
-        $output = PhpRender::renderTemplateBySkifModule(
+        $output = SkifPhpRender::renderTemplateBySkifModule(
             'CRUD' . DIRECTORY_SEPARATOR . 'UserWidget',
             'user_widget.tpl.php',
             $widget_options

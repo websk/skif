@@ -6,12 +6,13 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Slim\ConfWrapper;
 use WebSK\Views\LayoutDTO;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Utils\HTTP;
+use WebSK\Views\PhpRender as PhpRender1;
 
 /**
  * Class UserEditHandler
@@ -47,7 +48,7 @@ class UserEditHandler extends BaseHandler
 
         $content = '';
 
-        $content .= PhpRender::renderTemplateBySkifModule(
+        $content .= SkifPhpRender::renderTemplateBySkifModule(
             'Users',
             'user_form_edit.tpl.php',
             [
@@ -61,7 +62,7 @@ class UserEditHandler extends BaseHandler
         $layout_dto->setTitle('Редактирование профиля');
         $layout_dto->setContentHtml($content);
 
-        return PhpRender::render(
+        return PhpRender1::render(
             $response,
             ConfWrapper::value('layout.main'),
             [

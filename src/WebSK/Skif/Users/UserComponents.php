@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Users;
 
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
 
 /**
  * Class UserComponents
@@ -13,7 +13,7 @@ class UserComponents
 {
     public static function renderLoginForm($destination)
     {
-        $content = PhpRender::renderTemplateBySkifModule(
+        $content = SkifPhpRender::renderTemplateBySkifModule(
             'Users',
             'login_form_block.tpl.php',
             array('destination' => $destination)

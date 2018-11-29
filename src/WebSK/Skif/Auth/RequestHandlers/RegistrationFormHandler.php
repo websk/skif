@@ -5,11 +5,12 @@ namespace WebSK\Skif\Auth\RequestHandlers;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Slim\ConfWrapper;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Slim\Router;
 use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\UsersRoutes;
+use WebSK\Views\PhpRender as PhpRender1;
 
 /**
  * Class RegistrationFormHandler
@@ -34,18 +35,18 @@ class RegistrationFormHandler extends BaseHandler
         $content = '';
 
         if (Auth::useSocialLogin()) {
-            $content .= PhpRender::renderTemplateBySkifModule(
+            $content .= SkifPhpRender::renderTemplateBySkifModule(
                 'Auth',
                 'social_buttons.tpl.php'
             );
         }
 
-        $content .= PhpRender::renderTemplateBySkifModule(
+        $content .= SkifPhpRender::renderTemplateBySkifModule(
             'Users',
             'registration_form.tpl.php'
         );
 
-        return PhpRender::render(
+        return PhpRender1::render(
             $response,
             ConfWrapper::value('layout.main'),
             [

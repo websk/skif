@@ -3,7 +3,7 @@
 namespace WebSK\Skif\Blocks;
 
 use WebSK\Skif\Auth\Auth;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
 use WebSK\Slim\ConfWrapper;
 use Websk\Skif\DBWrapper;
 use WebSK\Skif\Logger\Logger;
@@ -119,12 +119,12 @@ class ControllerBlocks
 
         self::blocksPageActions();
 
-        $html = PhpRender::renderTemplateBySkifModule(
+        $html = SkifPhpRender::renderTemplateBySkifModule(
             'Blocks',
             'blocks_list.tpl.php'
         );
 
-        echo PhpRender::renderTemplate(
+        echo SkifPhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => 'Блоки',
@@ -191,13 +191,13 @@ class ControllerBlocks
 
         self::actions($block_id);
 
-        $html = PhpRender::renderTemplateBySkifModule(
+        $html = SkifPhpRender::renderTemplateBySkifModule(
             'Blocks',
             'block_edit.tpl.php',
             array('block_id' => $block_id)
         );
 
-        echo PhpRender::renderTemplate(
+        echo SkifPhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
@@ -320,13 +320,13 @@ class ControllerBlocks
 
         self::actions($block_id);
 
-        $html = PhpRender::renderTemplateBySkifModule(
+        $html = SkifPhpRender::renderTemplateBySkifModule(
             'Blocks',
             'block_caching.tpl.php',
             array('block_id' => $block_id)
         );
 
-        echo PhpRender::renderTemplate(
+        echo SkifPhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
@@ -367,13 +367,13 @@ class ControllerBlocks
             $target_region = $_GET['target_region'];
         }
 
-        $html = PhpRender::renderTemplateBySkifModule(
+        $html = SkifPhpRender::renderTemplateBySkifModule(
             'Blocks',
             'block_place_in_region.tpl.php',
             array('block_id' => $block_id, 'target_region' => $target_region)
         );
 
-        echo PhpRender::renderTemplate(
+        echo SkifPhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
@@ -496,13 +496,13 @@ class ControllerBlocks
 
         self::actions($block_id);
 
-        $html = PhpRender::renderTemplateBySkifModule(
+        $html = SkifPhpRender::renderTemplateBySkifModule(
             'Blocks',
             'block_choose_region.tpl.php',
             array('block_id' => $block_id)
         );
 
-        echo PhpRender::renderTemplate(
+        echo SkifPhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
@@ -525,13 +525,13 @@ class ControllerBlocks
 
         self::actions($block_id);
 
-        $html = PhpRender::renderTemplateBySkifModule(
+        $html = SkifPhpRender::renderTemplateBySkifModule(
             'Blocks',
             'block_delete.tpl.php',
             array('block_id' => $block_id)
         );
 
-        echo PhpRender::renderTemplate(
+        echo SkifPhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
@@ -592,7 +592,7 @@ class ControllerBlocks
             Messages::SetWarning('Слишком короткий запрос');
         }
 
-        $html .= PhpRender::renderTemplateBySkifModule(
+        $html .= SkifPhpRender::renderTemplateBySkifModule(
             'Blocks',
             'search_blocks.tpl.php',
             array(
@@ -600,7 +600,7 @@ class ControllerBlocks
             )
         );
 
-        echo PhpRender::renderTemplate(
+        echo SkifPhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => 'Поиск блоков',

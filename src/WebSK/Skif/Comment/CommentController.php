@@ -5,7 +5,7 @@ namespace WebSK\Skif\Comment;
 use WebSK\Skif\CRUD\CRUDController;
 use WebSK\Skif\Captcha\Captcha;
 use Websk\Utils\Messages;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
 
@@ -34,19 +34,19 @@ class CommentController extends CRUDController
 
         $comments_ids_arr = CommentUtils::getCommentsIdsArrByUrl($url, $page);
 
-        echo PhpRender::renderTemplateBySkifModule(
+        echo SkifPhpRender::renderTemplateBySkifModule(
             'Comment',
             'form_add.tpl.php',
             array('url' => $url)
         );
 
-        echo PhpRender::renderTemplateBySkifModule(
+        echo SkifPhpRender::renderTemplateBySkifModule(
             'Comment',
             'list.tpl.php',
             array('comments_ids_arr' => $comments_ids_arr, 'url' => $url)
         );
 
-        echo PhpRender::renderTemplateBySkifModule(
+        echo SkifPhpRender::renderTemplateBySkifModule(
             'Comment',
             'pager.tpl.php',
             array('url' => $url, 'page' => $page)

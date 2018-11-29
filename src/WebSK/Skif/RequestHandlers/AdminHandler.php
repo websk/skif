@@ -5,7 +5,8 @@ namespace WebSK\Skif\RequestHandlers;
 use WebSK\Skif\Auth\Auth;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
+use WebSK\Views\PhpRender as PhpRender1;
 
 /**
  * Class AdminHandler
@@ -20,7 +21,7 @@ class AdminHandler
     public function __invoke(Request $request, Response $response)
     {
         if (!Auth::getCurrentUserId()) {
-            return PhpRender::render($response, '/layouts/layout.admin_login.tpl.php');
+            return PhpRender1::render($response, '/layouts/layout.admin_login.tpl.php');
         }
 
         return $response->withRedirect('/admin/content/page');

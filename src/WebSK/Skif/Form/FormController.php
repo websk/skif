@@ -7,7 +7,7 @@ use WebSK\Skif\Auth\Auth;
 use Websk\Skif\Captcha\Captcha;
 use WebSK\Skif\CRUD\CRUDController;
 use Websk\Utils\Messages;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
 use WebSK\Slim\ConfWrapper;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Filters;
@@ -45,13 +45,13 @@ class FormController extends CRUDController
         $form_obj = Form::factory($form_id, false);
         Exits::exit404If(!$form_obj);
 
-        $content = PhpRender::renderTemplateBySkifModule(
+        $content = SkifPhpRender::renderTemplateBySkifModule(
             'Form',
             'view.tpl.php',
             array('form_id' => $form_id)
         );
 
-        echo PhpRender::renderTemplate(
+        echo SkifPhpRender::renderTemplate(
             ConfWrapper::value('layout.main'),
             array(
                 'title' => $form_obj->getTitle(),

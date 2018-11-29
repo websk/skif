@@ -4,9 +4,8 @@ namespace WebSK\Skif\Users\RequestHandlers\Admin;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use WebSK\Skif\AdminRender;
 use WebSK\Views\LayoutDTO;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Skif\Users\Role;
 use WebSK\Skif\Users\UsersRoutes;
@@ -43,7 +42,7 @@ class RoleEditHandler extends BaseHandler
             $save_handler_url = $this->pathFor(UsersRoutes::ROUTE_NAME_ADMIN_ROLE_UPDATE, ['role_id' => $role_id]);
         }
 
-        $content = PhpRender::renderTemplateBySkifModule(
+        $content = SkifPhpRender::renderTemplateBySkifModule(
             'Users',
             'role_form_edit.tpl.php',
             ['role_obj' => $role_obj, 'save_handler_url' => $save_handler_url]
@@ -60,6 +59,6 @@ class RoleEditHandler extends BaseHandler
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 
-        return AdminRender::renderLayout($response, $layout_dto);
+        return SkifPhpRender::renderLayout($response, $layout_dto);
     }
 }

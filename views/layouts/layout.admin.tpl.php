@@ -17,7 +17,7 @@ use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use Websk\Utils\Messages;
 use Websk\Skif\Path;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
 use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\UsersUtils;
 use WebSK\Utils\Url;
@@ -25,7 +25,7 @@ use WebSK\Utils\Url;
 $user_id = Auth::getCurrentUserId();
 
 if (!$user_id) {
-    echo PhpRender::renderTemplate(
+    echo SkifPhpRender::renderTemplate(
         'layouts/layout.admin_login.tpl.php'
     );
 
@@ -212,7 +212,7 @@ if (!isset($layout_dto)) {
                 <div class="col-lg-12">
                     <div>
                         <?php
-                        echo PhpRender::renderTemplate(
+                        echo SkifPhpRender::renderTemplate(
                             '/breadcrumbs.tpl.php',
                             ['breadcrumbs_dto_arr' => $layout_dto->getBreadcrumbsDtoArr()]
                         );

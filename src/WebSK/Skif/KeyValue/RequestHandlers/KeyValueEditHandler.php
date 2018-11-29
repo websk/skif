@@ -5,7 +5,7 @@ namespace WebSK\Skif\KeyValue\RequestHandlers;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use WebSK\Skif\AdminRender;
+use WebSK\Skif\SkifPhpRender;
 use WebSK\Views\LayoutDTO;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Utils\HTTP;
@@ -68,6 +68,6 @@ class KeyValueEditHandler extends BaseHandler
             new BreadcrumbItemDTO('Параметры', $this->pathFor(KeyValueListHandler::class))
         ]);
 
-        return AdminRender::renderLayout($response, $layout_dto);
+        return SkifPhpRender::renderLayout($response, $layout_dto);
     }
 }

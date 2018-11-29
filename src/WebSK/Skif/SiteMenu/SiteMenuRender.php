@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\SiteMenu;
 
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
 
 /**
  * Class SiteMenuRender
@@ -15,18 +15,18 @@ class SiteMenuRender
         if (!$template) {
             $template_file = 'site_menu_' . $site_menu_id . '.tpl.php';
 
-            if (!PhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('SiteMenu', $template_file)) {
+            if (!SkifPhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('SiteMenu', $template_file)) {
                 $template_file = 'site_menu_default.tpl.php';
             }
 
-            return PhpRender::renderTemplateBySkifModule(
+            return SkifPhpRender::renderTemplateBySkifModule(
                 'SiteMenu',
                 $template_file,
                 array('site_menu_id' => $site_menu_id)
             );
         }
 
-        return PhpRender::renderTemplate($template, array('site_menu_id' => $site_menu_id));
+        return SkifPhpRender::renderTemplate($template, array('site_menu_id' => $site_menu_id));
     }
 
     public static function renderSiteSubMenu($site_menu_id, $parent_item_id, $template = '')
@@ -34,17 +34,17 @@ class SiteMenuRender
         if (!$template) {
             $template_file = 'site_menu_' . $site_menu_id . '_sub.tpl.php';
 
-            if (!PhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('SiteMenu', $template_file)) {
+            if (!SkifPhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('SiteMenu', $template_file)) {
                 $template_file = 'site_sub_menu_default.tpl.php';
             }
 
-            return PhpRender::renderTemplateBySkifModule(
+            return SkifPhpRender::renderTemplateBySkifModule(
                 'SiteMenu',
                 $template_file,
                 array('parent_item_id' => $parent_item_id)
             );
         }
 
-        return PhpRender::renderTemplate($template, array('parent_item_id' => $parent_item_id));
+        return SkifPhpRender::renderTemplate($template, array('parent_item_id' => $parent_item_id));
     }
 }

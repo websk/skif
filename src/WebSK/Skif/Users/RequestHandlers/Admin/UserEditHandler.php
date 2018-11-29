@@ -4,9 +4,8 @@ namespace WebSK\Skif\Users\RequestHandlers\Admin;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use WebSK\Skif\AdminRender;
 use WebSK\Views\LayoutDTO;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UsersRoutes;
@@ -48,7 +47,7 @@ class UserEditHandler extends BaseHandler
 
         $content = '';
 
-        $content .= PhpRender::renderTemplateBySkifModule(
+        $content .= SkifPhpRender::renderTemplateBySkifModule(
             'Users',
             'user_form_edit.tpl.php',
             [
@@ -68,6 +67,6 @@ class UserEditHandler extends BaseHandler
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 
-        return AdminRender::renderLayout($response, $layout_dto);
+        return SkifPhpRender::renderLayout($response, $layout_dto);
     }
 }

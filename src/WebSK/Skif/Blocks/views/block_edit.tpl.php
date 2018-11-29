@@ -5,7 +5,7 @@
 
 use WebSK\Skif\Blocks\BlockUtils;
 use WebSK\Skif\Blocks\ControllerBlocks;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
 use Websk\Slim\Container;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Skif\Users\UsersUtils;
@@ -13,7 +13,7 @@ use Websk\Skif\Path;
 
 $block_obj = ControllerBlocks::getBlockObj($block_id);
 
-echo PhpRender::renderTemplateBySkifModule(
+echo SkifPhpRender::renderTemplateBySkifModule(
     'Blocks',
     'block_edit_menu.tpl.php',
     array('block_id' => $block_id)

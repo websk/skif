@@ -6,7 +6,8 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Utils\HTTP;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
+use WebSK\Views\PhpRender as PhpRender1;
 
 /**
  * Class ErrorHandler
@@ -29,6 +30,6 @@ class ErrorHandler
             'response' => $response
         ];
 
-        return  PhpRender::render($response, '/errors/error_page.tpl.php', $data);
+        return PhpRender1::render($response, '/errors/error_page.tpl.php', $data);
     }
 }

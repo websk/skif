@@ -4,9 +4,8 @@ namespace WebSK\Skif\Users\RequestHandlers\Admin;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use WebSK\Skif\AdminRender;
 use WebSK\Views\LayoutDTO;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Views\BreadcrumbItemDTO;
@@ -24,7 +23,7 @@ class RoleListHandler extends BaseHandler
      */
     public function __invoke(Request $request, Response $response)
     {
-        $content = PhpRender::renderTemplateBySkifModule(
+        $content = SkifPhpRender::renderTemplateBySkifModule(
             'Users',
             'roles_list.tpl.php'
         );
@@ -38,6 +37,6 @@ class RoleListHandler extends BaseHandler
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 
-        return AdminRender::renderLayout($response, $layout_dto);
+        return SkifPhpRender::renderLayout($response, $layout_dto);
     }
 }

@@ -5,8 +5,9 @@ namespace WebSK\Skif\Auth\RequestHandlers;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Slim\ConfWrapper;
-use WebSK\Skif\PhpRender;
+use WebSK\Skif\SkifPhpRender;
 use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Views\PhpRender as PhpRender1;
 
 /**
  * Class SendConfirmCodeFormHandler
@@ -21,12 +22,12 @@ class SendConfirmCodeFormHandler extends \WebSK\Slim\RequestHandlers\BaseHandler
      */
     public function __invoke(Request $request, Response $response)
     {
-        $content = PhpRender::renderTemplateBySkifModule(
+        $content = SkifPhpRender::renderTemplateBySkifModule(
             'Users',
             'send_confirm_code_form.tpl.php'
         );
 
-        return PhpRender::render(
+        return PhpRender1::render(
             $response,
             ConfWrapper::value('layout.main'),
             array(
