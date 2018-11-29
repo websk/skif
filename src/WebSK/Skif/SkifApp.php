@@ -31,6 +31,10 @@ use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersServiceProvider;
 use Websk\Slim\Facade;
 
+/**
+ * Class SkifApp
+ * @package WebSK\Skif
+ */
 class SkifApp extends App
 {
     const ROUTE_NAME_ADMIN = 'admin:main';

@@ -4,8 +4,8 @@ namespace WebSK\Skif\Users\RequestHandlers;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Websk\Skif\Messages;
-use WebSK\Skif\RequestHandlers\BaseHandler;
+use Websk\Utils\Messages;
+use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Utils\HTTP;

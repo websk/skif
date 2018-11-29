@@ -6,15 +6,15 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Skif\Auth\AuthRoutes;
 use Websk\Skif\Captcha\Captcha;
-use Websk\Skif\Messages;
-use WebSK\Skif\RequestHandlers\BaseHandler;
+use Websk\Utils\Messages;
+use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Skif\Users\UsersUtils;
 
 /**
  * Class ForgotPasswordHandler
  * @package WebSK\Skif\Auth\RequestHandlers
  */
-class ForgotPasswordHandler extends BaseHandler
+class ForgotPasswordHandler extends \WebSK\Slim\RequestHandlers\BaseHandler
 {
     /**
      * @param Request $request

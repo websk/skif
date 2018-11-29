@@ -7,7 +7,7 @@ use Slim\Http\Response;
 use WebSK\Skif\AdminRender;
 use WebSK\UI\LayoutDTO;
 use WebSK\Skif\PhpRender;
-use WebSK\Skif\RequestHandlers\BaseHandler;
+use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersServiceProvider;

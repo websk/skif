@@ -7,7 +7,7 @@ use WebSK\Skif\PhpRender;
 use WebSK\Slim\ConfWrapper;
 use Websk\Skif\DBWrapper;
 use WebSK\Skif\Logger\Logger;
-use Websk\Skif\Messages;
+use Websk\Utils\Messages;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
 

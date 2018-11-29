@@ -8,7 +8,7 @@
  */
 
 use WebSK\Skif\Blocks\PageRegionsUtils;
-use Websk\Skif\Messages;
+use Websk\Utils\Messages;
 use Websk\Skif\Path;
 use WebSK\Skif\PhpRender;
 use WebSK\Skif\SiteMenu\SiteMenuRender;

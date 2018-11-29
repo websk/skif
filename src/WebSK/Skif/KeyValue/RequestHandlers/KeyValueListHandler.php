@@ -7,7 +7,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Skif\AdminRender;
 use WebSK\UI\LayoutDTO;
-use WebSK\Skif\RequestHandlers\BaseHandler;
+use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\UI\BreadcrumbItemDTO;
 use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Form\CRUDFormRow;
@@ -24,7 +24,7 @@ use WebSK\Skif\KeyValue\KeyValueRoutes;
  * Class KeyValueListHandler
  * @package WebSK\Skif\KeyValue\RequestHandlers
  */
-class KeyValueListHandler extends BaseHandler
+class KeyValueListHandler extends \WebSK\Slim\RequestHandlers\BaseHandler
 {
     /**
      * @param Request $request

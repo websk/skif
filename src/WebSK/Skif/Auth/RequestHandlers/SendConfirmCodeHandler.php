@@ -7,8 +7,8 @@ use Slim\Http\Response;
 use WebSK\Skif\Auth\AuthRoutes;
 use WebSK\Skif\Auth\AuthServiceProvider;
 use Websk\Skif\Captcha\Captcha;
-use Websk\Skif\Messages;
-use WebSK\Skif\RequestHandlers\BaseHandler;
+use Websk\Utils\Messages;
+use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Skif\Users\UsersUtils;
 
@@ -16,7 +16,7 @@ use WebSK\Skif\Users\UsersUtils;
  * Class SendConfirmCodeHandler
  * @package WebSK\Skif\Auth\RequestHandlers
  */
-class SendConfirmCodeHandler extends BaseHandler
+class SendConfirmCodeHandler extends \WebSK\Slim\RequestHandlers\BaseHandler
 {
     /**
      * @param Request $request

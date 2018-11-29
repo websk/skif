@@ -6,8 +6,8 @@ use WebSK\Skif\Image\ImageConstants;
 use WebSK\Skif\Image\ImageController;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Websk\Skif\Messages;
-use WebSK\Skif\RequestHandlers\BaseHandler;
+use Websk\Utils\Messages;
+use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Utils\HTTP;
 
@@ -15,7 +15,7 @@ use WebSK\Utils\HTTP;
  * Class UserAddPhotoHandler
  * @package WebSK\Skif\Users\RequestHandlers
  */
-class UserAddPhotoHandler extends BaseHandler
+class UserAddPhotoHandler extends \WebSK\Slim\RequestHandlers\BaseHandler
 {
     /**
      * @param Request $request

@@ -6,13 +6,13 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Slim\ConfWrapper;
 use WebSK\Skif\PhpRender;
-use WebSK\Skif\RequestHandlers\BaseHandler;
+use WebSK\Slim\RequestHandlers\BaseHandler;
 
 /**
  * Class SendConfirmCodeFormHandler
  * @package WebSK\Skif\Auth\RequestHandlers
  */
-class SendConfirmCodeFormHandler extends BaseHandler
+class SendConfirmCodeFormHandler extends \WebSK\Slim\RequestHandlers\BaseHandler
 {
     /**
      * @param Request $request

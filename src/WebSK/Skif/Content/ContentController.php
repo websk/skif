@@ -9,7 +9,7 @@ use Websk\Skif\DBWrapper;
 use WebSK\Skif\Image\ImageConstants;
 use WebSK\Skif\Image\ImageController;
 use WebSK\Skif\Image\ImageManager;
-use Websk\Skif\Messages;
+use Websk\Utils\Messages;
 use WebSK\Skif\Sitemap\InterfaceSitemapController;
 use WebSK\Skif\UrlManager;
 use WebSK\Skif\Auth\Auth;

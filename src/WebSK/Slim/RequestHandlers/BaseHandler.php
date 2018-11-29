@@ -1,13 +1,13 @@
 <?php
 
-namespace WebSK\Skif\RequestHandlers;
+namespace WebSK\Slim\RequestHandlers;
 
 use Psr\Container\ContainerInterface;
 use WebSK\Slim\Router;
 
 /**
  * Class BaseHandler
- * @package VitrinaTV\Core\RequestHandlers
+ * @package WebSK\Slim\RequestHandlers
  */
 abstract class BaseHandler
 {

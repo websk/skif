@@ -7,7 +7,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Skif\AdminRender;
 use WebSK\UI\LayoutDTO;
-use WebSK\Skif\RequestHandlers\BaseHandler;
+use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\UI\BreadcrumbItemDTO;
 use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Table\CRUDTableColumn;
@@ -19,7 +19,7 @@ use WebSK\Skif\Logger\Entry\LoggerEntry;
 use WebSK\Skif\Logger\LoggerConstants;
 use WebSK\Skif\Logger\LoggerRoutes;
 
-class ObjectEntriesListHandler extends BaseHandler
+class ObjectEntriesListHandler extends \WebSK\Slim\RequestHandlers\BaseHandler
 {
     /**
      * @param Request $request

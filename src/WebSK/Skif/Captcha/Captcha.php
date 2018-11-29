@@ -2,7 +2,7 @@
 
 namespace Websk\Skif\Captcha;
 
-use Websk\Skif\Messages;
+use Websk\Utils\Messages;
 use Websk\Skif\Path;
 
 class Captcha

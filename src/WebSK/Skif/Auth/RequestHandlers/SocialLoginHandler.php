@@ -4,8 +4,8 @@ namespace WebSK\Skif\Auth\RequestHandlers;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Websk\Skif\Messages;
-use WebSK\Skif\RequestHandlers\BaseHandler;
+use Websk\Utils\Messages;
+use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\UsersUtils;
 
@@ -13,7 +13,7 @@ use WebSK\Skif\Users\UsersUtils;
  * Class SocialLoginHandler
  * @package WebSK\Skif\Auth\RequestHandlers
  */
-class SocialLoginHandler extends BaseHandler
+class SocialLoginHandler extends \WebSK\Slim\RequestHandlers\BaseHandler
 {
     public function __invoke(Request $request, Response $response, string $provider_name)
     {

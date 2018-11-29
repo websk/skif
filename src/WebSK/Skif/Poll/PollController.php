@@ -5,7 +5,7 @@ namespace WebSK\Skif\Poll;
 use WebSK\Skif\PhpRender;
 use WebSK\Slim\ConfWrapper;
 use WebSK\Skif\CRUD\CRUDController;
-use Websk\Skif\Messages;
+use Websk\Utils\Messages;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
 

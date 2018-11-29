@@ -8,7 +8,7 @@ use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
 use WebSK\Skif\PhpRender;
 use WebSK\Slim\ConfWrapper;
-use Websk\Skif\Messages;
+use Websk\Utils\Messages;
 use Websk\Utils\Assert;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;

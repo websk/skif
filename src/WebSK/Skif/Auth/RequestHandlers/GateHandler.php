@@ -4,13 +4,13 @@ namespace WebSK\Skif\Auth\RequestHandlers;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use WebSK\Skif\RequestHandlers\BaseHandler;
+use WebSK\Slim\RequestHandlers\BaseHandler;
 
 /**
  * Class GateHandler
  * @package WebSK\Skif\Auth\RequestHandlers
  */
-class GateHandler extends BaseHandler
+class GateHandler extends \WebSK\Slim\RequestHandlers\BaseHandler
 {
     /**
      * @param Request $request

@@ -15,7 +15,7 @@ use WebSK\Skif\Content\ContentUtils;
 use WebSK\Slim\Router;
 use WebSK\UI\BreadcrumbItemDTO;
 use WebSK\UI\LayoutDTO;
-use Websk\Skif\Messages;
+use Websk\Utils\Messages;
 use Websk\Skif\Path;
 use WebSK\Skif\PhpRender;
 use WebSK\Skif\Auth\Auth;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Websk\Skif;
+namespace Websk\Utils;
 
 /**
  * Class Messages

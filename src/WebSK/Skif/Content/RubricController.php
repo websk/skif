@@ -5,7 +5,7 @@ namespace WebSK\Skif\Content;
 use WebSK\Skif\BaseController;
 use WebSK\Skif\UrlManager;
 use WebSK\Skif\Auth\Auth;
-use Websk\Skif\Messages;
+use Websk\Utils\Messages;
 use WebSK\Skif\PhpRender;
 use WebSK\Slim\ConfWrapper;
 use WebSK\Utils\Exits;

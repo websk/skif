@@ -6,7 +6,7 @@ use WebSK\Skif\UrlManager;
 use WebSK\Skif\Auth\Auth;
 use Websk\Skif\Captcha\Captcha;
 use WebSK\Skif\CRUD\CRUDController;
-use Websk\Skif\Messages;
+use Websk\Utils\Messages;
 use WebSK\Skif\PhpRender;
 use WebSK\Slim\ConfWrapper;
 use WebSK\Utils\Exits;

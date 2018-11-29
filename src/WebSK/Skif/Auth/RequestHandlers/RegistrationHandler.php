@@ -8,8 +8,8 @@ use WebSK\Skif\Auth\AuthRoutes;
 use WebSK\Skif\Auth\AuthServiceProvider;
 use Websk\Skif\Captcha\Captcha;
 use WebSK\Slim\ConfWrapper;
-use Websk\Skif\Messages;
-use WebSK\Skif\RequestHandlers\BaseHandler;
+use Websk\Utils\Messages;
+use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Slim\Router;
 use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\User;
@@ -21,7 +21,7 @@ use WebSK\Skif\Users\UsersUtils;
  * Class RegistrationHandler
  * @package WebSK\Skif\Auth\RequestHandlers
  */
-class RegistrationHandler extends BaseHandler
+class RegistrationHandler extends \WebSK\Slim\RequestHandlers\BaseHandler
 {
     /**
      * @param Request $request
