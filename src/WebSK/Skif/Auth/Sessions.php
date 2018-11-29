@@ -1,17 +1,17 @@
 <?php
 
-namespace WebSK\Skif\Users;
+namespace WebSK\Skif\Auth;
 
 use WebSK\Entity\BaseEntity;
 
 /**
  * Class Sessions
- * @package WebSK\WebSK\Skif\Users
+ * @package WebSK\Skif\Auth
  */
 class Sessions extends BaseEntity
 {
-    const ENTITY_SERVICE_CONTAINER_ID = 'users.sessions_service';
-    const ENTITY_REPOSITORY_CONTAINER_ID = 'users.sessions_repository';
+    const ENTITY_SERVICE_CONTAINER_ID = 'auth.sessions_service';
+    const ENTITY_REPOSITORY_CONTAINER_ID = 'auth.sessions_repository';
     const DB_TABLE_NAME = 'sessions';
 
     const SESSION_LIFE_TIME = 31536000; // 1 год

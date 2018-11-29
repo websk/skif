@@ -7,6 +7,10 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Skif\PhpRender;
 
+/**
+ * Class AdminHandler
+ * @package WebSK\Skif\RequestHandlers
+ */
 class AdminHandler
 {
     /**

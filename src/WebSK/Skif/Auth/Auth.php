@@ -112,7 +112,7 @@ class Auth
         if ($user_id) {
             $container = Container::self();
 
-            $session_service = UsersServiceProvider::getSessionService($container);
+            $session_service = AuthServiceProvider::getSessionService($container);
 
             $session_service->clearUserSession($user_id);
         }

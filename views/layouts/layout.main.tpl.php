@@ -1,19 +1,41 @@
 <?php
 /**
- * @var $title
- * @var $breadcrumbs
+ * @var string $title
+ * @var string $content
+ * @var array $breadcrumbs_arr
  * @var $editor_nav_arr
- * @var $content
+ * @var LayoutDTO $layout_dto
  */
 
 use WebSK\Skif\Blocks\PageRegionsUtils;
+use Websk\Skif\Messages;
+use Websk\Skif\Path;
 use WebSK\Skif\PhpRender;
 use WebSK\Skif\SiteMenu\SiteMenuRender;
 use WebSK\Slim\ConfWrapper;
+use WebSK\UI\BreadcrumbItemDTO;
+use WebSK\UI\LayoutDTO;
 use WebSK\Utils\Http;
 use WebSK\Utils\Url;
 
 Http::cacheHeaders();
+
+if (!isset($layout_dto)) {
+    $layout_dto = new LayoutDTO();
+    $layout_dto->setTitle($title);
+    $layout_dto->setContentHtml($content);
+
+    $breadcrumbs_dto_arr = [
+        new BreadcrumbItemDTO('Главная', '/admin')
+    ];
+
+    if (!empty($breadcrumbs_arr)) {
+        foreach ($breadcrumbs_arr as $breadcrumb_title => $breadcrumb_link) {
+            $breadcrumbs_dto_arr[] = new BreadcrumbItemDTO($breadcrumb_title, $breadcrumb_link);
+        }
+    }
+    $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_dto_arr);
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -23,28 +45,28 @@ Http::cacheHeaders();
 
     <title><?= $title ?></title>
 
-    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="<?php echo Path::wrapSkifUrlPath('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
 
-    <script type="text/javascript" src="/assets/libraries/jquery/jquery.min.js"></script>
-    <link rel="stylesheet" href="/assets/libraries/jquery-ui/themes/base/jquery-ui.min.css">
-    <script type="text/javascript" src="/assets/libraries/jquery-ui/jquery-ui.min.js"></script>
+    <!-- jQuery -->
+    <script src="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery/jquery.min.js'); ?>"></script>
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery-ui/themes/base/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery-ui/jquery-ui.min.js'); ?>"></script>
 
-    <link type="text/css" rel="stylesheet" media="all" href="/assets/libraries/bootstrap/css/bootstrap.min.css"/>
-    <script type="text/javascript" src="/assets/libraries/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Bootstrap -->
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
+    <script src="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap/js/bootstrap.min.js'); ?>"></script>
 
-    <link type="text/css" rel="stylesheet" media="all" href="/assets/styles/main.css"/>
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/styles/main.css'); ?>" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="/assets/libraries/jquery-validation/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery-validation/jquery.validate.min.js'); ?>"></script>
 
-    <script type="text/javascript" src="/assets/libraries/fancybox/jquery.fancybox.pack.js"></script>
-    <link rel="stylesheet" type="text/css" href="/assets/libraries/fancybox/jquery.fancybox.css" media="screen"/>
+    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/fancybox/jquery.fancybox.pack.js"'); ?>></script>
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/fancybox/jquery.fancybox.css'); ?>" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="/assets/libraries/moment/moment.min.js"></script>
-    <script type="text/javascript" src="/assets/libraries/moment/moment.ru.min.js"></script>
-    <script type="text/javascript"
-            src="/assets/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-    <link type="text/css" rel="stylesheet" media="all"
-          href="/assets/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"/>
+    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/moment/moment.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/moment/moment.ru.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); ?>"></script>
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>" rel="stylesheet" type="text/css">
 
     <?php
     echo PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('inside_head', 'main');
@@ -55,7 +77,7 @@ Http::cacheHeaders();
 <div id="html">
     <div id="header" class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-            <a href="/"><img src="/assets/images/admin/skif_small_logo.png" border="0" alt="" title=""
+            <a href="/"><img src="<?php echo Path::wrapSkifAssetsVersion('images/admin/skif_small_logo.png'); ?>" border="0" alt="" title=""
                              class="img-responsive"></a>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" align="right">
@@ -74,30 +96,23 @@ Http::cacheHeaders();
             </div>
             <div id="content" class="col-lg-8 col-md-6 col-sm-6 col-xs-12">
                 <?php
-                if (!isset($breadcrumbs_arr)) {
-                    $breadcrumbs_arr = array();
-                }
-
-                $breadcrumbs_arr = array_merge(
-                    array('Главная' => '/'),
-                    $breadcrumbs_arr
+                echo PhpRender::renderTemplate(
+                    'views/breadcrumbs.tpl.php',
+                    ['breadcrumbs_arr' => $layout_dto->getBreadcrumbsDtoArr()]
                 );
 
-                echo PhpRender::renderTemplate('views/breadcrumbs.tpl.php',
-                    array('breadcrumbs_arr' => $breadcrumbs_arr));
-
                 $current_url_no_query = Url::getUriNoQueryString();
-                if ($current_url_no_query != '/') {
 
+                if ($current_url_no_query != '/') {
                     ?>
-                    <h1><?= $title ?></h1>
+                    <h1><?= $layout_dto->getTitle() ?></h1>
                     <hr class="hidden-xs hidden-sm">
-                    <?
+                    <?php
                 }
                 ?>
 
                 <?php
-                echo \Websk\Skif\Messages::renderMessages();
+                echo Messages::renderMessages();
                 ?>
 
                 <?php
@@ -106,12 +121,14 @@ Http::cacheHeaders();
 
                 <?php
                 if (isset($editor_nav_arr)) {
-                    echo PhpRender::renderTemplate('views/editor_nav.tpl.php',
-                        array('editor_nav_arr' => $editor_nav_arr));
+                    echo PhpRender::renderTemplate(
+                        'views/editor_nav.tpl.php',
+                        ['editor_nav_arr' => $editor_nav_arr]
+                    );
                 }
                 ?>
 
-                <?php echo $content; ?>
+                <?php echo $layout_dto->getContentHtml(); ?>
 
                 <?php
                 echo PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('under_content', 'main');

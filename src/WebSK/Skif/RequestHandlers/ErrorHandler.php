@@ -8,6 +8,10 @@ use Slim\Http\Response;
 use WebSK\Utils\HTTP;
 use WebSK\Skif\PhpRender;
 
+/**
+ * Class ErrorHandler
+ * @package WebSK\Skif\RequestHandlers
+ */
 class ErrorHandler
 {
     /**

@@ -6,6 +6,10 @@ use Psr\Container\ContainerInterface;
 use WebSK\Cache\CacheServiceProvider;
 use WebSK\Skif\SkifServiceProvider;
 
+/**
+ * Class UsersServiceProvider
+ * @package WebSK\Skif\Users
+ */
 class UsersServiceProvider
 {
     /**
@@ -83,18 +87,6 @@ class UsersServiceProvider
                 $container->get(SkifServiceProvider::SKIF_DB_SERVICE)
             );
         };
-
-        /**
-         * @param ContainerInterface $container
-         * @return SessionsService
-         */
-        $container[Sessions::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
-            return new SessionsService(
-                Sessions::class,
-                $container->get(User::ENTITY_REPOSITORY_CONTAINER_ID),
-                CacheServiceProvider::getCacheService($container)
-            );
-        };
     }
 
     /**
@@ -122,14 +114,5 @@ class UsersServiceProvider
     public static function getUserService(ContainerInterface $container)
     {
         return $container->get(User::ENTITY_SERVICE_CONTAINER_ID);
-    }
-
-    /**
-     * @param ContainerInterface $container
-     * @return SessionsService
-     */
-    public static function getSessionService(ContainerInterface $container)
-    {
-        return $container->get(Sessions::ENTITY_SERVICE_CONTAINER_ID);
     }
 }

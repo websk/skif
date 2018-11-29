@@ -1,10 +1,14 @@
 <?php
 
-namespace WebSK\Skif\Users;
+namespace WebSK\Skif\Auth;
 
 use WebSK\Entity\BaseEntityRepository;
 use WebSK\Utils\Sanitize;
 
+/**
+ * Class SessionsRepository
+ * @package WebSK\Skif\Auth
+ */
 class SessionsRepository extends BaseEntityRepository
 {
 
