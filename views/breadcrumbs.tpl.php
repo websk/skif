@@ -3,7 +3,7 @@
  * @var BreadcrumbItemDTO[] $breadcrumbs_dto_arr
  */
 
-use WebSK\UI\BreadcrumbItemDTO;
+use WebSK\Views\BreadcrumbItemDTO;
 use Websk\Utils\Assert;
 use WebSK\Utils\Sanitize;
 

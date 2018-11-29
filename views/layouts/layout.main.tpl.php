@@ -13,8 +13,8 @@ use Websk\Skif\Path;
 use WebSK\Skif\PhpRender;
 use WebSK\Skif\SiteMenu\SiteMenuRender;
 use WebSK\Slim\ConfWrapper;
-use WebSK\UI\BreadcrumbItemDTO;
-use WebSK\UI\LayoutDTO;
+use WebSK\Views\BreadcrumbItemDTO;
+use WebSK\Views\LayoutDTO;
 use WebSK\Utils\Http;
 use WebSK\Utils\Url;
 

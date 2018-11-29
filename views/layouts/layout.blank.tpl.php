@@ -6,7 +6,7 @@
  */
 
 use Websk\Skif\Path;
-use WebSK\UI\LayoutDTO;
+use WebSK\Views\LayoutDTO;
 
 if (!isset($layout_dto)) {
     $layout_dto = new LayoutDTO();

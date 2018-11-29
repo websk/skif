@@ -16,7 +16,7 @@ class Path
     const VIEWS_DIR_NAME = 'views';
     const VIEWS_MODULES_DIR = 'modules';
     const SRC_DIR_NAME = 'src';
-    const WEBSK_SKIF_NAMESPACE_DIR = 'WebSK\Skif';
+    const WEBSK_SKIF_NAMESPACE_DIR = 'WebSK' . DIRECTORY_SEPARATOR . 'Skif';
 
     /**
      * @return string

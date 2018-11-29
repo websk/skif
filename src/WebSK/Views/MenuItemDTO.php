@@ -1,10 +1,10 @@
 <?php
 
-namespace WebSK\UI;
+namespace WebSK\Views;
 
 /**
  * Class MenuItemDTO
- * @package WebSK\UI
+ * @package WebSK\Views
  */
 class MenuItemDTO
 {

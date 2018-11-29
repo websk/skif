@@ -5,11 +5,11 @@ namespace WebSK\Skif\Users\RequestHandlers\Admin;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Skif\AdminRender;
-use WebSK\UI\LayoutDTO;
+use WebSK\Views\LayoutDTO;
 use WebSK\Skif\PhpRender;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Skif\Users\UsersRoutes;
-use WebSK\UI\BreadcrumbItemDTO;
+use WebSK\Views\BreadcrumbItemDTO;
 
 /**
  * Class RoleListHandler

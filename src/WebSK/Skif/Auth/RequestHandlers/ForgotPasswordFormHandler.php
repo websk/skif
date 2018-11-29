@@ -6,7 +6,6 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Slim\ConfWrapper;
 use WebSK\Skif\PhpRender;
-use WebSK\Slim\RequestHandlers\BaseHandler;
 
 /**
  * Class ForgotPasswordFormHandler

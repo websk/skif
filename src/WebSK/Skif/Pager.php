@@ -2,8 +2,6 @@
 
 namespace WebSK\Skif;
 
-use WebSK\Utils\Url;
-
 /**
  * Class Pager
  * @package WebSK\Skif
@@ -152,32 +150,6 @@ class Pager
         }
 
         return true;
-    }
-
-    /**
-     * Используется только для JScroll, так как он берет последнюю ссылку в своем контейнере для пагинации
-     * Иначе "позже" может оказаться последней
-     *
-     * @return string
-     */
-    public static function renderJScrollPager($custom_url = '', $custom_offset = null)
-    {
-
-        $url = Url::getUriNoQueryString();
-        if ($custom_url) {
-            $url = $custom_url;
-        }
-
-        $offset = self::getNextPageStart();
-        if ($custom_offset) {
-            $offset = $custom_offset;
-        }
-        $args_symbol_separator = '?';
-        if (strpos($url, '?') !== false) {
-            $args_symbol_separator = '&';
-        }
-
-        return '<a class="jscroll-pager" href="' . $url . $args_symbol_separator . 'page_offset=' . $offset . '">Показать еще...</a>';
     }
 
     /**

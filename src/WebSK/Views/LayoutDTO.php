@@ -1,6 +1,6 @@
 <?php
 
-namespace WebSK\UI;
+namespace WebSK\Views;
 
 /**
  * Class LayoutDTO

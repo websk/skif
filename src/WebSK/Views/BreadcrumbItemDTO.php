@@ -1,31 +1,27 @@
 <?php
 
-namespace WebSK\UI;
+namespace WebSK\Views;
 
 /**
- * Class NavTabItemDTO
- * @package WebSK\UI
+ * Class BreadcrumbItemDTO
+ * @package WebSK\Views
  */
-class NavTabItemDTO
+class BreadcrumbItemDTO
 {
     /** @var string */
     protected $name = '';
     /** @var string */
     protected $url = '';
-    /** @var string */
-    protected $target = '';
 
     /**
-     * NavTabItemDTO constructor.
+     * BreadcrumbItemDTO constructor.
      * @param string $name
      * @param string $url
-     * @param string $target
      */
-    public function __construct(string $name, string $url, string $target = '')
+    public function __construct(string $name, string $url = '')
     {
         $this->name = $name;
         $this->url = $url;
-        $this->target = $target;
     }
 
     /**
@@ -58,21 +54,5 @@ class NavTabItemDTO
     public function setUrl(string $url): void
     {
         $this->url = $url;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTarget(): string
-    {
-        return $this->target;
-    }
-
-    /**
-     * @param string $target
-     */
-    public function setTarget(string $target): void
-    {
-        $this->target = $target;
     }
 }

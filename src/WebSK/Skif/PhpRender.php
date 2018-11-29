@@ -27,7 +27,7 @@ class PhpRender
 
         $view_path = Path::getSkifViewsPath();
 
-        $relative_to_site_views_file_path = Path::getSiteViewsPath() . DIRECTORY_SEPARATOR . $template;
+        $relative_to_site_views_file_path = self::getRelativeToRootSiteTemplatePath($template);
         if (file_exists($relative_to_site_views_file_path)) {
             $view_path = Path::getSiteViewsPath();
         }
@@ -68,19 +68,18 @@ class PhpRender
 
     /**
      * Вывод шаблона относительно views
-     * @param $template_file
+     * @param string $template
      * @param array $variables
      * @return string
      */
-    public static function renderTemplate($template_file, $variables = [])
+    public static function renderTemplate(string $template, array $variables = [])
     {
-        $relative_to_site_views_file_path = Path::getSiteViewsPath() . DIRECTORY_SEPARATOR . $template_file;
-
+        $relative_to_site_views_file_path = self::getRelativeToRootSiteTemplatePath($template);
         if (file_exists($relative_to_site_views_file_path)) {
-            return self::renderTemplateRelativeToRootSitePath($template_file, $variables);
+            return self::renderTemplateByRelativeToRootSitePath($template, $variables);
         }
 
-        $relative_to_skif_views_file_path = Path::getSkifViewsPath() . DIRECTORY_SEPARATOR . $template_file;
+        $relative_to_skif_views_file_path = Path::getSkifViewsPath() . DIRECTORY_SEPARATOR . $template;
 
         if (file_exists($relative_to_skif_views_file_path)) {
             extract($variables, EXTR_SKIP);
@@ -98,21 +97,30 @@ class PhpRender
     }
 
     /**
-     * @param $template_file
+     * @param string $template
      * @param array $variables
      * @return string
      */
-    protected static function renderTemplateRelativeToRootSitePath($template_file, $variables = array())
+    protected static function renderTemplateByRelativeToRootSitePath(string $template, array $variables = array())
     {
         extract($variables, EXTR_SKIP);
         ob_start();
 
-        require Path::getSiteViewsPath() . DIRECTORY_SEPARATOR . $template_file;
+        require self::getRelativeToRootSiteTemplatePath($template);
 
         $contents = ob_get_contents();
         ob_end_clean();
 
         return $contents;
+    }
+
+    /**
+     * @param string $template
+     * @return string
+     */
+    protected static function getRelativeToRootSiteTemplatePath(string $template)
+    {
+        return Path::getSiteViewsPath() . DIRECTORY_SEPARATOR . $template;
     }
 
     /**
@@ -122,7 +130,7 @@ class PhpRender
      */
     public static function existsTemplateBySkifModuleRelativeToRootSitePath($module, $template_file)
     {
-        $relative_to_root_site_file_path = Path::getSiteViewsPath() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . Path::WEBSK_SKIF_NAMESPACE_DIR . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file;
+        $relative_to_root_site_file_path = Path::getSiteViewsPath() . DIRECTORY_SEPARATOR . Path::VIEWS_MODULES_DIR . DIRECTORY_SEPARATOR . Path::WEBSK_SKIF_NAMESPACE_DIR . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file;
 
         return file_exists($relative_to_root_site_file_path);
     }
@@ -138,7 +146,7 @@ class PhpRender
         if (self::existsTemplateBySkifModuleRelativeToRootSitePath($module, $template_file)) {
             $relative_to_root_site_file_path = Path::VIEWS_MODULES_DIR . DIRECTORY_SEPARATOR . Path::WEBSK_SKIF_NAMESPACE_DIR . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file;
 
-            return self::renderTemplateRelativeToRootSitePath($relative_to_root_site_file_path, $variables);
+            return self::renderTemplateByRelativeToRootSitePath($relative_to_root_site_file_path, $variables);
         }
 
         extract($variables, EXTR_SKIP);
@@ -161,7 +169,7 @@ class PhpRender
     public static function renderTemplateByModule($module, $template_file, $variables = array())
     {
         if (file_exists(Path::getSiteModulesViewsPath() . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file)) {
-            return self::renderTemplateRelativeToRootSitePath(
+            return self::renderTemplateByRelativeToRootSitePath(
                 Path::VIEWS_MODULES_DIR . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file,
                 $variables
             );
