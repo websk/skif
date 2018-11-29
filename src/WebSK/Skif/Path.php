@@ -4,6 +4,7 @@ namespace Websk\Skif;
 
 use WebSK\Slim\ConfWrapper;
 use WebSK\Utils\Url;
+use WebSK\Views\ViewsPath;
 
 /**
  * Class Path
@@ -13,7 +14,6 @@ class Path
 {
     const PUBLIC_DIR_NAME = 'public';
     const ASSETS_DIR_NAME = 'assets';
-    const VIEWS_DIR_NAME = 'views';
     const VIEWS_MODULES_DIR = 'modules';
     const SRC_DIR_NAME = 'src';
     const WEBSK_SKIF_NAMESPACE_DIR = 'WebSK' . DIRECTORY_SEPARATOR . 'Skif';
@@ -47,7 +47,7 @@ class Path
      */
     public static function getSkifViewsPath()
     {
-        return self::getSkifRootPath() . DIRECTORY_SEPARATOR . self::VIEWS_DIR_NAME;
+        return self::getSkifRootPath() . DIRECTORY_SEPARATOR . ViewsPath::VIEWS_DIR_NAME;
     }
 
     /**
@@ -97,7 +97,7 @@ class Path
      */
     public static function getSiteViewsPath()
     {
-        return self::getSiteRootPath() . DIRECTORY_SEPARATOR . self::VIEWS_DIR_NAME;
+        return self::getSiteRootPath() . DIRECTORY_SEPARATOR . ViewsPath::VIEWS_DIR_NAME;
     }
 
     /**
