@@ -6,7 +6,7 @@ use WebSK\Skif\UrlManager;
 
 /**
  * Class ImageRoutes
- * @package WebSK\WebSK\Skif\Image\Image
+ * @package WebSK\Skif\Image\Image
  */
 class ImageRoutes
 {

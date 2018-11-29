@@ -10,7 +10,6 @@ use WebSK\Slim\Router;
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -67,7 +66,7 @@ use WebSK\Slim\Router;
                                     <input name="save_auth" type="checkbox" value="Запомнить меня">Запомнить меня
                                 </label>
                             </div>
-                            <input type="hidden" name="destination" value="/admin">
+                            <input type="hidden" name="destination" value="<?php echo Router::pathFor(SkifApp::ROUTE_NAME_ADMIN); ?>">
                             <input type="submit" value="Войти" class="btn btn-lg btn-primary btn-block">
                     </form>
                 </div>
@@ -77,6 +76,5 @@ use WebSK\Slim\Router;
 </div>
 
 </body>
-
 </html>
 

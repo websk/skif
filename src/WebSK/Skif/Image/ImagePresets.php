@@ -9,7 +9,7 @@ use WebSK\Utils\Exits;
 
 /**
  * Class ImagePresets
- * @package WebSK\WebSK\Skif\Image\Image
+ * @package WebSK\Skif\Image\Image
  */
 class ImagePresets
 {

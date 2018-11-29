@@ -3,6 +3,8 @@
  * @var $error_code
  */
 
+use Websk\Skif\Path;
+use WebSK\Slim\ConfWrapper;
 use WebSK\Utils\Url;
 
 $error_messages_arr = array(
@@ -18,19 +20,20 @@ $error_messages_arr = array(
 if (!array_key_exists($error_code, $error_messages_arr)) {
     return;
 }
-
-$skif_path = \WebSK\Slim\ConfWrapper::value('skif_path');
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Ошибка <?php echo $error_code; ?> &mdash; <?php echo $error_messages_arr[$error_code]['title']; ?>!</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href="<?php echo $skif_path; ?>/assets/libraries/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo Path::wrapSkifUrlPath('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
+    <script src="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap/js/bootstrap.min.js'); ?>"></script>
+
     <style>
         html, body {margin: 0; padding: 0 10px;}
         #body { width: 100%; max-width: 450px; margin: 0 auto; }
@@ -68,9 +71,9 @@ $skif_path = \WebSK\Slim\ConfWrapper::value('skif_path');
     <p></p>
     <p>
         <?php
-        $site_name = \WebSK\Slim\ConfWrapper::value('site_name');
-        $site_url = \WebSK\Slim\ConfWrapper::value('site_url');
-        $site_email = \WebSK\Slim\ConfWrapper::value('site_email');
+        $site_name = ConfWrapper::value('site_name');
+        $site_url = ConfWrapper::value('site_url');
+        $site_email = ConfWrapper::value('site_email');
         ?>
 
         Зайдите с <a href="<?php echo Url::appendHttp($site_url); ?>">главной страницы</a>

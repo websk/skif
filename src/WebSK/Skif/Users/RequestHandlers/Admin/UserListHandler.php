@@ -12,7 +12,7 @@ use WebSK\UI\BreadcrumbItemDTO;
 
 /**
  * Class UserListHandler
- * @package WebSK\WebSK\Skif\Users\RequestHandlers\Admin
+ * @package WebSK\Skif\Users\RequestHandlers\Admin
  */
 class UserListHandler extends BaseHandler
 {

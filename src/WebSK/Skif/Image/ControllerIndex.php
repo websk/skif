@@ -4,7 +4,7 @@ namespace WebSK\Skif\Image;
 
 /**
  * Class ControllerIndex
- * @package WebSK\WebSK\Skif\Image\Image
+ * @package WebSK\Skif\Image\Image
  */
 class ControllerIndex
 {

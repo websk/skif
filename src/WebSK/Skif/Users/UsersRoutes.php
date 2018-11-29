@@ -20,7 +20,7 @@ use WebSK\Skif\Users\RequestHandlers\UserSaveHandler;
 
 /**
  * Class UsersRoutes
- * @package WebSK\WebSK\Skif\Users
+ * @package WebSK\Skif\Users
  */
 class UsersRoutes
 {

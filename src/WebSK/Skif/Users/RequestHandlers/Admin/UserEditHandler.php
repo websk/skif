@@ -16,7 +16,7 @@ use WebSK\Utils\HTTP;
 
 /**
  * Class UserEditHandler
- * @package WebSK\WebSK\Skif\Users\RequestHandlers\Admin
+ * @package WebSK\Skif\Users\RequestHandlers\Admin
  */
 class UserEditHandler extends BaseHandler
 {

@@ -11,7 +11,7 @@ use WebSK\Utils\Filters;
 
 /**
  * Class UsersUtils
- * @package WebSK\WebSK\Skif\Users
+ * @package WebSK\Skif\Users
  */
 class UsersUtils
 {

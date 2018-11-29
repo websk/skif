@@ -14,7 +14,7 @@ use WebSK\Utils\Url;
 
 /**
  * Class AuthUtils
- * @package WebSK\WebSK\Skif\Users
+ * @package WebSK\Skif\Users
  */
 class Auth
 {

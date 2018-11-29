@@ -7,7 +7,7 @@ use WebSK\Utils\Exits;
 
 /**
  * Class ImageManager
- * @package WebSK\WebSK\Skif\Image\Image
+ * @package WebSK\Skif\Image\Image
  */
 class ImageManager
 {

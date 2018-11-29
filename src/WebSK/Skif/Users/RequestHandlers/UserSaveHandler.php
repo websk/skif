@@ -18,7 +18,7 @@ use WebSK\Utils\HTTP;
 
 /**
  * Class UserSaveHandler
- * @package WebSK\WebSK\Skif\Users\RequestHandlers
+ * @package WebSK\Skif\Users\RequestHandlers
  */
 class UserSaveHandler extends BaseHandler
 {

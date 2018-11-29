@@ -9,7 +9,7 @@ use WebSK\Utils\HTTP;
 
 /**
  * Class CurrentUserIsAdmin
- * @package WebSK\WebSK\Skif\Users\Middleware
+ * @package WebSK\Skif\Users\Middleware
  */
 class CurrentUserIsAdmin
 {

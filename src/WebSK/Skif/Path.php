@@ -89,7 +89,7 @@ class Path
      */
     public static function getSiteRootPath()
     {
-        return self::getSkifRootPath() . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
+        return ConfWrapper::value('site_path') ?: self::getSkifRootPath() . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
     }
 
     /**

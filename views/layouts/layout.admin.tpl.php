@@ -41,7 +41,7 @@ if (!isset($layout_dto)) {
     $layout_dto->setContentHtml($content);
 
     $breadcrumbs_dto_arr = [
-        new BreadcrumbItemDTO('Главная', '/admin')
+        new BreadcrumbItemDTO('Главная', Router::pathFor(SkifApp::ROUTE_NAME_ADMIN))
     ];
 
     if (!empty($breadcrumbs_arr)) {

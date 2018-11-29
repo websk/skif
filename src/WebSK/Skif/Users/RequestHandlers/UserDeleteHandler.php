@@ -11,7 +11,7 @@ use WebSK\Utils\HTTP;
 
 /**
  * Class UserDeleteHandler
- * @package WebSK\WebSK\Skif\Users\RequestHandlers
+ * @package WebSK\Skif\Users\RequestHandlers
  */
 class UserDeleteHandler extends BaseHandler
 {
