@@ -2,8 +2,8 @@
 
 namespace WebSK\Skif\Content;
 
+use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\BaseController;
-use WebSK\Skif\UrlManager;
 use WebSK\Skif\Auth\Auth;
 use Websk\Utils\Messages;
 use WebSK\Skif\PhpRender;
@@ -35,7 +35,7 @@ class RubricController extends BaseController
         $requested_id = $this->getRequestedId();
 
         if (!$requested_id) {
-            return UrlManager::CONTINUE_ROUTING;
+            return SimpleRouter::CONTINUE_ROUTING;
         }
 
         $rubric_id = $requested_id;

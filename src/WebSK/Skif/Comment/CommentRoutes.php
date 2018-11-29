@@ -2,16 +2,16 @@
 
 namespace WebSK\Skif\Comment;
 
-use WebSK\Skif\UrlManager;
+use WebSK\SimpleRouter\SimpleRouter;
 
 class CommentRoutes
 {
     public static function route()
     {
-        UrlManager::routeBasedCrud('/admin/comments', CommentController::class);
+        SimpleRouter::routeBasedCrud('/admin/comments', CommentController::class);
 
-        UrlManager::route('@^/comments/list$@', CommentController::class, 'listWebAction');
-        UrlManager::route('@^/comments/add$@', CommentController::class, 'saveWebAction');
-        UrlManager::route('@^/comments/delete/(\d+)$@', CommentController::class, 'deleteWebAction');
+        SimpleRouter::staticRoute('@^/comments/list$@', CommentController::class, 'listWebAction');
+        SimpleRouter::staticRoute('@^/comments/add$@', CommentController::class, 'saveWebAction');
+        SimpleRouter::staticRoute('@^/comments/delete/(\d+)$@', CommentController::class, 'deleteWebAction');
     }
 }

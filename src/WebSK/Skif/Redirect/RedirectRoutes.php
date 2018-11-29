@@ -2,14 +2,14 @@
 
 namespace WebSK\Skif\Redirect;
 
-use WebSK\Skif\UrlManager;
+use WebSK\SimpleRouter\SimpleRouter;
 
 class RedirectRoutes
 {
     public static function route()
     {
-        UrlManager::route('@^@', RedirectController::class, 'redirectAction');
+        SimpleRouter::staticRoute('@^@', RedirectController::class, 'redirectAction');
 
-        UrlManager::routeBasedCrud('/admin/redirect', RedirectController::class);
+        SimpleRouter::routeBasedCrud('/admin/redirect', RedirectController::class);
     }
 }

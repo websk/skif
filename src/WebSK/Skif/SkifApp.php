@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif;
 
+use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\Blocks\BlockRoutes;
 use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Skif\Content\ContentRoutes;
@@ -14,7 +15,6 @@ use WebSK\Skif\Poll\PollRoutes;
 use WebSK\Skif\Rating\RatingRoutes;
 use WebSK\Skif\Redirect\RedirectRoutes;
 use WebSK\Skif\SiteMenu\SiteMenuRoutes;
-use WebSK\Skif\UrlManager;
 use WebSK\Skif\Auth\AuthRoutes;
 use Slim\App;
 use Slim\Handlers\Strategies\RequestResponseArgs;
@@ -90,7 +90,7 @@ class SkifApp extends App
         $route_based_crud_arr = $container['settings']['route_based_crud_arr'] ?? [];
         if ($route_based_crud_arr) {
             foreach ($route_based_crud_arr as $base_url => $controller_class_name) {
-                UrlManager::routeBasedCrud($base_url, $controller_class_name);
+                SimpleRouter::routeBasedCrud($base_url, $controller_class_name);
             }
         }
 

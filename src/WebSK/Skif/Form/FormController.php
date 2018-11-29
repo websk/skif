@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Form;
 
-use WebSK\Skif\UrlManager;
+use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\Auth\Auth;
 use Websk\Skif\Captcha\Captcha;
 use WebSK\Skif\CRUD\CRUDController;
@@ -39,7 +39,7 @@ class FormController extends CRUDController
         $form_id = $this->getRequestedId();
 
         if (!$form_id) {
-            return UrlManager::CONTINUE_ROUTING;
+            return SimpleRouter::CONTINUE_ROUTING;
         }
 
         $form_obj = Form::factory($form_id, false);

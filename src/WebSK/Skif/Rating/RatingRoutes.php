@@ -2,14 +2,14 @@
 
 namespace WebSK\Skif\Rating;
 
-use WebSK\Skif\UrlManager;
+use WebSK\SimpleRouter\SimpleRouter;
 
 class RatingRoutes
 {
     public static function route()
     {
-        UrlManager::routeBasedCrud('/admin/rating', RatingController::class);
+        SimpleRouter::routeBasedCrud('/admin/rating', RatingController::class);
 
-        UrlManager::route('@^/rating/(\d+)/rate$@', RatingController::class, 'rateAction');
+        SimpleRouter::staticRoute('@^/rating/(\d+)/rate$@', RatingController::class, 'rateAction');
     }
 }

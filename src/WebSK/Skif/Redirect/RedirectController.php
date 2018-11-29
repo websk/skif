@@ -3,11 +3,15 @@
 namespace WebSK\Skif\Redirect;
 
 use Websk\Cache\CacheWrapper;
+use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\CRUD\CRUDController;
 use Websk\Skif\DBWrapper;
-use WebSK\Skif\UrlManager;
 use WebSK\Utils\Url;
 
+/**
+ * Class RedirectController
+ * @package WebSK\Skif\Redirect
+ */
 class RedirectController extends CRUDController
 {
 
@@ -83,7 +87,7 @@ class RedirectController extends CRUDController
             }
         }
 
-        return UrlManager::CONTINUE_ROUTING;
+        return SimpleRouter::CONTINUE_ROUTING;
     }
 
     public static function getCacheKeyRegexpRedirectArr()

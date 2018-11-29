@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Poll;
 
-use WebSK\Skif\UrlManager;
+use WebSK\SimpleRouter\SimpleRouter;
 
 /**
  * Class PollRoutes
@@ -12,10 +12,10 @@ class PollRoutes
 {
     public static function route()
     {
-        UrlManager::routeBasedCrud('/admin/poll', PollController::class);
-        UrlManager::routeBasedCrud('/admin/poll_question', PollQuestionController::class);
+        SimpleRouter::routeBasedCrud('/admin/poll', PollController::class);
+        SimpleRouter::routeBasedCrud('/admin/poll_question', PollQuestionController::class);
 
-        UrlManager::route('@^/poll/(\d+)$@', PollController::class, 'viewAction');
-        UrlManager::route('@^/poll/(\d+)/vote$@', PollController::class, 'voteAction');
+        SimpleRouter::staticRoute('@^/poll/(\d+)$@', PollController::class, 'viewAction');
+        SimpleRouter::staticRoute('@^/poll/(\d+)/vote$@', PollController::class, 'voteAction');
     }
 }

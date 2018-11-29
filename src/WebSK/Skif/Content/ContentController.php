@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif\Content;
 
+use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\BaseController;
 use WebSK\Skif\PhpRender;
 use WebSK\Slim\ConfWrapper;
@@ -11,7 +12,6 @@ use WebSK\Skif\Image\ImageController;
 use WebSK\Skif\Image\ImageManager;
 use Websk\Utils\Messages;
 use WebSK\Skif\Sitemap\InterfaceSitemapController;
-use WebSK\Skif\UrlManager;
 use WebSK\Skif\Auth\Auth;
 use Websk\Utils\Assert;
 use WebSK\Utils\Exits;
@@ -61,7 +61,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         $requested_id = $this->getRequestedId();
 
         if (!$requested_id) {
-            return UrlManager::CONTINUE_ROUTING;
+            return SimpleRouter::CONTINUE_ROUTING;
         }
 
         $content_id = $requested_id;
@@ -152,7 +152,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
     public function listAction($content_type)
     {
         if (!ConfWrapper::value('content.' . $content_type)) {
-            return UrlManager::CONTINUE_ROUTING;
+            return SimpleRouter::CONTINUE_ROUTING;
         }
 
         $template_file = 'content_list.tpl.php';

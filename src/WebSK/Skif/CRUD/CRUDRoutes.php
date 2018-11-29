@@ -2,12 +2,12 @@
 
 namespace WebSK\Skif\CRUD;
 
-use WebSK\Skif\UrlManager;
+use WebSK\SimpleRouter\SimpleRouter;
 
 class CRUDRoutes
 {
     public static function route()
     {
-        UrlManager::routeBasedCrud('/crud/[\d\w\%]+', CRUDController::class);
+        SimpleRouter::routeBasedCrud('/crud/[\d\w\%]+', CRUDController::class);
     }
 }

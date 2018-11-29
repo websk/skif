@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Image;
 
-use WebSK\Skif\UrlManager;
+use WebSK\SimpleRouter\SimpleRouter;
 
 /**
  * Class ImageRoutes
@@ -12,10 +12,7 @@ class ImageRoutes
 {
     public static function routes()
     {
-        UrlManager::route('@^/files/images/cache/(.+)/(.+)$@', ControllerIndex::class, 'indexAction');
-        UrlManager::route('@^/images/upload$@', ImageController::class, 'uploadAction');
-
-        // UrlManager::route('@^/images/upload_to_files$@', ImageController::class, 'uploadToFilesAction');
-        // UrlManager::route('@^/images/upload_to_images$@', ImageController::class, 'uploadToImagesAction');
+        SimpleRouter::staticRoute('@^/files/images/cache/(.+)/(.+)$@', ControllerIndex::class, 'indexAction');
+        SimpleRouter::staticRoute('@^/images/upload$@', ImageController::class, 'uploadAction');
     }
 }

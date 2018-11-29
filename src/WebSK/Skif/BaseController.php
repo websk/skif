@@ -2,6 +2,8 @@
 
 namespace WebSK\Skif;
 
+use WebSK\SimpleRouter\SimpleRouter;
+
 /**
  * Class BaseController
  * @package WebSK\Skif
@@ -30,7 +32,7 @@ class BaseController
 
     protected function readContext()
     {
-        $alias = UrlManager::$current_url;
+        $alias = SimpleRouter::$current_url;
 
         $this->requested_id = self::getEntityIdByAlias($alias);
 
