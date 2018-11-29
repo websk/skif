@@ -2,7 +2,6 @@
 
 namespace WebSK\Skif\Auth;
 
-use WebSK\Skif\Utils;
 use WebSK\Slim\ConfWrapper;
 use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UserService;

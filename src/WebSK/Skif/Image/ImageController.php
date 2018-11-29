@@ -44,7 +44,7 @@ class ImageController
         $json_arr = array();
 
         if (array_key_exists('name', $_FILES['upload_image']) && is_array($_FILES['upload_image']['name'])) {
-            $files_arr = \WebSK\Skif\Utils::rebuildFilesArray($_FILES['upload_image']);
+            $files_arr = self::rebuildFilesArray($_FILES['upload_image']);
         } else {
             $files_arr[] = $_FILES['upload_image'];
         }
@@ -54,7 +54,7 @@ class ImageController
             $target_folder = $_POST['target_folder'];
         }
 
-        $file_name = \WebSK\Skif\Image\ImageController::processUpload($files_arr[0], $target_folder, $root_images_folder);
+        $file_name = self::processUpload($files_arr[0], $target_folder, $root_images_folder);
         if (!$file_name) {
             $json_arr['status'] = 'error';
         }
@@ -73,6 +73,22 @@ class ImageController
         $json_arr['status'] = 'success';
 
         return json_encode($json_arr);
+    }
+
+    /**
+     * @param array $files_arr
+     * @return array
+     */
+    protected static function rebuildFilesArray(array $files_arr)
+    {
+        $output_files_arr = array();
+        foreach ($files_arr as $key1 => $value1) {
+            foreach ($value1 as $key2 => $value2) {
+                $output_files_arr[$key2][$key1] = $value2;
+            }
+        }
+
+        return $output_files_arr;
     }
 
     public static function uploadToFilesAction()
