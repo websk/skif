@@ -3,12 +3,14 @@
 namespace WebSK\Skif\Content;
 
 use WebSK\Model\ActiveRecord;
+use WebSK\Model\ActiveRecordHelper;
 use WebSK\Model\FactoryTrait;
 use WebSK\Model\InterfaceDelete;
 use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceGetTitle;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
+use WebSK\Skif\CRUD\ModelReferenceWidget\ModelReferenceWidget;
 use Websk\Skif\DBWrapper;
 
 /**
@@ -27,12 +29,23 @@ class ContentType implements
 
     const DB_TABLE_NAME = 'content_types';
 
+    /** @var int */
     protected $id;
+
+    /** @var string */
     protected $name;
+
+    /** @var string */
     protected $type;
+
+    /** @var string */
     protected $url;
+
+    /** @var int */
     protected $template_id;
-    protected $rubric_ids_arr;
+
+    /** @var array */
+    protected $rubric_ids_arr = [];
 
     public static $active_record_ignore_fields_arr = array(
         'rubric_ids_arr',
@@ -65,17 +78,21 @@ class ContentType implements
         'type' => array(),
         'url' => array(),
         'template_id' => array(
-            'widget' => array('\Skif\CRUD\ModelReferenceWidget\ModelReferenceWidget', 'renderWidget'),
+            'widget' => array(ModelReferenceWidget::class, 'renderWidget'),
             'widget_settings' => array(
-                'model_class_name' => '\Skif\Content\Template'
+                'model_class_name' => Template::class
             )
         ),
     );
 
-
+    /**
+     * @param $id
+     * @return bool
+     * @throws \Exception
+     */
     public function load($id)
     {
-        $is_loaded = \WebSK\Model\ActiveRecordHelper::loadModelObj($this, $id);
+        $is_loaded = ActiveRecordHelper::loadModelObj($this, $id);
         if (!$is_loaded) {
             return false;
         }
@@ -90,95 +107,98 @@ class ContentType implements
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @param mixed $id
+     * @return string
      */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param mixed $type
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-    }
-
-    public function getTitle()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @return mixed
+     * @param string $name
      */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param mixed $name
-     */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getUrl()
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType(string $type): void
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl(): string
     {
         return $this->url;
     }
 
     /**
-     * @param mixed $url
+     * @param string $url
      */
-    public function setUrl($url)
+    public function setUrl(string $url): void
     {
         $this->url = $url;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getTemplateId()
+    public function getTemplateId(): int
     {
         return $this->template_id;
     }
 
     /**
-     * @param mixed $template_id
+     * @param int $template_id
      */
-    public function setTemplateId($template_id)
+    public function setTemplateId(int $template_id): void
     {
         $this->template_id = $template_id;
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getRubricIdsArr()
+    public function getRubricIdsArr(): array
     {
         return $this->rubric_ids_arr;
+    }
+
+    /**
+     * @param array $rubric_ids_arr
+     */
+    public function setRubricIdsArr(array $rubric_ids_arr): void
+    {
+        $this->rubric_ids_arr = $rubric_ids_arr;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->name;
     }
 }

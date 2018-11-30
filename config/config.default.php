@@ -1,5 +1,9 @@
 <?php
 
+use WebSK\Skif\Content\ContentType;
+use WebSK\Skif\Content\Template;
+use WebSK\Skif\CRUD\CRUDController;
+
 return [
     'settings' => [
         'displayErrorDetails' => false,
@@ -46,8 +50,8 @@ return [
                 'name' => 'Настройки<span class="fa arrow"></span>',
                 'icon' => '<i class="fa fa-wrench fa-fw"></i>',
                 'sub_menu' => [
-                    ['link' => \WebSK\Skif\CRUD\CRUDController::getListUrl('\Skif\Content\ContentType'), 'name' => 'Типы контента'],
-                    ['link' => \WebSK\Skif\CRUD\CRUDController::getListUrl('\Skif\Content\Template'), 'name' => 'Темы'],
+                    ['link' => CRUDController::getListUrl(ContentType::class), 'name' => 'Типы контента'],
+                    ['link' => CRUDController::getListUrl(Template::class), 'name' => 'Темы'],
                     ['link' => '/admin/redirect', 'name' => 'Редиректы'],
                     ['link' => '/admin/key_value', 'name' => 'Параметры'],
                 ]
@@ -61,7 +65,7 @@ return [
     'site_path' => '/var/www/skif/public',
     'assets_url_path' => '/assets',
     'site_name' => 'Скиф',
-    'site_title' => 'WebSK\Skif',
+    'site_title' => 'WebSK. Skif',
     'site_email' => 'support@websk.ru',
     'salt' => 'webskskif',
     'content' => [

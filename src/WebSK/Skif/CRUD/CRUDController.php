@@ -163,13 +163,18 @@ class CRUDController extends BaseController
         );
     }
 
-    public static function renderList($model_class_name = '', $objs_ids_arr = array())
+    /**
+     * @param string $model_class_name
+     * @param array $objs_ids_arr
+     * @return string
+     */
+    public static function renderList(string $model_class_name = '', array $objs_ids_arr = [])
     {
         if (!$model_class_name) {
             $model_class_name = static::getModelClassName();
         }
 
-        $context_arr = array();
+        $context_arr = [];
         $filter = '';
 
         if (!$objs_ids_arr) {
