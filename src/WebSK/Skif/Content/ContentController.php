@@ -11,7 +11,7 @@ use WebSK\Skif\Image\ImageConstants;
 use WebSK\Skif\Image\ImageController;
 use WebSK\Skif\Image\ImageManager;
 use Websk\Utils\Messages;
-use WebSK\Skif\Sitemap\InterfaceSitemapController;
+use WebSK\SimpleRouter\Sitemap\InterfaceSitemapController;
 use WebSK\Skif\Auth\Auth;
 use Websk\Utils\Assert;
 use WebSK\Utils\Exits;
