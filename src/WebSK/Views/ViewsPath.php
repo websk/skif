@@ -2,7 +2,9 @@
 
 namespace WebSK\Views;
 
+use Websk\Skif\SkifPath;
 use WebSK\Slim\ConfWrapper;
+use WebSK\Utils\Url;
 
 /**
  * Class ViewsPath
@@ -22,10 +24,23 @@ class ViewsPath
     }
 
     /**
+     * @param string $template
      * @return string
      */
-    public static function getSiteModulesViewsPath()
+    public static function getFullTemplatePath(string $template)
     {
-        return ViewsPath::getSiteViewsPath() . DIRECTORY_SEPARATOR . ViewsPath::VIEWS_MODULES_DIR;
+        return ViewsPath::getSiteViewsPath() . DIRECTORY_SEPARATOR . $template;
+    }
+
+    /**
+     * @param $resource
+     * @return string
+     */
+    public static function wrapAssetsVersion($resource)
+    {
+        $assetsVersion = ConfWrapper::value('assets_version', 1);
+        $assetsUrlPath = ConfWrapper::value('assets_url_path', SkifPath::ASSETS_DIR_NAME);
+
+        return Url::appendLeadingSlash($assetsUrlPath . '/' . $assetsVersion . Url::appendLeadingSlash($resource));
     }
 }

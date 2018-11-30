@@ -7,7 +7,7 @@
  */
 
 use WebSK\Slim\ConfWrapper;
-use Websk\Skif\Path;
+use Websk\Skif\SkifPath;
 
 $config_styles = ConfWrapper::value('ckeditor.styles', []);
 $contents_css_files = [];
@@ -28,7 +28,7 @@ $contents_css = implode(',', $contents_css_files);
             { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'] }
         ],
         pasteFilter: 'plain-text',
-        customConfig:  '<?php echo Path::wrapSkifAssetsVersion('/js/ckeditor_config.js'); ?>',
+        customConfig:  '<?php echo SkifPath::wrapSkifAssetsVersion('/js/ckeditor_config.js'); ?>',
         contentsCss: [<?php echo $contents_css; ?>],
         height: <?php echo $height ?>
     });

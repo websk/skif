@@ -6,6 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Views\PhpRenderer;
 use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\UsersServiceProvider;
+use WebSK\Slim\ConfWrapper;
 use Websk\Slim\Container;
 use WebSK\Slim\Request;
 use WebSK\Views\LayoutDTO;
@@ -13,7 +14,7 @@ use WebSK\Views\PhpRender as ViewsPhpRender;
 use WebSK\Views\ViewsPath;
 
 /**
- * Class PhpRender
+ * Class SkifPhpRender
  * @package WebSK\Skif
  */
 class SkifPhpRender
@@ -31,9 +32,9 @@ class SkifPhpRender
         string $template,
         array $data = []
     ) {
-        $view_path = Path::getSkifViewsPath();
+        $view_path = SkifPath::getSkifViewsPath();
 
-        $relative_to_site_views_file_path = ViewsPhpRender::getRelativeToRootSiteTemplatePath($template);
+        $relative_to_site_views_file_path = ViewsPath::getFullTemplatePath($template);
         if (file_exists($relative_to_site_views_file_path)) {
             $view_path = ViewsPath::getSiteViewsPath();
         }
@@ -51,85 +52,70 @@ class SkifPhpRender
      */
     public static function renderTemplate(string $template, array $variables = [])
     {
-        $relative_to_site_views_file_path = ViewsPhpRender::getRelativeToRootSiteTemplatePath($template);
+        $relative_to_site_views_file_path = ViewsPath::getFullTemplatePath($template);
         if (file_exists($relative_to_site_views_file_path)) {
-            return ViewsPhpRender::renderTemplateByRelativeToRootSitePath($template, $variables);
+            return ViewsPhpRender::renderTemplate($template, $variables);
         }
 
-        $relative_to_skif_views_file_path = Path::getSkifViewsPath() . DIRECTORY_SEPARATOR . $template;
+        $relative_to_skif_views_file_path = SkifPath::getSkifViewsPath() . DIRECTORY_SEPARATOR . $template;
 
-        if (file_exists($relative_to_skif_views_file_path)) {
-            extract($variables, EXTR_SKIP);
-            ob_start();
-
-            require $relative_to_skif_views_file_path;
-
-            $contents = ob_get_contents();
-            ob_end_clean();
-
-            return $contents;
-        }
-
-        return '';
-    }
-
-    /**
-     * @param $module
-     * @param $template_file
-     * @return bool
-     */
-    public static function existsTemplateBySkifModuleRelativeToRootSitePath($module, $template_file)
-    {
-        $relative_to_root_site_file_path = ViewsPath::getSiteViewsPath() . DIRECTORY_SEPARATOR . ViewsPath::VIEWS_MODULES_DIR . DIRECTORY_SEPARATOR . Path::WEBSK_SKIF_NAMESPACE_DIR . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file;
-
-        return file_exists($relative_to_root_site_file_path);
-    }
-
-    /**
-     * @param $module
-     * @param $template_file
-     * @param array $variables
-     * @return string
-     */
-    public static function renderTemplateBySkifModule($module, $template_file, $variables = array())
-    {
-        if (self::existsTemplateBySkifModuleRelativeToRootSitePath($module, $template_file)) {
-            $relative_to_root_site_file_path = ViewsPath::VIEWS_MODULES_DIR . DIRECTORY_SEPARATOR . Path::WEBSK_SKIF_NAMESPACE_DIR . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file;
-
-            return ViewsPhpRender::renderTemplateByRelativeToRootSitePath($relative_to_root_site_file_path, $variables);
+        if (!file_exists($relative_to_skif_views_file_path)) {
+            return '';
         }
 
         extract($variables, EXTR_SKIP);
         ob_start();
 
-        require Path::getSkifAppPath() . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . ViewsPath::VIEWS_DIR_NAME . DIRECTORY_SEPARATOR . $template_file;
-        $contents = ob_get_contents();
+        require $relative_to_skif_views_file_path;
 
+        $contents = ob_get_contents();
         ob_end_clean();
 
         return $contents;
     }
 
     /**
+     * @param string $module
+     * @param string $template
+     * @return string
+     */
+    protected static function getRelativeToRootSiteSkifModuleViewsPath(string $module, string $template)
+    {
+        return ViewsPath::getFullTemplatePath(
+            ViewsPath::VIEWS_MODULES_DIR . DIRECTORY_SEPARATOR . SkifPath::WEBSK_SKIF_NAMESPACE_DIR . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template
+        );
+    }
+
+    /**
+     * @param string $module
+     * @param string $template
+     * @return bool
+     */
+    public static function existsTemplateBySkifModuleRelativeToRootSitePath(string $module, string $template)
+    {
+        $relative_to_root_site_file_path = self::getRelativeToRootSiteSkifModuleViewsPath($module, $template);
+
+        return file_exists($relative_to_root_site_file_path);
+    }
+
+    /**
      * @param $module
-     * @param $template_file
+     * @param $template
      * @param array $variables
      * @return string
      */
-    public static function renderTemplateByModule($module, $template_file, $variables = array())
+    public static function renderTemplateBySkifModule(string $module, string $template, array $variables = [])
     {
-        if (file_exists(ViewsPath::getSiteModulesViewsPath() . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file)) {
-            return ViewsPhpRender::renderTemplateByRelativeToRootSitePath(
-                ViewsPath::VIEWS_MODULES_DIR . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template_file,
-                $variables
-            );
+        if (self::existsTemplateBySkifModuleRelativeToRootSitePath($module, $template)) {
+            $relative_to_root_site_file_path = self::getRelativeToRootSiteSkifModuleViewsPath($module, $template);
+
+            return ViewsPhpRender::renderTemplate($relative_to_root_site_file_path, $variables);
         }
 
         extract($variables, EXTR_SKIP);
         ob_start();
 
-        require Path::getSkifAppPath() . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . ViewsPath::VIEWS_DIR_NAME . DIRECTORY_SEPARATOR . $template_file;
-
+        require SkifPath::getSkifAppPath() . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . ViewsPath::VIEWS_DIR_NAME . DIRECTORY_SEPARATOR . $template;
         $contents = ob_get_contents();
 
         ob_end_clean();
@@ -144,14 +130,12 @@ class SkifPhpRender
      */
     public static function renderLayout(ResponseInterface $response, LayoutDTO $layout_dto)
     {
-        $container = Container::self();
-
         if (!$layout_dto->getSiteTitle()) {
-            $layout_dto->setSiteTitle($container['settings']['site_title'] ?? '');
+            $layout_dto->setSiteTitle(ConfWrapper::value('site_title', ''));
         }
 
         if (!$layout_dto->getShortSiteTitle()) {
-            $short_site_title = $container['settings']['short_site_title'] ?? mb_substr($layout_dto->getSiteTitle(), 0,3);
+            $short_site_title = ConfWrapper::value('short_site_title', mb_substr($layout_dto->getSiteTitle(), 0, 3));
             $layout_dto->setShortSiteTitle($short_site_title);
         }
 
@@ -174,6 +158,6 @@ class SkifPhpRender
 
         $data['layout_dto'] = $layout_dto;
 
-        return SkifPhpRender::render($response, self::ADMIN_LAYOUT_TEMPLATE, $data);
+        return self::render($response, self::ADMIN_LAYOUT_TEMPLATE, $data);
     }
 }

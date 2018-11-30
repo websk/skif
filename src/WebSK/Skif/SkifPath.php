@@ -7,10 +7,10 @@ use WebSK\Utils\Url;
 use WebSK\Views\ViewsPath;
 
 /**
- * Class Path
- * @package WebSK\Skif
+ * Class SkifPath
+ * @package Websk\Skif
  */
-class Path
+class SkifPath
 {
     const PUBLIC_DIR_NAME = 'public';
     const ASSETS_DIR_NAME = 'assets';
@@ -20,17 +20,17 @@ class Path
     /**
      * @return string
      */
-    public static function getSkifRootPath()
+    public static function getSkifAppPath()
     {
-        return __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
+        return __DIR__;
     }
 
     /**
      * @return string
      */
-    public static function getSkifAppPath()
+    public static function getSkifRootPath()
     {
-        return __DIR__;
+        return self::getSkifAppPath() . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
     }
 
     /**
@@ -69,17 +69,5 @@ class Path
         $skifAssetsVersion = ConfWrapper::value('skif_assets_version', 1);
 
         return self::wrapSkifUrlPath('/' . self::ASSETS_DIR_NAME . '/'. $skifAssetsVersion . Url::appendLeadingSlash($resource));
-    }
-
-    /**
-     * @param $resource
-     * @return string
-     */
-    public static function wrapAssetsVersion($resource)
-    {
-        $assetsVersion = ConfWrapper::value('assets_version', 1);
-        $assetsUrlPath = ConfWrapper::value('assets_url_path', self::ASSETS_DIR_NAME);
-
-        return Url::appendLeadingSlash($assetsUrlPath . '/' . $assetsVersion . Url::appendLeadingSlash($resource));
     }
 }

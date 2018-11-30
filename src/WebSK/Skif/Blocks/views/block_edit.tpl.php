@@ -9,7 +9,7 @@ use WebSK\Skif\SkifPhpRender;
 use Websk\Slim\Container;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Skif\Users\UsersUtils;
-use Websk\Skif\Path;
+use Websk\Skif\SkifPath;
 
 $block_obj = ControllerBlocks::getBlockObj($block_id);
 
@@ -138,7 +138,7 @@ $items = [];
         &nbsp;&nbsp;<button class="btn" id="regions-btn-js" type="button">Сохранить и выбрать регион</button>
     </form>
 
-<script src="<?php echo Path::wrapSkifAssetsVersion('/libraries/ace/ace.js'); ?>" type="text/javascript" charset="utf-8"></script>
+<script src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/ace/ace.js'); ?>" type="text/javascript" charset="utf-8"></script>
 
 <script>
     var editor = ace.edit("editor");

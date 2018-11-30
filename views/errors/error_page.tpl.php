@@ -3,7 +3,7 @@
  * @var $error_code
  */
 
-use Websk\Skif\Path;
+use Websk\Skif\SkifPath;
 use WebSK\Slim\ConfWrapper;
 use WebSK\Utils\Url;
 
@@ -28,11 +28,11 @@ if (!array_key_exists($error_code, $error_messages_arr)) {
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href="<?php echo Path::wrapSkifUrlPath('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
+    <link href="<?php echo SkifPath::wrapSkifUrlPath('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
 
     <!-- Bootstrap -->
-    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
-    <script src="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap/js/bootstrap.min.js'); ?>"></script>
+    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
+    <script src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap/js/bootstrap.min.js'); ?>"></script>
 
     <style>
         html, body {margin: 0; padding: 0 10px;}

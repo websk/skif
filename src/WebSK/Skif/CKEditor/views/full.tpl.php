@@ -7,7 +7,7 @@
  */
 
 use WebSK\Slim\ConfWrapper;
-use Websk\Skif\Path;
+use Websk\Skif\SkifPath;
 
 $config_styles = ConfWrapper::value('ckeditor.styles', []);
 $contents_css_files = [];
@@ -35,14 +35,14 @@ $dir_str = ($dir ? "'&dir=" . $dir . "'" : '');
             { name: 'styles', items: ['Format' ] },
             { name: 'about', items: [ 'About' ] }
         ],
-        customConfig: '<?php echo Path::wrapSkifAssetsVersion('/js/ckeditor_config.js'); ?>',
+        customConfig: '<?php echo SkifPath::wrapSkifAssetsVersion('/js/ckeditor_config.js'); ?>',
         contentsCss: [<?php echo $contents_css; ?>],
-        filebrowserBrowseUrl: '<?php echo Path::wrapSkifUrlPath('/libraries/kcfinder/browse.php?opener=ckeditor&type=content'); ?>' + <?php echo($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
-        filebrowserImageBrowseUrl: '<?php echo Path::wrapSkifUrlPath('/libraries/kcfinder/browse.php?opener=ckeditor&type=images'); ?>' + <?php echo($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
-        filebrowserFlashBrowseUrl: '<?php echo Path::wrapSkifUrlPath('/libraries/kcfinder/browse.php?opener=ckeditor&type=flash'); ?>',
-        filebrowserUploadUrl: '<?php echo Path::wrapSkifUrlPath('/libraries/kcfinder/upload.php?opener=ckeditor&type=content'); ?>' + <?php echo($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
-        filebrowserImageUploadUrl: '<?php echo Path::wrapSkifUrlPath('/libraries/kcfinder/upload.php?opener=ckeditor&type=images'); ?>' + <?php echo($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
-        filebrowserFlashUploadUrl: '<?php echo Path::wrapSkifUrlPath('/libraries/kcfinder/upload.php?opener=ckeditor&type=flash'); ?>',
+        filebrowserBrowseUrl: '<?php echo SkifPath::wrapSkifUrlPath('/libraries/kcfinder/browse.php?opener=ckeditor&type=content'); ?>' + <?php echo($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
+        filebrowserImageBrowseUrl: '<?php echo SkifPath::wrapSkifUrlPath('/libraries/kcfinder/browse.php?opener=ckeditor&type=images'); ?>' + <?php echo($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
+        filebrowserFlashBrowseUrl: '<?php echo SkifPath::wrapSkifUrlPath('/libraries/kcfinder/browse.php?opener=ckeditor&type=flash'); ?>',
+        filebrowserUploadUrl: '<?php echo SkifPath::wrapSkifUrlPath('/libraries/kcfinder/upload.php?opener=ckeditor&type=content'); ?>' + <?php echo($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
+        filebrowserImageUploadUrl: '<?php echo SkifPath::wrapSkifUrlPath('/libraries/kcfinder/upload.php?opener=ckeditor&type=images'); ?>' + <?php echo($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
+        filebrowserFlashUploadUrl: '<?php echo SkifPath::wrapSkifUrlPath('/libraries/kcfinder/upload.php?opener=ckeditor&type=flash'); ?>',
         height: <?php echo $height ?>
     });
 </script>

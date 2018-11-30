@@ -3,7 +3,7 @@
 namespace Websk\Skif\Captcha;
 
 use Websk\Utils\Messages;
-use Websk\Skif\Path;
+use Websk\Skif\SkifPath;
 
 class Captcha
 {
@@ -44,7 +44,7 @@ class Captcha
         $C_HEIGHT = 40; // Высота изображения
         $C_NUM_GENSIGN = 5; // Количество символов, которые нужно набрать
         $C_FONT_SIZE = 14;
-        $path_fonts = Path::getSkifAssetsPath() . '/fonts/'; // Путь к шрифтам
+        $path_fonts = SkifPath::getSkifAssetsPath() . '/fonts/'; // Путь к шрифтам
         $numeric = 1; // Только цифры
 
         if (session_status() !== PHP_SESSION_ACTIVE) {

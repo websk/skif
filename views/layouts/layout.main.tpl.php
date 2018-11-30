@@ -9,7 +9,7 @@
 
 use WebSK\Skif\Blocks\PageRegionsUtils;
 use Websk\Utils\Messages;
-use Websk\Skif\Path;
+use Websk\Skif\SkifPath;
 use WebSK\Skif\SkifPhpRender;
 use WebSK\Skif\SiteMenu\SiteMenuRender;
 use WebSK\Slim\ConfWrapper;
@@ -45,28 +45,28 @@ if (!isset($layout_dto)) {
 
     <title><?= $layout_dto->getTitle() ?></title>
 
-    <link href="<?php echo Path::wrapSkifUrlPath('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
+    <link href="<?php echo SkifPath::wrapSkifUrlPath('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
 
     <!-- jQuery -->
-    <script src="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery/jquery.min.js'); ?>"></script>
-    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery-ui/themes/base/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery-ui/jquery-ui.min.js'); ?>"></script>
+    <script src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/jquery/jquery.min.js'); ?>"></script>
+    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/jquery-ui/themes/base/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/jquery-ui/jquery-ui.min.js'); ?>"></script>
 
     <!-- Bootstrap -->
-    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
-    <script src="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap/js/bootstrap.min.js'); ?>"></script>
+    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
+    <script src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap/js/bootstrap.min.js'); ?>"></script>
 
-    <link href="<?php echo Path::wrapSkifAssetsVersion('/styles/main.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/styles/main.css'); ?>" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/jquery-validation/jquery.validate.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/jquery-validation/jquery.validate.min.js'); ?>"></script>
 
-    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/fancybox/jquery.fancybox.pack.js"'); ?>></script>
-    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/fancybox/jquery.fancybox.css'); ?>" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/fancybox/jquery.fancybox.pack.js"'); ?>></script>
+    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/fancybox/jquery.fancybox.css'); ?>" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/moment/moment.min.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/moment/moment.ru.min.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); ?>"></script>
-    <link href="<?php echo Path::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/moment/moment.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/moment/moment.ru.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); ?>"></script>
+    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>" rel="stylesheet" type="text/css">
 
     <?php
     echo PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('inside_head', 'main');
@@ -77,7 +77,7 @@ if (!isset($layout_dto)) {
 <div id="html">
     <div id="header" class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-            <a href="/"><img src="<?php echo Path::wrapSkifAssetsVersion('images/admin/skif_small_logo.png'); ?>" border="0" alt="" title=""
+            <a href="/"><img src="<?php echo SkifPath::wrapSkifAssetsVersion('images/admin/skif_small_logo.png'); ?>" border="0" alt="" title=""
                              class="img-responsive"></a>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" align="right">

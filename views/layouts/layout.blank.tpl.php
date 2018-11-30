@@ -5,7 +5,7 @@
  * @var LayoutDTO $layout_dto
  */
 
-use Websk\Skif\Path;
+use Websk\Skif\SkifPath;
 use WebSK\Views\LayoutDTO;
 
 if (!isset($layout_dto)) {
@@ -21,7 +21,7 @@ if (!isset($layout_dto)) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo $layout_dto->getTitle(); ?></title>
 
-    <link href="<?php echo Path::wrapSkifUrlPath('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
+    <link href="<?php echo SkifPath::wrapSkifUrlPath('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
 </head>
 <body>
 <?php echo $layout_dto->getContentHtml() ?>

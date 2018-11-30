@@ -66,12 +66,12 @@ class PhpRender
      * @param array $variables
      * @return string
      */
-    public static function renderTemplateByRelativeToRootSitePath(string $template, array $variables = array())
+    public static function renderTemplate(string $template, array $variables = [])
     {
         extract($variables, EXTR_SKIP);
         ob_start();
 
-        require self::getRelativeToRootSiteTemplatePath($template);
+        require ViewsPath::getFullTemplatePath($template);
 
         $contents = ob_get_contents();
         ob_end_clean();
@@ -80,11 +80,21 @@ class PhpRender
     }
 
     /**
+     * @param string $module
      * @param string $template
-     * @return string
+     * @param array $variables
+     * @return false|string
      */
-    public static function getRelativeToRootSiteTemplatePath(string $template)
+    public static function renderTemplateByModule(string $module, string $template, array $variables = [])
     {
-        return ViewsPath::getSiteViewsPath() . DIRECTORY_SEPARATOR . $template;
+        $site_modules_file_path = ViewsPath::VIEWS_MODULES_DIR . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $template;
+        if (!file_exists(ViewsPath::getFullTemplatePath($site_modules_file_path))) {
+            return '';
+        }
+
+        return self::renderTemplate(
+            $site_modules_file_path,
+            $variables
+        );
     }
 }
