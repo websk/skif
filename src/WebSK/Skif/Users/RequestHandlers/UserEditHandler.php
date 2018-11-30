@@ -12,7 +12,7 @@ use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Utils\HTTP;
-use WebSK\Views\PhpRender as PhpRender1;
+use WebSK\Views\PhpRender;
 
 /**
  * Class UserEditHandler
@@ -62,7 +62,7 @@ class UserEditHandler extends BaseHandler
         $layout_dto->setTitle('Редактирование профиля');
         $layout_dto->setContentHtml($content);
 
-        return PhpRender1::render(
+        return PhpRender::render(
             $response,
             ConfWrapper::value('layout.main'),
             [

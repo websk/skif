@@ -13,7 +13,7 @@ use WebSK\Utils\HTTP;
  * Class UserDeleteHandler
  * @package WebSK\Skif\Users\RequestHandlers
  */
-class UserDeleteHandler extends \WebSK\Slim\RequestHandlers\BaseHandler
+class UserDeleteHandler extends BaseHandler
 {
     /**
      * @param Request $request

@@ -15,7 +15,7 @@ use WebSK\Utils\HTTP;
  * Class UserAddPhotoHandler
  * @package WebSK\Skif\Users\RequestHandlers
  */
-class UserAddPhotoHandler extends \WebSK\Slim\RequestHandlers\BaseHandler
+class UserAddPhotoHandler extends BaseHandler
 {
     /**
      * @param Request $request

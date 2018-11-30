@@ -93,10 +93,6 @@ class ImageManager
         if (!rename($tmp_dest_file, $newPath)) {
             throw new \Exception('Не удалось переместить файл: ' . $tmp_dest_file . ' -> ' . $newPath);
         }
-        /*} catch (\Imagine\Exception\Exception $e) {
-            
-            return '';
-        }*/
 
         return $unique_filename;
     }
