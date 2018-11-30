@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a776440a2373171570b7adb0a914e175",
+    "content-hash": "55bdcf775f72230019488a411f77171e",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
@@ -861,17 +861,45 @@
             "time": "2018-11-27T13:52:09+00:00"
         },
         {
+            "name": "websk/php-simple-router",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/websk/php-simple-router.git",
+                "reference": "5cc076f9267edaf2338b980fe3a41c07ee5d1ac7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/websk/php-simple-router/zipball/5cc076f9267edaf2338b980fe3a41c07ee5d1ac7",
+                "reference": "5cc076f9267edaf2338b980fe3a41c07ee5d1ac7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-xmlwriter": "*",
+                "websk/php-slim": "dev-master",
+                "websk/php-utils": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2018-11-30T12:18:52+00:00"
+        },
+        {
             "name": "websk/php-slim",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-slim.git",
-                "reference": "40b8dad8970aa813141ef2aa181fd984f7981eb1"
+                "reference": "c10087e9b253ff2b7a0b04d1c72cade33800c06e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-slim/zipball/40b8dad8970aa813141ef2aa181fd984f7981eb1",
-                "reference": "40b8dad8970aa813141ef2aa181fd984f7981eb1",
+                "url": "https://api.github.com/repos/websk/php-slim/zipball/c10087e9b253ff2b7a0b04d1c72cade33800c06e",
+                "reference": "c10087e9b253ff2b7a0b04d1c72cade33800c06e",
                 "shasum": ""
             },
             "require": {
@@ -887,7 +915,7 @@
             "notification-url": "https://packagist.org/downloads/",
             "description": "Slim framework utils",
             "homepage": "https://websk.ru/",
-            "time": "2018-11-27T14:15:57+00:00"
+            "time": "2018-11-30T11:48:41+00:00"
         },
         {
             "name": "websk/php-utils",
@@ -895,12 +923,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-utils.git",
-                "reference": "19f497d54d15e2c3195f4cccd82b659457cc9873"
+                "reference": "b48a4e221245d16a1e61f287d38d561b1cd78f0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-utils/zipball/19f497d54d15e2c3195f4cccd82b659457cc9873",
-                "reference": "19f497d54d15e2c3195f4cccd82b659457cc9873",
+                "url": "https://api.github.com/repos/websk/php-utils/zipball/b48a4e221245d16a1e61f287d38d561b1cd78f0a",
+                "reference": "b48a4e221245d16a1e61f287d38d561b1cd78f0a",
                 "shasum": ""
             },
             "type": "library",
@@ -910,7 +938,35 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2018-11-22T11:08:45+00:00"
+            "time": "2018-11-30T11:47:29+00:00"
+        },
+        {
+            "name": "websk/php-view",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/websk/php-view.git",
+                "reference": "d0dd5c6959edc52a32674f09bccc227c9ca03e34"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/websk/php-view/zipball/d0dd5c6959edc52a32674f09bccc227c9ca03e34",
+                "reference": "d0dd5c6959edc52a32674f09bccc227c9ca03e34",
+                "shasum": ""
+            },
+            "require": {
+                "psr/container": "^1.0",
+                "websk/php-slim": "dev-master",
+                "websk/php-utils": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2018-11-30T12:03:05+00:00"
         }
     ],
     "packages-dev": [],
@@ -921,15 +977,16 @@
         "websk/php-utils": 20,
         "websk/php-entity": 20,
         "websk/php-crud": 20,
-        "websk/php-slim": 20
+        "websk/php-slim": 20,
+        "websk/php-view": 20,
+        "websk/php-simple-router": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "ext-gd": "*",
         "ext-mbstring": "*",
-        "ext-pdo": "*",
-        "ext-xmlwriter": "*"
+        "ext-pdo": "*"
     },
     "platform-dev": []
 }

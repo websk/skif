@@ -6,7 +6,6 @@
     "ext-gd": "*",
     "ext-mbstring": "*",
     "ext-pdo": "*",
-    "ext-xmlwriter": "*",
     "slim/slim": "^3.0",
     "slim/php-view": "^2.2",
     "websk/php-cache": "dev-master",
@@ -15,11 +14,12 @@
     "websk/php-entity": "dev-master",
     "websk/php-crud": "dev-master",
     "websk/php-slim": "dev-master",
+    "websk/php-view": "dev-master",
+    "websk/php-simple-router": "dev-master",
     "imagine/imagine": "0.6.3",
     "ckeditor/ckeditor": "4.7.*",
     "hybridauth/hybridauth": "2.9.*",
-    "phpmailer/phpmailer": "5.2.*",
-    "predis/predis": "1.*"
+    "phpmailer/phpmailer": "5.2.*"
   },
   "autoload": {
     "psr-4": {
