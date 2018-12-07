@@ -62,7 +62,7 @@ return [
     'tmp_path' => '/var/www/tmp',
     'skif_url_path' => '/admin',
     'site_url' => '/skif',
-    'site_path' => '/var/www/skif/public',
+    'site_full_path' => '/var/www/skif',
     'assets_url_path' => '/assets',
     'site_name' => 'Скиф',
     'site_title' => 'WebSK. Skif',
