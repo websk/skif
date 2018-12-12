@@ -30,7 +30,6 @@ $config = [
             ],
         ],
         'skif_url_path' => '/',
-        'salt' => 'irbis'
     ]
 ];
 

@@ -139,7 +139,7 @@ CREATE TABLE `users` (
 
 # password '12345'
 INSERT INTO `users` (`id`, `email`, `passw`, `name`, `first_name`, `last_name`, `photo`, `birthday`, `phone`, `city`, `address`, `company`, `comment`, `confirm`, `confirm_code`, `provider`, `provider_uid`, `profile_url`, `created_at_ts`)
-VALUES (1, 'support@websk.ru', '15d4e4d0452f02c84e8703dd64b24bed', 'Администратор', '', '', '', '', '', '', '', '', '', 1, '', '', NULL, NULL, 0);
+VALUES (1, 'support@websk.ru', '4fb143e2df8c137525040ac54901e31c', 'Администратор', '', '', '', '', '', '', '', '', '', 1, '', '', NULL, NULL, 0);
 
 CREATE TABLE `users_roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
