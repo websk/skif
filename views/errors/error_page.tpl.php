@@ -5,16 +5,17 @@
 
 use Websk\Skif\SkifPath;
 use WebSK\Slim\ConfWrapper;
+use WebSK\Utils\HTTP;
 use WebSK\Utils\Url;
 
 $error_messages_arr = array(
-    404 => array(
+    HTTP::STATUS_NOT_FOUND => array(
         'title' => 'документ не найден',
-        'messages' => array('неправильно набран адрес', 'документ был удален', 'документ был перемещен', 'документ был переименован')
+        'messages' => ['неправильно набран адрес', 'документ был удален', 'документ был перемещен', 'документ был переименован']
     ),
-    403 => array(
+    HTTP::STATUS_FORBIDDEN => [
         'title' => 'доступ запрещен'
-    ),
+    ],
 );
 
 if (!array_key_exists($error_code, $error_messages_arr)) {

@@ -4,6 +4,7 @@
  */
 
 use WebSK\Skif\Auth\AuthRoutes;
+use WebSK\Skif\SkifApp;
 use Websk\Skif\SkifPath;
 use WebSK\Slim\Router;
 

@@ -56,27 +56,27 @@ return [
                     ['link' => '/admin/key_value', 'name' => 'Параметры'],
                 ]
             ]
+        ],
+        'log_path' => '/var/www/log',
+        'tmp_path' => '/var/www/tmp',
+        'skif_url_path' => '/admin',
+        'site_url' => '/skif',
+        'site_full_path' => '/var/www/skif',
+        'assets_url_path' => '/assets',
+        'site_name' => 'Скиф',
+        'site_title' => 'WebSK. Skif',
+        'site_email' => 'support@websk.ru',
+        'salt' => 'webskskif',
+        'content' => [
+            'news' => [
+                'limit_to_page' => 20,
+                'require_main_rubric' => 1,
+                'main_rubric_default_id' => 3
+            ]
+        ],
+        'comments' => [
+            'message_to_page' => 20,
+            'send_answer_to_email' => true
         ]
     ],
-    'log_path' => '/var/www/log',
-    'tmp_path' => '/var/www/tmp',
-    'skif_url_path' => '/admin',
-    'site_url' => '/skif',
-    'site_full_path' => '/var/www/skif',
-    'assets_url_path' => '/assets',
-    'site_name' => 'Скиф',
-    'site_title' => 'WebSK. Skif',
-    'site_email' => 'support@websk.ru',
-    'salt' => 'webskskif',
-    'content' => [
-        'news' => [
-            'limit_to_page' => 20,
-            'require_main_rubric' => 1,
-            'main_rubric_default_id' => 3
-        ]
-    ],
-    'comments' => [
-        'message_to_page' => 20,
-        'send_answer_to_email' => true
-    ]
 ];
