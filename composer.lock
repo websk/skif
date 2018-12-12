@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "55bdcf775f72230019488a411f77171e",
+    "content-hash": "067fcaca5b8ad8ad122c247b74a40a3e",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
@@ -748,23 +748,23 @@
         },
         {
             "name": "websk/php-cache",
-            "version": "dev-master",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-cache.git",
-                "reference": "74ab00475ce14e34dfcb2b848ab730dec1e2ce10"
+                "reference": "509ee2876d256302eacbfef45dedc230f1fdfbf4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-cache/zipball/74ab00475ce14e34dfcb2b848ab730dec1e2ce10",
-                "reference": "74ab00475ce14e34dfcb2b848ab730dec1e2ce10",
+                "url": "https://api.github.com/repos/websk/php-cache/zipball/509ee2876d256302eacbfef45dedc230f1fdfbf4",
+                "reference": "509ee2876d256302eacbfef45dedc230f1fdfbf4",
                 "shasum": ""
             },
             "require": {
                 "predis/predis": "1.*",
                 "psr/container": "^1.0",
-                "websk/php-slim": "dev-master",
-                "websk/php-utils": "dev-master"
+                "websk/php-slim": "1.0.*",
+                "websk/php-utils": "1.0.*"
             },
             "type": "library",
             "autoload": {
@@ -773,27 +773,52 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2018-11-27T14:06:39+00:00"
+            "time": "2018-12-12T10:48:47+00:00"
         },
         {
-            "name": "websk/php-crud",
-            "version": "dev-master",
+            "name": "websk/php-config",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/websk/php-crud.git",
-                "reference": "a60f00819479994b01aaee90578d13344879234c"
+                "url": "https://github.com/websk/php-config.git",
+                "reference": "806f75eafc1536c2543f383875503f12c72bcfe3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-crud/zipball/a60f00819479994b01aaee90578d13344879234c",
-                "reference": "a60f00819479994b01aaee90578d13344879234c",
+                "url": "https://api.github.com/repos/websk/php-config/zipball/806f75eafc1536c2543f383875503f12c72bcfe3",
+                "reference": "806f75eafc1536c2543f383875503f12c72bcfe3",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "PHP configs wrapper",
+            "homepage": "https://websk.ru/",
+            "time": "2018-12-03T15:24:53+00:00"
+        },
+        {
+            "name": "websk/php-crud",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/websk/php-crud.git",
+                "reference": "eee41c414542f733630d52f39379fc46d2a24b90"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/websk/php-crud/zipball/eee41c414542f733630d52f39379fc46d2a24b90",
+                "reference": "eee41c414542f733630d52f39379fc46d2a24b90",
                 "shasum": ""
             },
             "require": {
                 "o-log/php-html": "1.11",
                 "slim/slim": "^3.0",
-                "websk/php-entity": "dev-master",
-                "websk/php-utils": "dev-master"
+                "websk/php-entity": "1.0.*",
+                "websk/php-utils": "1.0.*"
             },
             "type": "library",
             "autoload": {
@@ -802,25 +827,25 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2018-11-07T14:42:23+00:00"
+            "time": "2018-12-12T11:19:36+00:00"
         },
         {
             "name": "websk/php-db",
-            "version": "1.2",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-db.git",
-                "reference": "79775e4511d2d3a5d6765a252bc6e32b4f51fab3"
+                "reference": "0a38be196250c190fdaf7318ade112b1ec9e2e5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-db/zipball/79775e4511d2d3a5d6765a252bc6e32b4f51fab3",
-                "reference": "79775e4511d2d3a5d6765a252bc6e32b4f51fab3",
+                "url": "https://api.github.com/repos/websk/php-db/zipball/0a38be196250c190fdaf7318ade112b1ec9e2e5b",
+                "reference": "0a38be196250c190fdaf7318ade112b1ec9e2e5b",
                 "shasum": ""
             },
             "require": {
                 "ext-pdo": "*",
-                "websk/php-utils": "dev-master"
+                "websk/php-utils": "1.0.*"
             },
             "type": "library",
             "autoload": {
@@ -829,27 +854,27 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2018-10-22T14:45:17+00:00"
+            "time": "2018-12-12T11:04:07+00:00"
         },
         {
             "name": "websk/php-entity",
-            "version": "dev-master",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-entity.git",
-                "reference": "93b6a6ab5b08c9dbb3f13a6cf58cd930f35291c6"
+                "reference": "8082beee5ecbc5a24f36593db46d37afcae79ee3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-entity/zipball/93b6a6ab5b08c9dbb3f13a6cf58cd930f35291c6",
-                "reference": "93b6a6ab5b08c9dbb3f13a6cf58cd930f35291c6",
+                "url": "https://api.github.com/repos/websk/php-entity/zipball/8082beee5ecbc5a24f36593db46d37afcae79ee3",
+                "reference": "8082beee5ecbc5a24f36593db46d37afcae79ee3",
                 "shasum": ""
             },
             "require": {
                 "ext-pdo": "*",
-                "websk/php-cache": "dev-master",
-                "websk/php-db": "1.2",
-                "websk/php-utils": "dev-master"
+                "websk/php-cache": "1.1.*",
+                "websk/php-db": "1.2.*",
+                "websk/php-utils": "1.0.*"
             },
             "type": "library",
             "autoload": {
@@ -858,26 +883,26 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2018-11-27T13:52:09+00:00"
+            "time": "2018-12-12T11:12:31+00:00"
         },
         {
             "name": "websk/php-simple-router",
-            "version": "dev-master",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-simple-router.git",
-                "reference": "5cc076f9267edaf2338b980fe3a41c07ee5d1ac7"
+                "reference": "1685670d6e2a303511963a6eab5977e4caf27517"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-simple-router/zipball/5cc076f9267edaf2338b980fe3a41c07ee5d1ac7",
-                "reference": "5cc076f9267edaf2338b980fe3a41c07ee5d1ac7",
+                "url": "https://api.github.com/repos/websk/php-simple-router/zipball/1685670d6e2a303511963a6eab5977e4caf27517",
+                "reference": "1685670d6e2a303511963a6eab5977e4caf27517",
                 "shasum": ""
             },
             "require": {
                 "ext-xmlwriter": "*",
-                "websk/php-slim": "dev-master",
-                "websk/php-utils": "dev-master"
+                "websk/php-config": "1.0.*",
+                "websk/php-utils": "1.0.*"
             },
             "type": "library",
             "autoload": {
@@ -886,11 +911,11 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2018-11-30T12:18:52+00:00"
+            "time": "2018-12-03T15:32:05+00:00"
         },
         {
             "name": "websk/php-slim",
-            "version": "dev-master",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-slim.git",
@@ -919,17 +944,20 @@
         },
         {
             "name": "websk/php-utils",
-            "version": "dev-master",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-utils.git",
-                "reference": "b48a4e221245d16a1e61f287d38d561b1cd78f0a"
+                "reference": "e6a4861c8a918fb9953b0c4e46072d765fbd592b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-utils/zipball/b48a4e221245d16a1e61f287d38d561b1cd78f0a",
-                "reference": "b48a4e221245d16a1e61f287d38d561b1cd78f0a",
+                "url": "https://api.github.com/repos/websk/php-utils/zipball/e6a4861c8a918fb9953b0c4e46072d765fbd592b",
+                "reference": "e6a4861c8a918fb9953b0c4e46072d765fbd592b",
                 "shasum": ""
+            },
+            "require": {
+                "websk/php-config": "1.0.*"
             },
             "type": "library",
             "autoload": {
@@ -938,26 +966,27 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2018-11-30T11:47:29+00:00"
+            "time": "2018-12-10T19:13:25+00:00"
         },
         {
             "name": "websk/php-view",
-            "version": "dev-master",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-view.git",
-                "reference": "d0dd5c6959edc52a32674f09bccc227c9ca03e34"
+                "reference": "e4958dc1068aaf9d6bd9b52352969914796aa929"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-view/zipball/d0dd5c6959edc52a32674f09bccc227c9ca03e34",
-                "reference": "d0dd5c6959edc52a32674f09bccc227c9ca03e34",
+                "url": "https://api.github.com/repos/websk/php-view/zipball/e4958dc1068aaf9d6bd9b52352969914796aa929",
+                "reference": "e4958dc1068aaf9d6bd9b52352969914796aa929",
                 "shasum": ""
             },
             "require": {
                 "psr/container": "^1.0",
-                "websk/php-slim": "dev-master",
-                "websk/php-utils": "dev-master"
+                "websk/php-config": "1.0.*",
+                "websk/php-slim": "1.0.*",
+                "websk/php-utils": "1.0.*"
             },
             "type": "library",
             "autoload": {
@@ -966,21 +995,13 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2018-11-30T12:03:05+00:00"
+            "time": "2018-12-10T19:27:10+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "websk/php-cache": 20,
-        "websk/php-utils": 20,
-        "websk/php-entity": 20,
-        "websk/php-crud": 20,
-        "websk/php-slim": 20,
-        "websk/php-view": 20,
-        "websk/php-simple-router": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

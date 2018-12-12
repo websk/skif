@@ -2,8 +2,8 @@
 
 namespace WebSK\Model;
 
-use Websk\Skif\DBWrapper;
-use Websk\Utils\Assert;
+use WebSK\Skif\DBWrapper;
+use WebSK\Utils\Assert;
 
 /**
  * Class ActiveRecordHelper

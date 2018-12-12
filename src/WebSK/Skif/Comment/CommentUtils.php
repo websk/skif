@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Comment;
 
-use Websk\Skif\DBWrapper;
+use WebSK\Skif\DBWrapper;
 use WebSK\Skif\SkifPhpRender;
 use WebSK\Slim\ConfWrapper;
 

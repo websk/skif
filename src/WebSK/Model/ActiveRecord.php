@@ -4,7 +4,7 @@ namespace WebSK\Model;
 
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Skif\Logger\Logger;
-use Websk\Utils\Assert;
+use WebSK\Utils\Assert;
 
 /**
  * Для работы с ActiveRecord необходимо:

@@ -1,9 +1,9 @@
 <?php
 
-namespace Websk\Skif;
+namespace WebSK\Skif;
 
-use Websk\DB\DBService;
-use Websk\Slim\Container;
+use WebSK\DB\DBService;
+use WebSK\Slim\Container;
 
 /**
  * Class DBWrapper

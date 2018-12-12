@@ -3,8 +3,8 @@
 namespace WebSK\Model;
 
 use WebSK\Slim\ConfWrapper;
-use Websk\Cache\CacheWrapper;
-use Websk\Utils\Assert;
+use WebSK\Cache\CacheWrapper;
+use WebSK\Utils\Assert;
 
 /**
  * Базовая фабрика объектов.

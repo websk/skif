@@ -14,7 +14,7 @@ use WebSK\Model\InterfaceSave;
 use WebSK\Skif\CKEditor\CKEditor;
 use WebSK\Skif\CRUD\CKEditorWidget\CKEditorWidget;
 use WebSK\Utils\Transliteration;
-use Websk\Utils\Assert;
+use WebSK\Utils\Assert;
 use WebSK\Utils\Url;
 
 /**

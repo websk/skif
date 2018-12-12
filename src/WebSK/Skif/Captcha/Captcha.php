@@ -1,9 +1,9 @@
 <?php
 
-namespace Websk\Skif\Captcha;
+namespace WebSK\Skif\Captcha;
 
-use Websk\Utils\Messages;
-use Websk\Skif\SkifPath;
+use WebSK\Utils\Messages;
+use WebSK\Skif\SkifPath;
 
 class Captcha
 {

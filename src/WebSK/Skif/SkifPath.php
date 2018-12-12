@@ -1,6 +1,6 @@
 <?php
 
-namespace Websk\Skif;
+namespace WebSK\Skif;
 
 use WebSK\Slim\ConfWrapper;
 use WebSK\Utils\Url;
@@ -8,7 +8,7 @@ use WebSK\Views\ViewsPath;
 
 /**
  * Class SkifPath
- * @package Websk\Skif
+ * @package WebSK\Skif
  */
 class SkifPath
 {

@@ -11,7 +11,7 @@ use WebSK\Model\InterfaceGetTitle;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
 use WebSK\Skif\CRUD\ModelReferenceWidget\ModelReferenceWidget;
-use Websk\Skif\DBWrapper;
+use WebSK\Skif\DBWrapper;
 
 /**
  * Class ContentType

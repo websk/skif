@@ -5,7 +5,7 @@
 
 namespace WebSK\Model;
 
-use Websk\Utils\Assert;
+use WebSK\Utils\Assert;
 
 /**
  * Trait FactoryTrait

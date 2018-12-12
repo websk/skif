@@ -2,10 +2,10 @@
 
 namespace WebSK\Skif\Redirect;
 
-use Websk\Cache\CacheWrapper;
+use WebSK\Cache\CacheWrapper;
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\CRUD\CRUDController;
-use Websk\Skif\DBWrapper;
+use WebSK\Skif\DBWrapper;
 use WebSK\Utils\Url;
 
 /**

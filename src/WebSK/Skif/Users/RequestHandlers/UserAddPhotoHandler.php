@@ -6,7 +6,7 @@ use WebSK\Skif\Image\ImageConstants;
 use WebSK\Skif\Image\ImageController;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Websk\Utils\Messages;
+use WebSK\Utils\Messages;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Utils\HTTP;

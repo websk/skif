@@ -7,7 +7,7 @@
  */
 
 use WebSK\Slim\ConfWrapper;
-use Websk\Skif\SkifPath;
+use WebSK\Skif\SkifPath;
 
 $config_styles = ConfWrapper::value('ckeditor.styles', []);
 $contents_css_files = [];

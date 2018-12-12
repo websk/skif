@@ -3,9 +3,9 @@
 namespace WebSK\Skif;
 
 use Psr\Container\ContainerInterface;
-use Websk\DB\DBConnectorMySQL;
-use Websk\DB\DBService;
-use Websk\DB\DBSettings;
+use WebSK\DB\DBConnectorMySQL;
+use WebSK\DB\DBService;
+use WebSK\DB\DBSettings;
 
 /**
  * Class SkifServiceProvider

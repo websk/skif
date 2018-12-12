@@ -10,7 +10,7 @@ use WebSK\Skif\CRUD\CRUDUtils;
 use WebSK\Skif\CRUD\Widgets;
 use WebSK\Model\InterfaceSave;
 use WebSK\Skif\SkifPhpRender;
-use Websk\Utils\Assert;
+use WebSK\Utils\Assert;
 
 Assert::assert($obj);
 $model_class_name = get_class($obj);

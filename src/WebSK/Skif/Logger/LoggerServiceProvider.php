@@ -4,9 +4,9 @@ namespace WebSK\Skif\Logger;
 
 use Psr\Container\ContainerInterface;
 use WebSK\Cache\CacheServiceProvider;
-use Websk\DB\DBConnectorMySQL;
-use Websk\DB\DBService;
-use Websk\DB\DBSettings;
+use WebSK\DB\DBConnectorMySQL;
+use WebSK\DB\DBService;
+use WebSK\DB\DBSettings;
 use WebSK\Skif\Auth\AuthServiceProvider;
 use WebSK\Skif\Logger\Entry\LoggerEntry;
 use WebSK\Skif\Logger\Entry\LoggerEntryRepository;

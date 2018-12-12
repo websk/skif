@@ -3,7 +3,7 @@
 namespace WebSK\Skif\Logger;
 
 use WebSK\Entity\InterfaceEntity;
-use Websk\Slim\Facade;
+use WebSK\Slim\Facade;
 use WebSK\Skif\Logger\Entry\LoggerEntry;
 use WebSK\Skif\Logger\Entry\LoggerEntryService;
 

@@ -3,7 +3,7 @@
 namespace WebSK\Skif\Content;
 
 use WebSK\Entity\InterfaceEntity;
-use Websk\Skif\DBWrapper;
+use WebSK\Skif\DBWrapper;
 use WebSK\Model\FactoryTrait;
 use WebSK\Model\InterfaceDelete;
 use WebSK\Model\InterfaceFactory;
@@ -14,7 +14,7 @@ use WebSK\Utils\Filters;
 use WebSK\Utils\Transliteration;
 use WebSK\Model\ActiveRecord;
 use WebSK\Model\ActiveRecordHelper;
-use Websk\Utils\Assert;
+use WebSK\Utils\Assert;
 use WebSK\Utils\Url;
 
 /**

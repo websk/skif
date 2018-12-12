@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Content;
 
-use Websk\Skif\DBWrapper;
+use WebSK\Skif\DBWrapper;
 
 /**
  * Class ContentUtils

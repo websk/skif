@@ -9,10 +9,10 @@ use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceLogger;
 use WebSK\Model\InterfaceSave;
-use Websk\Skif\DBWrapper;
+use WebSK\Skif\DBWrapper;
 use WebSK\Utils\Transliteration;
 use WebSK\Model\ActiveRecordHelper;
-use Websk\Utils\Assert;
+use WebSK\Utils\Assert;
 use WebSK\Utils\Url;
 
 /**

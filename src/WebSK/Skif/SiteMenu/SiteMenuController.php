@@ -3,7 +3,7 @@
 namespace WebSK\Skif\SiteMenu;
 
 use WebSK\Skif\Auth\Auth;
-use Websk\Utils\Messages;
+use WebSK\Utils\Messages;
 use WebSK\Skif\SkifPhpRender;
 use WebSK\Slim\ConfWrapper;
 use WebSK\Utils\Exits;

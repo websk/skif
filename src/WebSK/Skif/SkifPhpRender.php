@@ -7,7 +7,7 @@ use Slim\Views\PhpRenderer;
 use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Slim\ConfWrapper;
-use Websk\Slim\Container;
+use WebSK\Slim\Container;
 use WebSK\Slim\Request;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender as ViewsPhpRender;

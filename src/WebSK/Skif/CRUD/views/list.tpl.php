@@ -12,7 +12,7 @@ use WebSK\Skif\CRUD\CRUDController;
 use WebSK\Skif\CRUD\CRUDUtils;
 use WebSK\Skif\CRUD\Widgets;
 use WebSK\Skif\SkifPhpRender;
-use Websk\Utils\Assert;
+use WebSK\Utils\Assert;
 use WebSK\Utils\Url;
 
 Assert::assert($model_class_name);

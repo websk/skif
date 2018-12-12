@@ -6,7 +6,7 @@ use WebSK\Skif\Pager;
 use WebSK\Model\Helper;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Skif\Auth\Auth;
-use Websk\Utils\Assert;
+use WebSK\Utils\Assert;
 use WebSK\Utils\Url;
 
 class CRUDUtils
@@ -300,7 +300,7 @@ class CRUDUtils
             ORDER BY t." . $order_field_name . " DESC
             LIMIT " . intval($page_size) . " OFFSET " . intval($start);
 
-        $objs_ids_arr = \Websk\Skif\DBWrapper::readColumn(
+        $objs_ids_arr = \WebSK\Skif\DBWrapper::readColumn(
             $query,
             $query_param_values_arr
         );

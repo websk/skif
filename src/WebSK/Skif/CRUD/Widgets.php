@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\CRUD;
 
-use Websk\Utils\Assert;
+use WebSK\Utils\Assert;
 
 /**
  * Class Widgets

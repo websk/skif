@@ -7,7 +7,7 @@
  * @var $default_value
  */
 
-use Websk\Slim\Container;
+use WebSK\Slim\Container;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Skif\Users\UsersUtils;
 

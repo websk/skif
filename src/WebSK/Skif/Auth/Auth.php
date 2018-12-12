@@ -3,10 +3,10 @@
 namespace WebSK\Skif\Auth;
 
 use WebSK\Slim\ConfWrapper;
-use Websk\Slim\Container;
-use Websk\Skif\DBWrapper;
+use WebSK\Slim\Container;
+use WebSK\Skif\DBWrapper;
 use WebSK\Skif\Image\ImageManager;
-use Websk\Utils\Messages;
+use WebSK\Utils\Messages;
 use WebSK\Skif\Users\User;
 use WebSK\Skif\Users\UserRole;
 use WebSK\Skif\Users\UsersServiceProvider;

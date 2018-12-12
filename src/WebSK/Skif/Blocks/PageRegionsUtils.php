@@ -3,9 +3,9 @@
 namespace WebSK\Skif\Blocks;
 
 use WebSK\Skif\Content\TemplateUtils;
-use Websk\Cache\CacheWrapper;
+use WebSK\Cache\CacheWrapper;
 use WebSK\Skif\Auth\Auth;
-use Websk\Skif\DBWrapper;
+use WebSK\Skif\DBWrapper;
 use WebSK\Skif\SkifPhpRender;
 use WebSK\Utils\Url;
 

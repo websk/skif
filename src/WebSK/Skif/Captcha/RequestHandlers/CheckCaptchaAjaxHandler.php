@@ -5,7 +5,7 @@ namespace WebSK\Skif\Captcha\RequestHandlers;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Websk\Skif\Captcha\Captcha;
+use WebSK\Skif\Captcha\Captcha;
 
 class CheckCaptchaAjaxHandler
 {

@@ -4,9 +4,9 @@ namespace WebSK\Skif\Blocks;
 
 use WebSK\Utils\Network;
 use WebSK\Utils\Filter;
-use Websk\Slim\Container;
-use Websk\Cache\CacheWrapper;
-use Websk\Skif\DBWrapper;
+use WebSK\Slim\Container;
+use WebSK\Cache\CacheWrapper;
+use WebSK\Skif\DBWrapper;
 use WebSK\Skif\Users\UsersServiceProvider;
 
 /**

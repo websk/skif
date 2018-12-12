@@ -5,8 +5,8 @@ namespace WebSK\Skif\Auth\RequestHandlers;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Skif\Auth\AuthRoutes;
-use Websk\Skif\Captcha\Captcha;
-use Websk\Utils\Messages;
+use WebSK\Skif\Captcha\Captcha;
+use WebSK\Utils\Messages;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Skif\Users\UsersUtils;
 

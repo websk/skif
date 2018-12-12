@@ -4,7 +4,7 @@ namespace WebSK\Skif\Comment;
 
 use WebSK\Skif\CRUD\CRUDController;
 use WebSK\Skif\Captcha\Captcha;
-use Websk\Utils\Messages;
+use WebSK\Utils\Messages;
 use WebSK\Skif\SkifPhpRender;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;

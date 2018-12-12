@@ -10,7 +10,7 @@ use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceLogger;
 use WebSK\Model\InterfaceSave;
-use Websk\Skif\DBWrapper;
+use WebSK\Skif\DBWrapper;
 
 /**
  * Class Block

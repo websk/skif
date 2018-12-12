@@ -4,9 +4,9 @@ namespace WebSK\Skif\Form;
 
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\Auth\Auth;
-use Websk\Skif\Captcha\Captcha;
+use WebSK\Skif\Captcha\Captcha;
 use WebSK\Skif\CRUD\CRUDController;
-use Websk\Utils\Messages;
+use WebSK\Utils\Messages;
 use WebSK\Skif\SkifPhpRender;
 use WebSK\Slim\ConfWrapper;
 use WebSK\Utils\Exits;
