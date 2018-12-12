@@ -59,6 +59,7 @@ return [
         ],
         'log_path' => '/var/www/log',
         'tmp_path' => '/var/www/tmp',
+        'static_data_path' => '/var/www/skif/public/static',
         'skif_url_path' => '/admin',
         'site_url' => '/skif',
         'site_full_path' => '/var/www/skif',

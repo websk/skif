@@ -97,7 +97,7 @@ class ImageController
 
         $file = $_FILES[0];
 
-        $root_images_folder = $site_path = ConfWrapper::value('site_path') . '/images';
+        $root_images_folder = $site_path = ConfWrapper::value('site_full_path') . '/images';
 
         $file_name = self::processUpload($file, '', $root_images_folder);
 

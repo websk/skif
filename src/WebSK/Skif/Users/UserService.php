@@ -83,7 +83,7 @@ class UserService extends BaseEntityService
         $user_obj->setPhoto('');
         $this->save($user_obj);
 
-        $file_path = ConfWrapper::value('site_path') . DIRECTORY_SEPARATOR . ImageConstants::IMG_ROOT_FOLDER . DIRECTORY_SEPARATOR . $user_obj->getPhotoPath();
+        $file_path = ConfWrapper::value('site_full_path') . DIRECTORY_SEPARATOR . ImageConstants::IMG_ROOT_FOLDER . DIRECTORY_SEPARATOR . $user_obj->getPhotoPath();
         if (!file_exists($file_path)) {
             return false;
         }
