@@ -8,7 +8,7 @@ use WebSK\Skif\Captcha\Captcha;
 use WebSK\Skif\CRUD\CRUDController;
 use WebSK\Utils\Messages;
 use WebSK\Skif\SkifPhpRender;
-use WebSK\Slim\ConfWrapper;
+use WebSK\Config\ConfWrapper;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Filters;
 use WebSK\Utils\Redirects;

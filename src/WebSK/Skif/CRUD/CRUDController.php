@@ -7,7 +7,7 @@ use WebSK\Model\InterfaceDelete;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
 use WebSK\Skif\SkifPhpRender;
-use WebSK\Slim\ConfWrapper;
+use WebSK\Config\ConfWrapper;
 use WebSK\Utils\Messages;
 use WebSK\Utils\Assert;
 use WebSK\Utils\Exits;

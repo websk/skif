@@ -7,7 +7,7 @@ use Slim\Http\Response;
 use WebSK\Skif\Auth\AuthRoutes;
 use WebSK\Skif\Auth\AuthServiceProvider;
 use WebSK\Skif\Captcha\Captcha;
-use WebSK\Slim\ConfWrapper;
+use WebSK\Config\ConfWrapper;
 use WebSK\Utils\Messages;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Slim\Router;

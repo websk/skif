@@ -5,7 +5,7 @@
 
 use WebSK\Skif\Pager;
 use WebSK\Skif\SkifPhpRender;
-use WebSK\Slim\ConfWrapper;
+use WebSK\Config\ConfWrapper;
 use WebSK\Skif\Content\Content;
 use WebSK\Skif\Content\ContentType;
 use WebSK\Skif\Content\ContentUtils;

@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif;
 
-use WebSK\Slim\ConfWrapper;
+use WebSK\Config\ConfWrapper;
 use WebSK\Utils\Url;
 use WebSK\Views\ViewsPath;
 

@@ -5,7 +5,7 @@ namespace WebSK\Skif\Content;
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\BaseController;
 use WebSK\Skif\SkifPhpRender;
-use WebSK\Slim\ConfWrapper;
+use WebSK\Config\ConfWrapper;
 use WebSK\Skif\DBWrapper;
 use WebSK\Skif\Image\ImageConstants;
 use WebSK\Skif\Image\ImageController;

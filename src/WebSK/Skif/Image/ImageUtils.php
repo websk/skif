@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Image;
 
-use WebSK\Slim\ConfWrapper;
+use WebSK\Config\ConfWrapper;
 
 /**
  * Class Image

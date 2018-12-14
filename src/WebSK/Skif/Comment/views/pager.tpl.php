@@ -5,7 +5,7 @@
  */
 
 use WebSK\Skif\Comment\CommentUtils;
-use WebSK\Slim\ConfWrapper;
+use WebSK\Config\ConfWrapper;
 
 $message_to_page = ConfWrapper::value('comments.message_to_page', 20);
 $count_all_messages = CommentUtils::getCountCommentsByUrl($url);

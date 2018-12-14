@@ -8,7 +8,7 @@ use WebSK\Cache\CacheService;
 use WebSK\Entity\BaseEntityRepository;
 use WebSK\Entity\BaseEntityService;
 use WebSK\Entity\InterfaceEntity;
-use WebSK\Slim\ConfWrapper;
+use WebSK\Config\ConfWrapper;
 
 /**
  * Class UserService

@@ -2,7 +2,7 @@
 
 namespace WebSK\Model;
 
-use WebSK\Slim\ConfWrapper;
+use WebSK\Config\ConfWrapper;
 use WebSK\Cache\CacheWrapper;
 use WebSK\Utils\Assert;
 

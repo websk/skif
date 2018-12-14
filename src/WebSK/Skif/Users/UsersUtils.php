@@ -3,7 +3,7 @@
 namespace WebSK\Skif\Users;
 
 use WebSK\Skif\Auth\Auth;
-use WebSK\Slim\ConfWrapper;
+use WebSK\Config\ConfWrapper;
 use WebSK\Slim\Container;
 use WebSK\Skif\DBWrapper;
 use WebSK\Utils\Filters;

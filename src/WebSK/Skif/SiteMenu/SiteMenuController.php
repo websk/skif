@@ -5,7 +5,7 @@ namespace WebSK\Skif\SiteMenu;
 use WebSK\Skif\Auth\Auth;
 use WebSK\Utils\Messages;
 use WebSK\Skif\SkifPhpRender;
-use WebSK\Slim\ConfWrapper;
+use WebSK\Config\ConfWrapper;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
 

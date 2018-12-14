@@ -4,7 +4,7 @@ namespace WebSK\Skif\Comment;
 
 use WebSK\Skif\DBWrapper;
 use WebSK\Skif\SkifPhpRender;
-use WebSK\Slim\ConfWrapper;
+use WebSK\Config\ConfWrapper;
 
 /**
  * Class CommentUtils
