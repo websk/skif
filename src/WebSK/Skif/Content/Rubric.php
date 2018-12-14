@@ -10,10 +10,10 @@ use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceLogger;
 use WebSK\Model\InterfaceSave;
 use WebSK\Skif\DBWrapper;
+use WebSK\Skif\UniqueUrl;
 use WebSK\Utils\Transliteration;
 use WebSK\Model\ActiveRecordHelper;
 use WebSK\Utils\Assert;
-use WebSK\Utils\Url;
 
 /**
  * Class Rubric
@@ -204,7 +204,7 @@ class Rubric implements
 
         $new_url = substr($new_url, 0, 255);
 
-        $unique_new_url = Url::getUniqueUrl($new_url);
+        $unique_new_url = UniqueUrl::getUniqueUrl($new_url);
         Assert::assert($unique_new_url);
 
         return $unique_new_url;

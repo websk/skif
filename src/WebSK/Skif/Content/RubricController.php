@@ -5,12 +5,12 @@ namespace WebSK\Skif\Content;
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\BaseController;
 use WebSK\Skif\Auth\Auth;
+use WebSK\Skif\UniqueUrl;
 use WebSK\Utils\Messages;
 use WebSK\Skif\SkifPhpRender;
 use WebSK\Slim\ConfWrapper;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
-use WebSK\Utils\Url;
 
 /**
  * Class RubricController
@@ -159,7 +159,7 @@ class RubricController extends BaseController
             $url = '/' . ltrim($url, '/');
 
             if ($url != $rubric_obj->getUrl()) {
-                Url::getUniqueUrl($url);
+                UniqueUrl::getUniqueUrl($url);
             }
         } else {
             $url = $rubric_obj->generateUrl();

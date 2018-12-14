@@ -13,9 +13,9 @@ use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
 use WebSK\Skif\CKEditor\CKEditor;
 use WebSK\Skif\CRUD\CKEditorWidget\CKEditorWidget;
+use WebSK\Skif\UniqueUrl;
 use WebSK\Utils\Transliteration;
 use WebSK\Utils\Assert;
-use WebSK\Utils\Url;
 
 /**
  * Class Form
@@ -241,7 +241,7 @@ class Form implements
 
         $new_url = substr($new_url, 0, 255);
 
-        $unique_new_url = Url::getUniqueUrl($new_url);
+        $unique_new_url = UniqueUrl::getUniqueUrl($new_url);
         Assert::assert($unique_new_url);
 
         return $unique_new_url;
@@ -261,7 +261,7 @@ class Form implements
             $url = '/' . ltrim($this->url, '/');
 
             if ($url != $this->getUrl()) {
-                Url::getUniqueUrl($url);
+                $url = UniqueUrl::getUniqueUrl($url);
             }
         } else {
             $url = $this->generateUrl();
