@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "067fcaca5b8ad8ad122c247b74a40a3e",
@@ -80,16 +80,16 @@
         },
         {
             "name": "facebook/graph-sdk",
-            "version": "5.6.3",
+            "version": "5.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facebook/php-graph-sdk.git",
-                "reference": "90e92bd1816fe718e55184ab85910dfcf488432c"
+                "reference": "2d8250638b33d73e7a87add65f47fabf91f8ad9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facebook/php-graph-sdk/zipball/90e92bd1816fe718e55184ab85910dfcf488432c",
-                "reference": "90e92bd1816fe718e55184ab85910dfcf488432c",
+                "url": "https://api.github.com/repos/facebook/php-graph-sdk/zipball/2d8250638b33d73e7a87add65f47fabf91f8ad9b",
+                "reference": "2d8250638b33d73e7a87add65f47fabf91f8ad9b",
                 "shasum": ""
             },
             "require": {
@@ -134,7 +134,7 @@
                 "facebook",
                 "sdk"
             ],
-            "time": "2018-07-03T02:25:00+00:00"
+            "time": "2018-12-11T22:56:31+00:00"
         },
         {
             "name": "hybridauth/hybridauth",
@@ -944,16 +944,16 @@
         },
         {
             "name": "websk/php-utils",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-utils.git",
-                "reference": "e6a4861c8a918fb9953b0c4e46072d765fbd592b"
+                "reference": "7e5136c23902e1433f04ad5d7bf6059d9206ee57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-utils/zipball/e6a4861c8a918fb9953b0c4e46072d765fbd592b",
-                "reference": "e6a4861c8a918fb9953b0c4e46072d765fbd592b",
+                "url": "https://api.github.com/repos/websk/php-utils/zipball/7e5136c23902e1433f04ad5d7bf6059d9206ee57",
+                "reference": "7e5136c23902e1433f04ad5d7bf6059d9206ee57",
                 "shasum": ""
             },
             "require": {
@@ -966,7 +966,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2018-12-10T19:13:25+00:00"
+            "time": "2019-01-13T16:51:35+00:00"
         },
         {
             "name": "websk/php-view",
