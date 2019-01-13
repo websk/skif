@@ -165,9 +165,17 @@ if (!isset($layout_dto)) {
                                 <ul class="nav nav-second-level">
                                     <?php
                                     foreach ($menu_item_arr['sub_menu'] as $sub_menu_item_arr) {
+                                        $target = array_key_exists('target', $sub_menu_item_arr) ? 'target="' . $sub_menu_item_arr['target'] . '""' : '';
                                         ?>
                                         <li>
-                                            <a href="<?php echo $sub_menu_item_arr['link']; ?>"><?php echo $sub_menu_item_arr['name']; ?></a>
+                                            <a href="<?php echo $sub_menu_item_arr['link']; ?>" <?php echo $target; ?>>
+                                                <?php
+                                                if (array_key_exists('icon', $sub_menu_item_arr)) {
+                                                    echo $sub_menu_item_arr['icon'];
+                                                }
+                                                ?>
+                                                <?php echo $sub_menu_item_arr['name']; ?>
+                                            </a>
                                         </li>
                                         <?php
                                     }
