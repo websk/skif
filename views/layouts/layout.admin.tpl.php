@@ -144,28 +144,7 @@ if (!isset($layout_dto)) {
                     <?php
                     $current_url_no_query = Url::getUriNoQueryString();
 
-                    $admin_menu_contents_arr = [];
-
-                    $content_type_ids_arr = ContentUtils::getContentTypeIdsArr();
-
-                    foreach ($content_type_ids_arr as $content_type_id) {
-                        $content_type_obj = ContentType::factory($content_type_id);
-
-                        $icon = '<i class="fa fa-files-o fa-fw"></i>';
-                        if ($content_type_obj->getType() == 'news') {
-                            $icon = '<i class="fa fa-newspaper-o fa-fw"></i>';
-                        }
-
-                        $admin_menu_contents_arr[] = array(
-                            'link' => '/admin/content/' . $content_type_obj->getType(),
-                            'name' => $content_type_obj->getName(),
-                            'icon' => $icon
-                        );
-                    }
-
                     $admin_menu_arr = ConfWrapper::value('admin_menu');
-
-                    $admin_menu_arr = array_merge($admin_menu_contents_arr, $admin_menu_arr);
 
                     foreach ($admin_menu_arr as $menu_item_arr) {
                         $class = ($current_url_no_query == $menu_item_arr['link']) ? ' active' : '';
@@ -186,9 +165,17 @@ if (!isset($layout_dto)) {
                                 <ul class="nav nav-second-level">
                                     <?php
                                     foreach ($menu_item_arr['sub_menu'] as $sub_menu_item_arr) {
+                                        $target = array_key_exists('target', $sub_menu_item_arr) ? 'target="' . $sub_menu_item_arr['target'] . '""' : '';
                                         ?>
                                         <li>
-                                            <a href="<?php echo $sub_menu_item_arr['link']; ?>"><?php echo $sub_menu_item_arr['name']; ?></a>
+                                            <a href="<?php echo $sub_menu_item_arr['link']; ?>" <?php echo $target; ?>>
+                                                <?php
+                                                if (array_key_exists('icon', $sub_menu_item_arr)) {
+                                                    echo $sub_menu_item_arr['icon'];
+                                                }
+                                                ?>
+                                                <?php echo $sub_menu_item_arr['name']; ?>
+                                            </a>
                                         </li>
                                         <?php
                                     }
