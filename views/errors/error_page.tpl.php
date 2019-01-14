@@ -3,7 +3,7 @@
  * @var $error_code
  */
 
-use Websk\Skif\SkifPath;
+use WebSK\Skif\SkifPath;
 use WebSK\Slim\ConfWrapper;
 use WebSK\Utils\HTTP;
 use WebSK\Utils\Url;

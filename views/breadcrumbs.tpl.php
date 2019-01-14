@@ -4,7 +4,7 @@
  */
 
 use WebSK\Views\BreadcrumbItemDTO;
-use Websk\Utils\Assert;
+use WebSK\Utils\Assert;
 use WebSK\Utils\Sanitize;
 
 ?>

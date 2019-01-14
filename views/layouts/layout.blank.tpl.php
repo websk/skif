@@ -5,7 +5,7 @@
  * @var LayoutDTO $layout_dto
  */
 
-use Websk\Skif\SkifPath;
+use WebSK\Skif\SkifPath;
 use WebSK\Views\LayoutDTO;
 
 if (!isset($layout_dto)) {
