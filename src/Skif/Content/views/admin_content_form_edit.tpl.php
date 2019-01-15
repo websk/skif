@@ -98,12 +98,12 @@ if ($content_id == 'new') {
                         ?>
                         <select id="template_id" name="template_id" class="form-control">
                             <option value="0">Шаблон по-умолчанию</option>
-                            <?
+                            <?php
                             foreach ($templates_ids_arr as $template_id) {
                                 $template_obj = \Skif\Content\Template::factory($template_id);
                                 ?>
                                 <option value="<?php echo $template_id; ?>"<?php echo (($content_obj->getTemplateId() == $template_id) ? ' selected' : ''); ?>><?php echo $template_obj->getTitle(); ?></option>
-                            <?
+                            <?php
                             }
                             ?>
                         </select>
