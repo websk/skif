@@ -86,7 +86,7 @@ $requested_role_id = array_key_exists('role_id', $_REQUEST) ? $_REQUEST['role_id
                     </a>
                 </td>
             </tr>
-            <?
+            <?php
         }
         ?>
     </table>

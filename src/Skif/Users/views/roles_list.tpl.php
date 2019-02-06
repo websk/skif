@@ -41,7 +41,7 @@ use Skif\Users\UsersUtils;
                 </a>
             </td>
         </tr>
-    <?
+    <?php
     }
     ?>
 </table>
