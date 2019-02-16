@@ -41,7 +41,7 @@ class SkifApp extends App
     const ROUTE_NAME_ADMIN = 'admin:main';
 
     /**
-     * CoreApp constructor.
+     * SkifApp constructor.
      * @param array $config
      */
     public function __construct($config = [])

@@ -33,7 +33,6 @@ if (!array_key_exists($error_code, $error_messages_arr)) {
 
     <!-- Bootstrap -->
     <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
-    <script src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap/js/bootstrap.min.js'); ?>"></script>
 
     <style>
         html, body {margin: 0; padding: 0 10px;}
