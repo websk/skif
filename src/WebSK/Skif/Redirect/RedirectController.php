@@ -5,7 +5,7 @@ namespace WebSK\Skif\Redirect;
 use WebSK\Cache\CacheWrapper;
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\CRUD\CRUDController;
-use WebSK\Skif\DBWrapper;
+use WebSK\DB\DBWrapper;
 use WebSK\Utils\Url;
 
 /**

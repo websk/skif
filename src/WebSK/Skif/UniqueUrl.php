@@ -3,6 +3,7 @@
 namespace WebSK\Skif;
 
 use WebSK\Config\ConfWrapper;
+use WebSK\DB\DBWrapper;
 
 /**
  * Class UniqueUrl

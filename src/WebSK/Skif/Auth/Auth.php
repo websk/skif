@@ -4,7 +4,7 @@ namespace WebSK\Skif\Auth;
 
 use WebSK\Config\ConfWrapper;
 use WebSK\Slim\Container;
-use WebSK\Skif\DBWrapper;
+use WebSK\DB\DBWrapper;
 use WebSK\Skif\Image\ImageManager;
 use WebSK\Utils\Messages;
 use WebSK\Skif\Users\User;

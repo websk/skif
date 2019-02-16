@@ -2,7 +2,7 @@
 
 namespace WebSK\Model;
 
-use WebSK\Skif\DBWrapper;
+use WebSK\DB\DBWrapper;
 use WebSK\Utils\Assert;
 
 /**

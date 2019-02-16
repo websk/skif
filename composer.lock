@@ -831,16 +831,16 @@
         },
         {
             "name": "websk/php-db",
-            "version": "1.2.2",
+            "version": "1.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-db.git",
-                "reference": "abd922944756fea3717590c504c8638eb32d0f0e"
+                "reference": "a2872b508643e484f79922175fe048249fda1196"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-db/zipball/abd922944756fea3717590c504c8638eb32d0f0e",
-                "reference": "abd922944756fea3717590c504c8638eb32d0f0e",
+                "url": "https://api.github.com/repos/websk/php-db/zipball/a2872b508643e484f79922175fe048249fda1196",
+                "reference": "a2872b508643e484f79922175fe048249fda1196",
                 "shasum": ""
             },
             "require": {
@@ -855,7 +855,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2019-01-18T12:52:39+00:00"
+            "time": "2019-02-16T14:20:39+00:00"
         },
         {
             "name": "websk/php-entity",

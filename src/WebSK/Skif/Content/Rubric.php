@@ -10,7 +10,7 @@ use WebSK\Model\InterfaceDelete;
 use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
-use WebSK\Skif\DBWrapper;
+use WebSK\DB\DBWrapper;
 use WebSK\Skif\UniqueUrl;
 use WebSK\Utils\Transliteration;
 use WebSK\Model\ActiveRecordHelper;

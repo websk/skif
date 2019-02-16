@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif;
 
+use WebSK\DB\DBWrapper;
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\Blocks\BlockRoutes;
 use WebSK\Skif\Comment\CommentRoutes;
@@ -79,12 +80,14 @@ class SkifApp extends App
         UsersRoutes::register($this);
         AuthRoutes::register($this);
 
+        /** Use facade */
         Facade::setFacadeApplication($this);
 
+        /** Set DBWrapper db service */
+        DBWrapper::setDbService($container->get(SkifServiceProvider::SKIF_DB_SERVICE_CONTAINER_ID));
+
         RedirectRoutes::route();
-
         ImageRoutes::routes();
-
         CRUDRoutes::route();
 
         $route_based_crud_arr = $container['settings']['route_based_crud_arr'] ?? [];

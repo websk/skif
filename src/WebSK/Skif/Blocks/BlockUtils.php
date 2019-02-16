@@ -6,7 +6,7 @@ use WebSK\Utils\Network;
 use WebSK\Utils\Filter;
 use WebSK\Slim\Container;
 use WebSK\Cache\CacheWrapper;
-use WebSK\Skif\DBWrapper;
+use WebSK\DB\DBWrapper;
 use WebSK\Skif\Users\UsersServiceProvider;
 
 /**

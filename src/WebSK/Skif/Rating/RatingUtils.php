@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Rating;
 
-use WebSK\Skif\DBWrapper;
+use WebSK\DB\DBWrapper;
 
 class RatingUtils
 {

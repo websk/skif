@@ -300,7 +300,7 @@ class CRUDUtils
             ORDER BY t." . $order_field_name . " DESC
             LIMIT " . intval($page_size) . " OFFSET " . intval($start);
 
-        $objs_ids_arr = \WebSK\Skif\DBWrapper::readColumn(
+        $objs_ids_arr = \WebSK\DB\DBWrapper::readColumn(
             $query,
             $query_param_values_arr
         );

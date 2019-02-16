@@ -5,7 +5,7 @@ namespace WebSK\Skif\Users;
 use WebSK\Skif\Auth\Auth;
 use WebSK\Config\ConfWrapper;
 use WebSK\Slim\Container;
-use WebSK\Skif\DBWrapper;
+use WebSK\DB\DBWrapper;
 use WebSK\Utils\Filters;
 
 /**

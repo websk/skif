@@ -4,7 +4,7 @@ namespace WebSK\Skif\Content;
 
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Logger\Logger;
-use WebSK\Skif\DBWrapper;
+use WebSK\DB\DBWrapper;
 use WebSK\Model\FactoryTrait;
 use WebSK\Model\InterfaceDelete;
 use WebSK\Model\InterfaceFactory;

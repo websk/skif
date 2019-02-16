@@ -3,7 +3,7 @@
 namespace WebSK\Skif\Content;
 
 use WebSK\Cache\CacheWrapper;
-use WebSK\Skif\DBWrapper;
+use WebSK\DB\DBWrapper;
 
 /**
  * Class TemplateUtils

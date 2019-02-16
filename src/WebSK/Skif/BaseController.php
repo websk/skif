@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif;
 
+use WebSK\DB\DBWrapper;
 use WebSK\SimpleRouter\SimpleRouter;
 
 /**

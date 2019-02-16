@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Poll;
 
-use WebSK\Skif\DBWrapper;
+use WebSK\DB\DBWrapper;
 use WebSK\Skif\SkifPhpRender;
 
 /**

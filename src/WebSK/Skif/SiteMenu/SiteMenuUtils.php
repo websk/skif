@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\SiteMenu;
 
-use WebSK\Skif\DBWrapper;
+use WebSK\DB\DBWrapper;
 use WebSK\Utils\Url;
 
 /**
