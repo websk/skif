@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "067fcaca5b8ad8ad122c247b74a40a3e",
+    "content-hash": "deaf1762cf34447b40d0f6085a15f989",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
@@ -885,6 +885,35 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "time": "2019-02-16T13:40:15+00:00"
+        },
+        {
+            "name": "websk/php-model",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/websk/php-model.git",
+                "reference": "cacafeefea033882caf90a883b2f529f27e2badc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/websk/php-model/zipball/cacafeefea033882caf90a883b2f529f27e2badc",
+                "reference": "cacafeefea033882caf90a883b2f529f27e2badc",
+                "shasum": ""
+            },
+            "require": {
+                "websk/php-cache": "1.1.*",
+                "websk/php-config": "1.0.*",
+                "websk/php-db": "1.2.*",
+                "websk/php-utils": "1.0.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2019-02-16T14:41:05+00:00"
         },
         {
             "name": "websk/php-simple-router",
