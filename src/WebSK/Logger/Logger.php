@@ -1,11 +1,11 @@
 <?php
 
-namespace WebSK\Skif\Logger;
+namespace WebSK\Logger;
 
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Slim\Facade;
-use WebSK\Skif\Logger\Entry\LoggerEntry;
-use WebSK\Skif\Logger\Entry\LoggerEntryService;
+use WebSK\Logger\Entry\LoggerEntry;
+use WebSK\Logger\Entry\LoggerEntryService;
 
 /**
  * Class Logger

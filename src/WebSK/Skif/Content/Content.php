@@ -3,12 +3,12 @@
 namespace WebSK\Skif\Content;
 
 use WebSK\Entity\InterfaceEntity;
+use WebSK\Logger\Logger;
 use WebSK\Skif\DBWrapper;
 use WebSK\Model\FactoryTrait;
 use WebSK\Model\InterfaceDelete;
 use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceLoad;
-use WebSK\Model\InterfaceLogger;
 use WebSK\Model\InterfaceSave;
 use WebSK\Skif\UniqueUrl;
 use WebSK\Utils\Filters;
@@ -26,7 +26,6 @@ class Content implements
     InterfaceFactory,
     InterfaceSave,
     InterfaceDelete,
-    InterfaceLogger,
     InterfaceEntity
 {
     use ActiveRecord;
@@ -538,10 +537,27 @@ class Content implements
         }
     }
 
+    /**
+     * @param $id
+     */
+    public static function afterUpdate($id)
+    {
+        $content_obj = self::factory($id);
+
+        Logger::logObjectEventForCurrentUser($content_obj, 'изменение');
+    }
+
     public function beforeDelete()
     {
         $this->deleteContentRubrics();
 
         return true;
+    }
+
+    public function afterDelete()
+    {
+        self::removeObjFromCacheById($this->getId());
+
+        Logger::logObjectEventForCurrentUser($this, 'удаление');
     }
 }

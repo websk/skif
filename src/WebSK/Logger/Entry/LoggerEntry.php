@@ -1,6 +1,6 @@
 <?php
 
-namespace WebSK\Skif\Logger\Entry;
+namespace WebSK\Logger\Entry;
 
 use WebSK\Entity\BaseEntity;
 use WebSK\Entity\ProtectPropertiesTrait;

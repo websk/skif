@@ -1,6 +1,6 @@
 <?php
 
-namespace WebSK\Skif\Logger\RequestHandlers;
+namespace WebSK\Logger\RequestHandlers;
 
 use OLOG\HTML;
 use Psr\Http\Message\ResponseInterface;
@@ -13,13 +13,13 @@ use WebSK\Skif\Users\UsersRoutes;
 use WebSK\Skif\Users\UsersServiceProvider;
 use WebSK\Utils\HTTP;
 use WebSK\Views\BreadcrumbItemDTO;
-use WebSK\Skif\Logger\LoggerConstants;
-use WebSK\Skif\Logger\LoggerRoutes;
-use WebSK\Skif\Logger\LoggerServiceProvider;
+use WebSK\Logger\LoggerConstants;
+use WebSK\Logger\LoggerRoutes;
+use WebSK\Logger\LoggerServiceProvider;
 
 /**
  * Class EntryEditHandler
- * @package WebSK\Skif\Logger\RequestHandlers
+ * @package WebSK\Logger\RequestHandlers
  */
 class EntryEditHandler extends BaseHandler
 {

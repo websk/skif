@@ -3,12 +3,12 @@
 namespace WebSK\Skif\Blocks;
 
 use WebSK\Entity\InterfaceEntity;
+use WebSK\Logger\Logger;
 use WebSK\Model\ActiveRecord;
 use WebSK\Model\FactoryTrait;
 use WebSK\Model\InterfaceDelete;
 use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceLoad;
-use WebSK\Model\InterfaceLogger;
 use WebSK\Model\InterfaceSave;
 use WebSK\Skif\DBWrapper;
 
@@ -21,7 +21,6 @@ class Block implements
     InterfaceFactory,
     InterfaceSave,
     InterfaceDelete,
-    InterfaceLogger,
     InterfaceEntity
 {
     use ActiveRecord;
@@ -268,6 +267,16 @@ class Block implements
         }
     }
 
+    /**
+     * @param $id
+     */
+    public static function afterUpdate($id)
+    {
+        $block_obj = self::factory($id);
+
+        Logger::logObjectEventForCurrentUser($block_obj, 'изменение');
+    }
+
     public function afterDelete()
     {
         $this->deleteBlocksRoles();
@@ -276,5 +285,7 @@ class Block implements
         BlockUtils::clearBlockIdsArrByPageRegionIdCache(self::BLOCK_REGION_NONE, $this->getTemplateId());
 
         self::removeObjFromCacheById($this->getId());
+
+        Logger::logObjectEventForCurrentUser($this, 'удаление');
     }
 }

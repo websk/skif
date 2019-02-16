@@ -1,6 +1,6 @@
 <?php
 
-namespace WebSK\Skif\Logger;
+namespace WebSK\Logger;
 
 use Psr\Container\ContainerInterface;
 use WebSK\Cache\CacheServiceProvider;
@@ -8,13 +8,13 @@ use WebSK\DB\DBConnectorMySQL;
 use WebSK\DB\DBService;
 use WebSK\DB\DBSettings;
 use WebSK\Skif\Auth\AuthServiceProvider;
-use WebSK\Skif\Logger\Entry\LoggerEntry;
-use WebSK\Skif\Logger\Entry\LoggerEntryRepository;
-use WebSK\Skif\Logger\Entry\LoggerEntryService;
+use WebSK\Logger\Entry\LoggerEntry;
+use WebSK\Logger\Entry\LoggerEntryRepository;
+use WebSK\Logger\Entry\LoggerEntryService;
 
 /**
  * Class LoggerServiceProvider
- * @package WebSK\Skif\Logger
+ * @package WebSK\Logger
  */
 class LoggerServiceProvider
 {

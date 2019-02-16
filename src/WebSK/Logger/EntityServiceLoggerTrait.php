@@ -1,6 +1,6 @@
 <?php
 
-namespace WebSK\Skif\Logger;
+namespace WebSK\Logger;
 
 use WebSK\Entity\BaseEntityService;
 use WebSK\Entity\InterfaceEntity;

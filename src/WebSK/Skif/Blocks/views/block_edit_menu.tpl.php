@@ -4,7 +4,7 @@
  */
 
 use WebSK\Skif\Blocks\ControllerBlocks;
-use WebSK\Skif\Logger\LoggerRender;
+use WebSK\Logger\LoggerRender;
 use WebSK\Utils\Url;
 
 $block_obj = ControllerBlocks::getBlockObj($block_id);

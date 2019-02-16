@@ -6,7 +6,7 @@ use WebSK\Skif\Auth\Auth;
 use WebSK\Skif\SkifPhpRender;
 use WebSK\Config\ConfWrapper;
 use WebSK\Skif\DBWrapper;
-use WebSK\Skif\Logger\Logger;
+use WebSK\Logger\Logger;
 use WebSK\Utils\Messages;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;

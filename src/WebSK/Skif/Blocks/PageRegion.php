@@ -2,13 +2,14 @@
 
 namespace WebSK\Skif\Blocks;
 
+use WebSK\Entity\InterfaceEntity;
+use WebSK\Logger\Logger;
 use WebSK\Model\ActiveRecord;
 use WebSK\Model\ActiveRecordHelper;
 use WebSK\Model\FactoryTrait;
 use WebSK\Model\InterfaceDelete;
 use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceLoad;
-use WebSK\Model\InterfaceLogger;
 use WebSK\Model\InterfaceSave;
 use WebSK\Cache\CacheWrapper;
 
@@ -21,7 +22,7 @@ class PageRegion implements
     InterfaceFactory,
     InterfaceSave,
     InterfaceDelete,
-    InterfaceLogger
+    InterfaceEntity
 {
     use ActiveRecord;
     use FactoryTrait;
@@ -132,6 +133,8 @@ class PageRegion implements
         CacheWrapper::delete($cache_key);
 
         self::removeObjFromCacheById($page_region_id);
+
+        Logger::logObjectEventForCurrentUser($page_region_obj, 'изменение');
     }
 
     public function afterDelete()
@@ -143,5 +146,7 @@ class PageRegion implements
         CacheWrapper::delete($cache_key);
 
         self::removeObjFromCacheById($this->getId());
+
+        Logger::logObjectEventForCurrentUser($this, 'удаление');
     }
 }

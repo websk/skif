@@ -2,12 +2,13 @@
 
 namespace WebSK\Skif\Content;
 
+use WebSK\Entity\InterfaceEntity;
+use WebSK\Logger\Logger;
 use WebSK\Model\ActiveRecord;
 use WebSK\Model\FactoryTrait;
 use WebSK\Model\InterfaceDelete;
 use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceLoad;
-use WebSK\Model\InterfaceLogger;
 use WebSK\Model\InterfaceSave;
 use WebSK\Skif\DBWrapper;
 use WebSK\Skif\UniqueUrl;
@@ -24,7 +25,7 @@ class Rubric implements
     InterfaceFactory,
     InterfaceSave,
     InterfaceDelete,
-    InterfaceLogger
+    InterfaceEntity
 {
     use ActiveRecord;
     use FactoryTrait;
@@ -210,6 +211,9 @@ class Rubric implements
         return $unique_new_url;
     }
 
+    /**
+     * @param $id
+     */
     public static function afterUpdate($id)
     {
         $rubric_obj = self::factory($id);
@@ -217,6 +221,8 @@ class Rubric implements
         self::removeObjFromCacheById($id);
 
         ContentType::afterUpdate($rubric_obj->getContentTypeId());
+
+        Logger::logObjectEventForCurrentUser($rubric_obj, 'изменение');
     }
 
     public function afterDelete()
@@ -224,5 +230,7 @@ class Rubric implements
         self::removeObjFromCacheById($this->getId());
 
         ContentType::afterUpdate($this->getContentTypeId());
+
+        Logger::logObjectEventForCurrentUser($this, 'удаление');
     }
 }

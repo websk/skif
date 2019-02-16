@@ -18,7 +18,7 @@ use WebSK\CRUD\Form\Widgets\CRUDFormWidgetTextarea;
 use WebSK\Skif\KeyValue\KeyValue;
 use WebSK\Skif\KeyValue\KeyValueRoutes;
 use WebSK\Skif\KeyValue\KeyValueServiceProvider;
-use WebSK\Skif\Logger\LoggerRender;
+use WebSK\Logger\LoggerRender;
 
 /**
  * Class KeyValueEditHandler

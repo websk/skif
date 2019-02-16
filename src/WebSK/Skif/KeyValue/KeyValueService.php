@@ -4,7 +4,7 @@ namespace WebSK\Skif\KeyValue;
 
 use WebSK\Entity\BaseEntityService;
 use WebSK\Entity\InterfaceEntity;
-use WebSK\Skif\Logger\Logger;
+use WebSK\Logger\Logger;
 
 /**
  * Class KeyValueService

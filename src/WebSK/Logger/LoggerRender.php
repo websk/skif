@@ -1,6 +1,6 @@
 <?php
 
-namespace WebSK\Skif\Logger;
+namespace WebSK\Logger;
 
 use OLOG\FullObjectId;
 use Slim\Interfaces\RouterInterface;

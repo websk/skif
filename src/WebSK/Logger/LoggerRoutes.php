@@ -1,17 +1,17 @@
 <?php
 
-namespace WebSK\Skif\Logger;
+namespace WebSK\Logger;
 
 use Slim\App;
 use WebSK\Skif\Auth\Middleware\CurrentUserIsAdmin;
 use WebSK\Utils\HTTP;
-use WebSK\Skif\Logger\RequestHandlers\EntriesListHandler;
-use WebSK\Skif\Logger\RequestHandlers\EntryEditHandler;
-use WebSK\Skif\Logger\RequestHandlers\ObjectEntriesListHandler;
+use WebSK\Logger\RequestHandlers\EntriesListHandler;
+use WebSK\Logger\RequestHandlers\EntryEditHandler;
+use WebSK\Logger\RequestHandlers\ObjectEntriesListHandler;
 
 /**
  * Class LoggerRoutes
- * @package WebSK\Skif\Logger
+ * @package WebSK\Logger
  */
 class LoggerRoutes
 {

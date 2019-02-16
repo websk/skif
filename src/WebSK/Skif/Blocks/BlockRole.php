@@ -2,12 +2,13 @@
 
 namespace WebSK\Skif\Blocks;
 
+use WebSK\Logger\Logger;
 use WebSK\Model\ActiveRecord;
 use WebSK\Model\FactoryTrait;
 use WebSK\Model\InterfaceDelete;
 use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceLoad;
-use WebSK\Model\InterfaceLogger;
+use WebSK\Entity\InterfaceEntity;
 use WebSK\Model\InterfaceSave;
 
 /**
@@ -19,7 +20,7 @@ class BlockRole implements
     InterfaceFactory,
     InterfaceSave,
     InterfaceDelete,
-    InterfaceLogger
+    InterfaceEntity
 {
     use ActiveRecord;
     use FactoryTrait;
@@ -73,5 +74,21 @@ class BlockRole implements
     public function setRoleId(int $role_id): void
     {
         $this->role_id = $role_id;
+    }
+
+    /**
+     * @param $id
+     */
+    public static function afterUpdate($id)
+    {
+        $block_role_obj = self::factory($id);
+
+        Logger::logObjectEventForCurrentUser($block_role_obj, 'изменение');
+    }
+
+    public function afterDelete()
+    {
+        self::removeObjFromCacheById($this->getId());
+        Logger::logObjectEventForCurrentUser($this, 'удаление');
     }
 }

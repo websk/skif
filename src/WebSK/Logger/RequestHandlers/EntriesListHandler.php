@@ -1,33 +1,34 @@
 <?php
 
-namespace WebSK\Skif\Logger\RequestHandlers;
+namespace WebSK\Logger\RequestHandlers;
 
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Skif\SkifPhpRender;
-use WebSK\Views\LayoutDTO;
 use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Views\LayoutDTO;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\Table\CRUDTable;
 use WebSK\CRUD\Table\CRUDTableColumn;
-use WebSK\CRUD\Table\Filters\CRUDTableFilterEqualInvisible;
+use WebSK\CRUD\Table\Filters\CRUDTableFilterLike;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
-use WebSK\Skif\Logger\Entry\LoggerEntry;
-use WebSK\Skif\Logger\LoggerConstants;
-use WebSK\Skif\Logger\LoggerRoutes;
+use WebSK\Logger\Entry\LoggerEntry;
+use WebSK\Logger\LoggerConstants;
+use WebSK\Logger\LoggerRoutes;
 
-class ObjectEntriesListHandler extends BaseHandler
+class EntriesListHandler extends BaseHandler
 {
     /**
      * @param Request $request
      * @param Response $response
-     * @param string $object_full_id
      * @return ResponseInterface
+     * @throws \Exception
      */
-    public function __invoke(Request $request, Response $response, string $object_full_id): ResponseInterface
+    public function __invoke(Request $request, Response $response): ResponseInterface
     {
         $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
             LoggerEntry::class,
@@ -50,9 +51,11 @@ class ObjectEntriesListHandler extends BaseHandler
                 )
             ],
             [
-                new CRUDTableFilterEqualInvisible('object_full_id', $object_full_id)
+                new CRUDTableFilterLike('38947yt7ywssserkit22uy', 'Object Fullid', LoggerEntry::_OBJECT_FULLID),
             ],
-            'created_at_ts desc'
+            'created_at_ts desc',
+            '8273649529',
+            CRUDTable::FILTERS_POSITION_TOP
         );
 
         $crud_table_response = $crud_table_obj->processRequest($request, $response);
@@ -61,14 +64,10 @@ class ObjectEntriesListHandler extends BaseHandler
         }
 
         $layout_dto = new LayoutDTO();
-        $layout_dto->setTitle($object_full_id);
+        $layout_dto->setTitle('Журналы');
         $layout_dto->setContentHtml($crud_table_obj->html($request));
         $breadcrumbs_arr = [
             new BreadcrumbItemDTO('Главная', LoggerConstants::ADMIN_ROOT_PATH),
-            new BreadcrumbItemDTO(
-                'Журналы',
-                $this->pathFor(LoggerRoutes::ROUTE_NAME_ADMIN_LOGGER_ENTRIES_LIST)
-            ),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 

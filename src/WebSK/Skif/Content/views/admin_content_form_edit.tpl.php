@@ -11,7 +11,7 @@ use WebSK\Skif\Content\Template;
 use WebSK\Skif\Content\TemplateUtils;
 use WebSK\Skif\CKEditor\CKEditor;
 use WebSK\Skif\Image\ImageManager;
-use WebSK\Skif\Logger\LoggerRender;
+use WebSK\Logger\LoggerRender;
 
 $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
 

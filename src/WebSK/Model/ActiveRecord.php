@@ -2,8 +2,6 @@
 
 namespace WebSK\Model;
 
-use WebSK\Entity\InterfaceEntity;
-use WebSK\Skif\Logger\Logger;
 use WebSK\Utils\Assert;
 
 /**
@@ -55,10 +53,6 @@ trait ActiveRecord
             ($this instanceof InterfaceFactory)
         ) {
             $this::afterUpdate($this->getId());
-
-            if (($this instanceof InterfaceLogger) && ($this instanceof InterfaceEntity)) {
-                Logger::logObjectEventForCurrentUser($this, 'изменение');
-            }
         }
     }
 
@@ -111,10 +105,6 @@ trait ActiveRecord
             $this->afterDelete();
         } else {
             ActiveRecordHelper::deleteModelObj($this);
-        }
-
-        if (($this instanceof InterfaceLogger) && ($this instanceof InterfaceEntity)) {
-            Logger::logObjectEventForCurrentUser($this, 'удаление');
         }
 
         return true;
