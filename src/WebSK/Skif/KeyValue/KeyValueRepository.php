@@ -3,13 +3,13 @@
 namespace WebSK\Skif\KeyValue;
 
 use OLOG\Sanitize;
-use WebSK\Entity\BaseEntityRepository;
+use WebSK\Entity\EntityRepository;
 
 /**
  * Class KeyValueRepository
  * @package WebSK\Skif\KeyValue
  */
-class KeyValueRepository extends BaseEntityRepository
+class KeyValueRepository extends EntityRepository
 {
     /**
      * @param string $key

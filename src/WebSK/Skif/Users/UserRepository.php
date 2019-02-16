@@ -2,9 +2,9 @@
 
 namespace WebSK\Skif\Users;
 
-use WebSK\Entity\BaseEntityRepository;
+use WebSK\Entity\EntityRepository;
 
-class UserRepository extends BaseEntityRepository
+class UserRepository extends EntityRepository
 {
 
 }

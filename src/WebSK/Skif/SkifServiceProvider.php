@@ -13,7 +13,7 @@ use WebSK\DB\DBSettings;
  */
 class SkifServiceProvider
 {
-    public const SKIF_DB_SERVICE = 'skif.db_service';
+    public const SKIF_DB_SERVICE_CONTAINER_ID = 'skif.db_service';
     public const DB_ID = 'db_skif';
 
     /**
@@ -25,7 +25,7 @@ class SkifServiceProvider
          * @param ContainerInterface $container
          * @return DBService
          */
-        $container[self::SKIF_DB_SERVICE] = function (ContainerInterface $container) {
+        $container[self::SKIF_DB_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
             $db_config = $container['settings']['db'][self::DB_ID];
 
             $db_connector = new DBConnectorMySQL(

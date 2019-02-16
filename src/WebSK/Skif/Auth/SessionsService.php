@@ -2,13 +2,13 @@
 
 namespace WebSK\Skif\Auth;
 
-use WebSK\Entity\BaseEntityService;
+use WebSK\Entity\EntityService;
 
 /**
  * Class SessionsService
  * @package WebSK\Skif\Auth
  */
-class SessionsService extends BaseEntityService
+class SessionsService extends EntityService
 {
     /** @var SessionsRepository */
     protected $repository;

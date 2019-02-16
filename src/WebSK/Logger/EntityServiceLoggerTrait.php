@@ -2,12 +2,12 @@
 
 namespace WebSK\Logger;
 
-use WebSK\Entity\BaseEntityService;
+use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
 
 /**
  * Trait EntityServiceLoggerTrait
- * @see BaseEntityService
+ * @see EntityService
  * @package VitrinaTV\Logger
  */
 trait EntityServiceLoggerTrait

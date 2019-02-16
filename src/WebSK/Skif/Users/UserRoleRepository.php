@@ -2,10 +2,10 @@
 
 namespace WebSK\Skif\Users;
 
-use WebSK\Entity\BaseEntityRepository;
+use WebSK\Entity\EntityRepository;
 use WebSK\Utils\Sanitize;
 
-class UserRoleRepository extends BaseEntityRepository
+class UserRoleRepository extends EntityRepository
 {
     /**
      * @param int $user_id

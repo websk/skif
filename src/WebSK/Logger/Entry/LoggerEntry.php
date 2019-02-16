@@ -2,10 +2,10 @@
 
 namespace WebSK\Logger\Entry;
 
-use WebSK\Entity\BaseEntity;
+use WebSK\Entity\Entity;
 use WebSK\Entity\ProtectPropertiesTrait;
 
-class LoggerEntry extends BaseEntity
+class LoggerEntry extends Entity
 {
     use ProtectPropertiesTrait;
 

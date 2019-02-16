@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\KeyValue;
 
-use WebSK\Entity\BaseEntityService;
+use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Logger\Logger;
 
@@ -11,7 +11,7 @@ use WebSK\Logger\Logger;
  * @method KeyValue getById($entity_id, $exception_if_not_loaded = true)
  * @package WebSK\Skif\KeyValue
  */
-class KeyValueService extends BaseEntityService
+class KeyValueService extends EntityService
 {
     const OPTIONAL_VALUES_CACHE_TTL_SEC = 60;
 

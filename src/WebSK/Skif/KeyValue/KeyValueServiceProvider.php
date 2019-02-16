@@ -28,7 +28,7 @@ class KeyValueServiceProvider
         $container[KeyValue::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
             return new KeyValueRepository(
                 KeyValue::class,
-                $container->get(SkifServiceProvider::SKIF_DB_SERVICE)
+                $container->get(SkifServiceProvider::SKIF_DB_SERVICE_CONTAINER_ID)
             );
         };
     }

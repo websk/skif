@@ -2,13 +2,13 @@
 
 namespace WebSK\Skif\KeyValue;
 
-use WebSK\Entity\BaseEntity;
+use WebSK\Entity\Entity;
 
 /**
  * Class KeyValue
  * @package WebSK\Skif\KeyValue
  */
-class KeyValue extends BaseEntity
+class KeyValue extends Entity
 {
     const ENTITY_SERVICE_CONTAINER_ID = 'keyvalue.keyvalue_service';
     const ENTITY_REPOSITORY_CONTAINER_ID = 'keyvalue.keyvalue_repository';

@@ -2,13 +2,13 @@
 
 namespace WebSK\Skif\Auth;
 
-use WebSK\Entity\BaseEntity;
+use WebSK\Entity\Entity;
 
 /**
  * Class Sessions
  * @package WebSK\Skif\Auth
  */
-class Sessions extends BaseEntity
+class Sessions extends Entity
 {
     const ENTITY_SERVICE_CONTAINER_ID = 'auth.sessions_service';
     const ENTITY_REPOSITORY_CONTAINER_ID = 'auth.sessions_repository';

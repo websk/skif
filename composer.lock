@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "067fcaca5b8ad8ad122c247b74a40a3e",
@@ -859,16 +859,16 @@
         },
         {
             "name": "websk/php-entity",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-entity.git",
-                "reference": "8082beee5ecbc5a24f36593db46d37afcae79ee3"
+                "reference": "4c95844d7555407b695b4ead85b3495f0e3c0155"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-entity/zipball/8082beee5ecbc5a24f36593db46d37afcae79ee3",
-                "reference": "8082beee5ecbc5a24f36593db46d37afcae79ee3",
+                "url": "https://api.github.com/repos/websk/php-entity/zipball/4c95844d7555407b695b4ead85b3495f0e3c0155",
+                "reference": "4c95844d7555407b695b4ead85b3495f0e3c0155",
                 "shasum": ""
             },
             "require": {
@@ -884,7 +884,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2018-12-12T11:12:31+00:00"
+            "time": "2019-02-16T13:40:15+00:00"
         },
         {
             "name": "websk/php-simple-router",

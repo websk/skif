@@ -2,13 +2,13 @@
 
 namespace WebSK\Skif\Users;
 
-use WebSK\Entity\BaseEntity;
+use WebSK\Entity\Entity;
 
 /**
  * Class User
  * @package WebSK\Skif\Users
  */
-class User extends BaseEntity
+class User extends Entity
 {
     const ENTITY_SERVICE_CONTAINER_ID = 'users.user_service';
     const ENTITY_REPOSITORY_CONTAINER_ID = 'users.user_repository';

@@ -2,13 +2,13 @@
 
 namespace WebSK\Skif\Users;
 
-use WebSK\Entity\BaseEntity;
+use WebSK\Entity\Entity;
 
 /**
  * Class Role
  * @package WebSK\Skif\Users
  */
-class Role extends BaseEntity
+class Role extends Entity
 {
     const ENTITY_SERVICE_CONTAINER_ID = 'users.role_service';
     const ENTITY_REPOSITORY_CONTAINER_ID = 'users.role_repository';

@@ -49,7 +49,7 @@ class AuthServiceProvider
         $container[Sessions::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
             return new SessionsRepository(
                 Sessions::class,
-                $container->get(SkifServiceProvider::SKIF_DB_SERVICE)
+                $container->get(SkifServiceProvider::SKIF_DB_SERVICE_CONTAINER_ID)
             );
         };
     }

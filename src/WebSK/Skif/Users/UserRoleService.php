@@ -2,14 +2,14 @@
 
 namespace WebSK\Skif\Users;
 
-use WebSK\Entity\BaseEntityService;
+use WebSK\Entity\EntityService;
 
 /**
  * Class UserRoleService
  * @method UserRole getById($entity_id, $exception_if_not_loaded = true)
  * @package WebSK\Skif\Users
  */
-class UserRoleService extends BaseEntityService
+class UserRoleService extends EntityService
 {
     /** @var UserRoleRepository */
     protected $repository;

@@ -5,8 +5,8 @@ namespace WebSK\Skif\Users;
 use WebSK\Skif\Image\ImageConstants;
 use WebSK\Skif\Image\ImageManager;
 use WebSK\Cache\CacheService;
-use WebSK\Entity\BaseEntityRepository;
-use WebSK\Entity\BaseEntityService;
+use WebSK\Entity\EntityRepository;
+use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Config\ConfWrapper;
 
@@ -15,7 +15,7 @@ use WebSK\Config\ConfWrapper;
  * @method User getById($entity_id, $exception_if_not_loaded = true)
  * @package WebSK\Skif\Users
  */
-class UserService extends BaseEntityService
+class UserService extends EntityService
 {
     /** @var RoleService */
     protected $role_service;
@@ -25,7 +25,7 @@ class UserService extends BaseEntityService
 
     public function __construct(
         string $entity_class_name,
-        BaseEntityRepository $repository,
+        EntityRepository $repository,
         CacheService $cache_service,
         RoleService $role_service,
         UserRoleService $user_role_service

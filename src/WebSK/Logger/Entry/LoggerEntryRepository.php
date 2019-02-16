@@ -3,9 +3,9 @@
 namespace WebSK\Logger\Entry;
 
 use OLOG\Sanitize;
-use WebSK\Entity\BaseEntityRepository;
+use WebSK\Entity\EntityRepository;
 
-class LoggerEntryRepository extends BaseEntityRepository
+class LoggerEntryRepository extends EntityRepository
 {
     /**
      * @param int $current_entry_id

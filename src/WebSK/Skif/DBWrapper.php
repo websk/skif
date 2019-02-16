@@ -19,7 +19,7 @@ class DBWrapper
         $container = Container::self();
 
         /** @var DBService $db_service */
-        return $container->get(SkifServiceProvider::SKIF_DB_SERVICE);
+        return $container->get(SkifServiceProvider::SKIF_DB_SERVICE_CONTAINER_ID);
     }
 
     /**

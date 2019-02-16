@@ -5,8 +5,8 @@ namespace WebSK\Logger\Entry;
 use OLOG\FullObjectId;
 use OLOG\IP;
 use WebSK\Cache\CacheService;
-use WebSK\Entity\BaseEntityRepository;
-use WebSK\Entity\BaseEntityService;
+use WebSK\Entity\EntityRepository;
+use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Skif\Auth\AuthService;
 
@@ -15,7 +15,7 @@ use WebSK\Skif\Auth\AuthService;
  * @package VitrinaTV\Logger\Entry
  * @method LoggerEntry getById($entity_id, $exception_if_not_loaded = true)
  */
-class LoggerEntryService extends BaseEntityService
+class LoggerEntryService extends EntityService
 {
     /** @var LoggerEntryRepository */
     protected $repository;
@@ -26,13 +26,13 @@ class LoggerEntryService extends BaseEntityService
     /**
      * LoggerEntryService constructor.
      * @param string $entity_class_name
-     * @param BaseEntityRepository $repository
+     * @param EntityRepository $repository
      * @param CacheService $cache_service
      * @param AuthService $auth_service
      */
     public function __construct(
         string $entity_class_name,
-        BaseEntityRepository $repository,
+        EntityRepository $repository,
         CacheService $cache_service,
         AuthService $auth_service
     ) {
