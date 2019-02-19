@@ -4,8 +4,8 @@ namespace WebSK\Skif;
 
 use Psr\Http\Message\ResponseInterface;
 use Slim\Views\PhpRenderer;
-use WebSK\Skif\Auth\Auth;
-use WebSK\Skif\Users\UsersServiceProvider;
+use WebSK\Auth\Auth;
+use WebSK\Auth\Users\UsersServiceProvider;
 use WebSK\Config\ConfWrapper;
 use WebSK\Slim\Container;
 use WebSK\Slim\Request;

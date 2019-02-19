@@ -12,7 +12,7 @@ use WebSK\Skif\Image\ImageController;
 use WebSK\Skif\Image\ImageManager;
 use WebSK\Utils\Messages;
 use WebSK\SimpleRouter\Sitemap\InterfaceSitemapController;
-use WebSK\Skif\Auth\Auth;
+use WebSK\Auth\Auth;
 use WebSK\Utils\Assert;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;

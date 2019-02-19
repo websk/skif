@@ -7,7 +7,7 @@ use WebSK\Cache\CacheServiceProvider;
 use WebSK\DB\DBConnectorMySQL;
 use WebSK\DB\DBService;
 use WebSK\DB\DBSettings;
-use WebSK\Skif\Auth\AuthServiceProvider;
+use WebSK\Auth\AuthServiceProvider;
 use WebSK\Logger\Entry\LoggerEntry;
 use WebSK\Logger\Entry\LoggerEntryRepository;
 use WebSK\Logger\Entry\LoggerEntryService;

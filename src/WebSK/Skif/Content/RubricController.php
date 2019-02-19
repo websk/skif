@@ -4,7 +4,7 @@ namespace WebSK\Skif\Content;
 
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\BaseController;
-use WebSK\Skif\Auth\Auth;
+use WebSK\Auth\Auth;
 use WebSK\Skif\UniqueUrl;
 use WebSK\Utils\Messages;
 use WebSK\Skif\SkifPhpRender;

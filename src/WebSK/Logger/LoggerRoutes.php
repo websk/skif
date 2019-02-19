@@ -3,7 +3,7 @@
 namespace WebSK\Logger;
 
 use Slim\App;
-use WebSK\Skif\Auth\Middleware\CurrentUserIsAdmin;
+use WebSK\Auth\Middleware\CurrentUserIsAdmin;
 use WebSK\Utils\HTTP;
 use WebSK\Logger\RequestHandlers\EntriesListHandler;
 use WebSK\Logger\RequestHandlers\EntryEditHandler;

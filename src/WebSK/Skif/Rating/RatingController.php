@@ -3,7 +3,7 @@
 namespace WebSK\Skif\Rating;
 
 use WebSK\Skif\CRUD\CRUDController;
-use WebSK\Skif\Auth\Auth;
+use WebSK\Auth\Auth;
 
 class RatingController extends CRUDController
 {

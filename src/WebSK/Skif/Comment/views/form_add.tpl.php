@@ -3,11 +3,11 @@
  * @var $url
  */
 
-use WebSK\Skif\Auth\AuthRoutes;
+use WebSK\Auth\AuthRoutes;
 use WebSK\Skif\Captcha\CaptchaRoutes;
 use WebSK\Config\ConfWrapper;
 use WebSK\Slim\Router;
-use WebSK\Skif\Auth\Auth;
+use WebSK\Auth\Auth;
 
 $user_name = '';
 $user_email = '';

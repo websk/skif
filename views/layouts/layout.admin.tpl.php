@@ -6,9 +6,9 @@
  * @var LayoutDTO $layout_dto
  */
 
-use WebSK\Skif\Auth\AuthRoutes;
+use WebSK\Auth\AuthRoutes;
 use WebSK\Skif\SkifApp;
-use WebSK\Skif\Users\UsersRoutes;
+use WebSK\Auth\Users\UsersRoutes;
 use WebSK\Slim\ConfWrapper;
 use WebSK\Skif\Content\ContentType;
 use WebSK\Skif\Content\ContentUtils;
@@ -18,8 +18,8 @@ use WebSK\Views\LayoutDTO;
 use WebSK\Utils\Messages;
 use WebSK\Skif\SkifPath;
 use WebSK\Skif\SkifPhpRender;
-use WebSK\Skif\Auth\Auth;
-use WebSK\Skif\Users\UsersUtils;
+use WebSK\Auth\Auth;
+use WebSK\Auth\Users\UsersUtils;
 use WebSK\Utils\Url;
 
 $user_id = Auth::getCurrentUserId();

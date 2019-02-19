@@ -12,10 +12,10 @@ use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceGetTitle;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
-use WebSK\Skif\Auth\Auth;
+use WebSK\Auth\Auth;
 use WebSK\Config\ConfWrapper;
 use WebSK\Slim\Container;
-use WebSK\Skif\Users\UsersServiceProvider;
+use WebSK\Auth\Users\UsersServiceProvider;
 use WebSK\Utils\Assert;
 use WebSK\Utils\Filters;
 

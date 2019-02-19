@@ -3,7 +3,7 @@
 namespace WebSK\Skif\RequestHandlers;
 
 use WebSK\Config\ConfWrapper;
-use WebSK\Skif\Auth\Auth;
+use WebSK\Auth\Auth;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Views\PhpRender;

@@ -8,7 +8,7 @@ use WebSK\Cache\CacheService;
 use WebSK\Entity\EntityRepository;
 use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
-use WebSK\Skif\Auth\AuthService;
+use WebSK\Auth\AuthService;
 
 /**
  * Class EntryService

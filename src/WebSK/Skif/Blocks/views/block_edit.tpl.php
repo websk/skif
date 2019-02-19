@@ -7,8 +7,8 @@ use WebSK\Skif\Blocks\BlockUtils;
 use WebSK\Skif\Blocks\ControllerBlocks;
 use WebSK\Skif\SkifPhpRender;
 use WebSK\Slim\Container;
-use WebSK\Skif\Users\UsersServiceProvider;
-use WebSK\Skif\Users\UsersUtils;
+use WebSK\Auth\Users\UsersServiceProvider;
+use WebSK\Auth\Users\UsersUtils;
 use WebSK\Skif\SkifPath;
 
 $block_obj = ControllerBlocks::getBlockObj($block_id);

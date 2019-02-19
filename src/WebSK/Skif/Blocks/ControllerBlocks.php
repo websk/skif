@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Blocks;
 
-use WebSK\Skif\Auth\Auth;
+use WebSK\Auth\Auth;
 use WebSK\Skif\SkifPhpRender;
 use WebSK\Config\ConfWrapper;
 use WebSK\DB\DBWrapper;

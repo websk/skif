@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\SiteMenu;
 
-use WebSK\Skif\Auth\Auth;
+use WebSK\Auth\Auth;
 use WebSK\Utils\Messages;
 use WebSK\Skif\SkifPhpRender;
 use WebSK\Config\ConfWrapper;

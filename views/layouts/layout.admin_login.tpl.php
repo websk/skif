@@ -3,7 +3,7 @@
  *
  */
 
-use WebSK\Skif\Auth\AuthRoutes;
+use WebSK\Auth\AuthRoutes;
 use WebSK\Skif\SkifApp;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\Router;

@@ -3,7 +3,7 @@
 namespace WebSK\Skif\KeyValue;
 
 use Slim\App;
-use WebSK\Skif\Auth\Middleware\CurrentUserIsAdmin;
+use WebSK\Auth\Middleware\CurrentUserIsAdmin;
 use WebSK\Utils\HTTP;
 use WebSK\Skif\KeyValue\RequestHandlers\KeyValueEditHandler;
 use WebSK\Skif\KeyValue\RequestHandlers\KeyValueListHandler;

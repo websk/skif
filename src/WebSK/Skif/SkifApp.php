@@ -10,13 +10,13 @@ use WebSK\Skif\Content\ContentRoutes;
 use WebSK\Skif\CRUD\CRUDRoutes;
 use WebSK\Skif\Form\FormRoutes;
 use WebSK\Cache\CacheServiceProvider;
-use WebSK\Skif\Auth\AuthServiceProvider;
+use WebSK\Auth\AuthServiceProvider;
 use WebSK\Skif\Image\ImageRoutes;
 use WebSK\Skif\Poll\PollRoutes;
 use WebSK\Skif\Rating\RatingRoutes;
 use WebSK\Skif\Redirect\RedirectRoutes;
 use WebSK\Skif\SiteMenu\SiteMenuRoutes;
-use WebSK\Skif\Auth\AuthRoutes;
+use WebSK\Auth\AuthRoutes;
 use Slim\App;
 use Slim\Handlers\Strategies\RequestResponseArgs;
 use WebSK\CRUD\CRUDServiceProvider;
@@ -28,8 +28,8 @@ use WebSK\Logger\LoggerServiceProvider;
 use WebSK\Skif\RequestHandlers\AdminHandler;
 use WebSK\Skif\RequestHandlers\ErrorHandler;
 use WebSK\Skif\RequestHandlers\NotFoundHandler;
-use WebSK\Skif\Users\UsersRoutes;
-use WebSK\Skif\Users\UsersServiceProvider;
+use WebSK\Auth\Users\UsersRoutes;
+use WebSK\Auth\Users\UsersServiceProvider;
 use WebSK\Slim\Facade;
 
 /**

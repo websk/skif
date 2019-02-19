@@ -7,7 +7,7 @@ use WebSK\Utils\Filter;
 use WebSK\Slim\Container;
 use WebSK\Cache\CacheWrapper;
 use WebSK\DB\DBWrapper;
-use WebSK\Skif\Users\UsersServiceProvider;
+use WebSK\Auth\Users\UsersServiceProvider;
 
 /**
  * Class BlockUtils

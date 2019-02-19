@@ -4,7 +4,7 @@
  * @var $url
  */
 
-use WebSK\Skif\Auth\Auth;
+use WebSK\Auth\Auth;
 use WebSK\Skif\Comment\Comment;
 use WebSK\Skif\Comment\CommentController;
 

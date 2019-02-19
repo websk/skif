@@ -8,8 +8,8 @@
  */
 
 use WebSK\Slim\Container;
-use WebSK\Skif\Users\UsersServiceProvider;
-use WebSK\Skif\Users\UsersUtils;
+use WebSK\Auth\Users\UsersServiceProvider;
+use WebSK\Auth\Users\UsersUtils;
 
 if (!isset($disabled)) {
     $disabled = false;

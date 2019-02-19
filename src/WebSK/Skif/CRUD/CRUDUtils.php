@@ -5,7 +5,7 @@ namespace WebSK\Skif\CRUD;
 use WebSK\Skif\Pager;
 use WebSK\Model\Helper;
 use WebSK\Model\InterfaceLoad;
-use WebSK\Skif\Auth\Auth;
+use WebSK\Auth\Auth;
 use WebSK\Utils\Assert;
 use WebSK\Utils\Url;
 

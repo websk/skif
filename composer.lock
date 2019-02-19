@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "content-hash": "deaf1762cf34447b40d0f6085a15f989",
@@ -1000,19 +1000,20 @@
         },
         {
             "name": "websk/php-view",
-            "version": "1.0.6",
+            "version": "1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-view.git",
-                "reference": "e4958dc1068aaf9d6bd9b52352969914796aa929"
+                "reference": "59c917663eea071bbdc179240c1732f5f52345f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-view/zipball/e4958dc1068aaf9d6bd9b52352969914796aa929",
-                "reference": "e4958dc1068aaf9d6bd9b52352969914796aa929",
+                "url": "https://api.github.com/repos/websk/php-view/zipball/59c917663eea071bbdc179240c1732f5f52345f5",
+                "reference": "59c917663eea071bbdc179240c1732f5f52345f5",
                 "shasum": ""
             },
             "require": {
+                "ext-mbstring": "*",
                 "psr/container": "^1.0",
                 "websk/php-config": "1.0.*",
                 "websk/php-slim": "1.0.*",
@@ -1025,7 +1026,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2018-12-10T19:27:10+00:00"
+            "time": "2019-02-19T07:57:00+00:00"
         }
     ],
     "packages-dev": [],
