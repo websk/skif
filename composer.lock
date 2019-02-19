@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1af9890ebbb359aacceada3618b346b0",
+    "content-hash": "925a9bc869401e07c4c55ea18904d3d4",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
@@ -745,6 +745,42 @@
                 "router"
             ],
             "time": "2019-01-15T13:21:25+00:00"
+        },
+        {
+            "name": "websk/php-auth",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/websk/php-auth.git",
+                "reference": "74c252b6382919a9264e4f24f74bd4128e9cb16d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/websk/php-auth/zipball/74c252b6382919a9264e4f24f74bd4128e9cb16d",
+                "reference": "74c252b6382919a9264e4f24f74bd4128e9cb16d",
+                "shasum": ""
+            },
+            "require": {
+                "hybridauth/hybridauth": "2.9.*",
+                "phpmailer/phpmailer": "5.2.*",
+                "slim/slim": "^3.0",
+                "websk/php-captcha": "1.0.*",
+                "websk/php-config": "1.0.*",
+                "websk/php-db": "1.2.*",
+                "websk/php-entity": "1.0.*",
+                "websk/php-imagemanager": "1.0.*",
+                "websk/php-slim": "1.0.*",
+                "websk/php-utils": "1.0.*",
+                "websk/php-view": "1.0.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2019-02-19T14:47:37+00:00"
         },
         {
             "name": "websk/php-cache",
