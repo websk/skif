@@ -5,7 +5,7 @@ namespace WebSK\Logger\RequestHandlers;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use WebSK\Skif\SkifPhpRender;
+use WebSK\Config\ConfWrapper;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\BreadcrumbItemDTO;
@@ -19,6 +19,7 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
 use WebSK\Logger\Entry\LoggerEntry;
 use WebSK\Logger\LoggerConstants;
 use WebSK\Logger\LoggerRoutes;
+use WebSK\Views\PhpRender;
 
 class EntriesListHandler extends BaseHandler
 {
@@ -71,6 +72,6 @@ class EntriesListHandler extends BaseHandler
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 
-        return SkifPhpRender::renderLayout($response, $layout_dto);
+        return PhpRender::renderLayout($response, ConfWrapper::value('layout.admin'), $layout_dto);
     }
 }

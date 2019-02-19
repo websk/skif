@@ -6,7 +6,7 @@ use OLOG\HTML;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use WebSK\Skif\SkifPhpRender;
+use WebSK\Config\ConfWrapper;
 use WebSK\Views\LayoutDTO;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Auth\Users\UsersRoutes;
@@ -16,6 +16,7 @@ use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Logger\LoggerConstants;
 use WebSK\Logger\LoggerRoutes;
 use WebSK\Logger\LoggerServiceProvider;
+use WebSK\Views\PhpRender;
 
 /**
  * Class EntryEditHandler
@@ -60,7 +61,7 @@ class EntryEditHandler extends BaseHandler
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 
-        return SkifPhpRender::renderLayout($response, $layout_dto);
+        return PhpRender::renderLayout($response, ConfWrapper::value('layout.admin'), $layout_dto);
     }
 
     /**
