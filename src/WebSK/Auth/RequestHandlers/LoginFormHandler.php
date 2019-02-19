@@ -7,13 +7,14 @@ use Slim\Http\Response;
 use WebSK\Config\ConfWrapper;
 use WebSK\Auth\Auth;
 use WebSK\Auth\Users\UsersRoutes;
+use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Views\PhpRender;
 
 /**
  * Class LoginFormHandler
  * @package WebSK\Auth\RequestHandlers
  */
-class LoginFormHandler extends \WebSK\Slim\RequestHandlers\BaseHandler
+class LoginFormHandler extends BaseHandler
 {
     /**
      * @param Request $request

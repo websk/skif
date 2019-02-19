@@ -2,8 +2,8 @@
 
 namespace WebSK\Auth\Users\RequestHandlers;
 
-use WebSK\Skif\Image\ImageConstants;
-use WebSK\Skif\Image\ImageController;
+use WebSK\Image\ImageConstants;
+use WebSK\Image\ImageController;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Utils\Messages;

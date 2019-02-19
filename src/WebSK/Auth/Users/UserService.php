@@ -2,8 +2,8 @@
 
 namespace WebSK\Auth\Users;
 
-use WebSK\Skif\Image\ImageConstants;
-use WebSK\Skif\Image\ImageManager;
+use WebSK\Image\ImageConstants;
+use WebSK\Image\ImageManager;
 use WebSK\Cache\CacheService;
 use WebSK\Entity\EntityRepository;
 use WebSK\Entity\EntityService;

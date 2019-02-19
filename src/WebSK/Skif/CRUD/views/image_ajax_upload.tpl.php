@@ -4,7 +4,7 @@
  * @var $field_value string
  */
 
-use WebSK\Skif\Image\ImageManager;
+use WebSK\Image\ImageManager;
 
 ?>
 

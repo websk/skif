@@ -5,7 +5,7 @@ namespace WebSK\Auth;
 use WebSK\Config\ConfWrapper;
 use WebSK\Slim\Container;
 use WebSK\DB\DBWrapper;
-use WebSK\Skif\Image\ImageManager;
+use WebSK\Image\ImageManager;
 use WebSK\Utils\Messages;
 use WebSK\Auth\Users\User;
 use WebSK\Auth\Users\UserRole;

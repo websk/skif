@@ -5,7 +5,7 @@
  * @var string $save_handler_url
  */
 
-use WebSK\Skif\Image\ImageManager;
+use WebSK\Image\ImageManager;
 use WebSK\Slim\Router;
 use WebSK\Auth\Auth;
 use WebSK\Auth\Users\User;

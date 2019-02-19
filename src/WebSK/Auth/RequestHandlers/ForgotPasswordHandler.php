@@ -5,7 +5,7 @@ namespace WebSK\Auth\RequestHandlers;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Auth\AuthRoutes;
-use WebSK\Skif\Captcha\Captcha;
+use WebSK\Captcha\Captcha;
 use WebSK\Utils\Messages;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Auth\Users\UsersUtils;
@@ -14,7 +14,7 @@ use WebSK\Auth\Users\UsersUtils;
  * Class ForgotPasswordHandler
  * @package WebSK\Auth\RequestHandlers
  */
-class ForgotPasswordHandler extends \WebSK\Slim\RequestHandlers\BaseHandler
+class ForgotPasswordHandler extends BaseHandler
 {
     /**
      * @param Request $request

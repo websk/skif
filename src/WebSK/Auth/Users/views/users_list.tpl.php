@@ -3,7 +3,7 @@
  *
  */
 
-use WebSK\Skif\Image\ImageManager;
+use WebSK\Image\ImageManager;
 use WebSK\Logger\LoggerRender;
 use WebSK\Slim\Request;
 use WebSK\Slim\Router;

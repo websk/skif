@@ -3,7 +3,7 @@
 namespace WebSK\Skif\Comment;
 
 use WebSK\Skif\CRUD\CRUDController;
-use WebSK\Skif\Captcha\Captcha;
+use WebSK\Captcha\Captcha;
 use WebSK\Utils\Messages;
 use WebSK\Skif\SkifPhpRender;
 use WebSK\Utils\Exits;

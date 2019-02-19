@@ -11,7 +11,7 @@ use WebSK\Auth\Auth;
  * Class LogoutHandler
  * @package WebSK\Auth\RequestHandlers
  */
-class LogoutHandler extends \WebSK\Slim\RequestHandlers\BaseHandler
+class LogoutHandler extends BaseHandler
 {
     /**
      * @param Request $request

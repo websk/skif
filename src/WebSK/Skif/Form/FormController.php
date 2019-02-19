@@ -4,7 +4,7 @@ namespace WebSK\Skif\Form;
 
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Auth\Auth;
-use WebSK\Skif\Captcha\Captcha;
+use WebSK\Captcha\Captcha;
 use WebSK\Skif\CRUD\CRUDController;
 use WebSK\Utils\Messages;
 use WebSK\Skif\SkifPhpRender;

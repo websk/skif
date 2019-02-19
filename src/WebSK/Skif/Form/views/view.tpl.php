@@ -7,7 +7,7 @@ use WebSK\Skif\Form\Form;
 use WebSK\Skif\Form\FormController;
 use WebSK\Skif\Form\FormField;
 use WebSK\Auth\Auth;
-use WebSK\Skif\Captcha\CaptchaRoutes;
+use WebSK\Captcha\CaptchaRoutes;
 use WebSK\Slim\Container;
 use WebSK\Slim\Router;
 use WebSK\Auth\Users\UsersServiceProvider;

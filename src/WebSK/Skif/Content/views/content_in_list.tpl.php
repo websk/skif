@@ -5,7 +5,7 @@
 
 use WebSK\Skif\Content\Content;
 use WebSK\Skif\Content\ContentUtils;
-use WebSK\Skif\Image\ImageManager;
+use WebSK\Image\ImageManager;
 
 $content_obj = Content::factory($content_id);
 ?>

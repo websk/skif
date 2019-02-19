@@ -13,7 +13,7 @@ use WebSK\Auth\Users\UsersUtils;
  * Class SocialLoginHandler
  * @package WebSK\Auth\RequestHandlers
  */
-class SocialLoginHandler extends \WebSK\Slim\RequestHandlers\BaseHandler
+class SocialLoginHandler extends BaseHandler
 {
     public function __invoke(Request $request, Response $response, string $provider_name)
     {
