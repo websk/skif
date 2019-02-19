@@ -17,7 +17,7 @@ class AuthServiceProvider
 {
     const AUTH_SERVICE_CONTAINER_ID = 'auth_service_container_id';
     const DB_SERVICE_CONTAINER_ID = 'auth.db_service';
-    const DB_ID = 'db_id';
+    const DB_ID = 'db_auth';
 
     /**
      * @param ContainerInterface $container
@@ -29,7 +29,7 @@ class AuthServiceProvider
          * @return DBService
          */
         $container[AuthServiceProvider::DB_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
-            $db_config = $container['settings']['db'][AuthServiceProvider::DB_ID];
+            $db_config = $container['settings']['db'][self::DB_ID];
 
             $db_connector = new DBConnectorMySQL(
                 $db_config['host'],
