@@ -3,7 +3,6 @@
 namespace WebSK\Skif\KeyValue;
 
 use Slim\App;
-use WebSK\Auth\Middleware\CurrentUserIsAdmin;
 use WebSK\Utils\HTTP;
 use WebSK\Skif\KeyValue\RequestHandlers\KeyValueEditHandler;
 use WebSK\Skif\KeyValue\RequestHandlers\KeyValueListHandler;
@@ -27,6 +26,6 @@ class KeyValueRoutes
 
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/{keyvalue_id:\d+}', KeyValueEditHandler::class)
                 ->setName(KeyValueEditHandler::class);
-        })->add(new CurrentUserIsAdmin());
+        });
     }
 }

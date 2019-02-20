@@ -3,7 +3,6 @@
   "description": "Skif Admin",
   "homepage": "https://websk.ru/",
   "require": {
-    "ext-gd": "*",
     "ext-mbstring": "*",
     "ext-pdo": "*",
     "slim/slim": "^3.0",
@@ -14,6 +13,7 @@
     "websk/php-config": "1.0.*",
     "websk/php-db": "1.2.*",
     "websk/php-imagemanager": "1.0.*",
+    "websk/php-logger": "1.0.*",
     "websk/php-model": "1.0.*",
     "websk/php-utils": "1.0.*",
     "websk/php-entity": "1.0.*",
@@ -21,7 +21,6 @@
     "websk/php-slim": "1.0.*",
     "websk/php-view": "1.0.*",
     "websk/php-simple-router": "1.0.*",
-    "imagine/imagine": "0.6.3",
     "ckeditor/ckeditor": "4.7.*",
     "phpmailer/phpmailer": "5.2.*"
   },

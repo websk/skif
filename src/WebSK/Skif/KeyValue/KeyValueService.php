@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif\KeyValue;
 
+use WebSK\Auth\Auth;
 use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Logger\Logger;
@@ -76,9 +77,10 @@ class KeyValueService extends EntityService
         $cache_key = $this->getOptionalValueForKeyCacheKey($key_value_obj->getName());
         $this->cache_service->delete($cache_key);
 
-        Logger::logObjectEventForCurrentUser(
+        Logger::logObjectEvent(
             $key_value_obj,
-            'save'
+            'save',
+            Auth::getCurrentUserId()
         );
     }
 
@@ -92,9 +94,10 @@ class KeyValueService extends EntityService
         $cache_key = $this->getOptionalValueForKeyCacheKey($key_value_obj->getName());
         $this->cache_service->delete($cache_key);
 
-        Logger::logObjectEventForCurrentUser(
+        Logger::logObjectEvent(
             $key_value_obj,
-            'delete'
+            'delete',
+            Auth::getCurrentUserId()
         );
     }
 }

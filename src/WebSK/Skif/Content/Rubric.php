@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif\Content;
 
+use WebSK\Auth\Auth;
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Logger\Logger;
 use WebSK\Model\ActiveRecord;
@@ -222,7 +223,7 @@ class Rubric implements
 
         ContentType::afterUpdate($rubric_obj->getContentTypeId());
 
-        Logger::logObjectEventForCurrentUser($rubric_obj, 'изменение');
+        Logger::logObjectEvent($rubric_obj, 'изменение', Auth::getCurrentUserId());
     }
 
     public function afterDelete()
@@ -231,6 +232,6 @@ class Rubric implements
 
         ContentType::afterUpdate($this->getContentTypeId());
 
-        Logger::logObjectEventForCurrentUser($this, 'удаление');
+        Logger::logObjectEvent($this, 'удаление', Auth::getCurrentUserId());
     }
 }

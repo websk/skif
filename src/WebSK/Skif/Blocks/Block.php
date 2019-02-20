@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif\Blocks;
 
+use WebSK\Auth\Auth;
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Logger\Logger;
 use WebSK\Model\ActiveRecord;
@@ -274,7 +275,7 @@ class Block implements
     {
         $block_obj = self::factory($id);
 
-        Logger::logObjectEventForCurrentUser($block_obj, 'изменение');
+        Logger::logObjectEvent($block_obj, 'изменение', Auth::getCurrentUserId());
     }
 
     public function afterDelete()
@@ -286,6 +287,6 @@ class Block implements
 
         self::removeObjFromCacheById($this->getId());
 
-        Logger::logObjectEventForCurrentUser($this, 'удаление');
+        Logger::logObjectEvent($this, 'удаление', Auth::getCurrentUserId());
     }
 }

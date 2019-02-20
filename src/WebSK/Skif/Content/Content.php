@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif\Content;
 
+use WebSK\Auth\Auth;
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Logger\Logger;
 use WebSK\DB\DBWrapper;
@@ -544,7 +545,7 @@ class Content implements
     {
         $content_obj = self::factory($id);
 
-        Logger::logObjectEventForCurrentUser($content_obj, 'изменение');
+        Logger::logObjectEvent($content_obj, 'изменение', Auth::getCurrentUserId());
     }
 
     public function beforeDelete()
@@ -558,6 +559,6 @@ class Content implements
     {
         self::removeObjFromCacheById($this->getId());
 
-        Logger::logObjectEventForCurrentUser($this, 'удаление');
+        Logger::logObjectEvent($this, 'удаление', Auth::getCurrentUserId());
     }
 }

@@ -173,7 +173,7 @@ class ControllerBlocks
         BlockUtils::clearBlockIdsArrByPageRegionIdCache($prev_region, $block_obj->getTemplateId());
         BlockUtils::clearBlockIdsArrByPageRegionIdCache(Block::BLOCK_REGION_NONE, $block_obj->getTemplateId());
 
-        Logger::logObjectEventForCurrentUser($block_obj, 'отключение');
+        Logger::logObjectEvent($block_obj, 'отключение', Auth::getCurrentUserId());
 
         Messages::setWarning('Блок &laquo;' . $block_obj->getTitle() . '&raquo; был выключен. <a href="' . $restore_url . '">Отменить</a>');
 
@@ -407,7 +407,7 @@ class ControllerBlocks
         $source_region = $block_obj->getPageRegionId();
         $block_obj->setPageRegionId($target_region);
 
-        Logger::logObjectEventForCurrentUser($block_obj, 'перемещение');
+        Logger::logObjectEvent($block_obj, 'перемещение', Auth::getCurrentUserId());
 
         $blocks_ids_arr = BlockUtils::getBlockIdsArrByPageRegionId($target_region, $block_obj->getTemplateId());
 

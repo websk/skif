@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif\Blocks;
 
+use WebSK\Auth\Auth;
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Logger\Logger;
 use WebSK\Model\ActiveRecord;
@@ -134,7 +135,7 @@ class PageRegion implements
 
         self::removeObjFromCacheById($page_region_id);
 
-        Logger::logObjectEventForCurrentUser($page_region_obj, 'изменение');
+        Logger::logObjectEvent($page_region_obj, 'изменение', Auth::getCurrentUserId());
     }
 
     public function afterDelete()
@@ -147,6 +148,6 @@ class PageRegion implements
 
         self::removeObjFromCacheById($this->getId());
 
-        Logger::logObjectEventForCurrentUser($this, 'удаление');
+        Logger::logObjectEvent($this, 'удаление', Auth::getCurrentUserId());
     }
 }

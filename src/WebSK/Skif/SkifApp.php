@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif;
 
+use WebSK\Auth\Middleware\CurrentUserIsAdmin;
 use WebSK\DB\DBWrapper;
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\Blocks\BlockRoutes;
@@ -75,7 +76,7 @@ class SkifApp extends App
             KeyValueRoutes::registerAdmin($app);
             UsersRoutes::registerAdmin($app);
             LoggerRoutes::registerAdmin($app);
-        });
+        })->add(new CurrentUserIsAdmin());
 
         UsersRoutes::register($this);
         AuthRoutes::register($this);

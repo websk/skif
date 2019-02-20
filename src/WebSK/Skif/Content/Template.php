@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif\Content;
 
+use WebSK\Auth\Auth;
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Logger\Logger;
 use WebSK\Model\ActiveRecord;
@@ -178,7 +179,7 @@ class Template implements
 
         self::removeObjFromCacheById($template_id);
 
-        Logger::logObjectEventForCurrentUser($template_obj, 'изменение');
+        Logger::logObjectEvent($template_obj, 'изменение', Auth::getCurrentUserId());
     }
 
     public function afterDelete()
@@ -188,6 +189,6 @@ class Template implements
 
         self::removeObjFromCacheById($this->getId());
 
-        Logger::logObjectEventForCurrentUser($this, 'удаление');
+        Logger::logObjectEvent($this, 'удаление', Auth::getCurrentUserId());
     }
 }

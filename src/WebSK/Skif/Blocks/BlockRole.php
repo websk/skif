@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif\Blocks;
 
+use WebSK\Auth\Auth;
 use WebSK\Logger\Logger;
 use WebSK\Model\ActiveRecord;
 use WebSK\Model\FactoryTrait;
@@ -83,12 +84,12 @@ class BlockRole implements
     {
         $block_role_obj = self::factory($id);
 
-        Logger::logObjectEventForCurrentUser($block_role_obj, 'изменение');
+        Logger::logObjectEvent($block_role_obj, 'изменение', Auth::getCurrentUserId());
     }
 
     public function afterDelete()
     {
         self::removeObjFromCacheById($this->getId());
-        Logger::logObjectEventForCurrentUser($this, 'удаление');
+        Logger::logObjectEvent($this, 'удаление', Auth::getCurrentUserId());
     }
 }

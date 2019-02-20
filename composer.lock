@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "925a9bc869401e07c4c55ea18904d3d4",
+    "content-hash": "8830d421c38c85acae5ae51ca2bbf976",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
@@ -980,6 +980,40 @@
             "time": "2019-02-19T10:32:19+00:00"
         },
         {
+            "name": "websk/php-logger",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/websk/php-logger.git",
+                "reference": "390711f5a6639dc5b196f4f12c5f521928f11c60"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/websk/php-logger/zipball/390711f5a6639dc5b196f4f12c5f521928f11c60",
+                "reference": "390711f5a6639dc5b196f4f12c5f521928f11c60",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "o-log/php-lib": "1.*",
+                "slim/slim": "^3.0",
+                "websk/php-config": "1.0.*",
+                "websk/php-crud": "1.0.*",
+                "websk/php-entity": "1.0.*",
+                "websk/php-slim": "1.0.*",
+                "websk/php-utils": "1.0.*",
+                "websk/php-view": "1.0.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2019-02-20T15:06:41+00:00"
+        },
+        {
             "name": "websk/php-model",
             "version": "1.0.0",
             "source": {
@@ -1129,7 +1163,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "ext-gd": "*",
         "ext-mbstring": "*",
         "ext-pdo": "*"
     },
