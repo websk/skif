@@ -6,12 +6,11 @@
 
 use WebSK\Skif\Blocks\Block;
 use WebSK\Skif\Blocks\PageRegion;
-use WebSK\Skif\SkifPhpRender;
+use WebSK\Views\PhpRender;
 
 $search_value = $_POST['search'];
 
-echo SkifPhpRender::renderTemplateBySkifModule(
-    'Blocks',
+echo PhpRender::renderLocalTemplate(
     'blocks_list_header.tpl.php',
     array('search_value' => $search_value)
 );

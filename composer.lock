@@ -813,20 +813,21 @@
         },
         {
             "name": "websk/php-captcha",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-captcha.git",
-                "reference": "ae8b05a9bdd80ed8dcf8665b51f0f4e55ace1c61"
+                "reference": "c5d263198530ccd346a232eebb3dee7701d32c16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-captcha/zipball/ae8b05a9bdd80ed8dcf8665b51f0f4e55ace1c61",
-                "reference": "ae8b05a9bdd80ed8dcf8665b51f0f4e55ace1c61",
+                "url": "https://api.github.com/repos/websk/php-captcha/zipball/c5d263198530ccd346a232eebb3dee7701d32c16",
+                "reference": "c5d263198530ccd346a232eebb3dee7701d32c16",
                 "shasum": ""
             },
             "require": {
-                "websk/php-slim": "1.0.*"
+                "websk/php-slim": "1.0.*",
+                "websk/php-utils": "1.0.*"
             },
             "type": "library",
             "autoload": {
@@ -835,7 +836,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2019-02-19T09:32:12+00:00"
+            "time": "2019-02-27T10:31:00+00:00"
         },
         {
             "name": "websk/php-config",
@@ -981,16 +982,16 @@
         },
         {
             "name": "websk/php-keyvalue",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-keyvalue.git",
-                "reference": "6cce0f16612993197f43ca542f73d09c5dd727c7"
+                "reference": "320fa42bcc63c0a4816b5ac2c4da779ae6bb0e2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-keyvalue/zipball/6cce0f16612993197f43ca542f73d09c5dd727c7",
-                "reference": "6cce0f16612993197f43ca542f73d09c5dd727c7",
+                "url": "https://api.github.com/repos/websk/php-keyvalue/zipball/320fa42bcc63c0a4816b5ac2c4da779ae6bb0e2f",
+                "reference": "320fa42bcc63c0a4816b5ac2c4da779ae6bb0e2f",
                 "shasum": ""
             },
             "require": {
@@ -1012,7 +1013,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2019-02-27T07:58:36+00:00"
+            "time": "2019-02-27T08:58:54+00:00"
         },
         {
             "name": "websk/php-logger",

@@ -69,10 +69,10 @@ class SkifApp extends App
             return new RequestResponseArgs();
         };
 
-        $this->group('/admin', function (App $app) {
-            $app->get('', AdminHandler::class)
-                ->setName(self::ROUTE_NAME_ADMIN);
+        $this->get('/admin', AdminHandler::class)
+            ->setName(self::ROUTE_NAME_ADMIN);
 
+        $this->group('/admin', function (App $app) {
             KeyValueRoutes::registerAdmin($app);
             UsersRoutes::registerAdmin($app);
             LoggerRoutes::registerAdmin($app);

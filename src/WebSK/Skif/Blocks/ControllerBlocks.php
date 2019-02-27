@@ -10,6 +10,7 @@ use WebSK\Logger\Logger;
 use WebSK\Utils\Messages;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
+use WebSK\Views\PhpRender;
 
 /**
  * Class ControllerBlocks
@@ -119,8 +120,7 @@ class ControllerBlocks
 
         self::blocksPageActions();
 
-        $html = SkifPhpRender::renderTemplateBySkifModule(
-            'Blocks',
+        $html = PhpRender::renderTemplateInViewsDir(
             'blocks_list.tpl.php'
         );
 
@@ -191,8 +191,7 @@ class ControllerBlocks
 
         self::actions($block_id);
 
-        $html = SkifPhpRender::renderTemplateBySkifModule(
-            'Blocks',
+        $html = PhpRender::renderTemplateInViewsDir(
             'block_edit.tpl.php',
             array('block_id' => $block_id)
         );
@@ -320,8 +319,7 @@ class ControllerBlocks
 
         self::actions($block_id);
 
-        $html = SkifPhpRender::renderTemplateBySkifModule(
-            'Blocks',
+        $html = PhpRender::renderTemplateInViewsDir(
             'block_caching.tpl.php',
             array('block_id' => $block_id)
         );
@@ -367,8 +365,7 @@ class ControllerBlocks
             $target_region = $_GET['target_region'];
         }
 
-        $html = SkifPhpRender::renderTemplateBySkifModule(
-            'Blocks',
+        $html = PhpRender::renderTemplateInViewsDir(
             'block_place_in_region.tpl.php',
             array('block_id' => $block_id, 'target_region' => $target_region)
         );
@@ -496,8 +493,7 @@ class ControllerBlocks
 
         self::actions($block_id);
 
-        $html = SkifPhpRender::renderTemplateBySkifModule(
-            'Blocks',
+        $html = PhpRender::renderTemplateInViewsDir(
             'block_choose_region.tpl.php',
             array('block_id' => $block_id)
         );
@@ -525,8 +521,7 @@ class ControllerBlocks
 
         self::actions($block_id);
 
-        $html = SkifPhpRender::renderTemplateBySkifModule(
-            'Blocks',
+        $html = PhpRender::renderTemplateInViewsDir(
             'block_delete.tpl.php',
             array('block_id' => $block_id)
         );
@@ -592,8 +587,7 @@ class ControllerBlocks
             Messages::SetWarning('Слишком короткий запрос');
         }
 
-        $html .= SkifPhpRender::renderTemplateBySkifModule(
-            'Blocks',
+        $html .= PhpRender::renderTemplateInViewsDir(
             'search_blocks.tpl.php',
             array(
                 'block_ids_arr' => $blocks_ids_arr

@@ -5,16 +5,15 @@
 
 use WebSK\Skif\Blocks\BlockUtils;
 use WebSK\Skif\Blocks\ControllerBlocks;
-use WebSK\Skif\SkifPhpRender;
 use WebSK\Slim\Container;
 use WebSK\Auth\Users\UsersServiceProvider;
 use WebSK\Auth\Users\UsersUtils;
 use WebSK\Skif\SkifPath;
+use WebSK\Views\PhpRender;
 
 $block_obj = ControllerBlocks::getBlockObj($block_id);
 
-echo SkifPhpRender::renderTemplateBySkifModule(
-    'Blocks',
+echo PhpRender::renderLocalTemplate(
     'block_edit_menu.tpl.php',
     array('block_id' => $block_id)
 );
