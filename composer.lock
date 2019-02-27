@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8830d421c38c85acae5ae51ca2bbf976",
+    "content-hash": "3c24aaa12f264146ffe0cc7111441535",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
@@ -978,6 +978,41 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "time": "2019-02-19T10:32:19+00:00"
+        },
+        {
+            "name": "websk/php-keyvalue",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/websk/php-keyvalue.git",
+                "reference": "6cce0f16612993197f43ca542f73d09c5dd727c7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/websk/php-keyvalue/zipball/6cce0f16612993197f43ca542f73d09c5dd727c7",
+                "reference": "6cce0f16612993197f43ca542f73d09c5dd727c7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "slim/slim": "^3.0",
+                "websk/php-auth": "1.0.*",
+                "websk/php-config": "1.0.*",
+                "websk/php-crud": "1.0.*",
+                "websk/php-entity": "1.0.*",
+                "websk/php-logger": "1.0.*",
+                "websk/php-slim": "1.0.*",
+                "websk/php-utils": "1.0.*",
+                "websk/php-view": "1.0.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2019-02-27T07:58:36+00:00"
         },
         {
             "name": "websk/php-logger",
