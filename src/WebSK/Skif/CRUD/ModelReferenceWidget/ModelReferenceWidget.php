@@ -4,7 +4,7 @@ namespace WebSK\Skif\CRUD\ModelReferenceWidget;
 
 use WebSK\Model\InterfaceGetTitle;
 use WebSK\Skif\CRUD\CRUDController;
-use WebSK\Skif\SkifPhpRender;
+use WebSK\Views\PhpRender;
 
 class ModelReferenceWidget
 {
@@ -21,8 +21,7 @@ class ModelReferenceWidget
         $widget_options['field_name'] = $field_name;
         $widget_options['field_value'] = $field_value;
 
-        $html = SkifPhpRender::renderTemplateBySkifModule(
-            'CRUD' . DIRECTORY_SEPARATOR . 'ModelReferenceWidget',
+        $html = PhpRender::renderTemplateInViewsDir(
             'model_id.tpl.php',
             $widget_options
         );

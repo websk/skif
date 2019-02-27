@@ -10,13 +10,13 @@
 use WebSK\Skif\Blocks\PageRegionsUtils;
 use WebSK\Utils\Messages;
 use WebSK\Skif\SkifPath;
-use WebSK\Skif\SkifPhpRender;
 use WebSK\Skif\SiteMenu\SiteMenuRender;
 use WebSK\Slim\ConfWrapper;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Utils\Http;
 use WebSK\Utils\Url;
+use WebSK\Views\PhpRender;
 
 Http::cacheHeaders();
 
@@ -96,8 +96,8 @@ if (!isset($layout_dto)) {
             </div>
             <div id="content" class="col-lg-8 col-md-6 col-sm-6 col-xs-12">
                 <?php
-                echo SkifPhpRender::renderTemplate(
-                    'views/breadcrumbs.tpl.php',
+                echo PhpRender::renderTemplate(
+                    'breadcrumbs.tpl.php',
                     ['breadcrumbs_arr' => $layout_dto->getBreadcrumbsDtoArr()]
                 );
 
@@ -121,8 +121,8 @@ if (!isset($layout_dto)) {
 
                 <?php
                 if (isset($editor_nav_arr)) {
-                    echo SkifPhpRender::renderTemplate(
-                        'views/editor_nav.tpl.php',
+                    echo PhpRender::renderTemplate(
+                        'editor_nav.tpl.php',
                         ['editor_nav_arr' => $editor_nav_arr]
                     );
                 }

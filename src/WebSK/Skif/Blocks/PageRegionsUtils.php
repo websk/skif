@@ -6,8 +6,8 @@ use WebSK\Skif\Content\TemplateUtils;
 use WebSK\Cache\CacheWrapper;
 use WebSK\Auth\Auth;
 use WebSK\DB\DBWrapper;
-use WebSK\Skif\SkifPhpRender;
 use WebSK\Utils\Url;
+use WebSK\Views\PhpRender;
 
 /**
  * Class PageRegionsUtils
@@ -32,8 +32,7 @@ class PageRegionsUtils
         $blocks_ids_arr = self::getVisibleBlocksIdsArrByRegionId($page_region_id, $template_id, $page_url);
 
         foreach ($blocks_ids_arr as $block_id) {
-            $output .= SkifPhpRender::renderTemplateBySkifModule(
-                'Blocks',
+            $output .= PhpRender::renderTemplateInViewsDir(
                 'block.tpl.php',
                 array(
                     'block_id' => $block_id

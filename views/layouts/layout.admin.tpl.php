@@ -10,23 +10,21 @@ use WebSK\Auth\AuthRoutes;
 use WebSK\Skif\SkifApp;
 use WebSK\Auth\Users\UsersRoutes;
 use WebSK\Slim\ConfWrapper;
-use WebSK\Skif\Content\ContentType;
-use WebSK\Skif\Content\ContentUtils;
 use WebSK\Slim\Router;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Utils\Messages;
 use WebSK\Skif\SkifPath;
-use WebSK\Skif\SkifPhpRender;
 use WebSK\Auth\Auth;
 use WebSK\Auth\Users\UsersUtils;
 use WebSK\Utils\Url;
+use WebSK\Views\PhpRender;
 
 $user_id = Auth::getCurrentUserId();
 
 if (!$user_id) {
-    echo SkifPhpRender::renderTemplate(
-        'layouts/layout.admin_login.tpl.php'
+    echo PhpRender::renderLocalTemplate(
+        'layout.admin_login.tpl.php'
     );
 
     return;
@@ -199,7 +197,7 @@ if (!isset($layout_dto)) {
                 <div class="col-lg-12">
                     <div>
                         <?php
-                        echo SkifPhpRender::renderTemplate(
+                        echo PhpRender::renderTemplate(
                             '/breadcrumbs.tpl.php',
                             ['breadcrumbs_dto_arr' => $layout_dto->getBreadcrumbsDtoArr()]
                         );

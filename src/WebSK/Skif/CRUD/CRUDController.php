@@ -6,13 +6,13 @@ use WebSK\Skif\BaseController;
 use WebSK\Model\InterfaceDelete;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
-use WebSK\Skif\SkifPhpRender;
 use WebSK\Config\ConfWrapper;
 use WebSK\Utils\Messages;
 use WebSK\Utils\Assert;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
 use WebSK\Utils\Url;
+use WebSK\Views\PhpRender;
 
 /**
  * CRUD проверяет, реализует ли модель функционал моделей.
@@ -153,7 +153,7 @@ class CRUDController extends BaseController
             $crud_model_class_screen_name_for_list = $model_class_name::$crud_model_class_screen_name_for_list;
         }
 
-        echo SkifPhpRender::renderTemplate(
+        echo PhpRender::renderTemplate(
             static::getLayoutTemplateFile(),
             array(
                 'title' => $crud_model_class_screen_name_for_list,
@@ -204,8 +204,7 @@ class CRUDController extends BaseController
             $objs_ids_arr = CRUDUtils::getObjIdsArrayForModel($model_class_name, $context_arr, $filter);
         }
 
-        $list_html = SkifPhpRender::renderTemplateBySkifModule(
-            'CRUD',
+        $list_html = PhpRender::renderTemplateInViewsDir(
             'list.tpl.php',
             array(
                 'model_class_name' => $model_class_name,
@@ -234,8 +233,7 @@ class CRUDController extends BaseController
         CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, InterfaceLoad::class);
         CRUDUtils::exceptionIfClassNotImplementsInterface($model_class_name, InterfaceSave::class);
 
-        $html = SkifPhpRender::renderTemplateBySkifModule(
-            'CRUD',
+        $html = PhpRender::renderTemplateInViewsDir(
             'add_form.tpl.php',
             array(
                 'model_class_name' => $model_class_name,
@@ -270,7 +268,7 @@ class CRUDController extends BaseController
             $crud_model_class_screen_name_for_add = $model_class_name::$crud_model_class_screen_name_for_add;
         }
 
-        echo SkifPhpRender::renderTemplate(
+        echo PhpRender::renderTemplate(
             static::getLayoutTemplateFile(),
             array(
                 'title' => $crud_model_class_screen_name_for_add,
@@ -316,7 +314,7 @@ class CRUDController extends BaseController
             );
         }
 
-        echo SkifPhpRender::renderTemplate(
+        echo PhpRender::renderTemplate(
             static::getLayoutTemplateFile(),
             array(
                 'title' => CRUDUtils::getModelTitleForObj($edited_obj),
@@ -332,8 +330,7 @@ class CRUDController extends BaseController
 
         $edited_obj = CRUDUtils::createAndLoadObject($model_class_name, $obj_id);
 
-        $html = SkifPhpRender::renderTemplateBySkifModule(
-            'CRUD',
+        $html = PhpRender::renderTemplateInViewsDir(
             'edit_form.tpl.php',
             array(
                 'model_class_name' => $model_class_name,

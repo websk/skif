@@ -6,7 +6,6 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Utils\HTTP;
-use WebSK\Skif\SkifPhpRender;
 use WebSK\Views\PhpRender as PhpRender1;
 
 class NotFoundHandler

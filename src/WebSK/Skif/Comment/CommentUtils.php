@@ -3,8 +3,8 @@
 namespace WebSK\Skif\Comment;
 
 use WebSK\DB\DBWrapper;
-use WebSK\Skif\SkifPhpRender;
 use WebSK\Config\ConfWrapper;
+use WebSK\Views\PhpRender;
 
 /**
  * Class CommentUtils
@@ -52,8 +52,8 @@ class CommentUtils
      */
     public static function renderCommentsByUrl($url)
     {
-        return SkifPhpRender::renderTemplateBySkifModule(
-            'Comment',
+        echo PhpRender::renderTemplateByModule(
+            'WebSK/Skif/Comment',
             'block.tpl.php',
             array('url' => $url)
         );

@@ -2,12 +2,12 @@
 
 namespace WebSK\Skif\Poll;
 
-use WebSK\Skif\SkifPhpRender;
 use WebSK\Config\ConfWrapper;
 use WebSK\Skif\CRUD\CRUDController;
 use WebSK\Utils\Messages;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
+use WebSK\Views\PhpRender;
 
 /**
  * Class PollController
@@ -73,13 +73,13 @@ class PollController extends CRUDController
         $poll_obj = Poll::factory($poll_id, false);
         Exits::exit404If(!$poll_obj);
 
-        $content = SkifPhpRender::renderTemplateBySkifModule(
-            'Poll',
+        $content = PhpRender::renderTemplateByModule(
+            'WebSK/Skif/Poll',
             'view.tpl.php',
             array('poll_id' => $poll_id)
         );
 
-        echo SkifPhpRender::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.main'),
             array(
                 'title' => $poll_obj->getTitle(),

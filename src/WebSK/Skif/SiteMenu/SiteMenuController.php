@@ -4,10 +4,10 @@ namespace WebSK\Skif\SiteMenu;
 
 use WebSK\Auth\Auth;
 use WebSK\Utils\Messages;
-use WebSK\Skif\SkifPhpRender;
 use WebSK\Config\ConfWrapper;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
+use WebSK\Views\PhpRender;
 
 class SiteMenuController
 {
@@ -18,15 +18,15 @@ class SiteMenuController
 
         $site_menu_obj = SiteMenu::factory($site_menu_id);
 
-        $html = SkifPhpRender::renderTemplateBySkifModule(
-            'SiteMenu',
+        $html = PhpRender::renderTemplateByModule(
+            'WebSK/Skif/SiteMenu',
             'admin_site_menu_items_list.tpl.php',
             array('site_menu_id' => $site_menu_id, 'parent_id' => $site_menu_item_id)
         );
 
         $breadcrumbs_arr = self::getBreadcrumbsArr($site_menu_id, $site_menu_item_id);
 
-        echo SkifPhpRender::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => $site_menu_obj->getName(),
@@ -81,8 +81,8 @@ class SiteMenuController
 
         $site_menu_obj = SiteMenu::factory($site_menu_id);
 
-        $html = SkifPhpRender::renderTemplateBySkifModule(
-            'SiteMenu',
+        $html = PhpRender::renderTemplateByModule(
+            'WebSK/Skif/SiteMenu',
             'admin_site_menu_items_move_list.tpl.php',
             array(
                 'site_menu_id' => $site_menu_id,
@@ -93,7 +93,9 @@ class SiteMenuController
 
         $breadcrumbs_arr = self::getBreadcrumbsArr($site_menu_id, $site_menu_item_parent_id);
 
-        echo SkifPhpRender::renderTemplate(ConfWrapper::value('layout.admin'), array(
+        echo PhpRender::renderTemplate(
+            ConfWrapper::value('layout.admin'),
+            array(
                 'title' => $site_menu_obj->getName(),
                 'content' => $html,
                 'breadcrumbs_arr' => $breadcrumbs_arr
@@ -183,8 +185,8 @@ class SiteMenuController
             $site_menu_parent_item_id
         );
 
-        $html = SkifPhpRender::renderTemplateBySkifModule(
-            'SiteMenu',
+        $html = PhpRender::renderTemplateByModule(
+            'WebSK/Skif/SiteMenu',
             'admin_site_menu_item_form_edit.tpl.php',
             array(
                 'site_menu_id' => $site_menu_id,
@@ -193,7 +195,7 @@ class SiteMenuController
             )
         );
 
-        echo SkifPhpRender::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => ($site_menu_item_id == 'new') ? 'Добавление пункта меню' : 'Редактирование пункта меню',
@@ -277,9 +279,12 @@ class SiteMenuController
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
 
-        $html = SkifPhpRender::renderTemplateBySkifModule('SiteMenu', 'admin_site_menu_list.tpl.php');
+        $html = PhpRender::renderTemplateByModule(
+            'WebSK/Skif/SiteMenu',
+            'admin_site_menu_list.tpl.php'
+        );
 
-        echo SkifPhpRender::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => 'Менеджер меню',
@@ -294,13 +299,13 @@ class SiteMenuController
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
 
-        $html = SkifPhpRender::renderTemplateBySkifModule(
-            'SiteMenu',
+        $html = PhpRender::renderTemplateByModule(
+            'WebSK/Skif/SiteMenu',
             'admin_site_menu_form_edit.tpl.php',
             array('site_menu_id' => $site_menu_id)
         );
 
-        echo SkifPhpRender::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => 'Редактирование меню',

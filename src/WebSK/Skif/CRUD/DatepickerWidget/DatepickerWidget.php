@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\CRUD\DatepickerWidget;
 
-use WebSK\Skif\SkifPhpRender;
+use WebSK\Views\PhpRender;
 
 class DatepickerWidget
 {
@@ -12,7 +12,7 @@ class DatepickerWidget
         $widget_options['field_name'] = $field_name;
         $widget_options['field_value'] = $field_value;
 
-        $output = SkifPhpRender::renderTemplateBySkifModule(
+        $output = PhpRender::renderTemplateInViewsDir(
             'CRUD' . DIRECTORY_SEPARATOR . 'DatepickerWidget',
             'datepicker_widget.tpl.php',
             $widget_options

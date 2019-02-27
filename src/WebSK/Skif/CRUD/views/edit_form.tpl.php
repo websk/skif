@@ -9,8 +9,8 @@ use WebSK\Skif\CRUD\CRUDController;
 use WebSK\Skif\CRUD\CRUDUtils;
 use WebSK\Skif\CRUD\Widgets;
 use WebSK\Model\InterfaceSave;
-use WebSK\Skif\SkifPhpRender;
 use WebSK\Utils\Assert;
+use WebSK\Views\PhpRender;
 
 Assert::assert($obj);
 $model_class_name = get_class($obj);
@@ -138,8 +138,7 @@ if (property_exists($model_class_name, 'related_models_arr')) {
 
         $objs_ids_arr = CRUDUtils::getObjIdsArrayForModel($related_model_class_name, $context_arr);
 
-        echo SkifPhpRender::renderTemplateBySkifModule(
-            'CRUD',
+        echo PhpRender::renderLocalTemplate(
             'list.tpl.php',
             array(
                 'model_class_name' => $related_model_class_name,

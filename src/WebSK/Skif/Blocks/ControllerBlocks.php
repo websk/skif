@@ -3,7 +3,6 @@
 namespace WebSK\Skif\Blocks;
 
 use WebSK\Auth\Auth;
-use WebSK\Skif\SkifPhpRender;
 use WebSK\Config\ConfWrapper;
 use WebSK\DB\DBWrapper;
 use WebSK\Logger\Logger;
@@ -124,7 +123,7 @@ class ControllerBlocks
             'blocks_list.tpl.php'
         );
 
-        echo SkifPhpRender::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => 'Блоки',
@@ -196,7 +195,7 @@ class ControllerBlocks
             array('block_id' => $block_id)
         );
 
-        echo SkifPhpRender::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
@@ -324,7 +323,7 @@ class ControllerBlocks
             array('block_id' => $block_id)
         );
 
-        echo SkifPhpRender::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
@@ -370,7 +369,7 @@ class ControllerBlocks
             array('block_id' => $block_id, 'target_region' => $target_region)
         );
 
-        echo SkifPhpRender::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
@@ -498,7 +497,7 @@ class ControllerBlocks
             array('block_id' => $block_id)
         );
 
-        echo SkifPhpRender::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
@@ -526,7 +525,7 @@ class ControllerBlocks
             array('block_id' => $block_id)
         );
 
-        echo SkifPhpRender::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
@@ -594,7 +593,7 @@ class ControllerBlocks
             )
         );
 
-        echo SkifPhpRender::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'title' => 'Поиск блоков',

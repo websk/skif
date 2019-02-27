@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\CKEditor;
 
-use WebSK\Skif\SkifPhpRender;
+use WebSK\Views\PhpRender;
 
 /**
  * Class CKEditor
@@ -22,8 +22,8 @@ class CKEditor
      */
     public static function createFullCKEditor(string $editor_name, string $text, int $height = 300, string $dir = '')
     {
-        return  SkifPhpRender::renderTemplateBySkifModule(
-            'CKEditor',
+        return  PhpRender::renderTemplateByModule(
+            'WebSK/Skif/CKEditor',
             'full.tpl.php',
             array(
                 'editor_name' => $editor_name,
@@ -43,8 +43,8 @@ class CKEditor
      */
     public static function createBasicCKEditor(string $editor_name, string $text, int $height = 300, string $dir = '')
     {
-        return  SkifPhpRender::renderTemplateBySkifModule(
-            'CKEditor',
+        return  PhpRender::renderTemplateByModule(
+            'WebSK/Skif/CKEditor',
             'basic.tpl.php',
             array(
                 'editor_name' => $editor_name,
@@ -64,8 +64,8 @@ class CKEditor
      */
     public static function createUserCKEditor(string $editor_name, string $text, int $height = 300, string $dir = '')
     {
-        return  SkifPhpRender::renderTemplateBySkifModule(
-            'CKEditor',
+        return  PhpRender::renderTemplateByModule(
+            'WebSK/Skif/CKEditor',
             'user.tpl.php',
             array(
                 'editor_name' => $editor_name,

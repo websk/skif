@@ -4,10 +4,10 @@
  */
 
 use WebSK\Skif\Pager;
-use WebSK\Skif\SkifPhpRender;
 use WebSK\Config\ConfWrapper;
 use WebSK\Skif\Content\Content;
 use WebSK\Skif\Content\ContentUtils;
+use WebSK\Views\PhpRender;
 
 $page = array_key_exists('p', $_GET) ? $_GET['p'] : 1;
 $limit_to_page = ConfWrapper::value('content.' . $content_type . '.limit_to_page');
@@ -19,8 +19,7 @@ $content_ids_arr = ContentUtils::getPublishedContentsIdsArrByType($content_type,
 foreach ($content_ids_arr as $content_id) {
     $content_obj = Content::factory($content_id);
 
-    echo SkifPhpRender::renderTemplateBySkifModule(
-        'Content',
+    echo PhpRender::renderLocalTemplate(
         'content_in_list.tpl.php',
         array('content_id' => $content_id)
     );

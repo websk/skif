@@ -11,9 +11,9 @@
 use WebSK\Skif\CRUD\CRUDController;
 use WebSK\Skif\CRUD\CRUDUtils;
 use WebSK\Skif\CRUD\Widgets;
-use WebSK\Skif\SkifPhpRender;
 use WebSK\Utils\Assert;
 use WebSK\Utils\Url;
+use WebSK\Views\PhpRender;
 
 Assert::assert($model_class_name);
 
@@ -135,8 +135,8 @@ if (isset($list_title)) {
         if (property_exists($model_class_name, 'crud_fast_create_field_name')) {
             // create fast add block
 
-            echo SkifPhpRender::renderTemplateBySkifModule(
-                'CRUD',
+            echo PhpRender::renderTemplateByModule(
+                'WebSK/Skif/CRUD',
                 'fast_create_form.tpl.php',
                 array(
                     'model_class_name' => $model_class_name,

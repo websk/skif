@@ -4,12 +4,12 @@
  */
 
 use WebSK\Skif\Pager;
-use WebSK\Skif\SkifPhpRender;
 use WebSK\Config\ConfWrapper;
 use WebSK\Skif\Content\Content;
 use WebSK\Skif\Content\ContentType;
 use WebSK\Skif\Content\ContentUtils;
 use WebSK\Skif\Content\Rubric;
+use WebSK\Views\PhpRender;
 
 $rubric_obj = Rubric::factory($rubric_id);
 
@@ -29,8 +29,7 @@ foreach ($content_ids_arr as $content_id) {
         continue;
     }
 
-    echo SkifPhpRender::renderTemplateBySkifModule(
-        'Content',
+    echo PhpRender::renderLocalTemplate(
         'content_in_list.tpl.php',
         array('content_id' => $content_id)
     );

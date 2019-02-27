@@ -1163,16 +1163,16 @@
         },
         {
             "name": "websk/php-view",
-            "version": "1.0.7",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-view.git",
-                "reference": "59c917663eea071bbdc179240c1732f5f52345f5"
+                "reference": "9ffd9d6f0ab16f816b1501d2616be3a6dd71cd2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-view/zipball/59c917663eea071bbdc179240c1732f5f52345f5",
-                "reference": "59c917663eea071bbdc179240c1732f5f52345f5",
+                "url": "https://api.github.com/repos/websk/php-view/zipball/9ffd9d6f0ab16f816b1501d2616be3a6dd71cd2a",
+                "reference": "9ffd9d6f0ab16f816b1501d2616be3a6dd71cd2a",
                 "shasum": ""
             },
             "require": {
@@ -1189,7 +1189,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2019-02-19T07:57:00+00:00"
+            "time": "2019-02-27T13:52:48+00:00"
         }
     ],
     "packages-dev": [],

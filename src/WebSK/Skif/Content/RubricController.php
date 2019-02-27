@@ -7,10 +7,11 @@ use WebSK\Skif\BaseController;
 use WebSK\Auth\Auth;
 use WebSK\Skif\UniqueUrl;
 use WebSK\Utils\Messages;
-use WebSK\Skif\SkifPhpRender;
 use WebSK\Config\ConfWrapper;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
+use WebSK\Views\PhpRender;
+use WebSK\Views\ViewsPath;
 
 /**
  * Class RubricController
@@ -45,15 +46,15 @@ class RubricController extends BaseController
         $content_type_obj = ContentType::factory($rubric_obj->getContentTypeId());
 
         $template_file = 'content_by_rubric_' . $rubric_id . '_list.tpl.php';
-        if (!SkifPhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('Content', $template_file)) {
+        if (!ViewsPath::existsTemplateByModuleRelativeToRootSitePath('WebSK/Skif/Content', $template_file)) {
             $template_file = 'content_' . $content_type_obj->getType() . '_by_rubric_list.tpl.php';
         }
-        if (!SkifPhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('Content', $template_file)) {
+        if (!ViewsPath::existsTemplateByModuleRelativeToRootSitePath('WebSK/Skif/Content', $template_file)) {
             $template_file = 'content_by_rubric_list.tpl.php';
         }
 
-        $content = SkifPhpRender::renderTemplateBySkifModule(
-            'Content',
+        $content = PhpRender::renderTemplateByModule(
+            'WebSK/Skif/Content',
             $template_file,
             array(
                 'rubric_id' => $rubric_id
@@ -62,9 +63,9 @@ class RubricController extends BaseController
 
         $template_id = $rubric_obj->getRelativeTemplateId();
 
-        $layout_template_file = \WebSK\Skif\Content\TemplateUtils::getLayoutFileByTemplateId($template_id);
+        $layout_template_file = TemplateUtils::getLayoutFileByTemplateId($template_id);
 
-        echo SkifPhpRender::renderTemplate(
+        echo PhpRender::renderTemplate(
             $layout_template_file,
             array(
                 'content' => $content,
@@ -82,8 +83,7 @@ class RubricController extends BaseController
 
         $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
 
-        $content = SkifPhpRender::renderTemplateBySkifModule(
-            'Content',
+        $content = PhpRender::renderTemplateInViewsDir(
             'rubrics_list.tpl.php',
             array('content_type_id' => $content_type_obj->getId())
         );
@@ -92,7 +92,7 @@ class RubricController extends BaseController
             $content_type_obj->getName() => '/admin/content/' . $content_type
         );
 
-        echo SkifPhpRender::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'content' => $content,
@@ -110,8 +110,7 @@ class RubricController extends BaseController
 
         $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
 
-        $content = SkifPhpRender::renderTemplateBySkifModule(
-            'Content',
+        $content = PhpRender::renderTemplateInViewsDir(
             'rubric_form_edit.tpl.php',
             array('content_type_id' => $content_type_obj->getId(), 'rubric_id' => $rubric_id)
         );
@@ -121,7 +120,7 @@ class RubricController extends BaseController
             'Рубрики' => self::getRubricsListUrlByContentType($content_type),
         );
 
-        echo SkifPhpRender::renderTemplate(
+        echo PhpRender::renderTemplate(
             ConfWrapper::value('layout.admin'),
             array(
                 'content' => $content,

@@ -7,6 +7,9 @@ use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Utils\Assert;
 use WebSK\Utils\Sanitize;
 
+if (!isset($breadcrumbs_dto_arr)) {
+    $breadcrumbs_dto_arr = [];
+}
 ?>
 <ol class="breadcrumb">
     <?php
