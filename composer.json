@@ -13,6 +13,7 @@
     "websk/php-config": "1.0.*",
     "websk/php-db": "1.2.*",
     "websk/php-imagemanager": "1.0.*",
+    "websk/php-keyvalue": "1.0.*",
     "websk/php-logger": "1.0.*",
     "websk/php-model": "1.0.*",
     "websk/php-utils": "1.0.*",
