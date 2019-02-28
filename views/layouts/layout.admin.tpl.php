@@ -197,8 +197,8 @@ if (!isset($layout_dto)) {
                 <div class="col-lg-12">
                     <div>
                         <?php
-                        echo PhpRender::renderTemplate(
-                            '/admin/breadcrumbs.tpl.php',
+                        echo PhpRender::renderLocalTemplate(
+                            '../breadcrumbs.tpl.php',
                             ['breadcrumbs_dto_arr' => $layout_dto->getBreadcrumbsDtoArr()]
                         );
 
