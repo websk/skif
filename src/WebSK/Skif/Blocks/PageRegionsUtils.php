@@ -58,12 +58,12 @@ class PageRegionsUtils
 
         $cache = CacheWrapper::get($cache_key);
         if ($cache !== false) {
-            return $cache;
+            return (int)$cache;
         }
 
         $query = "SELECT id FROM " . PageRegion::DB_TABLE_NAME . " WHERE name=? AND template_id=?";
 
-        $page_region_id = DBWrapper::readField($query, array($name, $template_id));
+        $page_region_id = (int)DBWrapper::readField($query, array($name, $template_id));
 
         CacheWrapper::set($cache_key, $page_region_id, 3600);
 
