@@ -198,7 +198,7 @@ if (!isset($layout_dto)) {
                     <div>
                         <?php
                         echo PhpRender::renderTemplate(
-                            '/breadcrumbs.tpl.php',
+                            '/admin/breadcrumbs.tpl.php',
                             ['breadcrumbs_dto_arr' => $layout_dto->getBreadcrumbsDtoArr()]
                         );
 

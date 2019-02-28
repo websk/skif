@@ -13,7 +13,6 @@ class DatepickerWidget
         $widget_options['field_value'] = $field_value;
 
         $output = PhpRender::renderTemplateInViewsDir(
-            'CRUD' . DIRECTORY_SEPARATOR . 'DatepickerWidget',
             'datepicker_widget.tpl.php',
             $widget_options
         );
