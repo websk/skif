@@ -204,8 +204,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
 
-        $html = PhpRender::renderTemplateByModule(
-            'WebSK/Skif/Content',
+        $html = PhpRender::renderTemplateInViewsDir(
             'admin_content_form_edit.tpl.php',
             array('content_id' => $content_id, 'content_type' => $content_type)
         );
@@ -229,8 +228,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
 
-        $html = PhpRender::renderTemplateByModule(
-            'WebSK/Skif/Content',
+        $html = PhpRender::renderTemplateInViewsDir(
             'admin_content_list.tpl.php',
             array('content_type' => $content_type)
         );
