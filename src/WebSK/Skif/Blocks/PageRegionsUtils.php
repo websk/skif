@@ -22,8 +22,11 @@ class PageRegionsUtils
      * @return string
      * @throws \Exception
      */
-    public static function renderBlocksByPageRegionNameAndTemplateName(string $page_region_name, string $template_name, string $page_url = '')
-    {
+    public static function renderBlocksByPageRegionNameAndTemplateName(
+        string $page_region_name,
+        string $template_name,
+        string $page_url = ''
+    ): string {
         $output = '';
 
         $template_id = TemplateUtils::getTemplateIdByName($template_name);
@@ -49,7 +52,7 @@ class PageRegionsUtils
      * @return bool|false|mixed
      * @throws \Exception
      */
-    public static function getPageRegionIdByNameAndTemplateId(string $name, int $template_id)
+    public static function getPageRegionIdByNameAndTemplateId(string $name, int $template_id): int
     {
         $cache_key = self::getPageRegionIdByNameAndTemplateIdCacheKey($name, $template_id);
 
@@ -85,8 +88,11 @@ class PageRegionsUtils
      * @return array
      * @throws \Exception
      */
-    protected static function getVisibleBlocksIdsArrByRegionId(int $page_region_id, int $template_id, string $page_url = '')
-    {
+    protected static function getVisibleBlocksIdsArrByRegionId(
+        int $page_region_id,
+        int $template_id,
+        string $page_url = ''
+    ): array {
         if ($page_url == '') {
             // Берем url без $_GET параметров, т.к. это влияет на видимость блоков.
             // Блоки на странице Vidy_sporta/Avtosport$ должны выводиться, например, и по адресу Vidy_sporta/Avtosport
@@ -95,7 +101,7 @@ class PageRegionsUtils
 
         $blocks_ids_arr = BlockUtils::getBlockIdsArrByPageRegionId($page_region_id, $template_id);
 
-        $visible_blocks_ids_arr = array();
+        $visible_blocks_ids_arr = [];
 
         $current_user_id = Auth::getCurrentUserId();
 
@@ -120,14 +126,16 @@ class PageRegionsUtils
      * @return array
      * @throws \Exception
      */
-    public static function getPageRegionIdsArrByTemplateId(int $template_id)
+    public static function getPageRegionIdsArrByTemplateId(int $template_id): array
     {
         static $static_page_region_ids_arr = [];
+
+        $page_region_ids_arr = [];
 
         if (!array_key_exists($template_id, $static_page_region_ids_arr)) {
             $query = "SELECT id FROM " . PageRegion::DB_TABLE_NAME . " WHERE template_id = ?";
 
-            $page_region_ids_arr = DBWrapper::readColumn($query, array($template_id));
+            $page_region_ids_arr = DBWrapper::readColumn($query, [$template_id]);
         }
 
         $page_region_ids_arr[] = Block::BLOCK_REGION_NONE;
