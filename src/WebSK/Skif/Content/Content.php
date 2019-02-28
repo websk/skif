@@ -545,6 +545,8 @@ class Content implements
     {
         $content_obj = self::factory($id);
 
+        self::removeObjFromCacheById($id);
+
         Logger::logObjectEvent($content_obj, 'изменение', Auth::getCurrentUserId());
     }
 

@@ -84,6 +84,8 @@ class BlockRole implements
     {
         $block_role_obj = self::factory($id);
 
+        self::removeObjFromCacheById($id);
+
         Logger::logObjectEvent($block_role_obj, 'изменение', Auth::getCurrentUserId());
     }
 

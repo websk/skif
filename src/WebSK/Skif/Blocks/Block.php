@@ -50,9 +50,6 @@ class Block implements
     protected $body = '';
     protected $format = self::BLOCK_FORMAT_TYPE_PLAIN;
 
-    public static $active_record_ignore_fields_arr = array(
-    );
-
     public function getEditorUrl()
     {
         if (!$this->getId()) {
@@ -274,6 +271,8 @@ class Block implements
     public static function afterUpdate($id)
     {
         $block_obj = self::factory($id);
+
+        self::removeObjFromCacheById($id);
 
         Logger::logObjectEvent($block_obj, 'изменение', Auth::getCurrentUserId());
     }
