@@ -3,6 +3,8 @@
 namespace WebSK\Skif\Content;
 
 use WebSK\DB\DBWrapper;
+use WebSK\Views\PhpRender;
+use WebSK\Views\ViewsPath;
 
 /**
  * Class ContentUtils
@@ -135,9 +137,9 @@ class ContentUtils
         $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
 
         $query = "SELECT id FROM " . Content::DB_TABLE_NAME . "
-            WHERE content_type_id=:content_type_id AND is_published=1
-              AND (published_at<=:date)
-              AND (unpublished_at>=:date OR unpublished_at IS NULL)
+            WHERE content_type_id=? AND is_published=1
+              AND (published_at<=?)
+              AND (unpublished_at>=? OR unpublished_at IS NULL)
             ORDER BY created_at DESC";
 
         if ($limit_to_page) {
@@ -145,7 +147,7 @@ class ContentUtils
             $query .= " LIMIT " . $start_record . ', ' . $limit_to_page;
         }
 
-        $contents_ids_arr = DBWrapper::readColumn($query, array(':content_type_id' => $content_type_obj->getId(), ':date' => $date));
+        $contents_ids_arr = DBWrapper::readColumn($query, array($content_type_obj->getId(), $date, $date));
 
         return $contents_ids_arr;
     }
@@ -177,10 +179,10 @@ class ContentUtils
 
         $query = "SELECT cr.content_id FROM " . ContentRubrics::DB_TABLE_NAME . " cr
                 JOIN " . Content::DB_TABLE_NAME . " c ON (c.id=cr.content_id)
-                WHERE cr.rubric_id=:rubric_id
+                WHERE cr.rubric_id=?
                   AND c.is_published=1
-                  AND (c.published_at<=:date)
-                  AND (c.unpublished_at>=:date OR c.unpublished_at IS NULL)
+                  AND (c.published_at<=?)
+                  AND (c.unpublished_at>=? OR c.unpublished_at IS NULL)
                 GROUP BY cr.content_id ORDER BY c.created_at DESC";
 
         if ($limit_to_page) {
@@ -188,7 +190,7 @@ class ContentUtils
             $query .= " LIMIT " . $start_record . ', ' . $limit_to_page;
         }
 
-        $contents_ids_arr = DBWrapper::readColumn($query, array(':rubric_id' => $rubric_id, ':date' => $date));
+        $contents_ids_arr = DBWrapper::readColumn($query, [$rubric_id, $date, $date]);
 
         return $contents_ids_arr;
     }
@@ -221,12 +223,15 @@ class ContentUtils
         if (!$template_file) {
             $template_file = 'content_last_list.tpl.php';
 
-            if (PhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type . '_last_list.tpl.php')) {
+            if (ViewsPath::existsTemplateByModuleRelativeToRootSitePath(
+                'WebSK/Skif/Content',
+                'content_' . $content_type . '_last_list.tpl.php'
+            )) {
                 $template_file = 'content_' . $content_type . '_last_list.tpl.php';
             }
 
-            return PhpRender::renderTemplateBySkifModule(
-                'Content',
+            return PhpRender::renderTemplateByModule(
+                'WebSK/Skif/Content',
                 $template_file,
                 array('contents_ids_arr' => $contents_ids_arr)
             );
@@ -249,7 +254,10 @@ class ContentUtils
         if (!$template_file) {
             $template_file = 'content_last_list.tpl.php';
 
-            if (PhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_by_rubric_' . $rubric_id . '_last_list.tpl.php')) {
+            if (ViewsPath::existsTemplateByModuleRelativeToRootSitePath(
+                'WebSK/Skif/Content',
+                'content_by_rubric_' . $rubric_id . '_last_list.tpl.php'
+            )) {
                 $template_file = 'content_by_rubric_' . $rubric_id . '_last_list.tpl.php';
             } else {
                 $rubric_obj = Rubric::factory($rubric_id);
@@ -258,13 +266,16 @@ class ContentUtils
                 $content_type_obj = ContentType::factory($content_type_id);
                 $content_type = $content_type_obj->getType();
 
-                if (PhpRender::existsTemplateBySkifModuleRelativeToRootSitePath('Content', 'content_' . $content_type . '_last_list.tpl.php')) {
+                if (ViewsPath::existsTemplateByModuleRelativeToRootSitePath(
+                    'WebSK/Skif/Content',
+                    'content_' . $content_type . '_last_list.tpl.php'
+                )) {
                     $template_file = 'content_' . $content_type . '_last_list.tpl.php';
                 }
             }
 
-            return PhpRender::renderTemplateBySkifModule(
-                'Content',
+            return PhpRender::renderTemplateByModule(
+                'WebSK/Skif/Content',
                 $template_file,
                 array('contents_ids_arr' => $contents_ids_arr)
             );
