@@ -93,8 +93,7 @@ class PollUtils
             return '';
         }
 
-        return PhpRender::renderTemplateByModule(
-            'WebSK/Skif/Poll',
+        return PhpRender::renderTemplateInViewsDir(
             'block.tpl.php',
             array('poll_id' => $poll_id)
         );
