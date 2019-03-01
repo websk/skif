@@ -52,8 +52,7 @@ class CommentUtils
      */
     public static function renderCommentsByUrl($url)
     {
-        echo PhpRender::renderTemplateByModule(
-            'WebSK/Skif/Comment',
+        echo PhpRender::renderTemplateInViewsDir(
             'block.tpl.php',
             array('url' => $url)
         );
