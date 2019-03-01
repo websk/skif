@@ -17,7 +17,10 @@ class SiteMenuRender
             $template_file = 'site_menu_' . $site_menu_id . '.tpl.php';
 
             if (!ViewsPath::existsTemplateByModuleRelativeToRootSitePath('WebSK/Skif/SiteMenu', $template_file)) {
-                $template_file = 'site_menu_default.tpl.php';
+                return PhpRender::renderTemplateInViewsDir(
+                    'site_menu_default.tpl.php',
+                    array('site_menu_id' => $site_menu_id)
+                );
             }
 
             return PhpRender::renderTemplateByModule(
@@ -36,7 +39,10 @@ class SiteMenuRender
             $template_file = 'site_menu_' . $site_menu_id . '_sub.tpl.php';
 
             if (!ViewsPath::existsTemplateByModuleRelativeToRootSitePath('WebSK/Skif/SiteMenu', $template_file)) {
-                $template_file = 'site_sub_menu_default.tpl.php';
+                return PhpRender::renderTemplateInViewsDir(
+                    'site_sub_menu_default.tpl.php',
+                    array('parent_item_id' => $parent_item_id)
+                );
             }
 
             return PhpRender::renderTemplateByModule(
