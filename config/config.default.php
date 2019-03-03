@@ -32,10 +32,10 @@ return [
             ],
         ],
         'layout' => [
-            'admin' => 'layouts/layout.admin.tpl.php',
-            'empty' => 'layouts/layout.empty.tpl.php',
-            'blank' => 'layouts/layout.blank.tpl.php',
-            'main' => 'layouts/layout.main.tpl.php'
+            'admin' => '/var/www/skif/views/layouts/layout.admin.tpl.php',
+            'empty' => '/var/www/skif/views/layouts/layout.empty.tpl.php',
+            'blank' => '/var/www/skif/views/layouts/layout.blank.tpl.php',
+            'main' => '/var/www/skif/views/layouts/layout.main.tpl.php'
         ],
         'admin_menu' => [
             ['link' => '/admin/content/page', 'name' => 'Страницы', 'icon' => '<i class="fa fa-files-o fa-fw"></i>'],

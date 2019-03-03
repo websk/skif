@@ -7,6 +7,7 @@ use WebSK\Auth\Auth;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Views\PhpRender;
+use WebSK\Views\ViewsPath;
 
 /**
  * Class AdminHandler
@@ -21,7 +22,10 @@ class AdminHandler
     public function __invoke(Request $request, Response $response)
     {
         if (!Auth::getCurrentUserId()) {
-            return PhpRender::render($response, '/layouts/layout.admin_login.tpl.php');
+            return PhpRender::render(
+                $response,
+                ViewsPath::getFullTemplatePath('/views/layouts/layout.admin_login.tpl.php')
+            );
         }
 
         return $response->withRedirect(ConfWrapper::value('skif_main_page'));

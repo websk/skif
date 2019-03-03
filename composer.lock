@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "3c24aaa12f264146ffe0cc7111441535",
@@ -982,16 +982,16 @@
         },
         {
             "name": "websk/php-keyvalue",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-keyvalue.git",
-                "reference": "320fa42bcc63c0a4816b5ac2c4da779ae6bb0e2f"
+                "reference": "c0844827a2b434a11d1e7fd82d1d898e62ddabf1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-keyvalue/zipball/320fa42bcc63c0a4816b5ac2c4da779ae6bb0e2f",
-                "reference": "320fa42bcc63c0a4816b5ac2c4da779ae6bb0e2f",
+                "url": "https://api.github.com/repos/websk/php-keyvalue/zipball/c0844827a2b434a11d1e7fd82d1d898e62ddabf1",
+                "reference": "c0844827a2b434a11d1e7fd82d1d898e62ddabf1",
                 "shasum": ""
             },
             "require": {
@@ -1013,7 +1013,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2019-02-27T08:58:54+00:00"
+            "time": "2019-03-01T09:02:04+00:00"
         },
         {
             "name": "websk/php-logger",
