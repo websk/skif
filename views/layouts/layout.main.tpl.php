@@ -121,8 +121,8 @@ if (!isset($layout_dto)) {
 
                 <?php
                 if (isset($editor_nav_arr)) {
-                    echo PhpRender::renderTemplate(
-                        'editor_nav.tpl.php',
+                    echo PhpRender::renderLocalTemplate(
+                        '../editor_nav.tpl.php',
                         ['editor_nav_arr' => $editor_nav_arr]
                     );
                 }

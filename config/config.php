@@ -34,6 +34,12 @@ $config = [
                 'user' => 'root',
                 'password' => 'root',
             ],
+            'db_keyvalue' => [
+                'host' => 'mysql',
+                'db_name' => 'skif',
+                'user' => 'root',
+                'password' => 'root',
+            ],
         ],
         'skif_url_path' => '/',
     ]

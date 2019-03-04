@@ -18,7 +18,7 @@ class SiteMenuController
 
         $site_menu_obj = SiteMenu::factory($site_menu_id);
 
-        $html = PhpRender::renderTemplateByModule(
+        $html = PhpRender::renderTemplateForModuleNamespace(
             'WebSK/Skif/SiteMenu',
             'admin_site_menu_items_list.tpl.php',
             array('site_menu_id' => $site_menu_id, 'parent_id' => $site_menu_item_id)
@@ -81,7 +81,7 @@ class SiteMenuController
 
         $site_menu_obj = SiteMenu::factory($site_menu_id);
 
-        $html = PhpRender::renderTemplateByModule(
+        $html = PhpRender::renderTemplateForModuleNamespace(
             'WebSK/Skif/SiteMenu',
             'admin_site_menu_items_move_list.tpl.php',
             array(
@@ -185,7 +185,7 @@ class SiteMenuController
             $site_menu_parent_item_id
         );
 
-        $html = PhpRender::renderTemplateByModule(
+        $html = PhpRender::renderTemplateForModuleNamespace(
             'WebSK/Skif/SiteMenu',
             'admin_site_menu_item_form_edit.tpl.php',
             array(
@@ -279,7 +279,7 @@ class SiteMenuController
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
 
-        $html = PhpRender::renderTemplateByModule(
+        $html = PhpRender::renderTemplateForModuleNamespace(
             'WebSK/Skif/SiteMenu',
             'admin_site_menu_list.tpl.php'
         );
@@ -299,7 +299,7 @@ class SiteMenuController
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
 
-        $html = PhpRender::renderTemplateByModule(
+        $html = PhpRender::renderTemplateForModuleNamespace(
             'WebSK/Skif/SiteMenu',
             'admin_site_menu_form_edit.tpl.php',
             array('site_menu_id' => $site_menu_id)

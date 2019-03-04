@@ -45,7 +45,7 @@ class FormController extends CRUDController
         $form_obj = Form::factory($form_id, false);
         Exits::exit404If(!$form_obj);
 
-        $content = PhpRender::renderTemplateByModule(
+        $content = PhpRender::renderTemplateForModuleNamespace(
             'WebSK/Skif/Form',
             'view.tpl.php',
             array('form_id' => $form_id)

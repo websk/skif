@@ -73,7 +73,7 @@ class PollController extends CRUDController
         $poll_obj = Poll::factory($poll_id, false);
         Exits::exit404If(!$poll_obj);
 
-        $content = PhpRender::renderTemplateByModule(
+        $content = PhpRender::renderTemplateForModuleNamespace(
             'WebSK/Skif/Poll',
             'view.tpl.php',
             array('poll_id' => $poll_id)

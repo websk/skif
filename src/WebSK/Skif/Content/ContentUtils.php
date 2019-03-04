@@ -230,7 +230,7 @@ class ContentUtils
                 $template_file = 'content_' . $content_type . '_last_list.tpl.php';
             }
 
-            return PhpRender::renderTemplateByModule(
+            return PhpRender::renderTemplateForModuleNamespace(
                 'WebSK/Skif/Content',
                 $template_file,
                 array('contents_ids_arr' => $contents_ids_arr)
@@ -274,7 +274,7 @@ class ContentUtils
                 }
             }
 
-            return PhpRender::renderTemplateByModule(
+            return PhpRender::renderTemplateForModuleNamespace(
                 'WebSK/Skif/Content',
                 $template_file,
                 array('contents_ids_arr' => $contents_ids_arr)

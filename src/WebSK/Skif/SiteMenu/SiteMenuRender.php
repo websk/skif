@@ -23,7 +23,7 @@ class SiteMenuRender
                 );
             }
 
-            return PhpRender::renderTemplateByModule(
+            return PhpRender::renderTemplateForModuleNamespace(
                 'WebSK/Skif/SiteMenu',
                 $template_file,
                 array('site_menu_id' => $site_menu_id)
@@ -45,7 +45,7 @@ class SiteMenuRender
                 );
             }
 
-            return PhpRender::renderTemplateByModule(
+            return PhpRender::renderTemplateForModuleNamespace(
                 'WebSK/Skif/SiteMenu',
                 $template_file,
                 array('parent_item_id' => $parent_item_id)

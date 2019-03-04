@@ -34,19 +34,19 @@ class CommentController extends CRUDController
 
         $comments_ids_arr = CommentUtils::getCommentsIdsArrByUrl($url, $page);
 
-        echo PhpRender::renderTemplateByModule(
+        echo PhpRender::renderTemplateForModuleNamespace(
             'WebSK/Skif/Comment',
             'form_add.tpl.php',
             array('url' => $url)
         );
 
-        echo PhpRender::renderTemplateByModule(
+        echo PhpRender::renderTemplateForModuleNamespace(
             'WebSK/Skif/Comment',
             'list.tpl.php',
             array('comments_ids_arr' => $comments_ids_arr, 'url' => $url)
         );
 
-        echo PhpRender::renderTemplateByModule(
+        echo PhpRender::renderTemplateForModuleNamespace(
             'WebSK/Skif/Comment',
             'pager.tpl.php',
             array('url' => $url, 'page' => $page)

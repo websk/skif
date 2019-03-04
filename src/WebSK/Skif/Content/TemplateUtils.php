@@ -4,6 +4,7 @@ namespace WebSK\Skif\Content;
 
 use WebSK\Cache\CacheWrapper;
 use WebSK\DB\DBWrapper;
+use WebSK\Views\ViewsPath;
 
 /**
  * Class TemplateUtils
@@ -50,7 +51,7 @@ class TemplateUtils
     {
         $template_obj = Template::factory($template_id, false);
         if (!$template_obj) {
-            return 'layouts/layout.main.tpl.php';
+            return ViewsPath::getSiteViewsPath() . 'layouts/layout.main.tpl.php';
         }
 
         return $template_obj->getLayoutTemplateFilePath();

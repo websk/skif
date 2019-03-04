@@ -135,7 +135,7 @@ if (isset($list_title)) {
         if (property_exists($model_class_name, 'crud_fast_create_field_name')) {
             // create fast add block
 
-            echo PhpRender::renderTemplateByModule(
+            echo PhpRender::renderTemplateForModuleNamespace(
                 'WebSK/Skif/CRUD',
                 'fast_create_form.tpl.php',
                 array(

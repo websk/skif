@@ -13,6 +13,7 @@ use WebSK\Model\InterfaceGetTitle;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
 use WebSK\Cache\CacheWrapper;
+use WebSK\Views\ViewsPath;
 
 /**
  * Class Template
@@ -159,7 +160,7 @@ class Template implements
 
     public function getLayoutTemplateFilePath()
     {
-        return 'layouts/' . $this->layout_template_file;
+        return ViewsPath::getSiteViewsPath() . '/layouts/' . $this->layout_template_file;
     }
 
     /**

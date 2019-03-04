@@ -53,7 +53,7 @@ class RubricController extends BaseController
             $template_file = 'content_by_rubric_list.tpl.php';
         }
 
-        $content = PhpRender::renderTemplateByModule(
+        $content = PhpRender::renderTemplateForModuleNamespace(
             'WebSK/Skif/Content',
             $template_file,
             array(

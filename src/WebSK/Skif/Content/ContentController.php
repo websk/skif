@@ -127,7 +127,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
             }
         }
 
-        $content .= PhpRender::renderTemplateByModule(
+        $content .= PhpRender::renderTemplateForModuleNamespace(
             'WebSK/Skif/Content',
             $template_file,
             array('content_id' => $content_id)
@@ -171,7 +171,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
             $template_file = 'content_' . $content_type . '_list.tpl.php';
         }
 
-        $content = PhpRender::renderTemplateByModule(
+        $content = PhpRender::renderTemplateForModuleNamespace(
             'WebSK/Skif/Content',
             $template_file,
             array('content_type' => $content_type)

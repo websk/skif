@@ -24,12 +24,6 @@ return [
                 'user' => '',
                 'password' => '',
             ],
-            'db_logger' => [
-                'host' => 'localhost',
-                'db_name' => 'skif',
-                'user' => '',
-                'password' => '',
-            ],
         ],
         'layout' => [
             'admin' => '/var/www/skif/views/layouts/layout.admin.tpl.php',
