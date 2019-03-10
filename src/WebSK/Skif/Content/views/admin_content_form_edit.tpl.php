@@ -55,16 +55,25 @@ if ($content_id == 'new') {
     })
 </script>
 
-<form class="form-horizontal" id="content_edit_form" action="/admin/content/<?php echo $content_type; ?>/save/<?php echo $content_id; ?>" enctype="multipart/form-data" method="post">
+<form class="form-horizontal" id="content_edit_form"
+      action="/admin/content/<?php echo $content_type; ?>/save/<?php echo $content_id; ?>" enctype="multipart/form-data"
+      method="post">
     <div role="tabpanel">
 
         <ul id="contentTab" class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#content" id="content-tab" role="tab" data-toggle="tab" aria-controls="content">Контент</a></li>
-            <li role="presentation"><a href="#publish" role="tab" id="publish-tab" data-toggle="tab" aria-controls="publish">Настройки публикации</a></li>
-            <li role="presentation"><a href="#rubrics" role="tab" id="rubrics-tab" data-toggle="tab" aria-controls="rubrics">Рубрики</a></li>
-            <li role="presentation"><a href="#seo" role="tab" id="seo-tab" data-toggle="tab" aria-controls="seo">SEO</a></li>
-            <li role="presentation"><a href="<?php echo $content_obj->getUrl(); ?>" role="tab" target="_blank">Просмотр&nbsp;<sup><span class="glyphicon glyphicon-new-window"></span></sup></a></li>
-            <li role="presentation"><a href="<?php echo LoggerRender::getLoggerLinkForEntityObj($content_obj); ?>" target="_blank">Журнал&nbsp;<sup><span class="glyphicon glyphicon-new-window"></span></sup></a></li>
+            <li role="presentation" class="active"><a href="#content" id="content-tab" role="tab" data-toggle="tab"
+                                                      aria-controls="content">Контент</a></li>
+            <li role="presentation"><a href="#publish" role="tab" id="publish-tab" data-toggle="tab"
+                                       aria-controls="publish">Настройки публикации</a></li>
+            <li role="presentation"><a href="#rubrics" role="tab" id="rubrics-tab" data-toggle="tab"
+                                       aria-controls="rubrics">Рубрики</a></li>
+            <li role="presentation"><a href="#seo" role="tab" id="seo-tab" data-toggle="tab" aria-controls="seo">SEO</a>
+            </li>
+            <li role="presentation"><a href="<?php echo $content_obj->getUrl(); ?>" role="tab" target="_blank">Просмотр&nbsp;<sup><span
+                                class="glyphicon glyphicon-new-window"></span></sup></a></li>
+            <li role="presentation"><a href="<?php echo LoggerRender::getLoggerLinkForEntityObj($content_obj); ?>"
+                                       target="_blank">Журнал&nbsp;<sup><span
+                                class="glyphicon glyphicon-new-window"></span></sup></a></li>
         </ul>
         <p></p>
         <div class="tab-content">
@@ -105,12 +114,12 @@ if ($content_id == 'new') {
                         ?>
                         <select id="template_id" name="template_id" class="form-control">
                             <option value="0">Шаблон по-умолчанию</option>
-                            <?
+                            <?php
                             foreach ($templates_ids_arr as $template_id) {
                                 $template_obj = Template::factory($template_id);
                                 ?>
-                                <option value="<?php echo $template_id; ?>"<?php echo (($content_obj->getTemplateId() == $template_id) ? ' selected' : ''); ?>><?php echo $template_obj->getTitle(); ?></option>
-                            <?
+                                <option value="<?php echo $template_id; ?>"<?php echo(($content_obj->getTemplateId() == $template_id) ? ' selected' : ''); ?>><?php echo $template_obj->getTitle(); ?></option>
+                                <?php
                             }
                             ?>
                         </select>
@@ -124,19 +133,21 @@ if ($content_id == 'new') {
                         if ($content_obj->getImage()) {
                             ?>
                             <script type="text/javascript">
-                                $(document).ready(function() {
-                                    $("a#image").fancybox({
-                                    });
+                                $(document).ready(function () {
+                                    $("a#image").fancybox({});
                                 });
                             </script>
 
                             <div class="form-group" id="image_area">
-                                <a id="image" href="<?php echo ImageManager::getImgUrlByFileName($content_obj->getImagePath()) . '?d=' . time(); ?>">
-                                    <img src="<?php echo  ImageManager::getImgUrlByPreset($content_obj->getImagePath(), '120_auto') . '?d=' . time(); ?>" class="img-responsive img-thumbnail" border="0">
+                                <a id="image"
+                                   href="<?php echo ImageManager::getImgUrlByFileName($content_obj->getImagePath()) . '?d=' . time(); ?>">
+                                    <img src="<?php echo ImageManager::getImgUrlByPreset($content_obj->getImagePath(),
+                                            '120_auto') . '?d=' . time(); ?>" class="img-responsive img-thumbnail"
+                                         border="0">
                                 </a>
                                 <a href="#image_delete" id="image_delete">Удалить</a>
                             </div>
-                        <?php
+                            <?php
                         }
                         ?>
                         <input type="file" name="image_file" id="image_file">
@@ -150,7 +161,8 @@ if ($content_id == 'new') {
                     <div class="col-md-10">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            <input type="text" class="form-control" id="created_at" name="created_at" value="<?php echo ($content_obj->getCreatedAt() ? $content_obj->getCreatedAt() : date('Y-m-d H:i:s')); ?>">
+                            <input type="text" class="form-control" id="created_at" name="created_at"
+                                   value="<?php echo($content_obj->getCreatedAt() ? $content_obj->getCreatedAt() : date('Y-m-d H:i:s')); ?>">
                         </div>
                     </div>
                 </div>
@@ -158,7 +170,8 @@ if ($content_id == 'new') {
                     <label for="url" class="col-md-2 control-label">Адрес материала, URL</label>
 
                     <div class="col-md-10">
-                        <input type="text" class="form-control" id="url" name="url" value="<?php echo $content_obj->getUrl(); ?>"<?php echo ($content_obj->isPublished() ? ' disabled' : ''); ?>>
+                        <input type="text" class="form-control" id="url" name="url"
+                               value="<?php echo $content_obj->getUrl(); ?>"<?php echo($content_obj->isPublished() ? ' disabled' : ''); ?>>
                     </div>
                 </div>
 
@@ -168,7 +181,8 @@ if ($content_id == 'new') {
                     <div class="col-md-10">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            <input type="text" class="form-control" id="published_at" name="published_at" value="<?php echo $content_obj->getPublishedAt(); ?>">
+                            <input type="text" class="form-control" id="published_at" name="published_at"
+                                   value="<?php echo $content_obj->getPublishedAt(); ?>">
                         </div>
                     </div>
                 </div>
@@ -179,7 +193,8 @@ if ($content_id == 'new') {
                     <div class="col-md-10">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            <input type="text" class="form-control" id="unpublished_at" name="unpublished_at" value="<?php echo $content_obj->getUnpublishedAt(); ?>">
+                            <input type="text" class="form-control" id="unpublished_at" name="unpublished_at"
+                                   value="<?php echo $content_obj->getUnpublishedAt(); ?>">
                         </div>
                     </div>
                 </div>
@@ -188,7 +203,9 @@ if ($content_id == 'new') {
                     <div class="col-md-offset-2 col-md-10">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" name="is_published"<?php echo ($content_obj->isPublished() ? ' checked' : ''); ?> value="1">
+                                <input type="checkbox"
+                                       name="is_published"<?php echo($content_obj->isPublished() ? ' checked' : ''); ?>
+                                       value="1">
                                 Опубликовано
                             </label>
                         </div>
@@ -208,7 +225,8 @@ if ($content_id == 'new') {
                             foreach ($rubric_ids_arr as $rubric_id) {
                                 $rubric_obj = Rubric::factory($rubric_id);
                                 ?>
-                                <option value="<?php echo $rubric_obj->getId(); ?>"<?php echo (in_array($rubric_id, $content_rubrics_ids_arr) ? ' selected' : ''); ?>><?php echo $rubric_obj->getName(); ?></option>
+                                <option value="<?php echo $rubric_obj->getId(); ?>"<?php echo(in_array($rubric_id,
+                                    $content_rubrics_ids_arr) ? ' selected' : ''); ?>><?php echo $rubric_obj->getName(); ?></option>
                                 <?php
                             }
                             ?>
@@ -226,7 +244,7 @@ if ($content_id == 'new') {
                             foreach ($rubric_ids_arr as $rubric_id) {
                                 $rubric_obj = Rubric::factory($rubric_id);
                                 ?>
-                                <option value="<?php echo $rubric_obj->getId(); ?>"<?php echo ($rubric_id == $content_obj->getMainRubricId() ? ' selected' : ''); ?>><?php echo $rubric_obj->getName(); ?></option>
+                                <option value="<?php echo $rubric_obj->getId(); ?>"<?php echo($rubric_id == $content_obj->getMainRubricId() ? ' selected' : ''); ?>><?php echo $rubric_obj->getName(); ?></option>
                                 <?php
                             }
                             ?>
@@ -234,7 +252,6 @@ if ($content_id == 'new') {
                     </div>
                 </div>
             </div>
-        </div>
             <div role="tabpanel" class="tab-pane" id="seo">
                 <div class="form-group">
                     <label for="description" class="col-md-2 control-label">Описание</label>
@@ -255,12 +272,13 @@ if ($content_id == 'new') {
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" class="btn btn-primary" value="Сохранить изменения">
-            </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-primary" value="Сохранить изменения">
         </div>
+    </div>
     </div>
 </form>
 
@@ -269,7 +287,7 @@ if ($content_id == 'new') {
         $.ajax({
             type: "POST",
             url: "/admin/content/<?php echo $content_type; ?>/delete_image/<?php echo $content_id; ?>",
-            success: function(data) {
+            success: function (data) {
                 $("#image_area").html("");
             }
         });

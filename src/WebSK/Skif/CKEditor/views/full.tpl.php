@@ -17,6 +17,8 @@ foreach ($config_styles as $style_file) {
 $contents_css = implode(',', $contents_css_files);
 
 $dir_str = ($dir ? "'&dir=" . $dir . "'" : '');
+
+$filemanager_path = ConfWrapper::value('ckeditor.filemanager_path');
 ?>
 <textarea id="<?php echo $editor_name ?>" name="<?php echo $editor_name ?>" rows="10"
           class="form-control"><?php echo $text ?></textarea>
@@ -37,12 +39,10 @@ $dir_str = ($dir ? "'&dir=" . $dir . "'" : '');
         ],
         customConfig: '<?php echo SkifPath::wrapSkifAssetsVersion('/js/ckeditor_config.js'); ?>',
         contentsCss: [<?php echo $contents_css; ?>],
-        filebrowserBrowseUrl: '<?php echo SkifPath::wrapSkifUrlPath('/libraries/kcfinder/browse.php?opener=ckeditor&type=content'); ?>' + <?php echo($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
-        filebrowserImageBrowseUrl: '<?php echo SkifPath::wrapSkifUrlPath('/libraries/kcfinder/browse.php?opener=ckeditor&type=images'); ?>' + <?php echo($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
-        filebrowserFlashBrowseUrl: '<?php echo SkifPath::wrapSkifUrlPath('/libraries/kcfinder/browse.php?opener=ckeditor&type=flash'); ?>',
-        filebrowserUploadUrl: '<?php echo SkifPath::wrapSkifUrlPath('/libraries/kcfinder/upload.php?opener=ckeditor&type=content'); ?>' + <?php echo($dir ? "'&dir=content/" . $dir . "'" : "''") ?>,
-        filebrowserImageUploadUrl: '<?php echo SkifPath::wrapSkifUrlPath('/libraries/kcfinder/upload.php?opener=ckeditor&type=images'); ?>' + <?php echo($dir ? "'&dir=images/" . $dir . "'" : "''") ?>,
-        filebrowserFlashUploadUrl: '<?php echo SkifPath::wrapSkifUrlPath('/libraries/kcfinder/upload.php?opener=ckeditor&type=flash'); ?>',
+        filebrowserBrowseUrl: '<?php echo $filemanager_path; ?>' + <?php echo($dir ? "'&expandedFolder=content/" . $dir . "'" : "''") ?>,
+        filebrowserImageBrowseUrl: '<?php echo $filemanager_path; ?>',
+        filebrowserUploadUrl: '<?php echo $filemanager_path; ?>' + <?php echo($dir ? "'&expandedFolder=content/" . $dir . "'" : "''") ?>,
+        filebrowserImageUploadUrl: '<?php echo $filemanager_path ?>',
         height: <?php echo $height ?>
     });
 </script>

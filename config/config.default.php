@@ -76,6 +76,9 @@ return [
         'comments' => [
             'message_to_page' => 20,
             'send_answer_to_email' => true
+        ],
+        'ckeditor' => [
+            'filemanager_path' => '/filemanager/index.html'
         ]
     ],
 ];
