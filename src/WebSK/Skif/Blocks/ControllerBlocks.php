@@ -6,6 +6,7 @@ use WebSK\Auth\Auth;
 use WebSK\Config\ConfWrapper;
 use WebSK\DB\DBWrapper;
 use WebSK\Logger\Logger;
+use WebSK\Utils\FullObjectId;
 use WebSK\Utils\Messages;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
@@ -172,7 +173,7 @@ class ControllerBlocks
         BlockUtils::clearBlockIdsArrByPageRegionIdCache($prev_region, $block_obj->getTemplateId());
         BlockUtils::clearBlockIdsArrByPageRegionIdCache(Block::BLOCK_REGION_NONE, $block_obj->getTemplateId());
 
-        Logger::logObjectEvent($block_obj, 'отключение', Auth::getCurrentUserId());
+        Logger::logObjectEvent($block_obj, 'отключение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
 
         Messages::setWarning('Блок &laquo;' . $block_obj->getTitle() . '&raquo; был выключен. <a href="' . $restore_url . '">Отменить</a>');
 
@@ -403,7 +404,7 @@ class ControllerBlocks
         $source_region = $block_obj->getPageRegionId();
         $block_obj->setPageRegionId($target_region);
 
-        Logger::logObjectEvent($block_obj, 'перемещение', Auth::getCurrentUserId());
+        Logger::logObjectEvent($block_obj, 'перемещение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
 
         $blocks_ids_arr = BlockUtils::getBlockIdsArrByPageRegionId($target_region, $block_obj->getTemplateId());
 

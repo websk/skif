@@ -13,6 +13,7 @@ use WebSK\Model\InterfaceGetTitle;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
 use WebSK\Cache\CacheWrapper;
+use WebSK\Utils\FullObjectId;
 use WebSK\Views\ViewsPath;
 
 /**
@@ -180,7 +181,7 @@ class Template implements
 
         self::removeObjFromCacheById($template_id);
 
-        Logger::logObjectEvent($template_obj, 'изменение', Auth::getCurrentUserId());
+        Logger::logObjectEvent($template_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 
     public function afterDelete()
@@ -190,6 +191,6 @@ class Template implements
 
         self::removeObjFromCacheById($this->getId());
 
-        Logger::logObjectEvent($this, 'удаление', Auth::getCurrentUserId());
+        Logger::logObjectEvent($this, 'удаление', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 }

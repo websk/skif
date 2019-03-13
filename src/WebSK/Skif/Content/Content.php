@@ -13,6 +13,7 @@ use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
 use WebSK\Skif\UniqueUrl;
 use WebSK\Utils\Filters;
+use WebSK\Utils\FullObjectId;
 use WebSK\Utils\Transliteration;
 use WebSK\Model\ActiveRecord;
 use WebSK\Model\ActiveRecordHelper;
@@ -547,7 +548,7 @@ class Content implements
 
         self::removeObjFromCacheById($id);
 
-        Logger::logObjectEvent($content_obj, 'изменение', Auth::getCurrentUserId());
+        Logger::logObjectEvent($content_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 
     public function beforeDelete()
@@ -561,6 +562,6 @@ class Content implements
     {
         self::removeObjFromCacheById($this->getId());
 
-        Logger::logObjectEvent($this, 'удаление', Auth::getCurrentUserId());
+        Logger::logObjectEvent($this, 'удаление', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 }

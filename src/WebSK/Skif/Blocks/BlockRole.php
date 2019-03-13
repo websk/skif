@@ -11,6 +11,7 @@ use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Model\InterfaceSave;
+use WebSK\Utils\FullObjectId;
 
 /**
  * Class BlockRole
@@ -86,12 +87,12 @@ class BlockRole implements
 
         self::removeObjFromCacheById($id);
 
-        Logger::logObjectEvent($block_role_obj, 'изменение', Auth::getCurrentUserId());
+        Logger::logObjectEvent($block_role_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 
     public function afterDelete()
     {
         self::removeObjFromCacheById($this->getId());
-        Logger::logObjectEvent($this, 'удаление', Auth::getCurrentUserId());
+        Logger::logObjectEvent($this, 'удаление', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 }

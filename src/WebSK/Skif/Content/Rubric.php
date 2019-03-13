@@ -13,6 +13,7 @@ use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
 use WebSK\DB\DBWrapper;
 use WebSK\Skif\UniqueUrl;
+use WebSK\Utils\FullObjectId;
 use WebSK\Utils\Transliteration;
 use WebSK\Model\ActiveRecordHelper;
 use WebSK\Utils\Assert;
@@ -223,7 +224,7 @@ class Rubric implements
 
         ContentType::afterUpdate($rubric_obj->getContentTypeId());
 
-        Logger::logObjectEvent($rubric_obj, 'изменение', Auth::getCurrentUserId());
+        Logger::logObjectEvent($rubric_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 
     public function afterDelete()
@@ -232,6 +233,6 @@ class Rubric implements
 
         ContentType::afterUpdate($this->getContentTypeId());
 
-        Logger::logObjectEvent($this, 'удаление', Auth::getCurrentUserId());
+        Logger::logObjectEvent($this, 'удаление', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 }

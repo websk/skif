@@ -12,6 +12,7 @@ use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
 use WebSK\DB\DBWrapper;
+use WebSK\Utils\FullObjectId;
 
 /**
  * Class Block
@@ -274,7 +275,7 @@ class Block implements
 
         self::removeObjFromCacheById($id);
 
-        Logger::logObjectEvent($block_obj, 'изменение', Auth::getCurrentUserId());
+        Logger::logObjectEvent($block_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 
     public function afterDelete()
@@ -286,6 +287,6 @@ class Block implements
 
         self::removeObjFromCacheById($this->getId());
 
-        Logger::logObjectEvent($this, 'удаление', Auth::getCurrentUserId());
+        Logger::logObjectEvent($this, 'удаление', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 }

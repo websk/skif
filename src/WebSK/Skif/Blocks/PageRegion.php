@@ -13,6 +13,7 @@ use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
 use WebSK\Cache\CacheWrapper;
+use WebSK\Utils\FullObjectId;
 
 /**
  * Class PageRegion
@@ -135,7 +136,7 @@ class PageRegion implements
 
         self::removeObjFromCacheById($page_region_id);
 
-        Logger::logObjectEvent($page_region_obj, 'изменение', Auth::getCurrentUserId());
+        Logger::logObjectEvent($page_region_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 
     public function afterDelete()
@@ -148,6 +149,6 @@ class PageRegion implements
 
         self::removeObjFromCacheById($this->getId());
 
-        Logger::logObjectEvent($this, 'удаление', Auth::getCurrentUserId());
+        Logger::logObjectEvent($this, 'удаление', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 }
