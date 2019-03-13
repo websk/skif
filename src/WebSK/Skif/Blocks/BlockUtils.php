@@ -17,11 +17,11 @@ class BlockUtils
 {
     /**
      * Видимость блока для пользователя
-     * @param int $block_id
+     * @param int|null $block_id
      * @param int $user_id
      * @return bool
      */
-    public static function blockIsVisibleByUserId(int $block_id, int $user_id)
+    public static function blockIsVisibleByUserId(int $block_id, ?int $user_id)
     {
         $block_obj = Block::factory($block_id);
 
