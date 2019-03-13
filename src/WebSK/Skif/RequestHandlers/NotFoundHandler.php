@@ -5,9 +5,8 @@ namespace WebSK\Skif\RequestHandlers;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use WebSK\Skif\SkifPhpRender;
 use WebSK\Utils\HTTP;
-use WebSK\Views\PhpRender;
-use WebSK\Views\ViewsPath;
 
 class NotFoundHandler
 {
@@ -25,9 +24,9 @@ class NotFoundHandler
             'response' => $response
         ];
 
-        return PhpRender::render(
+        return SkifPhpRender::render(
             $response,
-            ViewsPath::getFullTemplatePath('/views/errors/error_page.tpl.php'),
+            '/errors/error_page.tpl.php',
             $data
         );
     }
