@@ -301,8 +301,8 @@ CREATE TABLE `poll` (
   `title` varchar(255) NOT NULL DEFAULT '',
   `is_default` smallint(6) NOT NULL DEFAULT '0',
   `is_published` smallint(6) NOT NULL DEFAULT '0',
-  `published_at` date NOT NULL,
-  `unpublished_at` date NOT NULL,
+  `published_at` date DEFAULT NULL,
+  `unpublished_at` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `is_default` (`is_default`),
   KEY `is_published` (`is_published`)
