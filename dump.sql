@@ -179,7 +179,7 @@ CREATE TABLE `content` (
   `is_published` smallint(6) NOT NULL DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
   `image` varchar(100) NOT NULL DEFAULT '',
-  `description` varchar(255) NOT NULL DEFAULT '',
+  `description` text NOT NULL,
   `keywords` varchar(255) NOT NULL DEFAULT '',
   `url` varchar(1000) NOT NULL DEFAULT '',
   `content_type_id` int(11) DEFAULT NULL,
