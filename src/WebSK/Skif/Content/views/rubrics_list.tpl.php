@@ -46,7 +46,7 @@ $content_type_obj = ContentType::factory($content_type_id);
                     </a>
                 </td>
             </tr>
-            <?
+            <?php
         }
         ?>
     </table>
