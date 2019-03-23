@@ -32,12 +32,25 @@ class Rubric implements
     use ActiveRecord;
     use FactoryTrait;
 
+    /** @var int */
     protected $id;
-    protected $name;
-    protected $comment;
+
+    /** @var string */
+    protected $name = '';
+
+    /** @var string */
+    protected $comment = '';
+
+    /** @var int */
     protected $content_type_id;
+
+    /** @var int */
     protected $template_id;
-    protected $url;
+
+    /** @var string */
+    protected $url = '';
+
+    /** @var array */
     protected $content_ids_arr;
 
     public static $active_record_ignore_fields_arr = array(
