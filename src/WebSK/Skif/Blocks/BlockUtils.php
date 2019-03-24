@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif\Blocks;
 
+use WebSK\Config\ConfWrapper;
 use WebSK\Utils\Network;
 use WebSK\Utils\Filter;
 use WebSK\Slim\Container;
@@ -151,7 +152,8 @@ class BlockUtils
         }
 
         if ($cache_enabled) {
-            CacheWrapper::set($cache_key, $block_content);
+            $cache_ttl_seconds = ConfWrapper::value('cache.expire', 60);
+            CacheWrapper::set($cache_key, $block_content, $cache_ttl_seconds);
         }
 
         return $block_content;
