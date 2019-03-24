@@ -2,15 +2,23 @@
 
 namespace WebSK\Skif\Form;
 
+use WebSK\Skif\CRUD\CRUDController;
 
-class FormFieldController extends \WebSK\Skif\CRUD\CRUDController
+/**
+ * Class FormFieldController
+ * @package WebSK\Skif\Form
+ */
+class FormFieldController extends CRUDController
 {
+    /** @var string */
+    protected static $model_class_name = FormField::class;
 
-    protected static $model_class_name = '\Skif\Form\FormField';
-
+    /**
+     * @param string $model_class_name
+     * @return string
+     */
     public static function getCRUDBaseUrl($model_class_name)
     {
         return '/admin/form_field';
     }
-
 }
