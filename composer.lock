@@ -748,16 +748,16 @@
         },
         {
             "name": "websk/php-auth",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-auth.git",
-                "reference": "3ee5528b6e92e33fcb7a0218a9605e2bec723cf6"
+                "reference": "6fbf8a70ee5c9df7bbc0e7bac47bffcbcd94749e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-auth/zipball/3ee5528b6e92e33fcb7a0218a9605e2bec723cf6",
-                "reference": "3ee5528b6e92e33fcb7a0218a9605e2bec723cf6",
+                "url": "https://api.github.com/repos/websk/php-auth/zipball/6fbf8a70ee5c9df7bbc0e7bac47bffcbcd94749e",
+                "reference": "6fbf8a70ee5c9df7bbc0e7bac47bffcbcd94749e",
                 "shasum": ""
             },
             "require": {
@@ -780,7 +780,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2019-03-04T14:23:39+00:00"
+            "time": "2019-03-13T15:40:56+00:00"
         },
         {
             "name": "websk/php-cache",
@@ -894,16 +894,16 @@
         },
         {
             "name": "websk/php-db",
-            "version": "1.2.3",
+            "version": "1.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-db.git",
-                "reference": "a2872b508643e484f79922175fe048249fda1196"
+                "reference": "765350f6de54aa0049289409446b6652ea87ed5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-db/zipball/a2872b508643e484f79922175fe048249fda1196",
-                "reference": "a2872b508643e484f79922175fe048249fda1196",
+                "url": "https://api.github.com/repos/websk/php-db/zipball/765350f6de54aa0049289409446b6652ea87ed5e",
+                "reference": "765350f6de54aa0049289409446b6652ea87ed5e",
                 "shasum": ""
             },
             "require": {
@@ -918,7 +918,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2019-02-16T14:20:39+00:00"
+            "time": "2019-03-11T15:16:41+00:00"
         },
         {
             "name": "websk/php-entity",
@@ -1163,16 +1163,16 @@
         },
         {
             "name": "websk/php-view",
-            "version": "1.0.10",
+            "version": "1.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-view.git",
-                "reference": "98b24874ac5a70faa8a778b21c4b7f4a90616dc0"
+                "reference": "43db3222e620292772b7fffcbcb9d4b2749e1e29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-view/zipball/98b24874ac5a70faa8a778b21c4b7f4a90616dc0",
-                "reference": "98b24874ac5a70faa8a778b21c4b7f4a90616dc0",
+                "url": "https://api.github.com/repos/websk/php-view/zipball/43db3222e620292772b7fffcbcb9d4b2749e1e29",
+                "reference": "43db3222e620292772b7fffcbcb9d4b2749e1e29",
                 "shasum": ""
             },
             "require": {
@@ -1189,7 +1189,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2019-03-04T15:07:32+00:00"
+            "time": "2019-03-11T14:23:18+00:00"
         }
     ],
     "packages-dev": [],

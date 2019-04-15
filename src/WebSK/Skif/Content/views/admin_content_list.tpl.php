@@ -3,12 +3,14 @@
  * @var $content_type
  */
 
+use WebSK\Skif\Content\RequestHandlers\Admin\ContentEditHandler;
 use WebSK\Skif\Pager;
 use WebSK\Skif\Content\Content;
 use WebSK\Skif\Content\ContentType;
 use WebSK\Skif\Content\ContentUtils;
 use WebSK\Skif\Content\Rubric;
 use WebSK\Skif\Content\RubricController;
+use WebSK\Slim\Router;
 
 $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
 
@@ -61,7 +63,7 @@ if ($requested_rubric_id) {
 
 
 <p class="padding_top_10 padding_bottom_10">
-    <a href="/admin/content/<?php echo $content_type; ?>/edit/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить материал</a>
+    <a href="/admin/content/<?php echo $content_type; ?>/new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Добавить материал</a>
 </p>
 
 <div>
@@ -80,7 +82,7 @@ foreach ($contents_ids_arr as $content_id) {
     <tr>
         <td><?php echo $content_obj->getId(); ?></td>
         <td>
-            <a href="/admin/content/<?php echo $content_type; ?>/edit/<?php echo $content_id; ?>"><?php echo $content_obj->getTitle(); ?></a>
+            <a href="<?php echo Router::pathFor(ContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>"><?php echo $content_obj->getTitle(); ?></a>
             <?php
             $rubric_ids_arr = $content_obj->getRubricIdsArr();
 
@@ -94,7 +96,7 @@ foreach ($contents_ids_arr as $content_id) {
         </td>
         <td class="hidden-xs hidden-sm text-muted"><?php echo $content_obj->getCreatedAt(); ?></td>
         <td align="right">
-            <a href="/admin/content/<?php echo $content_type; ?>/edit/<?php echo $content_id; ?>" title="Редактировать" class="btn btn-outline btn-default btn-sm">
+            <a href="<?php echo Router::pathFor(ContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>" title="Редактировать" class="btn btn-outline btn-default btn-sm">
                 <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
             </a>
             <a href="<?php echo $content_obj->getUrl(); ?>" target="_blank" title="Просмотр" class="btn btn-outline btn-default btn-sm">

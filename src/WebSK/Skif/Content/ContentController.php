@@ -9,6 +9,8 @@ use WebSK\DB\DBWrapper;
 use WebSK\Image\ImageConstants;
 use WebSK\Image\ImageController;
 use WebSK\Image\ImageManager;
+use WebSK\Skif\Content\RequestHandlers\Admin\ContentEditHandler;
+use WebSK\Slim\Router;
 use WebSK\Utils\Messages;
 use WebSK\SimpleRouter\Sitemap\InterfaceSitemapController;
 use WebSK\Auth\Auth;
@@ -195,18 +197,17 @@ class ContentController extends BaseController implements InterfaceSitemapContro
     }
 
     /**
-     * Редактирование материала
+     * Добавление материала
      * @param $content_type
-     * @param $content_id
      */
-    public function editAdminAction($content_type, $content_id)
+    public function newAdminAction($content_type)
     {
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
 
         $html = PhpRender::renderTemplateInViewsDir(
             'admin_content_form_edit.tpl.php',
-            array('content_id' => $content_id, 'content_type' => $content_type)
+            array('content_id' => 'new', 'content_type' => $content_type)
         );
 
         $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
@@ -262,7 +263,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         if (!$title) {
             Messages::setError('Отсутствует заголовок');
-            Redirects::redirect('/admin/content/' . $content_type . '/edit/' . $content_id);
+            Redirects::redirect(Router::pathFor(ContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]));
         }
 
         $annotation = array_key_exists('annotation', $_REQUEST) ? $_REQUEST['annotation'] : '';
@@ -361,7 +362,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
                 $content_obj->save();
 
                 Messages::setError('Не указана главная рубрика');
-                Redirects::redirect('/admin/content/' . $content_type . '/edit/' . $content_obj->getId());
+                Redirects::redirect(Router::pathFor(ContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]));
             }
         }
 
@@ -381,7 +382,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         Messages::setMessage('Изменения сохранены');
 
-        Redirects::redirect('/admin/content/' . $content_type_obj->getType() . '/edit/' . $content_obj->getId());
+        Redirects::redirect(Router::pathFor(ContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]));
     }
 
     /**

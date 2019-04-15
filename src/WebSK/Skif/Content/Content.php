@@ -33,42 +33,62 @@ class Content implements
     use ActiveRecord;
     use FactoryTrait;
 
+    const _ID = 'id';
     /** @var int */
     protected $id;
+
+    const _TITLE = 'title';
     /** @var string */
     protected $title = '';
+
     /** @var string */
     protected $short_title = '';
+
     /** @var string */
     protected $annotation = '';
+
     /** @var string */
     protected $body = '';
+
     /** @var int */
     protected $published_at;
+
     /** @var int */
     protected $unpublished_at;
+
     /** @var int */
     protected $is_published = 0;
+
     /** @var int */
     protected $created_at;
+
     /** @var string */
     protected $image = '';
+
     /** @var string */
     protected $description = '';
+
     /** @var string */
     protected $keywords = '';
+
     /** @var string */
     protected $url = '';
+
     /** @var int */
     protected $content_type_id;
+
     /** @var int */
     protected $last_modified_at;
+
     /** @var string */
     protected $redirect_url = '';
+
     /** @var int */
     protected $template_id;
+
     /** @var array */
     protected $content_rubrics_ids_arr = [];
+
     /** @var int */
     protected $main_rubric_id;
 
