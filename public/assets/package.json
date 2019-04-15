@@ -5,7 +5,7 @@
     "bower": "latest",
     "coffee-script": "latest",
     "del": "latest",
-    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp": "^4.0.0",
     "gulp-add-src": "latest",
     "gulp-clean-css": "latest",
     "gulp-concat": "latest",
