@@ -98,7 +98,7 @@ if (!isset($layout_dto)) {
                 <?php
                 echo PhpRender::renderLocalTemplate(
                     '../breadcrumbs.tpl.php',
-                    ['breadcrumbs_arr' => $layout_dto->getBreadcrumbsDtoArr()]
+                    ['breadcrumbs_dto_arr' => $layout_dto->getBreadcrumbsDtoArr()]
                 );
 
                 $current_url_no_query = Url::getUriNoQueryString();
