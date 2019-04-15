@@ -9,7 +9,7 @@
 use WebSK\Auth\AuthRoutes;
 use WebSK\Skif\SkifApp;
 use WebSK\Auth\Users\UsersRoutes;
-use WebSK\Slim\ConfWrapper;
+use WebSK\Config\ConfWrapper;
 use WebSK\Slim\Router;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;

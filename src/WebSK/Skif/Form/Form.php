@@ -35,8 +35,8 @@ class Form implements
     const DB_TABLE_NAME = 'form';
 
     protected $id;
-    protected $title;
-    protected $comment;
+    protected $title = '';
+    protected $comment = '';
     protected $button_label;
     protected $email;
     protected $email_copy;

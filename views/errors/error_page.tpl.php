@@ -4,7 +4,7 @@
  */
 
 use WebSK\Skif\SkifPath;
-use WebSK\Slim\ConfWrapper;
+use WebSK\Config\ConfWrapper;
 use WebSK\Utils\HTTP;
 use WebSK\Utils\Url;
 

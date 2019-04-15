@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "3c24aaa12f264146ffe0cc7111441535",
@@ -982,16 +982,16 @@
         },
         {
             "name": "websk/php-keyvalue",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-keyvalue.git",
-                "reference": "c0844827a2b434a11d1e7fd82d1d898e62ddabf1"
+                "reference": "8dde324206cdaff6c440357eb0490d37fcb46712"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-keyvalue/zipball/c0844827a2b434a11d1e7fd82d1d898e62ddabf1",
-                "reference": "c0844827a2b434a11d1e7fd82d1d898e62ddabf1",
+                "url": "https://api.github.com/repos/websk/php-keyvalue/zipball/8dde324206cdaff6c440357eb0490d37fcb46712",
+                "reference": "8dde324206cdaff6c440357eb0490d37fcb46712",
                 "shasum": ""
             },
             "require": {
@@ -1013,7 +1013,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2019-03-01T09:02:04+00:00"
+            "time": "2019-03-17T06:45:24+00:00"
         },
         {
             "name": "websk/php-logger",
@@ -1108,16 +1108,16 @@
         },
         {
             "name": "websk/php-slim",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-slim.git",
-                "reference": "c10087e9b253ff2b7a0b04d1c72cade33800c06e"
+                "reference": "b0cda8bc4ad0b6ffabc15e099ff0ab2fcc09600b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-slim/zipball/c10087e9b253ff2b7a0b04d1c72cade33800c06e",
-                "reference": "c10087e9b253ff2b7a0b04d1c72cade33800c06e",
+                "url": "https://api.github.com/repos/websk/php-slim/zipball/b0cda8bc4ad0b6ffabc15e099ff0ab2fcc09600b",
+                "reference": "b0cda8bc4ad0b6ffabc15e099ff0ab2fcc09600b",
                 "shasum": ""
             },
             "require": {
@@ -1133,20 +1133,20 @@
             "notification-url": "https://packagist.org/downloads/",
             "description": "Slim framework utils",
             "homepage": "https://websk.ru/",
-            "time": "2018-11-30T11:48:41+00:00"
+            "time": "2018-12-14T14:38:32+00:00"
         },
         {
             "name": "websk/php-utils",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-utils.git",
-                "reference": "7e5136c23902e1433f04ad5d7bf6059d9206ee57"
+                "reference": "fadf42dbbb0c7591c62bc9164e4f6a14ae5d2d05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-utils/zipball/7e5136c23902e1433f04ad5d7bf6059d9206ee57",
-                "reference": "7e5136c23902e1433f04ad5d7bf6059d9206ee57",
+                "url": "https://api.github.com/repos/websk/php-utils/zipball/fadf42dbbb0c7591c62bc9164e4f6a14ae5d2d05",
+                "reference": "fadf42dbbb0c7591c62bc9164e4f6a14ae5d2d05",
                 "shasum": ""
             },
             "require": {
@@ -1159,7 +1159,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2019-01-13T16:51:35+00:00"
+            "time": "2019-03-17T06:57:29+00:00"
         },
         {
             "name": "websk/php-view",

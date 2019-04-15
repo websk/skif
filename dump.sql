@@ -139,7 +139,7 @@ CREATE TABLE `users` (
 
 # password '12345'
 INSERT INTO `users` (`id`, `email`, `passw`, `name`, `first_name`, `last_name`, `photo`, `birthday`, `phone`, `city`, `address`, `company`, `comment`, `confirm`, `confirm_code`, `provider`, `provider_uid`, `profile_url`, `created_at_ts`)
-VALUES (1, 'support@websk.ru', '4fb143e2df8c137525040ac54901e31c', 'Администратор', '', '', '', '', '', '', '', '', '', 1, '', '', NULL, NULL, 0);
+VALUES (1, 'support@websk.ru', 'eb722eb5d5448cef9a9664167fbb18ce', 'Администратор', '', '', '', '', '', '', '', '', '', 1, '', '', NULL, NULL, 0);
 
 CREATE TABLE `users_roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -179,7 +179,7 @@ CREATE TABLE `content` (
   `is_published` smallint(6) NOT NULL DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
   `image` varchar(100) NOT NULL DEFAULT '',
-  `description` varchar(255) NOT NULL DEFAULT '',
+  `description` text NOT NULL,
   `keywords` varchar(255) NOT NULL DEFAULT '',
   `url` varchar(1000) NOT NULL DEFAULT '',
   `content_type_id` int(11) DEFAULT NULL,
@@ -301,8 +301,8 @@ CREATE TABLE `poll` (
   `title` varchar(255) NOT NULL DEFAULT '',
   `is_default` smallint(6) NOT NULL DEFAULT '0',
   `is_published` smallint(6) NOT NULL DEFAULT '0',
-  `published_at` date NOT NULL,
-  `unpublished_at` date NOT NULL,
+  `published_at` date DEFAULT NULL,
+  `unpublished_at` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `is_default` (`is_default`),
   KEY `is_published` (`is_published`)

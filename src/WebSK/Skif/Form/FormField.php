@@ -28,13 +28,26 @@ class FormField implements
 
     const DB_TABLE_NAME = 'form_field';
 
+    /** @var int */
     protected $id;
+
+    /** @var int */
     protected $form_id;
-    protected $name;
+
+    /** @var string */
+    protected $name = '';
+
+    /** @var int */
     protected $type;
+
+    /** @var int */
     protected $status;
-    protected $weight;
-    protected $size;
+
+    /** @var int */
+    protected $weight = 0;
+
+    /** @var int */
+    protected $size = 50;
 
 
     public static $crud_create_button_required_fields_arr = array('form_id');

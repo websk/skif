@@ -11,7 +11,7 @@ use WebSK\Skif\Blocks\PageRegionsUtils;
 use WebSK\Utils\Messages;
 use WebSK\Skif\SkifPath;
 use WebSK\Skif\SiteMenu\SiteMenuRender;
-use WebSK\Slim\ConfWrapper;
+use WebSK\Config\ConfWrapper;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Utils\Http;

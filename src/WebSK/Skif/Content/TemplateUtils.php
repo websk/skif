@@ -51,7 +51,7 @@ class TemplateUtils
     {
         $template_obj = Template::factory($template_id, false);
         if (!$template_obj) {
-            return ViewsPath::getSiteViewsPath() . 'layouts/layout.main.tpl.php';
+            return ViewsPath::getSiteViewsPath() . DIRECTORY_SEPARATOR . 'layouts' . DIRECTORY_SEPARATOR. 'layout.main.tpl.php';
         }
 
         return $template_obj->getLayoutTemplateFilePath();

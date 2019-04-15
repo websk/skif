@@ -5,6 +5,7 @@
  */
 
 use WebSK\Skif\CRUD\CRUDUtils;
+use WebSK\Skif\CRUD\Widgets;
 
 $context_arr = array();
 if (array_key_exists('context_arr', $_GET)) {
@@ -55,7 +56,7 @@ $context_arr_fields = $context_arr;
 
             <div class="col-md-10">
                 <?php
-                echo \WebSK\Skif\CRUD\Widgets::renderFieldWithWidget($prop_obj->getName(), $obj, $value);
+                echo Widgets::renderFieldWithWidget($prop_obj->getName(), $obj, $value);
 
                 if ($editor_description) {
                     ?>
