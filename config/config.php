@@ -42,6 +42,9 @@ $config = [
             ],
         ],
         'skif_url_path' => '/',
+        'layout' => [
+            'admin' => '/var/www/skif/views/layouts/layout.adminLTE.tpl.php'
+        ]
     ]
 ];
 

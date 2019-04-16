@@ -214,8 +214,8 @@ if ($content_id == 'new') {
             </div>
             <div role="tabpanel" class="tab-pane" id="rubrics">
                 <div class="form-group">
-                    <label for="rubrics_arr" class="control-label">Рубрики</label>
-                    <div>
+                    <label for="rubrics_arr" class="col-md-2 control-label">Рубрики</label>
+                    <div class="col-md-10">
                         <select id="rubrics_arr" name="rubrics_arr[]" multiple="multiple" class="form-control">
                             <?php
                             $rubric_ids_arr = $content_type_obj->getRubricIdsArr();
@@ -234,8 +234,8 @@ if ($content_id == 'new') {
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="main_rubric" class="control-label">Главная рубрика</label>
-                    <div>
+                    <label for="main_rubric" class="col-md-2 control-label">Главная рубрика</label>
+                    <div class="col-md-10">
                         <select id="main_rubric" name="main_rubric" class="form-control">
                             <option></option>
                             <?php

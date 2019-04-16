@@ -21,16 +21,14 @@ use WebSK\Utils\Url;
 use WebSK\Views\PhpRender;
 
 $user_id = Auth::getCurrentUserId();
-
-if (!$user_id) {
+$user_obj = UsersUtils::loadUser($user_id);
+if (!$user_obj) {
     echo PhpRender::renderLocalTemplate(
         'layout.admin_login.tpl.php'
     );
 
     return;
 }
-
-$user_obj = UsersUtils::loadUser($user_id);
 $user_name = $user_obj->getName();
 
 if (!isset($layout_dto)) {
@@ -76,7 +74,7 @@ if (!isset($layout_dto)) {
     <!-- MetisMenu CSS -->
     <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/metisMenu/metisMenu.min.css'); ?>" rel="stylesheet" type="text/css">
 
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/sb-admin-2/css/sb-admin-2.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/sb-admin-2/css/sb-admin-2.min.css'); ?>" rel="stylesheet" type="text/css">
 
     <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css">
 
@@ -140,51 +138,9 @@ if (!isset($layout_dto)) {
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <?php
-                    $current_url_no_query = Url::getUriNoQueryString();
-
-                    $admin_menu_arr = ConfWrapper::value('admin_menu');
-
-                    foreach ($admin_menu_arr as $menu_item_arr) {
-                        $class = ($current_url_no_query == $menu_item_arr['link']) ? ' active' : '';
-                        $target = array_key_exists('target', $menu_item_arr) ? 'target="' . $menu_item_arr['target'] . '""' : '';
-                        ?>
-                        <li <?php echo($class ? 'class="' . $class . '"' : ''); ?>>
-                            <a href="<?php echo $menu_item_arr['link']; ?>" <?php echo $target; ?>>
-                                <?php
-                                if (array_key_exists('icon', $menu_item_arr)) {
-                                    echo $menu_item_arr['icon'];
-                                }
-                                ?>
-                                <?php echo $menu_item_arr['name']; ?>
-                            </a>
-                            <?php
-                            if (array_key_exists('sub_menu', $menu_item_arr)) {
-                                ?>
-                                <ul class="nav nav-second-level">
-                                    <?php
-                                    foreach ($menu_item_arr['sub_menu'] as $sub_menu_item_arr) {
-                                        $target = array_key_exists('target', $sub_menu_item_arr) ? 'target="' . $sub_menu_item_arr['target'] . '""' : '';
-                                        ?>
-                                        <li>
-                                            <a href="<?php echo $sub_menu_item_arr['link']; ?>" <?php echo $target; ?>>
-                                                <?php
-                                                if (array_key_exists('icon', $sub_menu_item_arr)) {
-                                                    echo $sub_menu_item_arr['icon'];
-                                                }
-                                                ?>
-                                                <?php echo $sub_menu_item_arr['name']; ?>
-                                            </a>
-                                        </li>
-                                        <?php
-                                    }
-                                    ?>
-                                </ul>
-                                <?php
-                            }
-                            ?>
-                        </li>
-                        <?php
-                    }
+                    echo PhpRender::renderLocalTemplate(
+                        '../admin_menu.tpl.php'
+                    );
                     ?>
                 </ul>
             </div>
@@ -224,7 +180,7 @@ if (!isset($layout_dto)) {
 </div>
 
 <script src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/metisMenu/metisMenu.min.js'); ?>"></script>
-<script src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/sb-admin-2/js/sb-admin-2.js'); ?>"></script>
+<script src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/sb-admin-2/js/sb-admin-2.min.js'); ?>"></script>
 
 </body>
 </html>

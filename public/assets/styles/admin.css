@@ -52,22 +52,16 @@ label.error {
     padding-bottom: 10px;
 }
 
+.skin-blue .main-header .logo, .logo-lg, .logo-mini {
+    background-color: #ecf0f5;
+}
 
-.ram {
-    border: 1px solid #C0C0C0;
+.skin-blue .main-header .logo, .logo-lg {
+    padding-left: 20px;
+    padding-top: 2px;
 }
-.n {
-    background: #E3E2E7;
-    border: 1px solid #C0C0C0;
-    color: black;
-}
-.mn {
-    background: #F0F1FA;
-    color: #676767;
-    font-weight: bold;
-    font-size: 12px;
-    height: 22px;
-}
-.m {
-    background-color: #F0F1FA;
+
+
+.skin-blue .main-header .logo:hover {
+    background-color: #ecf0f5;
 }
