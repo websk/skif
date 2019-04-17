@@ -155,6 +155,24 @@ gulp.task('ace', function () {
         .pipe(gulp.dest(librariesPath + 'ace/'));
 });
 
+gulp.task('ckeditor', function () {
+    return gulp.src(
+        [
+            bowerPath + 'ckeditor/*.js',
+            bowerPath + 'ckeditor/skins/moono-lisa/**',
+            bowerPath + 'ckeditor/lang/ru.js',
+            bowerPath + 'ckeditor/lang/en.js',
+            bowerPath + 'ckeditor/plugins/**',
+        ],
+        {
+            base: bowerPath + 'ckeditor/'
+        }
+    )
+        .pipe(newer(librariesPath + 'ckeditor/'))
+        .pipe(gulp.dest(librariesPath + 'ckeditor/'));
+});
+
+
 /**
  * Libraries: copying
  */
@@ -169,7 +187,8 @@ gulp.task('copy', gulp.parallel(
     'moment.ru',
     'bootstrap-datetimepicker',
     'font-awesome',
-    'metisMenu'
+    'metisMenu',
+    'ckeditor'
 ));
 
 
@@ -183,7 +202,7 @@ gulp.task('styles', function (done) {
         librariesPath + 'metisMenu/metisMenu.min.css',
         librariesPath + 'sb-admin-2/css/sb-admin-2.css',
         librariesPath + 'font-awesome/css/font-awesome.min.css',
-        stylesPath + 'admin.css',
+        stylesPath + 'skif.css',
         librariesPath + 'fancybox/jquery.fancybox.css',
         librariesPath + 'bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'
     ])

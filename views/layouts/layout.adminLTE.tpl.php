@@ -115,7 +115,7 @@ $user_logout_url = Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['des
     <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>" rel="stylesheet" type="text/css">
 
     <!-- CKEditor -->
-    <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/ckeditor/ckeditor.js'); ?>"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

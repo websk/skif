@@ -4,49 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3c24aaa12f264146ffe0cc7111441535",
+    "content-hash": "8dc2cbdd28f89928d8719fc155cd0ef4",
     "packages": [
-        {
-            "name": "ckeditor/ckeditor",
-            "version": "4.7.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ckeditor/ckeditor-releases.git",
-                "reference": "97b8f412f6b36985c734daf0717e81009a885dba"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/97b8f412f6b36985c734daf0717e81009a885dba",
-                "reference": "97b8f412f6b36985c734daf0717e81009a885dba",
-                "shasum": ""
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+",
-                "LGPL-2.1+",
-                "MPL-1.1+"
-            ],
-            "authors": [
-                {
-                    "name": "CKSource",
-                    "homepage": "http://cksource.com"
-                }
-            ],
-            "description": "JavaScript WYSIWYG web text editor.",
-            "homepage": "http://ckeditor.com",
-            "keywords": [
-                "CKEditor",
-                "editor",
-                "fckeditor",
-                "html",
-                "javascript",
-                "richtext",
-                "text",
-                "wysiwyg"
-            ],
-            "time": "2017-09-13T13:09:47+00:00"
-        },
         {
             "name": "container-interop/container-interop",
             "version": "1.2.0",
@@ -628,16 +587,16 @@
         },
         {
             "name": "slim/php-view",
-            "version": "2.2.0",
+            "version": "2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/PHP-View.git",
-                "reference": "122ed121a8d9cf91a94020814d2a3ee6c836754f"
+                "reference": "a13ada9d7962ca1b48799c0d9ffbca4c33245aed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/PHP-View/zipball/122ed121a8d9cf91a94020814d2a3ee6c836754f",
-                "reference": "122ed121a8d9cf91a94020814d2a3ee6c836754f",
+                "url": "https://api.github.com/repos/slimphp/PHP-View/zipball/a13ada9d7962ca1b48799c0d9ffbca4c33245aed",
+                "reference": "a13ada9d7962ca1b48799c0d9ffbca4c33245aed",
                 "shasum": ""
             },
             "require": {
@@ -673,20 +632,20 @@
                 "template",
                 "view"
             ],
-            "time": "2016-10-11T07:43:08+00:00"
+            "time": "2019-04-15T20:43:28+00:00"
         },
         {
             "name": "slim/slim",
-            "version": "3.12.0",
+            "version": "3.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/Slim.git",
-                "reference": "f4947cc900b6e51cbfda58b9f1247bca2f76f9f0"
+                "reference": "eaee12ef8d0750db62b8c548016d82fb33addb6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Slim/zipball/f4947cc900b6e51cbfda58b9f1247bca2f76f9f0",
-                "reference": "f4947cc900b6e51cbfda58b9f1247bca2f76f9f0",
+                "url": "https://api.github.com/repos/slimphp/Slim/zipball/eaee12ef8d0750db62b8c548016d82fb33addb6b",
+                "reference": "eaee12ef8d0750db62b8c548016d82fb33addb6b",
                 "shasum": ""
             },
             "require": {
@@ -744,7 +703,7 @@
                 "micro",
                 "router"
             ],
-            "time": "2019-01-15T13:21:25+00:00"
+            "time": "2019-04-16T16:47:29+00:00"
         },
         {
             "name": "websk/php-auth",
@@ -1201,7 +1160,8 @@
     "prefer-lowest": false,
     "platform": {
         "ext-mbstring": "*",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "ext-json": "*"
     },
     "platform-dev": []
 }

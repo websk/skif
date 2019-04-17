@@ -23,7 +23,6 @@
     "websk/php-slim": "1.0.*",
     "websk/php-view": "1.0.*",
     "websk/php-simple-router": "1.0.*",
-    "ckeditor/ckeditor": "4.7.*",
     "phpmailer/phpmailer": "5.2.*"
   },
   "autoload": {
