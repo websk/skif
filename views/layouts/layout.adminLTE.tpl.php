@@ -7,6 +7,8 @@ use WebSK\Auth\Auth;
 use WebSK\Auth\AuthRoutes;
 use WebSK\Auth\Users\UsersRoutes;
 use WebSK\Auth\Users\UsersUtils;
+use WebSK\Image\ImageManager;
+use WebSK\Image\ImagePresets;
 use WebSK\Skif\SkifApp;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\Router;
@@ -25,9 +27,6 @@ if (!$user_obj) {
 
     return;
 }
-$user_name = $user_obj->getName();
-
-$user_edit_uri = Router::pathFor(UsersRoutes::ROUTE_NAME_ADMIN_USER_EDIT, ['user_id' => $user_id]);
 
 if (!isset($layout_dto)) {
     /**
@@ -57,6 +56,11 @@ if (!$user_obj) {
     return '';
 }
 $user_name = $user_obj->getName();
+$user_photo_path = ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(), ImagePresets::IMAGE_PRESET_200_auto);
+$user_name = $user_obj->getName();
+
+$user_edit_uri = Router::pathFor(UsersRoutes::ROUTE_NAME_ADMIN_USER_EDIT, ['user_id' => $user_id]);
+$user_logout_url = Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['destination' => Router::pathFor(SkifApp::ROUTE_NAME_ADMIN)]);
 
 ?>
 <!DOCTYPE html>
@@ -93,7 +97,7 @@ $user_name = $user_obj->getName();
     <!-- Font Awesome -->
     <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css">
 
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/styles/admin.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/styles/skif.css'); ?>" rel="stylesheet" type="text/css">
 
     <!-- Jquery Validate -->
     <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/jquery-validation/jquery.validate.min.js'); ?>"></script>
@@ -112,18 +116,6 @@ $user_name = $user_obj->getName();
 
     <!-- CKEditor -->
     <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
-
-    <style>
-        .sidebar-collapse .sidebar-menu .treeview:hover .pull-right-container > .fa {
-            display: none;
-        }
-
-        .sidebar-collapse .sidebar .user-panel .user-ico {
-            width: 30px;
-            height: 30px;
-        }
-    </style>
-
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -166,36 +158,33 @@ $user_name = $user_obj->getName();
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <svg viewBox="0 0 50 50" width="25px" height="25px" style="display: block;"
-                                 class="user-image">
-                                <circle cx="25" cy="25" fill="none" r="24" stroke="#ffffff"
-                                        stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>
-                                <rect fill="none" height="50" width="50"/>
-                                <path fill="#ffffff"
-                                      d="M29.933,35.528c-0.146-1.612-0.09-2.737-0.09-4.21c0.73-0.383,2.038-2.825,2.259-4.888c0.574-0.047,1.479-0.607,1.744-2.818  c0.143-1.187-0.425-1.855-0.771-2.065c0.934-2.809,2.874-11.499-3.588-12.397c-0.665-1.168-2.368-1.759-4.581-1.759  c-8.854,0.163-9.922,6.686-7.981,14.156c-0.345,0.21-0.913,0.878-0.771,2.065c0.266,2.211,1.17,2.771,1.744,2.818  c0.22,2.062,1.58,4.505,2.312,4.888c0,1.473,0.055,2.598-0.091,4.21c-1.261,3.39-7.737,3.655-11.473,6.924  c3.906,3.933,10.236,6.746,16.916,6.746s14.532-5.274,15.839-6.713C37.688,39.186,31.197,38.93,29.933,35.528z"/>
-                            </svg>
+                            <img src="<?php echo $user_photo_path ?>" class="user-image" alt="User Image">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs"><?= $user_name ?></span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <svg viewBox="0 0 50 50" width="90px" height="90px"
-                                     style="display: block;margin: auto;">
-                                    <circle cx="25" cy="25" fill="none" r="24" stroke="#ffffff"
-                                            stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>
-                                    <rect fill="none" height="50" width="50"/>
-                                    <path fill="#ffffff"
-                                          d="M29.933,35.528c-0.146-1.612-0.09-2.737-0.09-4.21c0.73-0.383,2.038-2.825,2.259-4.888c0.574-0.047,1.479-0.607,1.744-2.818  c0.143-1.187-0.425-1.855-0.771-2.065c0.934-2.809,2.874-11.499-3.588-12.397c-0.665-1.168-2.368-1.759-4.581-1.759  c-8.854,0.163-9.922,6.686-7.981,14.156c-0.345,0.21-0.913,0.878-0.771,2.065c0.266,2.211,1.17,2.771,1.744,2.818  c0.22,2.062,1.58,4.505,2.312,4.888c0,1.473,0.055,2.598-0.091,4.21c-1.261,3.39-7.737,3.655-11.473,6.924  c3.906,3.933,10.236,6.746,16.916,6.746s14.532-5.274,15.839-6.713C37.688,39.186,31.197,38.93,29.933,35.528z"/>
-                                </svg>
+                                <img src="<?php echo $user_photo_path ?>" class="img-circle" alt="User Image">
 
                                 <p><?= $user_name ?></p>
-                                <a href="<?php echo $user_edit_uri ?>">Редактировать профиль</a>
                             </li>
+
+                            <li class="user-body">
+                                <div class="row">
+                                    <div class="col-xs-12 text-center">
+                                        <a href="/" target="_blank"><span class="glyphicon glyphicon-new-window"></span> Перейти на сайт</a>
+                                    </div>
+                                </div>
+                            </li>
+
                             <!-- Menu Footer-->
                             <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="<?php echo $user_edit_uri ?>" class="btn btn-default btn-flat">Мой профиль</a>
+                                </div>
                                 <div class="pull-right">
-                                    <a href="<?php echo Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['destination' => Router::pathFor(SkifApp::ROUTE_NAME_ADMIN)]); ?>"
+                                    <a href="<?php echo $user_logout_url ?>"
                                        class="btn btn-default btn-flat">Выход</a>
                                 </div>
                             </li>
@@ -215,13 +204,7 @@ $user_name = $user_obj->getName();
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <svg viewBox="0 0 50 50" width="45px" height="45px" style="display: block;" class="user-ico">
-                        <circle cx="25" cy="25" fill="none" r="24" stroke="#b8c7ce" stroke-linecap="round"
-                                stroke-miterlimit="10" stroke-width="2"/>
-                        <rect fill="none" height="50" width="50"/>
-                        <path fill="#b8c7ce"
-                              d="M29.933,35.528c-0.146-1.612-0.09-2.737-0.09-4.21c0.73-0.383,2.038-2.825,2.259-4.888c0.574-0.047,1.479-0.607,1.744-2.818  c0.143-1.187-0.425-1.855-0.771-2.065c0.934-2.809,2.874-11.499-3.588-12.397c-0.665-1.168-2.368-1.759-4.581-1.759  c-8.854,0.163-9.922,6.686-7.981,14.156c-0.345,0.21-0.913,0.878-0.771,2.065c0.266,2.211,1.17,2.771,1.744,2.818  c0.22,2.062,1.58,4.505,2.312,4.888c0,1.473,0.055,2.598-0.091,4.21c-1.261,3.39-7.737,3.655-11.473,6.924  c3.906,3.933,10.236,6.746,16.916,6.746s14.532-5.274,15.839-6.713C37.688,39.186,31.197,38.93,29.933,35.528z"/>
-                    </svg>
+                    <img src="<?php echo $user_photo_path ?>" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
                     <p><a href="<?php echo $user_edit_uri ?>"><?= $user_name ?></a></p>
@@ -247,49 +230,9 @@ $user_name = $user_obj->getName();
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <style>
-                .content-header > .breadcrumb {
-                    position: relative;
-                    margin-top: 5px;
-                    top: 0;
-                    right: 0;
-                    float: none;
-                    padding-left: 0;
-                    font-size: 16px;
-                    display: inline-block;
-                    vertical-align: middle;
-                    background: transparent !important;
-                }
-
-                .content-header > .breadcrumb > li:after {
-                    padding: 0 2px 0 4px;
-                    content: '/\00a0';
-                    color: #b0b0b0;
-                }
-
-                .content-header > .breadcrumb > li:last-child:after {
-                    content: none;
-                }
-
-                .content-header > .breadcrumb > li + li:before {
-                    content: none;
-                }
-
-                .content-header > .breadcrumb > li > a {
-                    color: #3c8dbc;
-                }
-
-                .content-header > .breadcrumb > li > .bc-title {
-                    display: inline;
-                    font-size: 24px;
-                    color: #333333;
-                }
-
-                .content-header > .toolbar {
-                    display: inline-block;
-                    vertical-align: middle;
-                }
-            </style>
+            <h1>
+                <?php echo $layout_dto->getTitle() ?>
+            </h1>
             <?php
             echo PhpRender::renderLocalTemplate(
                 '../breadcrumbs.tpl.php',
@@ -318,92 +261,16 @@ $user_name = $user_obj->getName();
 
     <!-- Main Footer -->
     <footer class="main-footer">
-        <strong>Copyright &copy; 2018.
-    </footer>
-
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Create the tabs -->
-        <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-            <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a>
-            </li>
-            <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-        </ul>
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <!-- Home tab content -->
-            <div class="tab-pane active" id="control-sidebar-home-tab">
-                <h3 class="control-sidebar-heading">Recent Activity</h3>
-                <ul class="control-sidebar-menu">
-                    <li>
-                        <a href="javascript::;">
-                            <i class="menu-icon fa fa-birthday-cake bg-red"></i>
-
-                            <div class="menu-info">
-                                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-
-                                <p>Will be 23 on April 24th</p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.control-sidebar-menu -->
-
-                <h3 class="control-sidebar-heading">Tasks Progress</h3>
-                <ul class="control-sidebar-menu">
-                    <li>
-                        <a href="javascript::;">
-                            <h4 class="control-sidebar-subheading">
-                                Custom Template Design
-                                <span class="pull-right-container">
-                  <span class="label label-danger pull-right">70%</span>
-                </span>
-                            </h4>
-
-                            <div class="progress progress-xxs">
-                                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.control-sidebar-menu -->
-
-            </div>
-            <!-- /.tab-pane -->
-            <!-- Stats tab content -->
-            <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-            <!-- /.tab-pane -->
-            <!-- Settings tab content -->
-            <div class="tab-pane" id="control-sidebar-settings-tab">
-                <form method="post">
-                    <h3 class="control-sidebar-heading">General Settings</h3>
-
-                    <div class="form-group">
-                        <label class="control-sidebar-subheading">
-                            Report panel usage
-                            <input type="checkbox" class="pull-right" checked>
-                        </label>
-
-                        <p>
-                            Some information about this general settings option
-                        </p>
-                    </div>
-                    <!-- /.form-group -->
-                </form>
-            </div>
-            <!-- /.tab-pane -->
+        <div class="pull-right hidden-xs">
+            <b>Version</b> 4.4.0
         </div>
-    </aside>
-    <!-- /.control-sidebar -->
-    <!-- Add the sidebar's background. This div must be placed
-         immediately after the control sidebar -->
-    <div class="control-sidebar-bg"></div>
-
-
+        <strong>Copyright &copy; <?php echo '2004 - ' . date('Y'). '. <a href="https://websk.ru" target="_blank">WebSK.RU</a>'?>
+    </footer>
 </div>
 <!-- ./wrapper -->
 
 <!-- AdminLTE App -->
+<script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/metisMenu/metisMenu.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/AdminLTE/js/app.min.js'); ?>"></script>
 
 </body>

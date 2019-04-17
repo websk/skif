@@ -33,7 +33,7 @@ use WebSK\Slim\Router;
 
     <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css">
 
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/styles/admin.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/styles/skif.css'); ?>" rel="stylesheet" type="text/css">
 </head>
 
 <body>

@@ -43,13 +43,29 @@ return [
             ['link' => '/admin/rating', 'name' => 'Рейтинги', 'icon' => '<i class="fa fa-star-o fa-fw"></i>'],
             [
                 'link' => '#',
-                'name' => 'Настройки<span class="fa arrow"></span>',
+                'name' => 'Настройки',
                 'icon' => '<i class="fa fa-wrench fa-fw"></i>',
                 'sub_menu' => [
-                    ['link' => CRUDController::getListUrl(ContentType::class), 'name' => 'Типы контента'],
-                    ['link' => CRUDController::getListUrl(Template::class), 'name' => 'Темы'],
-                    ['link' => '/admin/redirect', 'name' => 'Редиректы'],
-                    ['link' => '/admin/key_value', 'name' => 'Параметры'],
+                    [
+                        'link' => CRUDController::getListUrl(ContentType::class),
+                        'name' => 'Типы контента',
+                        'icon' => '<i class="fa fa-circle-o"></i>'
+                    ],
+                    [
+                        'link' => CRUDController::getListUrl(Template::class),
+                        'name' => 'Темы',
+                        'icon' => '<i class="fa fa-circle-o"></i>'
+                    ],
+                    [
+                        'link' => '/admin/redirect',
+                        'name' => 'Редиректы',
+                        'icon' => '<i class="fa fa-circle-o"></i>'
+                    ],
+                    [
+                        'link' => '/admin/key_value',
+                        'name' => 'Параметры',
+                        'icon' => '<i class="fa fa-circle-o"></i>'
+                    ],
                 ]
             ]
         ],

@@ -5,6 +5,7 @@
   "require": {
     "ext-mbstring": "*",
     "ext-pdo": "*",
+    "ext-json": "*",
     "slim/slim": "^3.0",
     "slim/php-view": "^2.2",
     "websk/php-auth": "1.0.*",

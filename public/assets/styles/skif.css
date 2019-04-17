@@ -65,3 +65,16 @@ label.error {
 .skin-blue .main-header .logo:hover {
     background-color: #ecf0f5;
 }
+
+.sidebar-menu .treeview-menu {
+    padding-left: 15px;
+}
+
+.btn-info.btn-outline {
+    color: #5bc0de;
+    border-color: #46b8da;
+}
+
+.btn-info.btn-outline:hover, .btn-info.btn-outline:active {
+    color: #ffffff;
+}

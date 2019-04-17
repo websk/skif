@@ -37,6 +37,8 @@ class Rating implements
         'rating_voices_ids_arr',
     );
 
+    public static $crud_model_class_screen_name_for_list = 'Рейтинги';
+
     // Связанные модели
     public static $related_models_arr = array(
         RatingVoice::class => array(

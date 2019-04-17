@@ -47,7 +47,7 @@ CREATE TABLE `template` (
 INSERT INTO `template` (`id`, `name`, `title`, `css`, `is_default`, `layout_template_file`)
 VALUES
        (1, 'main', 'Сайт. Три колонки', 'main.css', 1, 'layout.main.tpl.php'),
-       (2, 'admin', 'Система управления сайтом', 'admin.css', 0, 'layout.admin.tpl.php');
+       (2, 'admin', 'Система управления сайтом', 'skif.css', 0, 'layout.admin.tpl.php');
 
 
 # Blocks
