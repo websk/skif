@@ -8,6 +8,7 @@ use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\Blocks\BlockRoutes;
 use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Skif\Content\ContentRoutes;
+use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\CRUD\CRUDRoutes;
 use WebSK\Skif\Form\FormRoutes;
 use WebSK\Cache\CacheServiceProvider;
@@ -58,6 +59,7 @@ class SkifApp extends App
         CRUDServiceProvider::register($container);
         KeyValueServiceProvider::register($container);
         LoggerServiceProvider::register($container);
+        ContentServiceProvider::register($container);
 
         $this->registerRoutes();
     }

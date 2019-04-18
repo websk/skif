@@ -33,6 +33,10 @@ class Content implements
     use ActiveRecord;
     use FactoryTrait;
 
+    const ENTITY_SERVICE_CONTAINER_ID = 'skif.content_service';
+    const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.content_repository';
+    const DB_TABLE_NAME = 'content';
+
     const _ID = 'id';
     /** @var int */
     protected $id;
@@ -95,8 +99,6 @@ class Content implements
     public static $active_record_ignore_fields_arr = [
         'content_rubrics_ids_arr',
     ];
-
-    const DB_TABLE_NAME = 'content';
 
     /**
      * @return string
