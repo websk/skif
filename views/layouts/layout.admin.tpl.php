@@ -90,7 +90,7 @@ if (!isset($layout_dto)) {
     <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); ?>"></script>
     <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/ckeditor/ckeditor.js'); ?>"></script>
 </head>
 
 <body>
