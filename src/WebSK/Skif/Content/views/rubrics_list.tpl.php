@@ -35,13 +35,13 @@ $content_type_obj = ContentType::factory($content_type_id);
                     <?php echo $rubric_obj->getComment(); ?>
                 </td>
                 <td align="right">
-                    <a href="<?php echo $rubric_obj->getEditorUrl(); ?>" title="Редактировать" class="btn btn-outline btn-default btn-sm">
+                    <a href="<?php echo $rubric_obj->getEditorUrl(); ?>" title="Редактировать" class="btn btn-default btn-sm">
                         <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
                     </a>
-                    <a href="<?php echo $rubric_obj->getUrl(); ?>" target="_blank" title="Просмотр" class="btn btn-outline btn-default btn-sm">
+                    <a href="<?php echo $rubric_obj->getUrl(); ?>" target="_blank" title="Просмотр" class="btn btn-default btn-sm">
                         <span class="fa fa-external-link fa-lg text-info fa-fw"></span>
                     </a>
-                    <a href="<?php echo $rubric_obj->getDeleteUrl(); ?>" onClick="return confirm('Вы уверены, что хотите удалить?')" title="Удалить" class="btn btn-outline btn-default btn-sm">
+                    <a href="<?php echo $rubric_obj->getDeleteUrl(); ?>" onClick="return confirm('Вы уверены, что хотите удалить?')" title="Удалить" class="btn btn-default btn-sm">
                         <span class="fa fa-trash-o fa-lg text-danger fa-fw"></span>
                     </a>
                 </td>

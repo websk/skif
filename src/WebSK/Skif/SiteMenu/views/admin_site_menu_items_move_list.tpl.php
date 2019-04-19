@@ -67,7 +67,7 @@ $site_menu_move_item_obj = SiteMenuItem::factory($move_item_id);
                     } else {
                         echo $site_menu_item_obj->getName();
                         ?>
-                        <a href="/admin/site_menu/<?php echo $site_menu_id; ?>/item/move/<?php echo $move_item_id; ?>?destination_parent_item_id=<?php echo $site_menu_item_id; ?>" title="Сделать вложенным пунктом" class="btn btn-outline btn-default btn-sm">
+                        <a href="/admin/site_menu/<?php echo $site_menu_id; ?>/item/move/<?php echo $move_item_id; ?>?destination_parent_item_id=<?php echo $site_menu_item_id; ?>" title="Сделать вложенным пунктом" class="btn btn-default btn-sm">
                             <span class="fa fa-hand-o-left fa-lg text-warning"></span>
                         </a>
                     <?php
@@ -75,7 +75,7 @@ $site_menu_move_item_obj = SiteMenuItem::factory($move_item_id);
                     ?>
                 </td>
                 <td align="right">
-                    <a href="/admin/site_menu/<?php echo $site_menu_id; ?>/item/move/<?php echo $move_item_id; ?>?destination_parent_item_id=<?php echo $parent_id; ?>&destination_item_id=<?php echo $site_menu_item_id; ?>" title="Расположить после" class="btn btn-outline btn-default btn-sm">
+                    <a href="/admin/site_menu/<?php echo $site_menu_id; ?>/item/move/<?php echo $move_item_id; ?>?destination_parent_item_id=<?php echo $parent_id; ?>&destination_item_id=<?php echo $site_menu_item_id; ?>" title="Расположить после" class="btn btn-default btn-sm">
                         <span class="fa fa-hand-o-down fa-lg text-primary"></span>
                     </a>
                 </td>

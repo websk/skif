@@ -285,14 +285,14 @@ if (isset($list_title)) {
                     ?>
                     <td align="right">
                         <a href="<?php echo $edit_url; ?>" title="Редактировать"
-                           class="btn btn-outline btn-default btn-sm">
+                           class="btn btn-default btn-sm">
                             <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
                         </a>
                         <?php
                         if ($show_url_button) {
                             ?>
                             <a href="<?php echo $obj_obj->getUrl(); ?>" target="_blank" title="Просмотр"
-                               class="btn btn-outline btn-default btn-sm">
+                               class="btn btn-default btn-sm">
                                 <span class="fa fa-external-link fa-lg text-info fa-fw"></span>
                             </a>
                             <?php
@@ -302,7 +302,7 @@ if (isset($list_title)) {
                             ?>
                             <a href="<?php echo $delete_url . '?destination=' . urlencode($_SERVER['REQUEST_URI']); ?>"
                                onClick="return confirm('Вы уверены, что хотите удалить?')" title="Удалить"
-                               class="btn btn-outline btn-default btn-sm">
+                               class="btn btn-default btn-sm">
                                 <span class="fa fa-trash-o fa-lg text-danger fa-fw"></span>
                             </a>
                             <?php

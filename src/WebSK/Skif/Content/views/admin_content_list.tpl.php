@@ -53,7 +53,7 @@ if ($requested_rubric_id) {
                 </form>
             </div>
             <div class="col-md-4">
-                <a href="<?php echo RubricController::getRubricsListUrlByContentType($content_type);?>" class="btn btn-outline btn-info">
+                <a href="<?php echo RubricController::getRubricsListUrlByContentType($content_type);?>" class="btn btn-default">
                     <span class="glyphicon glyphicon-wrench"></span> Редактировать рубрики
                 </a>
             </div>
@@ -96,13 +96,13 @@ foreach ($contents_ids_arr as $content_id) {
         </td>
         <td class="hidden-xs hidden-sm text-muted"><?php echo $content_obj->getCreatedAt(); ?></td>
         <td align="right">
-            <a href="<?php echo Router::pathFor(ContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>" title="Редактировать" class="btn btn-outline btn-default btn-sm">
+            <a href="<?php echo Router::pathFor(ContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>" title="Редактировать" class="btn btn-default btn-sm">
                 <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
             </a>
-            <a href="<?php echo $content_obj->getUrl(); ?>" target="_blank" title="Просмотр" class="btn btn-outline btn-default btn-sm">
+            <a href="<?php echo $content_obj->getUrl(); ?>" target="_blank" title="Просмотр" class="btn btn-default btn-sm">
                 <span class="fa fa-external-link fa-lg text-info fa-fw"></span>
             </a>
-            <a href="/admin/content/<?php echo $content_type; ?>/delete/<?php echo $content_id; ?>" onClick="return confirm('Вы уверены, что хотите удалить?')" title="Удалить" class="btn btn-outline btn-default btn-sm">
+            <a href="/admin/content/<?php echo $content_type; ?>/delete/<?php echo $content_id; ?>" onClick="return confirm('Вы уверены, что хотите удалить?')" title="Удалить" class="btn btn-default btn-sm">
                 <span class="fa fa-trash-o fa-lg text-danger fa-fw"></span>
             </a>
         </td>

@@ -44,7 +44,7 @@ $current_template_id = \WebSK\Skif\Blocks\ControllerBlocks::getCurrentTemplateId
                         <label class="sr-only">Поиск</label>
                         <input class="form-control" type="text" value="<?php echo $search_value; ?>" name="search" id="search" placeholder="Поиск по содержимому">
                     </div>
-                    <button type="submit" class="btn btn-info" title="Поиск по тексту блоков">
+                    <button type="submit" class="btn btn-default" title="Поиск по тексту блоков">
                         <span class="glyphicon glyphicon-search"></span> Искать
                     </button>
                 </form>
