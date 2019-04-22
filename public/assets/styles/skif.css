@@ -78,3 +78,8 @@ label.error {
 .btn-info.btn-outline:hover, .btn-info.btn-outline:active {
     color: #ffffff;
 }
+
+.login-panel {
+    margin-top: 25%;
+    border-color: #ddd;
+}

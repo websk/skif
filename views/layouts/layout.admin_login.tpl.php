@@ -29,7 +29,9 @@ use WebSK\Slim\Router;
     <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
     <script src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap/js/bootstrap.min.js'); ?>"></script>
 
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/sb-admin-2/css/sb-admin-2.css'); ?>" rel="stylesheet" type="text/css">
+    <!-- AdminLTE -->
+    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/AdminLTE/css/AdminLTE.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/AdminLTE/css/skin-blue.min.css'); ?>" rel="stylesheet" type="text/css">
 
     <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css">
 
