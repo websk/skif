@@ -72,14 +72,14 @@ class ContentRoutes
                     $app->get('/content_photo/list', ContentPhotoListHandler::class)
                         ->setName(ContentPhotoListHandler::class);
                 });
-
-                $app->group('/content_photo/{content_photo_id:\d+}', function (App $app) {
-                    $app->get('/delete', ContentPhotoDeleteHandler::class)
-                        ->setName(ContentPhotoDeleteHandler::class);
-                    $app->get('/set_default', SetDefaultContentPhotoHandler::class)
-                        ->setName(SetDefaultContentPhotoHandler::class);
-                });
             });
+        });
+
+        $app->group('/content_photo/{content_photo_id:\d+}', function (App $app) {
+            $app->post('/delete', ContentPhotoDeleteHandler::class)
+                ->setName(ContentPhotoDeleteHandler::class);
+            $app->post('/set_default', SetDefaultContentPhotoHandler::class)
+                ->setName(SetDefaultContentPhotoHandler::class);
         });
     }
 

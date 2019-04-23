@@ -273,12 +273,16 @@ if ($content_id == 'new') {
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="photo">
-                <div class="form-group">
-                    <?php echo PhpRender::renderLocalTemplate(
-                        'content_photo_form_edit.tpl.php',
-                        ['content_type' => $content_type, 'content_id' => $content_id]
-                    )
-                    ?>
+                <div class="col-md-offset-1 col-md-11">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <?php echo PhpRender::renderLocalTemplate(
+                                'content_photo_form_edit.tpl.php',
+                                ['content_type' => $content_type, 'content_id' => $content_id]
+                            )
+                            ?>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
