@@ -197,7 +197,9 @@ CREATE TABLE `content_rubrics` (
   `rubric_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `content_id` (`content_id`),
-  KEY `rubric_id` (`rubric_id`)
+  KEY `rubric_id` (`rubric_id`),
+  CONSTRAINT `content_rubrics_content_id_FK` FOREIGN KEY (`content_id`) REFERENCES `content` (`id`),
+  CONSTRAINT `content_rubrics_rubric_id_FK` FOREIGN KEY (`rubric_id`) REFERENCES `content_rubrics` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `content_types` (
@@ -214,6 +216,15 @@ VALUES
        (1, 'page', 'Страницы', '/', 1),
        (2, 'news', 'Новости', '/news', 1),
        (3, 'photo', 'Фото', '/photo', 1);
+
+CREATE TABLE `content_photo` (
+   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+   `content_id` int(11) DEFAULT NULL,
+   `is_default` tinyint(4) NOT NULL DEFAULT '0',
+   PRIMARY KEY (`id`),
+   KEY `content_id` (`content_id`),
+   CONSTRAINT `content_photo_content_id_FK` FOREIGN KEY (`content_id`) REFERENCES `content` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `rubrics` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

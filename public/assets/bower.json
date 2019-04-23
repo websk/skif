@@ -23,6 +23,7 @@
     "ace-builds": "1.2.8",
     "metisMenu": "1.1.3",
     "font-awesome": "4.7.0",
-    "ckeditor/ckeditor": "4.7.*"
+    "ckeditor/ckeditor": "4.7.*",
+    "blueimp-file-upload": "~9.11.2"
   }
 }

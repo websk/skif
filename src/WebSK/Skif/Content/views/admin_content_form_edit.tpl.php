@@ -67,8 +67,8 @@ if ($content_id == 'new') {
                                        aria-controls="publish">Настройки публикации</a></li>
             <li role="presentation"><a href="#rubrics" role="tab" id="rubrics-tab" data-toggle="tab"
                                        aria-controls="rubrics">Рубрики</a></li>
-            <li role="presentation"><a href="#seo" role="tab" id="seo-tab" data-toggle="tab" aria-controls="seo">SEO</a>
-            </li>
+            <li role="presentation"><a href="#seo" role="tab" id="seo-tab" data-toggle="tab" aria-controls="seo">SEO</a></li>
+            <li role="presentation"><a href="#photo" role="tab" id="photo-tab" data-toggle="tab" aria-controls="photo">Фото</a></li>
             <li role="presentation"><a href="<?php echo $content_obj->getUrl(); ?>" role="tab" target="_blank">Просмотр&nbsp;<sup><span
                                 class="glyphicon glyphicon-new-window"></span></sup></a></li>
             <li role="presentation"><a href="<?php echo LoggerRender::getLoggerLinkForEntityObj($content_obj); ?>"
@@ -270,6 +270,9 @@ if ($content_id == 'new') {
                                value="<?php echo $content_obj->getKeywords(); ?>">
                     </div>
                 </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="photo">
+
             </div>
         </div>
     </div>
