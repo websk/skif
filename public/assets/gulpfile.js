@@ -67,7 +67,7 @@ gulp.task('fancybox', function () {
             bowerPath + 'fancybox/dist/jquery.fancybox.min.js',
             bowerPath + 'fancybox/dist/jquery.fancybox.min.css'
         ], {
-            base: bowerPath + 'fancybox/source/'
+            base: bowerPath + 'fancybox/dist/'
         }
     )
         .pipe(newer(librariesPath + 'fancybox/'))
@@ -231,7 +231,7 @@ gulp.task('scripts', function (done) {
         librariesPath + 'jquery-ui/jquery-ui.min.js',
         librariesPath + 'bootstrap/js/bootstrap.min.js',
         librariesPath + 'jquery-validation/jquery.validate.min.js',
-        librariesPath + 'fancybox/jquery.fancybox.pack.js',
+        librariesPath + 'fancybox/jquery.fancybox.min.js',
         librariesPath + 'metisMenu/metisMenu.min.js',
         librariesPath + 'moment/moment.min.js',
         librariesPath + 'moment/moment.ru.min.js',

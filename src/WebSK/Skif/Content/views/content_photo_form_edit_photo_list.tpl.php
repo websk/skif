@@ -25,7 +25,7 @@ foreach ($content_photo_ids_arr as $content_photo_id) {
     }
     ?>
     <div style="margin-bottom: 10px">
-        <a rel="gallery"
+        <a data-fancybox="gallery"
            href="<?php echo ImageManager::getImgUrlByFileName($content_photo_obj->getPhotoPath()) ?>"
            class="grouped_elements">
             <img src="<?php echo ImageManager::getImgUrlByPreset($content_photo_obj->getPhotoPath(),
