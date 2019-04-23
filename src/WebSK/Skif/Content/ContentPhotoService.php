@@ -11,5 +11,17 @@ use WebSK\Entity\EntityService;
  */
 class ContentPhotoService extends EntityService
 {
+    /** @var ContentPhotoRepository */
+    protected $repository;
 
+    /**
+     * @param int $content_id
+     * @return array|null
+     */
+    public function getIdsArrByContentId(int $content_id)
+    {
+        $ids_arr = $this->repository->findIdsByContentId($content_id);
+
+        return $ids_arr;
+    }
 }

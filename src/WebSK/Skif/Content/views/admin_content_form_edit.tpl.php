@@ -12,6 +12,7 @@ use WebSK\Skif\Content\TemplateUtils;
 use WebSK\Skif\CKEditor\CKEditor;
 use WebSK\Image\ImageManager;
 use WebSK\Logger\LoggerRender;
+use WebSK\Views\PhpRender;
 
 $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
 
@@ -272,7 +273,13 @@ if ($content_id == 'new') {
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="photo">
-
+                <div class="form-group">
+                    <?php echo PhpRender::renderLocalTemplate(
+                        'content_photo_form_edit.tpl.php',
+                        ['content_type' => $content_type, 'content_id' => $content_id]
+                    )
+                    ?>
+                </div>
             </div>
         </div>
     </div>

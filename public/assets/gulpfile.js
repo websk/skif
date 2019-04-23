@@ -149,7 +149,7 @@ gulp.task('metisMenu', function () {
 
 gulp.task('ace', function () {
     return gulp.src(
-        bowerPath + 'ace-builds/src-min/*'
+        bowerPath + 'ace-builds/src-min/**'
     )
         .pipe(newer(librariesPath + 'ace/'))
         .pipe(gulp.dest(librariesPath + 'ace/'));
@@ -172,6 +172,14 @@ gulp.task('ckeditor', function () {
         .pipe(gulp.dest(librariesPath + 'ckeditor/'));
 });
 
+gulp.task('blueimp-file-upload', function () {
+    return gulp.src(
+        bowerPath + 'blueimp-file-upload/**'
+    )
+        .pipe(newer(librariesPath + 'blueimp-file-upload/'))
+        .pipe(gulp.dest(librariesPath + 'blueimp-file-upload/'));
+});
+
 
 /**
  * Libraries: copying
@@ -188,7 +196,8 @@ gulp.task('copy', gulp.parallel(
     'bootstrap-datetimepicker',
     'font-awesome',
     'metisMenu',
-    'ckeditor'
+    'ckeditor',
+    'blueimp-file-upload'
 ));
 
 

@@ -1,39 +1,41 @@
 <?php
 /**
- * @var $tour_id
+ * @var $content_id
  */
 
-if ($tour_id == 'new') {
-    return '';
-}
+use WebSK\Image\ImageManager;
+use WebSK\Skif\Content\ContentServiceProvider;
+use WebSK\Slim\Container;
 
-$tour_obj = \Tour\Tour::factory($tour_id);
+$container = Container::self();
 
-$tour_photo_ids_arr = $tour_obj->getTourPhotoIdsArr();
+$content_photo_service = ContentServiceProvider::getContentPhotoService($container);
 
-foreach ($tour_photo_ids_arr as $tour_photo_id) {
-    $tour_photo_obj = \Tour\TourPhoto::factory($tour_photo_id);
+$content_photo_ids_arr = $content_photo_service->getIdsArrByContentId($content_id);
+
+foreach ($content_photo_ids_arr as $content_photo_id) {
+    $content_photo_obj = $content_photo_service->getById($content_photo_id);
 
     $image_default_add_class = '';
-    if ($tour_photo_obj->isDefault()) {
+    if ($content_photo_obj->isDefault()) {
         $image_default_add_class = ' uk-badge';
     }
     ?>
     <div class="form-group">
-        <a rel="gallery" href="<?php echo \Skif\Image\ImageManager::getImgUrlByFileName($tour_photo_obj->getPhotoPath()) ?>" class="grouped_elements">
-            <img src="<?php echo  \Skif\Image\ImageManager::getImgUrlByPreset($tour_photo_obj->getPhotoPath(), '160_auto') ?>" class="img-responsive img-thumbnail" border="0">
+        <a rel="gallery" href="<?php echo ImageManager::getImgUrlByFileName($content_photo_obj->getPhotoPath()) ?>" class="grouped_elements">
+            <img src="<?php echo ImageManager::getImgUrlByPreset($content_photo_obj->getPhotoPath(), '160_auto') ?>" class="img-responsive img-thumbnail" border="0">
         </a>
-        <a class="image_delete" data-tour-photo-id="<?php echo $tour_photo_id; ?>" title="Удалить фотографию">Удалить</a>
-        / <a class="image_default<?php echo $image_default_add_class; ?>" data-tour-photo-id="<?php echo $tour_photo_id; ?>" title="Использовать фотографию по-умолчанию">По умолчанию</a>
+        <a class="image_delete" data-content-photo-id="<?php echo $content_photo_id; ?>" title="Удалить фотографию">Удалить</a>
+        / <a class="image_default<?php echo $image_default_add_class; ?>" data-content-photo-id="<?php echo $content_photo_id; ?>" title="Использовать фотографию по-умолчанию">По умолчанию</a>
     </div>
     <?php
 }
 ?>
 <script>
     $("a.image_delete").click(function () {
-        ajaxDeleteImage($(this).data('tour-photo-id'));
+        ajaxDeleteImage($(this).data('content-photo-id'));
     });
     $("a.image_default").click(function () {
-        ajaxSetDefaultImage($(this).data('tour-photo-id'));
+        ajaxSetDefaultImage($(this).data('content-photo-id'));
     });
 </script>

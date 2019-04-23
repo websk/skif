@@ -6,6 +6,10 @@ use Slim\App;
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\Content\RequestHandlers\Admin\ContentEditHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\ContentListAjaxHandler;
+use WebSK\Skif\Content\RequestHandlers\Admin\ContentPhotoCreateHandler;
+use WebSK\Skif\Content\RequestHandlers\Admin\ContentPhotoDeleteHandler;
+use WebSK\Skif\Content\RequestHandlers\Admin\ContentPhotoListHandler;
+use WebSK\Skif\Content\RequestHandlers\Admin\SetDefaultContentPhotoHandler;
 use WebSK\Utils\HTTP;
 
 /**
@@ -55,11 +59,26 @@ class ContentRoutes
     {
         $app->group('/content', function (App $app) {
             $app->group('/{content_type:\w+}', function (App $app) {
-                $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/{content_id:\d+}', ContentEditHandler::class)
-                    ->setName(ContentEditHandler::class);
-
                 $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/ajax', ContentListAjaxHandler::class)
                     ->setName(ContentListAjaxHandler::class);
+
+                $app->group('/{content_id:\d+}', function (App $app) {
+                    $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', ContentEditHandler::class)
+                        ->setName(ContentEditHandler::class);
+
+                    $app->post('/content_photo/create', ContentPhotoCreateHandler::class)
+                        ->setName(ContentPhotoCreateHandler::class);
+
+                    $app->get('/content_photo/list', ContentPhotoListHandler::class)
+                        ->setName(ContentPhotoListHandler::class);
+                });
+
+                $app->group('/content_photo/{content_photo_id:\d+}', function (App $app) {
+                    $app->get('/delete', ContentPhotoDeleteHandler::class)
+                        ->setName(ContentPhotoDeleteHandler::class);
+                    $app->get('/set_default', SetDefaultContentPhotoHandler::class)
+                        ->setName(SetDefaultContentPhotoHandler::class);
+                });
             });
         });
     }

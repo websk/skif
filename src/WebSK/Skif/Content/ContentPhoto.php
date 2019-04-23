@@ -14,12 +14,15 @@ class ContentPhoto extends Entity
     const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.content_photo_repository';
     const DB_TABLE_NAME = 'content_photo';
 
+    const _CONTENT_ID = 'content_id';
     /** @var int */
     protected $content_id;
 
+    const _PHOTO = 'photo';
     /** @var string */
     protected $photo;
 
+    const _IS_DEFAULT = 'is_default';
     /** @var bool */
     protected $is_default = false;
 

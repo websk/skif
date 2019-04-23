@@ -4,11 +4,9 @@ namespace WebSK\Skif\Content\RequestHandlers\Admin;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use WebSK\Auth\Auth;
 use WebSK\Config\ConfWrapper;
 use WebSK\Skif\Content\ContentType;
 use WebSK\Slim\RequestHandlers\BaseHandler;
-use WebSK\Utils\Exits;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -28,9 +26,6 @@ class ContentEditHandler extends BaseHandler
      */
     public function __invoke(Request $request, Response $response, string $content_type, int $content_id)
     {
-        // Проверка прав доступа
-        Exits::exit403If(!Auth::currentUserIsAdmin());
-
         $content_html = PhpRender::renderTemplate(
             __DIR__ . '/../../views/admin_content_form_edit.tpl.php',
             ['content_id' => $content_id, 'content_type' => $content_type]

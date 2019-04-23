@@ -541,6 +541,11 @@ label.error {
 .btn-info.btn-outline:hover, .btn-info.btn-outline:active {
     color: #ffffff;
 }
+
+.login-panel {
+    margin-top: 25%;
+    border-color: #ddd;
+}
 /*! fancyBox v2.1.5 fancyapps.com | fancyapps.com/fancybox/#license */
 .fancybox-wrap,
 .fancybox-skin,

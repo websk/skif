@@ -1,9 +1,12 @@
 <?php
 /**
+ * @var $content_type
  * @var $content_id
  */
 
+use WebSK\Skif\Content\RequestHandlers\Admin\ContentPhotoCreateHandler;
 use WebSK\Skif\SkifPath;
+use WebSK\Slim\Router;
 
 if ($content_id == 'new') {
     echo 'Чтобы появилась возможность добавлять фотографии, создайте сначала материал';
@@ -43,7 +46,7 @@ if ($content_id == 'new') {
     function ajaxDeleteImage(content_photo_id) {
         $.ajax({
             type: "POST",
-            url: "/content/delete_photo/" + content_photo_id,
+            url: "/admin/content_photo/" + content_photo_id + "/delete",
             success: function () {
                 ajaxUpdateImageList();
             }
@@ -53,7 +56,7 @@ if ($content_id == 'new') {
     function ajaxSetDefaultImage(content_photo_id) {
         $.ajax({
             type: "POST",
-            url: "/admin/content/set_default_photo/" + content_photo_id,
+            url: "/admin/content_photo/" + content_photo_id + "/set_default",
             success: function () {
                 ajaxUpdateImageList();
             }
@@ -62,7 +65,7 @@ if ($content_id == 'new') {
 
     function ajaxUpdateImageList() {
         $.ajax({
-            url: '/admin/content/list_photo/<?php echo $content_id; ?>',
+            url: '/admin/content/<?php echo $content_type; ?>/<?php echo $content_id; ?>/content_photo/list',
             success: function (html) {
                 $('#content_photos_list').html(html);
             }
@@ -72,7 +75,7 @@ if ($content_id == 'new') {
     $(function () {
         ajaxUpdateImageList();
 
-        var url = '/admin/content/add_photo/<?php echo $content_id; ?>';
+        var url = '<?php echo Router::pathFor(ContentPhotoCreateHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>';
 
         $('#upload_image').fileupload({
             url: url,

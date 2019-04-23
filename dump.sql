@@ -221,10 +221,11 @@ CREATE TABLE `content_photo` (
    `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
    `content_id` int(11) DEFAULT NULL,
    `is_default` tinyint(4) NOT NULL DEFAULT '0',
+   `photo` varchar(255) DEFAULT NULL,
    PRIMARY KEY (`id`),
    KEY `content_id` (`content_id`),
-   CONSTRAINT `content_photo_content_id_FK` FOREIGN KEY (`content_id`) REFERENCES `content` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+   CONSTRAINT `content_id_FK` FOREIGN KEY (`content_id`) REFERENCES `content` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `rubrics` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
