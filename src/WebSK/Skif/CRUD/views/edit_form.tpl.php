@@ -127,7 +127,7 @@ if (property_exists($model_class_name, 'related_models_arr')) {
         $context_arr = array($relation_field_name => $obj->getId());
 
         if (isset($related_model_data['context_fields_arr'])
-            && array_key_exists($related_model_data['context_fields_arr'], $related_model_data)
+            && is_array($related_model_data['context_fields_arr'])
         ) {
             foreach ($related_model_data['context_fields_arr'] as $context_field) {
                 $context_arr[$context_field] = CRUDUtils::getObjectFieldValue($obj, $context_field);

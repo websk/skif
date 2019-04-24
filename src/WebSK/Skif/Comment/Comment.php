@@ -108,7 +108,7 @@ class Comment implements
             'link_field' => 'parent_id',
             'field_name' => 'children_ids_arr',
             'list_title' => 'Ответы',
-            'context_fields_arr' => array('url', 'url_md5'),
+            'context_fields_arr' => ['url', 'url_md5'],
         )
     );
 
