@@ -135,13 +135,11 @@ $user_logout_url = Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['des
         <a href="<?php echo Router::pathFor(SkifApp::ROUTE_NAME_ADMIN); ?>" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini">
-                <img src="<?php echo SkifPath::wrapSkifAssetsVersion('images/admin/skif_small_logo.png'); ?>" alt="СКИФ"
-                     border="0" title="Система управления сайтом СКИФ / websk.ru" class="img-responsive">
+                <span class="logo-lg" title="Система управления сайтом СКИФ / websk.ru"><b>СК</b></span>
             </span>
             <!-- logo for regular state and mobile devices -->
             <span class="logo-lg">
-                <img src="<?php echo SkifPath::wrapSkifAssetsVersion('images/admin/skif_small_logo.png'); ?>" alt="СКИФ"
-                     border="0" title="Система управления сайтом СКИФ / websk.ru" class="img-responsive">
+                <span class="logo-lg" title="Система управления сайтом СКИФ / websk.ru"><b>СКИФ</b></span>
             </span>
         </a>
 

@@ -52,19 +52,6 @@ label.error {
     padding-bottom: 10px;
 }
 
-.skin-blue .main-header .logo, .logo-lg, .logo-mini {
-    background-color: #ecf0f5;
-}
-
-.skin-blue .main-header .logo, .logo-lg {
-    padding-left: 20px;
-    padding-top: 2px;
-}
-
-
-.skin-blue .main-header .logo:hover {
-    background-color: #ecf0f5;
-}
 
 .sidebar-menu .treeview-menu {
     padding-left: 15px;
