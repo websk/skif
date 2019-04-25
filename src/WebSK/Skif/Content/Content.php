@@ -108,7 +108,7 @@ class Content implements
         $content_type_id = $this->getContentTypeId();
         $content_type_obj = ContentType::factory($content_type_id);
 
-        return '/admin/content/' . $content_type_obj->getType() . '/edit/' . $this->getId();
+        return '/admin/content/' . $content_type_obj->getType() . '/' . $this->getId();
     }
 
     /**
