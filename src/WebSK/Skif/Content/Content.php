@@ -100,16 +100,6 @@ class Content implements
         'content_rubrics_ids_arr',
     ];
 
-    /**
-     * @return string
-     */
-    public function getEditorUrl()
-    {
-        $content_type_id = $this->getContentTypeId();
-        $content_type_obj = ContentType::factory($content_type_id);
-
-        return '/admin/content/' . $content_type_obj->getType() . '/' . $this->getId();
-    }
 
     /**
      * @param $id
