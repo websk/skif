@@ -88,19 +88,22 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $content = '';
 
-        $editor_nav_arr = array();
+        $editor_nav_arr = [];
         if (Auth::currentUserIsAdmin()) {
-            $editor_nav_arr = array($content_obj->getEditorUrl() => 'Редактировать');
+            $editor_nav_arr = Router::pathFor(
+                ContentEditHandler::class,
+                ['content_type' => $content_type, 'content_id' => $content_id]
+            );
         }
 
-        $breadcrumbs_arr = array();
+        $breadcrumbs_arr = [];
 
         $main_rubric_id = $content_obj->getMainRubricId();
 
         if ($main_rubric_id) {
             $main_rubric_obj = Rubric::factory($main_rubric_id);
 
-            $breadcrumbs_arr = array($main_rubric_obj->getName() => $main_rubric_obj->getUrl());
+            $breadcrumbs_arr = [$main_rubric_obj->getName() => $main_rubric_obj->getUrl()];
         }
 
 
@@ -142,14 +145,14 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         echo PhpRender::renderTemplate(
             $layout_template_file,
-            array(
+            [
                 'content' => $content,
                 'editor_nav_arr' => $editor_nav_arr,
                 'title' => $content_obj->getTitle(),
                 'keywords' => '',
                 'description' => '',
                 'breadcrumbs_arr' => $breadcrumbs_arr
-            )
+            ]
         );
     }
 
