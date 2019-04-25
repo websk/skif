@@ -90,10 +90,12 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $editor_nav_arr = [];
         if (Auth::currentUserIsAdmin()) {
-            $editor_nav_arr = Router::pathFor(
-                ContentEditHandler::class,
-                ['content_type' => $content_type, 'content_id' => $content_id]
-            );
+            $editor_nav_arr = [
+                Router::pathFor(
+                    ContentEditHandler::class,
+                    ['content_type' => $content_type, 'content_id' => $content_id]
+                ) => 'Редактировать'
+            ];
         }
 
         $breadcrumbs_arr = [];

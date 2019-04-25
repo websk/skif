@@ -825,16 +825,16 @@
         },
         {
             "name": "websk/php-crud",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-crud.git",
-                "reference": "b416edd6f2bab1e3231c22a7f41acd79f763a00c"
+                "reference": "6bb30f0d65086613ab394c3000df4775cb5ee5c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-crud/zipball/b416edd6f2bab1e3231c22a7f41acd79f763a00c",
-                "reference": "b416edd6f2bab1e3231c22a7f41acd79f763a00c",
+                "url": "https://api.github.com/repos/websk/php-crud/zipball/6bb30f0d65086613ab394c3000df4775cb5ee5c0",
+                "reference": "6bb30f0d65086613ab394c3000df4775cb5ee5c0",
                 "shasum": ""
             },
             "require": {
@@ -850,7 +850,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2019-04-24T15:03:31+00:00"
+            "time": "2019-04-24T15:17:17+00:00"
         },
         {
             "name": "websk/php-db",
