@@ -83,7 +83,7 @@ if ($content_id == 'new') {
             formData: [{name: 'target_folder', value: 'content'}],
             autoUpload: true,
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-            maxFileSize: 5242880,
+            maxFileSize: 20971520,
             previewThumbnail: false,
             messages: {
                 maxNumberOfFiles: 'Превышено максимальное количество файлов, загружаемое за один раз',
