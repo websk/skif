@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "8dc2cbdd28f89928d8719fc155cd0ef4",
@@ -825,16 +825,16 @@
         },
         {
             "name": "websk/php-crud",
-            "version": "1.0.6",
+            "version": "1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-crud.git",
-                "reference": "6bb30f0d65086613ab394c3000df4775cb5ee5c0"
+                "reference": "94f211b46fb154e9f574dc3f279137d3a87e873f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-crud/zipball/6bb30f0d65086613ab394c3000df4775cb5ee5c0",
-                "reference": "6bb30f0d65086613ab394c3000df4775cb5ee5c0",
+                "url": "https://api.github.com/repos/websk/php-crud/zipball/94f211b46fb154e9f574dc3f279137d3a87e873f",
+                "reference": "94f211b46fb154e9f574dc3f279137d3a87e873f",
                 "shasum": ""
             },
             "require": {
@@ -850,7 +850,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2019-04-24T15:17:17+00:00"
+            "time": "2019-05-16T08:03:34+00:00"
         },
         {
             "name": "websk/php-db",
@@ -1097,16 +1097,16 @@
         },
         {
             "name": "websk/php-utils",
-            "version": "1.0.4",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-utils.git",
-                "reference": "fadf42dbbb0c7591c62bc9164e4f6a14ae5d2d05"
+                "reference": "8eab41d3777d01dad7a60b2d7cf38f433344dd72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-utils/zipball/fadf42dbbb0c7591c62bc9164e4f6a14ae5d2d05",
-                "reference": "fadf42dbbb0c7591c62bc9164e4f6a14ae5d2d05",
+                "url": "https://api.github.com/repos/websk/php-utils/zipball/8eab41d3777d01dad7a60b2d7cf38f433344dd72",
+                "reference": "8eab41d3777d01dad7a60b2d7cf38f433344dd72",
                 "shasum": ""
             },
             "require": {
@@ -1119,7 +1119,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2019-03-17T06:57:29+00:00"
+            "time": "2019-04-25T19:00:25+00:00"
         },
         {
             "name": "websk/php-view",

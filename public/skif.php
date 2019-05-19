@@ -2,7 +2,8 @@
 
 require '../vendor/autoload.php';
 
-$config = require_once realpath(__DIR__ . '/../config/config.php');
+$config_path = realpath(__DIR__ . '/../config/config.php');
+$config = require_once $config_path;
 
 \WebSK\Config\ConfWrapper::setConfig($config['settings']);
 

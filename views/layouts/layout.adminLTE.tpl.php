@@ -57,7 +57,7 @@ if (!$user_obj) {
 }
 $user_name = $user_obj->getName();
 $user_photo_path = ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(), ImagePresets::IMAGE_PRESET_200_auto);
-$user_name = $user_obj->getName();
+$user_email = $user_obj->getEmail();
 
 $user_edit_uri = Router::pathFor(UsersRoutes::ROUTE_NAME_ADMIN_USER_EDIT, ['user_id' => $user_id]);
 $user_logout_url = Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['destination' => Router::pathFor(SkifApp::ROUTE_NAME_ADMIN)]);
@@ -255,7 +255,7 @@ $user_logout_url = Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['des
                     ?>
                 </div>
                 <div class="pull-left info">
-                    <p><a href="<?php echo $user_edit_uri ?>"><?= $user_name ?></a></p>
+                    <p><a href="<?php echo $user_edit_uri ?>"><?= $user_email ?></a></p>
                     <!-- Status -->
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
