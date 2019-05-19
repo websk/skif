@@ -39,9 +39,9 @@ $filemanager_path = ConfWrapper::value('ckeditor.filemanager_path');
         ],
         customConfig: '<?php echo SkifPath::wrapSkifAssetsVersion('/js/ckeditor_config.js'); ?>',
         contentsCss: [<?php echo $contents_css; ?>],
-        filebrowserBrowseUrl: '<?php echo $filemanager_path; ?>' + <?php echo($dir ? "'&expandedFolder=content/" . $dir . "'" : "''") ?>,
+        filebrowserBrowseUrl: '<?php echo $filemanager_path; ?>' + <?php echo($dir ? "'?expandedFolder=" . $dir . "'" : "''") ?>,
         filebrowserImageBrowseUrl: '<?php echo $filemanager_path; ?>',
-        filebrowserUploadUrl: '<?php echo $filemanager_path; ?>' + <?php echo($dir ? "'&expandedFolder=content/" . $dir . "'" : "''") ?>,
+        filebrowserUploadUrl: '<?php echo $filemanager_path; ?>' + <?php echo($dir ? "'?expandedFolder=" . $dir . "'" : "''") ?>,
         filebrowserImageUploadUrl: '<?php echo $filemanager_path ?>',
         height: <?php echo $height ?>
     });
