@@ -16,8 +16,6 @@ foreach ($config_styles as $style_file) {
 }
 $contents_css = implode(',', $contents_css_files);
 
-$dir_str = ($dir ? "'&dir=" . $dir . "'" : '');
-
 $filemanager_path = ConfWrapper::value('ckeditor.filemanager_path');
 ?>
 <textarea id="<?php echo $editor_name ?>" name="<?php echo $editor_name ?>" rows="10"
@@ -37,12 +35,10 @@ $filemanager_path = ConfWrapper::value('ckeditor.filemanager_path');
             { name: 'styles', items: ['Format' ] },
             { name: 'about', items: [ 'About' ] }
         ],
-        customConfig: '<?php echo SkifPath::wrapSkifAssetsVersion('/js/ckeditor_config.js'); ?>',
+        customConfig: '<?php echo SkifPath::wrapSkifAssetsVersion('/scripts/ckeditor_config.js'); ?>',
         contentsCss: [<?php echo $contents_css; ?>],
         filebrowserBrowseUrl: '<?php echo $filemanager_path; ?>' + <?php echo($dir ? "'?expandedFolder=" . $dir . "'" : "''") ?>,
-        filebrowserImageBrowseUrl: '<?php echo $filemanager_path; ?>',
-        filebrowserUploadUrl: '<?php echo $filemanager_path; ?>' + <?php echo($dir ? "'?expandedFolder=" . $dir . "'" : "''") ?>,
-        filebrowserImageUploadUrl: '<?php echo $filemanager_path ?>',
+        filebrowserImageBrowseUrl: '<?php echo $filemanager_path; ?> + <?php echo($dir ? "'?expandedFolder=" . $dir . "'" : "''") ?>,
         height: <?php echo $height ?>
     });
 </script>
