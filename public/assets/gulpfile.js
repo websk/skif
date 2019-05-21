@@ -180,6 +180,25 @@ gulp.task('blueimp-file-upload', function () {
         .pipe(gulp.dest(librariesPath + 'blueimp-file-upload/'));
 });
 
+gulp.task('filemanager', function () {
+    return gulp.src(
+        [
+            bowerPath + 'rich-filemanager/index.html',
+            bowerPath + 'rich-filemanager/themes/default/**',
+            bowerPath + 'rich-filemanager/languages/ru.json',
+            bowerPath + 'rich-filemanager/languages/en.json',
+            bowerPath + 'rich-filemanager/images/**',
+            bowerPath + 'rich-filemanager/src/**',
+            bowerPath + 'rich-filemanager/config/**',
+            bowerPath + 'rich-filemanager/libs/**',
+        ],
+        {
+            base: bowerPath + 'rich-filemanager/'
+        }
+    )
+        .pipe(newer('../filemanager'))
+        .pipe(gulp.dest('../filemanager'));
+});
 
 /**
  * Libraries: copying
@@ -197,7 +216,8 @@ gulp.task('copy', gulp.parallel(
     'font-awesome',
     'metisMenu',
     'ckeditor',
-    'blueimp-file-upload'
+    'blueimp-file-upload',
+    'filemanager'
 ));
 
 
@@ -212,7 +232,7 @@ gulp.task('styles', function (done) {
         librariesPath + 'sb-admin-2/css/sb-admin-2.css',
         librariesPath + 'font-awesome/css/font-awesome.min.css',
         stylesPath + 'skif.css',
-        librariesPath + 'fancybox/jquery.fancybox.css',
+        librariesPath + 'fancybox/jquery.fancybox.min.css',
         librariesPath + 'bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'
     ])
         .pipe(concat('skif-common.css'))

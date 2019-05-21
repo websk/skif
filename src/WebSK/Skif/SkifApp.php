@@ -88,7 +88,7 @@ class SkifApp extends App
         Facade::setFacadeApplication($this);
 
         /** Set DBWrapper db service */
-        DBWrapper::setDbService($container->get(SkifServiceProvider::SKIF_DB_SERVICE_CONTAINER_ID));
+        DBWrapper::setDbService(SkifServiceProvider::getDBService($container));
 
         RedirectRoutes::route();
         ImageRoutes::routes();

@@ -42,4 +42,13 @@ class SkifServiceProvider
             return new DBService($db_connector, $db_settings);
         };
     }
+
+    /**
+     * @param ContainerInterface $container
+     * @return DBService
+     */
+    public static function getDBService(ContainerInterface $container)
+    {
+        return $container->get(SkifServiceProvider::SKIF_DB_SERVICE_CONTAINER_ID);
+    }
 }

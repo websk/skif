@@ -36,7 +36,7 @@ class ContentServiceProvider
         $container[Content::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
             return new ContentRepository(
                 Content::class,
-                $container->get(SkifServiceProvider::SKIF_DB_SERVICE_CONTAINER_ID)
+                SkifServiceProvider::getDBService($container)
             );
         };
 
@@ -59,7 +59,7 @@ class ContentServiceProvider
         $container[ContentPhoto::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
             return new ContentPhotoRepository(
                 ContentPhoto::class,
-                $container->get(SkifServiceProvider::SKIF_DB_SERVICE_CONTAINER_ID)
+                SkifServiceProvider::getDBService($container)
             );
         };
     }
