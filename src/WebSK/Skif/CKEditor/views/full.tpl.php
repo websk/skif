@@ -17,6 +17,9 @@ foreach ($config_styles as $style_file) {
 $contents_css = implode(',', $contents_css_files);
 
 $filemanager_path = ConfWrapper::value('ckeditor.filemanager_path');
+if (empty($filemanager_path)) {
+    $filemanager_path = SkifPath::wrapSkifAssetsVersion('/libraries/filemanager/index.html');
+}
 ?>
 <textarea id="<?php echo $editor_name ?>" name="<?php echo $editor_name ?>" rows="10"
           class="form-control"><?php echo $text ?></textarea>

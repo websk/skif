@@ -5,7 +5,7 @@
     "bower": "latest",
     "coffee-script": "latest",
     "del": "latest",
-    "gulp": "^4.0.0",
+    "gulp": "^4.0.2",
     "gulp-add-src": "latest",
     "gulp-clean-css": "latest",
     "gulp-concat": "latest",

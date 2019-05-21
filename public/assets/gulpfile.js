@@ -196,8 +196,8 @@ gulp.task('filemanager', function () {
             base: bowerPath + 'rich-filemanager/'
         }
     )
-        .pipe(newer('../filemanager'))
-        .pipe(gulp.dest('../filemanager'));
+        .pipe(newer(librariesPath + 'filemanager/'))
+        .pipe(gulp.dest(librariesPath + 'filemanager/'));
 });
 
 /**
