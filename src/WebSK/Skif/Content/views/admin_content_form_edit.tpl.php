@@ -93,7 +93,7 @@ if ($content_id == 'new') {
 
                     <div class="col-md-10">
                         <?php
-                        echo CKEditor::createBasicCKEditor('annotation', $content_obj->getAnnotation(), 150, 'content');
+                        echo CKEditor::createBasicCKEditor('annotation', $content_obj->getAnnotation(), 150, Content::CONTENT_FILES_DIR);
                         ?>
                     </div>
                 </div>
@@ -101,7 +101,7 @@ if ($content_id == 'new') {
                 <div class="form-group">
                     <div class="col-md-12">
                         <?php
-                        echo CKEditor::createFullCKEditor('body', $content_obj->getBody(), 500, 'content');
+                        echo CKEditor::createFullCKEditor('body', $content_obj->getBody(), 500, Content::CONTENT_FILES_DIR);
                         ?>
                     </div>
                 </div>

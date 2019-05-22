@@ -37,6 +37,8 @@ class Content implements
     const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.content_repository';
     const DB_TABLE_NAME = 'content';
 
+    const CONTENT_FILES_DIR = 'content';
+
     const _ID = 'id';
     /** @var int */
     protected $id;
