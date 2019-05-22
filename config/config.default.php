@@ -72,6 +72,7 @@ return [
         'log_path' => '/var/www/log',
         'tmp_path' => '/var/www/tmp',
         'static_data_path' => '/var/www/skif/public/static',
+        'files_data_path' => '/var/www/skif/public/files',
         'skif_url_path' => '/admin',
         'skif_main_page' => '/admin/content/page',
         'site_url' => '/skif',
@@ -92,8 +93,5 @@ return [
             'message_to_page' => 20,
             'send_answer_to_email' => true
         ],
-        'ckeditor' => [
-            'filemanager_path' => '/filemanager/index.html'
-        ]
     ],
 ];

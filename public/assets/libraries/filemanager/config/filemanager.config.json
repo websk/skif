@@ -34,7 +34,7 @@
     },
     "filetree": {
         "enabled": true,
-        "foldersOnly": false,
+        "foldersOnly": true,
         "reloadOnClick": true,
         "expandSpeed": 200,
         "showLine": true,
@@ -80,7 +80,7 @@
         "video": ["ogv", "avi", "mkv", "mp4", "webm", "m4v"]
     },
     "search": {
-        "enabled": true,
+        "enabled": false,
         "recursive": false,
         "caseSensitive": false,
         "typingDelay": 500
@@ -89,7 +89,7 @@
         "absolutePath": true,
         "previewUrl": "/files",
         "image": {
-            "enabled": false,
+            "enabled": true,
             "lazyLoad": true,
             "showThumbs": true,
             "thumbMaxWidth": 100,
@@ -122,7 +122,7 @@
             ]
         },
         "iframe": {
-            "enabled": true,
+            "enabled": false,
             "extensions": [
                 "htm",
                 "html"
@@ -155,14 +155,14 @@
             "readerHeight": "480"
         },
         "codeMirrorRenderer": {
-            "enabled": true,
+            "enabled": false,
             "extensions": [
                 "txt",
                 "csv"
             ]
         },
         "markdownRenderer": {
-            "enabled": true,
+            "enabled": false,
             "extensions": [
                 "md"
             ]
@@ -183,7 +183,7 @@
         ]
     },
     "customScrollbar": {
-    	"enabled": true,
+    	"enabled": false,
     	"theme": "inset-2-dark",
     	"button": true
     },

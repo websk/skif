@@ -1,8 +1,9 @@
 <?php
 
-use Slim\App;
+use WebSK\Auth\Auth;
 use WebSK\Config\ConfWrapper;
 use WebSK\DB\DBWrapper;
+use WebSK\Skif\SkifApp;
 use WebSK\Skif\SkifServiceProvider;
 use WebSK\Slim\Facade;
 
@@ -19,14 +20,13 @@ if(!ini_get('date.timezone')) {
     date_default_timezone_set('GMT');
 }
 
-$config = require_once realpath(__DIR__ . '/../../../config/config.php');
+$config = require_once realpath(__DIR__ . '/../../config/config.php');
 ConfWrapper::setConfig($config['settings']);
 
-$app = new App($config);
+$app = new SkifApp($config);
 Facade::setFacadeApplication($app);
 
 $container = $app->getContainer();
-SkifServiceProvider::register($container);
 
 /** Set DBWrapper db service */
 DBWrapper::setDbService(SkifServiceProvider::getDBService($container));
@@ -43,8 +43,11 @@ DBWrapper::setDbService(SkifServiceProvider::getDBService($container));
 // NOTE: If using session variables, the session must be started first (session_start()).
 function fm_authenticate()
 {
-    // Customize this code as desired.
-    return true;
+    if (Auth::currentUserIsAdmin()) {
+        return true;
+    }
+
+    return false;
 
     // If this function returns false, the user will just see an error.
     // If this function returns an array with "redirect" key, the user will be redirected to the specified URL:
@@ -86,8 +89,7 @@ function fm_has_read_permission($filepath)
 //
 function fm_has_write_permission($filepath)
 {
-    // Customize this code as desired.
-    if (\WebSK\Auth\Auth::currentUserIsAdmin()) {
+    if (Auth::currentUserIsAdmin()) {
         return true;
     }
 
@@ -99,7 +101,7 @@ $config = [
      * Configure Logger class
      */
     "logger" => [
-        "enabled" => true,
+        "enabled" => false,
         /**
          * Default value "null".
          * Full path to log file, e.g. "/var/log/filemanager/logfile".
@@ -125,7 +127,7 @@ $config = [
          * - absolute path in case `serverRoot` set to "false", e.g. "/var/www/html/filemanager/userfiles/"
          * - relative path in case `serverRoot` set to "true", e.g. "/filemanager/userfiles/"
          */
-        "fileRoot" => '/var/www/lib.muctr.ru/public/files/',
+        "fileRoot" => ConfWrapper::value('files_data_path'),
         /**
          * The maximum allowed root folder total size (in Bytes). If set to "false", no size limitations applied.
          */
@@ -284,7 +286,7 @@ $config = [
              * Default value "true".
              * Automatically rotate images based on EXIF meta data.
              */
-            "autoOrient" => true,
+            "autoOrient" => false,
             /**
              * Default value "1280".
              * Resize maximum width in pixels. Takes integer values or "false".
@@ -315,7 +317,7 @@ $config = [
              * Folder to store thumbnails, invisible via filemanager.
              * If you want to make it visible, just remove it from `excluded_dirs` configuration option.
              */
-            "dir" => "_thumbs/",
+            "dir" => ".thumbs/",
             /**
              * Default value "true".
              * Crop thumbnails. Set dimensions below to create square thumbnails of a particular size.
