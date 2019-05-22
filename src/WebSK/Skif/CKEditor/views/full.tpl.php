@@ -41,7 +41,7 @@ if (empty($filemanager_path)) {
         customConfig: '<?php echo SkifPath::wrapSkifAssetsVersion('/scripts/ckeditor_config.js'); ?>',
         contentsCss: [<?php echo $contents_css; ?>],
         filebrowserBrowseUrl: '<?php echo $filemanager_path; ?>' + <?php echo($dir ? "'?expandedFolder=" . $dir . "'" : "''") ?>,
-        filebrowserImageBrowseUrl: '<?php echo $filemanager_path; ?>' + <?php echo($dir ? "'?expandedFolder=" . $dir . "/images'" : "''") ?>,
+        filebrowserImageBrowseUrl: '<?php echo $filemanager_path; ?>' + <?php echo($dir ? "'?expandedFolder=images/" . $dir . "'" : "''") ?>,
         height: <?php echo $height ?>
     });
 </script>

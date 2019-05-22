@@ -34,7 +34,7 @@
     },
     "filetree": {
         "enabled": true,
-        "foldersOnly": true,
+        "foldersOnly": false,
         "reloadOnClick": true,
         "expandSpeed": 200,
         "showLine": true,
