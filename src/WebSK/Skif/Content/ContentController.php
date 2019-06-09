@@ -374,6 +374,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         $content_obj->setMainRubricId($main_rubric_id);
         $content_obj->save();
 
+        $content_id = $content_obj->getId();
 
         // Картинка
         if (array_key_exists('image_file', $_FILES) && !empty($_FILES['image_file']['name'])) {

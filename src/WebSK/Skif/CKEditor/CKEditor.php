@@ -31,6 +31,10 @@ class CKEditor
 
         Assert::assert($files_data_path);
 
+        if (!file_exists($files_data_path)) {
+            mkdir($files_data_path);
+        }
+
         if (!file_exists($files_data_path . DIRECTORY_SEPARATOR . $dir)) {
             mkdir($files_data_path . DIRECTORY_SEPARATOR . $dir, 0755);
         }

@@ -46,7 +46,7 @@ class ContentServiceProvider
          */
         $container[ContentPhoto::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
             return new ContentPhotoService(
-                Content::class,
+                ContentPhoto::class,
                 $container[ContentPhoto::ENTITY_REPOSITORY_CONTAINER_ID],
                 CacheServiceProvider::getCacheService($container)
             );
