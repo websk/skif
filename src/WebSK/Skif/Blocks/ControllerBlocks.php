@@ -105,7 +105,7 @@ class ControllerBlocks
             $page_title = $region_for_title . '. ' . $block_obj->getId();
         }
 
-        $page_title .= ' <span class="badge">' . $region_for_title . '</span>';
+        $page_title .= '. ' . $region_for_title;
 
         return $page_title;
     }
