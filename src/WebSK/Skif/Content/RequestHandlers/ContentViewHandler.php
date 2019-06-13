@@ -33,11 +33,12 @@ class ContentViewHandler extends BaseHandler
      * @param string $content_url
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function __invoke(Request $request, Response $response, string $content_url = '/')
+    public function __invoke(Request $request, Response $response, $content_url = null)
     {
         $content_service = ContentServiceProvider::getContentService($this->container);
 
-        $content_url = Url::appendLeadingSlash($content_url);
+        //$content_url = Url::appendLeadingSlash($content_url);
+        $content_url = Url::getUriNoQueryString();
 
         $content_id = $content_service->getIdByAlias($content_url);
 

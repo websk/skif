@@ -54,6 +54,9 @@ class ContentRoutes
     {
         $app->get('/[{content_url}]', ContentViewHandler::class)
             ->setName(ContentViewHandler::class);
+
+        $app->get('/news/[{content_url}]', ContentViewHandler::class)
+            ->setName(ContentViewHandler::class);
     }
 
     /**
