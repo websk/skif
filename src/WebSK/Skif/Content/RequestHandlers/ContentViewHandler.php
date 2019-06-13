@@ -117,7 +117,7 @@ class ContentViewHandler extends BaseHandler
         if ($main_rubric_id) {
             $main_rubric_obj = Rubric::factory($main_rubric_id);
 
-            $breadcrumbs_arr = new BreadcrumbItemDTO($main_rubric_obj->getName(), $main_rubric_obj->getUrl());
+            $breadcrumbs_arr[] = new BreadcrumbItemDTO($main_rubric_obj->getName(), $main_rubric_obj->getUrl());
         }
 
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
