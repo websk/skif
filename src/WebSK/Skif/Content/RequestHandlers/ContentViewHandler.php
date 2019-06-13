@@ -113,7 +113,9 @@ class ContentViewHandler extends BaseHandler
         $layout_dto->setDescription($content_obj->getDescription());
         $layout_dto->setContentHtml($content_html);
 
-        $breadcrumbs_arr = [];
+        $breadcrumbs_arr = [
+            new BreadcrumbItemDTO('Главная', '/')
+        ];
         if ($main_rubric_id) {
             $main_rubric_obj = Rubric::factory($main_rubric_id);
 
