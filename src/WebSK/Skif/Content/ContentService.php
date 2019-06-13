@@ -11,5 +11,13 @@ use WebSK\Entity\EntityService;
  */
 class ContentService extends EntityService
 {
+    /** @var ContentRepository */
+    protected $repository;
 
+    public function getIdByAlias(string $alias)
+    {
+        $id = $this->repository->findIdByAlias($alias);
+
+        return $id;
+    }
 }

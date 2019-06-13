@@ -4,6 +4,9 @@ namespace WebSK\Skif;
 
 use WebSK\Config\ConfWrapper;
 use WebSK\DB\DBWrapper;
+use WebSK\Skif\Content\Content;
+use WebSK\Skif\Content\Rubric;
+use WebSK\Skif\Form\Form;
 
 /**
  * Class UniqueUrl
@@ -17,7 +20,7 @@ class UniqueUrl
      */
     public static function getUniqueUrl(string $url)
     {
-        $url_data_tables_arr = array('content', 'rubrics', 'form');
+        $url_data_tables_arr = [Content::DB_TABLE_NAME, Rubric::DB_TABLE_NAME, Form::DB_TABLE_NAME];
 
         $config_url_data_tables_arr = ConfWrapper::value('url_data_tables_arr');
         if ($config_url_data_tables_arr) {

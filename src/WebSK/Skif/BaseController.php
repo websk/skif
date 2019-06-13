@@ -48,6 +48,6 @@ class BaseController
     {
         $query = 'SELECT id FROM ' . $this->url_table . ' WHERE url = ?';
 
-        return (int)DBWrapper::readField($query, array($alias));
+        return (int)DBWrapper::readField($query, [$alias]);
     }
 }

@@ -10,6 +10,7 @@ use WebSK\Skif\Content\RequestHandlers\Admin\ContentPhotoCreateHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\ContentPhotoDeleteHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\ContentPhotoListHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\SetDefaultContentPhotoHandler;
+use WebSK\Skif\Content\RequestHandlers\ContentViewHandler;
 use WebSK\Utils\HTTP;
 
 /**
@@ -42,14 +43,17 @@ class ContentRoutes
             SimpleRouter::staticRoute('@^/admin/content/(\w+)$@i', ContentController::class, 'listAdminAction', 0);
         }
 
-        SimpleRouter::route(
-            '@^@',
-            [new ContentController(), 'viewAction'],
-            0
-        );
-
         SimpleRouter::staticRoute('@^@', RubricController::class, 'listAction');
         SimpleRouter::staticRoute('@^/(.+)$@i', ContentController::class, 'listAction');
+    }
+
+    /**
+     * @param App $app
+     */
+    public static function register(App $app)
+    {
+        $app->get('/[{content_url}]', ContentViewHandler::class)
+            ->setName(ContentViewHandler::class);
     }
 
     /**
