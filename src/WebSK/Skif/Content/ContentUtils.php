@@ -3,6 +3,8 @@
 namespace WebSK\Skif\Content;
 
 use WebSK\DB\DBWrapper;
+use WebSK\Slim\Container;
+use WebSK\Utils\Url;
 use WebSK\Views\PhpRender;
 use WebSK\Views\ViewsPath;
 
@@ -17,8 +19,13 @@ class ContentUtils
      */
     public static function getCurrentContentId()
     {
-        $content_page_obj = new ContentController();
-        $content_id = $content_page_obj->getRequestedId();
+        $container = Container::self();
+
+        $content_service = ContentServiceProvider::getContentService($container);
+
+        $content_url = Url::getUriNoQueryString();
+
+        $content_id = $content_service->getIdByAlias($content_url);
 
         if (!$content_id) {
             return 0;

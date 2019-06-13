@@ -14,9 +14,22 @@ class ContentService extends EntityService
     /** @var ContentRepository */
     protected $repository;
 
+    /** @var array */
+    protected $ids_by_urls_cache = [];
+
+    /**
+     * @param string $alias
+     * @return int
+     */
     public function getIdByAlias(string $alias)
     {
+        if (isset($this->ids_by_urls_cache[$alias])) {
+            return $this->ids_by_urls_cache[$alias];
+        }
+
         $id = $this->repository->findIdByAlias($alias);
+
+        $this->ids_by_urls_cache[$alias] = $id;
 
         return $id;
     }
