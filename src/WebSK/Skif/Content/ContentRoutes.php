@@ -11,7 +11,9 @@ use WebSK\Skif\Content\RequestHandlers\Admin\ContentPhotoDeleteHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\ContentPhotoListHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\SetDefaultContentPhotoHandler;
 use WebSK\Skif\Content\RequestHandlers\ContentViewHandler;
+use WebSK\Slim\Container;
 use WebSK\Utils\HTTP;
+use WebSK\Utils\Url;
 
 /**
  * Class ContentRoutes
@@ -43,6 +45,12 @@ class ContentRoutes
             SimpleRouter::staticRoute('@^/admin/content/(\w+)$@i', ContentController::class, 'listAdminAction', 0);
         }
 
+        SimpleRouter::route(
+            '@^@',
+            [new ContentController(), 'viewAction'],
+            0
+        );
+
         SimpleRouter::staticRoute('@^@', RubricController::class, 'listAction');
         SimpleRouter::staticRoute('@^/(.+)$@i', ContentController::class, 'listAction');
     }
@@ -53,7 +61,20 @@ class ContentRoutes
     public static function register(App $app)
     {
         $app->get('/[{content_url}]', ContentViewHandler::class)
-            ->setName(ContentViewHandler::class);
+            ->setName(ContentViewHandler::class)
+            ->add(function ($request, $response, $next) use ($app) {
+                $content_url = Url::getUriNoQueryString();
+
+                $content_service = ContentServiceProvider::getContentService($app->getContainer());
+                $content_id = $content_service->getIdByAlias($content_url);
+
+                if (!$content_id) {
+                    return $response;
+                }
+
+                $response = $next($request, $response);
+                return $response;
+            });
 
         $app->get('/news/[{content_url}]', ContentViewHandler::class)
             ->setName(ContentViewHandler::class);

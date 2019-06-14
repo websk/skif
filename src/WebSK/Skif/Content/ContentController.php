@@ -8,6 +8,7 @@ use WebSK\DB\DBWrapper;
 use WebSK\Image\ImageConstants;
 use WebSK\Image\ImageController;
 use WebSK\Image\ImageManager;
+use WebSK\Skif\BaseController;
 use WebSK\Skif\Content\RequestHandlers\Admin\ContentEditHandler;
 use WebSK\Slim\Router;
 use WebSK\Utils\Messages;
@@ -24,7 +25,7 @@ use WebSK\Views\ViewsPath;
  * Class ContentController
  * @package WebSK\Skif\Content
  */
-class ContentController implements InterfaceSitemapController
+class ContentController extends BaseController implements InterfaceSitemapController
 {
 
     /**
@@ -56,6 +57,105 @@ class ContentController implements InterfaceSitemapController
         }
 
         return $urls;
+    }
+
+    public function viewAction()
+    {
+        $requested_id = $this->getRequestedId();
+
+        if (!$requested_id) {
+            return SimpleRouter::CONTINUE_ROUTING;
+        }
+
+        $content_id = $requested_id;
+
+        $content_obj = Content::factory($content_id);
+        if (!$content_obj) {
+            Exits::exit404();
+        }
+
+        if (!$content_obj->isPublished()) {
+            Exits::exit404If(!Auth::currentUserIsAdmin());
+        }
+
+        $content_type_id = $content_obj->getContentTypeId();
+
+        Exits::exit404If(!$content_type_id);
+
+        $content_type_obj = ContentType::factory($content_type_id);
+        $content_type = $content_type_obj->getType();
+
+
+        $content = '';
+
+        $editor_nav_arr = [];
+        if (Auth::currentUserIsAdmin()) {
+            $editor_nav_arr = [
+                Router::pathFor(
+                    ContentEditHandler::class,
+                    ['content_type' => $content_type, 'content_id' => $content_id]
+                ) => 'Редактировать'
+            ];
+        }
+
+        $breadcrumbs_arr = [];
+
+        $main_rubric_id = $content_obj->getMainRubricId();
+
+        if ($main_rubric_id) {
+            $main_rubric_obj = Rubric::factory($main_rubric_id);
+
+            $breadcrumbs_arr = [$main_rubric_obj->getName() => $main_rubric_obj->getUrl()];
+        }
+
+
+        $template_file = 'content_view.tpl.php';
+
+        if (ViewsPath::existsTemplateByModuleRelativeToRootSitePath(
+            'WebSK/Skif/Content',
+            'content_' . $content_type . '_view.tpl.php'
+        )) {
+            $template_file = 'content_' . $content_type . '_view.tpl.php';
+        }
+
+        if ($content_obj->getCountRubricIdsArr()) {
+            if (ViewsPath::existsTemplateByModuleRelativeToRootSitePath(
+                'WebSK/Skif/Content',
+                'content_by_rubric_' . $main_rubric_id . '_view.tpl.php'
+            )) {
+                $template_file = 'content_by_rubric_' . $main_rubric_id . '_view.tpl.php';
+            } else {
+                if (ViewsPath::existsTemplateByModuleRelativeToRootSitePath(
+                    'WebSK/Skif/Content',
+                    'content_by_rubric_view.tpl.php'
+                )) {
+                    $template_file = 'content_by_rubric_view.tpl.php';
+                }
+            }
+        }
+
+        $content .= PhpRender::renderTemplateForModuleNamespace(
+            'WebSK/Skif/Content',
+            $template_file,
+            array('content_id' => $content_id)
+        );
+
+
+        $template_id = $content_obj->getRelativeTemplateId();
+
+        $layout_template_file = TemplateUtils::getLayoutFileByTemplateId($template_id);
+
+        echo PhpRender::renderTemplate(
+            $layout_template_file,
+            [
+                'content' => $content,
+                'editor_nav_arr' => $editor_nav_arr,
+                'title' => $content_obj->getTitle(),
+                'keywords' => '',
+                'description' => '',
+                'breadcrumbs_arr' => $breadcrumbs_arr
+            ]
+        );
     }
 
     /**

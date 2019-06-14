@@ -101,8 +101,6 @@ class SkifApp extends App
             }
         }
 
-        ContentRoutes::register($this);
-
         BlockRoutes::route();
         ContentRoutes::route();
         SiteMenuRoutes::route();
