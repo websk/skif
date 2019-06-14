@@ -1716,16 +1716,16 @@
         },
         {
             "name": "websk/php-auth",
-            "version": "1.0.7",
+            "version": "1.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-auth.git",
-                "reference": "023be65241192619745e4622d0949427b62f23eb"
+                "reference": "dedc2f283b39f58cbe57743761123434817c8ac9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-auth/zipball/023be65241192619745e4622d0949427b62f23eb",
-                "reference": "023be65241192619745e4622d0949427b62f23eb",
+                "url": "https://api.github.com/repos/websk/php-auth/zipball/dedc2f283b39f58cbe57743761123434817c8ac9",
+                "reference": "dedc2f283b39f58cbe57743761123434817c8ac9",
                 "shasum": ""
             },
             "require": {
@@ -1749,7 +1749,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2019-06-14T13:26:35+00:00"
+            "time": "2019-06-14T14:16:58+00:00"
         },
         {
             "name": "websk/php-cache",
@@ -1782,16 +1782,16 @@
         },
         {
             "name": "websk/php-captcha",
-            "version": "1.0.2",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-captcha.git",
-                "reference": "25553e74a8db2615873023afc104358f890b2c78"
+                "reference": "c75a7077c42568a715b919eddc9be04541b50290"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-captcha/zipball/25553e74a8db2615873023afc104358f890b2c78",
-                "reference": "25553e74a8db2615873023afc104358f890b2c78",
+                "url": "https://api.github.com/repos/websk/php-captcha/zipball/c75a7077c42568a715b919eddc9be04541b50290",
+                "reference": "c75a7077c42568a715b919eddc9be04541b50290",
                 "shasum": ""
             },
             "require": {
@@ -1807,7 +1807,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2019-06-14T13:43:15+00:00"
+            "time": "2019-06-14T14:59:34+00:00"
         },
         {
             "name": "websk/php-config",

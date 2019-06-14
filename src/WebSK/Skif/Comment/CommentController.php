@@ -59,29 +59,29 @@ class CommentController extends CRUDController
      */
     public static function saveWebAction($comment_id = null)
     {
-        if (!array_key_exists('url', $_REQUEST)) {
+        if (!array_key_exists('url', $_POST)) {
             Exits::exit404();
         }
 
-        $url = $_REQUEST['url'];
+        $url = $_POST['url'];
 
 
-        if (array_key_exists('captcha', $_REQUEST)) {
+        if (array_key_exists(Captcha::CAPTCHA_FIELD_NAME, $_POST)) {
             if (!Captcha::checkWithMessage()) {
                 Redirects::redirect($url);
             }
         }
 
-        $comment = array_key_exists('comment', $_REQUEST) ? $_REQUEST['comment'] : '';
+        $comment = array_key_exists('comment', $_POST) ? $_POST['comment'] : '';
 
         if (!$comment) {
             Messages::setError('Не указано сообщение');
             Redirects::redirect($url);
         }
 
-        $user_name = array_key_exists('user_name', $_REQUEST) ? $_REQUEST['user_name'] : '';
-        $user_email = array_key_exists('user_email', $_REQUEST) ? $_REQUEST['user_email'] : '';
-        $parent_id = array_key_exists('parent_id', $_REQUEST) ? $_REQUEST['parent_id'] : 0;
+        $user_name = array_key_exists('user_name', $_POST) ? $_POST['user_name'] : '';
+        $user_email = array_key_exists('user_email', $_POST) ? $_POST['user_email'] : '';
+        $parent_id = array_key_exists('parent_id', $_POST) ? $_POST['parent_id'] : 0;
 
         $comment_obj = new Comment();
         $comment_obj->setParentId($parent_id);
