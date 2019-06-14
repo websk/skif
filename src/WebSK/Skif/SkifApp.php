@@ -81,6 +81,8 @@ class SkifApp extends App
             ContentRoutes::registerAdmin($app);
         })->add(new CurrentUserIsAdmin());
 
+        CaptchaRoutes::register($this);
+
         UsersRoutes::register($this);
         AuthRoutes::register($this);
 
@@ -112,8 +114,6 @@ class SkifApp extends App
 
         PollRoutes::route();
         RatingRoutes::route();
-
-        CaptchaRoutes::register($this);
 
         $container['errorHandler'] = function () {
             return new ErrorHandler();

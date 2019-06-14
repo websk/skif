@@ -1782,19 +1782,21 @@
         },
         {
             "name": "websk/php-captcha",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-captcha.git",
-                "reference": "c5d263198530ccd346a232eebb3dee7701d32c16"
+                "reference": "25553e74a8db2615873023afc104358f890b2c78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-captcha/zipball/c5d263198530ccd346a232eebb3dee7701d32c16",
-                "reference": "c5d263198530ccd346a232eebb3dee7701d32c16",
+                "url": "https://api.github.com/repos/websk/php-captcha/zipball/25553e74a8db2615873023afc104358f890b2c78",
+                "reference": "25553e74a8db2615873023afc104358f890b2c78",
                 "shasum": ""
             },
             "require": {
+                "ext-gd": "*",
+                "ext-mbstring": "*",
                 "websk/php-slim": "1.0.*",
                 "websk/php-utils": "1.0.*"
             },
@@ -1805,7 +1807,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2019-02-27T10:31:00+00:00"
+            "time": "2019-06-14T13:43:15+00:00"
         },
         {
             "name": "websk/php-config",
