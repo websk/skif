@@ -29,6 +29,10 @@ class ErrorHandler
             'response' => $response
         ];
 
+        $message = $exception->getMessage();
+
+        error_log($message . "\n" . $exception->getTraceAsString());
+
         return SkifPhpRender::render(
             $response,
             '/errors/error_page.tpl.php',

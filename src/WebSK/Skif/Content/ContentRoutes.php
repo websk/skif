@@ -78,6 +78,12 @@ class ContentRoutes
 
         $app->get('/news/[{content_url}]', ContentViewHandler::class)
             ->setName(ContentViewHandler::class);
+
+        /*
+        $app->get('/test', function ($request, $response) {
+          return $response->getBody()->write(time());
+        });
+        */
     }
 
     /**
