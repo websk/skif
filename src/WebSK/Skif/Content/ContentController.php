@@ -151,8 +151,8 @@ class ContentController extends BaseController implements InterfaceSitemapContro
                 'content' => $content,
                 'editor_nav_arr' => $editor_nav_arr,
                 'title' => $content_obj->getTitle(),
-                'keywords' => '',
-                'description' => '',
+                'keywords' => $content_obj->getKeywords(),
+                'description' => $content_obj->getDescription(),
                 'breadcrumbs_arr' => $breadcrumbs_arr
             ]
         );

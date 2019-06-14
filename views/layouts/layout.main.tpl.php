@@ -16,6 +16,7 @@ use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Utils\Http;
 use WebSK\Utils\Url;
+use WebSK\Views\NavTabItemDTO;
 use WebSK\Views\PhpRender;
 
 Http::cacheHeaders();
@@ -24,11 +25,20 @@ if (!isset($layout_dto)) {
     $layout_dto = new LayoutDTO();
     $layout_dto->setTitle($title);
     $layout_dto->setContentHtml($content);
+    $layout_dto->setKeywords($keywords ?? '');
+    $layout_dto->setDescription($description ?? '');
+
+    $nav_tabs_dto_arr = [];
+    if (!empty($editor_nav_arr)) {
+        foreach ($editor_nav_arr as $editor_nav_url => $editor_nav_title) {
+            $nav_tabs_dto_arr[] = new NavTabItemDTO($editor_nav_title, $editor_nav_url);
+        }
+    }
+    $layout_dto->setNavTabsDtoArr($nav_tabs_dto_arr);
 
     $breadcrumbs_dto_arr = [
         new BreadcrumbItemDTO('Главная', '/admin')
     ];
-
     if (!empty($breadcrumbs_arr)) {
         foreach ($breadcrumbs_arr as $breadcrumb_title => $breadcrumb_link) {
             $breadcrumbs_dto_arr[] = new BreadcrumbItemDTO($breadcrumb_title, $breadcrumb_link);
@@ -67,6 +77,9 @@ if (!isset($layout_dto)) {
     <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/moment/moment.ru.min.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); ?>"></script>
     <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>" rel="stylesheet" type="text/css">
+
+    <meta name="keywords" content="<?php echo $layout_dto->getKeywords() ?>">
+    <meta name="description" content="<?php echo $layout_dto->getDescription() ?>">
 
     <?php
     echo PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('inside_head', 'main');
@@ -120,12 +133,10 @@ if (!isset($layout_dto)) {
                 ?>
 
                 <?php
-                if (isset($editor_nav_arr)) {
-                    echo PhpRender::renderLocalTemplate(
-                        '../editor_nav.tpl.php',
-                        ['editor_nav_arr' => $editor_nav_arr]
-                    );
-                }
+                echo PhpRender::renderLocalTemplate(
+                    '../editor_nav.tpl.php',
+                    ['nav_tabs_dto_arr' => $layout_dto->getNavTabsDtoArr()]
+                );
                 ?>
 
                 <?php echo $layout_dto->getContentHtml(); ?>

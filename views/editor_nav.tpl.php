@@ -1,17 +1,22 @@
 <?php
 /**
- * @var $editor_nav_arr
+ * @var \WebSK\Views\NavTabItemDTO[] $nav_tabs_dto_arr
  */
 
+use WebSK\Auth\Auth;
 use WebSK\Utils\Url;
 
-if (!isset($editor_nav_arr)) {
+if (empty($nav_tabs_dto_arr)) {
+    return;
+}
+
+if (!Auth::currentUserIsAdmin()) {
     return;
 }
 
 $current_url_no_query = Url::getUriNoQueryString();
 ?>
-<nav class="navbar navbar-default">
+<nav class="navbar">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#editor-navbar-collapse" aria-expanded="false">
@@ -20,15 +25,15 @@ $current_url_no_query = Url::getUriNoQueryString();
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#"><span class="fa fa-wrench"></span></a>
+            <a class="navbar-brand" href="/admin"><span class="fa fa-wrench"></span></a>
         </div>
         <div class="collapse navbar-collapse" id="editor-navbar-collapse">
             <ul class="nav navbar-nav">
                 <?php
-                foreach ($editor_nav_arr as $editor_nav_link => $editor_nav_title) {
+                foreach ($nav_tabs_dto_arr as $nav_tab_item_dto) {
                     ?>
-                    <li<?php echo (strpos($current_url_no_query, $editor_nav_link) !== false ? ' class="active"' : '') ?>>
-                        <a href="<?php echo $editor_nav_link; ?>"><?php echo $editor_nav_title; ?></a>
+                    <li<?php echo (strpos($current_url_no_query, $nav_tab_item_dto->getUrl()) !== false ? ' class="active"' : '') ?>>
+                        <a href="<?php echo $nav_tab_item_dto->getUrl(); ?>"><?php echo $nav_tab_item_dto->getName(); ?></a>
                     </li>
                     <?php
                 }
