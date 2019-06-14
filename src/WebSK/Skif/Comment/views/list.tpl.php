@@ -81,7 +81,7 @@ foreach ($comments_ids_arr as $comment_id) {
             echo '</div>';
         }
 
-        if ($current_user_id) {
+        if (Auth::currentUserIsAdmin() || ($current_user_id && ($comment_obj->getUserId() == $current_user_id))) {
             ?>
             <p class="text-right" style="margin: 5px"><a href="#comment<?= $comment_obj->getId() ?>" class="btn btn-default btn-sm add_answer">Ответить</a></p>
         <?php
