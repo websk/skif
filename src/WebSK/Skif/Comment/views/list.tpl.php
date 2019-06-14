@@ -83,7 +83,7 @@ foreach ($comments_ids_arr as $comment_id) {
 
         if ($current_user_id) {
             ?>
-            <p class="text-right"><a href="#comment<?= $comment_obj->getId() ?>" class="add_answer">Ответить</a></p>
+            <p class="text-right" style="margin: 5px"><a href="#comment<?= $comment_obj->getId() ?>" class="btn btn-default btn-sm add_answer">Ответить</a></p>
         <?php
         }
         ?>
