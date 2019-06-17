@@ -72,11 +72,11 @@ if (!array_key_exists($error_code, $error_messages_arr)) {
     <p>
         <?php
         $site_name = ConfWrapper::value('site_name');
-        $site_url = ConfWrapper::value('site_url');
+        $site_domain = ConfWrapper::value('site_domain');
         $site_email = ConfWrapper::value('site_email');
         ?>
 
-        Зайдите с <a href="<?php echo Url::appendHttp($site_url); ?>">главной страницы</a>
+        Зайдите с <a href="<?php echo $site_domain; ?>">главной страницы</a>
         <span class="inline_block">или напишите <a href="mailto:<?php echo $site_email; ?>" title="написать администратору">администратору</a>.</span>
     </p>
 

@@ -320,20 +320,21 @@ class Comment implements
                 $parent_comment_obj = self::factory($comment_obj->getParentId());
                 if ($parent_comment_obj->getUserEmail()) {
                     $site_email = ConfWrapper::value('site_email');
-                    $site_url = ConfWrapper::value('site_url');
+                    $site_domain = ConfWrapper::value('site_domain');
                     $site_name = ConfWrapper::value('site_name');
 
                     $mail_message = 'Здравствуйте, ' . $parent_comment_obj->getUserEmail() . '!<br />';
                     $mail_message .= 'Получен ответ на ваше сообщение:<br />';
                     $mail_message .= $parent_comment_obj->getComment() . '<br />';
                     $mail_message .= 'Ответ: ' . $comment_obj->getComment() . '<br />';
-                    $mail_message .= $site_name . ', ' . $site_url;
+                    $mail_message .= $site_name . ', ' . $site_domain;
 
                     $subject = 'Ответ на сообщение на сайте' . $site_name;
 
                     $mail = new \PHPMailer;
                     $mail->CharSet = "utf-8";
                     $mail->setFrom($site_email, $site_name);
+                    $mail->addReplyTo($site_email);
                     $mail->addAddress($parent_comment_obj->getUserEmail());
                     $mail->isHTML(true);
                     $mail->Subject = $subject;

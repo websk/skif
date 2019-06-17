@@ -75,7 +75,7 @@ return [
         'files_data_path' => '/var/www/skif/public/files',
         'skif_url_path' => '/admin',
         'skif_main_page' => '/admin/content/page',
-        'site_url' => '/skif',
+        'site_domain' => 'http://skif.dev',
         'site_full_path' => '/var/www/skif',
         'assets_url_path' => '/assets',
         'site_name' => 'Скиф',

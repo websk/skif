@@ -11,7 +11,6 @@ use WebSK\Config\ConfWrapper;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Filters;
 use WebSK\Utils\Redirects;
-use WebSK\Utils\Url;
 use WebSK\Views\PhpRender;
 
 /**
@@ -64,9 +63,9 @@ class FormController extends CRUDController
     {
         $site_name = ConfWrapper::value('site_name');
         $site_email = ConfWrapper::value('site_email');
-        $site_url = ConfWrapper::value('site_url');
+        $site_domain = ConfWrapper::value('site_domain');
 
-        $user_email = $_REQUEST['email'];
+        $user_email = $_POST['email'];
 
         $message = 'E-mail: ' . $user_email . '<br>';
 
@@ -77,7 +76,7 @@ class FormController extends CRUDController
         foreach ($form_field_ids_arr as $form_field_id) {
             $form_field_obj = FormField::factory($form_field_id);
 
-            $field_value = $_REQUEST['field_' . $form_field_id];
+            $field_value = $_POST['field_' . $form_field_id];
 
             $name = $form_field_obj->getName();
 
@@ -111,13 +110,13 @@ class FormController extends CRUDController
         $form_email = $form_obj->getEmail();
         $response_mail_message = nl2br($form_obj->getResponseMailMessage());
 
-        $to_mail = $form_email ? $form_email : $site_email;
+        $form_email = $form_email ? $form_email : $site_email;
 
         $mail = new \PHPMailer;
         $mail->CharSet = "utf-8";
         $mail->setFrom($site_email, $site_name);
         $mail->addReplyTo($user_email);
-        $mail->addAddress($to_mail);
+        $mail->addAddress($form_email);
         if ($form_obj->getEmailCopy()) {
             $mail->addAddress($form_obj->getEmailCopy());
         }
@@ -130,12 +129,13 @@ class FormController extends CRUDController
         Messages::setMessage($response_mail_message);
 
         $response_mail_message .= "<br><br>";
-        $response_mail_message .= $to_mail . "<br>";
-        $response_mail_message .= '<p>' . $site_name . ', <a href="' . Url::appendHttp($site_url) . '">' . $site_url . '</a></p>';
+        $response_mail_message .= $form_email . "<br>";
+        $response_mail_message .= '<p>' . $site_name . ', <a href="' . $site_domain . '">' . $site_domain . '</a></p>';
 
         $mail = new \PHPMailer;
         $mail->CharSet = "utf-8";
-        $mail->setFrom($to_mail, $site_name);
+        $mail->setFrom($form_email, $site_name);
+        $mail->addReplyTo($form_email);
         $mail->addAddress($user_email);
         $mail->isHTML(true);
         $mail->Subject = "Благодарим Вас за отправленную информацию!";
