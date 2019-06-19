@@ -7,6 +7,7 @@ use WebSK\DB\DBWrapper;
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\Blocks\BlockRoutes;
 use WebSK\Skif\Comment\CommentRoutes;
+use WebSK\Skif\Comment\CommentServiceProvider;
 use WebSK\Skif\Content\ContentRoutes;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\CRUD\CRUDRoutes;
@@ -60,6 +61,7 @@ class SkifApp extends App
         KeyValueServiceProvider::register($container);
         LoggerServiceProvider::register($container);
         ContentServiceProvider::register($container);
+        CommentServiceProvider::register($container);
 
         $this->registerRoutes();
     }
@@ -79,6 +81,7 @@ class SkifApp extends App
             UsersRoutes::registerAdmin($app);
             LoggerRoutes::registerAdmin($app);
             ContentRoutes::registerAdmin($app);
+            CommentRoutes::registerAdmin($app);
         })->add(new CurrentUserIsAdmin());
 
         CaptchaRoutes::register($this);
@@ -110,8 +113,6 @@ class SkifApp extends App
         ContentRoutes::route();
         SiteMenuRoutes::route();
         FormRoutes::route();
-
-        CommentRoutes::route();
 
         PollRoutes::route();
         RatingRoutes::route();

@@ -19,7 +19,7 @@ class Comment extends Entity
 
     const _PARENT_ID = 'parent_id';
     /** @var int */
-    protected $parent_id = 0;
+    protected $parent_id;
 
     const _COMMENT = 'comment';
     /** @var string */
@@ -40,10 +40,6 @@ class Comment extends Entity
     const _USER_EMAIL = 'user_email';
     /** @var string */
     protected $user_email;
-
-    const _DATE_TIME = 'date_time';
-    /** @var string */
-    protected $date_time;
 
     const _URL_MD5 = 'url_md5';
     /** @var string */
@@ -184,30 +180,5 @@ class Comment extends Entity
     public function setComment(string $comment)
     {
         $this->comment = $comment;
-    }
-
-    /**
-     * Время в формате unix time
-     * @return int
-     */
-    public function getUnixTime()
-    {
-        return strtotime($this->date_time);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDateTime()
-    {
-        return $this->date_time;
-    }
-
-    /**
-     * @param mixed $date_time
-     */
-    public function setDateTime($date_time)
-    {
-        $this->date_time = $date_time;
     }
 }

@@ -19,12 +19,12 @@ class CommentService extends EntityService
     protected $repository;
 
     /**
-     * Ветка с ответами
+     * @param int $id
      * @return array
      */
-    public function getChildrenIdsArr()
+    public function getChildrenIdsArr(int $id)
     {
-        return $this->children_ids_arr;
+        return $this->repository->findIdsByParentId($id);
     }
 
     /**
@@ -33,20 +33,19 @@ class CommentService extends EntityService
     public function beforeSave(InterfaceEntity $entity_obj)
     {
         $entity_obj->setUserId(Auth::getCurrentUserId());
-        $this->date_time = date('Y-m-d H:i:s');
 
         parent::beforeSave($entity_obj);
     }
 
-    public function afterUpdate(InterfaceEntity $entity_obj)
+    /**
+     * @param InterfaceEntity|Comment $entity_obj
+     */
+    public function afterSave(InterfaceEntity $entity_obj)
     {
-        $comment_obj = $($comment_id);
-
-        if ($comment_obj->getParentId()) {
-            self::removeObjFromCacheById($comment_obj->getParentId());
-
+        if ($entity_obj->getParentId()) {
             if (ConfWrapper::value('comments.send_answer_to_email')) {
-                $parent_comment_obj = self::factory($comment_obj->getParentId());
+                $parent_comment_obj = $this->getById($entity_obj->getParentId());
+
                 if ($parent_comment_obj->getUserEmail()) {
                     $site_email = ConfWrapper::value('site_email');
                     $site_domain = ConfWrapper::value('site_domain');
@@ -55,7 +54,7 @@ class CommentService extends EntityService
                     $mail_message = 'Здравствуйте, ' . $parent_comment_obj->getUserEmail() . '!<br />';
                     $mail_message .= 'Получен ответ на ваше сообщение:<br />';
                     $mail_message .= $parent_comment_obj->getComment() . '<br />';
-                    $mail_message .= 'Ответ: ' . $comment_obj->getComment() . '<br />';
+                    $mail_message .= 'Ответ: ' . $entity_obj->getComment() . '<br />';
                     $mail_message .= $site_name . ', ' . $site_domain;
 
                     $subject = 'Ответ на сообщение на сайте' . $site_name;
@@ -74,20 +73,23 @@ class CommentService extends EntityService
             }
         }
 
-        self::removeObjFromCacheById($comment_id);
+        parent::afterSave($entity_obj);
     }
 
-    public function afterDelete()
+    /**
+     * @param InterfaceEntity|Comment $entity_obj
+     */
+    public function afterDelete(InterfaceEntity $entity_obj)
     {
-        $children_ids_arr = $this->getChildrenIdsArr();
+        $children_ids_arr = $this->getChildrenIdsArr($entity_obj->getId());
 
         foreach ($children_ids_arr as $children_comment_id) {
-            $children_comment_obj = self::factory($children_comment_id);
-            $children_comment_obj->delete();
+            $children_comment_obj = $this->getById($children_comment_id);
+            $this->delete($children_comment_obj);
         }
 
-        self::removeObjFromCacheById($this->getParentId());
+        self::removeObjFromCacheById($entity_obj->getParentId());
 
-        self::removeObjFromCacheById($this->getId());
+        self::removeObjFromCacheById($entity_obj->getId());
     }
 }

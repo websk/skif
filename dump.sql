@@ -2,7 +2,7 @@
 
 CREATE TABLE `logger_entry` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `created_at_ts` int(11) NOT NULL DEFAULT '0',
+  `created_at_ts` int NOT NULL DEFAULT '0',
   `user_full_id` varchar(255) DEFAULT NULL,
   `object_full_id` varchar(255) NOT NULL,
   `serialized_object` text,
@@ -24,7 +24,7 @@ CREATE TABLE `redirect_rewrites` (
 
 CREATE TABLE `key_value` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `created_at_ts` int(11) NOT NULL DEFAULT '0',
+  `created_at_ts` int NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL,
   `value` mediumtext,
   `description` varchar(255) NOT NULL DEFAULT '',
@@ -291,15 +291,15 @@ CREATE TABLE `site_menu_item` (
 # Comments
 
 CREATE TABLE `comments` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) NOT NULL DEFAULT '0',
-  `url` text,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `created_at_ts` int NOT NULL DEFAULT '0',
+  `parent_id` int,
+  `url` varchar(2000),
   `url_md5` varbinary(32) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
   `user_name` varchar(100) DEFAULT NULL,
   `user_email` varchar(100) DEFAULT NULL,
   `comment` text,
-  `date_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `parent_id` (`parent_id`),
@@ -309,7 +309,7 @@ CREATE TABLE `comments` (
 # Poll
 
 CREATE TABLE `poll` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
   `is_default` smallint(6) NOT NULL DEFAULT '0',
   `is_published` smallint(6) NOT NULL DEFAULT '0',
