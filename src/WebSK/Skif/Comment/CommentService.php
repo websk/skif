@@ -28,6 +28,29 @@ class CommentService extends EntityService
     }
 
     /**
+     * @param string $url
+     * @param int $parent_id
+     * @param int $page
+     * @return array
+     */
+    public function getCommentsIdsArrByUrl(string $url, int $page = 1)
+    {
+        $page_size = ConfWrapper::value('comments.message_to_page', 20);
+        $offset = ($page - 1) * $page_size;
+
+        return $this->repository->findIdsByUrl($url, $offset, $page_size);
+    }
+
+    /**
+     * @param string $url
+     * @return int
+     */
+    public function getCountCommentsByUrl(string $url)
+    {
+        return $this->repository->findCountCommentsByUrl($url);
+    }
+
+    /**
      * @param InterfaceEntity|Comment $entity_obj
      */
     public function beforeSave(InterfaceEntity $entity_obj)

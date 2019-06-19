@@ -10,9 +10,6 @@ use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Slim\Router;
 use WebSK\Auth\Auth;
 
-$user_name = '';
-$user_email = '';
-
 $current_user_id = Auth::getCurrentUserId();
 
 if (ConfWrapper::value('comments.no_add_comments_for_unregistered_users')) {
@@ -34,18 +31,18 @@ if (ConfWrapper::value('comments.no_add_comments_for_unregistered_users')) {
         </div>
     </div>
     <?php
-    if (!Auth::getCurrentUserId()) {
+    if (!$current_user_id) {
         ?>
         <div class="form-group">
             <label class="col-md-2">Имя</label>
             <div class="col-md-10">
-                <input type="text" size="45" name="user_name" value="<?php echo $user_name ?>" class="form-control">
+                <input type="text" size="45" name="user_name" value="" class="form-control">
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-2">E-mail</label>
             <div class="col-md-10">
-                <input type="text" size="45" name="user_mail" value="<?php echo $user_email ?>" class="form-control">
+                <input type="text" size="45" name="user_mail" value="" class="form-control">
             </div>
         </div>
         <?php

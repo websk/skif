@@ -5,10 +5,12 @@
  */
 
 use WebSK\Auth\Auth;
-use WebSK\Skif\Comment\Comment;
-use WebSK\Skif\Comment\CommentController;
 use WebSK\Skif\Comment\CommentRoutes;
+use WebSK\Skif\Comment\CommentServiceProvider;
+use WebSK\Slim\Container;
 use WebSK\Slim\Router;
+
+$comment_service = CommentServiceProvider::getCommentService(Container::self());
 
 $current_user_id = Auth::getCurrentUserId();
 ?>
@@ -50,14 +52,14 @@ $current_user_id = Auth::getCurrentUserId();
 <?php
 
 foreach ($comments_ids_arr as $comment_id) {
-    $comment_obj = Comment::factory($comment_id);
+    $comment_obj = $comment_service->getById($comment_id);
     ?>
     <div class="panel panel-default comment">
         <div class="panel-heading">
             <?php echo nl2br($comment_obj->getComment()); ?>
             <?php
             if (Auth::currentUserIsAdmin()) {
-                echo ' [&nbsp;<a href="' . CommentController::getEditUrl(CommentController::getModelClassName(), $comment_id) . '?destination=' . $url . '#comments">Изменить</a>&nbsp;]';
+                echo ' [&nbsp;<a href="' . Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT, ['comment_id' => $comment_id]) . '?destination=' . $url . '#comments">Изменить</a>&nbsp;]';
                 echo ' [&nbsp;<a href="' . CommentController::getDeleteUrl(CommentController::getModelClassName(), $comment_id) . '?destination=' . $url . '#comments" onClick="return confirm(\'Вы уверены, что хотите удалить?\')">Удалить</a>&nbsp;]';
             }
             ?>
@@ -71,13 +73,13 @@ foreach ($comments_ids_arr as $comment_id) {
             </div>
         </div>
         <?php
-        $children_comments_ids_arr = $comment_obj->getChildrenIdsArr();
+        $children_comments_ids_arr = $comment_service->getChildrenIdsArr($comment_obj->getId());
         foreach ($children_comments_ids_arr as $children_comment_id) {
-            $children_comment_obj = Comment::factory($children_comment_id);
+            $children_comment_obj = $comment_service->getById($children_comment_id);
 
             echo '<div class="panel-body">' . nl2br($children_comment_obj->getComment());
             if (Auth::currentUserIsAdmin()) {
-                echo ' [&nbsp;<a href="' . CommentController::getEditUrl(CommentController::getModelClassName(), $children_comment_id) . '?destination=' . $url . '#comments">Изменить</a>&nbsp;]';
+                echo ' [&nbsp;<a href="' . Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT, ['comment_id' => $children_comment_id]) . '?destination=' . $url . '#comments">Изменить</a>&nbsp;]';
                 echo ' [&nbsp;<a href="' . CommentController::getDeleteUrl(CommentController::getModelClassName(), $children_comment_id) . '?destination=' . $url . '#comments" onClick="return confirm(\'Вы уверены, что хотите удалить?\')">Удалить</a>&nbsp;]';
             }
             echo '</div>';
