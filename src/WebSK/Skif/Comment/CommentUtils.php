@@ -52,9 +52,9 @@ class CommentUtils
      */
     public static function renderCommentsByUrl($url)
     {
-        echo PhpRender::renderTemplateInViewsDir(
+        return PhpRender::renderTemplateInViewsDir(
             'block.tpl.php',
-            array('url' => $url)
+            ['url' => $url]
         );
     }
 }

@@ -7,6 +7,8 @@
 use WebSK\Auth\Auth;
 use WebSK\Skif\Comment\Comment;
 use WebSK\Skif\Comment\CommentController;
+use WebSK\Skif\Comment\CommentRoutes;
+use WebSK\Slim\Router;
 
 $current_user_id = Auth::getCurrentUserId();
 ?>
@@ -16,7 +18,7 @@ $current_user_id = Auth::getCurrentUserId();
         ?>
         $().ready(function () {
             $('.add_answer').bind('click', function () {
-                $(this).before('<form method="post" action="/comments/add" id="comment_form_answer">'
+                $(this).before('<form method="post" action="<?php echo Router::pathFor(CommentRoutes::ROUTE_NAME_COMMENTS_CREATE); ?>" id="comment_form_answer">'
                     + '<div class="form-group"><textarea name="comment" class="form-control"></textarea></div>'
                     + '<input type="hidden" name="url" value="<?php echo $url ?>">'
                     + '<input type="hidden" name="parent_id" value="' + $(this).attr('href').substring(8) + '">'
@@ -32,7 +34,7 @@ $current_user_id = Auth::getCurrentUserId();
         $('#comment_pager li').bind('click', function () {
             $.ajax(
                 {
-                    url: "/comments/list",
+                    url: "<?php echo Router::pathFor(CommentRoutes::ROUTE_NAME_COMMENTS_LIST); ?>",
                     data: {
                         'url': '<?php echo $url ?>',
                         'page': $(this).text()

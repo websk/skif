@@ -103,6 +103,7 @@ class SkifApp extends App
             }
         }
 
+        CommentRoutes::register($this);
         //ContentRoutes::register($this);
 
         BlockRoutes::route();

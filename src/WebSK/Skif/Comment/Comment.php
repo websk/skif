@@ -35,15 +35,34 @@ class Comment implements
 
     const DB_TABLE_NAME = 'comments';
 
+    /** @var int */
     protected $id;
+
+    /** @var int */
     protected $parent_id = 0;
+
+    /** @var string */
     protected $comment;
+
+    /** @var string */
     protected $url;
+
+    /** @var int|null */
     protected $user_id = null;
+
+    /** @var string */
     protected $user_name;
+
+    /** @var string */
     protected $user_email;
+
+    /** @var string */
     protected $date_time;
+
+    /** @var array */
     protected $children_ids_arr;
+
+    /** @var string */
     protected $url_md5;
 
     public function __construct()
@@ -148,7 +167,7 @@ class Comment implements
     }
 
     /**
-     * @param mixed $parent_id
+     * @param int $parent_id
      */
     public function setParentId($parent_id)
     {
@@ -165,25 +184,25 @@ class Comment implements
     }
 
     /**
-     * @param mixed $url
+     * @param string $url
      */
-    public function setUrl($url)
+    public function setUrl(string $url)
     {
         $this->url = $url;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getUrlMd5()
+    public function getUrlMd5(): string
     {
         return $this->url_md5;
     }
 
     /**
-     * @param mixed $url_md5
+     * @param string $url_md5
      */
-    public function setUrlMd5($url_md5)
+    public function setUrlMd5(string $url_md5)
     {
         $this->url_md5 = $url_md5;
     }
@@ -198,9 +217,9 @@ class Comment implements
     }
 
     /**
-     * @param null $user_id
+     * @param int|null $user_id
      */
-    public function setUserId($user_id)
+    public function setUserId(?int $user_id)
     {
         $this->user_id = $user_id;
     }
@@ -209,7 +228,7 @@ class Comment implements
      * Имя незарегистрированного пользователя
      * @return string
      */
-    public function getUserName()
+    public function getUserName(): string
     {
         if ($this->user_id) {
             $container = Container::self();
@@ -225,9 +244,9 @@ class Comment implements
     }
 
     /**
-     * @param mixed $user_name
+     * @param string $user_name
      */
-    public function setUserName($user_name)
+    public function setUserName(string $user_name)
     {
         $this->user_name = $user_name;
     }
@@ -236,7 +255,7 @@ class Comment implements
      * Email незарегистрированного пользователя
      * @return string
      */
-    public function getUserEmail()
+    public function getUserEmail(): string
     {
         if ($this->user_id) {
             $container = Container::self();
@@ -251,9 +270,9 @@ class Comment implements
     }
 
     /**
-     * @param mixed $user_email
+     * @param string $user_email
      */
-    public function setUserEmail($user_email)
+    public function setUserEmail(string $user_email)
     {
         $this->user_email = $user_email;
     }
@@ -262,15 +281,15 @@ class Comment implements
      * Комментарий
      * @return string
      */
-    public function getComment()
+    public function getComment(): string
     {
         return $this->comment;
     }
 
     /**
-     * @param mixed $comment
+     * @param string $comment
      */
-    public function setComment($comment)
+    public function setComment(string $comment)
     {
         $this->comment = $comment;
     }
@@ -302,7 +321,7 @@ class Comment implements
 
     /**
      * Ветка с ответами
-     * @return mixed
+     * @return array
      */
     public function getChildrenIdsArr()
     {

@@ -6,6 +6,7 @@
 use WebSK\Auth\AuthRoutes;
 use WebSK\Captcha\CaptchaRoutes;
 use WebSK\Config\ConfWrapper;
+use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Slim\Router;
 use WebSK\Auth\Auth;
 
@@ -25,7 +26,7 @@ if (ConfWrapper::value('comments.no_add_comments_for_unregistered_users')) {
 }
 
 ?>
-<form method="post" action="/comments/add" id="comment_form" class="form-horizontal">
+<form method="post" action="<?php echo Router::pathFor(CommentRoutes::ROUTE_NAME_COMMENTS_CREATE); ?>" id="comment_form" class="form-horizontal">
     <div class="form-group">
         <div class="col-md-12">
             <label for="comment">Сообщение</label>
