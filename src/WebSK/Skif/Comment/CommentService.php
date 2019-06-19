@@ -34,6 +34,9 @@ class CommentService extends EntityService
     {
         $entity_obj->setUserId(Auth::getCurrentUserId());
 
+        $url = $entity_obj->getUrl();
+        $entity_obj->setUrlMd5(md5($url));
+
         parent::beforeSave($entity_obj);
     }
 

@@ -8,6 +8,7 @@ use Slim\Http\Response;
 use Slim\Http\StatusCode;
 use WebSK\Captcha\Captcha;
 use WebSK\Skif\Comment\Comment;
+use WebSK\Skif\Comment\CommentServiceProvider;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Utils\Messages;
 
@@ -47,14 +48,15 @@ class CommentCreateHandler extends BaseHandler
         $user_email = $request->getParsedBodyParam('user_email');
         $parent_id = $request->getParsedBodyParam('parent_id');
 
+        $comment_service = CommentServiceProvider::getCommentService($this->container);
+
         $comment_obj = new Comment();
         $comment_obj->setParentId($parent_id);
         $comment_obj->setUrl($url);
-        $comment_obj->setUrlMd5(md5($url));
         $comment_obj->setUserName($user_name);
         $comment_obj->setUserEmail($user_email);
         $comment_obj->setComment($comment);
-        $comment_obj->save();
+        $comment_service->save($comment_obj);
 
         Messages::setMessage('Ваше сообщение добавлено');
 
