@@ -37,7 +37,7 @@ if (!isset($layout_dto)) {
     $layout_dto->setNavTabsDtoArr($nav_tabs_dto_arr);
 
     $breadcrumbs_dto_arr = [
-        new BreadcrumbItemDTO('Главная', '/admin')
+        new BreadcrumbItemDTO('Главная', '/')
     ];
     if (!empty($breadcrumbs_arr)) {
         foreach ($breadcrumbs_arr as $breadcrumb_title => $breadcrumb_link) {

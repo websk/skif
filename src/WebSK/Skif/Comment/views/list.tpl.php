@@ -5,14 +5,19 @@
  */
 
 use WebSK\Auth\Auth;
+use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
 use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Skif\Comment\CommentServiceProvider;
 use WebSK\Slim\Container;
 use WebSK\Slim\Router;
 
-$comment_service = CommentServiceProvider::getCommentService(Container::self());
+$container = Container::self();
+
+$comment_service = CommentServiceProvider::getCommentService($container);
 
 $current_user_id = Auth::getCurrentUserId();
+$current_user_is_admin = Auth::currentUserIsAdmin();
 ?>
     <script type="text/javascript">
         <?php
@@ -51,6 +56,8 @@ $current_user_id = Auth::getCurrentUserId();
     </script>
 <?php
 
+$crud = CRUDServiceProvider::getCrud($container);
+
 foreach ($comments_ids_arr as $comment_id) {
     $comment_obj = $comment_service->getById($comment_id);
     ?>
@@ -59,13 +66,13 @@ foreach ($comments_ids_arr as $comment_id) {
             <?php echo nl2br($comment_obj->getComment()); ?>
             <?php
             if (Auth::currentUserIsAdmin()) {
-                echo ' [&nbsp;<a href="' . Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT, ['comment_id' => $comment_id]) . '?destination=' . $url . '#comments">Изменить</a>&nbsp;]';
-                echo ' [&nbsp;<a href="' . CommentController::getDeleteUrl(CommentController::getModelClassName(), $comment_id) . '?destination=' . $url . '#comments" onClick="return confirm(\'Вы уверены, что хотите удалить?\')">Удалить</a>&nbsp;]';
+                echo '<a href="' . Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT, ['comment_id' => $comment_id], ['destination' => $url . '#comments']) . '" class="btn btn-default btn-sm"><span class="fa fa-edit fa-lg text-warning fa-fw"></span></a>';
+                echo (new CRUDTableWidgetDelete('', 'btn btn-default btn-sm', $url . '#comments'))->html($comment_obj, $crud);
             }
             ?>
-            <div class="text-muted"><small><?= $comment_obj->getUserName() ?>, <?= date('d.m.Y', $comment_obj->getUnixTime()) ?>
+            <div class="text-muted"><small><?= $comment_obj->getUserName() ?>, <?= date('d.m.Y', $comment_obj->getCreatedAtTs()) ?>
                 <?php
-                if (Auth::currentUserIsAdmin() && $comment_obj->getUserEmail()) {
+                if ($current_user_is_admin && $comment_obj->getUserEmail()) {
                     echo ', ' . $comment_obj->getUserEmail();
                 }
                 ?>
@@ -78,14 +85,14 @@ foreach ($comments_ids_arr as $comment_id) {
             $children_comment_obj = $comment_service->getById($children_comment_id);
 
             echo '<div class="panel-body">' . nl2br($children_comment_obj->getComment());
-            if (Auth::currentUserIsAdmin()) {
-                echo ' [&nbsp;<a href="' . Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT, ['comment_id' => $children_comment_id]) . '?destination=' . $url . '#comments">Изменить</a>&nbsp;]';
-                echo ' [&nbsp;<a href="' . CommentController::getDeleteUrl(CommentController::getModelClassName(), $children_comment_id) . '?destination=' . $url . '#comments" onClick="return confirm(\'Вы уверены, что хотите удалить?\')">Удалить</a>&nbsp;]';
+            if ($current_user_is_admin && $children_comment_obj->getUserEmail()) {
+                echo '<a href="' . Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT, ['comment_id' => $children_comment_id], ['destination' => $url . '#comments']) . '" class="btn btn-default btn-sm"><span class="btn btn-default btn-sm"></span></a>';
+                echo (new CRUDTableWidgetDelete('', 'btn btn-default btn-sm', $url . '#comments'))->html($children_comment_obj, $crud);
             }
             echo '</div>';
         }
 
-        if (Auth::currentUserIsAdmin() || ($current_user_id && ($comment_obj->getUserId() == $current_user_id))) {
+        if ($current_user_is_admin || ($current_user_id && ($comment_obj->getUserId() == $current_user_id))) {
             ?>
             <p class="text-right" style="margin: 5px"><a href="#comment<?= $comment_obj->getId() ?>" class="btn btn-default btn-sm add_answer">Ответить</a></p>
         <?php

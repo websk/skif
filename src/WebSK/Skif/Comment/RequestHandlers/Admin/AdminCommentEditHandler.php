@@ -49,6 +49,14 @@ class AdminCommentEditHandler extends BaseHandler
             return $response->withStatus(StatusCode::HTTP_NOT_FOUND);
         }
 
+        $destination = $this->pathFor(
+            CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT,
+            ['comment_id' => $comment_id]
+        );
+        if ($request->getParam('destination')) {
+            $destination = $request->getParam('destination');
+        }
+
         $crud_form = CRUDServiceProvider::getCrud($this->container)->createForm(
             'comment_edit_rand234234',
             $comment_obj,
@@ -86,7 +94,8 @@ class AdminCommentEditHandler extends BaseHandler
                     'Создан',
                     new CRUDFormWidgetTimestamp(Comment::_CREATED_AT_TS)
                 ),
-            ]
+            ],
+            $destination
         );
 
         $crud_form_response = $crud_form->processRequest($request, $response);
