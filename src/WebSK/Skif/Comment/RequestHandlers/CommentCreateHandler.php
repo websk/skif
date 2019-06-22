@@ -33,7 +33,7 @@ class CommentCreateHandler extends BaseHandler
 
         if ($request->getParsedBodyParam(Captcha::CAPTCHA_FIELD_NAME) !== null) {
             if (!Captcha::checkWithMessage()) {
-                $response->withRedirect($url);
+                return $response->withRedirect($url);
             }
         }
 
@@ -41,15 +41,14 @@ class CommentCreateHandler extends BaseHandler
 
         if (!$comment) {
             Messages::setError('Не указано сообщение');
-            $response->withRedirect($url);
+            return $response->withRedirect($url);
         }
 
         $user_name = $request->getParsedBodyParam('user_name');
         if (!$user_name) {
             Messages::setError('Не указано имя');
-            $response->withRedirect($url);
+            return $response->withRedirect($url);
         }
-
 
         $user_email = $request->getParsedBodyParam('user_email');
         $parent_id = $request->getParsedBodyParam('parent_id');
