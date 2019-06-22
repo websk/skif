@@ -31,7 +31,7 @@ class CommentCreateHandler extends BaseHandler
             return $response->withStatus(StatusCode::HTTP_NOT_FOUND);
         }
 
-        if ($request->getParsedBodyParam(Captcha::CAPTCHA_FIELD_NAME)) {
+        if ($request->getParsedBodyParam(Captcha::CAPTCHA_FIELD_NAME) !== null) {
             if (!Captcha::checkWithMessage()) {
                 $response->withRedirect($url);
             }
@@ -45,6 +45,12 @@ class CommentCreateHandler extends BaseHandler
         }
 
         $user_name = $request->getParsedBodyParam('user_name');
+        if (!$user_name) {
+            Messages::setError('Не указано имя');
+            $response->withRedirect($url);
+        }
+
+
         $user_email = $request->getParsedBodyParam('user_email');
         $parent_id = $request->getParsedBodyParam('parent_id');
 
@@ -53,8 +59,12 @@ class CommentCreateHandler extends BaseHandler
         $comment_obj = new Comment();
         $comment_obj->setParentId($parent_id);
         $comment_obj->setUrl($url);
-        $comment_obj->setUserName($user_name);
-        $comment_obj->setUserEmail($user_email);
+        if ($user_name) {
+            $comment_obj->setUserName($user_name);
+        }
+        if ($user_email) {
+            $comment_obj->setUserEmail($user_email);
+        }
         $comment_obj->setComment($comment);
         $comment_service->save($comment_obj);
 

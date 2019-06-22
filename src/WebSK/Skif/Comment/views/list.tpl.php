@@ -65,17 +65,26 @@ foreach ($comments_ids_arr as $comment_id) {
         <div class="panel-heading">
             <?php echo nl2br($comment_obj->getComment()); ?>
             <?php
-            if (Auth::currentUserIsAdmin()) {
-                echo '<a href="' . Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT, ['comment_id' => $comment_id], ['destination' => $url . '#comments']) . '" class="btn btn-default btn-sm"><span class="fa fa-edit fa-lg text-warning fa-fw"></span></a>';
-                echo (new CRUDTableWidgetDelete('', 'btn btn-default btn-sm', $url . '#comments'))->html($comment_obj, $crud);
+            if ($current_user_is_admin) {
+                echo '<div class="pull-right"><a href="' . Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT,
+                        ['comment_id' => $comment_id],
+                        ['destination' => $url . '#comments']) . '" class="btn btn-default btn-sm"><span class="fa fa-edit fa-lg text-warning fa-fw"></span></a>';
+                echo (new CRUDTableWidgetDelete(
+                        '',
+                        'btn btn-default btn-sm',
+                        $url . '#comments',
+                        Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_LIST)
+                    ))->html($comment_obj,
+                        $crud) . '</div>';
             }
             ?>
-            <div class="text-muted"><small><?= $comment_obj->getUserName() ?>, <?= date('d.m.Y', $comment_obj->getCreatedAtTs()) ?>
-                <?php
-                if ($current_user_is_admin && $comment_obj->getUserEmail()) {
-                    echo ', ' . $comment_obj->getUserEmail();
-                }
-                ?>
+            <div class="text-muted">
+                <small><?= $comment_obj->getUserName() ?>, <?= date('d.m.Y', $comment_obj->getCreatedAtTs()) ?>
+                    <?php
+                    if ($current_user_is_admin && $comment_obj->getUserEmail()) {
+                        echo ', ' . $comment_obj->getUserEmail();
+                    }
+                    ?>
                 </small>
             </div>
         </div>
@@ -85,19 +94,28 @@ foreach ($comments_ids_arr as $comment_id) {
             $children_comment_obj = $comment_service->getById($children_comment_id);
 
             echo '<div class="panel-body">' . nl2br($children_comment_obj->getComment());
-            if ($current_user_is_admin && $children_comment_obj->getUserEmail()) {
-                echo '<a href="' . Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT, ['comment_id' => $children_comment_id], ['destination' => $url . '#comments']) . '" class="btn btn-default btn-sm"><span class="btn btn-default btn-sm"></span></a>';
-                echo (new CRUDTableWidgetDelete('', 'btn btn-default btn-sm', $url . '#comments'))->html($children_comment_obj, $crud);
+            if ($current_user_is_admin) {
+                echo '<div class="pull-right"><a href="' . Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT,
+                        ['comment_id' => $children_comment_id],
+                        ['destination' => $url . '#comments']) . '" class="btn btn-default btn-sm"><span class="fa fa-edit fa-lg text-warning fa-fw"></span></a>';
+                echo (new CRUDTableWidgetDelete(
+                        '',
+                        'btn btn-default btn-sm',
+                        $url . '#comments',
+                        Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_LIST)
+                    ))->html($children_comment_obj, $crud) . '</div>';
             }
             echo '</div>';
         }
 
         if ($current_user_is_admin || ($current_user_id && ($comment_obj->getUserId() == $current_user_id))) {
             ?>
-            <p class="text-right" style="margin: 5px"><a href="#comment<?= $comment_obj->getId() ?>" class="btn btn-default btn-sm add_answer">Ответить</a></p>
-        <?php
+            <div class="text-left" style="margin: 5px">
+                <a href="#comment<?php echo $comment_obj->getId(); ?>" class="btn btn-default btn-sm add_answer">Ответить</a>
+            </div>
+            <?php
         }
         ?>
     </div>
-<?php
+    <?php
 }

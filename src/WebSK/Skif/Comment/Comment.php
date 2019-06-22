@@ -113,10 +113,9 @@ class Comment extends Entity
     }
 
     /**
-     * Имя незарегистрированного пользователя
-     * @return string
+     * @return null|string
      */
-    public function getUserName(): string
+    public function getUserName(): ?string
     {
         if ($this->user_id) {
             $container = Container::self();
@@ -132,18 +131,17 @@ class Comment extends Entity
     }
 
     /**
-     * @param string $user_name
+     * @param null|string $user_name
      */
-    public function setUserName(string $user_name)
+    public function setUserName(?string $user_name)
     {
         $this->user_name = $user_name;
     }
 
     /**
-     * Email незарегистрированного пользователя
-     * @return string
+     * @return null|string
      */
-    public function getUserEmail(): string
+    public function getUserEmail(): ?string
     {
         if ($this->user_id) {
             $container = Container::self();
@@ -158,9 +156,9 @@ class Comment extends Entity
     }
 
     /**
-     * @param string $user_email
+     * @param null|string $user_email
      */
-    public function setUserEmail(string $user_email)
+    public function setUserEmail(?string $user_email)
     {
         $this->user_email = $user_email;
     }

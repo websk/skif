@@ -36,7 +36,7 @@ if (ConfWrapper::value('comments.no_add_comments_for_unregistered_users')) {
         <div class="form-group">
             <label class="col-md-2">Имя</label>
             <div class="col-md-10">
-                <input type="text" size="45" name="user_name" value="" class="form-control">
+                <input type="text" size="45" name="user_name" value="" class="form-control" required>
             </div>
         </div>
         <div class="form-group">

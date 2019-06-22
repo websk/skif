@@ -5,6 +5,7 @@ namespace WebSK\Skif\Comment\RequestHandlers;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\StatusCode;
 use WebSK\Config\ConfWrapper;
 use WebSK\Skif\Comment\CommentServiceProvider;
 use WebSK\Slim\RequestHandlers\BaseHandler;
@@ -26,7 +27,7 @@ class CommentListHandler extends BaseHandler
         $url = $request->getParam('url');
 
         if (!$url) {
-            return $response;
+            return $response->withStatus(StatusCode::HTTP_NOT_FOUND);
         }
 
         $content_html = PhpRender::renderTemplateForModuleNamespace(
