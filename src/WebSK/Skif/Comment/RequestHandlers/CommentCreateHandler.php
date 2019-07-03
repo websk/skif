@@ -6,6 +6,8 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Http\StatusCode;
+use WebSK\Auth\Auth;
+use WebSK\Auth\AuthServiceProvider;
 use WebSK\Captcha\Captcha;
 use WebSK\Skif\Comment\Comment;
 use WebSK\Skif\Comment\CommentServiceProvider;
@@ -44,13 +46,23 @@ class CommentCreateHandler extends BaseHandler
             return $response->withRedirect($url);
         }
 
-        $user_name = $request->getParsedBodyParam('user_name');
-        if (!$user_name) {
-            Messages::setError('Не указано имя');
-            return $response->withRedirect($url);
+        $auth_service = AuthServiceProvider::getAuthService($this->container);
+
+        $current_user_obj = $auth_service->getCurrentUserObj();
+
+        $user_name = '';
+        $user_email = '';
+
+        if (!$current_user_obj) {
+            $user_name = $request->getParsedBodyParam('user_name');
+            if (!$user_name) {
+                Messages::setError('Не указано имя');
+                return $response->withRedirect($url);
+            }
+
+            $user_email = $request->getParsedBodyParam('user_email');
         }
 
-        $user_email = $request->getParsedBodyParam('user_email');
         $parent_id = $request->getParsedBodyParam('parent_id');
 
         $comment_service = CommentServiceProvider::getCommentService($this->container);

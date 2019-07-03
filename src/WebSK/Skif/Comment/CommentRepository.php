@@ -44,6 +44,7 @@ class CommentRepository extends EntityRepository
             ' FROM ' . Sanitize::sanitizeSqlColumnName($db_table_name) .
             ' WHERE ' . Sanitize::sanitizeSqlColumnName(Comment::_URL_MD5) . ' = ?' .
             ' AND ' . Sanitize::sanitizeSqlColumnName(Comment::_PARENT_ID) . ' IS NULL' .
+            ' ORDER BY ' . Sanitize::sanitizeSqlColumnName(Comment::_ID) . ' DESC' .
             ' LIMIT ' . intval($page_size) . ' OFFSET ' . intval($offset)
         ;
 
