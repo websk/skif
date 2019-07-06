@@ -14,12 +14,9 @@ use WebSK\Skif\SiteMenu\SiteMenuRender;
 use WebSK\Config\ConfWrapper;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
-use WebSK\Utils\Http;
 use WebSK\Utils\Url;
 use WebSK\Views\NavTabItemDTO;
 use WebSK\Views\PhpRender;
-
-Http::cacheHeaders();
 
 if (!isset($layout_dto)) {
     $layout_dto = new LayoutDTO();
@@ -37,7 +34,7 @@ if (!isset($layout_dto)) {
     $layout_dto->setNavTabsDtoArr($nav_tabs_dto_arr);
 
     $breadcrumbs_dto_arr = [
-        new BreadcrumbItemDTO('Главная', '/admin')
+        new BreadcrumbItemDTO('Главная', '/')
     ];
     if (!empty($breadcrumbs_arr)) {
         foreach ($breadcrumbs_arr as $breadcrumb_title => $breadcrumb_link) {
