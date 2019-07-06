@@ -1,5 +1,4 @@
 .idea/
-config/Conf.php
 config/config.php
 /public/files
 /vendor
