@@ -8,7 +8,7 @@
     "ext-json": "*",
     "slim/slim": "^3.0",
     "slim/php-view": "^2.2",
-    "websk/php-auth": "1.0.*",
+    "websk/php-auth": "1.1.*",
     "websk/php-cache": "1.1.*",
     "websk/php-captcha": "1.0.*",
     "websk/php-config": "1.0.*",
