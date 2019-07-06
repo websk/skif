@@ -7,7 +7,6 @@ use WebSK\Skif\Comment\RequestHandlers\Admin\AdminCommentEditHandler;
 use WebSK\Skif\Comment\RequestHandlers\Admin\AdminCommentListAjaxHandler;
 use WebSK\Skif\Comment\RequestHandlers\Admin\AdminCommentListHandler;
 use WebSK\Skif\Comment\RequestHandlers\CommentCreateHandler;
-use WebSK\Skif\Comment\RequestHandlers\CommentDeleteHandler;
 use WebSK\Skif\Comment\RequestHandlers\CommentListHandler;
 use WebSK\Utils\HTTP;
 
@@ -35,9 +34,6 @@ class CommentRoutes
 
             $app->post('/create', CommentCreateHandler::class)
                 ->setName(self::ROUTE_NAME_COMMENTS_CREATE);
-
-            $app->post('/delete', CommentDeleteHandler::class)
-                ->setName(self::ROUTE_NAME_COMMENTS_DELETE);
         });
     }
 
