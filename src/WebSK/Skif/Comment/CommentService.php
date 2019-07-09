@@ -114,8 +114,10 @@ class CommentService extends EntityService
             $this->delete($children_comment_obj);
         }
 
-        self::removeObjFromCacheById($entity_obj->getParentId());
+        if ($entity_obj->getParentId()) {
+            $this->removeObjFromCacheById($entity_obj->getParentId());
+        }
 
-        self::removeObjFromCacheById($entity_obj->getId());
+        $this->removeObjFromCacheById($entity_obj->getId());
     }
 }

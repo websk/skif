@@ -90,21 +90,34 @@ foreach ($comments_ids_arr as $comment_id) {
         </div>
         <?php
         $children_comments_ids_arr = $comment_service->getChildrenIdsArr($comment_obj->getId());
+
+        if ($children_comments_ids_arr) {
+            echo '<div class="panel-body">';
+        }
+
         foreach ($children_comments_ids_arr as $children_comment_id) {
             $children_comment_obj = $comment_service->getById($children_comment_id);
 
-            echo '<div class="panel-body">' . nl2br($children_comment_obj->getComment());
-            if ($current_user_is_admin) {
-                echo '<div class="pull-right"><a href="' . Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT,
-                        ['comment_id' => $children_comment_id],
-                        ['destination' => $url . '#comments']) . '" class="btn btn-default btn-sm"><span class="fa fa-edit fa-lg text-warning fa-fw"></span></a>';
-                echo (new CRUDTableWidgetDelete(
-                        '',
-                        'btn btn-default btn-sm',
-                        $url . '#comments',
-                        Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_LIST)
-                    ))->html($children_comment_obj, $crud) . '</div>';
+            echo nl2br($children_comment_obj->getComment());
+
+            if (!$current_user_is_admin) {
+                continue;
             }
+
+            echo '<div class="pull-right">';
+            echo '<a href="' . Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT,
+                    ['comment_id' => $children_comment_id],
+                    ['destination' => $url . '#comments']) . '" class="btn btn-default btn-sm"><span class="fa fa-edit fa-lg text-warning fa-fw"></span></a>';
+            echo (new CRUDTableWidgetDelete(
+                    '',
+                    'btn btn-default btn-sm',
+                    $url . '#comments',
+                    Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_LIST)
+                ))->html($children_comment_obj, $crud);
+            echo '</div>';
+        }
+
+        if ($children_comments_ids_arr) {
             echo '</div>';
         }
 
