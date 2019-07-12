@@ -1,18 +1,17 @@
 <?php
 /**
- * @var $url
+ * @var string $url
+ * @var null|User $current_user_obj
+ * @var bool $no_add_comments_for_unregistered_users
  */
 
 use WebSK\Auth\AuthRoutes;
+use WebSK\Auth\Users\User;
 use WebSK\Captcha\CaptchaRoutes;
-use WebSK\Config\ConfWrapper;
 use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Slim\Router;
-use WebSK\Auth\Auth;
 
-$current_user_id = Auth::getCurrentUserId();
-
-if (ConfWrapper::value('comments.no_add_comments_for_unregistered_users')) {
+if ($no_add_comments_for_unregistered_users) {
     ?>
     <div>
         Неавторизованные пользователи не могут оставлять комментарии.
@@ -31,7 +30,7 @@ if (ConfWrapper::value('comments.no_add_comments_for_unregistered_users')) {
         </div>
     </div>
     <?php
-    if (!$current_user_id) {
+    if (!$current_user_obj) {
         ?>
         <div class="form-group">
             <label class="col-md-2">Имя</label>

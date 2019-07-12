@@ -1,27 +1,23 @@
 <?php
 /**
- * @var $comments_ids_arr
- * @var $url
+ * @var array $comments_ids_arr
+ * @var string $url
+ * @var null|User $current_user_obj
+ * @var bool $current_user_is_admin
+ * @var CommentService $comment_service
  */
 
-use WebSK\Auth\Auth;
+use WebSK\Auth\Users\User;
 use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
 use WebSK\Skif\Comment\CommentRoutes;
-use WebSK\Skif\Comment\CommentServiceProvider;
-use WebSK\Slim\Container;
+use WebSK\Skif\Comment\CommentService;
 use WebSK\Slim\Router;
 
-$container = Container::self();
-
-$comment_service = CommentServiceProvider::getCommentService($container);
-
-$current_user_id = Auth::getCurrentUserId();
-$current_user_is_admin = Auth::currentUserIsAdmin();
 ?>
     <script type="text/javascript">
         <?php
-        if ($current_user_id) {
+        if ($current_user_obj) {
         ?>
         $().ready(function () {
             $('.add_answer').bind('click', function () {
@@ -64,25 +60,33 @@ foreach ($comments_ids_arr as $comment_id) {
     <div class="panel panel-default comment">
         <div class="panel-heading">
             <?php echo nl2br($comment_obj->getComment()); ?>
+
             <?php
             if ($current_user_is_admin) {
-                echo '<div class="pull-right"><a href="' . Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT,
-                        ['comment_id' => $comment_id],
-                        ['destination' => $url . '#comments']) . '" class="btn btn-default btn-sm"><span class="fa fa-edit fa-lg text-warning fa-fw"></span></a>';
-                echo (new CRUDTableWidgetDelete(
-                        '',
-                        'btn btn-default btn-sm',
-                        $url . '#comments',
-                        Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_LIST)
-                    ))->html($comment_obj,
-                        $crud) . '</div>';
+                echo '<div class="pull-right">';
+
+                echo '<a href="'
+                    . Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT, ['comment_id' => $comment_id], ['destination' => $url . '#comments'])
+                    . '" class="btn btn-default btn-sm"><span class="fa fa-edit fa-lg text-warning fa-fw"></span></a>';
+
+                echo (
+                        new CRUDTableWidgetDelete(
+                            '',
+                            'btn btn-default btn-sm',
+                            $url . '#comments',
+                            Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_LIST)
+                        )
+                )->html($comment_obj, $crud);
+
+                echo '</div>';
             }
             ?>
+
             <div class="text-muted">
-                <small><?= $comment_obj->getUserName() ?>, <?= date('d.m.Y', $comment_obj->getCreatedAtTs()) ?>
+                <small><?php echo $comment_service->getUserName($comment_obj) ?>, <?= date('d.m.Y', $comment_obj->getCreatedAtTs()) ?>
                     <?php
-                    if ($current_user_is_admin && $comment_obj->getUserEmail()) {
-                        echo ', ' . $comment_obj->getUserEmail();
+                    if ($current_user_is_admin && $comment_service->getUserEmail($comment_obj)) {
+                        echo ', ' . $comment_service->getUserEmail($comment_obj);
                     }
                     ?>
                 </small>
@@ -105,15 +109,20 @@ foreach ($comments_ids_arr as $comment_id) {
             }
 
             echo '<div class="pull-right">';
-            echo '<a href="' . Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT,
-                    ['comment_id' => $children_comment_id],
-                    ['destination' => $url . '#comments']) . '" class="btn btn-default btn-sm"><span class="fa fa-edit fa-lg text-warning fa-fw"></span></a>';
-            echo (new CRUDTableWidgetDelete(
-                    '',
-                    'btn btn-default btn-sm',
-                    $url . '#comments',
-                    Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_LIST)
-                ))->html($children_comment_obj, $crud);
+
+            echo '<a href="'
+                . Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT, ['comment_id' => $children_comment_id], ['destination' => $url . '#comments'])
+                . '" class="btn btn-default btn-sm"><span class="fa fa-edit fa-lg text-warning fa-fw"></span></a>';
+
+            echo (
+                    new CRUDTableWidgetDelete(
+                        '',
+                        'btn btn-default btn-sm',
+                        $url . '#comments',
+                        Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_LIST)
+                    )
+            )->html($children_comment_obj, $crud);
+
             echo '</div>';
         }
 
@@ -121,7 +130,7 @@ foreach ($comments_ids_arr as $comment_id) {
             echo '</div>';
         }
 
-        if ($current_user_is_admin || ($current_user_id && ($comment_obj->getUserId() == $current_user_id))) {
+        if ($current_user_is_admin || ($current_user_obj && ($comment_obj->getUserId() == $current_user_obj->getId()))) {
             ?>
             <div class="text-left" style="margin: 5px">
                 <a href="#comment<?php echo $comment_obj->getId(); ?>" class="btn btn-default btn-sm add_answer">Ответить</a>

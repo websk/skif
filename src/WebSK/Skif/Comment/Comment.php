@@ -3,9 +3,6 @@
 namespace WebSK\Skif\Comment;
 
 use WebSK\Entity\Entity;
-use WebSK\Slim\Container;
-use WebSK\Auth\Users\UsersServiceProvider;
-use WebSK\Utils\Assert;
 
 /**
  * Class Comment
@@ -117,16 +114,6 @@ class Comment extends Entity
      */
     public function getUserName(): ?string
     {
-        if ($this->user_id) {
-            $container = Container::self();
-            $user_service = UsersServiceProvider::getUserService($container);
-
-            $user_obj = $user_service->getById($this->user_id);
-            Assert::assert($user_obj);
-
-            return $user_obj->getName();
-        }
-
         return $this->user_name;
     }
 
@@ -143,15 +130,6 @@ class Comment extends Entity
      */
     public function getUserEmail(): ?string
     {
-        if ($this->user_id) {
-            $container = Container::self();
-            $user_service = UsersServiceProvider::getUserService($container);
-
-            $user_obj = $user_service->getById($this->user_id);
-
-            return $user_obj->getEmail();
-        }
-
         return $this->user_email;
     }
 

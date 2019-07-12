@@ -23,6 +23,8 @@ class CommentRoutes
     const ROUTE_NAME_COMMENTS_CREATE = 'comments:create';
     const ROUTE_NAME_COMMENTS_DELETE = 'comments:delete';
 
+    const NAMESPACE_DIR = 'WebSK' . DIRECTORY_SEPARATOR . 'Skif' . DIRECTORY_SEPARATOR . 'Comment';
+
     /**
      * @param App $app
      */
