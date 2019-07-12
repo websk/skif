@@ -88,6 +88,7 @@ class SkifApp extends App
 
         UsersRoutes::register($this);
         AuthRoutes::register($this);
+        CommentRoutes::register($this);
 
         /** Use facade */
         Facade::setFacadeApplication($this);
@@ -106,7 +107,6 @@ class SkifApp extends App
             }
         }
 
-        CommentRoutes::register($this);
         //ContentRoutes::register($this);
 
         BlockRoutes::route();
