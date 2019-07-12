@@ -5,18 +5,18 @@ namespace WebSK\Skif\Comment;
 use WebSK\Views\PhpRender;
 
 /**
- * Class CommentRender
+ * Class CommentComponents
  * @package WebSK\Skif\Comment
  */
-class CommentRender
+class CommentComponents
 {
 
     /**
      * Вывод комментариев к странице
-     * @param $url
+     * @param string $url
      * @return string
      */
-    public static function renderCommentsByUrl($url)
+    public static function renderCommentsByUrl(string $url)
     {
         return PhpRender::renderTemplateInViewsDir(
             'block.tpl.php',
