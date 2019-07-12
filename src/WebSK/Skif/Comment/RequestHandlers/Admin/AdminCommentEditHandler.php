@@ -34,6 +34,7 @@ use WebSK\Views\PhpRender;
 class AdminCommentEditHandler extends BaseHandler
 {
     const FILTER_NAME_PARENT_ID = 'parent_id';
+    const PARAM_DESTINATION = 'destination';
 
     /**
      * @param Request $request
@@ -53,8 +54,8 @@ class AdminCommentEditHandler extends BaseHandler
             CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT,
             ['comment_id' => $comment_id]
         );
-        if ($request->getParam('destination')) {
-            $destination = $request->getParam('destination');
+        if ($request->getParam(self::PARAM_DESTINATION)) {
+            $destination = $request->getParam(self::PARAM_DESTINATION);
         }
 
         $crud_form = CRUDServiceProvider::getCrud($this->container)->createForm(

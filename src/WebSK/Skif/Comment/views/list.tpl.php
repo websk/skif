@@ -12,6 +12,7 @@ use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
 use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Skif\Comment\CommentService;
+use WebSK\Slim\Container;
 use WebSK\Slim\Router;
 
 ?>
@@ -52,6 +53,7 @@ use WebSK\Slim\Router;
     </script>
 <?php
 
+$container = Container::self();
 $crud = CRUDServiceProvider::getCrud($container);
 
 foreach ($comments_ids_arr as $comment_id) {
