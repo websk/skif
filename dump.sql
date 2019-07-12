@@ -230,7 +230,7 @@ CREATE TABLE `site_menu_item` (
 CREATE TABLE `comments` (
   `id` int NOT NULL AUTO_INCREMENT,
   `created_at_ts` int NOT NULL DEFAULT '0',
-  `parent_id` int,
+  `parent_id` int DEFAULT NULL,
   `url` varchar(2000),
   `url_md5` varbinary(32) DEFAULT NULL,
   `user_id` int DEFAULT NULL,
