@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif\Content\RequestHandlers;
 
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Http\StatusCode;
@@ -31,7 +32,7 @@ class ContentViewHandler extends BaseHandler
      * @param Request $request
      * @param Response $response
      * @param string $content_url
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
     public function __invoke(Request $request, Response $response, $content_url = null)
     {

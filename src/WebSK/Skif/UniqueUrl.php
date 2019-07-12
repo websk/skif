@@ -39,7 +39,7 @@ class UniqueUrl
                 $query = 'SELECT url FROM ' . $data_table . ' WHERE url = ?';
                 $found_urls = DBWrapper::readField($query, array($new_url));
                 if ($found_urls) {
-                    $unique_id = '-' . substr(uniqid(), 6);
+                    $unique_id = '-' . substr(uniqid(), 0, 6);
                     break; // we found duplicate go to unique id generation
                 }
 

@@ -2,14 +2,11 @@
 /**
  * @var $url
  * @var $page
+ * @var $count_comments
+ * @var $message_to_page
  */
 
-use WebSK\Skif\Comment\CommentUtils;
-use WebSK\Config\ConfWrapper;
-
-$message_to_page = ConfWrapper::value('comments.message_to_page', 20);
-$count_all_messages = CommentUtils::getCountCommentsByUrl($url);
-$all = ceil($count_all_messages / $message_to_page);
+$all = ceil($count_comments / $message_to_page);
 
 $pages_str = '';
 

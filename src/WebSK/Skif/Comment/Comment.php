@@ -2,155 +2,59 @@
 
 namespace WebSK\Skif\Comment;
 
-use WebSK\Skif\CRUD\DatepickerWidget\DatepickerWidget;
-use WebSK\Skif\CRUD\ModelReferenceWidget\ModelReferenceWidget;
-use WebSK\Model\ActiveRecord;
-use WebSK\Model\ActiveRecordHelper;
-use WebSK\Model\FactoryTrait;
-use WebSK\Model\InterfaceDelete;
-use WebSK\Model\InterfaceFactory;
-use WebSK\Model\InterfaceGetTitle;
-use WebSK\Model\InterfaceLoad;
-use WebSK\Model\InterfaceSave;
-use WebSK\Auth\Auth;
-use WebSK\Config\ConfWrapper;
-use WebSK\Slim\Container;
-use WebSK\Auth\Users\UsersServiceProvider;
-use WebSK\Utils\Assert;
-use WebSK\Utils\Filters;
+use WebSK\Entity\Entity;
 
 /**
  * Class Comment
  * @package WebSK\Skif\Comment
  */
-class Comment implements
-    InterfaceLoad,
-    InterfaceFactory,
-    InterfaceSave,
-    InterfaceDelete,
-    InterfaceGetTitle
+class Comment extends Entity
 {
-    use ActiveRecord;
-    use FactoryTrait;
-
+    const ENTITY_SERVICE_CONTAINER_ID = 'skif.comment_service';
+    const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.comment_repository';
     const DB_TABLE_NAME = 'comments';
 
-    protected $id;
-    protected $parent_id = 0;
+    const _PARENT_ID = 'parent_id';
+    /** @var int */
+    protected $parent_id;
+
+    const _COMMENT = 'comment';
+    /** @var string */
     protected $comment;
+
+    const _URL = 'url';
+    /** @var string */
     protected $url;
+
+    const _USER_ID = 'user_id';
+    /** @var int|null */
     protected $user_id = null;
+
+    const _USER_NAME = 'user_name';
+    /** @var string */
     protected $user_name;
+
+    const _USER_EMAIL = 'user_email';
+    /** @var string */
     protected $user_email;
-    protected $date_time;
-    protected $children_ids_arr;
+
+    const _URL_MD5 = 'url_md5';
+    /** @var string */
     protected $url_md5;
-
-    public function __construct()
-    {
-        $this->user_id = Auth::getCurrentUserId();
-        $this->date_time = date('Y-m-d H:i:s');
-    }
-
-    public static $active_record_ignore_fields_arr = array(
-        'children_ids_arr',
-    );
-
-    public static $crud_create_button_required_fields_arr = array('parent_id');
-    public static $crud_create_button_title = 'Добавить комментарий';
-
-    public static $crud_model_class_screen_name = 'Комментарий';
-    public static $crud_model_title_field = 'id';
-
-    public static $crud_field_titles_arr = array(
-        'comment' => 'Комментарий',
-        'user_name' => 'Пользователь',
-        'user_email' => 'Email',
-        'date_time' => 'Добавлено',
-        'parent_id' => 'Ответ к комментарию',
-    );
-
-    public static $crud_model_class_screen_name_for_list = 'Комментарии';
-
-    public static $crud_fields_list_arr = array(
-        'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
-        'comment' => array('col_class' => 'col-md-4 col-sm-6 col-xs-6'),
-        'user_name' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
-        'date_time' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
-        '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
-    );
-
-    public static $crud_default_context_arr_for_list = array('parent_id' => 0);
-
-    public static $crud_editor_fields_arr = array(
-        'user_name' => array(),
-        'user_email' => array(),
-        'url' => array(),
-        'parent_id' => array(
-            'widget' => array(ModelReferenceWidget::class, 'renderWidget'),
-            'widget_settings' => array(
-                'model_class_name' => self::class
-            )
-        ),
-        'date_time' => array(
-            'widget' => array(DatepickerWidget::class, 'renderWidget'),
-            'widget_settings' => array(
-                'date_format' => 'YYYY-MM-DD HH:mm:ss'
-            ),
-        ),
-        'comment' => array('widget' => 'textarea'),
-    );
-
-    public static $crud_fast_create_field_name = 'comment';
-
-    public static $related_models_arr = array(
-        self::class => array(
-            'link_field' => 'parent_id',
-            'field_name' => 'children_ids_arr',
-            'list_title' => 'Ответы',
-            'context_fields_arr' => ['url', 'url_md5'],
-        )
-    );
-
-    public function load($id)
-    {
-        $is_loaded = ActiveRecordHelper::loadModelObj($this, $id);
-        if (!$is_loaded) {
-            return false;
-        }
-
-        $this->children_ids_arr = CommentUtils::getCommentsIdsArrByUrl($this->getUrl(), 1, $this->getId());
-
-        return true;
-    }
-
-    public function getTitle()
-    {
-        return 'Комментарий ' . $this->getId();
-    }
-
-    /**
-     * ID
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Parent ID
-     * @return int
+     * @return int|null
      */
-    public function getParentId()
+    public function getParentId(): ?int
     {
         return $this->parent_id;
     }
 
     /**
-     * @param mixed $parent_id
+     * @param ?int $parent_id
      */
-    public function setParentId($parent_id)
+    public function setParentId(?int $parent_id)
     {
         $this->parent_id = $parent_id;
     }
@@ -159,31 +63,31 @@ class Comment implements
      * Page URL
      * @return string
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
 
     /**
-     * @param mixed $url
+     * @param string $url
      */
-    public function setUrl($url)
+    public function setUrl(string $url)
     {
         $this->url = $url;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getUrlMd5()
+    public function getUrlMd5(): string
     {
         return $this->url_md5;
     }
 
     /**
-     * @param mixed $url_md5
+     * @param string $url_md5
      */
-    public function setUrlMd5($url_md5)
+    public function setUrlMd5(string $url_md5)
     {
         $this->url_md5 = $url_md5;
     }
@@ -192,68 +96,47 @@ class Comment implements
      * User ID
      * @return null|int
      */
-    public function getUserId()
+    public function getUserId(): ?int
     {
         return $this->user_id;
     }
 
     /**
-     * @param null $user_id
+     * @param int|null $user_id
      */
-    public function setUserId($user_id)
+    public function setUserId(?int $user_id)
     {
         $this->user_id = $user_id;
     }
 
     /**
-     * Имя незарегистрированного пользователя
-     * @return string
+     * @return null|string
      */
-    public function getUserName()
+    public function getUserName(): ?string
     {
-        if ($this->user_id) {
-            $container = Container::self();
-            $user_service = UsersServiceProvider::getUserService($container);
-
-            $user_obj = $user_service->getById($this->user_id);
-            Assert::assert($user_obj);
-
-            return $user_obj->getName();
-        }
-
         return $this->user_name;
     }
 
     /**
-     * @param mixed $user_name
+     * @param null|string $user_name
      */
-    public function setUserName($user_name)
+    public function setUserName(?string $user_name)
     {
         $this->user_name = $user_name;
     }
 
     /**
-     * Email незарегистрированного пользователя
-     * @return string
+     * @return null|string
      */
-    public function getUserEmail()
+    public function getUserEmail(): ?string
     {
-        if ($this->user_id) {
-            $container = Container::self();
-            $user_service = UsersServiceProvider::getUserService($container);
-
-            $user_obj = $user_service->getById($this->user_id);
-
-            return $user_obj->getEmail();
-        }
-
         return $this->user_email;
     }
 
     /**
-     * @param mixed $user_email
+     * @param null|string $user_email
      */
-    public function setUserEmail($user_email)
+    public function setUserEmail(?string $user_email)
     {
         $this->user_email = $user_email;
     }
@@ -262,103 +145,16 @@ class Comment implements
      * Комментарий
      * @return string
      */
-    public function getComment()
+    public function getComment(): string
     {
         return $this->comment;
     }
 
     /**
-     * @param mixed $comment
+     * @param string $comment
      */
-    public function setComment($comment)
+    public function setComment(string $comment)
     {
         $this->comment = $comment;
-    }
-
-    /**
-     * Время в формате unix time
-     * @return int
-     */
-    public function getUnixTime()
-    {
-        return strtotime($this->date_time);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDateTime()
-    {
-        return $this->date_time;
-    }
-
-    /**
-     * @param mixed $date_time
-     */
-    public function setDateTime($date_time)
-    {
-        $this->date_time = $date_time;
-    }
-
-    /**
-     * Ветка с ответами
-     * @return mixed
-     */
-    public function getChildrenIdsArr()
-    {
-        return $this->children_ids_arr;
-    }
-
-    public static function afterUpdate($comment_id)
-    {
-        $comment_obj = self::factory($comment_id);
-
-        if ($comment_obj->getParentId()) {
-            self::removeObjFromCacheById($comment_obj->getParentId());
-
-            if (ConfWrapper::value('comments.send_answer_to_email')) {
-                $parent_comment_obj = self::factory($comment_obj->getParentId());
-                if ($parent_comment_obj->getUserEmail()) {
-                    $site_email = ConfWrapper::value('site_email');
-                    $site_domain = ConfWrapper::value('site_domain');
-                    $site_name = ConfWrapper::value('site_name');
-
-                    $mail_message = 'Здравствуйте, ' . $parent_comment_obj->getUserEmail() . '!<br />';
-                    $mail_message .= 'Получен ответ на ваше сообщение:<br />';
-                    $mail_message .= $parent_comment_obj->getComment() . '<br />';
-                    $mail_message .= 'Ответ: ' . $comment_obj->getComment() . '<br />';
-                    $mail_message .= $site_name . ', ' . $site_domain;
-
-                    $subject = 'Ответ на сообщение на сайте' . $site_name;
-
-                    $mail = new \PHPMailer;
-                    $mail->CharSet = "utf-8";
-                    $mail->setFrom($site_email, $site_name);
-                    $mail->addReplyTo($site_email);
-                    $mail->addAddress($parent_comment_obj->getUserEmail());
-                    $mail->isHTML(true);
-                    $mail->Subject = $subject;
-                    $mail->Body = $mail_message;
-                    $mail->AltBody = Filters::checkPlain($mail_message);
-                    $mail->send();
-                }
-            }
-        }
-
-        self::removeObjFromCacheById($comment_id);
-    }
-
-    public function afterDelete()
-    {
-        $children_ids_arr = $this->getChildrenIdsArr();
-
-        foreach ($children_ids_arr as $children_comment_id) {
-            $children_comment_obj = self::factory($children_comment_id);
-            $children_comment_obj->delete();
-        }
-
-        self::removeObjFromCacheById($this->getParentId());
-
-        self::removeObjFromCacheById($this->getId());
     }
 }

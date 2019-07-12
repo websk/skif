@@ -1,20 +1,17 @@
 <?php
 /**
- * @var $url
+ * @var string $url
+ * @var null|User $current_user_obj
+ * @var bool $no_add_comments_for_unregistered_users
  */
 
 use WebSK\Auth\AuthRoutes;
+use WebSK\Auth\Users\User;
 use WebSK\Captcha\CaptchaRoutes;
-use WebSK\Config\ConfWrapper;
+use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Slim\Router;
-use WebSK\Auth\Auth;
 
-$user_name = '';
-$user_email = '';
-
-$current_user_id = Auth::getCurrentUserId();
-
-if (ConfWrapper::value('comments.no_add_comments_for_unregistered_users')) {
+if ($no_add_comments_for_unregistered_users) {
     ?>
     <div>
         Неавторизованные пользователи не могут оставлять комментарии.
@@ -25,7 +22,7 @@ if (ConfWrapper::value('comments.no_add_comments_for_unregistered_users')) {
 }
 
 ?>
-<form method="post" action="/comments/add" id="comment_form" class="form-horizontal">
+<form method="post" action="<?php echo Router::pathFor(CommentRoutes::ROUTE_NAME_COMMENTS_CREATE); ?>" id="comment_form" class="form-horizontal">
     <div class="form-group">
         <div class="col-md-12">
             <label for="comment">Сообщение</label>
@@ -33,18 +30,18 @@ if (ConfWrapper::value('comments.no_add_comments_for_unregistered_users')) {
         </div>
     </div>
     <?php
-    if (!Auth::getCurrentUserId()) {
+    if (!$current_user_obj) {
         ?>
         <div class="form-group">
             <label class="col-md-2">Имя</label>
             <div class="col-md-10">
-                <input type="text" size="45" name="user_name" value="<?php echo $user_name ?>" class="form-control">
+                <input type="text" size="45" name="user_name" value="" class="form-control" required>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-2">E-mail</label>
             <div class="col-md-10">
-                <input type="text" size="45" name="user_mail" value="<?php echo $user_email ?>" class="form-control">
+                <input type="text" size="45" name="user_mail" value="" class="form-control">
             </div>
         </div>
         <?php

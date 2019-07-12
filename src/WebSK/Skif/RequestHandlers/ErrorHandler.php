@@ -5,8 +5,8 @@ namespace WebSK\Skif\RequestHandlers;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\StatusCode;
 use WebSK\Skif\SkifPhpRender;
-use WebSK\Utils\HTTP;
 
 /**
  * Class ErrorHandler
@@ -22,10 +22,10 @@ class ErrorHandler
      */
     public function __invoke(Request $request, Response $response, $exception)
     {
-        $response = $response->withStatus(HTTP::STATUS_INTERNAL_SERVER_ERROR);
+        $response = $response->withStatus(StatusCode::HTTP_INTERNAL_SERVER_ERROR);
 
         $data = [
-            'error_code' => HTTP::STATUS_INTERNAL_SERVER_ERROR,
+            'error_code' => StatusCode::HTTP_INTERNAL_SERVER_ERROR,
             'response' => $response
         ];
 
