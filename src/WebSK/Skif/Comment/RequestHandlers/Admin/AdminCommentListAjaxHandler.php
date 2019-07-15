@@ -43,7 +43,7 @@ class AdminCommentListAjaxHandler extends BaseHandler
             [
                 new CRUDTableFilterLikeInline('comment_comment_23423', '', Comment::_COMMENT, 'Комментарий'),
             ],
-            Comment::_CREATED_AT_TS,
+            Comment::_CREATED_AT_TS . ' DESC',
             'comment_list_rand2343244',
             CRUDTable::FILTERS_POSITION_INLINE
         );
