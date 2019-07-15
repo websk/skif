@@ -4,8 +4,8 @@ namespace WebSK\Skif\Content\RequestHandlers\Admin;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use WebSK\Config\ConfWrapper;
 use WebSK\Skif\Content\ContentType;
+use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
@@ -37,11 +37,11 @@ class ContentEditHandler extends BaseHandler
         $layout_dto->setTitle('Редактирование материала');
         $layout_dto->setContentHtml($content_html);
         $breadcrumbs_arr = [
-            new BreadcrumbItemDTO('Главная', ConfWrapper::value('skif_main_page', '/admin')),
+            new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),
             new BreadcrumbItemDTO($content_type_obj->getName(), '/admin/content/' . $content_type)
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 
-        return PhpRender::renderLayout($response, ConfWrapper::value('layout.admin'), $layout_dto);
+        return PhpRender::renderLayout($response, SkifPath::getLayout(), $layout_dto);
     }
 }

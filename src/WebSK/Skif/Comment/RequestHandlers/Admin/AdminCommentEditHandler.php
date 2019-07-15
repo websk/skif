@@ -5,7 +5,6 @@ namespace WebSK\Skif\Comment\RequestHandlers\Admin;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Http\StatusCode;
-use WebSK\Config\ConfWrapper;
 use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Form\CRUDFormInvisibleRow;
 use WebSK\CRUD\Form\CRUDFormRow;
@@ -22,6 +21,7 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
 use WebSK\Skif\Comment\Comment;
 use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Skif\Comment\CommentServiceProvider;
+use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
@@ -159,12 +159,12 @@ class AdminCommentEditHandler extends BaseHandler
         $layout_dto->setTitle('Комментарии. Комментарий ' . $comment_id);
         $layout_dto->setContentHtml($content_html);
         $breadcrumbs_arr = [
-            new BreadcrumbItemDTO('Главная', ConfWrapper::value('skif_main_page', '/admin')),
+            new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),
             new BreadcrumbItemDTO('Комментарии', $this->pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_LIST)),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 
 
-        return PhpRender::renderLayout($response, ConfWrapper::value('layout.admin'), $layout_dto);
+        return PhpRender::renderLayout($response, SkifPath::getLayout(), $layout_dto);
     }
 }

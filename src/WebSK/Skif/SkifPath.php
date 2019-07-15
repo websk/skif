@@ -3,6 +3,7 @@
 namespace WebSK\Skif;
 
 use WebSK\Config\ConfWrapper;
+use WebSK\Utils\Assert;
 use WebSK\Utils\Url;
 use WebSK\Views\ViewsPath;
 
@@ -20,7 +21,7 @@ class SkifPath
     /**
      * @return string
      */
-    public static function getSkifAppPath()
+    public static function getAppPath()
     {
         return __DIR__;
     }
@@ -28,9 +29,9 @@ class SkifPath
     /**
      * @return string
      */
-    public static function getSkifRootPath()
+    public static function getRootPath()
     {
-        return self::getSkifAppPath() . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
+        return self::getAppPath() . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
     }
 
     /**
@@ -38,36 +39,64 @@ class SkifPath
      */
     public static function getSkifAssetsPath()
     {
-        return self::getSkifRootPath() . DIRECTORY_SEPARATOR . self::PUBLIC_DIR_NAME . DIRECTORY_SEPARATOR . self::ASSETS_DIR_NAME;
+        return self::getRootPath() . DIRECTORY_SEPARATOR . self::PUBLIC_DIR_NAME . DIRECTORY_SEPARATOR . self::ASSETS_DIR_NAME;
     }
 
     /**
      * @return string
      */
-    public static function getSkifViewsPath()
+    public static function getViewsPath()
     {
-        return self::getSkifRootPath() . DIRECTORY_SEPARATOR . ViewsPath::VIEWS_DIR_NAME;
-    }
-
-    /**
-     * @param $resource
-     * @return string
-     */
-    public static function wrapSkifUrlPath($resource)
-    {
-        $skifUrlPath = ConfWrapper::value('skif_url_path');
-
-        return Url::appendLeadingSlash(ltrim($skifUrlPath, '/') . Url::appendLeadingSlash($resource));
+        return self::getRootPath() . DIRECTORY_SEPARATOR . ViewsPath::VIEWS_DIR_NAME;
     }
 
     /**
      * @param $resource
      * @return string
      */
-    public static function wrapSkifAssetsVersion($resource)
+    public static function wrapUrlPath($resource)
     {
-        $skifAssetsVersion = ConfWrapper::value('skif_assets_version', 1);
+        $url_path = ConfWrapper::value('skif.url_path');
 
-        return self::wrapSkifUrlPath('/' . self::ASSETS_DIR_NAME . '/'. $skifAssetsVersion . Url::appendLeadingSlash($resource));
+        return Url::appendLeadingSlash(ltrim($url_path, '/') . Url::appendLeadingSlash($resource));
+    }
+
+    /**
+     * @param $resource
+     * @return string
+     */
+    public static function wrapAssetsVersion($resource)
+    {
+        $assets_version = ConfWrapper::value('skif.assets_version', 1);
+
+        return self::wrapUrlPath('/' . self::ASSETS_DIR_NAME . '/'. $assets_version . Url::appendLeadingSlash($resource));
+    }
+
+    /**
+     * @return string
+     */
+    public static function getMainPage()
+    {
+        return ConfWrapper::value('skif.main_page', '/admin');
+    }
+
+    /**
+     * @return string
+     */
+    public static function getLayout()
+    {
+        $layout = ConfWrapper::value('skif.layout');
+
+        Assert::assert($layout);
+
+        return $layout;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getMenuArr()
+    {
+        return ConfWrapper::value('skif.menu', []);
     }
 }

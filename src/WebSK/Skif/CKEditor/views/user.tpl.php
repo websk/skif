@@ -28,7 +28,7 @@ $contents_css = implode(',', $contents_css_files);
             { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'] }
         ],
         pasteFilter: 'plain-text',
-        customConfig:  '<?php echo SkifPath::wrapSkifAssetsVersion('/scripts/ckeditor_config.js'); ?>',
+        customConfig:  '<?php echo SkifPath::wrapAssetsVersion('/scripts/ckeditor_config.js'); ?>',
         contentsCss: [<?php echo $contents_css; ?>],
         height: <?php echo $height ?>
     });

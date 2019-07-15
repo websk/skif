@@ -9,7 +9,6 @@
 use WebSK\Auth\AuthRoutes;
 use WebSK\Skif\SkifApp;
 use WebSK\Auth\Users\UsersRoutes;
-use WebSK\Config\ConfWrapper;
 use WebSK\Slim\Router;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
@@ -17,7 +16,6 @@ use WebSK\Utils\Messages;
 use WebSK\Skif\SkifPath;
 use WebSK\Auth\Auth;
 use WebSK\Auth\Users\UsersUtils;
-use WebSK\Utils\Url;
 use WebSK\Views\PhpRender;
 
 $user_id = Auth::getCurrentUserId();
@@ -59,38 +57,38 @@ if (!isset($layout_dto)) {
 
     <title>СКИФ - Система управления сайтом</title>
 
-    <link href="<?php echo SkifPath::wrapSkifUrlPath('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
+    <link href="<?php echo SkifPath::wrapUrlPath('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
 
     <!-- jQuery -->
-    <script src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/jquery/jquery.min.js'); ?>"></script>
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/jquery-ui/themes/base/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css">
+    <script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery/jquery.min.js'); ?>"></script>
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-ui/themes/base/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css">
     <script type="text/javascript"
-            src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/jquery-ui/jquery-ui.min.js'); ?>"></script>
+            src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-ui/jquery-ui.min.js'); ?>"></script>
 
     <!-- Bootstrap -->
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
-    <script src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap/js/bootstrap.min.js'); ?>"></script>
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
+    <script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap/js/bootstrap.min.js'); ?>"></script>
 
     <!-- MetisMenu CSS -->
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/metisMenu/metisMenu.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/metisMenu/metisMenu.min.css'); ?>" rel="stylesheet" type="text/css">
 
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/sb-admin-2/css/sb-admin-2.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/sb-admin-2/css/sb-admin-2.min.css'); ?>" rel="stylesheet" type="text/css">
 
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css">
 
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/styles/skif.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/styles/skif.css'); ?>" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/jquery-validation/jquery.validate.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-validation/jquery.validate.min.js'); ?>"></script>
 
-    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/fancybox/jquery.fancybox.min.js"'); ?>></script>
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/fancybox/jquery.fancybox.min.css'); ?>" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/fancybox/jquery.fancybox.min.js"'); ?>></script>
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/fancybox/jquery.fancybox.min.css'); ?>" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/moment/moment.min.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/moment/moment.ru.min.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); ?>"></script>
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/moment/moment.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/moment/moment.ru.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); ?>"></script>
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/ckeditor/ckeditor.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/ckeditor/ckeditor.js'); ?>"></script>
 </head>
 
 <body>
@@ -106,7 +104,7 @@ if (!isset($layout_dto)) {
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="<?php echo Router::pathFor(SkifApp::ROUTE_NAME_ADMIN); ?>">
-                <img src="<?php echo SkifPath::wrapSkifAssetsVersion('images/admin/skif_small_logo.png'); ?>" alt="СКИФ"
+                <img src="<?php echo SkifPath::wrapAssetsVersion('images/admin/skif_small_logo.png'); ?>" alt="СКИФ"
                      border="0" height="39" title="Система управления сайтом СКИФ / websk.ru">
             </a>
         </div>
@@ -139,7 +137,8 @@ if (!isset($layout_dto)) {
                 <ul class="nav" id="side-menu">
                     <?php
                     echo PhpRender::renderLocalTemplate(
-                        '../admin_menu.tpl.php'
+                        '../admin_menu.tpl.php',
+                        ['admin_menu_arr' => SkifPath::getMenuArr()]
                     );
                     ?>
                 </ul>
@@ -179,8 +178,8 @@ if (!isset($layout_dto)) {
 
 </div>
 
-<script src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/metisMenu/metisMenu.min.js'); ?>"></script>
-<script src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/sb-admin-2/js/sb-admin-2.min.js'); ?>"></script>
+<script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/metisMenu/metisMenu.min.js'); ?>"></script>
+<script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/sb-admin-2/js/sb-admin-2.min.js'); ?>"></script>
 
 </body>
 </html>

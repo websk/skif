@@ -144,7 +144,7 @@ $items = [];
     </div>
 </form>
 
-<script src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/ace/ace.js'); ?>" type="text/javascript"
+<script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/ace/ace.js'); ?>" type="text/javascript"
         charset="utf-8"></script>
 
 <script>

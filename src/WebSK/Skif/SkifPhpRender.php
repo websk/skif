@@ -31,7 +31,7 @@ class SkifPhpRender
         string $template,
         array $data = []
     ) {
-        $view_path = SkifPath::getSkifViewsPath();
+        $view_path = SkifPath::getViewsPath();
 
         $template_path = $view_path . DIRECTORY_SEPARATOR . $template;
 

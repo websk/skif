@@ -5,9 +5,9 @@ namespace WebSK\Skif\Content;
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\BaseController;
 use WebSK\Auth\Auth;
+use WebSK\Skif\SkifPath;
 use WebSK\Skif\UniqueUrl;
 use WebSK\Utils\Messages;
-use WebSK\Config\ConfWrapper;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
 use WebSK\Views\PhpRender;
@@ -93,7 +93,7 @@ class RubricController extends BaseController
         );
 
         echo PhpRender::renderTemplate(
-            ConfWrapper::value('layout.admin'),
+            SkifPath::getLayout(),
             array(
                 'content' => $content,
                 'title' => 'Рубрики',
@@ -121,7 +121,7 @@ class RubricController extends BaseController
         );
 
         echo PhpRender::renderTemplate(
-            ConfWrapper::value('layout.admin'),
+            SkifPath::getLayout(),
             array(
                 'content' => $content,
                 'title' => 'Редактирование рубрики',

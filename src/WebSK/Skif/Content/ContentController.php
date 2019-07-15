@@ -10,6 +10,7 @@ use WebSK\Image\ImageController;
 use WebSK\Image\ImageManager;
 use WebSK\Skif\BaseController;
 use WebSK\Skif\Content\RequestHandlers\Admin\ContentEditHandler;
+use WebSK\Skif\SkifPath;
 use WebSK\Slim\Router;
 use WebSK\Utils\Messages;
 use WebSK\SimpleRouter\Sitemap\InterfaceSitemapController;
@@ -218,7 +219,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
 
         echo PhpRender::renderTemplate(
-            ConfWrapper::value('layout.admin'),
+            SkifPath::getLayout(),
             array(
                 'title' => 'Редактирование материала',
                 'content' => $html,
@@ -242,7 +243,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
 
         echo PhpRender::renderTemplate(
-            ConfWrapper::value('layout.admin'),
+            SkifPath::getLayout(),
             array(
                 'title' => $content_type_obj->getName(),
                 'content' => $html,

@@ -1,11 +1,11 @@
 <?php
+/**
+ * @var array[] $admin_menu_arr
+ */
 
-use WebSK\Config\ConfWrapper;
 use WebSK\Utils\Url;
 
 $current_url_no_query = Url::getUriNoQueryString();
-
-$admin_menu_arr = ConfWrapper::value('admin_menu');
 ?>
 
 <ul class="sidebar-menu" data-widget="tree">

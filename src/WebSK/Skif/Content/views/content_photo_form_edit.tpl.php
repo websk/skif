@@ -30,10 +30,10 @@ if ($content_id == 'new') {
 <div id="files" class="files"></div>
 
 <link rel="stylesheet"
-      href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/blueimp-file-upload/css/jquery.fileupload.css') ?>">
-<script src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/blueimp-file-upload/js/jquery.fileupload.js') ?>"></script>
-<script src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/blueimp-file-upload/js/jquery.fileupload-process.js') ?>"></script>
-<script src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/blueimp-file-upload/js/jquery.fileupload-validate.js') ?>"></script>
+      href="<?php echo SkifPath::wrapAssetsVersion('/libraries/blueimp-file-upload/css/jquery.fileupload.css') ?>">
+<script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/blueimp-file-upload/js/jquery.fileupload.js') ?>"></script>
+<script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/blueimp-file-upload/js/jquery.fileupload-process.js') ?>"></script>
+<script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/blueimp-file-upload/js/jquery.fileupload-validate.js') ?>"></script>
 
 <script>
     $(document).ready(function () {

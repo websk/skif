@@ -26,55 +26,58 @@ return [
             ],
         ],
         'layout' => [
-            'admin' => '/var/www/skif/views/layouts/layout.admin.tpl.php',
             'empty' => '/var/www/skif/views/layouts/layout.empty.tpl.php',
             'blank' => '/var/www/skif/views/layouts/layout.blank.tpl.php',
             'main' => '/var/www/skif/views/layouts/layout.main.tpl.php'
         ],
-        'admin_menu' => [
-            ['link' => '/admin/content/page', 'name' => 'Страницы', 'icon' => '<i class="fa fa-files-o fa-fw"></i>'],
-            ['link' => '/admin/content/news', 'name' => 'Новости', 'icon' => '<i class="fa fa-newspaper-o fa-fw"></i>'],
-            ['link' => '/admin/site_menu', 'name' => 'Менеджер меню', 'icon' => '<i class="fa fa-bars fa-fw"></i>'],
-            ['link' => '/admin/blocks', 'name' => 'Блоки', 'icon' => '<i class="fa fa-table fa-fw"></i>'],
-            ['link' => '/admin/poll', 'name' => 'Опросы', 'icon' => '<i class="fa fa-bar-chart fa-fw"></i>'],
-            ['link' => '/admin/form', 'name' => 'Формы', 'icon' => '<i class="fa fa-list-alt fa-fw"></i>'],
-            ['link' => '/admin/comments', 'name' => 'Комментарии', 'icon' => '<i class="fa fa-comments-o fa-fw"></i>'],
-            ['link' => '/admin/users', 'name' => 'Пользователи', 'icon' => '<i class="fa fa-users fa-fw"></i>'],
-            ['link' => '/admin/rating', 'name' => 'Рейтинги', 'icon' => '<i class="fa fa-star-o fa-fw"></i>'],
-            [
-                'link' => '#',
-                'name' => 'Настройки',
-                'icon' => '<i class="fa fa-wrench fa-fw"></i>',
-                'sub_menu' => [
-                    [
-                        'link' => CRUDController::getListUrl(ContentType::class),
-                        'name' => 'Типы контента',
-                        'icon' => '<i class="fa fa-circle-o"></i>'
-                    ],
-                    [
-                        'link' => CRUDController::getListUrl(Template::class),
-                        'name' => 'Темы',
-                        'icon' => '<i class="fa fa-circle-o"></i>'
-                    ],
-                    [
-                        'link' => '/admin/redirect',
-                        'name' => 'Редиректы',
-                        'icon' => '<i class="fa fa-circle-o"></i>'
-                    ],
-                    [
-                        'link' => '/admin/key_value',
-                        'name' => 'Параметры',
-                        'icon' => '<i class="fa fa-circle-o"></i>'
-                    ],
+        'skif' => [
+            'menu' => [
+                ['link' => '/admin/content/page', 'name' => 'Страницы', 'icon' => '<i class="fa fa-files-o fa-fw"></i>'],
+                ['link' => '/admin/content/news', 'name' => 'Новости', 'icon' => '<i class="fa fa-newspaper-o fa-fw"></i>'],
+                ['link' => '/admin/site_menu', 'name' => 'Менеджер меню', 'icon' => '<i class="fa fa-bars fa-fw"></i>'],
+                ['link' => '/admin/blocks', 'name' => 'Блоки', 'icon' => '<i class="fa fa-table fa-fw"></i>'],
+                ['link' => '/admin/poll', 'name' => 'Опросы', 'icon' => '<i class="fa fa-bar-chart fa-fw"></i>'],
+                ['link' => '/admin/form', 'name' => 'Формы', 'icon' => '<i class="fa fa-list-alt fa-fw"></i>'],
+                ['link' => '/admin/comments', 'name' => 'Комментарии', 'icon' => '<i class="fa fa-comments-o fa-fw"></i>'],
+                ['link' => '/admin/users', 'name' => 'Пользователи', 'icon' => '<i class="fa fa-users fa-fw"></i>'],
+                ['link' => '/admin/rating', 'name' => 'Рейтинги', 'icon' => '<i class="fa fa-star-o fa-fw"></i>'],
+                [
+                    'link' => '#',
+                    'name' => 'Настройки',
+                    'icon' => '<i class="fa fa-wrench fa-fw"></i>',
+                    'sub_menu' => [
+                        [
+                            'link' => CRUDController::getListUrl(ContentType::class),
+                            'name' => 'Типы контента',
+                            'icon' => '<i class="fa fa-circle-o"></i>'
+                        ],
+                        [
+                            'link' => CRUDController::getListUrl(Template::class),
+                            'name' => 'Темы',
+                            'icon' => '<i class="fa fa-circle-o"></i>'
+                        ],
+                        [
+                            'link' => '/admin/redirect',
+                            'name' => 'Редиректы',
+                            'icon' => '<i class="fa fa-circle-o"></i>'
+                        ],
+                        [
+                            'link' => '/admin/key_value',
+                            'name' => 'Параметры',
+                            'icon' => '<i class="fa fa-circle-o"></i>'
+                        ],
+                    ]
                 ]
-            ]
+            ],
+            'layout' => '/var/www/skif/views/layouts/layout.adminLTE.tpl.php',
+            'url_path' => '/admin',
+            'main_page' => '/admin/content/page',
+            'assets_version' => 1
         ],
         'log_path' => '/var/www/log',
         'tmp_path' => '/var/www/tmp',
         'static_data_path' => '/var/www/skif/public/static',
         'files_data_path' => '/var/www/skif/public/files',
-        'skif_url_path' => '/admin',
-        'skif_main_page' => '/admin/content/page',
         'site_domain' => 'http://skif.dev',
         'site_full_path' => '/var/www/skif',
         'assets_url_path' => '/assets',

@@ -72,56 +72,56 @@ $user_logout_url = Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['des
 
     <title>СКИФ. <?php echo $layout_dto->getTitle() ?></title>
 
-    <link href="<?php echo SkifPath::wrapSkifUrlPath('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
+    <link href="<?php echo SkifPath::wrapUrlPath('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
 
     <!-- jQuery -->
-    <script src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/jquery/jquery.min.js'); ?>"></script>
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/jquery-ui/themes/base/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css">
+    <script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery/jquery.min.js'); ?>"></script>
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-ui/themes/base/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css">
     <script type="text/javascript"
-            src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/jquery-ui/jquery-ui.min.js'); ?>"></script>
+            src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-ui/jquery-ui.min.js'); ?>"></script>
 
     <!-- Bootstrap -->
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
-    <script src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap/js/bootstrap.min.js'); ?>"></script>
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
+    <script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap/js/bootstrap.min.js'); ?>"></script>
 
     <!-- MetisMenu CSS -->
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/metisMenu/metisMenu.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/metisMenu/metisMenu.min.css'); ?>" rel="stylesheet" type="text/css">
 
     <!-- Ionicons -->
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/ionicons/ionicons.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/ionicons/ionicons.min.css'); ?>" rel="stylesheet" type="text/css">
 
     <!-- AdminLTE -->
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/AdminLTE/css/AdminLTE.min.css'); ?>" rel="stylesheet" type="text/css">
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/AdminLTE/css/skin-blue.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/AdminLTE/css/AdminLTE.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/AdminLTE/css/skin-blue.min.css'); ?>" rel="stylesheet" type="text/css">
 
     <!-- Font Awesome -->
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css">
 
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/styles/skif.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/styles/skif.css'); ?>" rel="stylesheet" type="text/css">
 
     <!-- Jquery Validate -->
-    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/jquery-validation/jquery.validate.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-validation/jquery.validate.min.js'); ?>"></script>
 
     <!-- Fancybox -->
-    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/fancybox/jquery.fancybox.min.js"'); ?>></script>
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/fancybox/jquery.fancybox.min.css'); ?>" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/fancybox/jquery.fancybox.min.js"'); ?>></script>
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/fancybox/jquery.fancybox.min.css'); ?>" rel="stylesheet" type="text/css">
 
     <!-- Moment -->
-    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/moment/moment.min.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/moment/moment.ru.min.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/moment/moment.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/moment/moment.ru.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); ?>"></script>
 
     <!-- Bootstrap datetimepicker -->
-    <link href="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>" rel="stylesheet" type="text/css">
 
     <!-- CKEditor -->
-    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/ckeditor/ckeditor.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/ckeditor/ckeditor.js'); ?>"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/html5shiv/html5shiv.min.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/respond.js/respond.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/html5shiv/html5shiv.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/respond.js/respond.min.js'); ?>"></script>
     <![endif]-->
 </head>
 <body class="hold-transition skin-blue sidebar-mini ">
@@ -266,7 +266,8 @@ $user_logout_url = Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['des
             <!-- Sidebar Menu -->
             <?php
             echo PhpRender::renderLocalTemplate(
-                '../admin_menu.tpl.php'
+                '../admin_menu.tpl.php',
+                ['admin_menu_arr' => SkifPath::getMenuArr()]
             );
             ?>
             <!-- /.sidebar-menu -->
@@ -318,8 +319,8 @@ $user_logout_url = Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['des
 <!-- ./wrapper -->
 
 <!-- AdminLTE App -->
-<script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/metisMenu/metisMenu.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo SkifPath::wrapSkifAssetsVersion('/libraries/AdminLTE/js/app.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/metisMenu/metisMenu.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/AdminLTE/js/app.min.js'); ?>"></script>
 
 </body>
 </html>

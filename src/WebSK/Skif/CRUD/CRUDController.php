@@ -6,7 +6,7 @@ use WebSK\Skif\BaseController;
 use WebSK\Model\InterfaceDelete;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
-use WebSK\Config\ConfWrapper;
+use WebSK\Skif\SkifPath;
 use WebSK\Utils\Messages;
 use WebSK\Utils\Assert;
 use WebSK\Utils\Exits;
@@ -26,7 +26,7 @@ class CRUDController extends BaseController
 
     protected static function getLayoutTemplateFile()
     {
-        return ConfWrapper::value('layout.admin');
+        return SkifPath::getLayout();
     }
 
     protected static function getBreadcrumbsArr()

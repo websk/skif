@@ -3,8 +3,8 @@
 namespace WebSK\Skif\SiteMenu;
 
 use WebSK\Auth\Auth;
+use WebSK\Skif\SkifPath;
 use WebSK\Utils\Messages;
-use WebSK\Config\ConfWrapper;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
 use WebSK\Views\PhpRender;
@@ -27,7 +27,7 @@ class SiteMenuController
         $breadcrumbs_arr = self::getBreadcrumbsArr($site_menu_id, $site_menu_item_id);
 
         echo PhpRender::renderTemplate(
-            ConfWrapper::value('layout.admin'),
+            SkifPath::getLayout(),
             array(
                 'title' => $site_menu_obj->getName(),
                 'content' => $html,
@@ -94,7 +94,7 @@ class SiteMenuController
         $breadcrumbs_arr = self::getBreadcrumbsArr($site_menu_id, $site_menu_item_parent_id);
 
         echo PhpRender::renderTemplate(
-            ConfWrapper::value('layout.admin'),
+            SkifPath::getLayout(),
             array(
                 'title' => $site_menu_obj->getName(),
                 'content' => $html,
@@ -196,7 +196,7 @@ class SiteMenuController
         );
 
         echo PhpRender::renderTemplate(
-            ConfWrapper::value('layout.admin'),
+            SkifPath::getLayout(),
             array(
                 'title' => ($site_menu_item_id == 'new') ? 'Добавление пункта меню' : 'Редактирование пункта меню',
                 'content' => $html,
@@ -285,7 +285,7 @@ class SiteMenuController
         );
 
         echo PhpRender::renderTemplate(
-            ConfWrapper::value('layout.admin'),
+            SkifPath::getLayout(),
             array(
                 'title' => 'Менеджер меню',
                 'content' => $html,
@@ -306,7 +306,7 @@ class SiteMenuController
         );
 
         echo PhpRender::renderTemplate(
-            ConfWrapper::value('layout.admin'),
+            SkifPath::getLayout(),
             array(
                 'title' => 'Редактирование меню',
                 'content' => $html,

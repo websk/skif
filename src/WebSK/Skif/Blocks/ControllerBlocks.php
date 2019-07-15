@@ -3,9 +3,9 @@
 namespace WebSK\Skif\Blocks;
 
 use WebSK\Auth\Auth;
-use WebSK\Config\ConfWrapper;
 use WebSK\DB\DBWrapper;
 use WebSK\Logger\Logger;
+use WebSK\Skif\SkifPath;
 use WebSK\Utils\FullObjectId;
 use WebSK\Utils\Messages;
 use WebSK\Utils\Exits;
@@ -125,7 +125,7 @@ class ControllerBlocks
         );
 
         echo PhpRender::renderTemplate(
-            ConfWrapper::value('layout.admin'),
+            SkifPath::getLayout(),
             array(
                 'title' => 'Блоки',
                 'content' => $html,
@@ -197,7 +197,7 @@ class ControllerBlocks
         );
 
         echo PhpRender::renderTemplate(
-            ConfWrapper::value('layout.admin'),
+            SkifPath::getLayout(),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
                 'content' => $html,
@@ -325,7 +325,7 @@ class ControllerBlocks
         );
 
         echo PhpRender::renderTemplate(
-            ConfWrapper::value('layout.admin'),
+            SkifPath::getLayout(),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
                 'content' => $html,
@@ -371,7 +371,7 @@ class ControllerBlocks
         );
 
         echo PhpRender::renderTemplate(
-            ConfWrapper::value('layout.admin'),
+            SkifPath::getLayout(),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
                 'content' => $html,
@@ -499,7 +499,7 @@ class ControllerBlocks
         );
 
         echo PhpRender::renderTemplate(
-            ConfWrapper::value('layout.admin'),
+            SkifPath::getLayout(),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
                 'content' => $html,
@@ -527,7 +527,7 @@ class ControllerBlocks
         );
 
         echo PhpRender::renderTemplate(
-            ConfWrapper::value('layout.admin'),
+            SkifPath::getLayout(),
             array(
                 'title' => self::getBlockEditorPageTitle($block_id),
                 'content' => $html,
@@ -595,7 +595,7 @@ class ControllerBlocks
         );
 
         echo PhpRender::renderTemplate(
-            ConfWrapper::value('layout.admin'),
+            SkifPath::getLayout(),
             array(
                 'title' => 'Поиск блоков',
                 'content' => $html,

@@ -2,10 +2,10 @@
 
 namespace WebSK\Skif\RequestHandlers;
 
-use WebSK\Config\ConfWrapper;
 use WebSK\Auth\Auth;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use WebSK\Skif\SkifPath;
 use WebSK\Skif\SkifPhpRender;
 
 /**
@@ -27,6 +27,6 @@ class AdminHandler
             );
         }
 
-        return $response->withRedirect(ConfWrapper::value('skif_main_page'));
+        return $response->withRedirect(SkifPath::getMainPage());
     }
 }
