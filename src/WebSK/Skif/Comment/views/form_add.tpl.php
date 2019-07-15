@@ -26,7 +26,7 @@ if ($no_add_comments_for_unregistered_users) {
     <div class="form-group">
         <div class="col-md-12">
             <label for="comment">Сообщение</label>
-            <textarea name="comment" id="comment" class="form-control"></textarea>
+            <textarea name="comment" id="comment" class="form-control" required></textarea>
         </div>
     </div>
     <?php

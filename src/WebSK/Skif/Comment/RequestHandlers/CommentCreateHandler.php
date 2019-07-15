@@ -6,13 +6,13 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Http\StatusCode;
-use WebSK\Auth\Auth;
 use WebSK\Auth\AuthServiceProvider;
 use WebSK\Captcha\Captcha;
 use WebSK\Skif\Comment\Comment;
 use WebSK\Skif\Comment\CommentServiceProvider;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Utils\Messages;
+use WebSK\Utils\Sanitize;
 
 /**
  * Class CommentCreateHandler
@@ -71,12 +71,17 @@ class CommentCreateHandler extends BaseHandler
         $comment_obj->setParentId($parent_id);
         $comment_obj->setUrl($url);
         if ($user_name) {
+            $user_name = Sanitize::sanitizeTagContent($user_name);
             $comment_obj->setUserName($user_name);
         }
         if ($user_email) {
+            $user_email = Sanitize::sanitizeTagContent($user_email);
             $comment_obj->setUserEmail($user_email);
         }
+
+        $comment = Sanitize::sanitizeTagContent($comment);
         $comment_obj->setComment($comment);
+
         $comment_service->save($comment_obj);
 
         Messages::setMessage('Ваше сообщение добавлено');
