@@ -71,7 +71,8 @@ class AdminCommentListHandler extends BaseHandler
             ],
             [
                 new CRUDTableFilterEqualInvisible(self::FILTER_NAME_PARENT_ID, null),
-            ]
+            ],
+            Comment::_ID . ' DESC'
         );
 
         $crud_form_response = $crud_table_obj->processRequest($request, $response);
