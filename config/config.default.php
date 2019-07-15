@@ -28,7 +28,8 @@ return [
         'layout' => [
             'empty' => '/var/www/skif/views/layouts/layout.empty.tpl.php',
             'blank' => '/var/www/skif/views/layouts/layout.blank.tpl.php',
-            'main' => '/var/www/skif/views/layouts/layout.main.tpl.php'
+            'main' => '/var/www/skif/views/layouts/layout.main.tpl.php',
+            'admin' => '/var/www/skif/views/layouts/layout.adminLTE.tpl.php',
         ],
         'skif' => [
             'menu' => [
