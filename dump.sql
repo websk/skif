@@ -87,7 +87,9 @@ CREATE TABLE `blocks` (
   KEY `template_id` (`template_id`),
   KEY `title` (`title`),
   KEY `page_region_id` (`page_region_id`),
-  KEY `list` (`page_region_id`,`weight`,`title`)
+  KEY `list` (`page_region_id`,`weight`,`title`),
+  CONSTRAINT `FK_blocks_template` FOREIGN KEY (`template_id`) REFERENCES `template` (`id`),
+  CONSTRAINT `FK_blocks_page_regions` FOREIGN KEY (`page_region_id`) REFERENCES `page_regions` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `blocks_roles` (
@@ -96,7 +98,9 @@ CREATE TABLE `blocks_roles` (
   `role_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `role_id` (`role_id`),
-  KEY `block_id_role_id` (`block_id`,`role_id`)
+  KEY `block_id_role_id` (`block_id`,`role_id`),
+  CONSTRAINT `FK_blocks_roles_blocks` FOREIGN KEY (`block_id`) REFERENCES `blocks` (`id`),
+  CONSTRAINT `FK_blocks_roles_roles` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 # Auth. Users
@@ -125,7 +129,9 @@ CREATE TABLE `content` (
   `template_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `main_rubric_id` (`main_rubric_id`),
-  KEY `content_type_id` (`content_type_id`)
+  KEY `content_type_id` (`content_type_id`),
+  CONSTRAINT `FK_content_rubrics` FOREIGN KEY (`main_rubric_id`) REFERENCES `rubrics` (`id`),
+  CONSTRAINT `FK_content_content_types` FOREIGN KEY (`content_type_id`) REFERENCES `content_types` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `content_rubrics` (
@@ -199,7 +205,8 @@ CREATE TABLE `form_field` (
   `weight` int(4) DEFAULT NULL,
   `size` int(4) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `form` (`form_id`)
+  KEY `form` (`form_id`),
+  CONSTRAINT `FK_form_field_form` FOREIGN KEY (`form_id`) REFERENCES `form` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 # Site Menu

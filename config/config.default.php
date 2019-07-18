@@ -30,6 +30,7 @@ return [
             'blank' => '/var/www/skif/views/layouts/layout.blank.tpl.php',
             'main' => '/var/www/skif/views/layouts/layout.main.tpl.php',
             'admin' => '/var/www/skif/views/layouts/layout.adminLTE.tpl.php',
+            'error' => '/var/www/skif/views/layouts/layout.error.tpl.php',
         ],
         'skif' => [
             'menu' => [

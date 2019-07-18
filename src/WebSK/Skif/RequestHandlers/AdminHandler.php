@@ -7,6 +7,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\Skif\SkifPath;
 use WebSK\Skif\SkifPhpRender;
+use WebSK\Utils\Assert;
 
 /**
  * Class AdminHandler
@@ -26,6 +27,8 @@ class AdminHandler
                 SkifPhpRender::ADMIN_LAYOUT_LOGIN_TEMPLATE
             );
         }
+
+        Assert::assert(isset($a));
 
         return $response->withRedirect(SkifPath::getMainPage());
     }
