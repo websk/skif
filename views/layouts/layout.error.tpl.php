@@ -49,7 +49,7 @@ use WebSK\Views\LayoutDTO;
         Зайдите с <a href="<?php echo $site_domain; ?>">главной страницы</a> или <a href="javascript:history.back()">вернитесь назад</a>.
     </p>
 
-    <p id="footer">&copy;&nbsp; <?php echo $site_name; ?>, <a href="mailto:<?php echo $site_email; ?>" title="написать администратору">администратору</a></p>
+    <p id="footer">&copy;&nbsp; <?php echo $site_name; ?>, <a href="mailto:<?php echo $site_email; ?>" title="написать администратору"><?php echo $site_email; ?></a></p>
 </div>
 </body>
 </html>
