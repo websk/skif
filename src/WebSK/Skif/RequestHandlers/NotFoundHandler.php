@@ -6,9 +6,16 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Http\StatusCode;
-use WebSK\Skif\SkifPhpRender;
-use WebSK\Utils\HTTP;
+use WebSK\Config\ConfWrapper;
+use WebSK\Skif\SkifPath;
+use WebSK\Views\BreadcrumbItemDTO;
+use WebSK\Views\LayoutDTO;
+use WebSK\Views\PhpRender;
 
+/**
+ * Class NotFoundHandler
+ * @package WebSK\Skif\RequestHandlers
+ */
 class NotFoundHandler
 {
     /**
@@ -18,27 +25,26 @@ class NotFoundHandler
      */
     public function __invoke(Request $request, Response $response)
     {
-        $response = $response->withStatus(StatusCode::HTTP_NOT_FOUND);
+        $error_code = StatusCode::HTTP_NOT_FOUND;
 
-        $error_messages_arr = array(
-            HTTP::STATUS_NOT_FOUND => array(
-                'title' => 'документ не найден',
-                'messages' => ['неправильно набран адрес', 'документ был удален', 'документ был перемещен', 'документ был переименован']
-            ),
-            HTTP::STATUS_FORBIDDEN => [
-                'title' => 'доступ запрещен'
-            ],
-        );
+        $extra_message = 'Страница не найдена';
+        $message = 'Возможные причины: неправильно набран адрес, документ был удален, документ был переименован';
 
-        $data = [
-            'error_code' => StatusCode::HTTP_NOT_FOUND,
-            'response' => $response
+        $content_html = '<div class="alert alert-warning" role="alert">';
+        $content_html .= '<h4><span class="glyphicon glyphicon-exclamation-sign"></span> ' . $extra_message . '</h4>';
+        $content_html .= '<div style="white-space: pre-wrap; font-size: larger">' . $message . '</div>';
+        $content_html .= '</div>';
+
+        $layout_dto = new LayoutDTO();
+        $layout_dto->setTitle($error_code);
+        $layout_dto->setContentHtml($content_html);
+        $breadcrumbs_arr = [
+            new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),
         ];
+        $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 
-        return SkifPhpRender::render(
-            $response,
-            '/errors/error_page.tpl.php',
-            $data
-        );
+        $response = $response->withStatus($error_code);
+
+        return PhpRender::renderLayout($response, ConfWrapper::value('layout.error'), $layout_dto);
     }
 }

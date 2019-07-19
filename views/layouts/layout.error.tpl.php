@@ -20,16 +20,13 @@ use WebSK\Views\LayoutDTO;
     <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
 
     <style>
-        html, body {margin: 0; padding: 0 10px;}
-        #html {width: 90%; margin: auto; font-size: 12px; line-height: 18px; margin-bottom: 30px;}
-        h1 {font-size: 120px; margin: 0; text-align: center; font-weight: 400;     margin-bottom: 30px;}
-        h1 div { font-size: 36px; }
-        p {padding-bottom: 8px; }
-        #footer { margin-top: 30px; text-align: center; }
-        .inline_block{display: inline-block}
+        html, body {margin: 0;}
+        #html {width: 70%; margin: auto; font-size: 12px; line-height: 18px; margin-bottom: 30px;}
+        h1 {font-size: 120px; margin: 0; text-align: center; font-weight: 400; margin-bottom: 30px;}
+        #footer { margin-top: 30px; text-align: center;}
         @media (max-width: 500px) {
+            #html {width: 90%}
             h1 {font-size: 100px;}
-            h1 div { font-size: 26px; }
         }
     </style>
 </head>
@@ -49,11 +46,10 @@ use WebSK\Views\LayoutDTO;
         $site_email = ConfWrapper::value('site_email');
         ?>
 
-        Зайдите с <a href="<?php echo $site_domain; ?>">главной страницы</a>
-        <span class="inline_block">или напишите <a href="mailto:<?php echo $site_email; ?>" title="написать администратору">администратору</a>.</span>
+        Зайдите с <a href="<?php echo $site_domain; ?>">главной страницы</a> или <a href="javascript:history.back()">вернитесь назад</a>.
     </p>
 
-    <p id="footer">&copy;&nbsp; <?php echo $site_name; ?></p>
+    <p id="footer">&copy;&nbsp; <?php echo $site_name; ?>, <a href="mailto:<?php echo $site_email; ?>" title="написать администратору">администратору</a></p>
 </div>
 </body>
 </html>

@@ -9,7 +9,6 @@ use Slim\Http\StatusCode;
 use WebSK\Auth\Auth;
 use WebSK\Config\ConfWrapper;
 use WebSK\Skif\SkifPath;
-use WebSK\Utils\HTTP;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -28,22 +27,21 @@ class ErrorHandler
      */
     public function __invoke(Request $request, Response $response, $exception)
     {
-        $response = $response->withStatus(StatusCode::HTTP_INTERNAL_SERVER_ERROR);
-
         $error_code = StatusCode::HTTP_INTERNAL_SERVER_ERROR;
 
-        $extra_message = 'Ошибка';
-        $message = $exception->getMessage();
+        $extra_message = 'Ошибка. 500 Internal Server Error';
 
-        error_log($message . "\n" . $exception->getTraceAsString());
-
-        $content_html = $message;
+        $message = 'Что-то пошло не так';
         if (Auth::currentUserIsAdmin()) {
-            $content_html = '<div class="alert alert-danger" role="alert">';
-            $content_html .= '<h4><span class="glyphicon glyphicon-exclamation-sign"></span> ' . $extra_message . '</h4>';
-            $content_html .= '<div style="white-space: pre-wrap;">' . $message . '</div>';
-            $content_html .= '</div>';
+            $message = $exception->getMessage();
         }
+
+        $content_html = '<div class="alert alert-danger" role="alert">';
+        $content_html .= '<h4><span class="glyphicon glyphicon-exclamation-sign"></span> ' . $extra_message . '</h4>';
+        $content_html .= '<div style="white-space: pre-wrap; font-size: larger">' . $message . '</div>';
+        $content_html .= '</div>';
+
+        error_log($exception->getMessage() . "\n" . $exception->getTraceAsString());
 
         $layout_dto = new LayoutDTO();
         $layout_dto->setTitle($error_code);
@@ -53,6 +51,8 @@ class ErrorHandler
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 
+
+        $response = $response->withStatus($error_code);
 
         return PhpRender::renderLayout($response, ConfWrapper::value('layout.error'), $layout_dto);
     }
