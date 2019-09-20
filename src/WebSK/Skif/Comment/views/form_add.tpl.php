@@ -6,7 +6,7 @@
  */
 
 use WebSK\Auth\AuthRoutes;
-use WebSK\Auth\Users\User;
+use WebSK\Auth\User\User;
 use WebSK\Captcha\CaptchaRoutes;
 use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Slim\Router;

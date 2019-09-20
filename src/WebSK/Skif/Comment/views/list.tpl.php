@@ -7,7 +7,7 @@
  * @var CommentService $comment_service
  */
 
-use WebSK\Auth\Users\User;
+use WebSK\Auth\User\User;
 use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
 use WebSK\Skif\Comment\CommentRoutes;

@@ -12,6 +12,7 @@ use WebSK\Skif\SkifApp;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\Router;
 use WebSK\Utils\Messages;
+use WebSK\Utils\Url;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -295,6 +296,28 @@ $user_logout_url = Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['des
                 <div class="panel-body">
                     <?php
                     echo Messages::renderMessages();
+                    ?>
+
+                    <?php
+                    if ($layout_dto->getNavTabsDtoArr()) {
+                        $current_url_no_query = Url::getUriNoQueryString();
+                        ?>
+                        <div>
+                            <ul class="nav nav-tabs">
+                                <?php
+                                foreach ($layout_dto->getNavTabsDtoArr() as $nav_tab_item_dto) {
+                                    ?>
+                                    <li role="presentation" <?php echo (strpos($current_url_no_query, $nav_tab_item_dto->getUrl()) !== false ? ' class="active"' : '') ?>>
+                                        <a href="<?php echo $nav_tab_item_dto->getUrl(); ?>"><?php echo $nav_tab_item_dto->getName(); ?></a>
+                                    </li>
+                                    <?php
+                                }
+                                ?>
+                            </ul>
+                        </div>
+                        <p></p>
+                    <?php
+                    }
                     ?>
 
                     <?php
