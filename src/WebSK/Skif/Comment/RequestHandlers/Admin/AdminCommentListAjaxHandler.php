@@ -37,7 +37,7 @@ class AdminCommentListAjaxHandler extends BaseHandler
                 ),
                 new CRUDTableColumn(
                     'Комментарий',
-                    new CRUDTableWidgetText('{this->' . Comment::_COMMENT . '}')
+                    new CRUDTableWidgetText(Comment::_COMMENT)
                 )
             ],
             [

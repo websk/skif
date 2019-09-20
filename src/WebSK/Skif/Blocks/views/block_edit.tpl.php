@@ -3,11 +3,10 @@
  * @var $block_id
  */
 
+use WebSK\Auth\User\UserServiceProvider;
 use WebSK\Skif\Blocks\BlockUtils;
 use WebSK\Skif\Blocks\ControllerBlocks;
 use WebSK\Slim\Container;
-use WebSK\Auth\Users\UsersServiceProvider;
-use WebSK\Auth\Users\UsersUtils;
 use WebSK\Skif\SkifPath;
 use WebSK\Views\PhpRender;
 
@@ -76,10 +75,11 @@ $items = [];
                         <span id="roles">
                             <?php
                             $block_role_ids_arr = $block_obj->getRoleIdsArr();
-                            $roles_ids_arr = UsersUtils::getRolesIdsArr();
 
                             $container = Container::self();
-                            $role_service = UsersServiceProvider::getRoleService($container);
+                            $role_service = UserServiceProvider::getRoleService($container);
+
+                            $roles_ids_arr = $role_service->getAllIdsArrByIdAsc();
 
                             foreach ($roles_ids_arr as $role_id) {
                                 $role_obj = $role_service->getById($role_id);

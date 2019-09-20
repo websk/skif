@@ -122,23 +122,25 @@ class AdminCommentEditHandler extends BaseHandler
                 ]
             ),
             [
-                new CRUDTableColumn('ID', new CRUDTableWidgetText('{this->' . Comment::_ID . '}')),
+                new CRUDTableColumn('ID', new CRUDTableWidgetText(Comment::_ID)),
                 new CRUDTableColumn(
                     'Комментарий',
                     new CRUDTableWidgetTextWithLink(
-                        '{this->' . Comment::_COMMENT . '}',
-                        $this->pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT, ['comment_id' => '{this->' . Comment::_ID . '}'])
+                        Comment::_COMMENT,
+                        function (Comment $comment) {
+                            return $this->pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT, ['comment_id' => $comment->getId()]);
+                        }
                     )
                 ),
                 new CRUDTableColumn(
                     'Адрес страницы',
                     new CRUDTableWidgetText(
-                        '{this->' . Comment::_URL . '}'
+                        Comment::_URL
                     )
                 ),
                 new CRUDTableColumn(
                     'Создан',
-                    new CRUDTableWidgetTimestamp('{this->' . Comment::_CREATED_AT_TS . '}')
+                    new CRUDTableWidgetTimestamp(Comment::_CREATED_AT_TS)
                 ),
                 new CRUDTableColumn('', new CRUDTableWidgetDelete())
             ],

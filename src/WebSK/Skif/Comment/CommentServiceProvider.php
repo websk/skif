@@ -3,7 +3,7 @@
 namespace WebSK\Skif\Comment;
 
 use Psr\Container\ContainerInterface;
-use WebSK\Auth\Users\UsersServiceProvider;
+use WebSK\Auth\User\UserServiceProvider;
 use WebSK\Cache\CacheServiceProvider;
 use WebSK\Skif\SkifServiceProvider;
 
@@ -27,7 +27,7 @@ class CommentServiceProvider
                 Comment::class,
                 $container[Comment::ENTITY_REPOSITORY_CONTAINER_ID],
                 CacheServiceProvider::getCacheService($container),
-                UsersServiceProvider::getUserService($container)
+                UserServiceProvider::getUserService($container)
             );
         };
 

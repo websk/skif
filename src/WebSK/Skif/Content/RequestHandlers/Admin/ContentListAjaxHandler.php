@@ -42,7 +42,7 @@ class ContentListAjaxHandler extends BaseHandler
                 ),
                 new CRUDTableColumn(
                     'Название',
-                    new CRUDTableWidgetText('{this->' . Content::_TITLE . '}')
+                    new CRUDTableWidgetText(Content::_TITLE)
                 )
             ],
             [

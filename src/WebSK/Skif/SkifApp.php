@@ -3,6 +3,8 @@
 namespace WebSK\Skif;
 
 use WebSK\Auth\Middleware\CurrentUserIsAdmin;
+use WebSK\Auth\User\UserRoutes;
+use WebSK\Auth\User\UserServiceProvider;
 use WebSK\DB\DBWrapper;
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\Blocks\BlockRoutes;
@@ -31,8 +33,6 @@ use WebSK\Logger\LoggerServiceProvider;
 use WebSK\Skif\RequestHandlers\AdminHandler;
 use WebSK\Skif\RequestHandlers\ErrorHandler;
 use WebSK\Skif\RequestHandlers\NotFoundHandler;
-use WebSK\Auth\Users\UsersRoutes;
-use WebSK\Auth\Users\UsersServiceProvider;
 use WebSK\Slim\Facade;
 
 /**
@@ -55,7 +55,7 @@ class SkifApp extends App
 
         CacheServiceProvider::register($container);
         SkifServiceProvider::register($container);
-        UsersServiceProvider::register($container);
+        UserServiceProvider::register($container);
         AuthServiceProvider::register($container);
         CRUDServiceProvider::register($container);
         KeyValueServiceProvider::register($container);
@@ -78,7 +78,7 @@ class SkifApp extends App
 
         $this->group('/admin', function (App $app) {
             KeyValueRoutes::registerAdmin($app);
-            UsersRoutes::registerAdmin($app);
+            UserRoutes::registerAdmin($app);
             LoggerRoutes::registerAdmin($app);
             ContentRoutes::registerAdmin($app);
             CommentRoutes::registerAdmin($app);
@@ -86,7 +86,7 @@ class SkifApp extends App
 
         CaptchaRoutes::register($this);
 
-        UsersRoutes::register($this);
+        UserRoutes::register($this);
         AuthRoutes::register($this);
         CommentRoutes::register($this);
 

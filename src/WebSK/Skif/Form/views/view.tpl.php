@@ -3,6 +3,7 @@
  * @var $form_id
  */
 
+use WebSK\Auth\User\UserServiceProvider;
 use WebSK\Skif\Form\Form;
 use WebSK\Skif\Form\FormController;
 use WebSK\Skif\Form\FormField;
@@ -10,7 +11,6 @@ use WebSK\Auth\Auth;
 use WebSK\Captcha\CaptchaRoutes;
 use WebSK\Slim\Container;
 use WebSK\Slim\Router;
-use WebSK\Auth\Users\UsersServiceProvider;
 
 $form_obj = Form::factory($form_id);
 
@@ -57,7 +57,7 @@ $form_field_ids_arr = $form_obj->getFormFieldIdsArr();
     $current_user_id = Auth::getCurrentUserId();
     if ($current_user_id) {
         $container = Container::self();
-        $user_service = UsersServiceProvider::getUserService($container);
+        $user_service = UserServiceProvider::getUserService($container);
 
         $current_user_obj = $user_service->getById($current_user_id);
         echo '<input type="hidden" name="email" value="' . $current_user_obj->getEmail() . '">';

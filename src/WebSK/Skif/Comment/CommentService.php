@@ -3,7 +3,7 @@
 namespace WebSK\Skif\Comment;
 
 use WebSK\Auth\Auth;
-use WebSK\Auth\Users\UserService;
+use WebSK\Auth\User\UserService;
 use WebSK\Cache\CacheService;
 use WebSK\Config\ConfWrapper;
 use WebSK\Entity\EntityRepository;

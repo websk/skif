@@ -7,7 +7,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Http\StatusCode;
 use WebSK\Auth\AuthServiceProvider;
-use WebSK\Auth\Users\UsersServiceProvider;
+use WebSK\Auth\User\UserServiceProvider;
 use WebSK\Config\ConfWrapper;
 use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Skif\Comment\CommentService;
@@ -40,8 +40,8 @@ class CommentListHandler extends BaseHandler
             return $response->withStatus(StatusCode::HTTP_NOT_FOUND);
         }
 
-        $auth_service = AuthServiceProvider::getAuthService($this->container);
-        $user_service = UsersServiceProvider::getUserService($this->container);
+        $auth_service = AuthServiceProvider::getSessionService($this->container);
+        $user_service = UserServiceProvider::getUserService($this->container);
 
         $current_user_obj = $auth_service->getCurrentUserObj();
 

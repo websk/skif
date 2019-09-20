@@ -4,7 +4,7 @@ namespace WebSK\Skif;
 
 use Psr\Http\Message\ResponseInterface;
 use WebSK\Auth\Auth;
-use WebSK\Auth\Users\UsersServiceProvider;
+use WebSK\Auth\User\UserServiceProvider;
 use WebSK\Config\ConfWrapper;
 use WebSK\Slim\Container;
 use WebSK\Slim\Request;
@@ -59,7 +59,7 @@ class SkifPhpRender
 
             if ($current_user_id) {
                 $container = Container::self();
-                $user_service = UsersServiceProvider::getUserService($container);
+                $user_service = UserServiceProvider::getUserService($container);
                 $current_user = $user_service->getById($current_user_id);
 
                 $layout_dto->setUserId($current_user->getId());
