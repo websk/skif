@@ -46,7 +46,7 @@ class CommentCreateHandler extends BaseHandler
             return $response->withRedirect($url);
         }
 
-        $auth_service = AuthServiceProvider::getAuthService($this->container);
+        $auth_service = AuthServiceProvider::getSessionService($this->container);
 
         $current_user_obj = $auth_service->getCurrentUserObj();
 
