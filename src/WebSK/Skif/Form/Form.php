@@ -107,17 +107,17 @@ class Form extends Entity
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getEmailCopy(): string
+    public function getEmailCopy(): ?string
     {
         return $this->email_copy;
     }
 
     /**
-     * @param string $email_copy
+     * @param string|null $email_copy
      */
-    public function setEmailCopy(string $email_copy): void
+    public function setEmailCopy(?string $email_copy): void
     {
         $this->email_copy = $email_copy;
     }
