@@ -170,6 +170,7 @@ CREATE TABLE `rubrics` (
 
 CREATE TABLE `form` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at_ts` int NOT NULL DEFAULT '0',
   `title` varchar(200) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `email_copy` varchar(100) DEFAULT NULL,
@@ -181,15 +182,16 @@ CREATE TABLE `form` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `form_field` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `form_id` int(11) DEFAULT NULL,
-  `name` mediumtext,
-  `type` int(1) DEFAULT NULL,
-  `status` int(1) DEFAULT NULL,
-  `weight` int(4) DEFAULT NULL,
-  `size` int(4) DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `created_at_ts` int NOT NULL DEFAULT '0',
+  `form_id` int,
+  `name` varchar(255),
+  `type` smallint DEFAULT NULL,
+  `required` smallint NOT NULL DEFAULT '0',
+  `weight` smallint DEFAULT NULL,
+  `size` smallint DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `form` (`form_id`),
+  KEY `form_id` (`form_id`),
   CONSTRAINT `FK_form_field_form` FOREIGN KEY (`form_id`) REFERENCES `form` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

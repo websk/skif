@@ -47,7 +47,7 @@ class CommentServiceProvider
      * @param ContainerInterface $container
      * @return CommentService
      */
-    public static function getCommentService(ContainerInterface $container)
+    public static function getCommentService(ContainerInterface $container): CommentService
     {
         return $container[Comment::ENTITY_SERVICE_CONTAINER_ID];
     }

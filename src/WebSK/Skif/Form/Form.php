@@ -2,276 +2,155 @@
 
 namespace WebSK\Skif\Form;
 
-use WebSK\Model\ActiveRecord;
-use WebSK\Model\ActiveRecordHelper;
-use WebSK\Model\FactoryTrait;
-use WebSK\Model\InterfaceDelete;
-use WebSK\Model\InterfaceFactory;
-use WebSK\Model\InterfaceGetTitle;
-use WebSK\Model\InterfaceGetUrl;
-use WebSK\Model\InterfaceLoad;
-use WebSK\Model\InterfaceSave;
-use WebSK\Skif\CKEditor\CKEditor;
-use WebSK\Skif\CRUD\CKEditorWidget\CKEditorWidget;
-use WebSK\Skif\UniqueUrl;
-use WebSK\Utils\Transliteration;
-use WebSK\Utils\Assert;
+use WebSK\Entity\Entity;
 
 /**
  * Class Form
  * @package WebSK\Skif\Form
  */
-class Form implements
-    InterfaceLoad,
-    InterfaceFactory,
-    InterfaceSave,
-    InterfaceDelete,
-    InterfaceGetUrl,
-    InterfaceGetTitle
+class Form extends Entity
 {
-    use ActiveRecord;
-    use FactoryTrait;
-
+    const ENTITY_SERVICE_CONTAINER_ID = 'skif.form_service';
+    const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.form_repository';
     const DB_TABLE_NAME = 'form';
 
-    protected $id;
+    const _TITLE = 'title';
+    /** @var string */
     protected $title = '';
+
+    const _COMMENT = 'comment';
+    /** @var string */
     protected $comment = '';
+
+    const _BUTTON_LABEL = 'button_label';
+    /** @var string */
     protected $button_label;
+
+    const _EMAIL = 'email';
+    /** @var string */
     protected $email;
+
+    const _EMAIL_COPY = 'email_copy';
+    /** @var string */
     protected $email_copy;
+
+    const _RESPONSE_MAIL_MESSAGE = 'response_mail_message';
+    /** @var string */
     protected $response_mail_message;
+
+    const _URL = 'url';
+    /** @var string */
     protected $url;
-    protected $form_field_ids_arr;
-
-    public static $active_record_ignore_fields_arr = array(
-        'form_field_ids_arr',
-    );
-
-    public static $crud_create_button_required_fields_arr = array();
-    public static $crud_create_button_title = 'Добавить форму';
-
-    public static $crud_model_class_screen_name = 'Форма';
-    public static $crud_model_title_field = 'title';
-
-    public static $crud_field_titles_arr = array(
-        'title' => 'Заголовок',
-        'email' => 'E-mail',
-        'email_copy' => 'Копия на E-mail',
-        'button_label' => 'Надпись на кнопке',
-        'comment' => 'Комментарий',
-        'response_mail_message' => 'Текст письма',
-        'url' => 'Адрес страницы',
-    );
-
-    public static $crud_model_class_screen_name_for_list = 'Формы';
-
-    public static $crud_fields_list_arr = array(
-        'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
-        'title' => array('col_class' => 'col-md-6 col-sm-6 col-xs-6'),
-        'email' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
-        '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
-    );
-
-    public static $crud_editor_fields_arr = array(
-        'title' => array(),
-        'email' => array(),
-        'email_copy' => array(),
-        'button_label' => array(),
-        'comment' => array(
-            'widget' => array(CKEditorWidget::class, 'renderWidget'),
-            'widget_settings' => array(
-                'height' => 500,
-                'type' => CKEditor::CKEDITOR_FULL,
-                'dir' => 'form'
-            ),
-        ),
-        'response_mail_message' => array('widget' => 'textarea'),
-        'url' => array(),
-    );
-
-    public static $related_models_arr = array(
-        FormField::class => array(
-            'link_field' => 'form_id',
-            'field_name' => 'form_field_ids_arr',
-            'list_title' => 'Набор полей формы',
-        )
-    );
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
 
     /**
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
     /**
-     * @param mixed $title
+     * @param string $title
      */
-    public function setTitle($title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * @param mixed $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEmailCopy()
-    {
-        return $this->email_copy;
-    }
-
-    /**
-     * @param mixed $email_copy
-     */
-    public function setEmailCopy($email_copy)
-    {
-        $this->email_copy = $email_copy;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getButtonLabel()
-    {
-        return $this->button_label;
-    }
-
-    /**
-     * @param mixed $button_label
-     */
-    public function setButtonLabel($button_label)
-    {
-        $this->button_label = $button_label;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getComment()
+    public function getComment(): string
     {
         return $this->comment;
     }
 
     /**
-     * @param mixed $comment
+     * @param string $comment
      */
-    public function setComment($comment)
+    public function setComment(string $comment): void
     {
         $this->comment = $comment;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getResponseMailMessage()
+    public function getButtonLabel(): string
+    {
+        return $this->button_label;
+    }
+
+    /**
+     * @param string $button_label
+     */
+    public function setButtonLabel(string $button_label): void
+    {
+        $this->button_label = $button_label;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmailCopy(): string
+    {
+        return $this->email_copy;
+    }
+
+    /**
+     * @param string $email_copy
+     */
+    public function setEmailCopy(string $email_copy): void
+    {
+        $this->email_copy = $email_copy;
+    }
+
+    /**
+     * @return string
+     */
+    public function getResponseMailMessage(): string
     {
         return $this->response_mail_message;
     }
 
     /**
-     * @param mixed $response_mail_message
+     * @param string $response_mail_message
      */
-    public function setResponseMailMessage($response_mail_message)
+    public function setResponseMailMessage(string $response_mail_message): void
     {
         $this->response_mail_message = $response_mail_message;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getUrl()
+    public function getUrl(): string
     {
-        if ($this->url) {
-            return $this->url;
-        }
+        return $this->url;
     }
 
     /**
-     * @param mixed $url
+     * @param string $url
      */
-    public function setUrl($url)
+    public function setUrl(string $url): void
     {
         $this->url = $url;
-    }
-
-    public function generateUrl()
-    {
-        if (!$this->getTitle()) {
-            return '';
-        }
-
-        $title_for_url = Transliteration::transliteration($this->getTitle());
-
-        $new_url = $title_for_url;
-        $new_url = '/' . ltrim($new_url, '/');
-
-        $new_url = substr($new_url, 0, 255);
-
-        $unique_new_url = UniqueUrl::getUniqueUrl($new_url);
-        Assert::assert($unique_new_url);
-
-        return $unique_new_url;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFormFieldIdsArr()
-    {
-        return $this->form_field_ids_arr;
-    }
-
-    public function save()
-    {
-        if ($this->url) {
-            $url = '/' . ltrim($this->url, '/');
-
-            if ($url != $this->getUrl()) {
-                $url = UniqueUrl::getUniqueUrl($url);
-            }
-        } else {
-            $url = $this->generateUrl();
-            $url = '/' . ltrim($url, '/');
-        }
-
-        $this->setUrl($url);
-
-        ActiveRecordHelper::saveModelObj($this);
-
-        self::afterUpdate($this->getId());
     }
 }

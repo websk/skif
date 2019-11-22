@@ -1,6 +1,6 @@
 <?php
 
-namespace WebSK\Skif\Comment\RequestHandlers\Admin;
+namespace WebSK\Skif\Form\RequestHandlers\Admin;
 
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
@@ -11,16 +11,16 @@ use WebSK\CRUD\Table\CRUDTableColumn;
 use WebSK\CRUD\Table\Filters\CRUDTableFilterLikeInline;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetReferenceSelect;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
-use WebSK\Skif\Comment\Comment;
+use WebSK\Skif\Form\Form;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 
 /**
- * Class AdminCommentListAjaxHandler
- * @package WebSK\Skif\Comment\RequestHandlers\Admin
+ * Class AdminFormListAjaxHandler
+ * @package WebSK\Skif\Form\RequestHandlers\Admin
  */
-class AdminCommentListAjaxHandler extends BaseHandler
+class AdminFormListAjaxHandler extends BaseHandler
 {
-    const FILTER_COMMENT = 'comment_23423';
+    const FILTER_TITLE = 'title';
 
     /**
      * @param Request $request
@@ -30,23 +30,21 @@ class AdminCommentListAjaxHandler extends BaseHandler
     public function __invoke(Request $request, Response $response)
     {
         $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
-            Comment::class,
+            Form::class,
             null,
             [
+                new CRUDTableColumn('ID', new CRUDTableWidgetText(Form::_ID)),
+                new CRUDTableColumn('Название', new CRUDTableWidgetText(Form::_TITLE)),
                 new CRUDTableColumn(
                     '',
-                    new CRUDTableWidgetReferenceSelect(Comment::_COMMENT)
+                    new CRUDTableWidgetReferenceSelect(Form::_TITLE)
                 ),
-                new CRUDTableColumn(
-                    'Комментарий',
-                    new CRUDTableWidgetText(Comment::_COMMENT)
-                )
             ],
             [
-                new CRUDTableFilterLikeInline(self::FILTER_COMMENT, '', Comment::_COMMENT, 'Комментарий'),
+                new CRUDTableFilterLikeInline(self::FILTER_TITLE, '', Form::_TITLE, 'Название'),
             ],
-            Comment::_CREATED_AT_TS . ' DESC',
-            'comment_list',
+            Form::_CREATED_AT_TS . ' DESC',
+            'form_list',
             CRUDTable::FILTERS_POSITION_INLINE
         );
 

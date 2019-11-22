@@ -1,18 +1,21 @@
 <?php
 /**
- * @var $form_id
+ * @var int $form_id
  */
 
-use WebSK\Auth\User\UserServiceProvider;
-use WebSK\Skif\Form\Form;
-use WebSK\Skif\Form\FormController;
 use WebSK\Skif\Form\FormField;
 use WebSK\Auth\Auth;
 use WebSK\Captcha\CaptchaRoutes;
+use WebSK\Skif\Form\FormRoutes;
+use WebSK\Skif\Form\FormServiceProvider;
 use WebSK\Slim\Container;
 use WebSK\Slim\Router;
 
-$form_obj = Form::factory($form_id);
+$container = Container::self();
+
+$form_obj = FormServiceProvider::getFormService($container)->getById($form_id);
+
+$form_field_service = FormServiceProvider::getFormFieldService($container);
 
 if ($form_obj->getComment()) {
     ?>
@@ -20,31 +23,31 @@ if ($form_obj->getComment()) {
     <?php
 }
 
-$form_field_ids_arr = $form_obj->getFormFieldIdsArr();
+$form_field_ids_arr = $form_field_service->getIdsArrByFormId($form_id);
 ?>
-<form method="post" action="<?php echo FormController::getSendUrl($form_id); ?>" class="form-horizontal">
+<form method="post" action="<?php echo Router::pathFor(FormRoutes::ROUTE_NAME_FORM_SEND, ['form_id' => $form_id]); ?>" class="form-horizontal">
     <?php
     foreach ($form_field_ids_arr as $form_field_id) {
-        $form_field_obj = FormField::factory($form_field_id);
+        $form_field_obj = $form_field_service->getById($form_field_id);
 
-        $length = $form_field_obj->getSize();
-        if (!$length) {
-            $length = 20;
+        $field_size = $form_field_obj->getSize();
+        if (!$field_size) {
+            $field_size = 20;
         }
-        if ($length > 50) {
-            $length = 50;
+        if ($field_size > 50) {
+            $field_size = 50;
         }
 
         $name = $form_field_obj->getName();
-        if ($form_field_obj->getStatus()) {
+        if ($form_field_obj->getRequired()) {
             $name = $name . ' *';
         }
 
         $field_html = '';
         if ($form_field_obj->getType() == FormField::FIELD_TYPE_STRING) {
-            $field_html = '<input type=text name="field_' . $form_field_id . '" maxlength="' . $length . '" value="" size="' . $length . '" class="form-control">';
+            $field_html = '<input type=text name="field_' . $form_field_id . '" maxlength="' . $field_size . '" value="" size="' . $field_size . '" class="form-control">';
         } else if ($form_field_obj->getType() == FormField::FIELD_TYPE_TEXTAREA) {
-            $field_html = '<textarea name="field_' . $form_field_id . '" cols="50" rows="' . $length . '" class="form-control"></textarea>';
+            $field_html = '<textarea name="field_' . $form_field_id . '" cols="50" rows="' . $field_size . '" class="form-control"></textarea>';
         }
         ?>
         <div class="form-group">
@@ -56,10 +59,7 @@ $form_field_ids_arr = $form_obj->getFormFieldIdsArr();
 
     $current_user_id = Auth::getCurrentUserId();
     if ($current_user_id) {
-        $container = Container::self();
-        $user_service = UserServiceProvider::getUserService($container);
-
-        $current_user_obj = $user_service->getById($current_user_id);
+        $current_user_obj = Auth::getCurrentUserObj();
         echo '<input type="hidden" name="email" value="' . $current_user_obj->getEmail() . '">';
     } else {
         ?>
@@ -80,7 +80,7 @@ $form_field_ids_arr = $form_obj->getFormFieldIdsArr();
     ?>
     <div class="form-group">
         <div class="col-md-offset-3 col-md-9">
-            <button class="btn btn-primary"><?php echo $form_obj->getButtonLabel(); ?></button>
+            <button class="btn btn-primary"><?php echo $form_obj->getButtonLabel() ?: 'Отправить'  ?></button>
             <p class="help-block">* отмечены поля, обязательные для заполнения</p>
         </div>
     </div>

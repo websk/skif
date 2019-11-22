@@ -1,0 +1,146 @@
+<?php
+
+namespace WebSK\Skif\Form\RequestHandlers\Admin;
+
+use Slim\Http\Request;
+use Slim\Http\Response;
+use Slim\Http\StatusCode;
+use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\Form\CRUDFormInvisibleRow;
+use WebSK\CRUD\Form\CRUDFormRow;
+use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
+use WebSK\CRUD\Form\Widgets\CRUDFormWidgetOptions;
+use WebSK\CRUD\Form\Widgets\CRUDFormWidgetRadios;
+use WebSK\CRUD\Form\Widgets\CRUDFormWidgetTextarea;
+use WebSK\CRUD\Table\CRUDTableColumn;
+use WebSK\CRUD\Table\Filters\CRUDTableFilterEqualInvisible;
+use WebSK\CRUD\Table\Widgets\CRUDTableWidgetCheckbox;
+use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
+use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
+use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
+use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
+use WebSK\Skif\Form\Form;
+use WebSK\Skif\Form\FormField;
+use WebSK\Skif\Form\FormRoutes;
+use WebSK\Skif\Form\FormServiceProvider;
+use WebSK\Skif\SkifPath;
+use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Views\BreadcrumbItemDTO;
+use WebSK\Views\LayoutDTO;
+use WebSK\Views\PhpRender;
+
+/**
+ * Class AdminFormEditHandler
+ * @package WebSK\Skif\Form\RequestHandlers\Admin
+ */
+class AdminFormEditHandler extends BaseHandler
+{
+    const FILTER_NAME_FORM_ID = 'form_id';
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param int $form_id
+     */
+    public function __invoke(Request $request, Response $response, int $form_id)
+    {
+        $form_obj = FormServiceProvider::getFormService($this->container)
+            ->getById($form_id, false);
+
+        if (!$form_obj) {
+            return $response->withStatus(StatusCode::HTTP_NOT_FOUND);
+        }
+
+        $crud_form = CRUDServiceProvider::getCrud($this->container)->createForm(
+            'form_edit',
+            $form_obj,
+            [
+                new CRUDFormRow('Название формы', new CRUDFormWidgetInput(Form::_TITLE)),
+                new CRUDFormRow('Комментарий', new CRUDFormWidgetTextarea(Form::_COMMENT)),
+                new CRUDFormRow('Надпись на кнопке', new CRUDFormWidgetInput(Form::_BUTTON_LABEL)),
+                new CRUDFormRow('E-mail', new CRUDFormWidgetInput(Form::_EMAIL)),
+                new CRUDFormRow('Копию отправлять на E-mail', new CRUDFormWidgetInput(Form::_EMAIL_COPY)),
+                new CRUDFormRow('Текст письма в ответ', new CRUDFormWidgetTextarea(Form::_RESPONSE_MAIL_MESSAGE)),
+                new CRUDFormRow('Адрес страницы', new CRUDFormWidgetInput(Form::_URL))
+            ]
+        );
+
+        $crud_form_response = $crud_form->processRequest($request, $response);
+        if ($crud_form_response instanceof Response) {
+            return $crud_form_response;
+        }
+
+        $content_html = $crud_form->html();
+
+        $new_form_field_obj = new FormField();
+        $new_form_field_obj->setFormId($form_id);
+
+        $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
+            FormField::class,
+            CRUDServiceProvider::getCrud($this->container)->createForm(
+                'form_field_create',
+                $new_form_field_obj,
+                [
+                    new CRUDFormRow('Название', new CRUDFormWidgetInput(FormField::_NAME)),
+                    new CRUDFormRow(
+                        'Тип',
+                        new CRUDFormWidgetOptions(FormField::_TYPE, FormField::FIELD_TYPES_ARR)
+                    ),
+                    new CRUDFormRow('Обязательность', new CRUDFormWidgetRadios(FormField::_REQUIRED, [0 => 'Нет', 1 => 'Да'])),
+                    new CRUDFormRow('Сортировка', new CRUDFormWidgetInput(FormField::_WEIGHT)),
+                    new CRUDFormRow('Размер', new CRUDFormWidgetInput(FormField::_SIZE)),
+                    new CRUDFormInvisibleRow(new CRUDFormWidgetInput(FormField::_FORM_ID))
+                ]
+            ),
+            [
+                new CRUDTableColumn('ID', new CRUDTableWidgetText(FormField::_ID)),
+                new CRUDTableColumn(
+                    'Название',
+                    new CRUDTableWidgetTextWithLink(
+                        FormField::_NAME,
+                        function (FormField $form_field) {
+                            return $this->pathFor(FormRoutes::ROUTE_NAME_ADMIN_FORM_FIELD_EDIT, ['form_field_id' => $form_field->getId()]);
+                        }
+                    )
+                ),
+                new CRUDTableColumn(
+                    'Обязательность',
+                    new CRUDTableWidgetCheckbox(FormField::_REQUIRED)
+                ),
+                new CRUDTableColumn(
+                    'Сортировка',
+                    new CRUDTableWidgetText(FormField::_WEIGHT)
+                ),
+                new CRUDTableColumn(
+                    'Создан',
+                    new CRUDTableWidgetTimestamp(FormField::_CREATED_AT_TS)
+                ),
+                new CRUDTableColumn('', new CRUDTableWidgetDelete())
+            ],
+            [
+                new CRUDTableFilterEqualInvisible(self::FILTER_NAME_FORM_ID, $form_id),
+            ],
+            FormField::_WEIGHT . ' DESC'
+        );
+
+        $crud_form_table_response = $crud_table_obj->processRequest($request, $response);
+        if ($crud_form_table_response instanceof Response) {
+            return $crud_form_table_response;
+        }
+
+        $content_html .= '<h3>Поля формы</h3>';
+        $content_html .= $crud_table_obj->html($request);
+
+        $layout_dto = new LayoutDTO();
+        $layout_dto->setTitle($form_obj->getTitle());
+        $layout_dto->setContentHtml($content_html);
+        $breadcrumbs_arr = [
+            new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),
+            new BreadcrumbItemDTO('Формы', $this->pathFor(FormRoutes::ROUTE_NAME_ADMIN_FORM_LIST)),
+        ];
+        $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
+
+
+        return PhpRender::renderLayout($response, SkifPath::getLayout(), $layout_dto);
+    }
+}

@@ -17,6 +17,7 @@ use WebSK\Skif\Form\FormRoutes;
 use WebSK\Cache\CacheServiceProvider;
 use WebSK\Auth\AuthServiceProvider;
 use WebSK\Image\ImageRoutes;
+use WebSK\Skif\Form\FormServiceProvider;
 use WebSK\Skif\Poll\PollRoutes;
 use WebSK\Skif\Rating\RatingRoutes;
 use WebSK\Skif\Redirect\RedirectRoutes;
@@ -62,6 +63,7 @@ class SkifApp extends App
         LoggerServiceProvider::register($container);
         ContentServiceProvider::register($container);
         CommentServiceProvider::register($container);
+        FormServiceProvider::register($container);
 
         $this->registerRoutes();
     }
@@ -82,6 +84,7 @@ class SkifApp extends App
             LoggerRoutes::registerAdmin($app);
             ContentRoutes::registerAdmin($app);
             CommentRoutes::registerAdmin($app);
+            FormRoutes::registerAdmin($app);
         })->add(new CurrentUserIsAdmin());
 
         CaptchaRoutes::register($this);
@@ -89,6 +92,7 @@ class SkifApp extends App
         UserRoutes::register($this);
         AuthRoutes::register($this);
         CommentRoutes::register($this);
+        FormRoutes::register($this);
 
         /** Use facade */
         Facade::setFacadeApplication($this);

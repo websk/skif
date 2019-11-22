@@ -2,227 +2,147 @@
 
 namespace WebSK\Skif\Form;
 
-use WebSK\Model\ActiveRecord;
-use WebSK\Model\FactoryTrait;
-use WebSK\Model\InterfaceDelete;
-use WebSK\Model\InterfaceFactory;
-use WebSK\Model\InterfaceLoad;
-use WebSK\Model\InterfaceSave;
-use WebSK\Skif\CRUD\ModelReferenceWidget\ModelReferenceWidget;
+use WebSK\Entity\Entity;
 
 /**
  * Class FormField
  * @package WebSK\Skif\Form
  */
-class FormField implements
-    InterfaceLoad,
-    InterfaceFactory,
-    InterfaceSave,
-    InterfaceDelete
+class FormField extends Entity
 {
-    use ActiveRecord;
-    use FactoryTrait;
+    const ENTITY_SERVICE_CONTAINER_ID = 'skif.form_field__service';
+    const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.form_field_repository';
+    const DB_TABLE_NAME = 'form_field';
 
     const FIELD_TYPE_STRING = 1;
     const FIELD_TYPE_TEXTAREA = 2;
+    const FIELD_TYPE_COMMENT = 3;
+    const FIELD_TYPE_CHECKBOX = 4;
 
-    const DB_TABLE_NAME = 'form_field';
+    const FIELD_TYPES_ARR = [
+        self::FIELD_TYPE_STRING => 'Строка',
+        self::FIELD_TYPE_TEXTAREA => 'Текст',
+        self::FIELD_TYPE_COMMENT => 'Комментарий',
+        self::FIELD_TYPE_CHECKBOX => 'Галочка',
+    ];
 
-    /** @var int */
-    protected $id;
-
+    const _FORM_ID = 'form_id';
     /** @var int */
     protected $form_id;
 
+    const _NAME = 'name';
     /** @var string */
     protected $name = '';
 
-    /** @var int */
+    const _TYPE = 'type';
+    /** @var null|int */
     protected $type;
 
+    const _REQUIRED = 'required';
     /** @var int */
-    protected $status;
+    protected $required = 0;
 
-    /** @var int */
+    const _WEIGHT = 'weight';
+    /** @var null|int */
     protected $weight = 0;
 
-    /** @var int */
+    const _SIZE = 'size';
+    /** @var null|int */
     protected $size = 50;
 
-
-    public static $crud_create_button_required_fields_arr = array('form_id');
-    public static $crud_create_button_title = 'Добавить поле';
-
-    public static $crud_model_class_screen_name = 'Название';
-    public static $crud_model_title_field = 'name';
-
-    public static $crud_field_titles_arr = array(
-        'name' => 'Название',
-        'form_id' => 'Форма',
-        'type' => 'Тип',
-        'status' => 'Обязательность',
-        'weight' => 'Сортировка',
-        'size' => 'Размер'
-    );
-
-    public static $crud_model_class_screen_name_for_list = 'Набор полей формы';
-
-    public static $crud_fields_list_arr = array(
-        'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
-        'name' => array('col_class' => 'col-md-4 col-sm-6 col-xs-6'),
-        'status' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
-        'weight' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
-        '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
-    );
-
-    public static $crud_editor_fields_arr = array(
-        'name' => array(),
-        'form_id' => array(
-            'widget' => array(ModelReferenceWidget::class, 'renderWidget'),
-            'widget_settings' => array(
-                'model_class_name' => Form::class
-            )
-        ),
-        'type' => array(
-            'widget' => 'options',
-            'options_arr' => array(
-                1 => 'Строка',
-                2 => 'Текст',
-                3 => 'Комментарий',
-                4 => 'Галочка',
-            )
-        ),
-        'status' => array('widget' => 'checkbox'),
-        'weight' => array(),
-        'size' => array(),
-    );
-
-
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFormId()
+    public function getFormId(): int
     {
         return $this->form_id;
     }
 
     /**
-     * @param mixed $form_id
+     * @param int $form_id
      */
-    public function setFormId($form_id)
+    public function setFormId(int $form_id): void
     {
         $this->form_id = $form_id;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
     /**
-     * @return mixed
+     * @return int|null
      */
-    public function getType()
+    public function getType(): ?int
     {
         return $this->type;
     }
 
     /**
-     * @param mixed $type
+     * @param int|null $type
      */
-    public function setType($type)
+    public function setType(?int $type): void
     {
         $this->type = $type;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getStatus()
+    public function getRequired(): int
     {
-        return $this->status;
+        return $this->required;
     }
 
     /**
-     * @param mixed $status
+     * @param int $required
      */
-    public function setStatus($status)
+    public function setRequired(int $required): void
     {
-        $this->status = $status;
+        $this->required = $required;
     }
 
     /**
-     * @return mixed
+     * @return int|null
      */
-    public function getWeight()
+    public function getWeight(): ?int
     {
         return $this->weight;
     }
 
     /**
-     * @param mixed $weight
+     * @param int|null $weight
      */
-    public function setWeight($weight)
+    public function setWeight(?int $weight): void
     {
         $this->weight = $weight;
     }
 
     /**
-     * @return mixed
+     * @return int|null
      */
-    public function getSize()
+    public function getSize(): ?int
     {
         return $this->size;
     }
 
     /**
-     * @param mixed $size
+     * @param int|null $size
      */
-    public function setSize($size)
+    public function setSize(?int $size): void
     {
         $this->size = $size;
-    }
-
-    public static function afterUpdate($id)
-    {
-        $form_field_obj = self::factory($id);
-
-        self::removeObjFromCacheById($id);
-
-        Form::afterUpdate($form_field_obj->getFormId());
-    }
-
-    public function afterDelete()
-    {
-        self::removeObjFromCacheById($this->getId());
-
-        Form::afterUpdate($this->getFormId());
     }
 }
