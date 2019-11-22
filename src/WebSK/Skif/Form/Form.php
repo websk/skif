@@ -31,7 +31,7 @@ class Form extends Entity
     protected $email;
 
     const _EMAIL_COPY = 'email_copy';
-    /** @var string */
+    /** @var null|string */
     protected $email_copy;
 
     const _RESPONSE_MAIL_MESSAGE = 'response_mail_message';
