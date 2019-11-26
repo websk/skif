@@ -19,7 +19,6 @@ use WebSK\Auth\AuthServiceProvider;
 use WebSK\Image\ImageRoutes;
 use WebSK\Skif\Form\FormServiceProvider;
 use WebSK\Skif\Poll\PollRoutes;
-use WebSK\Skif\Rating\RatingRoutes;
 use WebSK\Skif\Redirect\RedirectRoutes;
 use WebSK\Skif\Redirect\RedirectServiceProvider;
 use WebSK\Skif\SiteMenu\SiteMenuRoutes;
@@ -122,7 +121,6 @@ class SkifApp extends App
         FormRoutes::route();
 
         PollRoutes::route();
-        RatingRoutes::route();
 
         $container['errorHandler'] = function () {
             return new ErrorHandler();
