@@ -2,173 +2,104 @@
 
 namespace WebSK\Skif\Redirect;
 
-use WebSK\Model\ActiveRecord;
-use WebSK\Model\FactoryTrait;
-use WebSK\Model\InterfaceDelete;
-use WebSK\Model\InterfaceFactory;
-use WebSK\Model\InterfaceLoad;
-use WebSK\Model\InterfaceSave;
-use WebSK\Cache\CacheWrapper;
+use WebSK\Entity\Entity;
+use WebSK\Utils\HTTP;
 
 /**
  * Class Redirect
  * @package WebSK\Skif\Redirect
  */
-class Redirect implements
-    InterfaceLoad,
-    InterfaceFactory,
-    InterfaceSave,
-    InterfaceDelete
+class Redirect extends Entity
 {
-    use ActiveRecord;
-    use FactoryTrait;
-
+    const ENTITY_SERVICE_CONTAINER_ID = 'skif.redirect_service';
+    const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.redirect_repository';
     const DB_TABLE_NAME = 'redirect_rewrites';
-
-    protected $id;
-    protected $src;
-    protected $dst;
-    protected $code = 301;
-    protected $kind = 1;
-
 
     const REDIRECT_KIND_STRING = 1;
     const REDIRECT_KIND_REGEXP = 2;
 
-    public static $crud_create_button_required_fields_arr = array();
-    public static $crud_create_button_title = 'Добавить редирект';
+    const REDIRECT_KINDS_ARR = [
+        self::REDIRECT_KIND_STRING => 'строка',
+        self::REDIRECT_KIND_REGEXP => 'регексп'
+    ];
 
-    public static $crud_model_class_screen_name = 'Исходный урл';
-    public static $crud_model_title_field = 'src';
+    const _SRC = 'src';
+    /** @var string */
+    protected $src;
 
-    public static $crud_field_titles_arr = array(
-        'src' => 'Исходный урл',
-        'dst' => 'Назначение',
-        'code' => 'HTTP-код',
-        'kind' => 'Вид',
-    );
+    const _DST = 'dst';
+    /** @var string */
+    protected $dst;
 
-    public static $crud_model_class_screen_name_for_list = 'Редиректы';
+    const _CODE = 'code';
+    /** @var int */
+    protected $code = HTTP::STATUS_MOVED_PERMANENTLY;
 
-    public static $crud_fields_list_arr = array(
-        'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
-        'src' => array('col_class' => 'col-md-4 col-sm-6 col-xs-6'),
-        'dst' => array('col_class' => 'col-md-4 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
-        '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
-    );
-
-    public static $crud_editor_fields_arr = array(
-        'kind' => array(
-            'widget' => 'options',
-            'options_arr' => array(
-                self::REDIRECT_KIND_STRING => 'строка',
-                self::REDIRECT_KIND_REGEXP => 'регексп'
-            )
-        ),
-        'src' => array(),
-        'dst' => array(),
-        'code' => array(),
-    );
+    const _KIND = 'kind';
+    /** @var int */
+    protected $kind = self::REDIRECT_KIND_STRING;
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSrc()
+    public function getSrc(): string
     {
         return $this->src;
     }
 
     /**
-     * @param mixed $src
+     * @param string $src
      */
-    public function setSrc($src)
+    public function setSrc(string $src): void
     {
         $this->src = $src;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getDst()
+    public function getDst(): string
     {
         return $this->dst;
     }
 
     /**
-     * @param mixed $dst
+     * @param string $dst
      */
-    public function setDst($dst)
+    public function setDst(string $dst): void
     {
         $this->dst = $dst;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getCode()
+    public function getCode(): int
     {
         return $this->code;
     }
 
     /**
-     * @param mixed $code
+     * @param int $code
      */
-    public function setCode($code)
+    public function setCode(int $code): void
     {
         $this->code = $code;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getKind()
+    public function getKind(): int
     {
         return $this->kind;
     }
 
     /**
-     * @param mixed $kind
+     * @param int $kind
      */
-    public function setKind($kind)
+    public function setKind(int $kind): void
     {
         $this->kind = $kind;
-    }
-
-    public static function afterUpdate($redirect_id)
-    {
-        $redirect_id_obj = self::factory($redirect_id);
-
-        if ($redirect_id_obj->getKind() == self::REDIRECT_KIND_REGEXP) {
-            $cache_key = RedirectController::getCacheKeyRegexpRedirectArr();
-            CacheWrapper::delete($cache_key);
-        }
-
-        self::removeObjFromCacheById($redirect_id);
-    }
-
-    public function afterDelete()
-    {
-        if ($this->getKind() == self::REDIRECT_KIND_REGEXP) {
-            $cache_key = RedirectController::getCacheKeyRegexpRedirectArr();
-            CacheWrapper::delete($cache_key);
-        }
-
-        self::removeObjFromCacheById($this->getId());
     }
 }

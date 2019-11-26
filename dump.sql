@@ -2,6 +2,7 @@
 
 CREATE TABLE `redirect_rewrites` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at_ts` int NOT NULL DEFAULT '0',
   `src` varchar(255) NOT NULL,
   `dst` varchar(255) NOT NULL,
   `code` int(11) NOT NULL,

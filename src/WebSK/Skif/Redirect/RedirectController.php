@@ -17,12 +17,6 @@ class RedirectController extends CRUDController
 
     protected static $model_class_name = Redirect::class;
 
-    public static function getCRUDBaseUrl($model_class_name)
-    {
-        return '/admin/redirect';
-    }
-
-
     /**
      * Если совпадает несколько правил - используется первое по порядку ID.
      * обработка запроса:
@@ -59,7 +53,7 @@ class RedirectController extends CRUDController
 
         // Check for "regexp" redirect presence
 
-        $cache_key = self::getCacheKeyRegexpRedirectArr();
+        $cache_key = RedirectService::getCacheKeyRegexpRedirectArr();
 
         $regexp_redirect_stdobj_arr = CacheWrapper::get($cache_key);
 
@@ -88,10 +82,5 @@ class RedirectController extends CRUDController
         }
 
         return SimpleRouter::CONTINUE_ROUTING;
-    }
-
-    public static function getCacheKeyRegexpRedirectArr()
-    {
-        return "regexp_redirect_std_obj_arr";
     }
 }
