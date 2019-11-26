@@ -4,7 +4,6 @@ namespace WebSK\Skif\Redirect;
 
 use WebSK\Cache\CacheWrapper;
 use WebSK\SimpleRouter\SimpleRouter;
-use WebSK\Skif\CRUD\CRUDController;
 use WebSK\DB\DBWrapper;
 use WebSK\Utils\Url;
 
@@ -12,7 +11,7 @@ use WebSK\Utils\Url;
  * Class RedirectController
  * @package WebSK\Skif\Redirect
  */
-class RedirectController extends CRUDController
+class RedirectController
 {
 
     protected static $model_class_name = Redirect::class;
