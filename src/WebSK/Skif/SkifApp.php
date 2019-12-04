@@ -90,11 +90,11 @@ class SkifApp extends App
         })->add(new CurrentUserIsAdmin());
 
         CaptchaRoutes::register($this);
-
         UserRoutes::register($this);
         AuthRoutes::register($this);
         CommentRoutes::register($this);
         FormRoutes::register($this);
+        //ContentRoutes::register($this);
 
         /** Use facade */
         Facade::setFacadeApplication($this);
@@ -102,9 +102,15 @@ class SkifApp extends App
         /** Set DBWrapper db service */
         DBWrapper::setDbService(SkifServiceProvider::getDBService($container));
 
-        RedirectRoutes::route();
+        FormRoutes::registerSimpleRoute($this);
+        RedirectRoutes::registerSimpleRoute($this);
+
         ImageRoutes::routes();
         CRUDRoutes::route();
+        BlockRoutes::route();
+        ContentRoutes::route();
+        SiteMenuRoutes::route();
+        PollRoutes::route();
 
         $route_based_crud_arr = $container['settings']['route_based_crud_arr'] ?? [];
         if ($route_based_crud_arr) {
@@ -112,15 +118,6 @@ class SkifApp extends App
                 SimpleRouter::routeBasedCrud($base_url, $controller_class_name);
             }
         }
-
-        //ContentRoutes::register($this);
-
-        BlockRoutes::route();
-        ContentRoutes::route();
-        SiteMenuRoutes::route();
-        FormRoutes::route();
-
-        PollRoutes::route();
 
         $container['errorHandler'] = function () {
             return new ErrorHandler();

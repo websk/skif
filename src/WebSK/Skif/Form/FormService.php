@@ -16,6 +16,20 @@ use WebSK\Utils\Transliteration;
 class FormService extends EntityService
 {
 
+    /** @var FormRepository */
+    protected $repository;
+
+    /**
+     * @param string $url
+     * @return int
+     */
+    public function getIdByUrl(string $url)
+    {
+        $id = $this->repository->findIdByUrl($url);
+
+        return $id;
+    }
+
     /**
      * @param Form|InterfaceEntity $entity_obj
      */

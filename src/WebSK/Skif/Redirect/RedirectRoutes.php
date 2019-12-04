@@ -6,6 +6,7 @@ use Slim\App;
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\Redirect\RequestHandlers\Admin\AdminRedirectEditHandler;
 use WebSK\Skif\Redirect\RequestHandlers\Admin\AdminRedirectListHandler;
+use WebSK\Skif\Redirect\RequestHandlers\RedirectHandler;
 use WebSK\Utils\HTTP;
 
 /**
@@ -18,16 +19,12 @@ class RedirectRoutes
     const ROUTE_NAME_ADMIN_REDIRECT_EDIT = 'admin:redirect:edit';
 
 
-    public static function route()
-    {
-        SimpleRouter::staticRoute('@^@', RedirectController::class, 'redirectAction');
-    }
-
     /**
      * @param App $app
      */
-    public static function register(App $app) {
-
+    public static function registerSimpleRoute(App $app)
+    {
+        SimpleRouter::route('@^@', [new RedirectHandler($app->getContainer()), 'redirectAction']);
     }
 
     /**

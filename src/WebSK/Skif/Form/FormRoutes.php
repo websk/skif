@@ -9,6 +9,7 @@ use WebSK\Skif\Form\RequestHandlers\Admin\AdminFormFieldEditHandler;
 use WebSK\Skif\Form\RequestHandlers\Admin\AdminFormListAjaxHandler;
 use WebSK\Skif\Form\RequestHandlers\Admin\AdminFormListHandler;
 use WebSK\Skif\Form\RequestHandlers\FormSendHandler;
+use WebSK\Skif\Form\RequestHandlers\FormViewHandler;
 use WebSK\Utils\HTTP;
 
 /**
@@ -24,12 +25,6 @@ class FormRoutes
 
     const ROUTE_NAME_FORM_SEND = 'form:send';
 
-
-    public static function route()
-    {
-        SimpleRouter::staticRoute('@^@', FormController::class, 'viewAction');
-    }
-
     /**
      * @param App $app
      */
@@ -39,6 +34,14 @@ class FormRoutes
             $app->post('/{form_id:\d+}/send', FormSendHandler::class)
                 ->setName(self::ROUTE_NAME_FORM_SEND);
         });
+    }
+
+    /**
+     * @param App $app
+     */
+    public static function registerSimpleRoute(App $app)
+    {
+        SimpleRouter::route('@^@', [new FormViewHandler($app->getContainer()), 'viewAction']);
     }
 
     /**

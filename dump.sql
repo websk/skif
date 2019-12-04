@@ -8,7 +8,8 @@ CREATE TABLE `redirect_rewrites` (
   `code` int(11) NOT NULL,
   `kind` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `src` (`src`,`kind`)
+  UNIQUE KEY `src_kind` (`src`,`kind`),
+  KEY `kind` (`kind`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 # Key Value

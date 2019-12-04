@@ -1,21 +1,18 @@
 <?php
 /**
- * @var int $form_id
+ * @var Form $form_obj
+ * @var FormFieldService $form_field_service
+ * @var string $form_send_url
+ * @var string $captcha_url
+ * @var null|User $current_user_obj
  */
 
+use WebSK\Auth\User\User;
+use WebSK\Skif\Form\Form;
 use WebSK\Skif\Form\FormField;
-use WebSK\Auth\Auth;
-use WebSK\Captcha\CaptchaRoutes;
-use WebSK\Skif\Form\FormRoutes;
-use WebSK\Skif\Form\FormServiceProvider;
-use WebSK\Slim\Container;
-use WebSK\Slim\Router;
+use WebSK\Skif\Form\FormFieldService;
 
-$container = Container::self();
-
-$form_obj = FormServiceProvider::getFormService($container)->getById($form_id);
-
-$form_field_service = FormServiceProvider::getFormFieldService($container);
+$form_id = $form_obj->getId();
 
 if ($form_obj->getComment()) {
     ?>
@@ -25,7 +22,7 @@ if ($form_obj->getComment()) {
 
 $form_field_ids_arr = $form_field_service->getIdsArrByFormId($form_id);
 ?>
-<form method="post" action="<?php echo Router::pathFor(FormRoutes::ROUTE_NAME_FORM_SEND, ['form_id' => $form_id]); ?>" class="form-horizontal">
+<form method="post" action="<?php echo $form_send_url; ?>" class="form-horizontal">
     <?php
     foreach ($form_field_ids_arr as $form_field_id) {
         $form_field_obj = $form_field_service->getById($form_field_id);
@@ -46,7 +43,7 @@ $form_field_ids_arr = $form_field_service->getIdsArrByFormId($form_id);
         $field_html = '';
         if ($form_field_obj->getType() == FormField::FIELD_TYPE_STRING) {
             $field_html = '<input type=text name="field_' . $form_field_id . '" maxlength="' . $field_size . '" value="" size="' . $field_size . '" class="form-control">';
-        } else if ($form_field_obj->getType() == FormField::FIELD_TYPE_TEXTAREA) {
+        } elseif ($form_field_obj->getType() == FormField::FIELD_TYPE_TEXTAREA) {
             $field_html = '<textarea name="field_' . $form_field_id . '" cols="50" rows="' . $field_size . '" class="form-control"></textarea>';
         }
         ?>
@@ -57,9 +54,7 @@ $form_field_ids_arr = $form_field_service->getIdsArrByFormId($form_id);
         <?php
     }
 
-    $current_user_id = Auth::getCurrentUserId();
-    if ($current_user_id) {
-        $current_user_obj = Auth::getCurrentUserObj();
+    if ($current_user_obj) {
         echo '<input type="hidden" name="email" value="' . $current_user_obj->getEmail() . '">';
     } else {
         ?>
@@ -70,7 +65,7 @@ $form_field_ids_arr = $form_field_service->getIdsArrByFormId($form_id);
 
         <div class="form-group">
             <div class="col-md-offset-3 col-md-9">
-                <img src="<?php echo Router::pathFor(CaptchaRoutes::ROUTE_NAME_CAPTCHA_GENERATE); ?>" border="0" alt="Введите этот защитный код">
+                <img src="<?php echo $captcha_url; ?>" border="0" alt="Введите этот защитный код">
                 <input type="text" size="5" name="captcha" class="form-control">
                 <span class="help-block">Введите код, изображенный на картинке</span>
             </div>
