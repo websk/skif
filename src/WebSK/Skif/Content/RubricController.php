@@ -7,6 +7,7 @@ use WebSK\Skif\BaseController;
 use WebSK\Auth\Auth;
 use WebSK\Skif\SkifPath;
 use WebSK\Skif\UniqueUrl;
+use WebSK\Slim\Container;
 use WebSK\Utils\Messages;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
@@ -21,11 +22,38 @@ class RubricController extends BaseController
 {
     protected $url_table = "rubrics";
 
-    public static function getRubricsListUrlByContentType($content_type)
+    /**
+     * @param string $content_type
+     * @return string
+     */
+    public static function getRubricsListUrlByContentType(string $content_type)
     {
         return '/admin/content/' . $content_type . '/rubrics';
     }
 
+    /**
+     * @param Rubric $rubric_obj
+     * @return string
+     */
+    public static function getEditorUrl(Rubric $rubric_obj)
+    {
+        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+        $content_type_obj = $content_type_service->getById($rubric_obj->getContentTypeId());
+
+        return '/admin/content/' . $content_type_obj->getType() . '/rubrics/edit/' . $rubric_obj->getId();
+    }
+
+    /**
+     * @param Rubric $rubric_obj
+     * @return string
+     */
+    public static function getDeleteUrl(Rubric $rubric_obj)
+    {
+        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+        $content_type_obj = $content_type_service->getById($rubric_obj->getContentTypeId());
+
+        return '/admin/content/' . $content_type_obj->getType() . '/rubrics/delete/' . $rubric_obj->getId();
+    }
     /**
      * Список материалов в рубрике
      * @return string
@@ -43,7 +71,8 @@ class RubricController extends BaseController
 
         $rubric_obj = Rubric::factory($rubric_id);
 
-        $content_type_obj = ContentType::factory($rubric_obj->getContentTypeId());
+        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+        $content_type_obj = $content_type_service->getById($rubric_obj->getContentTypeId());
 
         $template_file = 'content_by_rubric_' . $rubric_id . '_list.tpl.php';
         if (!ViewsPath::existsTemplateByModuleRelativeToRootSitePath('WebSK/Skif/Content', $template_file)) {
@@ -80,8 +109,8 @@ class RubricController extends BaseController
     {
         Exits::exit403if(!Auth::currentUserIsAdmin());
 
-
-        $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
+        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+        $content_type_obj = $content_type_service->getByType($content_type);
 
         $content = PhpRender::renderTemplateInViewsDir(
             'rubrics_list.tpl.php',
@@ -108,7 +137,8 @@ class RubricController extends BaseController
     {
         Exits::exit403if(!Auth::currentUserIsAdmin());
 
-        $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
+        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+        $content_type_obj = $content_type_service->getByType($content_type);
 
         $content = PhpRender::renderTemplateInViewsDir(
             'rubric_form_edit.tpl.php',
@@ -136,7 +166,8 @@ class RubricController extends BaseController
     {
         Exits::exit403if(!Auth::currentUserIsAdmin());
 
-        $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
+        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+        $content_type_obj = $content_type_service->getByType($content_type);
 
         if ($rubric_id == 'new') {
             $rubric_obj = new Rubric();
@@ -171,7 +202,7 @@ class RubricController extends BaseController
 
         Messages::setMessage('Изменения сохранены');
 
-        Redirects::redirect($rubric_obj->getEditorUrl());
+        Redirects::redirect(self::getEditorUrl($rubric_obj));
     }
 
     public function deleteRubricAction($content_type, $rubric_id)

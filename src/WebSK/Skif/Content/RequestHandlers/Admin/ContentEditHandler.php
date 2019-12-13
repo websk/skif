@@ -4,7 +4,7 @@ namespace WebSK\Skif\Content\RequestHandlers\Admin;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use WebSK\Skif\Content\ContentType;
+use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
@@ -31,7 +31,8 @@ class ContentEditHandler extends BaseHandler
             ['content_id' => $content_id, 'content_type' => $content_type]
         );
 
-        $content_type_obj = ContentType::factoryByFieldsArr(['type' => $content_type]);
+        $content_type_service = ContentServiceProvider::getContentTypeService($this->container);
+        $content_type_obj = $content_type_service->getByType($content_type);
 
         $layout_dto = new LayoutDTO();
         $layout_dto->setTitle('Редактирование материала');

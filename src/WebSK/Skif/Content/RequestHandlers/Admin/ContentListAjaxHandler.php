@@ -13,7 +13,7 @@ use WebSK\CRUD\Table\Filters\CRUDTableFilterLikeInline;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetReferenceSelect;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\Skif\Content\Content;
-use WebSK\Skif\Content\ContentType;
+use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 
 /**
@@ -30,7 +30,8 @@ class ContentListAjaxHandler extends BaseHandler
      */
     public function __invoke(Request $request, Response $response, string $content_type)
     {
-        $content_type_obj = ContentType::factoryByFieldsArr(['type' => $content_type]);
+        $content_type_service = ContentServiceProvider::getContentTypeService($this->container);
+        $content_type_obj = $content_type_service->getByType($content_type);
 
         $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
             Content::class,

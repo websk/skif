@@ -9,9 +9,10 @@ use WebSK\Skif\Content\RequestHandlers\Admin\ContentListAjaxHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\ContentPhotoCreateHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\ContentPhotoDeleteHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\ContentPhotoListHandler;
+use WebSK\Skif\Content\RequestHandlers\Admin\ContentTypeEditHandler;
+use WebSK\Skif\Content\RequestHandlers\Admin\ContentTypeListHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\SetDefaultContentPhotoHandler;
 use WebSK\Skif\Content\RequestHandlers\ContentViewHandler;
-use WebSK\Slim\Container;
 use WebSK\Utils\HTTP;
 use WebSK\Utils\Url;
 
@@ -21,6 +22,9 @@ use WebSK\Utils\Url;
  */
 class ContentRoutes
 {
+    const ROUTE_NAME_ADMIN_CONTENT_TYPE_LIST = 'content_type:list';
+    const ROUTE_NAME_ADMIN_CONTENT_TYPE_EDIT = 'content_type:edit';
+
     public static function route()
     {
         if (SimpleRouter::matchGroup('@/admin@')) {
@@ -109,6 +113,14 @@ class ContentRoutes
             });
         });
 
+        $app->group('/content_type', function (App $app) {
+            $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', ContentTypeListHandler::class)
+                ->setName(self::ROUTE_NAME_ADMIN_CONTENT_TYPE_LIST);
+
+            $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/{content_type_id:\d+}', ContentTypeEditHandler::class)
+                ->setName(self::ROUTE_NAME_ADMIN_CONTENT_TYPE_EDIT);
+        });
+
         $app->group('/content_photo/{content_photo_id:\d+}', function (App $app) {
             $app->post('/delete', ContentPhotoDeleteHandler::class)
                 ->setName(ContentPhotoDeleteHandler::class);
@@ -116,5 +128,4 @@ class ContentRoutes
                 ->setName(SetDefaultContentPhotoHandler::class);
         });
     }
-
 }

@@ -11,13 +11,10 @@ use WebSK\Model\InterfaceDelete;
 use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
-use WebSK\Skif\UniqueUrl;
 use WebSK\Utils\Filters;
 use WebSK\Utils\FullObjectId;
-use WebSK\Utils\Transliteration;
 use WebSK\Model\ActiveRecord;
 use WebSK\Model\ActiveRecordHelper;
-use WebSK\Utils\Assert;
 
 /**
  * Class Content
@@ -56,15 +53,19 @@ class Content implements
     /** @var string */
     protected $body = '';
 
+    const _PUBLISHED_AT = 'published_at';
     /** @var int */
     protected $published_at;
 
+    const _UNPUBLISHED_AT = 'unpublished_at';
     /** @var int */
     protected $unpublished_at;
 
-    /** @var int */
-    protected $is_published = 0;
+    const _IS_PUBLISHED = 'is_published';
+    /** @var bool */
+    protected $is_published = false;
 
+    const _CREATED_AT = 'created_at';
     /** @var int */
     protected $created_at;
 
@@ -77,9 +78,11 @@ class Content implements
     /** @var string */
     protected $keywords = '';
 
+    const _URL = 'url';
     /** @var string */
     protected $url = '';
 
+    const _CONTENT_TYPE_ID = 'content_type_id';
     /** @var int */
     protected $content_type_id;
 
@@ -153,21 +156,6 @@ class Content implements
     public function setImage($image)
     {
         $this->image = $image;
-    }
-
-    /**
-     * @return string
-     */
-    public function getImagePath()
-    {
-        if (!$this->getImage()) {
-            return '';
-        }
-
-        $content_type_id = $this->getContentTypeId();
-        $content_type_obj = ContentType::factory($content_type_id);
-
-        return 'content/' . $content_type_obj->getType() . '/' . $this->image;
     }
 
     /**
@@ -277,15 +265,15 @@ class Content implements
     /**
      * @return bool
      */
-    public function isPublished()
+    public function isPublished(): bool
     {
-        return (bool)$this->is_published;
+        return $this->is_published;
     }
 
     /**
-     * @param int $is_published
+     * @param bool $is_published
      */
-    public function setIsPublished($is_published)
+    public function setIsPublished(bool $is_published)
     {
         $this->is_published = $is_published;
     }
@@ -355,36 +343,6 @@ class Content implements
     }
 
     /**
-     * @return bool|string
-     */
-    public function generateUrl()
-    {
-        if (!$this->getTitle()) {
-            return '';
-        }
-
-        if ($this->isPublished()) {
-            return '';
-        }
-
-
-        $title_for_url = Transliteration::transliteration($this->getTitle());
-
-        $content_type_id = $this->getContentTypeId();
-        $content_type_obj = ContentType::factory($content_type_id);
-
-        $new_url = $content_type_obj->getUrl() . '/' . $title_for_url;
-        $new_url = '/' . ltrim($new_url, '/');
-
-        $new_url = substr($new_url, 0, 255);
-
-        $unique_new_url = UniqueUrl::getUniqueUrl($new_url);
-        Assert::assert($unique_new_url);
-
-        return $unique_new_url;
-    }
-
-    /**
      * @return int
      */
     public function getLastModifiedAt()
@@ -438,26 +396,6 @@ class Content implements
     public function setTemplateId($template_id)
     {
         $this->template_id = $template_id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getRelativeTemplateId()
-    {
-        if ($this->getTemplateId()) {
-            return $this->getTemplateId();
-        }
-
-        if ($this->getMainRubricId()) {
-            $main_rubric_obj = Rubric::factory($this->getMainRubricId());
-
-            return $main_rubric_obj->getTemplateId();
-        }
-
-        $content_type_obj = ContentType::factory($this->getContentTypeId());
-
-        return $content_type_obj->getTemplateId();
     }
 
     /**

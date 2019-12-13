@@ -1,26 +1,30 @@
 <?php
 /**
- * @var $content_id
- * @var $content_type
+ * @var int $content_id
+ * @var string $content_type
  */
 
 use WebSK\Skif\Content\Content;
-use WebSK\Skif\Content\ContentType;
+use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Content\Rubric;
 use WebSK\Skif\Content\Template;
 use WebSK\Skif\Content\TemplateUtils;
 use WebSK\Skif\CKEditor\CKEditor;
 use WebSK\Image\ImageManager;
 use WebSK\Logger\LoggerRender;
+use WebSK\Slim\Container;
 use WebSK\Views\PhpRender;
 
-$content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
+$content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+$content_type_obj = $content_type_service->getByType($content_type);
 
 if ($content_id == 'new') {
     $content_obj = new Content();
 } else {
     $content_obj = Content::factory($content_id);
 }
+
+$content_service = ContentServiceProvider::getContentService(Container::self());
 ?>
 <script type="text/javascript">
     $(function () {
@@ -132,6 +136,8 @@ if ($content_id == 'new') {
                     <div class="col-md-10">
                         <?php
                         if ($content_obj->getImage()) {
+                            $image_path = $content_service->getImagePath($content_obj);
+
                             ?>
                             <script type="text/javascript">
                                 $(document).ready(function () {
@@ -141,9 +147,8 @@ if ($content_id == 'new') {
 
                             <div class="form-group" id="image_area">
                                 <a id="image"
-                                   href="<?php echo ImageManager::getImgUrlByFileName($content_obj->getImagePath()) . '?d=' . time(); ?>">
-                                    <img src="<?php echo ImageManager::getImgUrlByPreset($content_obj->getImagePath(),
-                                            '120_auto') . '?d=' . time(); ?>" class="img-responsive img-thumbnail"
+                                   href="<?php echo ImageManager::getImgUrlByFileName($image_path) . '?d=' . time(); ?>">
+                                    <img src="<?php echo ImageManager::getImgUrlByPreset($image_path,'120_auto') . '?d=' . time(); ?>" class="img-responsive img-thumbnail"
                                          border="0">
                                 </a>
                                 <a href="#image_delete" id="image_delete">Удалить</a>
@@ -219,7 +224,7 @@ if ($content_id == 'new') {
                     <div class="col-md-10">
                         <select id="rubrics_arr" name="rubrics_arr[]" multiple="multiple" class="form-control">
                             <?php
-                            $rubric_ids_arr = $content_type_obj->getRubricIdsArr();
+                            $rubric_ids_arr = Rubric::findIdsArrByContentTypeId($content_type_obj->getId());
 
                             $content_rubrics_ids_arr = $content_obj->getRubricIdsArr();
 

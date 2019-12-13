@@ -9,7 +9,6 @@ use Slim\Http\StatusCode;
 use WebSK\Auth\Auth;
 use WebSK\Skif\Content\Content;
 use WebSK\Skif\Content\ContentServiceProvider;
-use WebSK\Skif\Content\ContentType;
 use WebSK\Skif\Content\RequestHandlers\Admin\ContentEditHandler;
 use WebSK\Skif\Content\Rubric;
 use WebSK\Skif\Content\TemplateUtils;
@@ -65,7 +64,9 @@ class ContentViewHandler extends BaseHandler
         }
 
 
-        $content_type_obj = ContentType::factory($content_type_id);
+        $content_type_service = ContentServiceProvider::getContentTypeService($this->container);
+
+        $content_type_obj = $content_type_service->getById($content_type_id);
         $content_type = $content_type_obj->getType();
 
         $content_html = '';
@@ -104,7 +105,7 @@ class ContentViewHandler extends BaseHandler
         );
 
 
-        $template_id = $content_obj->getRelativeTemplateId();
+        $template_id = $content_service->getRelativeTemplateId($content_obj);
 
         $layout_template_file = TemplateUtils::getLayoutFileByTemplateId($template_id);
 

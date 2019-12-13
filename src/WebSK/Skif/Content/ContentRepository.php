@@ -13,7 +13,7 @@ class ContentRepository extends EntityRepository
 {
     /**
      * @param string $alias
-     * @return int
+     * @return false|int
      */
     public function findIdByAlias(string $alias)
     {
@@ -22,10 +22,64 @@ class ContentRepository extends EntityRepository
 
         $query = 'SELECT ' . Sanitize::sanitizeSqlColumnName($db_id_field_name) . ' 
             FROM ' . Sanitize::sanitizeSqlColumnName($db_table_name) . '
-            WHERE url = ?';
+            WHERE ' . Sanitize::sanitizeSqlColumnName(Content::_URL) . ' = ?';
 
-        $content_id = (int)$this->db_service->readField($query, [$alias]);
+        $content_id = $this->db_service->readField($query, [$alias]);
 
         return $content_id;
+    }
+
+    /**
+     * @param int $content_type_id
+     * @param int $limit_to_page
+     * @param int $page
+     * @return array
+     */
+    public function findIdsByContentTypeId(int $content_type_id, int $limit_to_page = 0, int $page = 1)
+    {
+        $db_table_name = $this->getTableName();
+        $db_id_field_name = $this->getIdFieldName();
+
+        $query = 'SELECT ' . Sanitize::sanitizeSqlColumnName($db_id_field_name) . ' 
+            FROM ' . Sanitize::sanitizeSqlColumnName($db_table_name) . '
+            WHERE ' . Sanitize::sanitizeSqlColumnName(Content::_CONTENT_TYPE_ID) . ' = ?';
+
+        $param_arr = [$content_type_id];
+
+        if ($limit_to_page) {
+            $start_record = $limit_to_page * ($page - 1);
+            $query .= " LIMIT " . $start_record . ', ' . $limit_to_page;
+        }
+
+        return $this->db_service->readColumn($query, $param_arr);
+    }
+
+    /**
+     * @param int $content_type_id
+     * @param int $limit_to_page
+     * @param int $page
+     * @return array
+     */
+    public function findPublishedIdsByContentTypeId(int $content_type_id, $limit_to_page = 0, $page = 1)
+    {
+        $db_table_name = $this->getTableName();
+        $db_id_field_name = $this->getIdFieldName();
+
+        $query = "SELECT " . Sanitize::sanitizeSqlColumnName($db_id_field_name) .
+            " FROM " . Sanitize::sanitizeSqlColumnName($db_table_name) .
+            " WHERE " . Sanitize::sanitizeSqlColumnName(Content::_CONTENT_TYPE_ID) . "=?
+                AND " . Sanitize::sanitizeSqlColumnName(Content::_IS_PUBLISHED) . "=?
+                AND (" . Sanitize::sanitizeSqlColumnName(Content::_PUBLISHED_AT) . "<=?)
+                AND (" . Sanitize::sanitizeSqlColumnName(Content::_UNPUBLISHED_AT) . ">=? OR " . Sanitize::sanitizeSqlColumnName(Content::_UNPUBLISHED_AT) . " IS NULL)
+            ORDER BY " . Sanitize::sanitizeSqlColumnName(Content::_CREATED_AT) . " DESC";
+
+        if ($limit_to_page) {
+            $start_record = $limit_to_page * ($page - 1);
+            $query .= " LIMIT " . $start_record . ', ' . $limit_to_page;
+        }
+
+        $date = date('Y-m-d');
+
+        return $this->db_service->readColumn($query, [$content_type_id, true, $date, $date]);
     }
 }

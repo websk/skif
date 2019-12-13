@@ -1,6 +1,5 @@
 <?php
 
-use WebSK\Skif\Content\ContentType;
 use WebSK\Skif\Content\Template;
 use WebSK\Skif\CRUD\CRUDController;
 
@@ -49,7 +48,7 @@ return [
                     'icon' => '<i class="fa fa-wrench fa-fw"></i>',
                     'sub_menu' => [
                         [
-                            'link' => CRUDController::getListUrl(ContentType::class),
+                            'link' => '/admin/content_type',
                             'name' => 'Типы контента',
                             'icon' => '<i class="fa fa-circle-o"></i>'
                         ],

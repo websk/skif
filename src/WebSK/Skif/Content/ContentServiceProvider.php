@@ -25,7 +25,8 @@ class ContentServiceProvider
             return new ContentService(
                 Content::class,
                 $container[Content::ENTITY_REPOSITORY_CONTAINER_ID],
-                CacheServiceProvider::getCacheService($container)
+                CacheServiceProvider::getCacheService($container),
+                self::getContentTypeService($container)
             );
         };
 
@@ -62,13 +63,36 @@ class ContentServiceProvider
                 SkifServiceProvider::getDBService($container)
             );
         };
+
+        /**
+         * @param ContainerInterface $container
+         * @return ContentTypeService
+         */
+        $container[ContentType::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
+            return new ContentTypeService(
+                ContentType::class,
+                $container[ContentType::ENTITY_REPOSITORY_CONTAINER_ID],
+                CacheServiceProvider::getCacheService($container)
+            );
+        };
+
+        /**
+         * @param ContainerInterface $container
+         * @return ContentTypeRepository
+         */
+        $container[ContentType::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
+            return new ContentTypeRepository(
+                ContentType::class,
+                SkifServiceProvider::getDBService($container)
+            );
+        };
     }
 
     /**
      * @param ContainerInterface $container
      * @return ContentService
      */
-    public static function getContentService(ContainerInterface $container)
+    public static function getContentService(ContainerInterface $container): ContentService
     {
         return $container[Content::ENTITY_SERVICE_CONTAINER_ID];
     }
@@ -77,8 +101,17 @@ class ContentServiceProvider
      * @param ContainerInterface $container
      * @return ContentPhotoService
      */
-    public static function getContentPhotoService(ContainerInterface $container)
+    public static function getContentPhotoService(ContainerInterface $container): ContentPhotoService
     {
         return $container[ContentPhoto::ENTITY_SERVICE_CONTAINER_ID];
+    }
+
+    /**
+     * @param ContainerInterface $container
+     * @return ContentTypeService
+     */
+    public static function getContentTypeService(ContainerInterface $container): ContentTypeService
+    {
+        return $container[ContentType::ENTITY_SERVICE_CONTAINER_ID];
     }
 }

@@ -137,7 +137,8 @@ CREATE TABLE `content_types` (
   `name` varchar(100) NOT NULL DEFAULT '',
   `url` varchar(255) NOT NULL DEFAULT '',
   `template_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `type` (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `content_types` (`id`, `type`, `name`, `url`, `template_id`)

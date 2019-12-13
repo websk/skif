@@ -3,16 +3,20 @@
  * @var $content_type
  */
 
+use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Content\RequestHandlers\Admin\ContentEditHandler;
 use WebSK\Skif\Pager;
 use WebSK\Skif\Content\Content;
-use WebSK\Skif\Content\ContentType;
 use WebSK\Skif\Content\ContentUtils;
 use WebSK\Skif\Content\Rubric;
 use WebSK\Skif\Content\RubricController;
+use WebSK\Slim\Container;
 use WebSK\Slim\Router;
 
-$content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
+$content_service = ContentServiceProvider::getContentService(Container::self());
+$content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+
+$content_type_obj = $content_type_service->getByType($content_type);
 
 $page = array_key_exists('p', $_GET) ? $_GET['p'] : 1;
 $requested_rubric_id = array_key_exists('rubric_id', $_GET) ? $_GET['rubric_id'] : 0;
@@ -23,8 +27,8 @@ if ($requested_rubric_id) {
     $contents_ids_arr = ContentUtils::getContentsIdsArrByRubricId($requested_rubric_id, $limit_to_page, $page);
     $count_all_articles = ContentUtils::getCountContentsByRubricId($requested_rubric_id);
 } else {
-    $contents_ids_arr = ContentUtils::getContentsIdsArrByType($content_type, $limit_to_page, $page);
-    $count_all_articles = ContentUtils::getCountContentsByType($content_type);
+    $contents_ids_arr = $content_service->getIdsArrByType($content_type, $limit_to_page, $page);
+    $count_all_articles = $content_service->getCountContentsByType($content_type);
 }
 ?>
 <div class="panel panel-default">
@@ -38,7 +42,7 @@ if ($requested_rubric_id) {
                         <select name="rubric_id" class="form-control">
                             <option value="0">Все</option>
                             <?php
-                            $rubric_ids_arr = $content_type_obj->getRubricIdsArr();
+                            $rubric_ids_arr = Rubric::findIdsArrByContentTypeId($content_type_obj->getId());
                             foreach ($rubric_ids_arr as $rubric_id) {
                                 $rubric_obj = Rubric::factory($rubric_id);
 

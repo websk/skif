@@ -4,10 +4,14 @@
  */
 
 use WebSK\Skif\Content\Content;
+use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Content\ContentUtils;
 use WebSK\Image\ImageManager;
+use WebSK\Slim\Container;
 
 $content_obj = Content::factory($content_id);
+
+$content_service = ContentServiceProvider::getContentService(Container::self());
 ?>
 
 <div class="list_news">
@@ -21,7 +25,7 @@ $content_obj = Content::factory($content_id);
         if ($content_obj->getImage()) {
             $col = 9;
             ?>
-            <div class="col-md-3 news_image"><img src="<?php echo ImageManager::getImgUrlByPreset($content_obj->getImagePath(), '120_auto'); ?>" alt="<?php $content_obj->getTitle() ?>" title="<?php echo $content_obj->getTitle() ?>" class="img-responsive"></div>
+            <div class="col-md-3 news_image"><img src="<?php echo ImageManager::getImgUrlByPreset($content_service->getImagePath($content_obj), '120_auto'); ?>" alt="<?php $content_obj->getTitle() ?>" title="<?php echo $content_obj->getTitle() ?>" class="img-responsive"></div>
             <?php
         }
         ?>

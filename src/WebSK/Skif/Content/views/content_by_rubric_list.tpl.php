@@ -3,17 +3,20 @@
  * @var $rubric_id
  */
 
+use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Pager;
 use WebSK\Config\ConfWrapper;
 use WebSK\Skif\Content\Content;
-use WebSK\Skif\Content\ContentType;
 use WebSK\Skif\Content\ContentUtils;
 use WebSK\Skif\Content\Rubric;
+use WebSK\Slim\Container;
 use WebSK\Views\PhpRender;
 
 $rubric_obj = Rubric::factory($rubric_id);
 
-$content_type_obj = ContentType::factory($rubric_obj->getContentTypeId());
+$content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+
+$content_type_obj = $content_type_service->getById($rubric_obj->getContentTypeId());
 
 $page = array_key_exists('p', $_GET) ? $_GET['p'] : 1;
 $limit_to_page = ConfWrapper::value('content.' . $content_type_obj->getType() . '.limit_to_page', 10);

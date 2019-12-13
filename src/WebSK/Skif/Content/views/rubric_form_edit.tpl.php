@@ -4,14 +4,17 @@
  * @var $rubric_id
  */
 
-use WebSK\Skif\Content\ContentType;
+use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Content\Rubric;
 use WebSK\Skif\Content\RubricController;
 use WebSK\Skif\Content\Template;
 use WebSK\Skif\Content\TemplateUtils;
 use WebSK\Skif\CKEditor\CKEditor;
+use WebSK\Slim\Container;
 
-$content_type_obj = ContentType::factory($content_type_id);
+$content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+
+$content_type_obj = $content_type_service->getById($content_type_id);
 
 if ($rubric_id == 'new') {
     $rubric_obj = new Rubric();

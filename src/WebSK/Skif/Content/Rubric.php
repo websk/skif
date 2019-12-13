@@ -13,6 +13,7 @@ use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
 use WebSK\DB\DBWrapper;
 use WebSK\Skif\UniqueUrl;
+use WebSK\Slim\Container;
 use WebSK\Utils\FullObjectId;
 use WebSK\Utils\Transliteration;
 use WebSK\Model\ActiveRecordHelper;
@@ -59,19 +60,6 @@ class Rubric implements
 
     const DB_TABLE_NAME = 'rubrics';
 
-    public function getEditorUrl()
-    {
-        $content_type_obj = ContentType::factory($this->getContentTypeId());
-
-        return '/admin/content/' . $content_type_obj->getType() . '/rubrics/edit/' . $this->getId();
-    }
-
-    public function getDeleteUrl()
-    {
-        $content_type_obj = ContentType::factory($this->getContentTypeId());
-
-        return '/admin/content/' . $content_type_obj->getType() . '/rubrics/delete/' . $this->getId();
-    }
 
     public function load($id)
     {
@@ -167,7 +155,8 @@ class Rubric implements
             return $this->getTemplateId();
         }
 
-        $content_type_obj = ContentType::factory($this->getContentTypeId());
+        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+        $content_type_obj = $content_type_service->getById($this->getContentTypeId());
 
         return $content_type_obj->getTemplateId();
     }
@@ -235,8 +224,6 @@ class Rubric implements
 
         self::removeObjFromCacheById($id);
 
-        ContentType::afterUpdate($rubric_obj->getContentTypeId());
-
         Logger::logObjectEvent($rubric_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 
@@ -244,8 +231,21 @@ class Rubric implements
     {
         self::removeObjFromCacheById($this->getId());
 
-        ContentType::afterUpdate($this->getContentTypeId());
-
         Logger::logObjectEvent($this, 'удаление', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
+    }
+
+    /**
+     * @param int $content_type_id
+     * @return array
+     */
+    public static function findIdsArrByContentTypeId(int $content_type_id)
+    {
+        $query = "SELECT id FROM " . Rubric::DB_TABLE_NAME ." WHERE content_type_id = ?";
+        $rubric_ids_arr = DBWrapper::readColumn(
+            $query,
+            [$content_type_id]
+        );
+
+        return $rubric_ids_arr;
     }
 }

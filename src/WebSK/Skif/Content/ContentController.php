@@ -11,6 +11,7 @@ use WebSK\Image\ImageManager;
 use WebSK\Skif\BaseController;
 use WebSK\Skif\Content\RequestHandlers\Admin\ContentEditHandler;
 use WebSK\Skif\SkifPath;
+use WebSK\Slim\Container;
 use WebSK\Slim\Router;
 use WebSK\Utils\Messages;
 use WebSK\SimpleRouter\Sitemap\InterfaceSitemapController;
@@ -43,12 +44,15 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $urls = [];
 
-        $content_type_ids_arr = ContentUtils::getContentTypeIdsArr();
+        $content_service = ContentServiceProvider::getContentService(Container::self());
+        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+
+        $content_type_ids_arr = $content_type_service->getAllIdsArrByIdAsc();
 
         foreach ($content_type_ids_arr as $content_type_id) {
-            $content_type_obj = ContentType::factory($content_type_id);
+            $content_type_obj = $content_type_service->getById($content_type_id);
 
-            $content_ids_arr = ContentUtils::getPublishedContentsIdsArrByType($content_type_obj->getType());
+            $content_ids_arr = $content_service->getPublishedIdsArrByType($content_type_obj->getType());
 
             foreach ($content_ids_arr as $content_id) {
                 $content_obj = Content::factory($content_id);
@@ -83,9 +87,10 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         Exits::exit404If(!$content_type_id);
 
-        $content_type_obj = ContentType::factory($content_type_id);
-        $content_type = $content_type_obj->getType();
+        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+        $content_type_obj = $content_type_service->getById($content_type_id);
 
+        $content_type = $content_type_obj->getType();
 
         $content = '';
 
@@ -141,8 +146,9 @@ class ContentController extends BaseController implements InterfaceSitemapContro
             array('content_id' => $content_id)
         );
 
+        $content_service = ContentServiceProvider::getContentService(Container::self());
 
-        $template_id = $content_obj->getRelativeTemplateId();
+        $template_id = $content_service->getRelativeTemplateId($content_obj);
 
         $layout_template_file = TemplateUtils::getLayoutFileByTemplateId($template_id);
 
@@ -185,7 +191,8 @@ class ContentController extends BaseController implements InterfaceSitemapContro
             array('content_type' => $content_type)
         );
 
-        $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
+        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+        $content_type_obj = $content_type_service->getByType($content_type);
 
         $template_id = $content_type_obj->getTemplateId();
 
@@ -216,7 +223,8 @@ class ContentController extends BaseController implements InterfaceSitemapContro
             array('content_id' => 'new', 'content_type' => $content_type)
         );
 
-        $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
+        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+        $content_type_obj = $content_type_service->getByType($content_type);
 
         echo PhpRender::renderTemplate(
             SkifPath::getLayout(),
@@ -240,7 +248,8 @@ class ContentController extends BaseController implements InterfaceSitemapContro
             array('content_type' => $content_type)
         );
 
-        $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
+        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+        $content_type_obj = $content_type_service->getByType($content_type);
 
         echo PhpRender::renderTemplate(
             SkifPath::getLayout(),
@@ -257,13 +266,16 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
 
+        $content_service = ContentServiceProvider::getContentService(Container::self());
+
         if ($content_id == 'new') {
             $content_obj = new Content();
         } else {
             $content_obj = Content::factory($content_id);
         }
 
-        $content_type_obj = ContentType::factoryByFieldsArr(array('type' => $content_type));
+        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+        $content_type_obj = $content_type_service->getByType($content_type);
 
         $title = array_key_exists('title', $_REQUEST) ? $_REQUEST['title'] : '';
 
@@ -312,7 +324,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         // URL
         if (!$content_obj->isPublished()) {
             if (!$url) {
-                $url = $content_obj->generateUrl();
+                $url = $content_service->generateUrl($content_obj);
             }
 
             $url = '/' . ltrim($url, '/');
@@ -419,8 +431,10 @@ class ContentController extends BaseController implements InterfaceSitemapContro
             return;
         }
 
+        $content_service = ContentServiceProvider::getContentService(Container::self());
+
         $image_manager = new ImageManager();
-        $image_manager->removeImageFile($content_obj->getImagePath());
+        $image_manager->removeImageFile($content_service->getImagePath($content_obj));
 
         $content_obj->setImage('');
         $content_obj->save();
@@ -437,7 +451,8 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $content_obj->delete();
 
-        $content_type_obj = ContentType::factory($content_obj->getContentTypeId());
+        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+        $content_type_obj = $content_type_service->getById($content_obj->getContentTypeId());
 
         Redirects::redirect('/admin/content/' . $content_type_obj->getType());
     }
@@ -454,11 +469,13 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         $query = "SELECT id FROM " . Content::DB_TABLE_NAME . " WHERE title LIKE ? LIMIT 20";
         $content_ids_arr = DBWrapper::readColumn($query, $query_param_arr);
 
+        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+
         $output_arr = array();
         foreach ($content_ids_arr as $content_id) {
             $content_obj = Content::factory($content_id);
 
-            $content_type_obj = ContentType::factory($content_obj->getContentTypeId());
+            $content_type_obj = $content_type_service->getByType($content_obj->getContentTypeId());
 
             $output_arr[] = array(
                 'id' => $content_id,
