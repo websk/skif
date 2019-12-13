@@ -133,6 +133,7 @@ CREATE TABLE `content_rubrics` (
 
 CREATE TABLE `content_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at_ts` int NOT NULL DEFAULT '0',
   `type` char(20) NOT NULL DEFAULT '',
   `name` varchar(100) NOT NULL DEFAULT '',
   `url` varchar(255) NOT NULL DEFAULT '',
@@ -149,6 +150,7 @@ VALUES
 
 CREATE TABLE `content_photo` (
    `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+   `created_at_ts` int NOT NULL DEFAULT '0',
    `content_id` int(11) DEFAULT NULL,
    `is_default` tinyint(4) NOT NULL DEFAULT '0',
    `photo` varchar(255) DEFAULT NULL,

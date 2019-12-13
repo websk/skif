@@ -53,7 +53,7 @@ class ContentService extends EntityService
     {
         $content_type_obj = $this->content_type_service->getByType($content_type);
 
-        return $this->repository->findIdsByContentTypeId($content_type_obj->getId());
+        return $this->repository->findIdsByContentTypeId($content_type_obj->getId(), $limit_to_page, $page);
     }
 
     /**
@@ -79,7 +79,7 @@ class ContentService extends EntityService
     {
         $content_type_obj = $this->content_type_service->getByType($content_type);
 
-        return $this->repository->findPublishedIdsByContentTypeId($content_type_obj->getId());
+        return $this->repository->findPublishedIdsByContentTypeId($content_type_obj->getId(), $limit_to_page, $page);
     }
 
     /**
