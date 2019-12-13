@@ -17,6 +17,7 @@ CREATE TABLE `redirect_rewrites` (
 
 CREATE TABLE `template` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at_ts` int NOT NULL DEFAULT '0',
   `name` varchar(50) NOT NULL DEFAULT '',
   `title` varchar(100) NOT NULL DEFAULT '',
   `css` varchar(50) NOT NULL DEFAULT '',
