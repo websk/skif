@@ -2,10 +2,11 @@
 
 namespace WebSK\Skif\Blocks;
 
-use WebSK\Skif\Content\TemplateUtils;
+use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Cache\CacheWrapper;
 use WebSK\Auth\Auth;
 use WebSK\DB\DBWrapper;
+use WebSK\Slim\Container;
 use WebSK\Utils\Url;
 use WebSK\Views\PhpRender;
 
@@ -29,7 +30,9 @@ class PageRegionsUtils
     ): string {
         $output = '';
 
-        $template_id = TemplateUtils::getTemplateIdByName($template_name);
+        $template_service = ContentServiceProvider::getTemplateService(Container::self());
+
+        $template_id = $template_service->getIdByName($template_name);
         $page_region_id = self::getPageRegionIdByNameAndTemplateId($page_region_name, $template_id);
 
         $blocks_ids_arr = self::getVisibleBlocksIdsArrByRegionId($page_region_id, $template_id, $page_url);

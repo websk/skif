@@ -53,7 +53,7 @@ return [
                             'icon' => '<i class="fa fa-circle-o"></i>'
                         ],
                         [
-                            'link' => CRUDController::getListUrl(Template::class),
+                            'link' => '/admin/template',
                             'name' => 'Темы',
                             'icon' => '<i class="fa fa-circle-o"></i>'
                         ],

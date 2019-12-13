@@ -150,7 +150,8 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $template_id = $content_service->getRelativeTemplateId($content_obj);
 
-        $layout_template_file = TemplateUtils::getLayoutFileByTemplateId($template_id);
+        $template_service = ContentServiceProvider::getTemplateService(Container::self());
+        $layout_template_file = $template_service->getLayoutFileByTemplateId($template_id);
 
         echo PhpRender::renderTemplate(
             $layout_template_file,
@@ -196,7 +197,8 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $template_id = $content_type_obj->getTemplateId();
 
-        $layout_template_file = TemplateUtils::getLayoutFileByTemplateId($template_id);
+        $template_service = ContentServiceProvider::getTemplateService(Container::self());
+        $layout_template_file = $template_service->getLayoutFileByTemplateId($template_id);
 
         echo PhpRender::renderTemplate(
             $layout_template_file,

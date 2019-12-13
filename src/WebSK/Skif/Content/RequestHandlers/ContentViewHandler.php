@@ -11,7 +11,6 @@ use WebSK\Skif\Content\Content;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Content\RequestHandlers\Admin\ContentEditHandler;
 use WebSK\Skif\Content\Rubric;
-use WebSK\Skif\Content\TemplateUtils;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Utils\Url;
 use WebSK\Views\BreadcrumbItemDTO;
@@ -107,8 +106,8 @@ class ContentViewHandler extends BaseHandler
 
         $template_id = $content_service->getRelativeTemplateId($content_obj);
 
-        $layout_template_file = TemplateUtils::getLayoutFileByTemplateId($template_id);
-
+        $template_service = ContentServiceProvider::getTemplateService($this->container);
+        $layout_template_file = $template_service->getLayoutFileByTemplateId($template_id);
 
         $layout_dto = new LayoutDTO();
         $layout_dto->setTitle($content_obj->getTitle());

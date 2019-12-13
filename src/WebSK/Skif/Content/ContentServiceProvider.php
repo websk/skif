@@ -86,6 +86,29 @@ class ContentServiceProvider
                 SkifServiceProvider::getDBService($container)
             );
         };
+
+        /**
+         * @param ContainerInterface $container
+         * @return TemplateService
+         */
+        $container[Template::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
+            return new TemplateService(
+                Template::class,
+                $container[Template::ENTITY_REPOSITORY_CONTAINER_ID],
+                CacheServiceProvider::getCacheService($container)
+            );
+        };
+
+        /**
+         * @param ContainerInterface $container
+         * @return TemplateRepository
+         */
+        $container[Template::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
+            return new TemplateRepository(
+                Template::class,
+                SkifServiceProvider::getDBService($container)
+            );
+        };
     }
 
     /**
@@ -113,5 +136,14 @@ class ContentServiceProvider
     public static function getContentTypeService(ContainerInterface $container): ContentTypeService
     {
         return $container[ContentType::ENTITY_SERVICE_CONTAINER_ID];
+    }
+
+    /**
+     * @param ContainerInterface $container
+     * @return TemplateService
+     */
+    public static function getTemplateService(ContainerInterface $container): TemplateService
+    {
+        return $container[Template::ENTITY_SERVICE_CONTAINER_ID];
     }
 }

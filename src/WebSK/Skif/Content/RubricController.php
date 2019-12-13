@@ -92,7 +92,8 @@ class RubricController extends BaseController
 
         $template_id = $rubric_obj->getRelativeTemplateId();
 
-        $layout_template_file = TemplateUtils::getLayoutFileByTemplateId($template_id);
+        $template_service = ContentServiceProvider::getTemplateService(Container::self());
+        $layout_template_file = $template_service->getLayoutFileByTemplateId($template_id);
 
         echo PhpRender::renderTemplate(
             $layout_template_file,

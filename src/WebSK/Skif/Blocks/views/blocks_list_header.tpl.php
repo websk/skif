@@ -3,11 +3,15 @@
  * @var $search_value
  */
 
+use WebSK\Skif\Blocks\ControllerBlocks;
+use WebSK\Skif\Content\ContentServiceProvider;
+use WebSK\Slim\Container;
+
 if (!isset($search_value)) {
     $search_value = '';
 }
 
-$current_template_id = \WebSK\Skif\Blocks\ControllerBlocks::getCurrentTemplateId();
+$current_template_id = ControllerBlocks::getCurrentTemplateId();
 ?>
 
 <script type="text/javascript">
@@ -25,10 +29,12 @@ $current_template_id = \WebSK\Skif\Blocks\ControllerBlocks::getCurrentTemplateId
                 <div class="form-group">
                     <select name="templates" id="templates" onchange="change_template()" class="form-control">';
                         <?php
-                        $templates_ids_arr = \WebSK\Skif\Content\TemplateUtils::getTemplatesIdsArr();
+                        $template_service = ContentServiceProvider::getTemplateService(Container::self());
+
+                        $templates_ids_arr = $template_service->getAllIdsArrByIdAsc();
 
                         foreach ($templates_ids_arr as $template_id) {
-                            $template_obj = \WebSK\Skif\Content\Template::factory($template_id);
+                            $template_obj = $template_service->getById($template_id);
 
                             ?>
                             <option value="<?php echo $template_id; ?>"<?php echo (($template_id == $current_template_id) ? ' selected' : '') ?>><?php echo $template_obj->getTitle(); ?></option>

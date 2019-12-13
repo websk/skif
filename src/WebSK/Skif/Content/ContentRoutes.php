@@ -12,6 +12,9 @@ use WebSK\Skif\Content\RequestHandlers\Admin\ContentPhotoListHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\ContentTypeEditHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\ContentTypeListHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\SetDefaultContentPhotoHandler;
+use WebSK\Skif\Content\RequestHandlers\Admin\TemplateEditHandler;
+use WebSK\Skif\Content\RequestHandlers\Admin\TemplateListAjaxHandler;
+use WebSK\Skif\Content\RequestHandlers\Admin\TemplateListHandler;
 use WebSK\Skif\Content\RequestHandlers\ContentViewHandler;
 use WebSK\Utils\HTTP;
 use WebSK\Utils\Url;
@@ -24,6 +27,10 @@ class ContentRoutes
 {
     const ROUTE_NAME_ADMIN_CONTENT_TYPE_LIST = 'content_type:list';
     const ROUTE_NAME_ADMIN_CONTENT_TYPE_EDIT = 'content_type:edit';
+
+    const ROUTE_NAME_ADMIN_TEMPLATE_LIST = 'template:list';
+    const ROUTE_NAME_ADMIN_TEMPLATE_LIST_AJAX = 'template:list:ajax';
+    const ROUTE_NAME_ADMIN_TEMPLATE_EDIT = 'template:edit';
 
     public static function route()
     {
@@ -119,6 +126,17 @@ class ContentRoutes
 
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/{content_type_id:\d+}', ContentTypeEditHandler::class)
                 ->setName(self::ROUTE_NAME_ADMIN_CONTENT_TYPE_EDIT);
+        });
+
+        $app->group('/template', function (App $app) {
+            $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', TemplateListHandler::class)
+                ->setName(self::ROUTE_NAME_ADMIN_TEMPLATE_LIST);
+
+            $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/ajax', TemplateListAjaxHandler::class)
+                ->setName(self::ROUTE_NAME_ADMIN_TEMPLATE_LIST_AJAX);
+
+            $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/{template_id:\d+}', TemplateEditHandler::class)
+                ->setName(self::ROUTE_NAME_ADMIN_TEMPLATE_EDIT);
         });
 
         $app->group('/content_photo/{content_photo_id:\d+}', function (App $app) {

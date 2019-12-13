@@ -2,195 +2,108 @@
 
 namespace WebSK\Skif\Content;
 
-use WebSK\Auth\Auth;
-use WebSK\Entity\InterfaceEntity;
-use WebSK\Logger\Logger;
-use WebSK\Model\ActiveRecord;
-use WebSK\Model\FactoryTrait;
-use WebSK\Model\InterfaceDelete;
-use WebSK\Model\InterfaceFactory;
-use WebSK\Model\InterfaceGetTitle;
-use WebSK\Model\InterfaceLoad;
-use WebSK\Model\InterfaceSave;
-use WebSK\Cache\CacheWrapper;
-use WebSK\Utils\FullObjectId;
+use WebSK\Entity\Entity;
 use WebSK\Views\ViewsPath;
 
 /**
  * Class Template
  * @package WebSK\Skif\Content
  */
-class Template implements
-    InterfaceLoad,
-    InterfaceFactory,
-    InterfaceSave,
-    InterfaceDelete,
-    InterfaceGetTitle,
-    InterfaceEntity
+class Template extends Entity
 {
-    use ActiveRecord;
-    use FactoryTrait;
-
+    const ENTITY_SERVICE_CONTAINER_ID = 'skif.template_service';
+    const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.template_repository';
     const DB_TABLE_NAME = 'template';
 
-    protected $id;
+    const _TITLE = 'title';
+    /** @var string */
     protected $title = '';
+
+    const _NAME = 'name';
+    /** @var string */
     protected $name = '';
+
+    const _CSS = 'css';
+    /** @var string */
     protected $css = '';
-    protected $is_default = 0;
+
+    const _IS_DEFAULT = 'is_default';
+    /** @var bool */
+    protected $is_default = false;
+
+    const _LAYOUT_TEMPLATE_FILE = 'layout_template_file';
+    /** @var string  */
     protected $layout_template_file = '';
 
-    public static $crud_create_button_required_fields_arr = array();
-    public static $crud_create_button_title = 'Добавить тему';
-
-    public static $crud_model_class_screen_name = 'Тема';
-    public static $crud_model_title_field = 'title';
-
-    public static $crud_field_titles_arr = array(
-        'title' => 'Название',
-        'name' => 'Обозначение',
-        'css' => 'Файл CSS',
-        'def' => 'По-умолчанию',
-        'layout_template_file' => 'Файл шаблона',
-    );
-
-    public static $crud_model_class_screen_name_for_list = 'Темы';
-
-    public static $crud_fields_list_arr = array(
-        'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
-        'title' => array('col_class' => 'col-md-6 col-sm-6 col-xs-6'),
-        'name' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
-        '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
-    );
-
-    public static $crud_editor_fields_arr = array(
-        'title' => array(),
-        'name' => array(),
-        'css' => array(),
-        'def' => array(
-            'widget' => 'checkbox',
-        ),
-        'layout_template_file' => array()
-    );
-
-
     /**
-     * @return mixed
+     * @return string
      */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param mixed $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
     /**
-     * @param mixed $title
+     * @param string $title
      */
-    public function setTitle($title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getCss()
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCss(): string
     {
         return $this->css;
     }
 
     /**
-     * @param mixed $css
+     * @param string $css
      */
-    public function setCss($css)
+    public function setCss(string $css): void
     {
         $this->css = $css;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function isDefault()
+    public function isDefault(): bool
     {
         return $this->is_default;
     }
 
     /**
-     * @param mixed $is_default
+     * @param bool $is_default
      */
-    public function setIsDefault($is_default)
+    public function setIsDefault(bool $is_default): void
     {
         $this->is_default = $is_default;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getLayoutTemplateFile()
-    {
-        return $this->layout_template_file;
-    }
-
     public function getLayoutTemplateFilePath()
     {
         return ViewsPath::getSiteViewsPath() . '/layouts/' . $this->layout_template_file;
-    }
-
-    /**
-     * @param mixed $layout_template_file
-     */
-    public function setLayoutTemplateFile($layout_template_file)
-    {
-        $this->layout_template_file = $layout_template_file;
-    }
-
-    public static function afterUpdate($template_id)
-    {
-        $template_obj = self::factory($template_id);
-
-        $cache_key = TemplateUtils::getTemplateIdByNameCacheKey($template_obj->getName());
-        CacheWrapper::delete($cache_key);
-
-        self::removeObjFromCacheById($template_id);
-
-        Logger::logObjectEvent($template_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
-    }
-
-    public function afterDelete()
-    {
-        $cache_key = TemplateUtils::getTemplateIdByNameCacheKey($this->getName());
-        CacheWrapper::delete($cache_key);
-
-        self::removeObjFromCacheById($this->getId());
-
-        Logger::logObjectEvent($this, 'удаление', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 }

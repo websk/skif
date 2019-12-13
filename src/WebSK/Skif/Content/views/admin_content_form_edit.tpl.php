@@ -7,8 +7,6 @@
 use WebSK\Skif\Content\Content;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Content\Rubric;
-use WebSK\Skif\Content\Template;
-use WebSK\Skif\Content\TemplateUtils;
 use WebSK\Skif\CKEditor\CKEditor;
 use WebSK\Image\ImageManager;
 use WebSK\Logger\LoggerRender;
@@ -115,13 +113,15 @@ $content_service = ContentServiceProvider::getContentService(Container::self());
 
                     <div class="col-md-10">
                         <?php
-                        $templates_ids_arr = TemplateUtils::getTemplatesIdsArr();
+                        $template_service = ContentServiceProvider::getTemplateService(Container::self());
+
+                        $templates_ids_arr = $template_service->getAllIdsArrByIdAsc();
                         ?>
                         <select id="template_id" name="template_id" class="form-control">
                             <option value="0">Шаблон по-умолчанию</option>
                             <?php
                             foreach ($templates_ids_arr as $template_id) {
-                                $template_obj = Template::factory($template_id);
+                                $template_obj = $template_service->getById($template_id);
                                 ?>
                                 <option value="<?php echo $template_id; ?>"<?php echo(($content_obj->getTemplateId() == $template_id) ? ' selected' : ''); ?>><?php echo $template_obj->getTitle(); ?></option>
                                 <?php

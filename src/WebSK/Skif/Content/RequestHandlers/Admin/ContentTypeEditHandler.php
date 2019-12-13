@@ -9,9 +9,11 @@ use Slim\Http\StatusCode;
 use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
+use WebSK\CRUD\Form\Widgets\CRUDFormWidgetReferenceAjax;
 use WebSK\Skif\Content\ContentRoutes;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Content\ContentType;
+use WebSK\Skif\Content\Template;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
@@ -48,7 +50,16 @@ class ContentTypeEditHandler extends BaseHandler
                 new CRUDFormRow('URL', new CRUDFormWidgetInput(ContentType::_URL)),
                 new CRUDFormRow(
                     'Шаблон',
-                    new CRUDFormWidgetInput(ContentType::_TEMPLATE_ID)
+                    new CRUDFormWidgetReferenceAjax(
+                        ContentType::_TEMPLATE_ID,
+                        Template::class,
+                        Template::_TITLE,
+                        $this->pathFor(ContentRoutes::ROUTE_NAME_ADMIN_TEMPLATE_LIST_AJAX),
+                        $this->pathFor(
+                            ContentRoutes::ROUTE_NAME_ADMIN_TEMPLATE_EDIT,
+                            ['template_id' => CRUDFormWidgetReferenceAjax::REFERENCED_ID_PLACEHOLDER]
+                        )
+                    )
                 ),
             ]
         );
