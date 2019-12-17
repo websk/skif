@@ -246,6 +246,7 @@ CREATE TABLE `comments` (
 
 CREATE TABLE `poll` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `created_at_ts` int NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
   `is_default` smallint(6) NOT NULL DEFAULT '0',
   `is_published` smallint(6) NOT NULL DEFAULT '0',
@@ -258,12 +259,14 @@ CREATE TABLE `poll` (
 
 CREATE TABLE `poll_question` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at_ts` int NOT NULL DEFAULT '0',
   `poll_id` int(11) DEFAULT NULL,
   `title` varchar(255) NOT NULL DEFAULT '',
   `votes` int(11) NOT NULL DEFAULT '0',
   `weight` smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `poll_id` (`poll_id`)
+  KEY `poll_id` (`poll_id`),
+  CONSTRAINT `FK_poll_id` FOREIGN KEY (`poll_id`) REFERENCES `poll` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 # Ratings

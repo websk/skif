@@ -21,7 +21,7 @@ class FormRoutes
     const ROUTE_NAME_ADMIN_FORM_LIST = 'admin:form:list';
     const ROUTE_NAME_ADMIN_FORM_LIST_AJAX = 'admin:form:list_ajax';
     const ROUTE_NAME_ADMIN_FORM_EDIT = 'admin:form:edit';
-    const ROUTE_NAME_ADMIN_FORM_FIELD_EDIT = 'admin:form:field:edit';
+    const ROUTE_NAME_ADMIN_FORM_FIELD_EDIT = 'admin:form_field:edit';
 
     const ROUTE_NAME_FORM_SEND = 'form:send';
 

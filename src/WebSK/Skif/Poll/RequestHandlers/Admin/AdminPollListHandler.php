@@ -1,23 +1,24 @@
 <?php
 
-namespace WebSK\Skif\Form\RequestHandlers\Admin;
+namespace WebSK\Skif\Poll\RequestHandlers\Admin;
 
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Form\CRUDFormRow;
+use WebSK\CRUD\Form\Widgets\CRUDFormWidgetDate;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
-use WebSK\CRUD\Form\Widgets\CRUDFormWidgetTextarea;
+use WebSK\CRUD\Form\Widgets\CRUDFormWidgetRadios;
 use WebSK\CRUD\Table\CRUDTableColumn;
 use WebSK\CRUD\Table\Filters\CRUDTableFilterEqualInline;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
-use WebSK\CRUD\Table\Widgets\CRUDTableWidgetHtml;
+use WebSK\CRUD\Table\Widgets\CRUDTableWidgetOptions;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
-use WebSK\Skif\Form\Form;
-use WebSK\Skif\Form\FormRoutes;
+use WebSK\Skif\Poll\Poll;
+use WebSK\Skif\Poll\PollRoutes;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
@@ -25,12 +26,12 @@ use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
 
 /**
- * Class AdminFormListHandler
- * @package WebSK\Skif\Form\RequestHandlers\Admin
+ * Class AdminPollListHandler
+ * @package WebSK\Skif\Poll\RequestHandlers\Admin
  */
-class AdminFormListHandler extends BaseHandler
+class AdminPollListHandler extends BaseHandler
 {
-    const FILTER_TITLE = 'form_title';
+    const FILTER_TITLE = 'poll_title';
 
     /**
      * @param Request $request
@@ -40,55 +41,53 @@ class AdminFormListHandler extends BaseHandler
     public function __invoke(Request $request, Response $response)
     {
         $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
-            Form::class,
+            Poll::class,
             CRUDServiceProvider::getCrud($this->container)->createForm(
-                'form_create',
-                new Form(),
+                'poll_create',
+                new Poll(),
                 [
-                    new CRUDFormRow('Название формы', new CRUDFormWidgetInput(Form::_TITLE)),
-                    new CRUDFormRow('Комментарий', new CRUDFormWidgetInput(Form::_COMMENT)),
-                    new CRUDFormRow('Надпись на кнопке', new CRUDFormWidgetInput(Form::_BUTTON_LABEL)),
-                    new CRUDFormRow('E-mail', new CRUDFormWidgetInput(Form::_EMAIL)),
-                    new CRUDFormRow('Копия на E-mail', new CRUDFormWidgetInput(Form::_EMAIL_COPY)),
-                    new CRUDFormRow('Текст письма', new CRUDFormWidgetTextarea(Form::_RESPONSE_MAIL_MESSAGE)),
-                    new CRUDFormRow('Адрес страницы', new CRUDFormWidgetInput(Form::_URL))
+                    new CRUDFormRow('Заголовок', new CRUDFormWidgetInput(Poll::_TITLE)),
+                    new CRUDFormRow('По умолчанию', new CRUDFormWidgetRadios(Poll::_IS_DEFAULT, [false => 'Нет', true => 'Да'])),
+                    new CRUDFormRow('Опубликовано', new CRUDFormWidgetRadios(Poll::_IS_PUBLISHED, [false => 'Нет', true => 'Да'])),
+                    new CRUDFormRow('Показывать с', new CRUDFormWidgetDate(Poll::_PUBLISHED_AT)),
+                    new CRUDFormRow('Показывать по', new CRUDFormWidgetDate(Poll::_UNPUBLISHED_AT)),
                 ]
             ),
             [
-                new CRUDTableColumn('ID', new CRUDTableWidgetText(Form::_ID)),
+                new CRUDTableColumn('ID', new CRUDTableWidgetText(Poll::_ID)),
                 new CRUDTableColumn(
                     'Заголовок',
                     new CRUDTableWidgetTextWithLink(
-                        Form::_TITLE,
-                        function (Form $form) {
-                            return $this->pathFor(FormRoutes::ROUTE_NAME_ADMIN_FORM_EDIT, ['form_id' => $form->getId()]);
+                        Poll::_TITLE,
+                        function (Poll $poll) {
+                            return $this->pathFor(PollRoutes::ROUTE_NAME_ADMIN_POLL_EDIT, ['poll_id' => $poll->getId()]);
                         }
                     )
                 ),
                 new CRUDTableColumn(
-                    'Email',
-                    new CRUDTableWidgetText(
-                        Form::_EMAIL
+                    'По умолчанию',
+                    new CRUDTableWidgetOptions(
+                        Poll::_IS_DEFAULT,
+                        [false => 'Нет', true => 'Да']
+                    )
+                ),
+                new CRUDTableColumn(
+                    'Опубликовано',
+                    new CRUDTableWidgetOptions(
+                        Poll::_IS_PUBLISHED,
+                        [false => 'Нет', true => 'Да']
                     )
                 ),
                 new CRUDTableColumn(
                     'Создан',
-                    new CRUDTableWidgetTimestamp(Form::_CREATED_AT_TS)
-                ),
-                new CRUDTableColumn(
-                    'Ссылка',
-                    new CRUDTableWidgetHtml(
-                        function (Form $form) {
-                            return '<a href="' . $form->getUrl() . '" target="_blank">' . $form->getUrl() . '</a>';
-                        }
-                    )
+                    new CRUDTableWidgetTimestamp(Poll::_CREATED_AT_TS)
                 ),
                 new CRUDTableColumn('', new CRUDTableWidgetDelete())
             ],
             [
-                new CRUDTableFilterEqualInline(self::FILTER_TITLE, 'Заголовок', Form::_TITLE),
+                new CRUDTableFilterEqualInline(self::FILTER_TITLE, 'Заголовок', Poll::_TITLE),
             ],
-            Form::_CREATED_AT_TS . ' DESC'
+            Poll::_CREATED_AT_TS . ' DESC'
         );
 
         $crud_form_response = $crud_table_obj->processRequest($request, $response);
@@ -99,7 +98,7 @@ class AdminFormListHandler extends BaseHandler
         $content_html = $crud_table_obj->html($request);
 
         $layout_dto = new LayoutDTO();
-        $layout_dto->setTitle('Формы');
+        $layout_dto->setTitle('Опросы');
         $layout_dto->setContentHtml($content_html);
         $breadcrumbs_arr = [
             new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),

@@ -3,6 +3,7 @@
 namespace WebSK\Skif\Poll;
 
 use WebSK\DB\DBWrapper;
+use WebSK\Slim\Container;
 use WebSK\Views\PhpRender;
 
 /**
@@ -35,14 +36,13 @@ class PollUtils
      */
     public static function getSumVotesFromPollQuestionByPoll($poll_id)
     {
-        $poll_obj = Poll::factory($poll_id);
-
-        $poll_question_ids_arr = $poll_obj->getPollQuestionsIdsArr();
+        $poll_question_service = PollServiceProvider::getPollQuestionService(Container::self());
+        $poll_question_ids_arr = $poll_question_service->getIdsArrByPollId($poll_id);
 
         $sum = 0;
 
         foreach ($poll_question_ids_arr as $poll_question_id) {
-            $poll_question_obj = PollQuestion::factory($poll_question_id);
+            $poll_question_obj = $poll_question_service->getById($poll_question_id);
 
             $sum += $poll_question_obj->getVotes();
         }
@@ -56,15 +56,14 @@ class PollUtils
      */
     public static function getMaxVotesFromPollQuestionByPoll($poll_id)
     {
-        $poll_obj = Poll::factory($poll_id);
-
-        $poll_question_ids_arr = $poll_obj->getPollQuestionsIdsArr();
+        $poll_question_service = PollServiceProvider::getPollQuestionService(Container::self());
+        $poll_question_ids_arr = $poll_question_service->getIdsArrByPollId($poll_id);
 
         $max = 0;
         $votes_arr = array();
 
         foreach ($poll_question_ids_arr as $poll_question_id) {
-            $poll_question_obj = PollQuestion::factory($poll_question_id);
+            $poll_question_obj = $poll_question_service->getById($poll_question_id);
 
             if (in_array($poll_question_obj->getVotes(), $votes_arr)) {
                 return 0;

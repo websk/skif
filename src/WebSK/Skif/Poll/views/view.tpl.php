@@ -3,13 +3,13 @@
  * @var $poll_id
  */
 
-use WebSK\Skif\Poll\Poll;
-use WebSK\Skif\Poll\PollQuestion;
+use WebSK\Skif\Poll\PollServiceProvider;
 use WebSK\Skif\Poll\PollUtils;
+use WebSK\Slim\Container;
 
-$poll_obj = Poll::factory($poll_id);
+$poll_question_service = PollServiceProvider::getPollQuestionService(Container::self());
 
-$poll_question_ids_arr = $poll_obj->getPollQuestionsIdsArr();
+$poll_question_ids_arr = $poll_question_service->getIdsArrByPollId($poll_id);
 
 $sum = PollUtils::getSumVotesFromPollQuestionByPoll($poll_id);
 $max = PollUtils::getMaxVotesFromPollQuestionByPoll($poll_id);
@@ -18,7 +18,7 @@ $max = PollUtils::getMaxVotesFromPollQuestionByPoll($poll_id);
     <div class="panel-body">
 <?php
 foreach ($poll_question_ids_arr as $poll_question_id) {
-    $poll_question_obj = PollQuestion::factory($poll_question_id);
+    $poll_question_obj = $poll_question_service->getById($poll_question_id);
 
     $vote_percentage = $sum ? round($poll_question_obj->getVotes() / $sum * 100) : 0;
     ?>

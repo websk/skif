@@ -3,7 +3,7 @@
 namespace WebSK\Skif\Poll;
 
 use WebSK\Config\ConfWrapper;
-use WebSK\Skif\CRUD\CRUDController;
+use WebSK\Slim\Container;
 use WebSK\Utils\Messages;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
@@ -13,20 +13,27 @@ use WebSK\Views\PhpRender;
  * Class PollController
  * @package WebSK\Skif\Poll
  */
-class PollController extends CRUDController
+class PollController
 {
 
-    protected static $model_class_name = Poll::class;
     public static $poll_cookie_prefix = 'poll_access_';
 
-    public static function getCRUDBaseUrl($model_class_name)
-    {
-        return '/admin/poll';
-    }
-
-    public static function getVoteUrl($poll_id)
+    /**
+     * @param int $poll_id
+     * @return string
+     */
+    public static function getVoteUrl(int $poll_id)
     {
         return '/poll/' . $poll_id . '/vote';
+    }
+
+    /**
+     * @param int $poll_id
+     * @return string
+     */
+    public static function getUrl(int $poll_id)
+    {
+        return '/poll/' . $poll_id;
     }
 
     /**
@@ -37,22 +44,27 @@ class PollController extends CRUDController
     {
         $poll_question_id = isset($_REQUEST['poll_question_id']) ? intval($_REQUEST['poll_question_id']) : '';
 
-        $poll_obj = Poll::factory($poll_id);
+        $poll_service = PollServiceProvider::getPollService(Container::self());
+        $poll_obj = $poll_service->getById($poll_id);
+
+        $poll_question_service = PollServiceProvider::getPollQuestionService(Container::self());
+
 
         $cookie_key = self::$poll_cookie_prefix . $poll_id;
 
         if (isset($_COOKIE[$cookie_key]) && ($_COOKIE[$cookie_key] == 'no')) {
             Messages::setError('Вы уже проголосовали ранее!');
 
-            Redirects::redirect($poll_obj->getUrl());
+            Redirects::redirect(self::getUrl($poll_id));
         }
 
         if (!empty($poll_question_id)) {
-            $poll_question_obj = PollQuestion::factory($poll_question_id);
+            $poll_question_obj = $poll_question_service->getById($poll_question_id);
 
             $votes = $poll_question_obj->getVotes() + 1;
             $poll_question_obj->setVotes($votes);
-            $poll_question_obj->save();
+
+            $poll_question_service->save($poll_question_obj);
 
             setcookie($cookie_key, 'no', time() + 3600 * 24 * 365);
 
@@ -61,7 +73,7 @@ class PollController extends CRUDController
             Messages::setError('Вы не проголосовали, т.к. не выбрали ответ.');
         }
 
-        Redirects::redirect($poll_obj->getUrl());
+        Redirects::redirect(self::getUrl($poll_id));
     }
 
     /**
@@ -70,7 +82,9 @@ class PollController extends CRUDController
      */
     public static function viewAction($poll_id)
     {
-        $poll_obj = Poll::factory($poll_id, false);
+        $poll_service = PollServiceProvider::getPollService(Container::self());
+        $poll_obj = $poll_service->getById($poll_id, false);
+
         Exits::exit404If(!$poll_obj);
 
         $content = PhpRender::renderTemplateForModuleNamespace(

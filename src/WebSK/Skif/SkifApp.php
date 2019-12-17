@@ -19,6 +19,7 @@ use WebSK\Auth\AuthServiceProvider;
 use WebSK\Image\ImageRoutes;
 use WebSK\Skif\Form\FormServiceProvider;
 use WebSK\Skif\Poll\PollRoutes;
+use WebSK\Skif\Poll\PollServiceProvider;
 use WebSK\Skif\Redirect\RedirectRoutes;
 use WebSK\Skif\Redirect\RedirectServiceProvider;
 use WebSK\Skif\SiteMenu\SiteMenuRoutes;
@@ -65,6 +66,7 @@ class SkifApp extends App
         CommentServiceProvider::register($container);
         FormServiceProvider::register($container);
         RedirectServiceProvider::register($container);
+        PollServiceProvider::register($container);
 
         $this->registerRoutes();
     }
@@ -86,6 +88,7 @@ class SkifApp extends App
             ContentRoutes::registerAdmin($app);
             CommentRoutes::registerAdmin($app);
             FormRoutes::registerAdmin($app);
+            PollRoutes::registerAdmin($app);
             RedirectRoutes::registerAdmin($app);
         })->add(new CurrentUserIsAdmin());
 

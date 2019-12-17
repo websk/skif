@@ -2,112 +2,39 @@
 
 namespace WebSK\Skif\Poll;
 
-use WebSK\Model\FactoryTrait;
-use WebSK\Model\InterfaceDelete;
-use WebSK\Model\InterfaceFactory;
-use WebSK\Model\InterfaceGetTitle;
-use WebSK\Model\InterfaceLoad;
-use WebSK\Model\InterfaceSave;
-use WebSK\Model\ActiveRecord;
-use WebSK\Skif\CRUD\ModelReferenceWidget\ModelReferenceWidget;
+use WebSK\Entity\Entity;
 
 /**
  * Class PollQuestion
  * @package WebSK\Skif\Poll
  */
-class PollQuestion implements
-    InterfaceLoad,
-    InterfaceFactory,
-    InterfaceSave,
-    InterfaceDelete,
-    InterfaceGetTitle
+class PollQuestion extends Entity
 {
-    use ActiveRecord;
-    use FactoryTrait;
 
+    const ENTITY_SERVICE_CONTAINER_ID = 'skif.poll_question_service';
+    const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.poll_question_repository';
     const DB_TABLE_NAME = 'poll_question';
 
-    protected $id;
+    const _TITLE = 'title';
+    /** @var string */
     protected $title = '';
+
+    const _POLL_ID = 'poll_id';
+    /** @var int */
     protected $poll_id;
+
+    const _VOTES = 'votes';
+    /** @var int */
     protected $votes = 0;
+
+    const _WEIGHT = 'weight';
+    /** @var int */
     protected $weight = 0;
-
-
-    public static $crud_create_button_required_fields_arr = array('poll_id');
-    public static $crud_create_button_title = 'Добавить вариант ответа';
-
-    public static $crud_model_class_screen_name = 'Заголовок';
-    public static $crud_model_title_field = 'title';
-
-    public static $crud_field_titles_arr = array(
-        'title' => 'Заголовок',
-        'poll_id' => 'Опрос',
-        'votes' => 'Проголосовало',
-        'weight' => 'Сортировка'
-    );
-
-    public static $crud_model_class_screen_name_for_list = 'Варианты ответов';
-
-    public static $crud_fast_create_field_name = 'title';
-
-    public static $crud_fields_list_arr = array(
-        'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
-        'title' => array('col_class' => 'col-md-4 col-sm-4 col-xs-4'),
-        'poll_id' => array('col_class' => 'col-md-2 col-sm-2 col-xs-2'),
-        'votes' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
-        '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
-    );
-
-    public static $crud_editor_fields_arr = array(
-        'title' => array(),
-        'poll_id' => array(
-            'widget' => array(ModelReferenceWidget::class, 'renderWidget'),
-            'widget_settings' => array(
-                'model_class_name' => Poll::class
-            )
-        ),
-        'votes' => array(),
-        'weight' => array(),
-    );
-
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPollId()
-    {
-        return $this->poll_id;
-    }
-
-    /**
-     * @param mixed $poll_id
-     */
-    public function setPollId($poll_id)
-    {
-        $this->poll_id = $poll_id;
-    }
 
     /**
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -115,7 +42,7 @@ class PollQuestion implements
     /**
      * @param string $title
      */
-    public function setTitle($title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -123,15 +50,31 @@ class PollQuestion implements
     /**
      * @return int
      */
-    public function getVotes()
+    public function getPollId(): int
+    {
+        return $this->poll_id;
+    }
+
+    /**
+     * @param int $poll_id
+     */
+    public function setPollId(int $poll_id): void
+    {
+        $this->poll_id = $poll_id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVotes(): int
     {
         return $this->votes;
     }
 
     /**
-     * @param mixed $votes
+     * @param int $votes
      */
-    public function setVotes($votes)
+    public function setVotes(int $votes): void
     {
         $this->votes = $votes;
     }
@@ -139,7 +82,7 @@ class PollQuestion implements
     /**
      * @return int
      */
-    public function getWeight()
+    public function getWeight(): int
     {
         return $this->weight;
     }
@@ -147,24 +90,8 @@ class PollQuestion implements
     /**
      * @param int $weight
      */
-    public function setWeight($weight)
+    public function setWeight(int $weight): void
     {
         $this->weight = $weight;
-    }
-
-    public static function afterUpdate($id)
-    {
-        $poll_question_obj = self::factory($id);
-
-        self::removeObjFromCacheById($id);
-
-        Poll::afterUpdate($poll_question_obj->getPollId());
-    }
-
-    public function afterDelete()
-    {
-        self::removeObjFromCacheById($this->getId());
-
-        Poll::afterUpdate($this->getPollId());
     }
 }

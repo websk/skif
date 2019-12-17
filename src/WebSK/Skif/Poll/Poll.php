@@ -2,120 +2,44 @@
 
 namespace WebSK\Skif\Poll;
 
-use WebSK\Skif\CRUD\DatepickerWidget\DatepickerWidget;
-use WebSK\Model\FactoryTrait;
-use WebSK\Model\InterfaceDelete;
-use WebSK\Model\InterfaceFactory;
-use WebSK\Model\InterfaceGetTitle;
-use WebSK\Model\InterfaceGetUrl;
-use WebSK\Model\InterfaceLoad;
-use WebSK\Model\InterfaceSave;
-use WebSK\Model\ActiveRecord;
+use WebSK\Entity\Entity;
 
 /**
  * Class Poll
  * @package WebSK\Skif\Poll
  */
-class Poll implements
-    InterfaceLoad,
-    InterfaceFactory,
-    InterfaceSave,
-    InterfaceDelete,
-    InterfaceGetUrl,
-    InterfaceGetTitle
+class Poll extends Entity
 {
-    use ActiveRecord;
-    use FactoryTrait;
 
+    const ENTITY_SERVICE_CONTAINER_ID = 'skif.poll_service';
+    const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.poll_repository';
     const DB_TABLE_NAME = 'poll';
 
-    protected $id;
+    const _TITLE = 'title';
+    /** @var string */
     protected $title = '';
-    protected $is_default = 0;
-    protected $is_published = 0;
+
+    const _IS_DEFAULT = 'is_default';
+    /** @var bool */
+    protected $is_default = false;
+
+    const _IS_PUBLISHED = 'is_published';
+    /** @var bool */
+    protected $is_published = false;
+
+    const _PUBLISHED_AT = 'published_at';
+    /** @var string */
     protected $published_at;
+
+    const _UNPUBLISHED_AT = 'unpublished_at';
+    /** @var string */
     protected $unpublished_at;
-    protected $poll_questions_ids_arr;
 
-    public function __construct()
-    {
-        $this->published_at = date('Y-m-d H:i:s');
-    }
-
-    public static $active_record_ignore_fields_arr = array(
-        'poll_questions_ids_arr',
-    );
-
-    public static $crud_create_button_required_fields_arr = array();
-    public static $crud_create_button_title = 'Добавить опрос';
-
-    public static $crud_model_class_screen_name = 'Опрос';
-    public static $crud_model_title_field = 'title';
-
-    public static $crud_field_titles_arr = array(
-        'title' => 'Заголовок',
-        'is_default' => 'По-умолчанию',
-        'is_published' => 'Опубликовано',
-        'published_at' => 'Показывать с',
-        'unpublished_at' => 'Показывать по',
-    );
-
-    public static $crud_model_class_screen_name_for_list = 'Опросы';
-
-    public static $crud_fields_list_arr = array(
-        'id' => array('col_class' => 'col-md-1 col-sm-1 col-xs-1'),
-        'title' => array('col_class' => 'col-md-6 col-sm-6 col-xs-6'),
-        'is_published' => array('col_class' => 'col-md-2 hidden-sm hidden-xs', 'td_class' => 'hidden-sm hidden-xs'),
-        '' => array('col_class' => 'col-md-3 col-sm-5 col-xs-5'),
-    );
-
-    public static $crud_editor_fields_arr = [
-        'title' => [],
-        'is_default' => ['widget' => 'checkbox'],
-        'is_published' => ['widget' => 'checkbox'],
-        'published_at' => [
-            'widget' => [DatepickerWidget::class, 'renderWidget'],
-            'widget_settings' => [
-                'date_format' => 'YYYY-MM-DD'
-            ],
-        ],
-        'unpublished_at' => [
-            'widget' => [DatepickerWidget::class, 'renderWidget'],
-            'widget_settings' => [
-                'date_format' => 'YYYY-MM-DD'
-            ],
-        ],
-    ];
-
-    // Связанные модели
-    public static $related_models_arr = array(
-        PollQuestion::class => array(
-            'link_field' => 'poll_id',
-            'field_name' => 'poll_questions_ids_arr',
-            'list_title' => 'Варианты ответов',
-        ),
-    );
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
 
     /**
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -123,85 +47,72 @@ class Poll implements
     /**
      * @param string $title
      */
-    public function setTitle($title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getIsDefault()
+    public function isIsDefault(): bool
     {
         return $this->is_default;
     }
 
     /**
-     * @param int $is_default
+     * @param bool $is_default
      */
-    public function setIsDefault($is_default)
+    public function setIsDefault(bool $is_default): void
     {
         $this->is_default = $is_default;
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getIsPublished()
+    public function isIsPublished(): bool
     {
         return $this->is_published;
     }
 
     /**
-     * @param int $is_published
+     * @param bool $is_published
      */
-    public function setIsPublished($is_published)
+    public function setIsPublished(bool $is_published): void
     {
         $this->is_published = $is_published;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getPublishedAt()
+    public function getPublishedAt(): string
     {
         return $this->published_at;
     }
 
     /**
-     * @param mixed $published_at
+     * @param string $published_at
      */
-    public function setPublishedAt($published_at)
+    public function setPublishedAt(string $published_at): void
     {
         $this->published_at = $published_at;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getUnpublishedAt()
+    public function getUnpublishedAt(): string
     {
         return $this->unpublished_at;
     }
 
     /**
-     * @param mixed $unpublished_at
+     * @param string $unpublished_at
      */
-    public function setUnpublishedAt($unpublished_at)
+    public function setUnpublishedAt(string $unpublished_at): void
     {
         $this->unpublished_at = $unpublished_at;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPollQuestionsIdsArr()
-    {
-        return $this->poll_questions_ids_arr;
-    }
-
-    public function getUrl()
-    {
-        return '/poll/' . $this->getId();
     }
 }
