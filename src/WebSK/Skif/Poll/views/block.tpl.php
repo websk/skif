@@ -3,9 +3,10 @@
  * @var $poll_id
  */
 
-use WebSK\Skif\Poll\PollController;
+use WebSK\Skif\Poll\PollRoutes;
 use WebSK\Skif\Poll\PollServiceProvider;
 use WebSK\Slim\Container;
+use WebSK\Slim\Router;
 
 $poll_service = PollServiceProvider::getPollService(Container::self());
 $poll_obj = $poll_service->getById($poll_id);
@@ -15,7 +16,7 @@ $poll_question_service = PollServiceProvider::getPollQuestionService(Container::
 
 <div><?php echo $poll_obj->getTitle(); ?></div>
 
-<form action="<?php echo PollController::getVoteUrl($poll_id); ?>" method="post">
+<form action="<?php echo Router::pathFor(PollRoutes::ROUTE_NAME_POLL_VOTE, ['poll_id' => $poll_id]); ?>" method="post">
 
     <?php
     $poll_question_ids_arr = $poll_question_service->getIdsArrByPollId($poll_id);
@@ -39,7 +40,7 @@ $poll_question_service = PollServiceProvider::getPollQuestionService(Container::
                 <input type="submit" value="Голосовать" class="btn btn-default btn-sm">
             </div>
             <div class="col-md-6 text-right">
-                <a href="<?php echo PollController::getUrl($poll_id); ?>">Результаты</a>
+                <a href="<?php echo Router::pathFor(PollRoutes::ROUTE_NAME_POLL_VIEW, ['poll_id' => $poll_id]); ?>">Результаты</a>
             </div>
         </div>
     </div>

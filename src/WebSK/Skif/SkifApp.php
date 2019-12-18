@@ -97,6 +97,7 @@ class SkifApp extends App
         AuthRoutes::register($this);
         CommentRoutes::register($this);
         FormRoutes::register($this);
+        PollRoutes::register($this);
         //ContentRoutes::register($this);
 
         /** Use facade */
@@ -113,7 +114,6 @@ class SkifApp extends App
         BlockRoutes::route();
         ContentRoutes::route();
         SiteMenuRoutes::route();
-        PollRoutes::route();
 
         $route_based_crud_arr = $container['settings']['route_based_crud_arr'] ?? [];
         if ($route_based_crud_arr) {
