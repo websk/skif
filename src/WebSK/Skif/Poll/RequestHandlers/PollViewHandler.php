@@ -33,10 +33,15 @@ class PollViewHandler extends BaseHandler
             return $response->withStatus(StatusCode::HTTP_NOT_FOUND);
         }
 
+        $poll_question_service = PollServiceProvider::getPollQuestionService($this->container);
+
         $content_html = PhpRender::renderTemplateForModuleNamespace(
             'WebSK/Skif/Poll',
             'view.tpl.php',
-            ['poll_id' => $poll_id]
+            [
+                'poll_id' => $poll_id,
+                'poll_question_service' => $poll_question_service
+            ]
         );
 
         $layout_dto = new LayoutDTO();

@@ -54,7 +54,7 @@ class PollRoutes
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/{poll_id:\d+}', PollViewHandler::class)
                 ->setName(self::ROUTE_NAME_POLL_VIEW);
 
-            $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/{poll_id:\d+}/vote', PollVoteHandler::class)
+            $app->post('/{poll_id:\d+}/vote', PollVoteHandler::class)
                 ->setName(self::ROUTE_NAME_POLL_VOTE);
         });
     }

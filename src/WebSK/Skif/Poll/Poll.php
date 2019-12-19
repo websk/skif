@@ -71,7 +71,7 @@ class Poll extends Entity
     /**
      * @return bool
      */
-    public function isIsPublished(): bool
+    public function isPublished(): bool
     {
         return $this->is_published;
     }

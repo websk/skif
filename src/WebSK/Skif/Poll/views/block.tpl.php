@@ -1,25 +1,23 @@
 <?php
 /**
- * @var $poll_id
+ * @var Poll $poll_obj
+ * @var PollService $poll_service
+ * @var PollQuestionService $poll_question_service
  */
 
+use WebSK\Skif\Poll\Poll;
+use WebSK\Skif\Poll\PollQuestionService;
 use WebSK\Skif\Poll\PollRoutes;
-use WebSK\Skif\Poll\PollServiceProvider;
-use WebSK\Slim\Container;
+use WebSK\Skif\Poll\PollService;
 use WebSK\Slim\Router;
-
-$poll_service = PollServiceProvider::getPollService(Container::self());
-$poll_obj = $poll_service->getById($poll_id);
-
-$poll_question_service = PollServiceProvider::getPollQuestionService(Container::self());
 ?>
 
 <div><?php echo $poll_obj->getTitle(); ?></div>
 
-<form action="<?php echo Router::pathFor(PollRoutes::ROUTE_NAME_POLL_VOTE, ['poll_id' => $poll_id]); ?>" method="post">
+<form action="<?php echo Router::pathFor(PollRoutes::ROUTE_NAME_POLL_VOTE, ['poll_id' => $poll_obj->getId()]); ?>" method="post">
 
     <?php
-    $poll_question_ids_arr = $poll_question_service->getIdsArrByPollId($poll_id);
+    $poll_question_ids_arr = $poll_question_service->getIdsArrByPollId($poll_obj->getId());
 
     foreach ($poll_question_ids_arr as $poll_question_id) {
         $poll_question_obj = $poll_question_service->getById($poll_question_id);
@@ -40,7 +38,7 @@ $poll_question_service = PollServiceProvider::getPollQuestionService(Container::
                 <input type="submit" value="Голосовать" class="btn btn-default btn-sm">
             </div>
             <div class="col-md-6 text-right">
-                <a href="<?php echo Router::pathFor(PollRoutes::ROUTE_NAME_POLL_VIEW, ['poll_id' => $poll_id]); ?>">Результаты</a>
+                <a href="<?php echo Router::pathFor(PollRoutes::ROUTE_NAME_POLL_VIEW, ['poll_id' => $poll_obj->getId()]); ?>">Результаты</a>
             </div>
         </div>
     </div>

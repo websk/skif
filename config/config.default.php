@@ -1,8 +1,5 @@
 <?php
 
-use WebSK\Skif\Content\Template;
-use WebSK\Skif\CRUD\CRUDController;
-
 return [
     'settings' => [
         'displayErrorDetails' => false,

@@ -13,6 +13,7 @@ use WebSK\CRUD\Form\Widgets\CRUDFormWidgetRadios;
 use WebSK\CRUD\Table\CRUDTableColumn;
 use WebSK\CRUD\Table\Filters\CRUDTableFilterEqualInline;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
+use WebSK\CRUD\Table\Widgets\CRUDTableWidgetHtml;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetOptions;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
@@ -76,6 +77,15 @@ class AdminPollListHandler extends BaseHandler
                     new CRUDTableWidgetOptions(
                         Poll::_IS_PUBLISHED,
                         [false => 'Нет', true => 'Да']
+                    )
+                ),
+                new CRUDTableColumn(
+                    'Ссылка',
+                    new CRUDTableWidgetHtml(
+                        function (Poll $poll) {
+                            $poll_url = $this->pathFor(PollRoutes::ROUTE_NAME_POLL_VIEW, ['poll_id' => $poll->getId()]);
+                            return '<a href="' . $poll_url . '" target="_blank">' . $poll_url . '</a>';
+                        }
                     )
                 ),
                 new CRUDTableColumn(

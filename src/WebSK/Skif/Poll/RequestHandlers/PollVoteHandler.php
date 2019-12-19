@@ -4,6 +4,7 @@ namespace WebSK\Skif\Poll\RequestHandlers;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\StatusCode;
 use WebSK\Skif\Poll\PollRoutes;
 use WebSK\Skif\Poll\PollServiceProvider;
 use WebSK\Slim\RequestHandlers\BaseHandler;
@@ -27,7 +28,11 @@ class PollVoteHandler extends BaseHandler
         $poll_question_id = $request->getParam('poll_question_id');
 
         $poll_service = PollServiceProvider::getPollService($this->container);
-        $poll_obj = $poll_service->getById($poll_id);
+
+        $poll_obj = $poll_service->getById($poll_id, false);
+        if (!$poll_obj) {
+            return $response->withStatus(StatusCode::HTTP_NOT_FOUND);
+        }
 
         $poll_question_service = PollServiceProvider::getPollQuestionService($this->container);
 
@@ -37,7 +42,7 @@ class PollVoteHandler extends BaseHandler
 
         if (isset($_COOKIE[$cookie_key]) && ($_COOKIE[$cookie_key] == 'no')) {
             Messages::setError('Вы уже проголосовали ранее!');
-            $response->withRedirect($redirect_url);
+            return $response->withRedirect($redirect_url);
         }
 
         if (!empty($poll_question_id)) {
@@ -55,6 +60,6 @@ class PollVoteHandler extends BaseHandler
             Messages::setError('Вы не проголосовали, т.к. не выбрали ответ.');
         }
 
-        $response->withRedirect($redirect_url);
+        return $response->withRedirect($redirect_url);
     }
 }

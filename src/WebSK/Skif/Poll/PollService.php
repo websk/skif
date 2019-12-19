@@ -24,4 +24,38 @@ class PollService extends EntityService
 
         parent::beforeSave($entity_obj);
     }
+
+    /**
+     * @return int|null
+     */
+    public function getDefaultPollId()
+    {
+        $poll_ids_arr = $this->getAllIdsArrByIdAsc();
+
+        foreach ($poll_ids_arr as $poll_id) {
+            $poll_obj = $this->getById($poll_id);
+
+            if (!$poll_obj->isPublished()) {
+                continue;
+            }
+
+            if (!$poll_obj->isIsDefault()) {
+                continue;
+            }
+
+            return $poll_id;
+        }
+
+        foreach ($poll_ids_arr as $poll_id) {
+            $poll_obj = $this->getById($poll_id);
+
+            if (!$poll_obj->isPublished()) {
+                continue;
+            }
+
+            return $poll_id;
+        }
+
+        return null;
+    }
 }

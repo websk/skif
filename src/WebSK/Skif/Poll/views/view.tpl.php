@@ -1,18 +1,15 @@
 <?php
 /**
- * @var $poll_id
+ * @var int $poll_id
+ * @var PollQuestionService $poll_question_service
  */
 
-use WebSK\Skif\Poll\PollServiceProvider;
-use WebSK\Skif\Poll\PollUtils;
-use WebSK\Slim\Container;
-
-$poll_question_service = PollServiceProvider::getPollQuestionService(Container::self());
+use WebSK\Skif\Poll\PollQuestionService;
 
 $poll_question_ids_arr = $poll_question_service->getIdsArrByPollId($poll_id);
 
-$sum = PollUtils::getSumVotesFromPollQuestionByPoll($poll_id);
-$max = PollUtils::getMaxVotesFromPollQuestionByPoll($poll_id);
+$sum = $poll_question_service->getSumVotesFromPollQuestionByPoll($poll_id);
+$max = $poll_question_service->getMaxVotesFromPollQuestionByPoll($poll_id);
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
