@@ -2,8 +2,8 @@
 
 namespace WebSK\Skif\Redirect;
 
+use Slim\Http\StatusCode;
 use WebSK\Entity\Entity;
-use WebSK\Utils\HTTP;
 
 /**
  * Class Redirect
@@ -33,7 +33,7 @@ class Redirect extends Entity
 
     const _CODE = 'code';
     /** @var int */
-    protected $code = HTTP::STATUS_MOVED_PERMANENTLY;
+    protected $code = StatusCode::HTTP_MOVED_PERMANENTLY;
 
     const _KIND = 'kind';
     /** @var int */

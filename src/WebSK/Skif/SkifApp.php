@@ -12,7 +12,6 @@ use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Skif\Comment\CommentServiceProvider;
 use WebSK\Skif\Content\ContentRoutes;
 use WebSK\Skif\Content\ContentServiceProvider;
-use WebSK\Skif\CRUD\CRUDRoutes;
 use WebSK\Skif\Form\FormRoutes;
 use WebSK\Cache\CacheServiceProvider;
 use WebSK\Auth\AuthServiceProvider;
@@ -110,7 +109,6 @@ class SkifApp extends App
         RedirectRoutes::registerSimpleRoute($this);
 
         ImageRoutes::routes();
-        CRUDRoutes::route();
         BlockRoutes::route();
         ContentRoutes::route();
         SiteMenuRoutes::route();
