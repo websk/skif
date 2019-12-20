@@ -9,10 +9,10 @@ use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 
 /**
- * Class ContentPhotoDeleteHandler
+ * Class AdminContentPhotoDeleteHandler
  * @package WebSK\Skif\Content\RequestHandlers\Admin
  */
-class ContentPhotoDeleteHandler extends BaseHandler
+class AdminContentPhotoDeleteHandler extends BaseHandler
 {
 
     /**

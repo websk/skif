@@ -2,250 +2,116 @@
 
 namespace WebSK\Skif\Content;
 
-use WebSK\Auth\Auth;
-use WebSK\Entity\InterfaceEntity;
-use WebSK\Logger\Logger;
-use WebSK\Model\ActiveRecord;
-use WebSK\Model\FactoryTrait;
-use WebSK\Model\InterfaceDelete;
-use WebSK\Model\InterfaceFactory;
-use WebSK\Model\InterfaceLoad;
-use WebSK\Model\InterfaceSave;
-use WebSK\DB\DBWrapper;
-use WebSK\Skif\UniqueUrl;
-use WebSK\Slim\Container;
-use WebSK\Utils\FullObjectId;
-use WebSK\Utils\Transliteration;
-use WebSK\Model\ActiveRecordHelper;
-use WebSK\Utils\Assert;
+use WebSK\Entity\Entity;
 
 /**
  * Class Rubric
  * @package WebSK\Skif\Content
  */
-class Rubric implements
-    InterfaceLoad,
-    InterfaceFactory,
-    InterfaceSave,
-    InterfaceDelete,
-    InterfaceEntity
+class Rubric extends Entity
 {
-    use ActiveRecord;
-    use FactoryTrait;
 
-    /** @var int */
-    protected $id;
+    const ENTITY_SERVICE_CONTAINER_ID = 'skif.rubric_service';
+    const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.rubric_repository';
+    const DB_TABLE_NAME = 'rubrics';
 
+    const _NAME = 'name';
     /** @var string */
     protected $name = '';
 
+    const _COMMENT = 'comment';
     /** @var string */
     protected $comment = '';
 
+    const _CONTENT_TYPE_ID = 'content_type_id';
     /** @var int */
     protected $content_type_id;
 
+    const _TEMPLATE_ID = 'template_id';
     /** @var int */
     protected $template_id;
 
+    const _URL = 'url';
     /** @var string */
     protected $url = '';
 
-    /** @var array */
-    protected $content_ids_arr;
-
-    public static $active_record_ignore_fields_arr = array(
-        'content_ids_arr',
-    );
-
-    const DB_TABLE_NAME = 'rubrics';
-
-
-    public function load($id)
-    {
-        $is_loaded = ActiveRecordHelper::loadModelObj($this, $id);
-        if (!$is_loaded) {
-            return false;
-        }
-
-        $query = "SELECT content_id FROM " . ContentRubrics::DB_TABLE_NAME ." WHERE rubric_id = ?";
-        $this->content_ids_arr = DBWrapper::readColumn(
-            $query,
-            array($this->id)
-        );
-
-        return true;
-    }
-
     /**
-     * @return mixed
+     * @return string
      */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getComment()
+    public function getComment(): string
     {
         return $this->comment;
     }
 
     /**
-     * @param mixed $comment
+     * @param string $comment
      */
-    public function setComment($comment)
+    public function setComment(string $comment): void
     {
         $this->comment = $comment;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getContentTypeId()
+    public function getContentTypeId(): int
     {
         return $this->content_type_id;
     }
 
     /**
-     * @param mixed $content_type_id
+     * @param int $content_type_id
      */
-    public function setContentTypeId($content_type_id)
+    public function setContentTypeId(int $content_type_id): void
     {
         $this->content_type_id = $content_type_id;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getTemplateId()
+    public function getTemplateId(): int
     {
         return $this->template_id;
     }
 
     /**
-     * @param mixed $template_id
+     * @param int $template_id
      */
-    public function setTemplateId($template_id)
+    public function setTemplateId(int $template_id): void
     {
         $this->template_id = $template_id;
     }
 
-    public function getRelativeTemplateId()
-    {
-        if ($this->getTemplateId()) {
-            return $this->getTemplateId();
-        }
-
-        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
-        $content_type_obj = $content_type_service->getById($this->getContentTypeId());
-
-        return $content_type_obj->getTemplateId();
-    }
-
     /**
-     * @return mixed
+     * @return string
      */
-    public function getContentIdsArr()
-    {
-        return $this->content_ids_arr;
-    }
-
-    public function beforeDelete()
-    {
-        $content_ids_arr = $this->getContentIdsArr();
-
-        if ($content_ids_arr) {
-            return 'Нельзя удалить рубрику ' . $this->getName() . ', т.к. она связана с материалами';
-        }
-
-        return true;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
 
     /**
-     * @param mixed $url
+     * @param string $url
      */
-    public function setUrl($url)
+    public function setUrl(string $url): void
     {
         $this->url = $url;
-    }
-
-    public function generateUrl()
-    {
-        if (!$this->getName()) {
-            return '';
-        }
-
-        $title_for_url = Transliteration::transliteration($this->getName());
-
-        $new_url = $title_for_url;
-        $new_url = '/' . ltrim($new_url, '/');
-
-        $new_url = substr($new_url, 0, 255);
-
-        $unique_new_url = UniqueUrl::getUniqueUrl($new_url);
-        Assert::assert($unique_new_url);
-
-        return $unique_new_url;
-    }
-
-    /**
-     * @param $id
-     */
-    public static function afterUpdate($id)
-    {
-        $rubric_obj = self::factory($id);
-
-        self::removeObjFromCacheById($id);
-
-        Logger::logObjectEvent($rubric_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
-    }
-
-    public function afterDelete()
-    {
-        self::removeObjFromCacheById($this->getId());
-
-        Logger::logObjectEvent($this, 'удаление', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
-    }
-
-    /**
-     * @param int $content_type_id
-     * @return array
-     */
-    public static function findIdsArrByContentTypeId(int $content_type_id)
-    {
-        $query = "SELECT id FROM " . Rubric::DB_TABLE_NAME ." WHERE content_type_id = ?";
-        $rubric_ids_arr = DBWrapper::readColumn(
-            $query,
-            [$content_type_id]
-        );
-
-        return $rubric_ids_arr;
     }
 }

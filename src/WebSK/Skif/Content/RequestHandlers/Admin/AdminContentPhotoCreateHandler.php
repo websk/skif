@@ -10,10 +10,10 @@ use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 
 /**
- * Class ContentPhotoAddHandler
+ * Class AdminContentPhotoCreateHandler
  * @package WebSK\Skif\Content\RequestHandlers\Admin
  */
-class ContentPhotoCreateHandler extends BaseHandler
+class AdminContentPhotoCreateHandler extends BaseHandler
 {
     /**
      * @param Request $request

@@ -19,10 +19,10 @@ use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
 
 /**
- * Class TemplateEditHandler
+ * Class AdminTemplateEditHandler
  * @package WebSK\Skif\Content\RequestHandlers\Admin
  */
-class TemplateEditHandler extends BaseHandler
+class AdminTemplateEditHandler extends BaseHandler
 {
     /**
      * @param Request $request

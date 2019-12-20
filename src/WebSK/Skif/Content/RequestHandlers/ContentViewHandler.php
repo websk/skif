@@ -9,8 +9,7 @@ use Slim\Http\StatusCode;
 use WebSK\Auth\Auth;
 use WebSK\Skif\Content\Content;
 use WebSK\Skif\Content\ContentServiceProvider;
-use WebSK\Skif\Content\RequestHandlers\Admin\ContentEditHandler;
-use WebSK\Skif\Content\Rubric;
+use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentEditHandler;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Utils\Url;
 use WebSK\Views\BreadcrumbItemDTO;
@@ -119,7 +118,8 @@ class ContentViewHandler extends BaseHandler
             new BreadcrumbItemDTO('Главная', '/')
         ];
         if ($main_rubric_id) {
-            $main_rubric_obj = Rubric::factory($main_rubric_id);
+            $rubric_service = ContentServiceProvider::getRubricService($this->container);
+            $main_rubric_obj = $rubric_service->getById($main_rubric_id);
 
             $breadcrumbs_arr[] = new BreadcrumbItemDTO($main_rubric_obj->getName(), $main_rubric_obj->getUrl());
         }
@@ -131,7 +131,7 @@ class ContentViewHandler extends BaseHandler
             $nav_bars_dto_arr[] = new NavTabItemDTO(
                 'Редактировать',
                 $this->pathFor(
-                    ContentEditHandler::class,
+                    AdminContentEditHandler::class,
                     ['content_type' => $content_type, 'content_id' => $content_id]
                 )
             );

@@ -12,10 +12,10 @@ use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
 
 /**
- * Class ContentEditHandler
+ * Class AdminContentEditHandler
  * @package WebSK\Skif\Content\RequestHandlers\Admin
  */
-class ContentEditHandler extends BaseHandler
+class AdminContentEditHandler extends BaseHandler
 {
 
     /**

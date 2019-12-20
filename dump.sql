@@ -140,7 +140,8 @@ CREATE TABLE `content_types` (
   `url` varchar(255) NOT NULL DEFAULT '',
   `template_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `type` (`type`)
+  UNIQUE KEY `type` (`type`),
+  CONSTRAINT `FK_template_id` FOREIGN KEY (`template_id`) REFERENCES `template` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `content_types` (`id`, `type`, `name`, `url`, `template_id`)
@@ -169,7 +170,9 @@ CREATE TABLE `rubrics` (
   `url` varchar(1000) DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `content_type_id` (`content_type_id`),
-  KEY `url` (`url`(255))
+  KEY `url` (`url`(255)),
+  FOREIGN KEY (`template_id`) REFERENCES `template` (`id`),
+  FOREIGN KEY (`content_type_id`) REFERENCES `content_types` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 # Forms

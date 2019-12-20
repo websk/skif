@@ -17,10 +17,10 @@ use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 
 /**
- * Class ContentListAjaxHandler
+ * Class AdminContentListAjaxHandler
  * @package WebSK\Skif\Content\RequestHandlers\Admin
  */
-class ContentListAjaxHandler extends BaseHandler
+class AdminContentListAjaxHandler extends BaseHandler
 {
     /**
      * @param Request $request

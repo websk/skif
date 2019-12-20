@@ -117,7 +117,7 @@ class Content implements
             return false;
         }
 
-        $query = "SELECT id FROM " . ContentRubrics::DB_TABLE_NAME . " WHERE content_id = ?";
+        $query = "SELECT id FROM " . ContentRubric::DB_TABLE_NAME . " WHERE content_id = ?";
         $this->content_rubrics_ids_arr = DBWrapper::readColumn(
             $query,
             [$this->id]
@@ -417,7 +417,7 @@ class Content implements
         $rubric_ids_arr = array();
 
         foreach ($content_rubrics_ids_arr as $content_rubrics_id) {
-            $content_rubrics_obj = ContentRubrics::factory($content_rubrics_id);
+            $content_rubrics_obj = ContentRubric::factory($content_rubrics_id);
 
             $rubric_ids_arr[] = $content_rubrics_obj->getRubricId();
         }
@@ -485,7 +485,7 @@ class Content implements
     {
         $content_rubrics_ids_arr = $this->getContentRubricsIdsArr();
         foreach ($content_rubrics_ids_arr as $content_rubrics_id) {
-            $content_rubrics_obj = ContentRubrics::factory($content_rubrics_id);
+            $content_rubrics_obj = ContentRubric::factory($content_rubrics_id);
 
             $content_rubrics_obj->delete();
         }

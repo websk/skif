@@ -2,8 +2,8 @@
 
 namespace WebSK\Skif\Content;
 
-use OLOG\Sanitize;
 use WebSK\Entity\EntityRepository;
+use WebSK\Utils\Sanitize;
 
 /**
  * Class ContentRepository

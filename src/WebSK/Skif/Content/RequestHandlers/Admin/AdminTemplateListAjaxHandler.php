@@ -16,10 +16,10 @@ use WebSK\Skif\Form\Form;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 
 /**
- * Class TemplateListAjaxHandler
+ * Class AdminTemplateListAjaxHandler
  * @package WebSK\Skif\Content\RequestHandlers\Admin
  */
-class TemplateListAjaxHandler extends BaseHandler
+class AdminTemplateListAjaxHandler extends BaseHandler
 {
     const FILTER_TITLE = 'template_title';
 

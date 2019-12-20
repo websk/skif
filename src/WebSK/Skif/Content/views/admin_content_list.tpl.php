@@ -3,18 +3,20 @@
  * @var $content_type
  */
 
+use WebSK\Skif\Content\ContentRoutes;
 use WebSK\Skif\Content\ContentServiceProvider;
-use WebSK\Skif\Content\RequestHandlers\Admin\ContentEditHandler;
+use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentEditHandler;
 use WebSK\Skif\Pager;
 use WebSK\Skif\Content\Content;
-use WebSK\Skif\Content\ContentUtils;
-use WebSK\Skif\Content\Rubric;
-use WebSK\Skif\Content\RubricController;
 use WebSK\Slim\Container;
 use WebSK\Slim\Router;
 
-$content_service = ContentServiceProvider::getContentService(Container::self());
-$content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+$container = Container::self();
+
+$content_service = ContentServiceProvider::getContentService($container);
+$content_type_service = ContentServiceProvider::getContentTypeService($container);
+$rubric_service = ContentServiceProvider::getRubricService($container);
+$content_rubric_service = ContentServiceProvider::getContentRubricService($container);
 
 $content_type_obj = $content_type_service->getByType($content_type);
 
@@ -24,8 +26,8 @@ $requested_rubric_id = array_key_exists('rubric_id', $_GET) ? $_GET['rubric_id']
 $limit_to_page = 100;
 
 if ($requested_rubric_id) {
-    $contents_ids_arr = ContentUtils::getContentsIdsArrByRubricId($requested_rubric_id, $limit_to_page, $page);
-    $count_all_articles = ContentUtils::getCountContentsByRubricId($requested_rubric_id);
+    $contents_ids_arr = $content_rubric_service->getContentsIdsArrByRubricId($requested_rubric_id, $limit_to_page, $page);
+    $count_all_articles = $content_rubric_service->getCountContentsByRubricId($requested_rubric_id);
 } else {
     $contents_ids_arr = $content_service->getIdsArrByType($content_type, $limit_to_page, $page);
     $count_all_articles = $content_service->getCountContentsByType($content_type);
@@ -42,9 +44,9 @@ if ($requested_rubric_id) {
                         <select name="rubric_id" class="form-control">
                             <option value="0">Все</option>
                             <?php
-                            $rubric_ids_arr = Rubric::findIdsArrByContentTypeId($content_type_obj->getId());
+                            $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->getId());
                             foreach ($rubric_ids_arr as $rubric_id) {
-                                $rubric_obj = Rubric::factory($rubric_id);
+                                $rubric_obj = $rubric_service->getById($rubric_id);
 
                                 echo '<option value="' . $rubric_id . '" ' . ($rubric_id == $requested_rubric_id ? 'selected' : '') . '>' . $rubric_obj->getName() . '</option>';
                             }
@@ -57,7 +59,7 @@ if ($requested_rubric_id) {
                 </form>
             </div>
             <div class="col-md-4">
-                <a href="<?php echo RubricController::getRubricsListUrlByContentType($content_type);?>" class="btn btn-default">
+                <a href="<?php echo Router::pathFor(ContentRoutes::ROUTE_NAME_ADMIN_RUBRIC_LIST, ['content_type' => $content_type]);?>" class="btn btn-default">
                     <span class="glyphicon glyphicon-wrench"></span> Редактировать рубрики
                 </a>
             </div>
@@ -86,12 +88,12 @@ foreach ($contents_ids_arr as $content_id) {
     <tr>
         <td><?php echo $content_obj->getId(); ?></td>
         <td>
-            <a href="<?php echo Router::pathFor(ContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>"><?php echo $content_obj->getTitle(); ?></a>
+            <a href="<?php echo Router::pathFor(AdminContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>"><?php echo $content_obj->getTitle(); ?></a>
             <?php
             $rubric_ids_arr = $content_obj->getRubricIdsArr();
 
             foreach ($rubric_ids_arr as $rubric_id) {
-                $rubric_obj = Rubric::factory($rubric_id);
+                $rubric_obj = $rubric_service->getById($rubric_id);
                 ?>
                 <span class="badge"><?php echo $rubric_obj->getName(); ?></span>
                 <?php
@@ -100,7 +102,7 @@ foreach ($contents_ids_arr as $content_id) {
         </td>
         <td class="hidden-xs hidden-sm text-muted"><?php echo $content_obj->getCreatedAt(); ?></td>
         <td align="right">
-            <a href="<?php echo Router::pathFor(ContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>" title="Редактировать" class="btn btn-default btn-sm">
+            <a href="<?php echo Router::pathFor(AdminContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>" title="Редактировать" class="btn btn-default btn-sm">
                 <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
             </a>
             <a href="<?php echo $content_obj->getUrl(); ?>" target="_blank" title="Просмотр" class="btn btn-default btn-sm">

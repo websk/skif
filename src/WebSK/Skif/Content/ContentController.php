@@ -9,7 +9,7 @@ use WebSK\Image\ImageConstants;
 use WebSK\Image\ImageController;
 use WebSK\Image\ImageManager;
 use WebSK\Skif\BaseController;
-use WebSK\Skif\Content\RequestHandlers\Admin\ContentEditHandler;
+use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentEditHandler;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\Container;
 use WebSK\Slim\Router;
@@ -90,6 +90,8 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
         $content_type_obj = $content_type_service->getById($content_type_id);
 
+        $rubric_service = ContentServiceProvider::getRubricService(Container::self());
+
         $content_type = $content_type_obj->getType();
 
         $content = '';
@@ -98,7 +100,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         if (Auth::currentUserIsAdmin()) {
             $editor_nav_arr = [
                 Router::pathFor(
-                    ContentEditHandler::class,
+                    AdminContentEditHandler::class,
                     ['content_type' => $content_type, 'content_id' => $content_id]
                 ) => 'Редактировать'
             ];
@@ -109,7 +111,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         $main_rubric_id = $content_obj->getMainRubricId();
 
         if ($main_rubric_id) {
-            $main_rubric_obj = Rubric::factory($main_rubric_id);
+            $main_rubric_obj = $rubric_service->getById($main_rubric_id);
 
             $breadcrumbs_arr = [$main_rubric_obj->getName() => $main_rubric_obj->getUrl()];
         }
@@ -283,7 +285,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         if (!$title) {
             Messages::setError('Отсутствует заголовок');
-            Redirects::redirect(Router::pathFor(ContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]));
+            Redirects::redirect(Router::pathFor(AdminContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]));
         }
 
         $annotation = array_key_exists('annotation', $_REQUEST) ? $_REQUEST['annotation'] : '';
@@ -363,7 +365,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
             $content_obj->deleteContentRubrics();
 
             foreach ($rubrics_arr as $rubric_id) {
-                $content_rubrics_obj = new \WebSK\Skif\Content\ContentRubrics();
+                $content_rubrics_obj = new \WebSK\Skif\Content\ContentRubric();
                 $content_rubrics_obj->setContentId($content_obj->getId());
                 $content_rubrics_obj->setRubricId($rubric_id);
                 $content_rubrics_obj->save();
@@ -382,7 +384,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
                 $content_obj->save();
 
                 Messages::setError('Не указана главная рубрика');
-                Redirects::redirect(Router::pathFor(ContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]));
+                Redirects::redirect(Router::pathFor(AdminContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]));
             }
         }
 
@@ -403,7 +405,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         Messages::setMessage('Изменения сохранены');
 
-        Redirects::redirect(Router::pathFor(ContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]));
+        Redirects::redirect(Router::pathFor(AdminContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]));
     }
 
     /**

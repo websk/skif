@@ -9,10 +9,10 @@ use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Views\PhpRender;
 
 /**
- * Class ContentPhotoListHandler
+ * Class AdminContentPhotoListHandler
  * @package WebSK\Skif\Content\RequestHandlers\Admin
  */
-class ContentPhotoListHandler extends BaseHandler
+class AdminContentPhotoListHandler extends BaseHandler
 {
     /**
      * @param Request $request

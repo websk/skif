@@ -25,20 +25,26 @@ class ContentService extends EntityService
     /** @var ContentTypeService */
     protected $content_type_service;
 
+    /** @var RubricService */
+    protected $rubric_service;
+
     /**
      * ContentService constructor.
      * @param string $entity_class_name
      * @param EntityRepository $repository
      * @param CacheService $cache_service
      * @param ContentTypeService $content_type_service
+     * @param RubricService $rubric_service
      */
     public function __construct(
         string $entity_class_name,
         EntityRepository $repository,
         CacheService $cache_service,
-        ContentTypeService $content_type_service
+        ContentTypeService $content_type_service,
+        RubricService $rubric_service
     ) {
         $this->content_type_service = $content_type_service;
+        $this->rubric_service = $rubric_service;
 
         parent::__construct($entity_class_name, $repository, $cache_service);
     }
@@ -123,7 +129,7 @@ class ContentService extends EntityService
         }
 
         if ($content_obj->getMainRubricId()) {
-            $main_rubric_obj = Rubric::factory($content_obj->getMainRubricId());
+            $main_rubric_obj = $this->rubric_service->getById($content_obj->getMainRubricId());
 
             return $main_rubric_obj->getTemplateId();
         }

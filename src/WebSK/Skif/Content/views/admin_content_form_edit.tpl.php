@@ -6,14 +6,15 @@
 
 use WebSK\Skif\Content\Content;
 use WebSK\Skif\Content\ContentServiceProvider;
-use WebSK\Skif\Content\Rubric;
 use WebSK\Skif\CKEditor\CKEditor;
 use WebSK\Image\ImageManager;
 use WebSK\Logger\LoggerRender;
 use WebSK\Slim\Container;
 use WebSK\Views\PhpRender;
 
-$content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+$container = Container::self();
+
+$content_type_service = ContentServiceProvider::getContentTypeService($container);
 $content_type_obj = $content_type_service->getByType($content_type);
 
 if ($content_id == 'new') {
@@ -22,7 +23,9 @@ if ($content_id == 'new') {
     $content_obj = Content::factory($content_id);
 }
 
-$content_service = ContentServiceProvider::getContentService(Container::self());
+$content_service = ContentServiceProvider::getContentService($container);
+$rubric_service = ContentServiceProvider::getRubricService($container);
+
 ?>
 <script type="text/javascript">
     $(function () {
@@ -224,12 +227,12 @@ $content_service = ContentServiceProvider::getContentService(Container::self());
                     <div class="col-md-10">
                         <select id="rubrics_arr" name="rubrics_arr[]" multiple="multiple" class="form-control">
                             <?php
-                            $rubric_ids_arr = Rubric::findIdsArrByContentTypeId($content_type_obj->getId());
+                            $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->getId());
 
                             $content_rubrics_ids_arr = $content_obj->getRubricIdsArr();
 
                             foreach ($rubric_ids_arr as $rubric_id) {
-                                $rubric_obj = Rubric::factory($rubric_id);
+                                $rubric_obj = $rubric_service->getById($rubric_id);
                                 ?>
                                 <option value="<?php echo $rubric_obj->getId(); ?>"<?php echo(in_array($rubric_id,
                                     $content_rubrics_ids_arr) ? ' selected' : ''); ?>><?php echo $rubric_obj->getName(); ?></option>
@@ -248,7 +251,7 @@ $content_service = ContentServiceProvider::getContentService(Container::self());
                             $content_rubrics_ids_arr = $content_obj->getRubricIdsArr();
 
                             foreach ($rubric_ids_arr as $rubric_id) {
-                                $rubric_obj = Rubric::factory($rubric_id);
+                                $rubric_obj = $rubric_service->getById($rubric_id);
                                 ?>
                                 <option value="<?php echo $rubric_obj->getId(); ?>"<?php echo($rubric_id == $content_obj->getMainRubricId() ? ' selected' : ''); ?>><?php echo $rubric_obj->getName(); ?></option>
                                 <?php

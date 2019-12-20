@@ -26,7 +26,8 @@ class ContentServiceProvider
                 Content::class,
                 $container[Content::ENTITY_REPOSITORY_CONTAINER_ID],
                 CacheServiceProvider::getCacheService($container),
-                self::getContentTypeService($container)
+                self::getContentTypeService($container),
+                self::getRubricService($container)
             );
         };
 
@@ -109,6 +110,53 @@ class ContentServiceProvider
                 SkifServiceProvider::getDBService($container)
             );
         };
+
+        /**
+         * @param ContainerInterface $container
+         * @return RubricService
+         */
+        $container[Rubric::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
+            return new RubricService(
+                Rubric::class,
+                $container[Rubric::ENTITY_REPOSITORY_CONTAINER_ID],
+                CacheServiceProvider::getCacheService($container),
+                self::getContentTypeService($container)
+            );
+        };
+
+        /**
+         * @param ContainerInterface $container
+         * @return RubricRepository
+         */
+        $container[Rubric::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
+            return new RubricRepository(
+                Rubric::class,
+                SkifServiceProvider::getDBService($container)
+            );
+        };
+
+        /**
+         * @param ContainerInterface $container
+         * @return ContentRubricService
+         */
+        $container[ContentRubric::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
+            return new ContentRubricService(
+                ContentRubric::class,
+                $container[ContentRubric::ENTITY_REPOSITORY_CONTAINER_ID],
+                CacheServiceProvider::getCacheService($container)
+            );
+        };
+
+        /**
+         * @param ContainerInterface $container
+         * @return ContentRubricRepository
+         */
+        $container[ContentRubric::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
+            return new ContentRubricRepository(
+                ContentRubric::class,
+                SkifServiceProvider::getDBService($container)
+            );
+        };
     }
 
     /**
@@ -145,5 +193,23 @@ class ContentServiceProvider
     public static function getTemplateService(ContainerInterface $container): TemplateService
     {
         return $container[Template::ENTITY_SERVICE_CONTAINER_ID];
+    }
+
+    /**
+     * @param ContainerInterface $container
+     * @return RubricService
+     */
+    public static function getRubricService(ContainerInterface $container): RubricService
+    {
+        return $container[Rubric::ENTITY_SERVICE_CONTAINER_ID];
+    }
+
+    /**
+     * @param ContainerInterface $container
+     * @return ContentRubricService
+     */
+    public static function getContentRubricService(ContainerInterface $container): ContentRubricService
+    {
+        return $container[ContentRubric::ENTITY_SERVICE_CONTAINER_ID];
     }
 }

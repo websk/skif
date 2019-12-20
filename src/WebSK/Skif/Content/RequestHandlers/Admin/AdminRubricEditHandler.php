@@ -10,9 +10,10 @@ use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetReferenceAjax;
+use WebSK\CRUD\Form\Widgets\CRUDFormWidgetTextarea;
 use WebSK\Skif\Content\ContentRoutes;
 use WebSK\Skif\Content\ContentServiceProvider;
-use WebSK\Skif\Content\ContentType;
+use WebSK\Skif\Content\Rubric;
 use WebSK\Skif\Content\Template;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
@@ -21,37 +22,45 @@ use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
 
 /**
- * Class ContentTypeEditHandler
+ * Class AdminRubricEditHandler
  * @package WebSK\Skif\Content\RequestHandlers\Admin
  */
-class ContentTypeEditHandler extends BaseHandler
+class AdminRubricEditHandler extends BaseHandler
 {
     /**
      * @param Request $request
      * @param Response $response
-     * @param int $content_type_id
+     * @param string $content_type
+     * @param int $rubric_id
      * @return ResponseInterface
      */
-    public function __invoke(Request $request, Response $response, int $content_type_id)
+    public function __invoke(Request $request, Response $response, string $content_type, int $rubric_id)
     {
         $content_type_obj = ContentServiceProvider::getContentTypeService($this->container)
-            ->getById($content_type_id, false);
+            ->getByType($content_type);
 
         if (!$content_type_obj) {
             return $response->withStatus(StatusCode::HTTP_NOT_FOUND);
         }
 
+        $rubric_obj = ContentServiceProvider::getRubricService($this->container)
+            ->getById($rubric_id, false);
+
+        if (!$rubric_obj) {
+            return $response->withStatus(StatusCode::HTTP_NOT_FOUND);
+        }
+
         $crud_form = CRUDServiceProvider::getCrud($this->container)->createForm(
-            'content_type_edit',
-            $content_type_obj,
+            'rubric_edit',
+            $rubric_obj,
             [
-                new CRUDFormRow('Название', new CRUDFormWidgetInput(ContentType::_NAME)),
-                new CRUDFormRow('Тип', new CRUDFormWidgetInput(ContentType::_TYPE)),
-                new CRUDFormRow('URL', new CRUDFormWidgetInput(ContentType::_URL)),
+                new CRUDFormRow('Название', new CRUDFormWidgetInput(Rubric::_NAME)),
+                new CRUDFormRow('Комментарий', new CRUDFormWidgetTextarea(Rubric::_COMMENT)),
+                new CRUDFormRow('URL', new CRUDFormWidgetInput(Rubric::_URL)),
                 new CRUDFormRow(
                     'Шаблон',
                     new CRUDFormWidgetReferenceAjax(
-                        ContentType::_TEMPLATE_ID,
+                        Rubric::_TEMPLATE_ID,
                         Template::class,
                         Template::_TITLE,
                         $this->pathFor(ContentRoutes::ROUTE_NAME_ADMIN_TEMPLATE_LIST_AJAX),
@@ -76,10 +85,10 @@ class ContentTypeEditHandler extends BaseHandler
         $layout_dto->setContentHtml($content_html);
         $breadcrumbs_arr = [
             new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),
-            new BreadcrumbItemDTO('Типы контента', $this->pathFor(ContentRoutes::ROUTE_NAME_ADMIN_CONTENT_TYPE_LIST)),
+            new BreadcrumbItemDTO($content_type_obj->getName(), '/admin/content/' . $content_type),
+            new BreadcrumbItemDTO('Рубрики', $this->pathFor(ContentRoutes::ROUTE_NAME_ADMIN_RUBRIC_LIST, ['content_type' => $content_type])),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
-
 
         return PhpRender::renderLayout($response, SkifPath::getLayout(), $layout_dto);
     }
