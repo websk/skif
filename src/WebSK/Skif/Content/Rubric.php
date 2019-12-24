@@ -28,7 +28,7 @@ class Rubric extends Entity
     protected $content_type_id;
 
     const _TEMPLATE_ID = 'template_id';
-    /** @var int */
+    /** @var int|null */
     protected $template_id;
 
     const _URL = 'url';
@@ -84,17 +84,17 @@ class Rubric extends Entity
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getTemplateId(): int
+    public function getTemplateId(): ?int
     {
         return $this->template_id;
     }
 
     /**
-     * @param int $template_id
+     * @param int|null $template_id
      */
-    public function setTemplateId(int $template_id): void
+    public function setTemplateId(?int $template_id): void
     {
         $this->template_id = $template_id;
     }

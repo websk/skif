@@ -50,12 +50,12 @@ class TemplateService extends EntityService
     }
 
     /**
-     * @param int $template_id
+     * @param int?null $template_id
      * @return string
      */
-    public function getLayoutFileByTemplateId(int $template_id)
+    public function getLayoutFileByTemplateId(?int $template_id)
     {
-        $template_obj = $this->getById($template_id, false);
+        $template_obj = $template_id ? $this->getById($template_id, false) : null;
         if (!$template_obj) {
             return ViewsPath::getSiteViewsPath() . DIRECTORY_SEPARATOR . 'layouts' . DIRECTORY_SEPARATOR. 'layout.main.tpl.php';
         }
