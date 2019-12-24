@@ -117,7 +117,7 @@ CREATE TABLE `content` (
   PRIMARY KEY (`id`),
   KEY `main_rubric_id` (`main_rubric_id`),
   KEY `content_type_id` (`content_type_id`),
-  CONSTRAINT `FK_content_rubrics` FOREIGN KEY (`main_rubric_id`) REFERENCES `rubrics` (`id`),
+  CONSTRAINT `FK_content_main_rubric` FOREIGN KEY (`main_rubric_id`) REFERENCES `rubrics` (`id`),
   CONSTRAINT `FK_content_content_types` FOREIGN KEY (`content_type_id`) REFERENCES `content_types` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -126,10 +126,10 @@ CREATE TABLE `content_rubrics` (
   `content_id` int(11) DEFAULT NULL,
   `rubric_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `content_id` (`content_id`),
+  UNIQUE KEY `content_id_rubric_id` (`content_id`,`rubric_id`),
   KEY `rubric_id` (`rubric_id`),
   CONSTRAINT `content_rubrics_content_id_FK` FOREIGN KEY (`content_id`) REFERENCES `content` (`id`),
-  CONSTRAINT `content_rubrics_rubric_id_FK` FOREIGN KEY (`rubric_id`) REFERENCES `content_rubrics` (`id`)
+  CONSTRAINT `content_rubrics_rubric_id_FK` FOREIGN KEY (`rubric_id`) REFERENCES `rubrics` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `content_types` (

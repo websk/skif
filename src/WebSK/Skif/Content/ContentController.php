@@ -126,7 +126,9 @@ class ContentController extends BaseController implements InterfaceSitemapContro
             $template_file = 'content_' . $content_type . '_view.tpl.php';
         }
 
-        if ($content_obj->getCountRubricIdsArr()) {
+        $content_rubric_service = ContentServiceProvider::getContentRubricService(Container::self());
+
+        if ($content_rubric_service->getCountRubricIdsArrByContentId($content_id)) {
             if (ViewsPath::existsTemplateByModuleRelativeToRootSitePath(
                 'WebSK/Skif/Content',
                 'content_by_rubric_' . $main_rubric_id . '_view.tpl.php'
@@ -348,7 +350,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         $content_obj->save();
 
 
-        // Рубрики
+        // Рубрики*
         $main_rubric_id = !empty($_REQUEST['main_rubric']) ? $_REQUEST['main_rubric'] : null;
         $rubrics_arr = !empty($_REQUEST['rubrics_arr']) ? $_REQUEST['rubrics_arr'] : array();
         $require_main_rubric = ConfWrapper::value('content.' . $content_type_obj->getType() . '.require_main_rubric');
@@ -362,13 +364,14 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         }
 
         if ($rubrics_arr) {
-            $content_obj->deleteContentRubrics();
+            $content_rubric_service = ContentServiceProvider::getContentRubricService(Container::self());
+            $content_rubric_service->deleteByContentId($content_obj->getId());
 
             foreach ($rubrics_arr as $rubric_id) {
-                $content_rubrics_obj = new \WebSK\Skif\Content\ContentRubric();
-                $content_rubrics_obj->setContentId($content_obj->getId());
-                $content_rubrics_obj->setRubricId($rubric_id);
-                $content_rubrics_obj->save();
+                $content_rubric_obj = new ContentRubric();
+                $content_rubric_obj->setContentId($content_obj->getId());
+                $content_rubric_obj->setRubricId($rubric_id);
+                $content_rubric_service->save($content_rubric_obj);
             }
 
             if (!$main_rubric_id) {

@@ -90,7 +90,7 @@ foreach ($contents_ids_arr as $content_id) {
         <td>
             <a href="<?php echo Router::pathFor(AdminContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>"><?php echo $content_obj->getTitle(); ?></a>
             <?php
-            $rubric_ids_arr = $content_obj->getRubricIdsArr();
+            $rubric_ids_arr = $content_rubric_service->getRubricIdsArrByContentId($content_obj->getId());
 
             foreach ($rubric_ids_arr as $rubric_id) {
                 $rubric_obj = $rubric_service->getById($rubric_id);

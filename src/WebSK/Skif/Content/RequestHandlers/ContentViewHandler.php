@@ -80,7 +80,9 @@ class ContentViewHandler extends BaseHandler
             $template_file = 'content_' . $content_type . '_view.tpl.php';
         }
 
-        if ($content_obj->getCountRubricIdsArr()) {
+        $content_rubric_service = ContentServiceProvider::getContentRubricService($this->container);
+
+        if ($content_rubric_service->getCountRubricIdsArrByContentId($content_id)) {
             if (ViewsPath::existsTemplateByModuleRelativeToRootSitePath(
                 'WebSK/Skif/Content',
                 'content_by_rubric_' . $main_rubric_id . '_view.tpl.php'

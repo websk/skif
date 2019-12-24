@@ -31,6 +31,14 @@ class CommentService extends EntityService
     protected $user_service;
 
     /**
+     * @return int
+     */
+    protected function getCacheTtlSeconds()
+    {
+        return 60 * 60 * 24 * 30 - 1; // 1 месяц
+    }
+
+    /**
      * CommentService constructor.
      * @param string $entity_class_name
      * @param EntityRepository $repository

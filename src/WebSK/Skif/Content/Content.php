@@ -5,16 +5,15 @@ namespace WebSK\Skif\Content;
 use WebSK\Auth\Auth;
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Logger\Logger;
-use WebSK\DB\DBWrapper;
 use WebSK\Model\FactoryTrait;
 use WebSK\Model\InterfaceDelete;
 use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
+use WebSK\Slim\Container;
 use WebSK\Utils\Filters;
 use WebSK\Utils\FullObjectId;
 use WebSK\Model\ActiveRecord;
-use WebSK\Model\ActiveRecordHelper;
 
 /**
  * Class Content
@@ -95,36 +94,8 @@ class Content implements
     /** @var int */
     protected $template_id;
 
-    /** @var array */
-    protected $content_rubrics_ids_arr = [];
-
     /** @var int */
     protected $main_rubric_id;
-
-    public static $active_record_ignore_fields_arr = [
-        'content_rubrics_ids_arr',
-    ];
-
-
-    /**
-     * @param $id
-     * @return bool
-     */
-    public function load($id)
-    {
-        $is_loaded = ActiveRecordHelper::loadModelObj($this, $id);
-        if (!$is_loaded) {
-            return false;
-        }
-
-        $query = "SELECT id FROM " . ContentRubric::DB_TABLE_NAME . " WHERE content_id = ?";
-        $this->content_rubrics_ids_arr = DBWrapper::readColumn(
-            $query,
-            [$this->id]
-        );
-
-        return true;
-    }
 
     /**
      * @return int
@@ -399,41 +370,6 @@ class Content implements
     }
 
     /**
-     * @return array
-     */
-    public function getContentRubricsIdsArr()
-    {
-        return $this->content_rubrics_ids_arr;
-    }
-
-    /**
-     * Array ContentRubrics ID
-     * @return array
-     */
-    public function getRubricIdsArr()
-    {
-        $content_rubrics_ids_arr = $this->getContentRubricsIdsArr();
-
-        $rubric_ids_arr = array();
-
-        foreach ($content_rubrics_ids_arr as $content_rubrics_id) {
-            $content_rubrics_obj = ContentRubric::factory($content_rubrics_id);
-
-            $rubric_ids_arr[] = $content_rubrics_obj->getRubricId();
-        }
-
-        return $rubric_ids_arr;
-    }
-
-    /**
-     * @return int
-     */
-    public function getCountRubricIdsArr()
-    {
-        return count($this->getContentRubricsIdsArr());
-    }
-
-    /**
      * @return int
      */
     public function getMainRubricId()
@@ -455,7 +391,9 @@ class Content implements
      */
     public function hasRubrics($param_rubrics_ids_arr)
     {
-        $rubrics_ids_arr = $this->getRubricIdsArr();
+        $content_rubric_service = ContentServiceProvider::getContentRubricService(Container::self());
+
+        $rubrics_ids_arr = $content_rubric_service->getRubricIdsArrByContentId($this->getId());
 
         foreach ($param_rubrics_ids_arr as $rubric_id) {
             if (in_array($rubric_id, $rubrics_ids_arr)) {
@@ -472,23 +410,15 @@ class Content implements
      */
     public function hasRubricId($rubric_id)
     {
-        $rubrics_ids_arr = $this->getRubricIdsArr();
+        $content_rubric_service = ContentServiceProvider::getContentRubricService(Container::self());
+
+        $rubrics_ids_arr = $content_rubric_service->getRubricIdsArrByContentId($this->getId());
 
         if (in_array($rubric_id, $rubrics_ids_arr)) {
             return true;
         }
 
         return false;
-    }
-
-    public function deleteContentRubrics()
-    {
-        $content_rubrics_ids_arr = $this->getContentRubricsIdsArr();
-        foreach ($content_rubrics_ids_arr as $content_rubrics_id) {
-            $content_rubrics_obj = ContentRubric::factory($content_rubrics_id);
-
-            $content_rubrics_obj->delete();
-        }
     }
 
     /**
@@ -505,7 +435,8 @@ class Content implements
 
     public function beforeDelete()
     {
-        $this->deleteContentRubrics();
+        $content_rubric_service = ContentServiceProvider::getContentRubricService(Container::self());
+        $content_rubric_service->deleteByContentId($this->getId());
 
         return true;
     }

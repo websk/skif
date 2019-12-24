@@ -14,9 +14,11 @@ class ContentRubricRepository extends EntityRepository
 
     /**
      * @param int $rubric_id
+     * @param int $limit_to_page
+     * @param int $page
      * @return array
      */
-    public function findIdsByRubricId(int $rubric_id)
+    public function findIdsByRubricId(int $rubric_id, int $limit_to_page = 0, int $page = 1)
     {
         $db_table_name = $this->getTableName();
         $db_id_field_name = $this->getIdFieldName();
@@ -25,28 +27,6 @@ class ContentRubricRepository extends EntityRepository
             " FROM " . Sanitize::sanitizeSqlColumnName($db_table_name) .
             " WHERE " . Sanitize::sanitizeSqlColumnName(ContentRubric::_RUBRIC_ID) . " = ?";
 
-        $rubric_ids_arr =  $this->db_service->readColumn(
-            $query,
-            [$rubric_id]
-        );
-
-        return $rubric_ids_arr;
-    }
-
-    /**
-     * @param int $rubric_id
-     * @param int $limit_to_page
-     * @param int $page
-     * @return array
-     */
-    public function findContentIdsByRubricId(int $rubric_id, int $limit_to_page = 0, int $page = 1)
-    {
-        $db_table_name = $this->getTableName();
-
-        $query = 'SELECT ' . Sanitize::sanitizeSqlColumnName(ContentRubric::_CONTENT_ID) . ' 
-            FROM ' . Sanitize::sanitizeSqlColumnName($db_table_name) . '
-            WHERE ' . Sanitize::sanitizeSqlColumnName(ContentRubric::_RUBRIC_ID) . ' = ?';
-
         $param_arr = [$rubric_id];
 
         if ($limit_to_page) {
@@ -54,7 +34,33 @@ class ContentRubricRepository extends EntityRepository
             $query .= " LIMIT " . $start_record . ', ' . $limit_to_page;
         }
 
-        return $this->db_service->readColumn($query, $param_arr);
+        $ids_arr =  $this->db_service->readColumn(
+            $query,
+            $param_arr
+        );
+
+        return $ids_arr;
+    }
+
+    /**
+     * @param int $content_id
+     * @return array
+     */
+    public function findIdsByContentId(int $content_id)
+    {
+        $db_table_name = $this->getTableName();
+        $db_id_field_name = $this->getIdFieldName();
+
+        $query = "SELECT " . Sanitize::sanitizeSqlColumnName($db_id_field_name) .
+            " FROM " . Sanitize::sanitizeSqlColumnName($db_table_name) .
+            " WHERE " . Sanitize::sanitizeSqlColumnName(ContentRubric::_CONTENT_ID) . " = ?";
+
+        $ids_arr =  $this->db_service->readColumn(
+            $query,
+            [$content_id]
+        );
+
+        return $ids_arr;
     }
 
     /**
@@ -83,8 +89,8 @@ class ContentRubricRepository extends EntityRepository
             $query .= " LIMIT " . $start_record . ', ' . $limit_to_page;
         }
 
-        $contents_ids_arr = $this->db_service->readColumn($query, [$rubric_id, $date, $date]);
+        $ids_arr = $this->db_service->readColumn($query, [$rubric_id, $date, $date]);
 
-        return $contents_ids_arr;
+        return $ids_arr;
     }
 }

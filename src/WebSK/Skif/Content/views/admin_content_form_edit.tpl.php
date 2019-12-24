@@ -26,6 +26,7 @@ if ($content_id == 'new') {
 $content_service = ContentServiceProvider::getContentService($container);
 $rubric_service = ContentServiceProvider::getRubricService($container);
 
+$rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->getId());
 ?>
 <script type="text/javascript">
     $(function () {
@@ -227,15 +228,10 @@ $rubric_service = ContentServiceProvider::getRubricService($container);
                     <div class="col-md-10">
                         <select id="rubrics_arr" name="rubrics_arr[]" multiple="multiple" class="form-control">
                             <?php
-                            $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->getId());
-
-                            $content_rubrics_ids_arr = $content_obj->getRubricIdsArr();
-
                             foreach ($rubric_ids_arr as $rubric_id) {
                                 $rubric_obj = $rubric_service->getById($rubric_id);
                                 ?>
-                                <option value="<?php echo $rubric_obj->getId(); ?>"<?php echo(in_array($rubric_id,
-                                    $content_rubrics_ids_arr) ? ' selected' : ''); ?>><?php echo $rubric_obj->getName(); ?></option>
+                                <option value="<?php echo $rubric_obj->getId(); ?>"<?php echo($content_obj->hasRubricId($rubric_id) ? ' selected' : ''); ?>><?php echo $rubric_obj->getName(); ?></option>
                                 <?php
                             }
                             ?>
@@ -248,8 +244,6 @@ $rubric_service = ContentServiceProvider::getRubricService($container);
                         <select id="main_rubric" name="main_rubric" class="form-control">
                             <option></option>
                             <?php
-                            $content_rubrics_ids_arr = $content_obj->getRubricIdsArr();
-
                             foreach ($rubric_ids_arr as $rubric_id) {
                                 $rubric_obj = $rubric_service->getById($rubric_id);
                                 ?>
