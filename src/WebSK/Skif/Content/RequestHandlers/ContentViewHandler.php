@@ -2,19 +2,14 @@
 
 namespace WebSK\Skif\Content\RequestHandlers;
 
-use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
-use Slim\Http\Response;
-use Slim\Http\StatusCode;
 use WebSK\Auth\Auth;
-use WebSK\Skif\Content\Content;
+use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentEditHandler;
 use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Slim\Router;
+use WebSK\Utils\Exits;
 use WebSK\Utils\Url;
-use WebSK\Views\BreadcrumbItemDTO;
-use WebSK\Views\LayoutDTO;
-use WebSK\Views\NavTabItemDTO;
 use WebSK\Views\PhpRender;
 use WebSK\Views\ViewsPath;
 
@@ -25,51 +20,60 @@ use WebSK\Views\ViewsPath;
 class ContentViewHandler extends BaseHandler
 {
 
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @param string $content_url
-     * @return ResponseInterface
-     */
-    public function __invoke(Request $request, Response $response, $content_url = null)
+    public function viewAction()
     {
         $content_service = ContentServiceProvider::getContentService($this->container);
 
-        //$content_url = Url::appendLeadingSlash($content_url);
-        $content_url = Url::getUriNoQueryString();
+        $current_url = Url::getUriNoQueryString();
 
-        $content_id = $content_service->getIdByAlias($content_url);
+        $content_id = $content_service->getIdByUrl($current_url);
 
         if (!$content_id) {
-            return $response->withStatus(StatusCode::HTTP_NOT_FOUND);
+            return SimpleRouter::CONTINUE_ROUTING;
         }
 
-        $content_obj = Content::factory($content_id);
+        $content_obj = $content_service->getById($content_id);
         if (!$content_obj) {
-            return $response->withStatus(StatusCode::HTTP_NOT_FOUND);
+            Exits::exit404();
         }
 
         if (!$content_obj->isPublished()) {
-            if (!Auth::currentUserIsAdmin()) {
-                return $response->withStatus(StatusCode::HTTP_NOT_FOUND);
-            }
+            Exits::exit404If(!Auth::currentUserIsAdmin());
         }
 
         $content_type_id = $content_obj->getContentTypeId();
 
-        if (!$content_type_id) {
-            return $response->withStatus(StatusCode::HTTP_NOT_FOUND);
-        }
-
+        Exits::exit404If(!$content_type_id);
 
         $content_type_service = ContentServiceProvider::getContentTypeService($this->container);
-
         $content_type_obj = $content_type_service->getById($content_type_id);
+
+        $rubric_service = ContentServiceProvider::getRubricService($this->container);
+
         $content_type = $content_type_obj->getType();
 
-        $content_html = '';
+        $content = '';
+
+        $editor_nav_arr = [];
+        if (Auth::currentUserIsAdmin()) {
+            $editor_nav_arr = [
+                Router::pathFor(
+                    AdminContentEditHandler::class,
+                    ['content_type' => $content_type, 'content_id' => $content_id]
+                ) => 'Редактировать'
+            ];
+        }
+
+        $breadcrumbs_arr = [];
 
         $main_rubric_id = $content_obj->getMainRubricId();
+
+        if ($main_rubric_id) {
+            $main_rubric_obj = $rubric_service->getById($main_rubric_id);
+
+            $breadcrumbs_arr = [$main_rubric_obj->getName() => $main_rubric_obj->getUrl()];
+        }
+
 
         $template_file = 'content_view.tpl.php';
 
@@ -98,49 +102,27 @@ class ContentViewHandler extends BaseHandler
             }
         }
 
-        $content_html .= PhpRender::renderTemplateForModuleNamespace(
+        $content .= PhpRender::renderTemplateForModuleNamespace(
             'WebSK/Skif/Content',
             $template_file,
-            ['content_id' => $content_id]
+            array('content_id' => $content_id)
         );
-
 
         $template_id = $content_service->getRelativeTemplateId($content_obj);
 
         $template_service = ContentServiceProvider::getTemplateService($this->container);
         $layout_template_file = $template_service->getLayoutFileByTemplateId($template_id);
 
-        $layout_dto = new LayoutDTO();
-        $layout_dto->setTitle($content_obj->getTitle());
-        $layout_dto->setKeywords($content_obj->getKeywords());
-        $layout_dto->setDescription($content_obj->getDescription());
-        $layout_dto->setContentHtml($content_html);
-
-        $breadcrumbs_arr = [
-            new BreadcrumbItemDTO('Главная', '/')
-        ];
-        if ($main_rubric_id) {
-            $rubric_service = ContentServiceProvider::getRubricService($this->container);
-            $main_rubric_obj = $rubric_service->getById($main_rubric_id);
-
-            $breadcrumbs_arr[] = new BreadcrumbItemDTO($main_rubric_obj->getName(), $main_rubric_obj->getUrl());
-        }
-
-        $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
-
-        $nav_bars_dto_arr = [];
-        if (Auth::currentUserIsAdmin()) {
-            $nav_bars_dto_arr[] = new NavTabItemDTO(
-                'Редактировать',
-                $this->pathFor(
-                    AdminContentEditHandler::class,
-                    ['content_type' => $content_type, 'content_id' => $content_id]
-                )
-            );
-        }
-        $layout_dto->setNavTabsDtoArr($nav_bars_dto_arr);
-
-
-        return PhpRender::renderLayout($response, $layout_template_file, $layout_dto);
+        echo PhpRender::renderTemplate(
+            $layout_template_file,
+            [
+                'content' => $content,
+                'editor_nav_arr' => $editor_nav_arr,
+                'title' => $content_obj->getTitle(),
+                'keywords' => $content_obj->getKeywords(),
+                'description' => $content_obj->getDescription(),
+                'breadcrumbs_arr' => $breadcrumbs_arr
+            ]
+        );
     }
 }

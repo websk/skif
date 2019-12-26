@@ -13,6 +13,24 @@ class RubricRepository extends EntityRepository
 {
 
     /**
+     * @param string $url
+     * @return false|int
+     */
+    public function findIdByUrl(string $url)
+    {
+        $db_table_name = $this->getTableName();
+        $db_id_field_name = $this->getIdFieldName();
+
+        $query = 'SELECT ' . Sanitize::sanitizeSqlColumnName($db_id_field_name) . ' 
+            FROM ' . Sanitize::sanitizeSqlColumnName($db_table_name) . '
+            WHERE ' . Sanitize::sanitizeSqlColumnName(Rubric::_URL) . ' = ?';
+
+        $id = $this->db_service->readField($query, [$url]);
+
+        return $id;
+    }
+
+    /**
      * @param int $content_type_id
      * @return array
      */

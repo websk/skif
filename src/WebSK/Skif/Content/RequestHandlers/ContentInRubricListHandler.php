@@ -1,42 +1,35 @@
 <?php
 
-namespace WebSK\Skif\Content;
+namespace WebSK\Skif\Content\RequestHandlers;
 
 use WebSK\SimpleRouter\SimpleRouter;
-use WebSK\Skif\BaseController;
-use WebSK\Slim\Container;
+use WebSK\Skif\Content\ContentServiceProvider;
+use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Utils\Url;
 use WebSK\Views\PhpRender;
 use WebSK\Views\ViewsPath;
 
 /**
- * Class RubricController
- * @package WebSK\Skif\Content
+ * Class ContentInRubricListHandler
+ * @package WebSK\Skif\Content\RequestHandlers
  */
-class RubricController extends BaseController
+class ContentInRubricListHandler extends BaseHandler
 {
-    protected $url_table = "rubrics";
-
-    /**
-     * Список материалов в рубрике
-     * @return string
-     * @throws \Exception
-     */
     public function listAction()
     {
-        $requested_id = $this->getRequestedId();
+        $rubric_service = ContentServiceProvider::getRubricService($this->container);
 
-        if (!$requested_id) {
+        $current_url = Url::getUriNoQueryString();
+
+        $rubric_id = $rubric_service->getIdbyUrl($current_url);
+
+        if (!$rubric_id) {
             return SimpleRouter::CONTINUE_ROUTING;
         }
 
-        $rubric_id = $requested_id;
-
-        $container = Container::self();
-        $rubric_service = ContentServiceProvider::getRubricService($container);
-
         $rubric_obj = $rubric_service->getById($rubric_id);
 
-        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+        $content_type_service = ContentServiceProvider::getContentTypeService($this->container);
         $content_type_obj = $content_type_service->getById($rubric_obj->getContentTypeId());
 
         $template_file = 'content_by_rubric_' . $rubric_id . '_list.tpl.php';
@@ -57,7 +50,7 @@ class RubricController extends BaseController
 
         $template_id = $rubric_service->getRelativeTemplateId($rubric_obj);
 
-        $template_service = ContentServiceProvider::getTemplateService(Container::self());
+        $template_service = ContentServiceProvider::getTemplateService($this->container);
         $layout_template_file = $template_service->getLayoutFileByTemplateId($template_id);
 
         echo PhpRender::renderTemplate(

@@ -2,7 +2,6 @@
 
 namespace WebSK\Skif\Content;
 
-use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Config\ConfWrapper;
 use WebSK\DB\DBWrapper;
 use WebSK\Image\ImageConstants;
@@ -21,7 +20,6 @@ use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
 use WebSK\Utils\Url;
 use WebSK\Views\PhpRender;
-use WebSK\Views\ViewsPath;
 
 /**
  * Class ContentController
@@ -55,164 +53,13 @@ class ContentController extends BaseController implements InterfaceSitemapContro
             $content_ids_arr = $content_service->getPublishedIdsArrByType($content_type_obj->getType());
 
             foreach ($content_ids_arr as $content_id) {
-                $content_obj = Content::factory($content_id);
+                $content_obj = $content_service->getById($content_id);
 
                 $urls[] = ['url' => $current_domain . Url::appendLeadingSlash($content_obj->getUrl())];
             }
         }
 
         return $urls;
-    }
-
-    public function viewAction()
-    {
-        $requested_id = $this->getRequestedId();
-
-        if (!$requested_id) {
-            return SimpleRouter::CONTINUE_ROUTING;
-        }
-
-        $content_id = $requested_id;
-
-        $content_obj = Content::factory($content_id);
-        if (!$content_obj) {
-            Exits::exit404();
-        }
-
-        if (!$content_obj->isPublished()) {
-            Exits::exit404If(!Auth::currentUserIsAdmin());
-        }
-
-        $content_type_id = $content_obj->getContentTypeId();
-
-        Exits::exit404If(!$content_type_id);
-
-        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
-        $content_type_obj = $content_type_service->getById($content_type_id);
-
-        $rubric_service = ContentServiceProvider::getRubricService(Container::self());
-
-        $content_type = $content_type_obj->getType();
-
-        $content = '';
-
-        $editor_nav_arr = [];
-        if (Auth::currentUserIsAdmin()) {
-            $editor_nav_arr = [
-                Router::pathFor(
-                    AdminContentEditHandler::class,
-                    ['content_type' => $content_type, 'content_id' => $content_id]
-                ) => 'Редактировать'
-            ];
-        }
-
-        $breadcrumbs_arr = [];
-
-        $main_rubric_id = $content_obj->getMainRubricId();
-
-        if ($main_rubric_id) {
-            $main_rubric_obj = $rubric_service->getById($main_rubric_id);
-
-            $breadcrumbs_arr = [$main_rubric_obj->getName() => $main_rubric_obj->getUrl()];
-        }
-
-
-        $template_file = 'content_view.tpl.php';
-
-        if (ViewsPath::existsTemplateByModuleRelativeToRootSitePath(
-            'WebSK/Skif/Content',
-            'content_' . $content_type . '_view.tpl.php'
-        )) {
-            $template_file = 'content_' . $content_type . '_view.tpl.php';
-        }
-
-        $content_rubric_service = ContentServiceProvider::getContentRubricService(Container::self());
-
-        if ($content_rubric_service->getCountRubricIdsArrByContentId($content_id)) {
-            if (ViewsPath::existsTemplateByModuleRelativeToRootSitePath(
-                'WebSK/Skif/Content',
-                'content_by_rubric_' . $main_rubric_id . '_view.tpl.php'
-            )) {
-                $template_file = 'content_by_rubric_' . $main_rubric_id . '_view.tpl.php';
-            } else {
-                if (ViewsPath::existsTemplateByModuleRelativeToRootSitePath(
-                    'WebSK/Skif/Content',
-                    'content_by_rubric_view.tpl.php'
-                )) {
-                    $template_file = 'content_by_rubric_view.tpl.php';
-                }
-            }
-        }
-
-        $content .= PhpRender::renderTemplateForModuleNamespace(
-            'WebSK/Skif/Content',
-            $template_file,
-            array('content_id' => $content_id)
-        );
-
-        $content_service = ContentServiceProvider::getContentService(Container::self());
-
-        $template_id = $content_service->getRelativeTemplateId($content_obj);
-
-        $template_service = ContentServiceProvider::getTemplateService(Container::self());
-        $layout_template_file = $template_service->getLayoutFileByTemplateId($template_id);
-
-        echo PhpRender::renderTemplate(
-            $layout_template_file,
-            [
-                'content' => $content,
-                'editor_nav_arr' => $editor_nav_arr,
-                'title' => $content_obj->getTitle(),
-                'keywords' => $content_obj->getKeywords(),
-                'description' => $content_obj->getDescription(),
-                'breadcrumbs_arr' => $breadcrumbs_arr
-            ]
-        );
-    }
-
-    /**
-     * Список материалов
-     * @param $content_type
-     * @return string
-     */
-    public function listAction($content_type)
-    {
-        if (!ConfWrapper::value('content.' . $content_type)) {
-            return SimpleRouter::CONTINUE_ROUTING;
-        }
-
-        $template_file = 'content_list.tpl.php';
-
-        if (ViewsPath::existsTemplateByModuleRelativeToRootSitePath(
-            'WebSK/Skif/Content',
-            'content_' . $content_type . '_list.tpl.php'
-        )) {
-            $template_file = 'content_' . $content_type . '_list.tpl.php';
-        }
-
-        $content = PhpRender::renderTemplateForModuleNamespace(
-            'WebSK/Skif/Content',
-            $template_file,
-            array('content_type' => $content_type)
-        );
-
-        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
-        $content_type_obj = $content_type_service->getByType($content_type);
-
-        $template_id = $content_type_obj->getTemplateId();
-
-        $template_service = ContentServiceProvider::getTemplateService(Container::self());
-        $layout_template_file = $template_service->getLayoutFileByTemplateId($template_id);
-
-        echo PhpRender::renderTemplate(
-            $layout_template_file,
-            array(
-                'content' => $content,
-                'title' => $content_type_obj->getName(),
-                'keywords' => '',
-                'description' => ''
-            )
-        );
     }
 
     /**
@@ -277,7 +124,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         if ($content_id == 'new') {
             $content_obj = new Content();
         } else {
-            $content_obj = Content::factory($content_id);
+            $content_obj = $content_service->getById($content_id);
         }
 
         $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
@@ -347,7 +194,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $content_obj->setIsPublished($is_published);
 
-        $content_obj->save();
+        $content_service->save($content_obj);
 
 
         // Рубрики*
@@ -431,20 +278,22 @@ class ContentController extends BaseController implements InterfaceSitemapContro
      */
     protected static function deleteImageByContentId($content_id)
     {
-        $content_obj = Content::factory($content_id);
+        $content_service = ContentServiceProvider::getContentService(Container::self());
+
+        $content_obj = $content_service->getById($content_id);
         Assert::assert($content_obj);
 
         if (!$content_obj->getImage()) {
             return;
         }
 
-        $content_service = ContentServiceProvider::getContentService(Container::self());
+
 
         $image_manager = new ImageManager();
         $image_manager->removeImageFile($content_service->getImagePath($content_obj));
 
         $content_obj->setImage('');
-        $content_obj->save();
+        $content_service->save($content_obj);
     }
 
     public function deleteAction($content_type, $content_id)
@@ -452,11 +301,12 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
 
-        $content_obj = Content::factory($content_id);
+        $content_service = ContentServiceProvider::getContentService(Container::self());
+        $content_obj = $content_service->getById($content_id);
 
         self::deleteImageByContentId($content_id);
 
-        $content_obj->delete();
+        $content_service->delete($content_obj);
 
         $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
         $content_type_obj = $content_type_service->getById($content_obj->getContentTypeId());
@@ -476,11 +326,12 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         $query = "SELECT id FROM " . Content::DB_TABLE_NAME . " WHERE title LIKE ? LIMIT 20";
         $content_ids_arr = DBWrapper::readColumn($query, $query_param_arr);
 
+        $content_service = ContentServiceProvider::getContentService(Container::self());
         $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
 
         $output_arr = array();
         foreach ($content_ids_arr as $content_id) {
-            $content_obj = Content::factory($content_id);
+            $content_obj = $content_service->getById($content_id);
 
             $content_type_obj = $content_type_service->getByType($content_obj->getContentTypeId());
 

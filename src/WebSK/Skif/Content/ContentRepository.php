@@ -12,10 +12,10 @@ use WebSK\Utils\Sanitize;
 class ContentRepository extends EntityRepository
 {
     /**
-     * @param string $alias
+     * @param string $url
      * @return false|int
      */
-    public function findIdByAlias(string $alias)
+    public function findIdByUrl(string $url)
     {
         $db_table_name = $this->getTableName();
         $db_id_field_name = $this->getIdFieldName();
@@ -24,9 +24,9 @@ class ContentRepository extends EntityRepository
             FROM ' . Sanitize::sanitizeSqlColumnName($db_table_name) . '
             WHERE ' . Sanitize::sanitizeSqlColumnName(Content::_URL) . ' = ?';
 
-        $content_id = $this->db_service->readField($query, [$alias]);
+        $id = $this->db_service->readField($query, [$url]);
 
-        return $content_id;
+        return $id;
     }
 
     /**

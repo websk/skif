@@ -22,13 +22,13 @@ class ContentUtils
 
         $content_url = Url::getUriNoQueryString();
 
-        $content_id = $content_service->getIdByAlias($content_url);
+        $content_id = $content_service->getIdByUrl($content_url);
 
         if (!$content_id) {
             return null;
         }
 
-        $content_obj = Content::factory($content_id, false);
+        $content_obj = $content_service->getById($content_id, false);
         if (!$content_obj) {
             return null;
         }
@@ -41,14 +41,14 @@ class ContentUtils
      */
     public static function getCurrentRubricId()
     {
-        $content_page_obj = new RubricController();
-        $rubric_id = $content_page_obj->getRequestedId();
+        $current_url = Url::getUriNoQueryString();
+
+        $rubric_service = ContentServiceProvider::getRubricService(Container::self());
+        $rubric_id = $rubric_service->getIdbyUrl($current_url);
 
         if (!$rubric_id) {
             return null;
         }
-
-        $rubric_service = ContentServiceProvider::getRubricService(Container::self());
 
         $rubric_obj = $rubric_service->getById($rubric_id, false);
         if (!$rubric_obj) {

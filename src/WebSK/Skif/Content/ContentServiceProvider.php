@@ -27,7 +27,8 @@ class ContentServiceProvider
                 $container[Content::ENTITY_REPOSITORY_CONTAINER_ID],
                 CacheServiceProvider::getCacheService($container),
                 self::getContentTypeService($container),
-                self::getRubricService($container)
+                self::getRubricService($container),
+                self::getContentRubricService($container)
             );
         };
 

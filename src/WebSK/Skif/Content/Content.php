@@ -2,42 +2,20 @@
 
 namespace WebSK\Skif\Content;
 
-use WebSK\Auth\Auth;
-use WebSK\Entity\InterfaceEntity;
-use WebSK\Logger\Logger;
-use WebSK\Model\FactoryTrait;
-use WebSK\Model\InterfaceDelete;
-use WebSK\Model\InterfaceFactory;
-use WebSK\Model\InterfaceLoad;
-use WebSK\Model\InterfaceSave;
-use WebSK\Slim\Container;
+use WebSK\Entity\Entity;
 use WebSK\Utils\Filters;
-use WebSK\Utils\FullObjectId;
-use WebSK\Model\ActiveRecord;
 
 /**
  * Class Content
  * @package WebSK\Skif\Content
  */
-class Content implements
-    InterfaceLoad,
-    InterfaceFactory,
-    InterfaceSave,
-    InterfaceDelete,
-    InterfaceEntity
+class Content extends Entity
 {
-    use ActiveRecord;
-    use FactoryTrait;
-
     const ENTITY_SERVICE_CONTAINER_ID = 'skif.content_service';
     const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.content_repository';
     const DB_TABLE_NAME = 'content';
 
     const CONTENT_FILES_DIR = 'content';
-
-    const _ID = 'id';
-    /** @var int */
-    protected $id;
 
     const _TITLE = 'title';
     /** @var string */
@@ -46,9 +24,11 @@ class Content implements
     /** @var string */
     protected $short_title = '';
 
+    const _ANNOTATION = 'annotation';
     /** @var string */
     protected $annotation = '';
 
+    const _BODY = 'body';
     /** @var string */
     protected $body = '';
 
@@ -68,12 +48,15 @@ class Content implements
     /** @var int */
     protected $created_at;
 
+    const _IMAGE = 'image';
     /** @var string */
     protected $image = '';
 
+    const _DESCRIPTION = 'description';
     /** @var string */
     protected $description = '';
 
+    const _KEYWORDS = 'keywords';
     /** @var string */
     protected $keywords = '';
 
@@ -82,33 +65,37 @@ class Content implements
     protected $url = '';
 
     const _CONTENT_TYPE_ID = 'content_type_id';
-    /** @var int */
+    /** @var null|int */
     protected $content_type_id;
 
+    const _LAST_MODIFIED_AT = 'last_modified_at';
     /** @var int */
     protected $last_modified_at;
 
+    const _REDIRECT_URL = 'redirect_url';
     /** @var string */
     protected $redirect_url = '';
 
-    /** @var int */
+    const _TEMPLATE_ID = 'template_id';
+    /** @var null|int */
     protected $template_id;
 
-    /** @var int */
+    const _MAIN_RUBRIC_ID = 'main_rubric_id';
+    /** @var null|int */
     protected $main_rubric_id;
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getContentTypeId()
+    public function getContentTypeId(): ?int
     {
         return $this->content_type_id;
     }
 
     /**
-     * @param int $content_type_id
+     * @param int|null $content_type_id
      */
-    public function setContentTypeId($content_type_id)
+    public function setContentTypeId(?int $content_type_id): void
     {
         $this->content_type_id = $content_type_id;
     }
@@ -127,14 +114,6 @@ class Content implements
     public function setImage($image)
     {
         $this->image = $image;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
@@ -354,97 +333,34 @@ class Content implements
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getTemplateId()
+    public function getTemplateId(): ?int
     {
         return $this->template_id;
     }
 
     /**
-     * @param int $template_id
+     * @param int|null $template_id
      */
-    public function setTemplateId($template_id)
+    public function setTemplateId(?int $template_id): void
     {
         $this->template_id = $template_id;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getMainRubricId()
+    public function getMainRubricId(): ?int
     {
         return $this->main_rubric_id;
     }
 
     /**
-     * @param int $main_rubric_id
+     * @param int|null $main_rubric_id
      */
-    public function setMainRubricId($main_rubric_id)
+    public function setMainRubricId(?int $main_rubric_id): void
     {
         $this->main_rubric_id = $main_rubric_id;
-    }
-
-    /**
-     * @param array $param_rubrics_ids_arr
-     * @return bool
-     */
-    public function hasRubrics($param_rubrics_ids_arr)
-    {
-        $content_rubric_service = ContentServiceProvider::getContentRubricService(Container::self());
-
-        $rubrics_ids_arr = $content_rubric_service->getRubricIdsArrByContentId($this->getId());
-
-        foreach ($param_rubrics_ids_arr as $rubric_id) {
-            if (in_array($rubric_id, $rubrics_ids_arr)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param int $rubric_id
-     * @return bool
-     */
-    public function hasRubricId($rubric_id)
-    {
-        $content_rubric_service = ContentServiceProvider::getContentRubricService(Container::self());
-
-        $rubrics_ids_arr = $content_rubric_service->getRubricIdsArrByContentId($this->getId());
-
-        if (in_array($rubric_id, $rubrics_ids_arr)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param $id
-     */
-    public static function afterUpdate($id)
-    {
-        $content_obj = self::factory($id);
-
-        self::removeObjFromCacheById($id);
-
-        Logger::logObjectEvent($content_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
-    }
-
-    public function beforeDelete()
-    {
-        $content_rubric_service = ContentServiceProvider::getContentRubricService(Container::self());
-        $content_rubric_service->deleteByContentId($this->getId());
-
-        return true;
-    }
-
-    public function afterDelete()
-    {
-        self::removeObjFromCacheById($this->getId());
-
-        Logger::logObjectEvent($this, 'удаление', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 }

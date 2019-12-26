@@ -105,6 +105,7 @@ class SkifApp extends App
         /** Set DBWrapper db service */
         DBWrapper::setDbService(SkifServiceProvider::getDBService($container));
 
+        ContentRoutes::registerSimpleRoute($this);
         FormRoutes::registerSimpleRoute($this);
         RedirectRoutes::registerSimpleRoute($this);
 

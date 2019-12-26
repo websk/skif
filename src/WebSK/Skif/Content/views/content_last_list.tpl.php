@@ -3,7 +3,6 @@
  * @var $contents_ids_arr
  */
 
-use WebSK\Skif\Content\Content;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Content\ContentUtils;
 use WebSK\Image\ImageManager;
@@ -12,7 +11,7 @@ use WebSK\Slim\Container;
 $content_service = ContentServiceProvider::getContentService(Container::self());
 
 foreach ($contents_ids_arr as $content_id) {
-    $content_obj = Content::factory($content_id);
+    $content_obj = $content_service->getById($content_id);
 
     $content = ContentUtils::filterContent($content_obj->getBody())
     ?>

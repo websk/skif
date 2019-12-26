@@ -23,6 +23,9 @@ class RubricService extends EntityService
     /** @var ContentTypeService */
     protected $content_type_service;
 
+    /** @var array */
+    protected $ids_by_urls_cache = [];
+
     /**
      * RubricService constructor.
      * @param string $entity_class_name
@@ -109,5 +112,22 @@ class RubricService extends EntityService
         $content_type_obj = $this->content_type_service->getById($rubric_obj->getContentTypeId());
 
         return $content_type_obj->getTemplateId();
+    }
+
+    /**
+     * @param string $url
+     * @return int
+     */
+    public function getIdByUrl(string $url)
+    {
+        if (isset($this->ids_by_urls_cache[$url])) {
+            return $this->ids_by_urls_cache[$url];
+        }
+
+        $id = $this->repository->findIdByUrl($url);
+
+        $this->ids_by_urls_cache[$url] = $id;
+
+        return $id;
     }
 }

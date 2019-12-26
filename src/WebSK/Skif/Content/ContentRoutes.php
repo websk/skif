@@ -17,9 +17,10 @@ use WebSK\Skif\Content\RequestHandlers\Admin\SetDefaultContentPhotoHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminTemplateEditHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminTemplateListAjaxHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminTemplateListHandler;
+use WebSK\Skif\Content\RequestHandlers\ContentListHandler;
 use WebSK\Skif\Content\RequestHandlers\ContentViewHandler;
+use WebSK\Skif\Content\RequestHandlers\ContentInRubricListHandler;
 use WebSK\Utils\HTTP;
-use WebSK\Utils\Url;
 
 /**
  * Class ContentRoutes
@@ -52,15 +53,6 @@ class ContentRoutes
                 'deleteImageAction', 0);
             SimpleRouter::staticRoute('@^/admin/content/(\w+)$@i', ContentController::class, 'listAdminAction', 0);
         }
-
-        SimpleRouter::route(
-            '@^@',
-            [new ContentController(), 'viewAction'],
-            0
-        );
-
-        SimpleRouter::staticRoute('@^@', RubricController::class, 'listAction');
-        SimpleRouter::staticRoute('@^/(.+)$@i', ContentController::class, 'listAction');
     }
 
     /**
@@ -68,30 +60,16 @@ class ContentRoutes
      */
     public static function register(App $app)
     {
-        $app->get('/[{content_url}]', ContentViewHandler::class)
-            ->setName(ContentViewHandler::class)
-            ->add(function ($request, $response, $next) use ($app) {
-                $content_url = Url::getUriNoQueryString();
+    }
 
-                $content_service = ContentServiceProvider::getContentService($app->getContainer());
-                $content_id = $content_service->getIdByAlias($content_url);
-
-                if (!$content_id) {
-                    return $response;
-                }
-
-                $response = $next($request, $response);
-                return $response;
-            });
-
-        $app->get('/news/[{content_url}]', ContentViewHandler::class)
-            ->setName(ContentViewHandler::class);
-
-        /*
-        $app->get('/test', function ($request, $response) {
-          return $response->getBody()->write(time());
-        });
-        */
+    /**
+     * @param App $app
+     */
+    public static function registerSimpleRoute(App $app)
+    {
+        SimpleRouter::route('@^@', [new ContentViewHandler($app->getContainer()), 'viewAction']);
+        SimpleRouter::route('@^@', [new ContentInRubricListHandler($app->getContainer()), 'listAction']);
+        SimpleRouter::route('@^/(.+)$@i', [new ContentListHandler($app->getContainer()), 'listAction']);
     }
 
     /**

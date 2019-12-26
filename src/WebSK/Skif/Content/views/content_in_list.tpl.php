@@ -3,15 +3,15 @@
  * @var $content_id
  */
 
-use WebSK\Skif\Content\Content;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Content\ContentUtils;
 use WebSK\Image\ImageManager;
 use WebSK\Slim\Container;
 
-$content_obj = Content::factory($content_id);
-
 $content_service = ContentServiceProvider::getContentService(Container::self());
+
+$content_obj = $content_service->getById($content_id);
+
 ?>
 
 <div class="list_news">

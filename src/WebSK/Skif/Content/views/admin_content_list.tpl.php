@@ -7,7 +7,6 @@ use WebSK\Skif\Content\ContentRoutes;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentEditHandler;
 use WebSK\Skif\Pager;
-use WebSK\Skif\Content\Content;
 use WebSK\Slim\Container;
 use WebSK\Slim\Router;
 
@@ -83,7 +82,7 @@ if ($requested_rubric_id) {
         <tbody>
 <?php
 foreach ($contents_ids_arr as $content_id) {
-    $content_obj = Content::factory($content_id);
+    $content_obj = $content_service->getById($content_id);
     ?>
     <tr>
         <td><?php echo $content_obj->getId(); ?></td>

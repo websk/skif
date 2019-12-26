@@ -6,7 +6,6 @@
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Pager;
 use WebSK\Config\ConfWrapper;
-use WebSK\Skif\Content\Content;
 use WebSK\Slim\Container;
 use WebSK\Views\PhpRender;
 
@@ -28,7 +27,7 @@ $content_rubric_service = ContentServiceProvider::getContentRubricService(Contai
 $content_ids_arr = $content_rubric_service->getPublishedContentIdsArrByRubricId($rubric_id, $limit_to_page, $page);
 
 foreach ($content_ids_arr as $content_id) {
-    $content_obj = Content::factory($content_id);
+    $content_obj = $content_service->getById($content_id);
 
     if (!$content_obj->isPublished()) {
         continue;

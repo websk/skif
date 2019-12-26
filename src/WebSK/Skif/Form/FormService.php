@@ -19,13 +19,22 @@ class FormService extends EntityService
     /** @var FormRepository */
     protected $repository;
 
+    /** @var array */
+    protected $ids_by_urls_cache = [];
+
     /**
      * @param string $url
      * @return int
      */
     public function getIdByUrl(string $url)
     {
+        if (isset($this->ids_by_urls_cache[$url])) {
+            return $this->ids_by_urls_cache[$url];
+        }
+
         $id = $this->repository->findIdByUrl($url);
+
+        $this->ids_by_urls_cache[$url] = $id;
 
         return $id;
     }
