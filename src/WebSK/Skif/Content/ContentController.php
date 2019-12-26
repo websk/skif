@@ -231,7 +231,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         if ($require_main_rubric) {
             if (!$main_rubric_id) {
                 $content_obj->setIsPublished(0);
-                $content_obj->save();
+                $content_service->save($content_obj);
 
                 Messages::setError('Не указана главная рубрика');
                 Redirects::redirect(Router::pathFor(AdminContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]));
@@ -239,7 +239,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         }
 
         $content_obj->setMainRubricId($main_rubric_id);
-        $content_obj->save();
+        $content_service->save($content_obj);
 
         $content_id = $content_obj->getId();
 
@@ -249,7 +249,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
             $file = $_FILES['image_file'];
             $file_name = ImageController::processUpload($file, 'content/' . $content_type, $root_images_folder);
             $content_obj->setImage($file_name);
-            $content_obj->save();
+            $content_service->save($content_obj);
         }
 
 

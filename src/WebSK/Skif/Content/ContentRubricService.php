@@ -114,9 +114,10 @@ class ContentRubricService extends EntityService
     }
 
     /**
+     * @param int $content_id
      * @return int
      */
-    public function getCountRubricIdsArrByContentId(int $content_id)
+    public function getCountRubricIdsArrByContentId(int $content_id): int
     {
         return count($this->getRubricIdsArrByContentId($content_id));
     }

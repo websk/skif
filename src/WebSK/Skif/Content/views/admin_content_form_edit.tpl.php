@@ -16,6 +16,7 @@ $container = Container::self();
 
 $content_type_service = ContentServiceProvider::getContentTypeService($container);
 $content_type_obj = $content_type_service->getByType($content_type);
+$content_service = ContentServiceProvider::getContentService($container);
 
 if ($content_id == 'new') {
     $content_obj = new Content();
@@ -23,7 +24,6 @@ if ($content_id == 'new') {
     $content_obj = $content_service->getById($content_id);
 }
 
-$content_service = ContentServiceProvider::getContentService($container);
 $rubric_service = ContentServiceProvider::getRubricService($container);
 
 $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->getId());
@@ -231,7 +231,7 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
                             foreach ($rubric_ids_arr as $rubric_id) {
                                 $rubric_obj = $rubric_service->getById($rubric_id);
                                 ?>
-                                <option value="<?php echo $rubric_obj->getId(); ?>"<?php echo($content_service->hasRubricId($content_obj, $rubric_id) ? ' selected' : ''); ?>><?php echo $rubric_obj->getName(); ?></option>
+                                <option value="<?php echo $rubric_obj->getId(); ?>"<?php echo (($content_obj->getId() && $content_service->hasRubricId($content_obj, $rubric_id)) ? ' selected' : ''); ?>><?php echo $rubric_obj->getName(); ?></option>
                                 <?php
                             }
                             ?>
