@@ -71,7 +71,7 @@ class ContentRepository extends EntityRepository
                 AND " . Sanitize::sanitizeSqlColumnName(Content::_IS_PUBLISHED) . "=?
                 AND (" . Sanitize::sanitizeSqlColumnName(Content::_PUBLISHED_AT) . "<=?)
                 AND (" . Sanitize::sanitizeSqlColumnName(Content::_UNPUBLISHED_AT) . ">=? OR " . Sanitize::sanitizeSqlColumnName(Content::_UNPUBLISHED_AT) . " IS NULL)
-            ORDER BY " . Sanitize::sanitizeSqlColumnName(Content::_CREATED_AT) . " DESC";
+            ORDER BY " . Sanitize::sanitizeSqlColumnName(Content::_CREATED_AT_TS) . " DESC";
 
         if ($limit_to_page) {
             $start_record = $limit_to_page * ($page - 1);

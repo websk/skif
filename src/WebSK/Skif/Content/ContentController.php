@@ -62,6 +62,29 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         return $urls;
     }
 
+    public function listAdminAction($content_type)
+    {
+        // Проверка прав доступа
+        Exits::exit403If(!Auth::currentUserIsAdmin());
+
+        $html = PhpRender::renderTemplateInViewsDir(
+            'admin_content_list.tpl.php',
+            array('content_type' => $content_type)
+        );
+
+        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
+        $content_type_obj = $content_type_service->getByType($content_type);
+
+        echo PhpRender::renderTemplate(
+            SkifPath::getLayout(),
+            array(
+                'title' => $content_type_obj->getName(),
+                'content' => $html,
+                'breadcrumbs_arr' => array()
+            )
+        );
+    }
+
     /**
      * Добавление материала
      * @param $content_type
@@ -87,29 +110,6 @@ class ContentController extends BaseController implements InterfaceSitemapContro
                 'breadcrumbs_arr' => array(
                     $content_type_obj->getName() => '/admin/content/' . $content_type
                 )
-            )
-        );
-    }
-
-    public function listAdminAction($content_type)
-    {
-        // Проверка прав доступа
-        Exits::exit403If(!Auth::currentUserIsAdmin());
-
-        $html = PhpRender::renderTemplateInViewsDir(
-            'admin_content_list.tpl.php',
-            array('content_type' => $content_type)
-        );
-
-        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
-        $content_type_obj = $content_type_service->getByType($content_type);
-
-        echo PhpRender::renderTemplate(
-            SkifPath::getLayout(),
-            array(
-                'title' => $content_type_obj->getName(),
-                'content' => $html,
-                'breadcrumbs_arr' => array()
             )
         );
     }
@@ -152,13 +152,12 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         }
 
         $is_published = array_key_exists('is_published', $_REQUEST) ? $_REQUEST['is_published'] : 0;
-        $created_at = array_key_exists('created_at', $_REQUEST) ? $_REQUEST['created_at'] : date('Y-m-d H:i:s');
         $description = array_key_exists('description', $_REQUEST) ? $_REQUEST['description'] : '';
         $keywords = array_key_exists('keywords', $_REQUEST) ? $_REQUEST['keywords'] : '';
         $template_id = array_key_exists('template_id', $_REQUEST) ? $_REQUEST['template_id'] : null;
 
         if ($is_published && empty($published_at)) {
-            $published_at = $created_at;
+            $published_at = date('Y-m-d H:i:s');
         }
 
         $content_obj->setTitle($title);
@@ -167,7 +166,6 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         $content_obj->setContentTypeId($content_type_obj->getId());
         $content_obj->setPublishedAt($published_at);
         $content_obj->setUnpublishedAt($unpublished_at);
-        $content_obj->setCreatedAt($created_at);
         $content_obj->setDescription($description);
         $content_obj->setKeywords($keywords);
         $content_obj->setTemplateId($template_id);
@@ -263,37 +261,17 @@ class ContentController extends BaseController implements InterfaceSitemapContro
      * @param $content_id
      * @throws \Exception
      */
-    public function deleteImageAction($content_type, $content_id)
+    public function deleteImageAction(string $content_type, int $content_id)
     {
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
 
-        self::deleteImageByContentId($content_id);
+        $content_service = ContentServiceProvider::getContentService(Container::self());
+        $content_obj = $content_service->getById($content_id);
+
+        $content_service->deleteImage($content_obj);
 
         echo 'OK';
-    }
-
-    /**
-     * @param $content_id
-     */
-    protected static function deleteImageByContentId($content_id)
-    {
-        $content_service = ContentServiceProvider::getContentService(Container::self());
-
-        $content_obj = $content_service->getById($content_id);
-        Assert::assert($content_obj);
-
-        if (!$content_obj->getImage()) {
-            return;
-        }
-
-
-
-        $image_manager = new ImageManager();
-        $image_manager->removeImageFile($content_service->getImagePath($content_obj));
-
-        $content_obj->setImage('');
-        $content_service->save($content_obj);
     }
 
     public function deleteAction($content_type, $content_id)
@@ -303,8 +281,6 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         $content_service = ContentServiceProvider::getContentService(Container::self());
         $content_obj = $content_service->getById($content_id);
-
-        self::deleteImageByContentId($content_id);
 
         $content_service->delete($content_obj);
 

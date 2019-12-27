@@ -172,7 +172,7 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
                         <div class="input-group">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             <input type="text" class="form-control" id="created_at" name="created_at"
-                                   value="<?php echo($content_obj->getCreatedAt() ? $content_obj->getCreatedAt() : date('Y-m-d H:i:s')); ?>">
+                                   value="<?php echo($content_obj->getId() ? $content_obj->getCreatedAtTs() : date('Y-m-d H:i:s')); ?>">
                         </div>
                     </div>
                 </div>

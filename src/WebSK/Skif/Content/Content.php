@@ -44,10 +44,6 @@ class Content extends Entity
     /** @var bool */
     protected $is_published = false;
 
-    const _CREATED_AT = 'created_at';
-    /** @var int */
-    protected $created_at;
-
     const _IMAGE = 'image';
     /** @var string */
     protected $image = '';
@@ -226,22 +222,6 @@ class Content extends Entity
     public function setIsPublished(bool $is_published)
     {
         $this->is_published = $is_published;
-    }
-
-    /**
-     * @return int
-     */
-    public function getCreatedAt()
-    {
-        return $this->created_at;
-    }
-
-    /**
-     * @param int $created_at
-     */
-    public function setCreatedAt($created_at)
-    {
-        $this->created_at = $created_at;
     }
 
     /**

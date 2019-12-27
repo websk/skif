@@ -7,6 +7,7 @@ use WebSK\Cache\CacheService;
 use WebSK\Entity\EntityRepository;
 use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
+use WebSK\Image\ImageManager;
 use WebSK\Logger\Logger;
 use WebSK\Skif\UniqueUrl;
 use WebSK\Utils\Assert;
@@ -79,6 +80,8 @@ class ContentService extends EntityService
     public function canDelete(InterfaceEntity $entity_obj, string &$message)
     {
         $this->content_rubric_service->deleteByContentId($entity_obj->getId());
+
+        $this->deleteImage($entity_obj);
 
         return true;
     }
@@ -262,5 +265,21 @@ class ContentService extends EntityService
         $content_type_obj = $this->content_type_service->getById($content_type_id);
 
         return 'content/' . $content_type_obj->getType() . '/' . $content_obj->getImage();
+    }
+
+    /**
+     * @param Content $content_obj
+     */
+    public function deleteImage(Content $content_obj)
+    {
+        if (!$content_obj->getImage()) {
+            return;
+        }
+
+        $image_manager = new ImageManager();
+        $image_manager->removeImageFile($this->getImagePath($content_obj));
+
+        $content_obj->setImage('');
+        $this->save($content_obj);
     }
 }

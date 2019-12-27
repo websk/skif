@@ -4,6 +4,7 @@ namespace WebSK\Skif\Content;
 
 use Slim\App;
 use WebSK\SimpleRouter\SimpleRouter;
+use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentListHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminRubricEditHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminRubricListHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentEditHandler;
@@ -28,15 +29,18 @@ use WebSK\Utils\HTTP;
  */
 class ContentRoutes
 {
-    const ROUTE_NAME_ADMIN_CONTENT_TYPE_LIST = 'content_type:list';
-    const ROUTE_NAME_ADMIN_CONTENT_TYPE_EDIT = 'content_type:edit';
+    const ROUTE_NAME_ADMIN_CONTENT_TYPE_LIST = 'admin:content_type:list';
+    const ROUTE_NAME_ADMIN_CONTENT_TYPE_EDIT = 'admin:content_type:edit';
 
-    const ROUTE_NAME_ADMIN_RUBRIC_LIST = 'rubric:list';
-    const ROUTE_NAME_ADMIN_RUBRIC_EDIT = 'rubric:edit';
+    const ROUTE_NAME_ADMIN_RUBRIC_LIST = 'admin:rubric:list';
+    const ROUTE_NAME_ADMIN_RUBRIC_EDIT = 'admin:rubric:edit';
 
-    const ROUTE_NAME_ADMIN_TEMPLATE_LIST = 'template:list';
-    const ROUTE_NAME_ADMIN_TEMPLATE_LIST_AJAX = 'template:list:ajax';
-    const ROUTE_NAME_ADMIN_TEMPLATE_EDIT = 'template:edit';
+    const ROUTE_NAME_ADMIN_TEMPLATE_LIST = 'admin:template:list';
+    const ROUTE_NAME_ADMIN_TEMPLATE_LIST_AJAX = 'admin:template:list:ajax';
+    const ROUTE_NAME_ADMIN_TEMPLATE_EDIT = 'admin:template:edit';
+
+    const ROUTE_NAME_ADMIN_CONTENT_LIST = 'admin:content:list';
+    const ROUTE_NAME_ADMIN_CONTENT_LIST_AJAX = 'admin:content:list:ajax';
 
     public static function route()
     {
@@ -79,8 +83,13 @@ class ContentRoutes
     {
         $app->group('/content', function (App $app) {
             $app->group('/{content_type:\w+}', function (App $app) {
+                /*
+                $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', AdminContentListHandler::class)
+                    ->setName(self::ROUTE_NAME_ADMIN_CONTENT_LIST);
+                */
+
                 $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/ajax', AdminContentListAjaxHandler::class)
-                    ->setName(AdminContentListAjaxHandler::class);
+                    ->setName(self::ROUTE_NAME_ADMIN_CONTENT_LIST_AJAX);
 
                 $app->group('/{content_id:\d+}', function (App $app) {
                     $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', AdminContentEditHandler::class)

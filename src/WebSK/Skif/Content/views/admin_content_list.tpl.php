@@ -25,7 +25,7 @@ $requested_rubric_id = array_key_exists('rubric_id', $_GET) ? $_GET['rubric_id']
 $limit_to_page = 100;
 
 if ($requested_rubric_id) {
-    $contents_ids_arr = $content_rubric_service->getContentsIdsArrByRubricId($requested_rubric_id, $limit_to_page, $page);
+    $contents_ids_arr = $content_rubric_service->getContentIdsArrByRubricId($requested_rubric_id, $limit_to_page, $page);
     $count_all_articles = $content_rubric_service->getCountContentsByRubricId($requested_rubric_id);
 } else {
     $contents_ids_arr = $content_service->getIdsArrByType($content_type, $limit_to_page, $page);
@@ -99,7 +99,7 @@ foreach ($contents_ids_arr as $content_id) {
             }
             ?>
         </td>
-        <td class="hidden-xs hidden-sm text-muted"><?php echo $content_obj->getCreatedAt(); ?></td>
+        <td class="hidden-xs hidden-sm text-muted"><?php echo $content_obj->getCreatedAtTs(); ?></td>
         <td align="right">
             <a href="<?php echo Router::pathFor(AdminContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>" title="Редактировать" class="btn btn-default btn-sm">
                 <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
