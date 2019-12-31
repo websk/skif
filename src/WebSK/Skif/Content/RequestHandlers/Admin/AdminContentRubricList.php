@@ -20,7 +20,7 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
 use WebSK\Skif\Content\Content;
-use WebSK\Skif\Content\ContentRoutes;
+use WebSK\Skif\Content\ContentRubric;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
@@ -29,10 +29,10 @@ use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
 
 /**
- * Class AdminContentListHandler
+ * Class AdminContentRubricList
  * @package WebSK\Skif\Content\RequestHandlers\Admin
  */
-class AdminContentListHandler extends BaseHandler
+class AdminContentRubricList extends BaseHandler
 {
     const FILTER_TITLE = 'content_title';
     const FILTER_RUBRICS = 'content_rubric_id';
@@ -42,9 +42,10 @@ class AdminContentListHandler extends BaseHandler
      * @param Request $request
      * @param Response $response
      * @param string $content_type
+     * @param int $content_rubric_id
      * @return ResponseInterface
      */
-    public function __invoke(Request $request, Response $response, string $content_type)
+    public function __invoke(Request $request, Response $response, string $content_type, int $content_rubric_id)
     {
         $content_type_obj = ContentServiceProvider::getContentTypeService($this->container)
             ->getByType($content_type);
@@ -68,7 +69,7 @@ class AdminContentListHandler extends BaseHandler
         $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
             Content::class,
             CRUDServiceProvider::getCrud($this->container)->createForm(
-                'content_create',
+                'content_rubric_create',
                 $new_content_obj,
                 [
                     new CRUDFormRow('Заголовок', new CRUDFormWidgetInput(Content::_TITLE)),
@@ -126,11 +127,7 @@ class AdminContentListHandler extends BaseHandler
             return $crud_form_response;
         }
 
-        $content_html = '<a href="' . $this->pathFor(ContentRoutes::ROUTE_NAME_ADMIN_RUBRIC_LIST, ['content_type' => $content_type]) . '" class="btn btn-default">
-            <span class="glyphicon glyphicon-wrench"></span> Редактировать рубрики
-        </a>';
-
-        $content_html .= $crud_table_obj->html($request);
+        $content_html = $crud_table_obj->html($request);
 
         $layout_dto = new LayoutDTO();
         $layout_dto->setTitle($content_type_obj->getName());
