@@ -76,14 +76,14 @@ class ContentRubricRepository extends EntityRepository
 
         $db_table_name = $this->getTableName();
 
-        $query = "SELECT c." . Sanitize::sanitizeSqlColumnName(Content::_ID) .
+        $query = "SELECT c." . Sanitize::sanitizeSqlColumnName(ContentRubric::_CONTENT_ID) .
             " FROM " . $db_table_name . " cr" .
             " JOIN " . Sanitize::sanitizeSqlColumnName(Content::DB_TABLE_NAME) . " c ON (c." . Sanitize::sanitizeSqlColumnName(Content::_ID) . " = cr." . Sanitize::sanitizeSqlColumnName(ContentRubric::_CONTENT_ID) . ")" .
             " WHERE cr." . Sanitize::sanitizeSqlColumnName(ContentRubric::_RUBRIC_ID) . "=?" .
                 " AND c." . Sanitize::sanitizeSqlColumnName(Content::_IS_PUBLISHED) . "=1" .
                 " AND c." . Sanitize::sanitizeSqlColumnName(Content::_PUBLISHED_AT) . "<=?" .
                 " AND (c." . Sanitize::sanitizeSqlColumnName(Content::_UNPUBLISHED_AT) . ">=? OR c." . Sanitize::sanitizeSqlColumnName(Content::_UNPUBLISHED_AT) ." IS NULL)" .
-            " GROUP BY cr." . Sanitize::sanitizeSqlColumnName(Content::_CREATED_AT_TS) .
+            " GROUP BY cr." . Sanitize::sanitizeSqlColumnName(ContentRubric::_CONTENT_ID) .
             " ORDER BY c." . Sanitize::sanitizeSqlColumnName(Content::_CREATED_AT_TS) . " DESC";
 
         if ($limit_to_page) {
