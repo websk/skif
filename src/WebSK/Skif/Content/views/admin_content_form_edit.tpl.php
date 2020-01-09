@@ -122,7 +122,7 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
                         $templates_ids_arr = $template_service->getAllIdsArrByIdAsc();
                         ?>
                         <select id="template_id" name="template_id" class="form-control">
-                            <option value="0">Шаблон по-умолчанию</option>
+                            <option>Шаблон по-умолчанию</option>
                             <?php
                             foreach ($templates_ids_arr as $template_id) {
                                 $template_obj = $template_service->getById($template_id);

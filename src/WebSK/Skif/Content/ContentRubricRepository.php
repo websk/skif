@@ -25,7 +25,8 @@ class ContentRubricRepository extends EntityRepository
 
         $query = "SELECT " . Sanitize::sanitizeSqlColumnName($db_id_field_name) .
             " FROM " . Sanitize::sanitizeSqlColumnName($db_table_name) .
-            " WHERE " . Sanitize::sanitizeSqlColumnName(ContentRubric::_RUBRIC_ID) . " = ?";
+            " WHERE " . Sanitize::sanitizeSqlColumnName(ContentRubric::_RUBRIC_ID) . " = ?" .
+            " ORDER BY " . Sanitize::sanitizeSqlColumnName(ContentRubric::_CREATED_AT_TS) . ' DESC';
 
         $param_arr = [$rubric_id];
 
@@ -75,14 +76,15 @@ class ContentRubricRepository extends EntityRepository
 
         $db_table_name = $this->getTableName();
 
-        $query = "SELECT cr.content_id FROM " . $db_table_name . " cr
-                JOIN " . Sanitize::sanitizeSqlColumnName(Content::DB_TABLE_NAME) . " c ON (c.id=cr.content_id)
-                WHERE cr.rubric_id=?
-                  AND c.is_published=1
-                  AND (c.published_at<=?)
-                  AND (c.unpublished_at>=? OR c.unpublished_at IS NULL)
-                GROUP BY cr.content_id
-                ORDER BY c.created_at DESC";
+        $query = "SELECT cr." . Sanitize::sanitizeSqlColumnName(Content::_ID) .
+            " FROM " . $db_table_name . " cr" .
+            " JOIN " . Sanitize::sanitizeSqlColumnName(Content::DB_TABLE_NAME) . " c ON (c." . Sanitize::sanitizeSqlColumnName(Content::_ID) . " = cr." . Sanitize::sanitizeSqlColumnName(ContentRubric::_CONTENT_ID) . ")" .
+            " WHERE cr." . Sanitize::sanitizeSqlColumnName(ContentRubric::_RUBRIC_ID) . "=?" .
+                " AND c." . Sanitize::sanitizeSqlColumnName(Content::_IS_PUBLISHED) . "=1" .
+                " AND c." . Sanitize::sanitizeSqlColumnName(Content::_PUBLISHED_AT) . "<=?" .
+                " AND (c." . Sanitize::sanitizeSqlColumnName(Content::_UNPUBLISHED_AT) . ">=? OR c." . Sanitize::sanitizeSqlColumnName(Content::_UNPUBLISHED_AT) ." IS NULL)" .
+            " GROUP BY cr." . Sanitize::sanitizeSqlColumnName(Content::_CREATED_AT_TS) .
+            " ORDER BY c." . Sanitize::sanitizeSqlColumnName(Content::_CREATED_AT_TS) . " DESC";
 
         if ($limit_to_page) {
             $start_record = $limit_to_page * ($page - 1);

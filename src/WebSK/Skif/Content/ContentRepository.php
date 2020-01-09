@@ -42,7 +42,8 @@ class ContentRepository extends EntityRepository
 
         $query = 'SELECT ' . Sanitize::sanitizeSqlColumnName($db_id_field_name) . ' 
             FROM ' . Sanitize::sanitizeSqlColumnName($db_table_name) . '
-            WHERE ' . Sanitize::sanitizeSqlColumnName(Content::_CONTENT_TYPE_ID) . ' = ?';
+            WHERE ' . Sanitize::sanitizeSqlColumnName(Content::_CONTENT_TYPE_ID) . ' = ?' .
+            " ORDER BY " . Sanitize::sanitizeSqlColumnName(Content::_CREATED_AT_TS) . ' DESC';
 
         $param_arr = [$content_type_id];
 

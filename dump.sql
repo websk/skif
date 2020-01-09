@@ -177,6 +177,8 @@ CREATE TABLE `rubrics` (
   CONSTRAINT `FK_rubrics_content_types` FOREIGN KEY (`content_type_id`) REFERENCES `content_types` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO `rubrics` (`id`, `name`, `comment`, `content_type_id`, `template_id`, `url`) VALUES ('3', 'Новости и объявления', NULL, '2', NULL, '/news');
+
 # Forms
 
 CREATE TABLE `form` (

@@ -152,7 +152,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         $is_published = array_key_exists('is_published', $_REQUEST) ? $_REQUEST['is_published'] : 0;
         $description = array_key_exists('description', $_REQUEST) ? $_REQUEST['description'] : '';
         $keywords = array_key_exists('keywords', $_REQUEST) ? $_REQUEST['keywords'] : '';
-        $template_id = array_key_exists('template_id', $_REQUEST) ? $_REQUEST['template_id'] : null;
+        $template_id = !empty($_REQUEST['template_id'])  ? $_REQUEST['template_id'] : null;
 
         if ($is_published && empty($published_at)) {
             $published_at = date('Y-m-d H:i:s');
@@ -195,14 +195,14 @@ class ContentController extends BaseController implements InterfaceSitemapContro
 
         // Рубрики*
         $main_rubric_id = !empty($_REQUEST['main_rubric']) ? $_REQUEST['main_rubric'] : null;
-        $rubrics_arr = !empty($_REQUEST['rubrics_arr']) ? $_REQUEST['rubrics_arr'] : array();
+        $rubrics_arr = !empty($_REQUEST['rubrics_arr']) ? $_REQUEST['rubrics_arr'] : [];
         $require_main_rubric = ConfWrapper::value('content.' . $content_type_obj->getType() . '.require_main_rubric');
 
         if (!$main_rubric_id && $require_main_rubric) {
             $main_rubric_id = ConfWrapper::value('content.' . $content_type_obj->getType() . '.main_rubric_default_id');
 
             if (!$rubrics_arr) {
-                $rubrics_arr = array($main_rubric_id);
+                $rubrics_arr = [$main_rubric_id];
             }
         }
 
