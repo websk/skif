@@ -122,7 +122,7 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
                         $templates_ids_arr = $template_service->getAllIdsArrByIdAsc();
                         ?>
                         <select id="template_id" name="template_id" class="form-control">
-                            <option>Шаблон по-умолчанию</option>
+                            <option value="">Шаблон по-умолчанию</option>
                             <?php
                             foreach ($templates_ids_arr as $template_id) {
                                 $template_obj = $template_service->getById($template_id);
@@ -242,7 +242,7 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
                     <label for="main_rubric" class="col-md-2 control-label">Главная рубрика</label>
                     <div class="col-md-10">
                         <select id="main_rubric" name="main_rubric" class="form-control">
-                            <option></option>
+                            <option value=""></option>
                             <?php
                             foreach ($rubric_ids_arr as $rubric_id) {
                                 $rubric_obj = $rubric_service->getById($rubric_id);
