@@ -99,7 +99,7 @@ foreach ($contents_ids_arr as $content_id) {
             }
             ?>
         </td>
-        <td class="hidden-xs hidden-sm text-muted"><?php echo $content_obj->getCreatedAtTs(); ?></td>
+        <td class="hidden-xs hidden-sm text-muted"><?php echo date('Y-m-d H:i:s', $content_obj->getCreatedAtTs()); ?></td>
         <td align="right">
             <a href="<?php echo Router::pathFor(AdminContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>" title="Редактировать" class="btn btn-default btn-sm">
                 <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
