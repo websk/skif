@@ -76,7 +76,7 @@ class ContentRubricRepository extends EntityRepository
 
         $db_table_name = $this->getTableName();
 
-        $query = "SELECT c." . Sanitize::sanitizeSqlColumnName(ContentRubric::_CONTENT_ID) .
+        $query = "SELECT cr." . Sanitize::sanitizeSqlColumnName(ContentRubric::_CONTENT_ID) .
             " FROM " . $db_table_name . " cr" .
             " JOIN " . Sanitize::sanitizeSqlColumnName(Content::DB_TABLE_NAME) . " c ON (c." . Sanitize::sanitizeSqlColumnName(Content::_ID) . " = cr." . Sanitize::sanitizeSqlColumnName(ContentRubric::_CONTENT_ID) . ")" .
             " WHERE cr." . Sanitize::sanitizeSqlColumnName(ContentRubric::_RUBRIC_ID) . "=?" .
