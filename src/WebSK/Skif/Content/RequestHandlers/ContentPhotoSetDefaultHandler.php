@@ -1,17 +1,18 @@
 <?php
 
-namespace WebSK\Skif\Content\RequestHandlers\Admin;
+namespace WebSK\Skif\Content\RequestHandlers;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\StatusCode;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 
 /**
- * Class SetDefaultContentPhotoHandler
- * @package WebSK\Skif\Content\RequestHandlers\Admin
+ * Class ContentPhotoSetDefaultHandler
+ * @package WebSK\Skif\Content\RequestHandlers
  */
-class SetDefaultContentPhotoHandler extends BaseHandler
+class ContentPhotoSetDefaultHandler extends BaseHandler
 {
     /**
      * @param Request $request
@@ -23,7 +24,11 @@ class SetDefaultContentPhotoHandler extends BaseHandler
     {
         $content_photo_service = ContentServiceProvider::getContentPhotoService($this->container);
 
-        $content_photo_obj = $content_photo_service->getById($content_photo_id);
+        $content_photo_obj = $content_photo_service->getById($content_photo_id, false);
+
+        if (!$content_photo_obj) {
+            return $response->withStatus(StatusCode::HTTP_NOT_FOUND);
+        }
 
         $content_photo_ids_arr = $content_photo_service->getIdsArrByContentId($content_photo_obj->getContentId());
 

@@ -89,6 +89,45 @@ class ContentService extends EntityService
     /**
      * @param InterfaceEntity|Content $entity_obj
      */
+    public function beforeSave(InterfaceEntity $entity_obj)
+    {
+        $current_time = date('Y-m-d H:i:s');
+
+        $entity_obj->setLastModifiedAt($current_time);
+
+        if ($entity_obj->isPublished() && !$entity_obj->getPublishedAt()) {
+            $entity_obj->setPublishedAt($current_time);
+        }
+
+        // URL
+        if (!$entity_obj->isPublished()) {
+            $url = $entity_obj->getUrl();
+
+            if (!$url) {
+                $url = $this->generateUrl($entity_obj);
+            }
+
+            $url = '/' . ltrim($url, '/');
+
+            $content_type_id = $entity_obj->getContentTypeId();
+            $content_type_obj = $this->content_type_service->getById($content_type_id);
+
+            $content_type_url_length = strlen($content_type_obj->getUrl());
+            if (substr($url, 0, $content_type_url_length + 1) != $content_type_obj->getUrl() . '/') {
+                $url = $content_type_obj->getUrl() . $url;
+            }
+
+            $url = '/' . ltrim($url, '/');
+
+            $entity_obj->setUrl($url);
+        }
+
+        parent::beforeSave($entity_obj);
+    }
+
+    /**
+     * @param InterfaceEntity|Content $entity_obj
+     */
     public function afterSave(InterfaceEntity $entity_obj)
     {
         parent::afterSave($entity_obj);

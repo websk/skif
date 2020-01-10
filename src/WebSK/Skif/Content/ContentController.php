@@ -137,25 +137,12 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         $annotation = array_key_exists('annotation', $_REQUEST) ? $_REQUEST['annotation'] : '';
         $body = array_key_exists('body', $_REQUEST) ? $_REQUEST['body'] : '';
         $url = array_key_exists('url', $_REQUEST) ? $_REQUEST['url'] : '';
-
-        $published_at = array_key_exists('published_at', $_REQUEST) ? $_REQUEST['published_at'] : null;
-        if (empty($published_at)) {
-            $published_at = null;
-        }
-
-        $unpublished_at = array_key_exists('unpublished_at', $_REQUEST) ? $_REQUEST['unpublished_at'] : null;
-        if (empty($unpublished_at)) {
-            $unpublished_at = null;
-        }
-
+        $published_at = !empty($_REQUEST['published_at']) ? $_REQUEST['published_at'] : null;
+        $unpublished_at = !empty($_REQUEST['unpublished_at']) ? $_REQUEST['unpublished_at'] : null;
         $is_published = array_key_exists('is_published', $_REQUEST) ? $_REQUEST['is_published'] : 0;
         $description = array_key_exists('description', $_REQUEST) ? $_REQUEST['description'] : '';
         $keywords = array_key_exists('keywords', $_REQUEST) ? $_REQUEST['keywords'] : '';
         $template_id = !empty($_REQUEST['template_id'])  ? $_REQUEST['template_id'] : null;
-
-        if ($is_published && empty($published_at)) {
-            $published_at = date('Y-m-d H:i:s');
-        }
 
         $content_obj->setTitle($title);
         $content_obj->setAnnotation($annotation);
@@ -166,35 +153,16 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         $content_obj->setDescription($description);
         $content_obj->setKeywords($keywords);
         $content_obj->setTemplateId($template_id);
-        $content_obj->setLastModifiedAt(date('Y-m-d H:i:s'));
-
-
-        // URL
-        if (!$content_obj->isPublished()) {
-            if (!$url) {
-                $url = $content_service->generateUrl($content_obj);
-            }
-
-            $url = '/' . ltrim($url, '/');
-
-            $content_type_url_length = strlen($content_type_obj->getUrl());
-            if (substr($url, 0, $content_type_url_length + 1) != $content_type_obj->getUrl() . '/') {
-                $url = $content_type_obj->getUrl() . $url;
-            }
-
-            $url = '/' . ltrim($url, '/');
-
-            $content_obj->setUrl($url);
-        }
-
+        $content_obj->setUrl($url);
         $content_obj->setIsPublished($is_published);
 
         $content_service->save($content_obj);
 
 
-        // Рубрики*
+        // Рубрики
         $main_rubric_id = !empty($_REQUEST['main_rubric']) ? $_REQUEST['main_rubric'] : null;
         $rubrics_arr = !empty($_REQUEST['rubrics_arr']) ? $_REQUEST['rubrics_arr'] : [];
+
         $require_main_rubric = ConfWrapper::value('content.' . $content_type_obj->getType() . '.require_main_rubric');
 
         if (!$main_rubric_id && $require_main_rubric) {
@@ -251,24 +219,6 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         Messages::setMessage('Изменения сохранены');
 
         Redirects::redirect(Router::pathFor(AdminContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]));
-    }
-
-    /**
-     * Удаление изображения
-     * @param $content_id
-     * @throws \Exception
-     */
-    public function deleteImageAction(string $content_type, int $content_id)
-    {
-        // Проверка прав доступа
-        Exits::exit403If(!Auth::currentUserIsAdmin());
-
-        $content_service = ContentServiceProvider::getContentService(Container::self());
-        $content_obj = $content_service->getById($content_id);
-
-        $content_service->deleteImage($content_obj);
-
-        echo 'OK';
     }
 
     public function deleteAction($content_type, $content_id)

@@ -33,11 +33,11 @@ class Content extends Entity
     protected $body = '';
 
     const _PUBLISHED_AT = 'published_at';
-    /** @var int */
+    /** @var string|null */
     protected $published_at;
 
     const _UNPUBLISHED_AT = 'unpublished_at';
-    /** @var int */
+    /** @var string|null */
     protected $unpublished_at;
 
     const _IS_PUBLISHED = 'is_published';
@@ -65,7 +65,7 @@ class Content extends Entity
     protected $content_type_id;
 
     const _LAST_MODIFIED_AT = 'last_modified_at';
-    /** @var int */
+    /** @var string|null */
     protected $last_modified_at;
 
     const _REDIRECT_URL = 'redirect_url';
@@ -177,33 +177,33 @@ class Content extends Entity
     }
 
     /**
-     * @return int
+     * @return string|null
      */
-    public function getPublishedAt()
+    public function getPublishedAt(): ?string
     {
         return $this->published_at;
     }
 
     /**
-     * @param int $published_at
+     * @param string|null $published_at
      */
-    public function setPublishedAt($published_at)
+    public function setPublishedAt(?string $published_at): void
     {
         $this->published_at = $published_at;
     }
 
     /**
-     * @return int
+     * @return string|null
      */
-    public function getUnpublishedAt()
+    public function getUnpublishedAt(): ?string
     {
         return $this->unpublished_at;
     }
 
     /**
-     * @param int $unpublished_at
+     * @param string|null $unpublished_at
      */
-    public function setUnpublishedAt($unpublished_at)
+    public function setUnpublishedAt(?string $unpublished_at): void
     {
         $this->unpublished_at = $unpublished_at;
     }
@@ -273,17 +273,17 @@ class Content extends Entity
     }
 
     /**
-     * @return int
+     * @return string|null
      */
-    public function getLastModifiedAt()
+    public function getLastModifiedAt(): ?string
     {
         return $this->last_modified_at;
     }
 
     /**
-     * @param int $last_modified_at
+     * @param string|null $last_modified_at
      */
-    public function setLastModifiedAt($last_modified_at)
+    public function setLastModifiedAt(?string $last_modified_at): void
     {
         $this->last_modified_at = $last_modified_at;
     }

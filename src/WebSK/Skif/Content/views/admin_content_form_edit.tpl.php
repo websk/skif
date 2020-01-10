@@ -5,11 +5,13 @@
  */
 
 use WebSK\Skif\Content\Content;
+use WebSK\Skif\Content\ContentRoutes;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\CKEditor\CKEditor;
 use WebSK\Image\ImageManager;
 use WebSK\Logger\LoggerRender;
 use WebSK\Slim\Container;
+use WebSK\Slim\Router;
 use WebSK\Views\PhpRender;
 
 $container = Container::self();
@@ -155,7 +157,7 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
                                     <img src="<?php echo ImageManager::getImgUrlByPreset($image_path,'120_auto') . '?d=' . time(); ?>" class="img-responsive img-thumbnail"
                                          border="0">
                                 </a>
-                                <a href="#image_delete" id="image_delete">Удалить</a>
+                                <a href="#" id="image_delete">Удалить</a>
                             </div>
                             <?php
                         }
@@ -302,7 +304,7 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
     $("#image_delete").click(function () {
         $.ajax({
             type: "POST",
-            url: "/admin/content/<?php echo $content_type; ?>/delete_image/<?php echo $content_id; ?>",
+            url: "<?php echo Router::pathFor(ContentRoutes::ROUTE_NAME_ADMIN_CONTENT_DELETE_IMAGE, ['content_type' => $content_type, 'content_id' => $content_id]); ?>",
             success: function (data) {
                 $("#image_area").html("");
             }
