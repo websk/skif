@@ -138,6 +138,7 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         $body = array_key_exists('body', $_REQUEST) ? $_REQUEST['body'] : '';
         $url = array_key_exists('url', $_REQUEST) ? $_REQUEST['url'] : '';
         $published_at = !empty($_REQUEST['published_at']) ? $_REQUEST['published_at'] : null;
+        $created_at = !empty($_REQUEST['created_at']) ? $_REQUEST['created_at'] : null;
         $unpublished_at = !empty($_REQUEST['unpublished_at']) ? $_REQUEST['unpublished_at'] : null;
         $is_published = array_key_exists('is_published', $_REQUEST) ? $_REQUEST['is_published'] : 0;
         $description = array_key_exists('description', $_REQUEST) ? $_REQUEST['description'] : '';
@@ -148,13 +149,17 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         $content_obj->setAnnotation($annotation);
         $content_obj->setBody($body);
         $content_obj->setContentTypeId($content_type_obj->getId());
+        $content_obj->setCreatedAtTs((new \DateTime($created_at))->getTimestamp());
         $content_obj->setPublishedAt($published_at);
         $content_obj->setUnpublishedAt($unpublished_at);
         $content_obj->setDescription($description);
         $content_obj->setKeywords($keywords);
         $content_obj->setTemplateId($template_id);
-        $content_obj->setUrl($url);
         $content_obj->setIsPublished($is_published);
+
+        if (!$is_published) {
+            $content_obj->setUrl($url);
+        }
 
         $content_service->save($content_obj);
 

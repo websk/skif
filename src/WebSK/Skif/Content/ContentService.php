@@ -100,7 +100,7 @@ class ContentService extends EntityService
         }
 
         // URL
-        if (!$entity_obj->isPublished()) {
+        if (!$entity_obj->getId() || !$entity_obj->isPublished()) {
             $url = $entity_obj->getUrl();
 
             if (!$url) {
