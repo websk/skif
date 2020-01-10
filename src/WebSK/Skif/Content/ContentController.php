@@ -3,7 +3,6 @@
 namespace WebSK\Skif\Content;
 
 use WebSK\Config\ConfWrapper;
-use WebSK\DB\DBWrapper;
 use WebSK\Image\ImageConstants;
 use WebSK\Image\ImageController;
 use WebSK\Skif\BaseController;
@@ -286,39 +285,5 @@ class ContentController extends BaseController implements InterfaceSitemapContro
         $content_type_obj = $content_type_service->getById($content_obj->getContentTypeId());
 
         Redirects::redirect('/admin/content/' . $content_type_obj->getType());
-    }
-
-    /**
-     * Автокомплит для выбора материала
-     */
-    public static function autoCompleteContentAction()
-    {
-        $term = array_key_exists('term', $_REQUEST) ? trim($_REQUEST['term']) : '';
-
-        $query_param_arr = array($term . '%');
-
-        $query = "SELECT id FROM " . Content::DB_TABLE_NAME . " WHERE title LIKE ? LIMIT 20";
-        $content_ids_arr = DBWrapper::readColumn($query, $query_param_arr);
-
-        $content_service = ContentServiceProvider::getContentService(Container::self());
-        $content_type_service = ContentServiceProvider::getContentTypeService(Container::self());
-
-        $output_arr = array();
-        foreach ($content_ids_arr as $content_id) {
-            $content_obj = $content_service->getById($content_id);
-
-            $content_type_obj = $content_type_service->getByType($content_obj->getContentTypeId());
-
-            $output_arr[] = array(
-                'id' => $content_id,
-                'label' => $content_obj->getTitle(),
-                'value' => $content_obj->getTitle(),
-                'type' => $content_type_obj->getName(),
-                'url' => $content_obj->getUrl(),
-            );
-        }
-
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode($output_arr);
     }
 }

@@ -4,6 +4,7 @@ namespace WebSK\Skif\Content;
 
 use Slim\App;
 use WebSK\SimpleRouter\SimpleRouter;
+use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentListAutocompleteAction;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentListHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminRubricEditHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminRubricListHandler;
@@ -41,12 +42,11 @@ class ContentRoutes
 
     const ROUTE_NAME_ADMIN_CONTENT_LIST = 'admin:content:list';
     const ROUTE_NAME_ADMIN_CONTENT_LIST_AJAX = 'admin:content:list:ajax';
+    const ROUTE_NAME_ADMIN_CONTENT_LIST_AUTOCOMPLETE = 'admin:content:list:autocomplete';
 
     public static function route()
     {
         if (SimpleRouter::matchGroup('@/admin@')) {
-            SimpleRouter::staticRoute('@^/admin/content/autocomplete$@i', ContentController::class,
-                'autoCompleteContentAction', 0);
             SimpleRouter::staticRoute('@^/admin/content/(\w+)/new$@i', ContentController::class, 'newAdminAction',
                 0);
             SimpleRouter::staticRoute('@^/admin/content/(\w+)/save/(\w+)$@i', ContentController::class, 'saveAdminAction',
@@ -130,6 +130,9 @@ class ContentRoutes
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/{template_id:\d+}', AdminTemplateEditHandler::class)
                 ->setName(self::ROUTE_NAME_ADMIN_TEMPLATE_EDIT);
         });
+
+        $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/content_autocomplete', AdminContentListAutocompleteAction::class)
+            ->setName(self::ROUTE_NAME_ADMIN_CONTENT_LIST_AUTOCOMPLETE);
 
         $app->group('/content_photo/{content_photo_id:\d+}', function (App $app) {
             $app->post('/delete', AdminContentPhotoDeleteHandler::class)

@@ -282,4 +282,13 @@ class ContentService extends EntityService
         $content_obj->setImage('');
         $this->save($content_obj);
     }
+
+    /**
+     * @param string $title
+     * @return array
+     */
+    public function getIdsArrByTitle(string $title)
+    {
+        return $this->repository->findIdsByTitle($title);
+    }
 }

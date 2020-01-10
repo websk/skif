@@ -5,8 +5,13 @@
  * @var $site_menu_parent_item_id
  */
 
-use WebSK\Skif\Content\Content;
+use WebSK\Skif\Content\ContentRoutes;
+use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\SiteMenu\SiteMenuItem;
+use WebSK\Slim\Container;
+use WebSK\Slim\Router;
+
+$container = Container::self();
 
 if ($site_menu_item_id == 'new') {
     $site_menu_item_obj = new SiteMenuItem();
@@ -29,7 +34,7 @@ if ($site_menu_item_id == 'new') {
         $("#content_title").autocomplete({
             source: function (request, response) {
                 $.ajax({
-                    url: "/admin/content/autocomplete",
+                    url: "<?php echo Router::pathFor(ContentRoutes::ROUTE_NAME_ADMIN_CONTENT_LIST_AUTOCOMPLETE); ?>",
                     dataType: "json",
                     data: {
                         term: request.term
@@ -57,7 +62,9 @@ if ($site_menu_item_id == 'new') {
 $content_title = '';
 $url = $site_menu_item_obj->getUrl();
 if ($site_menu_item_obj->getContentId()) {
-    $content_obj = Content::factory($site_menu_item_obj->getContentId());
+    $content_service = ContentServiceProvider::getContentService($container);
+
+    $content_obj = $content_service->getById($site_menu_item_obj->getContentId());
 
     $content_title = $content_obj->getTitle();
     $url = $content_obj->getUrl();

@@ -87,8 +87,8 @@ class ContentRubricRepository extends EntityRepository
             " ORDER BY c." . Sanitize::sanitizeSqlColumnName(Content::_CREATED_AT_TS) . " DESC";
 
         if ($limit_to_page) {
-            $start_record = $limit_to_page * ($page - 1);
-            $query .= " LIMIT " . $start_record . ', ' . $limit_to_page;
+            $offset = $limit_to_page * ($page - 1);
+            $query .= " LIMIT " . $offset . ', ' . $limit_to_page;
         }
 
         $ids_arr = $this->db_service->readColumn($query, [$rubric_id, $date, $date]);

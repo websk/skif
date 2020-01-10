@@ -30,6 +30,25 @@ class ContentRepository extends EntityRepository
     }
 
     /**
+     * @param string $title
+     * @return array
+     */
+    public function findIdsByTitle(string $title)
+    {
+        $db_table_name = $this->getTableName();
+        $db_id_field_name = $this->getIdFieldName();
+
+        $query = "SELECT " . Sanitize::sanitizeSqlColumnName($db_id_field_name) . " 
+            FROM " . Sanitize::sanitizeSqlColumnName($db_table_name) . "
+            WHERE " . Sanitize::sanitizeSqlColumnName(Content::_TITLE) . " LIKE ? " . "
+            LIMIT 20";
+
+        $ids_arr = $this->db_service->readColumn($query, [$title . '%']);
+
+        return $ids_arr;
+    }
+
+    /**
      * @param int $content_type_id
      * @param int $limit_to_page
      * @param int $page
@@ -75,8 +94,8 @@ class ContentRepository extends EntityRepository
             ORDER BY " . Sanitize::sanitizeSqlColumnName(Content::_CREATED_AT_TS) . " DESC";
 
         if ($limit_to_page) {
-            $start_record = $limit_to_page * ($page - 1);
-            $query .= " LIMIT " . $start_record . ', ' . $limit_to_page;
+            $offset = $limit_to_page * ($page - 1);
+            $query .= " LIMIT " . $offset . ', ' . $limit_to_page;
         }
 
         $date = date('Y-m-d');

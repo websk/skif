@@ -3,7 +3,9 @@
 namespace WebSK\Skif\SiteMenu;
 
 use WebSK\Auth\Auth;
+use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\SkifPath;
+use WebSK\Slim\Container;
 use WebSK\Utils\Messages;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Redirects;
@@ -210,6 +212,8 @@ class SiteMenuController
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
 
+        $container = Container::self();
+
         $name = array_key_exists('name', $_REQUEST) ? $_REQUEST['name'] : '';
         $url = array_key_exists('url', $_REQUEST) ? $_REQUEST['url'] : '';
         $content_id = array_key_exists('content_id', $_REQUEST) ? intval($_REQUEST['content_id']) : null;
@@ -242,7 +246,9 @@ class SiteMenuController
 
 
         if ($site_menu_item_obj->getContentId()) {
-            $content_obj = \WebSK\Skif\Content\Content::factory($site_menu_item_obj->getContentId());
+            $content_service = ContentServiceProvider::getContentService($container);
+
+            $content_obj = $content_service->getById($site_menu_item_obj->getContentId());
             $url = $content_obj->getUrl();
         }
 
