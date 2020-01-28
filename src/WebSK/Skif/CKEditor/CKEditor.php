@@ -25,9 +25,6 @@ class CKEditor
         }
 
         $files_data_path = ConfWrapper::value('files_data_path');
-        if (!$files_data_path) {
-            $files_data_path = ConfWrapper::value('site_full_path') . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'files';
-        }
 
         Assert::assert($files_data_path);
 
