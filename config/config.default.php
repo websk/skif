@@ -38,7 +38,6 @@ return [
                 ['link' => '/admin/form', 'name' => 'Формы', 'icon' => '<i class="fa fa-list-alt fa-fw"></i>'],
                 ['link' => '/admin/comments', 'name' => 'Комментарии', 'icon' => '<i class="fa fa-comments-o fa-fw"></i>'],
                 ['link' => '/admin/user', 'name' => 'Пользователи', 'icon' => '<i class="fa fa-users fa-fw"></i>'],
-                ['link' => '/admin/rating', 'name' => 'Рейтинги', 'icon' => '<i class="fa fa-star-o fa-fw"></i>'],
                 [
                     'link' => '#',
                     'name' => 'Настройки',

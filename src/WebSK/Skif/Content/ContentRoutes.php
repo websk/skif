@@ -91,10 +91,8 @@ class ContentRoutes
     {
         $app->group('/content', function (App $app) {
             $app->group('/{content_type:\w+}', function (App $app) {
-                /*
-                $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', AdminContentListHandler::class)
+                $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/list', AdminContentListHandler::class)
                     ->setName(self::ROUTE_NAME_ADMIN_CONTENT_LIST);
-                */
 
                 $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/ajax', AdminContentListAjaxHandler::class)
                     ->setName(self::ROUTE_NAME_ADMIN_CONTENT_LIST_AJAX);
