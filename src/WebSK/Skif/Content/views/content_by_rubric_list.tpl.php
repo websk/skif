@@ -10,6 +10,7 @@ use WebSK\Slim\Container;
 use WebSK\Views\PhpRender;
 
 $rubric_service = ContentServiceProvider::getRubricService(Container::self());
+$content_service = ContentServiceProvider::getContentService(Container::self());
 
 $rubric_obj = $rubric_service->getById($rubric_id);
 
