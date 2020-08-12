@@ -41,14 +41,31 @@ class Block implements
     const BLOCK_FORMAT_TYPE_HTML = 4;
     const BLOCK_FORMAT_TYPE_PHP = 5;
 
+    /** @var int */
     protected $id;
+
+    /** @var int */
     protected $template_id = 1;
+
+    /** @var int */
     protected $weight = 1;
+
+    /** @var int */
     protected $page_region_id = self::BLOCK_REGION_NONE;
+
+    /** @var string */
     protected $pages = '+ ^';
+
+    /** @var string */
     protected $title = '';
+
+    /** @var int */
     protected $cache = self::BLOCK_CACHE_GLOBAL;
+
+    /** @var string */
     protected $body = '';
+
+    /** @var int */
     protected $format = self::BLOCK_FORMAT_TYPE_PLAIN;
 
     public function getEditorUrl()
