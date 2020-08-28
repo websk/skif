@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif\Form\RequestHandlers;
 
+use PHPMailer\PHPMailer\PHPMailer;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -86,7 +87,7 @@ class FormSendHandler extends BaseHandler
 
         $form_email = $form_email ? $form_email : $site_email;
 
-        $mail = new \PHPMailer;
+        $mail = new PHPMailer;
         $mail->CharSet = "utf-8";
         $mail->setFrom($site_email, $site_name);
         $mail->addReplyTo($user_email);
@@ -108,7 +109,7 @@ class FormSendHandler extends BaseHandler
         $response_mail_message .= $form_email . "<br>";
         $response_mail_message .= '<p>' . $site_name . ', <a href="' . $site_domain . '">' . $site_domain . '</a></p>';
 
-        $mail = new \PHPMailer;
+        $mail = new PHPMailer;
         $mail->CharSet = "utf-8";
         $mail->setFrom($form_email, $site_name);
         $mail->addReplyTo($form_email);

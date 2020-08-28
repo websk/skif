@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif\Comment;
 
+use PHPMailer\PHPMailer\PHPMailer;
 use WebSK\Auth\Auth;
 use WebSK\Auth\User\UserService;
 use WebSK\Cache\CacheService;
@@ -125,7 +126,7 @@ class CommentService extends EntityService
 
                     $subject = 'Ответ на сообщение на сайте' . $site_name;
 
-                    $mail = new \PHPMailer;
+                    $mail = new PHPMailer;
                     $mail->CharSet = "utf-8";
                     $mail->setFrom($site_email, $site_name);
                     $mail->addReplyTo($site_email);
