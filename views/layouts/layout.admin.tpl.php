@@ -7,19 +7,19 @@
  */
 
 use WebSK\Auth\AuthRoutes;
+use WebSK\Auth\User\UserRoutes;
 use WebSK\Skif\SkifApp;
-use WebSK\Auth\Users\UsersRoutes;
 use WebSK\Slim\Router;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Utils\Messages;
 use WebSK\Skif\SkifPath;
 use WebSK\Auth\Auth;
-use WebSK\Auth\Users\UsersUtils;
 use WebSK\Views\PhpRender;
 
 $user_id = Auth::getCurrentUserId();
-$user_obj = UsersUtils::loadUser($user_id);
+$user_obj = Auth::getCurrentUserObj();
+
 if (!$user_obj) {
     echo PhpRender::renderLocalTemplate(
         'layout.admin_login.tpl.php'
@@ -122,7 +122,7 @@ if (!isset($layout_dto)) {
                 </a>
                 <ul class="dropdown-menu">
                     <li></li>
-                    <li><a href="<?php echo Router::pathFor(UsersRoutes::ROUTE_NAME_USER_EDIT, ['user_id' => $user_id]); ?>"><i
+                    <li><a href="<?php echo Router::pathFor(UserRoutes::ROUTE_NAME_USER_EDIT, ['user_id' => $user_id]); ?>"><i
                                     class="fa fa-user fa-fw"></i> <?php echo $user_name; ?></a>
                     </li>
                     <li class="divider"></li>
