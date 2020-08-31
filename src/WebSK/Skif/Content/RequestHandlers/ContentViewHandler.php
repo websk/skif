@@ -120,7 +120,7 @@ class ContentViewHandler extends BaseHandler
                 'editor_nav_arr' => $editor_nav_arr,
                 'title' => $content_obj->getTitle(),
                 'keywords' => $content_obj->getKeywords(),
-                'description' => $content_obj->getDescription(),
+                'description' => $content_obj->getDescription() ?: $content_obj->getTitle(),
                 'breadcrumbs_arr' => $breadcrumbs_arr
             ]
         );
