@@ -1,0 +1,31 @@
+{
+  "name": "assets",
+  "version": "1.0.0",
+  "devDependencies": {
+    "bower": "latest",
+    "coffee-script": "latest",
+    "del": "latest",
+    "gulp": "^4.0.2",
+    "gulp-add-src": "latest",
+    "gulp-clean-css": "latest",
+    "gulp-concat": "latest",
+    "gulp-debug": "latest",
+    "gulp-insert": "latest",
+    "gulp-less": "latest",
+    "gulp-newer": "latest",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "latest",
+    "gulp-uglify": "^2.0.1"
+  },
+  "dependencies": {
+    "coffee-script": "latest"
+  },
+  "description": "",
+  "main": "",
+  "scripts": {
+    "coffee": "coffee",
+    "update": "bower i && gulp"
+  },
+  "author": "lib@muctr.ru",
+  "license": "ISC"
+}

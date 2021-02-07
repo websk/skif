@@ -2,4 +2,5 @@
 /**
  * @var $content
  */
+
 echo $content;

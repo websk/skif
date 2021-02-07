@@ -1,0 +1,72 @@
+.navbar-brand {
+    padding-top: 5px;
+}
+
+.breadcrumb {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.page-header {
+    padding-bottom: 9px;
+    margin: 10px 0 20px;
+}
+
+.dropdown .site_url {
+    max-width: 500px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* autocomplete */
+.ui-menu-item-type {
+    float: right;
+    margin-right: 10px;
+    color: #26A908;
+}
+
+/* autocomplete */
+
+label.error {
+    margin-left: 10px;
+    width: auto;
+    display: inline;
+    font-weight: normal;
+    color: #ee0000;
+}
+
+.text-warning {
+    color: #d5730d;
+}
+
+.font_percentage_120 {
+    font-size: 120%;
+}
+
+.padding_top_10 {
+    padding-top: 10px;
+}
+
+.padding_bottom_10 {
+    padding-bottom: 10px;
+}
+
+
+.sidebar-menu .treeview-menu {
+    padding-left: 15px;
+}
+
+.btn-info.btn-outline {
+    color: #5bc0de;
+    border-color: #46b8da;
+}
+
+.btn-info.btn-outline:hover, .btn-info.btn-outline:active {
+    color: #ffffff;
+}
+
+.login-panel {
+    margin-top: 25%;
+    border-color: #ddd;
+}

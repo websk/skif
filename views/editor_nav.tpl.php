@@ -1,37 +1,33 @@
 <?php
 /**
- * @var $editor_nav_arr
+ * @var \WebSK\Views\NavTabItemDTO[] $nav_tabs_dto_arr
  */
-if (!isset($editor_nav_arr)) {
+
+use WebSK\Auth\Auth;
+use WebSK\Utils\Url;
+
+if (empty($nav_tabs_dto_arr)) {
     return;
 }
 
-$current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
+if (!Auth::currentUserIsAdmin()) {
+    return;
+}
+
+$current_url_no_query = Url::getUriNoQueryString();
 ?>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#editor-navbar-collapse" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#"><span class="fa fa-wrench"></span></a>
-        </div>
-        <div class="collapse navbar-collapse" id="editor-navbar-collapse">
-            <ul class="nav navbar-nav">
-                <?php
-                foreach ($editor_nav_arr as $editor_nav_link => $editor_nav_title) {
-                    ?>
-                    <li<?php echo (strpos($current_url_no_query, $editor_nav_link) !== false ? ' class="active"' : '') ?>>
-                        <a href="<?php echo $editor_nav_link; ?>"><?php echo $editor_nav_title; ?></a>
-                    </li>
-                    <?php
-                }
-                ?>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div>
+    <ul class="nav nav-tabs">
+        <li role="presentation"><a href="/admin"><i class="fa fa-wrench"></i></a></li>
+        <?php
+        foreach ($nav_tabs_dto_arr as $nav_tab_item_dto) {
+            ?>
+            <li role="presentation" <?php echo (strpos($current_url_no_query, $nav_tab_item_dto->getUrl()) !== false ? ' class="active"' : '') ?>>
+                <a href="<?php echo $nav_tab_item_dto->getUrl(); ?>"><?php echo $nav_tab_item_dto->getName(); ?></a>
+            </li>
+            <?php
+        }
+        ?>
+    </ul>
+</div>
 

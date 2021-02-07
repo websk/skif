@@ -1,12 +1,48 @@
 <?php
 /**
- * @var $title
- * @var $breadcrumbs
+ * @var string $title
+ * @var string $content
+ * @var array $breadcrumbs_arr
  * @var $editor_nav_arr
- * @var $content
+ * @var LayoutDTO $layout_dto
  */
 
-\Skif\Http::cacheHeaders();
+use WebSK\Skif\Blocks\PageRegionsUtils;
+use WebSK\Utils\Messages;
+use WebSK\Skif\SkifPath;
+use WebSK\Skif\SiteMenu\SiteMenuRender;
+use WebSK\Config\ConfWrapper;
+use WebSK\Views\BreadcrumbItemDTO;
+use WebSK\Views\LayoutDTO;
+use WebSK\Utils\Url;
+use WebSK\Views\NavTabItemDTO;
+use WebSK\Views\PhpRender;
+
+if (!isset($layout_dto)) {
+    $layout_dto = new LayoutDTO();
+    $layout_dto->setTitle($title);
+    $layout_dto->setContentHtml($content);
+    $layout_dto->setKeywords($keywords ?? '');
+    $layout_dto->setDescription($description ?? '');
+
+    $nav_tabs_dto_arr = [];
+    if (!empty($editor_nav_arr)) {
+        foreach ($editor_nav_arr as $editor_nav_url => $editor_nav_title) {
+            $nav_tabs_dto_arr[] = new NavTabItemDTO($editor_nav_title, $editor_nav_url);
+        }
+    }
+    $layout_dto->setNavTabsDtoArr($nav_tabs_dto_arr);
+
+    $breadcrumbs_dto_arr = [
+        new BreadcrumbItemDTO('Главная', '/')
+    ];
+    if (!empty($breadcrumbs_arr)) {
+        foreach ($breadcrumbs_arr as $breadcrumb_title => $breadcrumb_link) {
+            $breadcrumbs_dto_arr[] = new BreadcrumbItemDTO($breadcrumb_title, $breadcrumb_link);
+        }
+    }
+    $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_dto_arr);
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -14,31 +50,38 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title><?= $title ?></title>
+    <title><?= $layout_dto->getTitle() ?></title>
 
-    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="<?php echo SkifPath::wrapUrlPath('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
 
-    <script type="text/javascript" src="/assets/libraries/jquery/jquery.min.js"></script>
-    <link rel="stylesheet" href="/assets/libraries/jquery-ui/themes/base/jquery-ui.min.css">
-    <script type="text/javascript" src="/assets/libraries/jquery-ui/jquery-ui.min.js"></script>
+    <!-- jQuery -->
+    <script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery/jquery.min.js'); ?>"></script>
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-ui/themes/base/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-ui/jquery-ui.min.js'); ?>"></script>
 
-    <link type="text/css" rel="stylesheet" media="all" href="/assets/libraries/bootstrap/css/bootstrap.min.css"/>
-    <script type="text/javascript" src="/assets/libraries/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Bootstrap -->
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
+    <script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap/js/bootstrap.min.js'); ?>"></script>
 
-    <link type="text/css" rel="stylesheet" media="all" href="/assets/styles/main.css"/>
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/styles/main.css'); ?>" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="/assets/libraries/jquery-validation/jquery.validate.min.js"></script>
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="/assets/libraries/fancybox/jquery.fancybox.pack.js"></script>
-    <link rel="stylesheet" type="text/css" href="/assets/libraries/fancybox/jquery.fancybox.css" media="screen"/>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-validation/jquery.validate.min.js'); ?>"></script>
 
-    <script type="text/javascript" src="/assets/libraries/moment/moment.min.js"></script>
-    <script type="text/javascript" src="/assets/libraries/moment/moment.ru.min.js"></script>
-    <script type="text/javascript" src="/assets/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-    <link type="text/css" rel="stylesheet" media="all" href="/assets/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"/>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/fancybox/jquery.fancybox.min.js"'); ?>"></script>
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/fancybox/jquery.fancybox.min.css'); ?>" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/moment/moment.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/moment/moment.ru.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); ?>"></script>
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>" rel="stylesheet" type="text/css">
+
+    <meta name="keywords" content="<?php echo $layout_dto->getKeywords() ?>">
+    <meta name="description" content="<?php echo $layout_dto->getDescription() ?>">
 
     <?php
-    echo \Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('inside_head', 'main');
+    echo PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('inside_head', 'main');
     ?>
 </head>
 <body>
@@ -46,10 +89,12 @@
 <div id="html">
     <div id="header" class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-            <a href="/"><img src="/skif/images/admin/skif.gif" border="0" alt="" title="" class="img-responsive"></a>
+            <a href="/"><img src="<?php echo SkifPath::wrapAssetsVersion('images/admin/skif_small_logo.png'); ?>" border="0" alt="" title=""
+                             class="img-responsive"></a>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" align="right">
             <div class="row icon_row" align="right">
+                Демо-сайт
             </div>
         </div>
     </div>
@@ -58,63 +103,59 @@
         <div class="row">
             <div id="sidebar" class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
                 <?php
-                echo \Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('left_column', 'main');
+                echo PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('left_column', 'main');
                 ?>
             </div>
             <div id="content" class="col-lg-8 col-md-6 col-sm-6 col-xs-12">
                 <?php
-                if (!isset($breadcrumbs_arr)) {
-                    $breadcrumbs_arr = array();
-                }
-
-                $breadcrumbs_arr = array_merge(
-                    array('Главная' => '/'),
-                    $breadcrumbs_arr
+                echo PhpRender::renderLocalTemplate(
+                    '../breadcrumbs.tpl.php',
+                    ['breadcrumbs_dto_arr' => $layout_dto->getBreadcrumbsDtoArr()]
                 );
 
-                echo \Skif\PhpTemplate::renderTemplate('views/breadcrumbs.tpl.php', array('breadcrumbs_arr' => $breadcrumbs_arr));
+                $current_url_no_query = Url::getUriNoQueryString();
 
-                $current_url_no_query = \Skif\UrlManager::getUriNoQueryString();
                 if ($current_url_no_query != '/') {
-
                     ?>
-                    <h1><?= $title ?></h1>
+                    <h1><?= $layout_dto->getTitle() ?></h1>
                     <hr class="hidden-xs hidden-sm">
-                <?
+                    <?php
                 }
                 ?>
 
                 <?php
-                echo \Skif\Messages::renderMessages();
+                echo Messages::renderMessages();
                 ?>
 
                 <?php
-                echo \Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('above_content', 'main');
+                echo PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('above_content', 'main');
                 ?>
 
                 <?php
-                if (isset($editor_nav_arr)) {
-                    echo \Skif\PhpTemplate::renderTemplate('views/editor_nav.tpl.php', array('editor_nav_arr' => $editor_nav_arr));
-                }
+                echo PhpRender::renderLocalTemplate(
+                    '../editor_nav.tpl.php',
+                    ['nav_tabs_dto_arr' => $layout_dto->getNavTabsDtoArr()]
+                );
                 ?>
 
-                <?php echo $content; ?>
+                <?php echo $layout_dto->getContentHtml(); ?>
 
                 <?php
-                echo \Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('under_content', 'main');
+                echo PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('under_content', 'main');
                 ?>
             </div>
             <div id="right" class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
                 <?php
-                echo \Skif\Blocks\PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('right_column', 'main');
+                echo PageRegionsUtils::renderBlocksByPageRegionNameAndTemplateName('right_column', 'main');
                 ?>
             </div>
         </div>
     </div>
 
     <div id="footer" class="row">
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">&copy; <?php echo \Skif\Conf\ConfWrapper::value('site_name'); ?>, <?php echo date('Y'); ?></div>
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><?php echo \Skif\SiteMenu\SiteMenuRender::renderSiteMenu(8); ?></div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">&copy; <?php echo ConfWrapper::value('site_name'); ?>
+            , <?php echo date('Y'); ?></div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><?php echo SiteMenuRender::renderSiteMenu(8); ?></div>
     </div>
 </div>
 

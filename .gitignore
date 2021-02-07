@@ -1,4 +1,4 @@
 .idea/
-configs/Conf.php
-/composer.lock
+/config/config.php
+/public/files
 /vendor
