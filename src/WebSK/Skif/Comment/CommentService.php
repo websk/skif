@@ -34,7 +34,7 @@ class CommentService extends EntityService
     /**
      * @return int
      */
-    protected function getCacheTtlSeconds()
+    protected function getCacheTtlSeconds(): int
     {
         return 60 * 60 * 24 * 30 - 1; // 1 месяц
     }

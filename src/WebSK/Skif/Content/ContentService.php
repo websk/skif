@@ -77,7 +77,7 @@ class ContentService extends EntityService
      * @param string $message
      * @return bool
      */
-    public function canDelete(InterfaceEntity $entity_obj, string &$message)
+    public function canDelete(InterfaceEntity $entity_obj, string &$message): bool
     {
         $this->content_rubric_service->deleteByContentId($entity_obj->getId());
 

@@ -20,6 +20,24 @@ return [
                 'user' => '',
                 'password' => '',
             ],
+            'db_auth' => [
+                'host' => 'localhost',
+                'db_name' => 'skif',
+                'user' => '',
+                'password' => '',
+            ],
+            'db_keyvalue' => [
+                'host' => 'localhost',
+                'db_name' => 'skif',
+                'user' => '',
+                'password' => '',
+            ],
+            'db_logger' => [
+                'host' => 'localhost',
+                'db_name' => 'skif',
+                'user' => '',
+                'password' => '',
+            ],
         ],
         'layout' => [
             'empty' => '/var/www/skif/views/layouts/layout.empty.tpl.php',

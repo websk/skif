@@ -1,31 +1,30 @@
 # Services
 
 CREATE TABLE `redirect_rewrites` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `created_at_ts` int NOT NULL DEFAULT '0',
-  `src` varchar(255) NOT NULL,
-  `dst` varchar(255) NOT NULL,
-  `code` int(11) NOT NULL,
-  `kind` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `src_kind` (`src`,`kind`),
-  KEY `kind` (`kind`)
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `src` varchar(255) NOT NULL,
+    `dst` varchar(255) NOT NULL,
+    `code` int(11) NOT NULL,
+    `kind` int(11) NOT NULL,
+    `created_at_ts` int(11) NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `src` (`src`,`kind`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 # Key Value
 # https://github.com/websk/php-keyvalue/blob/master/dump.sql
 
 CREATE TABLE `template` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `created_at_ts` int NOT NULL DEFAULT '0',
-  `name` varchar(50) NOT NULL DEFAULT '',
-  `title` varchar(100) NOT NULL DEFAULT '',
-  `css` varchar(50) NOT NULL DEFAULT '',
-  `is_default` smallint(6) DEFAULT '0',
-  `layout_template_file` varchar(50) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
-  KEY `is_default` (`is_default`)
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(50) NOT NULL DEFAULT '',
+    `title` varchar(100) NOT NULL DEFAULT '',
+    `css` varchar(50) NOT NULL DEFAULT '',
+    `is_default` smallint(6) DEFAULT '0',
+    `layout_template_file` varchar(50) NOT NULL DEFAULT '',
+    `created_at_ts` int(11) NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `name` (`name`),
+    KEY `is_default` (`is_default`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `template` (`id`, `name`, `title`, `css`, `is_default`, `layout_template_file`)
@@ -96,55 +95,57 @@ CREATE TABLE `blocks_roles` (
 # Contents
 
 CREATE TABLE `content` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL DEFAULT '',
-  `short_title` varchar(255) NOT NULL DEFAULT '',
-  `annotation` text NOT NULL,
-  `body` mediumtext NOT NULL,
-  `main_rubric_id` int(11) DEFAULT NULL,
-  `published_at` date DEFAULT NULL,
-  `unpublished_at` date DEFAULT NULL,
-  `is_published` smallint(6) NOT NULL DEFAULT '0',
-  `created_at` datetime DEFAULT NULL,
-  `image` varchar(100) NOT NULL DEFAULT '',
-  `description` text NOT NULL,
-  `keywords` varchar(255) NOT NULL DEFAULT '',
-  `url` varchar(1000) NOT NULL DEFAULT '',
-  `content_type_id` int(11) DEFAULT NULL,
-  `last_modified_at` datetime NOT NULL,
-  `redirect_url` varchar(1000) NOT NULL DEFAULT '',
-  `template_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `main_rubric_id` (`main_rubric_id`),
-  KEY `content_type_id` (`content_type_id`),
-  CONSTRAINT `FK_content_main_rubric` FOREIGN KEY (`main_rubric_id`) REFERENCES `rubrics` (`id`),
-  CONSTRAINT `FK_content_content_types` FOREIGN KEY (`content_type_id`) REFERENCES `content_types` (`id`),
-  CONSTRAINT `FK_content_template` FOREIGN KEY (`template_id`) REFERENCES `template` (`id`)
-
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `title` varchar(255) NOT NULL DEFAULT '',
+    `short_title` varchar(255) NOT NULL DEFAULT '',
+    `annotation` text NOT NULL,
+    `body` mediumtext NOT NULL,
+    `main_rubric_id` int(11) DEFAULT NULL,
+    `published_at` date DEFAULT NULL,
+    `unpublished_at` date DEFAULT NULL,
+    `is_published` smallint(6) NOT NULL DEFAULT '0',
+    `image` varchar(100) NOT NULL DEFAULT '',
+    `description` varchar(255) NOT NULL DEFAULT '',
+    `keywords` varchar(255) NOT NULL DEFAULT '',
+    `url` varchar(1000) NOT NULL DEFAULT '',
+    `content_type_id` int(11) DEFAULT NULL,
+    `last_modified_at` datetime NOT NULL,
+    `redirect_url` varchar(1000) NOT NULL DEFAULT '',
+    `template_id` int(11) DEFAULT NULL,
+    `created_at_ts` int(11) NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`),
+    KEY `main_rubric_id` (`main_rubric_id`),
+    KEY `content_type_id` (`content_type_id`),
+    KEY `template_id` (`template_id`),
+    CONSTRAINT `content_ibfk_1` FOREIGN KEY (`main_rubric_id`) REFERENCES `rubrics` (`id`),
+    CONSTRAINT `content_ibfk_2` FOREIGN KEY (`content_type_id`) REFERENCES `content_types` (`id`),
+    CONSTRAINT `content_ibfk_3` FOREIGN KEY (`template_id`) REFERENCES `template` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `content_rubrics` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `content_id` int(11) DEFAULT NULL,
-  `rubric_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `content_id_rubric_id` (`content_id`,`rubric_id`),
-  KEY `rubric_id` (`rubric_id`),
-  CONSTRAINT `content_rubrics_content_id_FK` FOREIGN KEY (`content_id`) REFERENCES `content` (`id`),
-  CONSTRAINT `content_rubrics_rubric_id_FK` FOREIGN KEY (`rubric_id`) REFERENCES `rubrics` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `content_id` int(11) DEFAULT NULL,
+    `rubric_id` int(11) DEFAULT NULL,
+    `created_at_ts` int(11) NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `content_id_rubric_id` (`content_id`,`rubric_id`),
+    KEY `content_id` (`content_id`),
+    KEY `rubric_id` (`rubric_id`),
+    CONSTRAINT `FK_content_rubrics_rubrics` FOREIGN KEY (`rubric_id`) REFERENCES `rubrics` (`id`),
+    CONSTRAINT `content_rubrics_ibfk_1` FOREIGN KEY (`content_id`) REFERENCES `content` (`id`),
+    CONSTRAINT `content_rubrics_ibfk_2` FOREIGN KEY (`rubric_id`) REFERENCES `rubrics` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `content_types` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `created_at_ts` int NOT NULL DEFAULT '0',
-  `type` char(20) NOT NULL DEFAULT '',
-  `name` varchar(100) NOT NULL DEFAULT '',
-  `url` varchar(255) NOT NULL DEFAULT '',
-  `template_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `type` (`type`),
-  CONSTRAINT `FK_template_id` FOREIGN KEY (`template_id`) REFERENCES `template` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `type` char(20) NOT NULL DEFAULT '',
+    `name` varchar(100) NOT NULL DEFAULT '',
+    `url` varchar(255) NOT NULL DEFAULT '',
+    `template_id` int(11) DEFAULT NULL,
+    `created_at_ts` int(11) NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `type` (`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 INSERT INTO `content_types` (`id`, `type`, `name`, `url`, `template_id`)
 VALUES
@@ -161,20 +162,22 @@ CREATE TABLE `content_photo` (
    PRIMARY KEY (`id`),
    KEY `content_id` (`content_id`),
    CONSTRAINT `content_id_FK` FOREIGN KEY (`content_id`) REFERENCES `content` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `rubrics` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT '',
-  `comment` text,
-  `content_type_id` int(11) DEFAULT NULL,
-  `template_id` int(11) DEFAULT NULL,
-  `url` varchar(1000) DEFAULT '',
-  PRIMARY KEY (`id`),
-  KEY `content_type_id` (`content_type_id`),
-  KEY `url` (`url`(255)),
-  CONSTRAINT `FK_rubrics_template` FOREIGN KEY (`template_id`) REFERENCES `template` (`id`),
-  CONSTRAINT `FK_rubrics_content_types` FOREIGN KEY (`content_type_id`) REFERENCES `content_types` (`id`)
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) DEFAULT '',
+    `comment` text,
+    `content_type_id` int(11) DEFAULT NULL,
+    `template_id` int(11) DEFAULT NULL,
+    `url` varchar(1000) DEFAULT '',
+    `created_at_ts` int(11) NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`),
+    KEY `content_type_id` (`content_type_id`),
+    KEY `url` (`url`(255)),
+    KEY `template_id` (`template_id`),
+    CONSTRAINT `rubrics_ibfk_1` FOREIGN KEY (`content_type_id`) REFERENCES `content_types` (`id`),
+    CONSTRAINT `rubrics_ibfk_2` FOREIGN KEY (`template_id`) REFERENCES `template` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `rubrics` (`id`, `name`, `comment`, `content_type_id`, `template_id`, `url`) VALUES ('3', 'Новости и объявления', NULL, '2', NULL, '/news');
@@ -182,30 +185,29 @@ INSERT INTO `rubrics` (`id`, `name`, `comment`, `content_type_id`, `template_id`
 # Forms
 
 CREATE TABLE `form` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `created_at_ts` int NOT NULL DEFAULT '0',
-  `title` varchar(200) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `email_copy` varchar(100) DEFAULT NULL,
-  `button_label` varchar(100) DEFAULT NULL,
-  `comment` mediumtext,
-  `response_mail_message` mediumtext,
-  `url` varchar(1000) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `title` varchar(200) DEFAULT NULL,
+    `email` varchar(100) DEFAULT NULL,
+    `email_copy` varchar(100) DEFAULT NULL,
+    `button_label` varchar(100) DEFAULT NULL,
+    `comment` mediumtext,
+    `response_mail_message` mediumtext,
+    `url` varchar(1000) DEFAULT NULL,
+    `created_at_ts` int(11) NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `form_field` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `created_at_ts` int NOT NULL DEFAULT '0',
-  `form_id` int,
-  `name` varchar(255),
-  `type` smallint DEFAULT NULL,
-  `required` smallint NOT NULL DEFAULT '0',
-  `weight` smallint DEFAULT NULL,
-  `size` smallint DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `form_id` (`form_id`),
-  CONSTRAINT `FK_form_field_form` FOREIGN KEY (`form_id`) REFERENCES `form` (`id`)
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `form_id` int(11) NOT NULL,
+    `name` mediumtext,
+    `type` int(1) DEFAULT NULL,
+    `required` smallint(6) DEFAULT NULL,
+    `weight` int(4) DEFAULT NULL,
+    `size` int(4) DEFAULT NULL,
+    `created_at_ts` int(11) NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`),
+    KEY `form` (`form_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 # Site Menu
@@ -252,28 +254,26 @@ CREATE TABLE `comments` (
 # Poll
 
 CREATE TABLE `poll` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `created_at_ts` int NOT NULL DEFAULT '0',
-  `title` varchar(255) NOT NULL DEFAULT '',
-  `is_default` smallint(6) NOT NULL DEFAULT '0',
-  `is_published` smallint(6) NOT NULL DEFAULT '0',
-  `published_at` date DEFAULT NULL,
-  `unpublished_at` date DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `is_default` (`is_default`),
-  KEY `is_published` (`is_published`)
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `title` varchar(255) NOT NULL DEFAULT '',
+    `is_default` smallint(6) NOT NULL DEFAULT '0',
+    `is_published` smallint(6) NOT NULL DEFAULT '0',
+    `published_at` date NOT NULL,
+    `unpublished_at` date NOT NULL,
+    `created_at_ts` int(11) NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`),
+    KEY `is_default` (`is_default`),
+    KEY `is_published` (`is_published`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `poll_question` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `created_at_ts` int NOT NULL DEFAULT '0',
-  `poll_id` int(11) DEFAULT NULL,
-  `title` varchar(255) NOT NULL DEFAULT '',
-  `votes` int(11) NOT NULL DEFAULT '0',
-  `weight` smallint(6) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `poll_id` (`poll_id`),
-  CONSTRAINT `FK_poll_id` FOREIGN KEY (`poll_id`) REFERENCES `poll` (`id`)
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `poll_id` int(11) DEFAULT NULL,
+    `title` varchar(255) NOT NULL DEFAULT '',
+    `votes` int(11) NOT NULL DEFAULT '0',
+    `weight` smallint(6) NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`),
+    KEY `poll_id` (`poll_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 # Ratings
