@@ -44,10 +44,10 @@ class PageRegion implements
     protected $title;
 
     /**
-     * @param $id
+     * @param int $id
      * @return bool
      */
-    public function load($id)
+    public function load(int $id)
     {
         if ($id == Block::BLOCK_REGION_NONE) {
             $this->id = $id;

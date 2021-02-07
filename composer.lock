@@ -3517,19 +3517,21 @@
         },
         {
             "name": "websk/php-model",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-model.git",
-                "reference": "612188a36fa17a4f8d06f76e8d75675c2c627f99"
+                "reference": "3339ae18efe2d4517d4eea296143c9b9f146625a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-model/zipball/612188a36fa17a4f8d06f76e8d75675c2c627f99",
-                "reference": "612188a36fa17a4f8d06f76e8d75675c2c627f99",
+                "url": "https://api.github.com/repos/websk/php-model/zipball/3339ae18efe2d4517d4eea296143c9b9f146625a",
+                "reference": "3339ae18efe2d4517d4eea296143c9b9f146625a",
                 "shasum": ""
             },
             "require": {
+                "ext-pdo": "*",
+                "php": "^7.4",
                 "websk/php-cache": "1.1.*",
                 "websk/php-config": "1.0.*",
                 "websk/php-db": "1.2.*",
@@ -3544,9 +3546,9 @@
             "notification-url": "https://packagist.org/downloads/",
             "support": {
                 "issues": "https://github.com/websk/php-model/issues",
-                "source": "https://github.com/websk/php-model/tree/1.0.1"
+                "source": "https://github.com/websk/php-model/tree/1.0.2"
             },
-            "time": "2019-04-12T10:19:04+00:00"
+            "time": "2021-02-07T15:27:15+00:00"
         },
         {
             "name": "websk/php-simple-router",
