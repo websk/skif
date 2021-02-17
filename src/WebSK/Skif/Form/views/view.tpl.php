@@ -74,7 +74,6 @@ $form_field_ids_arr = $form_field_service->getIdsArrByFormId($form_id);
     <div class="form-group">
         <div class="col-md-offset-3 col-md-9">
             <button class="btn btn-primary"><?php echo $form_obj->getButtonLabel() ?: 'Отправить'  ?></button>
-            <p class="help-block">* отмечены поля, обязательные для заполнения</p>
         </div>
     </div>
 </form>
