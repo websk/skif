@@ -16,9 +16,9 @@ class UniqueUrl
 {
     /**
      * @param string $url Url to check uniqueness
-     * @return bool|string Unique url or false if there is some error
+     * @return null|string Unique url or false if there is some error
      */
-    public static function getUniqueUrl(string $url)
+    public static function getUniqueUrl(string $url): ?string
     {
         $url_data_tables_arr = [Content::DB_TABLE_NAME, Rubric::DB_TABLE_NAME, Form::DB_TABLE_NAME];
 
@@ -52,6 +52,6 @@ class UniqueUrl
 
         }
 
-        return false;
+        return null;
     }
 }

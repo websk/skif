@@ -10,8 +10,6 @@ use WebSK\Entity\Entity;
  */
 class FormField extends Entity
 {
-    const ENTITY_SERVICE_CONTAINER_ID = 'skif.form_field__service';
-    const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.form_field_repository';
     const DB_TABLE_NAME = 'form_field';
 
     const FIELD_TYPE_STRING = 1;
@@ -27,28 +25,25 @@ class FormField extends Entity
     ];
 
     const _FORM_ID = 'form_id';
-    /** @var int */
-    protected $form_id;
+    protected int $form_id;
 
     const _NAME = 'name';
-    /** @var string */
-    protected $name = '';
+    protected string $name = '';
 
     const _TYPE = 'type';
-    /** @var null|int */
-    protected $type;
+    protected int $type = self::FIELD_TYPE_STRING;
 
     const _REQUIRED = 'required';
-    /** @var int */
-    protected $required = 0;
+    protected int $required = 0;
 
     const _WEIGHT = 'weight';
-    /** @var null|int */
-    protected $weight = 0;
+    protected ?int $weight = null;
 
     const _SIZE = 'size';
-    /** @var null|int */
-    protected $size = 50;
+    protected ?int $size = 50;
+
+    const _COMMENT = 'comment';
+    protected string $comment = '';
 
     /**
      * @return int
@@ -83,17 +78,17 @@ class FormField extends Entity
     }
 
     /**
-     * @return int|null
+     * @return int
      */
-    public function getType(): ?int
+    public function getType(): int
     {
         return $this->type;
     }
 
     /**
-     * @param int|null $type
+     * @param int $type
      */
-    public function setType(?int $type): void
+    public function setType(int $type): void
     {
         $this->type = $type;
     }
@@ -144,5 +139,21 @@ class FormField extends Entity
     public function setSize(?int $size): void
     {
         $this->size = $size;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComment(): string
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param string $comment
+     */
+    public function setComment(string $comment): void
+    {
+        $this->comment = $comment;
     }
 }

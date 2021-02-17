@@ -13,7 +13,6 @@ use WebSK\CRUD\Form\Widgets\CRUDFormWidgetRadios;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetReferenceAjax;
 use WebSK\Skif\Form\Form;
 use WebSK\Skif\Form\FormField;
-use WebSK\Skif\Form\FormRoutes;
 use WebSK\Skif\Form\FormServiceProvider;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
@@ -51,14 +50,15 @@ class AdminFormFieldEditHandler extends BaseHandler
                         FormField::_FORM_ID,
                         Form::class,
                         Form::_TITLE,
-                        $this->pathFor(FormRoutes::ROUTE_NAME_ADMIN_FORM_LIST_AJAX),
+                        $this->pathFor(AdminFormListAjaxHandler::class),
                         $this->pathFor(
-                            FormRoutes::ROUTE_NAME_ADMIN_FORM_EDIT,
+                            AdminFormEditHandler::class,
                             ['form_id' => CRUDFormWidgetReferenceAjax::REFERENCED_ID_PLACEHOLDER]
                         )
                     )
                 ),
                 new CRUDFormRow('Название', new CRUDFormWidgetInput(FormField::_NAME)),
+                new CRUDFormRow('Комментарий', new CRUDFormWidgetInput(FormField::_COMMENT)),
                 new CRUDFormRow(
                     'Тип',
                     new CRUDFormWidgetOptions(FormField::_TYPE, FormField::FIELD_TYPES_ARR)
@@ -84,8 +84,8 @@ class AdminFormFieldEditHandler extends BaseHandler
         $layout_dto->setContentHtml($content_html);
         $breadcrumbs_arr = [
             new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),
-            new BreadcrumbItemDTO('Формы', $this->pathFor(FormRoutes::ROUTE_NAME_ADMIN_FORM_LIST)),
-            new BreadcrumbItemDTO($form_obj->getTitle(), $this->pathFor(FormRoutes::ROUTE_NAME_ADMIN_FORM_EDIT, ['form_id' => $form_field_obj->getFormId()])),
+            new BreadcrumbItemDTO('Формы', $this->pathFor(AdminFormListHandler::class)),
+            new BreadcrumbItemDTO($form_obj->getTitle(), $this->pathFor(AdminFormEditHandler::class, ['form_id' => $form_field_obj->getFormId()])),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 

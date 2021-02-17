@@ -19,16 +19,15 @@ class FormService extends EntityService
     /** @var FormRepository */
     protected $repository;
 
-    /** @var array */
-    protected $ids_by_urls_cache = [];
+    protected array $ids_by_urls_cache = [];
 
     /**
      * @param string $url
-     * @return int
+     * @return ?int
      */
-    public function getIdByUrl(string $url)
+    public function getIdByUrl(string $url): ?int
     {
-        if (isset($this->ids_by_urls_cache[$url])) {
+        if (array_key_exists($url, $this->ids_by_urls_cache)) {
             return $this->ids_by_urls_cache[$url];
         }
 
@@ -62,9 +61,9 @@ class FormService extends EntityService
 
     /**
      * @param Form $form_obj
-     * @return bool|string
+     * @return string
      */
-    protected function generateUrl(Form $form_obj)
+    protected function generateUrl(Form $form_obj): string
     {
         if (!$form_obj->getTitle()) {
             return '';

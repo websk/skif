@@ -18,13 +18,6 @@ use WebSK\Utils\HTTP;
  */
 class FormRoutes
 {
-    const ROUTE_NAME_ADMIN_FORM_LIST = 'admin:form:list';
-    const ROUTE_NAME_ADMIN_FORM_LIST_AJAX = 'admin:form:list_ajax';
-    const ROUTE_NAME_ADMIN_FORM_EDIT = 'admin:form:edit';
-    const ROUTE_NAME_ADMIN_FORM_FIELD_EDIT = 'admin:form_field:edit';
-
-    const ROUTE_NAME_FORM_SEND = 'form:send';
-
     /**
      * @param App $app
      */
@@ -32,7 +25,7 @@ class FormRoutes
     {
         $app->group('/form', function (App $app) {
             $app->post('/{form_id:\d+}/send', FormSendHandler::class)
-                ->setName(self::ROUTE_NAME_FORM_SEND);
+                ->setName(FormSendHandler::class);
         });
     }
 
@@ -51,16 +44,16 @@ class FormRoutes
     {
         $app->group('/form', function (App $app) {
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', AdminFormListHandler::class)
-                ->setName(self::ROUTE_NAME_ADMIN_FORM_LIST);
+                ->setName(AdminFormListHandler::class);
 
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/ajax', AdminFormListAjaxHandler::class)
-                ->setName(self::ROUTE_NAME_ADMIN_FORM_LIST_AJAX);
+                ->setName(AdminFormListAjaxHandler::class);
 
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/{form_id:\d+}', AdminFormEditHandler::class)
-                ->setName(self::ROUTE_NAME_ADMIN_FORM_EDIT);
+                ->setName(AdminFormEditHandler::class);
 
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/field/{form_field_id:\d+}', AdminFormFieldEditHandler::class)
-                ->setName(self::ROUTE_NAME_ADMIN_FORM_FIELD_EDIT);
+                ->setName(AdminFormFieldEditHandler::class);
         });
     }
 }

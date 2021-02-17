@@ -6,7 +6,6 @@ use WebSK\Auth\Auth;
 use WebSK\Captcha\CaptchaRoutes;
 use WebSK\Config\ConfWrapper;
 use WebSK\SimpleRouter\SimpleRouter;
-use WebSK\Skif\Form\FormRoutes;
 use WebSK\Skif\Form\FormServiceProvider;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Utils\Exits;
@@ -43,7 +42,7 @@ class FormViewHandler extends BaseHandler
             [
                 'form_obj' => $form_obj,
                 'form_field_service' => $form_field_service,
-                'form_send_url' => $this->pathFor(FormRoutes::ROUTE_NAME_FORM_SEND, ['form_id' => $form_id]),
+                'form_send_url' => $this->pathFor(FormSendHandler::class, ['form_id' => $form_id]),
                 'captcha_url' => $this->pathFor(CaptchaRoutes::ROUTE_NAME_CAPTCHA_GENERATE),
                 'current_user_obj' => Auth::getCurrentUserObj()
             ]

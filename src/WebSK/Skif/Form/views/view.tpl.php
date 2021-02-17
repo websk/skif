@@ -27,29 +27,27 @@ $form_field_ids_arr = $form_field_service->getIdsArrByFormId($form_id);
     foreach ($form_field_ids_arr as $form_field_id) {
         $form_field_obj = $form_field_service->getById($form_field_id);
 
-        $field_size = $form_field_obj->getSize();
-        if (!$field_size) {
-            $field_size = 20;
-        }
-        if ($field_size > 50) {
-            $field_size = 50;
-        }
-
-        $name = $form_field_obj->getName();
-        if ($form_field_obj->getRequired()) {
-            $name = $name . ' *';
-        }
+        $field_size = $form_field_obj->getSize() ?: 20;
 
         $field_html = '';
         if ($form_field_obj->getType() == FormField::FIELD_TYPE_STRING) {
-            $field_html = '<input type=text name="field_' . $form_field_id . '" maxlength="' . $field_size . '" value="" size="' . $field_size . '" class="form-control">';
+            $field_html = '<input type=text name="field_' . $form_field_id . '" maxlength="' . $field_size . '" value="" size="' . $field_size . '" class="form-control"' . ($form_field_obj->getRequired() ? ' required' : '') . '>';
         } elseif ($form_field_obj->getType() == FormField::FIELD_TYPE_TEXTAREA) {
-            $field_html = '<textarea name="field_' . $form_field_id . '" cols="50" rows="' . $field_size . '" class="form-control"></textarea>';
+            $field_html = '<textarea name="field_' . $form_field_id . '" cols="50" rows="' . $field_size . '" class="form-control"' . ($form_field_obj->getRequired() ? ' required' : '') . '></textarea>';
         }
         ?>
         <div class="form-group">
-            <label class="col-md-3"><?php echo $name; ?></label>
-            <div class="col-md-9"><?php echo $field_html; ?></div>
+            <label class="col-md-3 control-label"><?php echo $form_field_obj->getName(); ?></label>
+            <div class="col-md-9">
+                <?php echo $field_html; ?>
+                <?php
+                if ($form_field_obj->getComment()) {
+                    ?>
+                <span class="help-block"><?php echo $form_field_obj->getComment(); ?></span>
+                <?php
+                }
+                ?>
+            </div>
         </div>
         <?php
     }
@@ -65,7 +63,7 @@ $form_field_ids_arr = $form_field_service->getIdsArrByFormId($form_id);
 
         <div class="form-group">
             <div class="col-md-offset-3 col-md-9">
-                <img src="<?php echo $captcha_url; ?>" border="0" alt="Введите этот защитный код">
+                <img src="<?php echo $captcha_url; ?>" alt="Введите этот защитный код">
                 <input type="text" size="5" name="captcha" class="form-control">
                 <span class="help-block">Введите код, изображенный на картинке</span>
             </div>

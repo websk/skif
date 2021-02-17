@@ -10,37 +10,28 @@ use WebSK\Entity\Entity;
  */
 class Form extends Entity
 {
-    const ENTITY_SERVICE_CONTAINER_ID = 'skif.form_service';
-    const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.form_repository';
     const DB_TABLE_NAME = 'form';
 
     const _TITLE = 'title';
-    /** @var string */
-    protected $title = '';
+    protected string $title;
 
     const _COMMENT = 'comment';
-    /** @var string */
-    protected $comment = '';
+    protected string $comment = '';
 
     const _BUTTON_LABEL = 'button_label';
-    /** @var string */
-    protected $button_label;
+    protected string $button_label = '';
 
     const _EMAIL = 'email';
-    /** @var string */
-    protected $email;
+    protected string $email = '';
 
     const _EMAIL_COPY = 'email_copy';
-    /** @var null|string */
-    protected $email_copy;
+    protected string $email_copy = '';
 
     const _RESPONSE_MAIL_MESSAGE = 'response_mail_message';
-    /** @var string */
-    protected $response_mail_message;
+    protected string $response_mail_message = '';
 
     const _URL = 'url';
-    /** @var string */
-    protected $url;
+    protected ?string $url = null;
 
     /**
      * @return string
@@ -107,17 +98,17 @@ class Form extends Entity
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getEmailCopy(): ?string
+    public function getEmailCopy(): string
     {
         return $this->email_copy;
     }
 
     /**
-     * @param string|null $email_copy
+     * @param string $email_copy
      */
-    public function setEmailCopy(?string $email_copy): void
+    public function setEmailCopy(string $email_copy): void
     {
         $this->email_copy = $email_copy;
     }

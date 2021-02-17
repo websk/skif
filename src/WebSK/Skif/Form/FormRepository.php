@@ -13,9 +13,9 @@ class FormRepository extends EntityRepository
 {
     /**
      * @param string $url
-     * @return int
+     * @return ?int
      */
-    public function findIdByUrl(string $url)
+    public function findIdByUrl(string $url): ?int
     {
         $db_table_name = $this->getTableName();
         $db_id_field_name = $this->getIdFieldName();
@@ -25,6 +25,10 @@ class FormRepository extends EntityRepository
             ' WHERE ' . Sanitize::sanitizeSqlColumnName(Form::_URL) . ' = ?';
 
         $id = $this->db_service->readField($query, [$url]);
+
+        if ($id === false) {
+            $id = null;
+        }
 
         return $id;
     }

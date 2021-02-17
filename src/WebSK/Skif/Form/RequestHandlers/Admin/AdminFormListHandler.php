@@ -17,7 +17,6 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
 use WebSK\Skif\Form\Form;
-use WebSK\Skif\Form\FormRoutes;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
@@ -61,7 +60,7 @@ class AdminFormListHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         Form::_TITLE,
                         function (Form $form) {
-                            return $this->pathFor(FormRoutes::ROUTE_NAME_ADMIN_FORM_EDIT, ['form_id' => $form->getId()]);
+                            return $this->pathFor(AdminFormEditHandler::class, ['form_id' => $form->getId()]);
                         }
                     )
                 ),

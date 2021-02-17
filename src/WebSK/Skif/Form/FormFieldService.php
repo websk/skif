@@ -18,7 +18,7 @@ class FormFieldService extends EntityService
      * @param int $form_id
      * @return array
      */
-    public function getIdsArrByFormId(int $form_id)
+    public function getIdsArrByFormId(int $form_id): array
     {
         return $this->repository->findIdsByFormId($form_id);
     }

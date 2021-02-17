@@ -186,10 +186,10 @@ INSERT INTO `rubrics` (`id`, `name`, `comment`, `content_type_id`, `template_id`
 
 CREATE TABLE `form` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-    `title` varchar(200) DEFAULT NULL,
-    `email` varchar(100) DEFAULT NULL,
-    `email_copy` varchar(100) DEFAULT NULL,
-    `button_label` varchar(100) DEFAULT NULL,
+    `title` varchar(200) NOT NULL,
+    `email` varchar(100) NOT NULL DEFAULT '',
+    `email_copy` varchar(100) NOT NULL DEFAULT '',
+    `button_label` varchar(100) NOT NULL DEFAULT '',
     `comment` mediumtext,
     `response_mail_message` mediumtext,
     `url` varchar(1000) DEFAULT NULL,
@@ -198,16 +198,17 @@ CREATE TABLE `form` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `form_field` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `form_id` int(11) NOT NULL,
-    `name` mediumtext,
-    `type` int(1) DEFAULT NULL,
-    `required` smallint(6) DEFAULT NULL,
-    `weight` int(4) DEFAULT NULL,
-    `size` int(4) DEFAULT NULL,
+    `id` int NOT NULL AUTO_INCREMENT,
+    `form_id` int NOT NULL,
+    `name` varchar(255) NOT NULL DEFAULT  '',
+    `type` tinyint NOT NULL,
+    `required` tinyint DEFAULT 0,
+    `weight` smallint DEFAULT NULL,
+    `size` smallint DEFAULT NULL,
+    `comment` varchar(255) NOT NULL DEFAULT  '',
     `created_at_ts` int(11) NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
-    KEY `form` (`form_id`)
+    KEY `form_id` (`form_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 # Site Menu
