@@ -57,15 +57,15 @@ class AdminFormFieldEditHandler extends BaseHandler
                         )
                     )
                 ),
-                new CRUDFormRow('Название', new CRUDFormWidgetInput(FormField::_NAME)),
+                new CRUDFormRow('Название', new CRUDFormWidgetInput(FormField::_NAME, false, true)),
                 new CRUDFormRow('Комментарий', new CRUDFormWidgetInput(FormField::_COMMENT)),
                 new CRUDFormRow(
                     'Тип',
-                    new CRUDFormWidgetOptions(FormField::_TYPE, FormField::FIELD_TYPES_ARR)
+                    new CRUDFormWidgetOptions(FormField::_TYPE, FormField::FIELD_TYPES_ARR, false, true)
                 ),
                 new CRUDFormRow('Обязательность', new CRUDFormWidgetRadios(FormField::_REQUIRED, [0 => 'Нет', 1 => 'Да'])),
                 new CRUDFormRow('Сортировка', new CRUDFormWidgetInput(FormField::_WEIGHT)),
-                new CRUDFormRow('Размер', new CRUDFormWidgetInput(FormField::_SIZE)),
+                new CRUDFormRow('Размер', new CRUDFormWidgetInput(FormField::_SIZE, true)),
             ]
         );
 

@@ -31,9 +31,9 @@ $form_field_ids_arr = $form_field_service->getIdsArrByFormId($form_id);
 
         $field_html = '';
         if ($form_field_obj->getType() == FormField::FIELD_TYPE_STRING) {
-            $field_html = '<input type=text name="field_' . $form_field_id . '" maxlength="' . $field_size . '" value="" size="' . $field_size . '" class="form-control"' . ($form_field_obj->getRequired() ? ' required' : '') . '>';
+            $field_html = '<input type=text name="field_' . $form_field_id . '" maxlength="' . $field_size . '" value="" size="' . $field_size . '" class="form-control"' . ($form_field_obj->isRequired() ? ' required' : '') . '>';
         } elseif ($form_field_obj->getType() == FormField::FIELD_TYPE_TEXTAREA) {
-            $field_html = '<textarea name="field_' . $form_field_id . '" cols="50" rows="' . $field_size . '" class="form-control"' . ($form_field_obj->getRequired() ? ' required' : '') . '></textarea>';
+            $field_html = '<textarea name="field_' . $form_field_id . '" cols="50" rows="' . $field_size . '" class="form-control"' . ($form_field_obj->isRequired() ? ' required' : '') . '></textarea>';
         }
         ?>
         <div class="form-group">

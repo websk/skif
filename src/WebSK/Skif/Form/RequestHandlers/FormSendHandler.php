@@ -57,7 +57,7 @@ class FormSendHandler extends BaseHandler
 
             $message .= $name . ": " . $field_value . '<br>';
 
-            if ($form_field_obj->getRequired() && !$field_value) {
+            if ($form_field_obj->isRequired() && !$field_value) {
                 Messages::setError("Вы не указали " . $name);
                 Redirects::redirect($form_obj->getUrl());
             }

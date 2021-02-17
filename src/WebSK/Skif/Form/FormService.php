@@ -41,7 +41,7 @@ class FormService extends EntityService
     /**
      * @param Form|InterfaceEntity $entity_obj
      */
-    public function afterSave(InterfaceEntity $entity_obj)
+    public function beforeSave(InterfaceEntity $entity_obj)
     {
         if ($entity_obj->getUrl()) {
             $url = '/' . ltrim($entity_obj->getUrl(), '/');
@@ -56,7 +56,7 @@ class FormService extends EntityService
 
         $entity_obj->setUrl($url);
 
-        parent::afterSave($entity_obj);
+        parent::beforeSave($entity_obj);
     }
 
     /**

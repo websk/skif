@@ -34,13 +34,13 @@ class FormField extends Entity
     protected int $type = self::FIELD_TYPE_STRING;
 
     const _REQUIRED = 'required';
-    protected int $required = 0;
+    protected bool $required = false;
 
     const _WEIGHT = 'weight';
-    protected ?int $weight = null;
+    protected int $weight = 0;
 
     const _SIZE = 'size';
-    protected ?int $size = 50;
+    protected ?int $size = null;
 
     const _COMMENT = 'comment';
     protected string $comment = '';
@@ -94,33 +94,33 @@ class FormField extends Entity
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getRequired(): int
+    public function isRequired(): bool
     {
         return $this->required;
     }
 
     /**
-     * @param int $required
+     * @param bool $required
      */
-    public function setRequired(int $required): void
+    public function setRequired(bool $required): void
     {
         $this->required = $required;
     }
 
     /**
-     * @return int|null
+     * @return int
      */
-    public function getWeight(): ?int
+    public function getWeight(): int
     {
         return $this->weight;
     }
 
     /**
-     * @param int|null $weight
+     * @param int $weight
      */
-    public function setWeight(?int $weight): void
+    public function setWeight(int $weight): void
     {
         $this->weight = $weight;
     }
