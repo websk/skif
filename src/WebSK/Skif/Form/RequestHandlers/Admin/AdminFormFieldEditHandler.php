@@ -90,7 +90,7 @@ class AdminFormFieldEditHandler extends BaseHandler
                 new NavTabItemDTO(
                     'Редактирование',
                     $this->pathFor(
-                        AdminFormEditHandler::class,
+                        AdminFormFieldEditHandler::class,
                         ['form_field_id' => $form_field_id]
                     )
                 ),
