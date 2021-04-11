@@ -2,10 +2,13 @@
 
 namespace WebSK\Skif\Form;
 
+use WebSK\Auth\Auth;
 use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
+use WebSK\Logger\Logger;
 use WebSK\Skif\UniqueUrl;
 use WebSK\Utils\Assert;
+use WebSK\Utils\FullObjectId;
 use WebSK\Utils\Transliteration;
 
 /**
@@ -80,5 +83,25 @@ class FormService extends EntityService
         Assert::assert($unique_new_url);
 
         return $unique_new_url;
+    }
+
+    /**
+     * @param InterfaceEntity|Form $entity_obj
+     */
+    public function afterSave(InterfaceEntity $entity_obj)
+    {
+        parent::afterSave($entity_obj);
+
+        Logger::logObjectEvent($entity_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
+    }
+
+    /**
+     * @param InterfaceEntity|Form $entity_obj
+     */
+    public function afterDelete(InterfaceEntity $entity_obj)
+    {
+        parent::afterDelete($entity_obj);
+
+        Logger::logObjectEvent($entity_obj, 'удаление', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 }

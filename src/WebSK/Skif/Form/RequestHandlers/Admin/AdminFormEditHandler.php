@@ -19,6 +19,7 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
+use WebSK\Logger\LoggerRender;
 use WebSK\Skif\Form\Form;
 use WebSK\Skif\Form\FormField;
 use WebSK\Skif\Form\FormServiceProvider;
@@ -26,6 +27,7 @@ use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
+use WebSK\Views\NavTabItemDTO;
 use WebSK\Views\PhpRender;
 
 /**
@@ -134,6 +136,20 @@ class AdminFormEditHandler extends BaseHandler
         $layout_dto = new LayoutDTO();
         $layout_dto->setTitle($form_obj->getTitle());
         $layout_dto->setContentHtml($content_html);
+
+        $layout_dto->setNavTabsDtoArr(
+            [
+                new NavTabItemDTO(
+                    'Редактирование',
+                    $this->pathFor(
+                        AdminFormEditHandler::class,
+                        ['form_id' => $form_id]
+                    )
+                ),
+                new NavTabItemDTO('Журнал', LoggerRender::getLoggerLinkForEntityObj($form_obj), '_blank'),
+            ]
+        );
+
         $breadcrumbs_arr = [
             new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),
             new BreadcrumbItemDTO('Формы', $this->pathFor(AdminFormListHandler::class)),
