@@ -23,7 +23,7 @@ $current_url_no_query = Url::getUriNoQueryString();
         foreach ($nav_tabs_dto_arr as $nav_tab_item_dto) {
             ?>
             <li role="presentation" <?php echo (strpos($current_url_no_query, $nav_tab_item_dto->getUrl()) !== false ? ' class="active"' : '') ?>>
-                <a href="<?php echo $nav_tab_item_dto->getUrl(); ?>"><?php echo $nav_tab_item_dto->getName(); ?></a>
+                <a href="<?php echo $nav_tab_item_dto->getUrl(); ?>"<?php echo $nav_tab_item_dto->getTarget() ? 'target="' . $nav_tab_item_dto->getTarget() . '"' : ''; ?>><?php echo $nav_tab_item_dto->getName(); ?></a>
             </li>
             <?php
         }
