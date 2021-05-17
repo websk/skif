@@ -13,6 +13,7 @@ use WebSK\DB\DBSettings;
  */
 class SkifServiceProvider
 {
+    const DUMP_FILE_PATH = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'dumps' . DIRECTORY_SEPARATOR . 'db_skif.sql';
     public const SKIF_DB_SERVICE_CONTAINER_ID = 'skif.db_service';
     public const DB_ID = 'db_skif';
 

@@ -19,24 +19,28 @@ return [
                 'db_name' => 'skif',
                 'user' => '',
                 'password' => '',
+                'dump_file_path' => \WebSK\Skif\SkifServiceProvider::DUMP_FILE_PATH
             ],
             'db_auth' => [
                 'host' => 'localhost',
                 'db_name' => 'skif',
                 'user' => '',
                 'password' => '',
+                'dump_file_path' => \WebSK\Auth\AuthServiceProvider::DUMP_FILE_PATH
             ],
             'db_keyvalue' => [
                 'host' => 'localhost',
                 'db_name' => 'skif',
                 'user' => '',
                 'password' => '',
+                'dump_file_path' => \WebSK\KeyValue\KeyValueServiceProvider::DUMP_FILE_PATH
             ],
             'db_logger' => [
                 'host' => 'localhost',
                 'db_name' => 'skif',
                 'user' => '',
                 'password' => '',
+                'dump_file_path' => \WebSK\Logger\LoggerServiceProvider::DUMP_FILE_PATH
             ],
         ],
         'layout' => [
