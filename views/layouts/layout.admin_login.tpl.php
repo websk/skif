@@ -7,6 +7,7 @@ use WebSK\Auth\AuthRoutes;
 use WebSK\Skif\SkifApp;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\Router;
+use WebSK\Utils\Messages;
 
 ?>
 <!DOCTYPE html>
@@ -49,6 +50,10 @@ use WebSK\Slim\Router;
                     <h3 class="panel-title">Вход в систему управления</h3>
                 </div>
                 <div class="panel-body">
+                    <?php
+                    echo Messages::renderMessages();
+                    ?>
+
                     <form action="<?php echo Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGIN); ?>" method="post">
                         <div class="form-group">
                             <label class="sr-only">Email</label>

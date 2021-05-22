@@ -2,9 +2,9 @@
 
 return [
     'settings' => [
-        'displayErrorDetails' => false,
+        'displayErrorDetails' => true,
         'cache' => [
-            'engine' => \WebSK\Cache\Engines\Memcache::class,
+            'engine' => \WebSK\Cache\Engines\Memcached::class,
             'cache_key_prefix' => 'skif',
             'servers' => [
                 [
@@ -14,41 +14,41 @@ return [
             ]
         ],
         'db' => [
-            'db_skif' => [
-                'host' => 'localhost',
-                'db_name' => 'skif',
-                'user' => '',
-                'password' => '',
-                'dump_file_path' => \WebSK\Skif\SkifServiceProvider::DUMP_FILE_PATH
-            ],
             'db_auth' => [
-                'host' => 'localhost',
+                'host' => 'mysql',
                 'db_name' => 'skif',
-                'user' => '',
-                'password' => '',
+                'user' => 'root',
+                'password' => 'root',
                 'dump_file_path' => \WebSK\Auth\AuthServiceProvider::DUMP_FILE_PATH
             ],
             'db_keyvalue' => [
-                'host' => 'localhost',
+                'host' => 'mysql',
                 'db_name' => 'skif',
-                'user' => '',
-                'password' => '',
+                'user' => 'root',
+                'password' => 'root',
                 'dump_file_path' => \WebSK\KeyValue\KeyValueServiceProvider::DUMP_FILE_PATH
             ],
             'db_logger' => [
-                'host' => 'localhost',
+                'host' => 'mysql',
                 'db_name' => 'skif',
-                'user' => '',
-                'password' => '',
+                'user' => 'root',
+                'password' => 'root',
                 'dump_file_path' => \WebSK\Logger\LoggerServiceProvider::DUMP_FILE_PATH
+            ],
+            'db_skif' => [
+                'host' => 'mysql',
+                'db_name' => 'skif',
+                'user' => 'root',
+                'password' => 'root',
+                'dump_file_path' => \WebSK\Skif\SkifServiceProvider::DUMP_FILE_PATH
             ],
         ],
         'layout' => [
-            'empty' => '/var/www/skif/views/layouts/layout.empty.tpl.php',
-            'blank' => '/var/www/skif/views/layouts/layout.blank.tpl.php',
-            'main' => '/var/www/skif/views/layouts/layout.main.tpl.php',
-            'admin' => '/var/www/skif/views/layouts/layout.adminLTE.tpl.php',
-            'error' => '/var/www/skif/views/layouts/layout.error.tpl.php',
+            'empty' => '/var/www/views/layouts/layout.empty.tpl.php',
+            'blank' => '/var/www/views/layouts/layout.blank.tpl.php',
+            'main' => '/var/www/views/layouts/layout.main.tpl.php',
+            'admin' => '/var/www/views/layouts/layout.adminLTE.tpl.php',
+            'error' => '/var/www/views/layouts/layout.error.tpl.php',
         ],
         'skif' => [
             'menu' => [
@@ -88,17 +88,17 @@ return [
                     ]
                 ]
             ],
-            'layout' => '/var/www/skif/views/layouts/layout.adminLTE.tpl.php',
+            'layout' => '/var/www/views/layouts/layout.adminLTE.tpl.php',
             'url_path' => '/admin',
             'main_page' => '/admin/content/page',
             'assets_version' => 1
         ],
         'log_path' => '/var/www/log',
         'tmp_path' => '/var/www/tmp',
-        'static_data_path' => '/var/www/skif/public/static',
-        'files_data_path' => '/var/www/skif/public/files',
-        'site_domain' => 'http://skif.dev',
-        'site_full_path' => '/var/www/skif',
+        'static_data_path' => '/var/wwww/public/static',
+        'files_data_path' => '/var/www/public/files',
+        'site_domain' => 'http://skif.devbox',
+        'site_full_path' => '/var/www',
         'assets_url_path' => '/assets',
         'site_name' => 'Скиф',
         'site_title' => 'WebSK. Skif',
