@@ -121,9 +121,9 @@ CREATE TABLE site_menu_item (id int NOT NULL AUTO_INCREMENT PRIMARY KEY) ENGINE 
 ALTER TABLE site_menu_item ADD COLUMN `name` varchar(512) NOT NULL DEFAULT '' /* 98h2938ch93ch9333 */;
 ALTER TABLE site_menu_item ADD COLUMN `url` varchar(512) NOT NULL DEFAULT '' /* c98h9832hc9238h9c8h */;
 ALTER TABLE site_menu_item ADD COLUMN `content_id` int DEFAULT NULL /* ch8h398h3298ch9 */;
-ALTER TABLE site_menu_item ADD COLUMN `weight` int unsigned NOT NULL DEFAULT '0' /* 721g9829h8hxuu2h */;
-ALTER TABLE site_menu_item ADD COLUMN `parent_id` int unsigned NOT NULL DEFAULT '0' /* 0c832093c09j3209 */;
-ALTER TABLE site_menu_item ADD COLUMN `is_published` tinyint unsigned NOT NULL DEFAULT '0' /* 20389f-9u230f93029 */;
+ALTER TABLE site_menu_item ADD COLUMN `weight` int NOT NULL DEFAULT '0' /* 721g9829h8hxuu2h */;
+ALTER TABLE site_menu_item ADD COLUMN `parent_id` int NOT NULL DEFAULT '0' /* 0c832093c09j3209 */;
+ALTER TABLE site_menu_item ADD COLUMN `is_published` tinyint NOT NULL DEFAULT '0' /* 20389f-9u230f93029 */;
 ALTER TABLE site_menu_item ADD COLUMN `menu_id` int DEFAULT NULL /* 0293cj0923jc09j203 */;
 ALTER TABLE site_menu_item ADD KEY `parent_weight` (`parent_id`,`weight`) /* 029309f3209fj03 */;
 CREATE TABLE comments (id int NOT NULL AUTO_INCREMENT PRIMARY KEY, created_at_ts int NOT NULL DEFAULT 0) ENGINE InnoDB DEFAULT CHARSET utf8 /* 0cj039j4049vj04 */;
