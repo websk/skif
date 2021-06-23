@@ -139,7 +139,6 @@ ALTER TABLE comments ADD KEY `url_md5` (`url_md5`) /* 934h8h344vh48hv */;
 CREATE TABLE poll (id int NOT NULL AUTO_INCREMENT PRIMARY KEY, created_at_ts int NOT NULL DEFAULT 0) ENGINE InnoDB DEFAULT CHARSET utf8 /* c2n3hj0923hv093 */;
 ALTER TABLE poll ADD COLUMN `title` varchar(255) NOT NULL DEFAULT '' /* 28fh823hf98 */;
 ALTER TABLE poll ADD COLUMN `is_default` smallint NOT NULL DEFAULT '0' /* 2h938fh9823hf9 */;
-ALTER TABLE poll ADD COLUMN `parent_id` int DEFAULT NULL /* 923hf8932hf983hf */;
 ALTER TABLE poll ADD COLUMN `is_published` smallint NOT NULL DEFAULT '0' /* 2i3ugf82g39f8 */;
 ALTER TABLE poll ADD COLUMN `published_at` date NOT NULL /* 928h398h3f9h */;
 ALTER TABLE poll ADD COLUMN `unpublished_at` date NOT NULL /* v893vh9g3g34 */;
