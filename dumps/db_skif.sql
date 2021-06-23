@@ -120,7 +120,7 @@ ALTER TABLE site_menu ADD COLUMN `url` varchar(512) NOT NULL DEFAULT '' /* 34v09
 CREATE TABLE site_menu_item (id int NOT NULL AUTO_INCREMENT PRIMARY KEY) ENGINE InnoDB DEFAULT CHARSET utf8 /* 094j09vj309j */;
 ALTER TABLE site_menu_item ADD COLUMN `name` varchar(512) NOT NULL DEFAULT '' /* 98h2938ch93ch9333 */;
 ALTER TABLE site_menu_item ADD COLUMN `url` varchar(512) NOT NULL DEFAULT '' /* c98h9832hc9238h9c8h */;
-ALTER TABLE site_menu_item ADD COLUMN `content_id` int unsigned DEFAULT NULL /* ch8h398h3298ch9 */;
+ALTER TABLE site_menu_item ADD COLUMN `content_id` int DEFAULT NULL /* ch8h398h3298ch9 */;
 ALTER TABLE site_menu_item ADD COLUMN `weight` int unsigned NOT NULL DEFAULT '0' /* 721g9829h8hxuu2h */;
 ALTER TABLE site_menu_item ADD COLUMN `parent_id` int unsigned NOT NULL DEFAULT '0' /* 0c832093c09j3209 */;
 ALTER TABLE site_menu_item ADD COLUMN `is_published` tinyint unsigned NOT NULL DEFAULT '0' /* 20389f-9u230f93029 */;
