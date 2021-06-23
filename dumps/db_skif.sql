@@ -150,3 +150,10 @@ ALTER TABLE poll_question ADD COLUMN `poll_id` int DEFAULT NULL /* v98h983h98h33
 ALTER TABLE poll_question ADD COLUMN `title` varchar(255) NOT NULL DEFAULT '' /* s08rhvb08h038h */;
 ALTER TABLE poll_question ADD COLUMN `votes` int NOT NULL DEFAULT '0' /* v398hv94h3vb9h */;
 ALTER TABLE poll_question ADD COLUMN `weight` smallint NOT NULL DEFAULT '0' /* 0823h98hg9348 */;
+ALTER TABLE poll_question ADD CONSTRAINT FK_poll_question_poll FOREIGN KEY (poll_id) REFERENCES poll (id) /* ch928h983h933 */;
+ALTER TABLE poll_question ADD COLUMN created_at_ts int NOT NULL DEFAULT 0 /* 938h498h34945 */;
+ALTER TABLE content_types ADD  CONSTRAINT `FK_content_types_template` FOREIGN KEY (`template_id`) REFERENCES `template` (`id`) /* 23hj09j3209jf032f */;
+ALTER TABLE form_field ADD CONSTRAINT FK_form_field_form FOREIGN KEY (form_id) REFERENCES form (id) /* j9cj0392j093j232 */;
+ALTER TABLE site_menu_item ADD CONSTRAINT FK_site_menu_item_site_menu FOREIGN KEY (menu_id) REFERENCES site_menu (id) /*  2j239j-23j-0f3-2f */;
+ALTER TABLE site_menu_item ADD CONSTRAINT FK_site_menu_item_content FOREIGN KEY (content_id) REFERENCES content (id) /* 38948hv483v34 */;
+ALTER TABLE comments ADD CONSTRAINT FK_comments_user_id FOREIGN KEY (user_id) REFERENCES users (id) /* v05j4v9j04v509 */;
