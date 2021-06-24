@@ -1,9 +1,9 @@
 <?php
 /**
- * @var $url
+ * @var string $url
  */
 
-use WebSK\Skif\Comment\CommentRoutes;
+use WebSK\Skif\Comment\RequestHandlers\CommentListHandler;
 use WebSK\Slim\Router;
 
 ?>
@@ -11,7 +11,7 @@ use WebSK\Slim\Router;
     $().ready(function() {
         $.ajax(
         {
-            url: "<?php echo Router::pathFor(CommentRoutes::ROUTE_NAME_COMMENTS_LIST); ?>",
+            url: "<?php echo Router::pathFor(CommentListHandler::class); ?>",
             data: {
                 'url': '<?php echo $url ?>'
             },

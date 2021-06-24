@@ -21,6 +21,7 @@ class CommentService extends EntityService
 {
     const CONFIG_MESSAGE_TO_PAGE = 'comments.message_to_page';
     const CONFIG_NO_ADD_COMMENTS_FOR_UNREGISTERED_USERS = 'comments.no_add_comments_for_unregistered_users';
+    const CONFIG_ENABLE_EMAIL_NOTIFICATION = 'comments.enable_email_notification';
     const CONFIG_SEND_ANSWER_TO_EMAIL = 'comments.send_answer_to_email';
 
     const DEFAULT_MESSAGE_TO_PAGE = 20;
@@ -28,8 +29,7 @@ class CommentService extends EntityService
     /** @var CommentRepository */
     protected $repository;
 
-    /** @var UserService */
-    protected $user_service;
+    protected UserService $user_service;
 
     /**
      * @return int
@@ -61,7 +61,7 @@ class CommentService extends EntityService
      * @param int $id
      * @return array
      */
-    public function getChildrenIdsArr(int $id)
+    public function getChildrenIdsArr(int $id): array
     {
         return $this->repository->findIdsByParentId($id);
     }
@@ -72,7 +72,7 @@ class CommentService extends EntityService
      * @param int $page
      * @return array
      */
-    public function getCommentsIdsArrByUrl(string $url, int $page = 1)
+    public function getCommentsIdsArrByUrl(string $url, int $page = 1): array
     {
         $page_size = ConfWrapper::value(self::CONFIG_MESSAGE_TO_PAGE, self::DEFAULT_MESSAGE_TO_PAGE);
         $offset = ($page - 1) * $page_size;
@@ -84,7 +84,7 @@ class CommentService extends EntityService
      * @param string $url
      * @return int
      */
-    public function getCountCommentsByUrl(string $url)
+    public function getCountCommentsByUrl(string $url): int
     {
         return $this->repository->findCountCommentsByUrl($url);
     }
@@ -103,54 +103,13 @@ class CommentService extends EntityService
     }
 
     /**
-     * @param InterfaceEntity|Comment $entity_obj
-     */
-    public function afterSave(InterfaceEntity $entity_obj)
-    {
-        if ($entity_obj->getParentId()) {
-            if (ConfWrapper::value(self::CONFIG_SEND_ANSWER_TO_EMAIL)) {
-                $parent_comment_obj = $this->getById($entity_obj->getParentId());
-
-                $parent_comment_user_email = $this->getUserEmail($parent_comment_obj);
-
-                if ($parent_comment_user_email) {
-                    $site_email = ConfWrapper::value('site_email');
-                    $site_domain = ConfWrapper::value('site_domain');
-                    $site_name = ConfWrapper::value('site_name');
-
-                    $mail_message = 'Здравствуйте, ' . $this->getUserName($parent_comment_obj) . '!<br />';
-                    $mail_message .= 'Получен ответ на ваше сообщение:<br />';
-                    $mail_message .= $parent_comment_obj->getComment() . '<br />';
-                    $mail_message .= 'Ответ: ' . $entity_obj->getComment() . '<br />';
-                    $mail_message .= $site_name . ', ' . $site_domain;
-
-                    $subject = 'Ответ на сообщение на сайте' . $site_name;
-
-                    $mail = new PHPMailer;
-                    $mail->CharSet = "utf-8";
-                    $mail->setFrom($site_email, $site_name);
-                    $mail->addReplyTo($site_email);
-                    $mail->addAddress($parent_comment_user_email);
-                    $mail->isHTML(true);
-                    $mail->Subject = $subject;
-                    $mail->Body = $mail_message;
-                    $mail->AltBody = Filters::checkPlain($mail_message);
-                    $mail->send();
-                }
-            }
-        }
-
-        parent::afterSave($entity_obj);
-    }
-
-    /**
      * @param Comment $comment_obj
-     * @return string|null
+     * @return string
      */
-    public function getUserEmail(Comment $comment_obj)
+    public function getUserEmail(Comment $comment_obj): string
     {
         if (!$comment_obj->getUserId()) {
-            return $comment_obj->getUserEmail();
+            return $comment_obj->getUserEmail() ?: '';
         }
 
         $user_obj = $this->user_service->getById($comment_obj->getUserId());
@@ -160,12 +119,12 @@ class CommentService extends EntityService
 
     /**
      * @param Comment $comment_obj
-     * @return string|null
+     * @return string
      */
-    public function getUserName(Comment $comment_obj)
+    public function getUserName(Comment $comment_obj): string
     {
         if (!$comment_obj->getUserId()) {
-            return $comment_obj->getUserName();
+            return $comment_obj->getUserName() ?: '';
         }
 
         $user_obj = $this->user_service->getById($comment_obj->getUserId());
@@ -190,5 +149,69 @@ class CommentService extends EntityService
         }
 
         $this->removeObjFromCacheById($entity_obj->getId());
+    }
+
+    public function sendEmailNotificationForComment(Comment $comment_obj)
+    {
+        if (!ConfWrapper::value(CommentService::CONFIG_ENABLE_EMAIL_NOTIFICATION))
+        {
+            return;
+        }
+
+        $site_email = ConfWrapper::value('site_email');
+        $site_domain = ConfWrapper::value('site_domain');
+        $site_name = ConfWrapper::value('site_name');
+
+        $user_email = $this->getUserEmail($comment_obj);
+        $user_name = $this->getUserName($comment_obj);
+
+        $mail_message = 'Пользователь ' . $user_name;
+        if ($user_email) {
+            $mail_message .= ' (' . $user_email . ')';
+        }
+        $mail_message .= ' оставил новое сообщение на странице ' . $comment_obj->getUrl() . '.<br />';
+        $mail_message .= $comment_obj->getComment() . '<br />';
+        $mail_message .= $site_name . ', ' . $site_domain;
+
+        $subject = 'Новое сообщение от пользователя ' . $user_name;
+
+        $mail = new PHPMailer;
+        $mail->CharSet = "utf-8";
+        $mail->setFrom($site_email, $site_name);
+        $mail->addReplyTo($site_email);
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body = $mail_message;
+        $mail->AltBody = Filters::checkPlain($mail_message);
+        $mail->send();
+
+        if ($comment_obj->getParentId()) {
+            if (ConfWrapper::value(self::CONFIG_SEND_ANSWER_TO_EMAIL)) {
+                $parent_comment_obj = $this->getById($comment_obj->getParentId());
+
+                $parent_comment_user_email = $this->getUserEmail($parent_comment_obj);
+
+                if ($parent_comment_user_email) {
+                    $mail_message = 'Здравствуйте, ' . $this->getUserName($parent_comment_obj) . '!<br />';
+                    $mail_message .= 'Получен ответ на ваше сообщение:<br />';
+                    $mail_message .= $parent_comment_obj->getComment() . '<br />';
+                    $mail_message .= 'Ответ: ' . $comment_obj->getComment() . '<br />';
+                    $mail_message .= $site_name . ', ' . $site_domain;
+
+                    $subject = 'Ответ на сообщение на сайте' . $site_name;
+
+                    $mail = new PHPMailer;
+                    $mail->CharSet = "utf-8";
+                    $mail->setFrom($site_email, $site_name);
+                    $mail->addReplyTo($site_email);
+                    $mail->addAddress($parent_comment_user_email);
+                    $mail->isHTML(true);
+                    $mail->Subject = $subject;
+                    $mail->Body = $mail_message;
+                    $mail->AltBody = Filters::checkPlain($mail_message);
+                    $mail->send();
+                }
+            }
+        }
     }
 }

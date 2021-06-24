@@ -19,7 +19,6 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
 use WebSK\Skif\Comment\Comment;
-use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Skif\Comment\CommentServiceProvider;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
@@ -51,7 +50,7 @@ class AdminCommentEditHandler extends BaseHandler
         }
 
         $destination = $this->pathFor(
-            CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT,
+            AdminCommentEditHandler::class,
             ['comment_id' => $comment_id]
         );
         if ($request->getParam(self::PARAM_DESTINATION)) {
@@ -68,9 +67,9 @@ class AdminCommentEditHandler extends BaseHandler
                         Comment::_PARENT_ID,
                         Comment::class,
                         Comment::_COMMENT,
-                        $this->pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_LIST_AJAX),
+                        $this->pathFor(AdminCommentListAjaxHandler::class),
                         $this->pathFor(
-                            CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT,
+                            AdminCommentEditHandler::class,
                             ['comment_id' => CRUDFormWidgetReferenceAjax::REFERENCED_ID_PLACEHOLDER]
                         )
                     )
@@ -128,7 +127,7 @@ class AdminCommentEditHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         Comment::_COMMENT,
                         function (Comment $comment) {
-                            return $this->pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT, ['comment_id' => $comment->getId()]);
+                            return $this->pathFor(AdminCommentEditHandler::class, ['comment_id' => $comment->getId()]);
                         }
                     )
                 ),
@@ -162,7 +161,7 @@ class AdminCommentEditHandler extends BaseHandler
         $layout_dto->setContentHtml($content_html);
         $breadcrumbs_arr = [
             new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),
-            new BreadcrumbItemDTO('Комментарии', $this->pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_LIST)),
+            new BreadcrumbItemDTO('Комментарии', $this->pathFor(AdminCommentListHandler::class)),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 

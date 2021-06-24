@@ -1,9 +1,9 @@
 <?php
 /**
- * @var $url
- * @var $page
- * @var $count_comments
- * @var $message_to_page
+ * @var string $url
+ * @var int $page
+ * @var int $count_comments
+ * @var int $message_to_page
  */
 
 $all = ceil($count_comments / $message_to_page);

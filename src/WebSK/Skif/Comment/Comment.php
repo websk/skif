@@ -10,37 +10,28 @@ use WebSK\Entity\Entity;
  */
 class Comment extends Entity
 {
-    const ENTITY_SERVICE_CONTAINER_ID = 'skif.comment_service';
-    const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.comment_repository';
     const DB_TABLE_NAME = 'comments';
 
     const _PARENT_ID = 'parent_id';
-    /** @var int */
-    protected $parent_id;
+    protected ?int $parent_id = null;
 
     const _COMMENT = 'comment';
-    /** @var string */
-    protected $comment;
+    protected string $comment;
 
     const _URL = 'url';
-    /** @var string */
-    protected $url;
+    protected string $url;
 
     const _USER_ID = 'user_id';
-    /** @var int|null */
-    protected $user_id = null;
+    protected ?int $user_id = null;
 
     const _USER_NAME = 'user_name';
-    /** @var string */
-    protected $user_name;
+    protected ?string $user_name = null;
 
     const _USER_EMAIL = 'user_email';
-    /** @var string */
-    protected $user_email;
+    protected ?string $user_email = null;
 
     const _URL_MD5 = 'url_md5';
-    /** @var string */
-    protected $url_md5;
+    protected string $url_md5;
 
     /**
      * Parent ID

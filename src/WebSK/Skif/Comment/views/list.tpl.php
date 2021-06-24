@@ -12,6 +12,10 @@ use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
 use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Skif\Comment\CommentService;
+use WebSK\Skif\Comment\RequestHandlers\Admin\AdminCommentEditHandler;
+use WebSK\Skif\Comment\RequestHandlers\Admin\AdminCommentListHandler;
+use WebSK\Skif\Comment\RequestHandlers\CommentCreateHandler;
+use WebSK\Skif\Comment\RequestHandlers\CommentListHandler;
 use WebSK\Slim\Container;
 use WebSK\Slim\Router;
 
@@ -22,7 +26,7 @@ use WebSK\Slim\Router;
         ?>
         $().ready(function () {
             $('.add_answer').bind('click', function () {
-                $(this).before('<form method="post" action="<?php echo Router::pathFor(CommentRoutes::ROUTE_NAME_COMMENTS_CREATE); ?>" id="comment_form_answer">'
+                $(this).before('<form method="post" action="<?php echo Router::pathFor(CommentCreateHandler::class); ?>" id="comment_form_answer">'
                     + '<div class="form-group"><textarea name="comment" class="form-control"></textarea></div>'
                     + '<input type="hidden" name="url" value="<?php echo $url ?>">'
                     + '<input type="hidden" name="parent_id" value="' + $(this).attr('href').substring(8) + '">'
@@ -38,7 +42,7 @@ use WebSK\Slim\Router;
         $('#comment_pager li').bind('click', function () {
             $.ajax(
                 {
-                    url: "<?php echo Router::pathFor(CommentRoutes::ROUTE_NAME_COMMENTS_LIST); ?>",
+                    url: "<?php echo Router::pathFor(CommentListHandler::class); ?>",
                     data: {
                         'url': '<?php echo $url ?>',
                         'page': $(this).text()
@@ -68,7 +72,7 @@ foreach ($comments_ids_arr as $comment_id) {
                 echo '<div class="pull-right">';
 
                 echo '<a href="'
-                    . Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT, ['comment_id' => $comment_id], ['destination' => $url . '#comments'])
+                    . Router::pathFor(AdminCommentEditHandler::class, ['comment_id' => $comment_id], ['destination' => $url . '#comments'])
                     . '" class="btn btn-default btn-sm"><span class="fa fa-edit fa-lg text-warning fa-fw"></span></a>';
 
                 echo (
@@ -76,7 +80,7 @@ foreach ($comments_ids_arr as $comment_id) {
                             '',
                             'btn btn-default btn-sm',
                             $url . '#comments',
-                            Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_LIST)
+                            Router::pathFor(AdminCommentListHandler::class)
                         )
                 )->html($comment_obj, $crud);
 
@@ -113,7 +117,7 @@ foreach ($comments_ids_arr as $comment_id) {
             echo '<div class="pull-right">';
 
             echo '<a href="'
-                . Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT, ['comment_id' => $children_comment_id], ['destination' => $url . '#comments'])
+                . Router::pathFor(AdminCommentEditHandler::class, ['comment_id' => $children_comment_id], ['destination' => $url . '#comments'])
                 . '" class="btn btn-default btn-sm"><span class="fa fa-edit fa-lg text-warning fa-fw"></span></a>';
 
             echo (
@@ -121,7 +125,7 @@ foreach ($comments_ids_arr as $comment_id) {
                         '',
                         'btn btn-default btn-sm',
                         $url . '#comments',
-                        Router::pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_LIST)
+                        Router::pathFor(AdminCommentListHandler::class)
                     )
             )->html($children_comment_obj, $crud);
 

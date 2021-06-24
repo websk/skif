@@ -8,7 +8,7 @@
 use WebSK\Auth\AuthRoutes;
 use WebSK\Auth\User\User;
 use WebSK\Captcha\CaptchaRoutes;
-use WebSK\Skif\Comment\CommentRoutes;
+use WebSK\Skif\Comment\RequestHandlers\CommentCreateHandler;
 use WebSK\Slim\Router;
 
 if ($no_add_comments_for_unregistered_users) {
@@ -22,7 +22,7 @@ if ($no_add_comments_for_unregistered_users) {
 }
 
 ?>
-<form method="post" action="<?php echo Router::pathFor(CommentRoutes::ROUTE_NAME_COMMENTS_CREATE); ?>" id="comment_form" class="form-horizontal">
+<form method="post" action="<?php echo Router::pathFor(CommentCreateHandler::class); ?>" id="comment_form" class="form-horizontal">
     <div class="form-group">
         <div class="col-md-12">
             <label for="comment">Сообщение</label>

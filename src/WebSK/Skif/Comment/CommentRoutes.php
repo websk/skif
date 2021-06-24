@@ -16,12 +16,6 @@ use WebSK\Utils\HTTP;
  */
 class CommentRoutes
 {
-    const ROUTE_NAME_ADMIN_COMMENTS_LIST = 'admin:comments:list';
-    const ROUTE_NAME_ADMIN_COMMENTS_LIST_AJAX = 'admin:comments:list_ajax';
-    const ROUTE_NAME_ADMIN_COMMENTS_EDIT = 'admin:comments:edit';
-    const ROUTE_NAME_COMMENTS_LIST = 'comments:list';
-    const ROUTE_NAME_COMMENTS_CREATE = 'comments:create';
-
     const NAMESPACE_DIR = 'WebSK' . DIRECTORY_SEPARATOR . 'Skif' . DIRECTORY_SEPARATOR . 'Comment';
 
     /**
@@ -31,10 +25,10 @@ class CommentRoutes
     {
         $app->group('/comments', function (App $app) {
             $app->get('/list', CommentListHandler::class)
-                ->setName(self::ROUTE_NAME_COMMENTS_LIST);
+                ->setName(CommentListHandler::class);
 
             $app->post('/create', CommentCreateHandler::class)
-                ->setName(self::ROUTE_NAME_COMMENTS_CREATE);
+                ->setName(CommentCreateHandler::class);
         });
     }
 
@@ -45,13 +39,13 @@ class CommentRoutes
     {
         $app->group('/comments', function (App $app) {
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', AdminCommentListHandler::class)
-                ->setName(self::ROUTE_NAME_ADMIN_COMMENTS_LIST);
+                ->setName(AdminCommentListHandler::class);
 
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/{comment_id:\d+}', AdminCommentEditHandler::class)
-                ->setName(self::ROUTE_NAME_ADMIN_COMMENTS_EDIT);
+                ->setName(AdminCommentEditHandler::class);
 
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/ajax', AdminCommentListAjaxHandler::class)
-                ->setName(self::ROUTE_NAME_ADMIN_COMMENTS_LIST_AJAX);
+                ->setName(AdminCommentListAjaxHandler::class);
         });
     }
 }

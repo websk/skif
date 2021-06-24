@@ -84,6 +84,8 @@ class CommentCreateHandler extends BaseHandler
 
         $comment_service->save($comment_obj);
 
+        $comment_service->sendEmailNotificationForComment($comment_obj);
+
         Messages::setMessage('Ваше сообщение добавлено');
 
         return $response->withRedirect($url . '#comments');

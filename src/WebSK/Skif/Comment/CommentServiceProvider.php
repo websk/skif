@@ -22,10 +22,10 @@ class CommentServiceProvider
          * @param ContainerInterface $container
          * @return CommentService
          */
-        $container[Comment::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[CommentService::class] = function (ContainerInterface $container) {
             return new CommentService(
                 Comment::class,
-                $container[Comment::ENTITY_REPOSITORY_CONTAINER_ID],
+                $container->get(CommentRepository::class),
                 CacheServiceProvider::getCacheService($container),
                 UserServiceProvider::getUserService($container)
             );
@@ -35,7 +35,7 @@ class CommentServiceProvider
          * @param ContainerInterface $container
          * @return CommentRepository
          */
-        $container[Comment::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[CommentRepository::class] = function (ContainerInterface $container) {
             return new CommentRepository(
                 Comment::class,
                 SkifServiceProvider::getDBService($container)
@@ -49,6 +49,6 @@ class CommentServiceProvider
      */
     public static function getCommentService(ContainerInterface $container): CommentService
     {
-        return $container[Comment::ENTITY_SERVICE_CONTAINER_ID];
+        return $container->get(CommentService::class);
     }
 }

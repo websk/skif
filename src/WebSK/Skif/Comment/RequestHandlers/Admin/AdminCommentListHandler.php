@@ -16,7 +16,6 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
 use WebSK\Skif\Comment\Comment;
-use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
@@ -55,7 +54,7 @@ class AdminCommentListHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         Comment::_COMMENT,
                         function (Comment $comment) {
-                            return $this->pathFor(CommentRoutes::ROUTE_NAME_ADMIN_COMMENTS_EDIT, ['comment_id' => $comment->getId()]);
+                            return $this->pathFor(AdminCommentEditHandler::class, ['comment_id' => $comment->getId()]);
                         }
                     )
                 ),
