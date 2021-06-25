@@ -1,7 +1,7 @@
 <?php
 /**
- * @var $block_id
- * @var $target_region
+ * @var int $block_id
+ * @var ?int $target_region
  */
 
 use WebSK\Skif\Blocks\Block;

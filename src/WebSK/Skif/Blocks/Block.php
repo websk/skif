@@ -12,6 +12,7 @@ use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
 use WebSK\DB\DBWrapper;
+use WebSK\Skif\Content\Template;
 use WebSK\Utils\FullObjectId;
 
 /**
@@ -30,7 +31,7 @@ class Block implements
 
     const DB_TABLE_NAME = 'blocks';
 
-    const BLOCK_REGION_NONE = -1;
+    const BLOCK_REGION_NONE = null;
 
     const BLOCK_NO_CACHE = -1;
     const BLOCK_CACHE_PER_USER = 2;
@@ -41,34 +42,28 @@ class Block implements
     const BLOCK_FORMAT_TYPE_HTML = 4;
     const BLOCK_FORMAT_TYPE_PHP = 5;
 
-    /** @var int */
-    protected $id;
+    protected ?int $id = null;
 
-    /** @var int */
-    protected $template_id = 1;
+    protected ?int $template_id = Template::TEMPLATE_ID_MAIN;
 
-    /** @var int */
-    protected $weight = 1;
+    protected int $weight = 1;
 
-    /** @var int */
-    protected $page_region_id = self::BLOCK_REGION_NONE;
+    protected ?int $page_region_id = self::BLOCK_REGION_NONE;
 
-    /** @var string */
-    protected $pages = '+ ^';
+    protected string $pages = '+ ^';
 
-    /** @var string */
-    protected $title = '';
+    protected string $title = '';
 
-    /** @var int */
-    protected $cache = self::BLOCK_CACHE_GLOBAL;
+    protected int $cache = self::BLOCK_CACHE_GLOBAL;
 
-    /** @var string */
-    protected $body = '';
+    protected string $body = '';
 
-    /** @var int */
-    protected $format = self::BLOCK_FORMAT_TYPE_PLAIN;
+    protected int $format = self::BLOCK_FORMAT_TYPE_PLAIN;
 
-    public function getEditorUrl()
+    /**
+     * @return string
+     */
+    public function getEditorUrl(): string
     {
         if (!$this->getId()) {
             return '/admin/blocks/edit/new';
@@ -81,36 +76,32 @@ class Block implements
      * Был ли загружен блок
      * @return bool
      */
-    public function isLoaded()
+    public function isLoaded(): bool
     {
         return !empty($this->id);
     }
 
     /**
      * ID блока
-     * @return int
+     * @return null|int
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @return mixed
+     * @return null|int
      */
-    public function getPageRegionId()
+    public function getPageRegionId(): ?int
     {
-        if ($this->page_region_id == null) {
-            return self::BLOCK_REGION_NONE;
-        }
-
         return $this->page_region_id;
     }
 
     /**
-     * @param mixed $page_region_id
+     * @param null|int $page_region_id
      */
-    public function setPageRegionId($page_region_id)
+    public function setPageRegionId(?int $page_region_id)
     {
         $this->page_region_id = $page_region_id;
     }
@@ -119,7 +110,7 @@ class Block implements
      * Вес блока
      * @return int
      */
-    public function getWeight()
+    public function getWeight(): int
     {
         return $this->weight;
     }
@@ -127,7 +118,7 @@ class Block implements
     /**
      * @param int $weight
      */
-    public function setWeight($weight)
+    public function setWeight(int $weight)
     {
         $this->weight = $weight;
     }
@@ -135,7 +126,7 @@ class Block implements
     /**
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -143,7 +134,7 @@ class Block implements
     /**
      * @param string $title
      */
-    public function setTitle($title)
+    public function setTitle(string $title)
     {
         $this->title = $title;
     }
@@ -152,7 +143,7 @@ class Block implements
      * Содержимое блока
      * @return string
      */
-    public function getBody()
+    public function getBody(): string
     {
         return $this->body;
     }
@@ -160,7 +151,7 @@ class Block implements
     /**
      * @param string $body
      */
-    public function setBody($body)
+    public function setBody(string $body)
     {
         $this->body = $body;
     }
@@ -169,7 +160,7 @@ class Block implements
      * Формат блока
      * @return int
      */
-    public function getFormat()
+    public function getFormat(): int
     {
         return $this->format;
     }
@@ -177,7 +168,7 @@ class Block implements
     /**
      * @param int $format
      */
-    public function setFormat($format)
+    public function setFormat(int $format)
     {
         $this->format = $format;
     }
@@ -186,7 +177,7 @@ class Block implements
      * Условия видимости для блока
      * @return string
      */
-    public function getPages()
+    public function getPages(): string
     {
         return $this->pages;
     }
@@ -194,23 +185,23 @@ class Block implements
     /**
      * @param string $pages
      */
-    public function setPages($pages)
+    public function setPages(string $pages)
     {
         $this->pages = $pages;
     }
 
     /**
-     * @return mixed
+     * @return null|int
      */
-    public function getTemplateId()
+    public function getTemplateId(): ?int
     {
         return $this->template_id;
     }
 
     /**
-     * @param mixed $template_id
+     * @param null|int $template_id
      */
-    public function setTemplateId($template_id)
+    public function setTemplateId(?int $template_id)
     {
         $this->template_id = $template_id;
     }
@@ -219,7 +210,7 @@ class Block implements
      * Контекст кэширования
      * @return int
      */
-    public function getCache()
+    public function getCache(): int
     {
         return $this->cache;
     }
@@ -227,12 +218,12 @@ class Block implements
     /**
      * @param int $cache
      */
-    public function setCache($cache)
+    public function setCache(int $cache)
     {
         $this->cache = $cache;
     }
 
-    public function getBlockRoleIdsArr()
+    public function getBlockRoleIdsArr(): array
     {
         $query = "SELECT id FROM " . BlockRole::DB_TABLE_NAME . " WHERE block_id = ?";
         $block_role_ids_arr = DBWrapper::readColumn(
@@ -243,7 +234,7 @@ class Block implements
         return $block_role_ids_arr;
     }
 
-    public function getRoleIdsArr()
+    public function getRoleIdsArr(): array
     {
         $block_role_ids_arr = $this->getBlockRoleIdsArr();
 
@@ -262,7 +253,7 @@ class Block implements
      * Выполняет PHP код в блоке и возвращает результат
      * @return string
      */
-    public function evalContentPHPBlock()
+    public function evalContentPHPBlock(): string
     {
         ob_start();
         print eval('?>'. $this->getBody());

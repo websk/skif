@@ -127,7 +127,6 @@ class PageRegionsUtils
      * Массив PageRegionId для темы
      * @param int $template_id
      * @return array
-     * @throws \Exception
      */
     public static function getPageRegionIdsArrByTemplateId(int $template_id): array
     {

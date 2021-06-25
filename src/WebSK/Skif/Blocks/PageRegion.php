@@ -7,12 +7,14 @@ use WebSK\Entity\InterfaceEntity;
 use WebSK\Logger\Logger;
 use WebSK\Model\ActiveRecord;
 use WebSK\Model\ActiveRecordHelper;
+use WebSK\Model\Factory;
 use WebSK\Model\FactoryTrait;
 use WebSK\Model\InterfaceDelete;
 use WebSK\Model\InterfaceFactory;
 use WebSK\Model\InterfaceLoad;
 use WebSK\Model\InterfaceSave;
 use WebSK\Cache\CacheWrapper;
+use WebSK\Utils\Assert;
 use WebSK\Utils\FullObjectId;
 
 /**
@@ -49,20 +51,33 @@ class PageRegion implements
      */
     public function load(int $id)
     {
-        if ($id == Block::BLOCK_REGION_NONE) {
-            $this->id = $id;
-            $this->name = 'disabled';
-            $this->title = 'Отключенные блоки';
-
-            return true;
-        }
-
         $is_loaded = ActiveRecordHelper::loadModelObj($this, $id);
         if (!$is_loaded) {
             return false;
         }
 
         return true;
+    }
+
+    public static function factory(?int $id_to_load, bool $exception_if_not_loaded = true)
+    {
+        if ($id_to_load == Block::BLOCK_REGION_NONE) {
+            $obj = new PageRegion();
+            $obj->id = $id_to_load;
+            $obj->setName('disabled');
+            $obj->setTitle('Отключенные блоки');
+
+            return $obj;
+        }
+
+        $class_name = self::getMyGlobalizedClassName();
+        $obj = Factory::createAndLoadObject($class_name, $id_to_load);
+
+        if ($exception_if_not_loaded) {
+            Assert::assert($obj);
+        }
+
+        return $obj;
     }
 
     /**

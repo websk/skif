@@ -15,6 +15,9 @@ class Template extends Entity
     const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.template_repository';
     const DB_TABLE_NAME = 'template';
 
+    const TEMPLATE_ID_MAIN = 1;
+    const TEMPLATE_ID_ADMIN = 2;
+
     const _TITLE = 'title';
     /** @var string */
     protected $title = '';

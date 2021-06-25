@@ -3,6 +3,7 @@
  * @var $block_id
  */
 
+use WebSK\Skif\Blocks\Block;
 use WebSK\Skif\Blocks\ControllerBlocks;
 use WebSK\Skif\Blocks\PageRegion;
 use WebSK\Skif\Blocks\PageRegionsUtils;

@@ -19,10 +19,10 @@ class BlockUtils
     /**
      * Видимость блока для пользователя
      * @param int|null $block_id
-     * @param int $user_id
+     * @param int|null $user_id
      * @return bool
      */
-    public static function blockIsVisibleByUserId(int $block_id, ?int $user_id)
+    public static function blockIsVisibleByUserId(int $block_id, ?int $user_id): bool
     {
         $block_obj = Block::factory($block_id);
 
@@ -60,7 +60,7 @@ class BlockUtils
      * @param string $page_url
      * @return bool
      */
-    public static function blockIsVisibleOnPage(int $block_id, string $page_url)
+    public static function blockIsVisibleOnPage(int $block_id, string $page_url): bool
     {
         $block_obj = Block::factory($block_id);
 
@@ -76,7 +76,7 @@ class BlockUtils
      * @param string $real_path
      * @return bool
      */
-    protected static function checkBlockComplexVisibility(int $block_id, string $real_path = '')
+    protected static function checkBlockComplexVisibility(int $block_id, string $real_path = ''): bool
     {
         $block_obj = Block::factory($block_id);
         $pages = $block_obj->getPages();
@@ -124,7 +124,7 @@ class BlockUtils
      * @param int $block_id
      * @return string
      */
-    public static function getContentByBlockId(int $block_id)
+    public static function getContentByBlockId(int $block_id): string
     {
         $block_obj = Block::factory($block_id);
 
@@ -161,13 +161,13 @@ class BlockUtils
 
     /**
      * @param int $block_id
-     * @return string|null
+     * @return string
      */
-    protected static function getBlockContentCacheKey($block_id)
+    protected static function getBlockContentCacheKey(int $block_id): ?string
     {
         $block_obj = Block::factory($block_id);
 
-        $cid_parts = array('block_content');
+        $cid_parts = ['block_content'];
         $cid_parts[] = $block_obj->getId();
 
         // Кешируем блоки по полному урлу $_SERVER['REQUEST_URI'], в т.ч. с $_GET параметрами.
@@ -186,10 +186,10 @@ class BlockUtils
 
     /**
      * Массив Block Id в теме
-     * @param string $template_id
+     * @param int $template_id
      * @return array
      */
-    public static function getBlockIdsArrByTemplateId($template_id)
+    public static function getBlockIdsArrByTemplateId(int $template_id): array
     {
         $blocks_ids_arr = DBWrapper::readColumn(
             "SELECT id FROM " . Block::DB_TABLE_NAME . " WHERE template_id = ? ORDER BY page_region_id, weight, title",
@@ -201,12 +201,11 @@ class BlockUtils
 
     /**
      * Массив Block Id в регионе
-     * @param int $page_region_id
+     * @param null|int $page_region_id
      * @param int $template_id
-     * @return array|bool|mixed
-     * @throws \Exception
+     * @return array
      */
-    public static function getBlockIdsArrByPageRegionId(int $page_region_id, int $template_id)
+    public static function getBlockIdsArrByPageRegionId(?int $page_region_id, int $template_id): array
     {
         $cache_key = self::getBlockIdsArrByPageRegionIdCacheKey($page_region_id, $template_id);
 
@@ -215,42 +214,50 @@ class BlockUtils
             return $blocks_ids_arr;
         }
 
-        $query = "SELECT id FROM " . Block::DB_TABLE_NAME . " WHERE page_region_id = ? AND template_id=? ORDER BY weight, title";
+        $params_arr = [];
+
+        $query = "SELECT id FROM " . Block::DB_TABLE_NAME . " WHERE ";
+        if ($page_region_id) {
+            $query .= " page_region_id = ? ";
+            $params_arr[] = $page_region_id;
+        } else {
+            $query .= " page_region_id is NULL ";
+        }
+
+        $query .= " AND template_id=? ORDER BY weight, title";
+        $params_arr[] = $template_id;
 
         $blocks_ids_arr = DBWrapper::readColumn(
             $query,
-            array(
-                $page_region_id,
-                $template_id
-            )
+            $params_arr
         );
 
-        CacheWrapper::set($cache_key, $blocks_ids_arr, 3600);
+        CacheWrapper::set($cache_key, $blocks_ids_arr, 1800);
 
         return $blocks_ids_arr;
     }
 
     /**
-     * @param int $page_region_id
+     * @param null|int $page_region_id
      * @param int $template_id
      */
-    public static function clearBlockIdsArrByPageRegionIdCache(int $page_region_id, int $template_id)
+    public static function clearBlockIdsArrByPageRegionIdCache(?int $page_region_id, int $template_id)
     {
         $cache_key = self::getBlockIdsArrByPageRegionIdCacheKey($page_region_id, $template_id);
         CacheWrapper::delete($cache_key);
     }
 
     /**
-     * @param int $page_region_id
+     * @param null|int $page_region_id
      * @param int $template_id
      * @return string
      */
-    protected static function getBlockIdsArrByPageRegionIdCacheKey(int $page_region_id, int $template_id)
+    protected static function getBlockIdsArrByPageRegionIdCacheKey(?int $page_region_id, int $template_id): string
     {
         $cache_key = 'template_id_' . $template_id . '_block_ids_arr_by_page_region_id_';
 
         if ($page_region_id == Block::BLOCK_REGION_NONE) {
-            return $cache_key . 'disabled';
+            return $cache_key . '_disabled';
         }
 
         return $cache_key . $page_region_id;
@@ -260,7 +267,7 @@ class BlockUtils
      * Массив возможных форматов блока
      * @return array
      */
-    public static function getFormatsArr()
+    public static function getFormatsArr(): array
     {
         return array(
             Block::BLOCK_FORMAT_TYPE_PLAIN => 'Текст',
@@ -273,7 +280,7 @@ class BlockUtils
      * Массив способов кеширования блока
      * @return array
      */
-    public static function getCachesArr()
+    public static function getCachesArr(): array
     {
         return array(
             Block::BLOCK_NO_CACHE => 'не кэшировать',

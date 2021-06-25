@@ -31,7 +31,7 @@ $region_ids_arr = PageRegionsUtils::getPageRegionIdsArrByTemplateId($current_tem
         $blocks_ids_arr = BlockUtils::getBlockIdsArrByPageRegionId($page_region_id, $current_template_id);
         ?>
         <tr>
-            <th colspan="3"><?php echo $page_region_obj->getTitle() ?></th>
+            <th colspan="3"><?php echo $page_region_obj->getTitle(); ?></th>
         </tr>
         <?php
         foreach ($blocks_ids_arr as $block_id) {

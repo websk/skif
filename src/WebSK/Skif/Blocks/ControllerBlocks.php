@@ -89,7 +89,7 @@ class ControllerBlocks
      * @param $block_id
      * @return string
      */
-    static public function getBlockEditorPageTitle($block_id)
+    static public function getBlockEditorPageTitle($block_id): string
     {
         $block_obj = self::getBlockObj($block_id);
 
@@ -359,15 +359,15 @@ class ControllerBlocks
 
         self::actions($block_id);
 
-        $target_region = $block_obj->getPageRegionId();
+        $target_region_id = $block_obj->getPageRegionId();
 
         if (isset($_GET['target_region'])) {
-            $target_region = $_GET['target_region'];
+            $target_region_id = $_GET['target_region'] ?: null;
         }
 
         $html = PhpRender::renderTemplateInViewsDir(
             'block_place_in_region.tpl.php',
-            array('block_id' => $block_id, 'target_region' => $target_region)
+            array('block_id' => $block_id, 'target_region' => $target_region_id)
         );
 
         echo PhpRender::renderTemplate(
@@ -393,20 +393,20 @@ class ControllerBlocks
         Exits::exit403If(!Auth::currentUserIsAdmin());
 
         $target_weight = $_REQUEST['target_weight'];
-        $target_region = $_REQUEST['target_region'];
+        $target_region_id = $_REQUEST['target_region'] ?: null;
 
-        if (($target_weight == '') || ($target_region == '')) {
+        if ($target_weight == '') {
             return;
         }
 
         $block_obj = Block::factory($block_id);
 
         $source_region = $block_obj->getPageRegionId();
-        $block_obj->setPageRegionId($target_region);
+        $block_obj->setPageRegionId($target_region_id);
 
         Logger::logObjectEvent($block_obj, 'перемещение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
 
-        $blocks_ids_arr = BlockUtils::getBlockIdsArrByPageRegionId($target_region, $block_obj->getTemplateId());
+        $blocks_ids_arr = BlockUtils::getBlockIdsArrByPageRegionId($target_region_id, $block_obj->getTemplateId());
 
         /** @var Block[] $arranged_blocks */
         $arranged_blocks = array();
@@ -454,7 +454,7 @@ class ControllerBlocks
         foreach ($arranged_blocks as $other_block_obj) {
             if (
                 ($other_block_obj->getId() == $block_obj->getId())
-                && ($other_block_obj->getPageRegionId() == $target_region)
+                && ($other_block_obj->getPageRegionId() == $target_region_id)
             ) {
                 $block_found = true;
             }
