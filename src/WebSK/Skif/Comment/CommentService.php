@@ -179,6 +179,7 @@ class CommentService extends EntityService
         $mail->CharSet = "utf-8";
         $mail->setFrom($site_email, $site_name);
         $mail->addReplyTo($site_email);
+        $mail->addAddress($site_email);
         $mail->isHTML(true);
         $mail->Subject = $subject;
         $mail->Body = $mail_message;

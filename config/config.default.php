@@ -114,7 +114,8 @@ return [
         'comments' => [
             'message_to_page' => 20,
             'send_answer_to_email' => true,
-            'no_add_comments_for_unregistered_users' => false
+            'no_add_comments_for_unregistered_users' => false,
+            'enable_email_notification' => true
         ],
     ],
 ];
