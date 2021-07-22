@@ -1,23 +1,26 @@
 <?php
 /**
- * @var $site_menu_id
- * @var $site_menu_item_id
- * @var $site_menu_parent_item_id
+ * @var int $site_menu_id
+ * @var int $site_menu_item_id
+ * @var int $site_menu_parent_item_id
  */
 
 use WebSK\Skif\Content\ContentRoutes;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\SiteMenu\SiteMenuItem;
+use WebSK\Skif\SiteMenu\SiteMenuServiceProvider;
 use WebSK\Slim\Container;
 use WebSK\Slim\Router;
 
 $container = Container::self();
 
+$site_menu_item_service = SiteMenuServiceProvider::getSiteMenuItemService($container);
+
 if ($site_menu_item_id == 'new') {
     $site_menu_item_obj = new SiteMenuItem();
     $site_menu_item_obj->setIsPublished(true);
 } else {
-    $site_menu_item_obj = SiteMenuItem::factory($site_menu_item_id);
+    $site_menu_item_obj = $site_menu_item_service->getById($site_menu_item_id);
 }
 ?>
 <script type="text/javascript">

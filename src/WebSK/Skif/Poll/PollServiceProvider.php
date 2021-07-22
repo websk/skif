@@ -21,10 +21,10 @@ class PollServiceProvider
          * @param ContainerInterface $container
          * @return PollService
          */
-        $container[Poll::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[PollService::class] = function (ContainerInterface $container) {
             return new PollService(
                 Poll::class,
-                $container[Poll::ENTITY_REPOSITORY_CONTAINER_ID],
+                $container->get(PollRepository::class),
                 CacheServiceProvider::getCacheService($container)
             );
         };
@@ -33,7 +33,7 @@ class PollServiceProvider
          * @param ContainerInterface $container
          * @return PollRepository
          */
-        $container[Poll::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[PollRepository::class] = function (ContainerInterface $container) {
             return new PollRepository(
                 Poll::class,
                 SkifServiceProvider::getDBService($container)
@@ -44,10 +44,10 @@ class PollServiceProvider
          * @param ContainerInterface $container
          * @return PollQuestionService
          */
-        $container[PollQuestion::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[PollQuestionService::class] = function (ContainerInterface $container) {
             return new PollQuestionService(
                 PollQuestion::class,
-                $container[PollQuestion::ENTITY_REPOSITORY_CONTAINER_ID],
+                $container->get(PollQuestionRepository::class),
                 CacheServiceProvider::getCacheService($container)
             );
         };
@@ -56,7 +56,7 @@ class PollServiceProvider
          * @param ContainerInterface $container
          * @return PollQuestionRepository
          */
-        $container[PollQuestion::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[PollQuestionRepository::class] = function (ContainerInterface $container) {
             return new PollQuestionRepository(
                 PollQuestion::class,
                 SkifServiceProvider::getDBService($container)
@@ -70,7 +70,7 @@ class PollServiceProvider
      */
     public static function getPollService(ContainerInterface $container): PollService
     {
-        return $container[Poll::ENTITY_SERVICE_CONTAINER_ID];
+        return $container->get(PollService::class);
     }
 
     /**
@@ -79,6 +79,6 @@ class PollServiceProvider
      */
     public static function getPollQuestionService(ContainerInterface $container): PollQuestionService
     {
-        return $container[PollQuestion::ENTITY_SERVICE_CONTAINER_ID];
+        return $container->get(PollQuestionService::class);
     }
 }

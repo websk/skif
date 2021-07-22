@@ -16,7 +16,7 @@ class PollComponents
      * @param int|null $poll_id
      * @return string
      */
-    public static function renderBlockByPollId($poll_id = null)
+    public static function renderBlockByPollId(?int $poll_id = null): string
     {
         $container = Container::self();
         $poll_service = PollServiceProvider::getPollService($container);

@@ -2,261 +2,146 @@
 
 namespace WebSK\Skif\SiteMenu;
 
-use WebSK\Model\ActiveRecord;
-use WebSK\Model\ActiveRecordHelper;
-use WebSK\Model\FactoryTrait;
-use WebSK\Model\InterfaceDelete;
-use WebSK\Model\InterfaceFactory;
-use WebSK\Model\InterfaceLoad;
-use WebSK\Model\InterfaceSave;
-use WebSK\Utils\Filters;
+use WebSK\Entity\Entity;
 
 /**
  * Class SiteMenuItem
  * @package WebSK\Skif\SiteMenu
  */
-class SiteMenuItem implements
-    InterfaceLoad,
-    InterfaceFactory,
-    InterfaceSave,
-    InterfaceDelete
+class SiteMenuItem extends Entity
 {
-    use ActiveRecord;
-    use FactoryTrait;
-
-    protected $id;
-    protected $name;
-    protected $url;
-    protected $content_id;
-    protected $weight = 0;
-    protected $parent_id = 0;
-    protected $is_published = 0;
-    protected $menu_id;
-    protected $children_ids_arr;
-
     const DB_TABLE_NAME = 'site_menu_item';
 
-    public static $active_record_ignore_fields_arr = array(
-        'children_ids_arr'
-    );
+    const _NAME = 'name';
+    protected string $name = '';
 
-    public function load($id)
+    const _URL = 'url';
+    protected string $url = '';
+
+    const _CONTENT_ID = 'content_id';
+    protected ?int $content_id = null;
+
+    const _WEIGHT = 'weight';
+    protected int $weight = 0;
+
+    const _PARENT_ID = 'parent_id';
+    protected int $parent_id = 0;
+
+    const _IS_PUBLISHED = 'is_published';
+    protected bool $is_published = false;
+
+    const _MENU_ID = 'menu_id';
+    protected ?int $menu_id = null;
+
+    /**
+     * @return string
+     */
+    public function getName(): string
     {
-        $is_loaded = ActiveRecordHelper::loadModelObj($this, $id);
-        if (!$is_loaded) {
-            return false;
-        }
-
-        $this->children_ids_arr = SiteMenuUtils::getSiteMenuItemIdsArr($this->getMenuId(), $this->getId());
-
-        return true;
-    }
-
-    public function getEditorUrl()
-    {
-        return '/admin/site_menu/' . $this->getMenuId() . '/item/edit/' . $this->getId();
+        return $this->name;
     }
 
     /**
-     * @return mixed
+     * @param string $name
      */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getName()
-    {
-        return Filters::checkPlain($this->name);
-    }
-
-    /**
-     * @param mixed $name
-     */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
 
     /**
-     * @param mixed $url
+     * @param string $url
      */
-    public function setUrl($url)
+    public function setUrl(string $url): void
     {
         $this->url = $url;
     }
 
     /**
-     * @return mixed
+     * @return int|null
      */
-    public function getContentId()
+    public function getContentId(): ?int
     {
         return $this->content_id;
     }
 
     /**
-     * @param mixed $content_id
+     * @param int|null $content_id
      */
-    public function setContentId($content_id)
+    public function setContentId(?int $content_id): void
     {
         $this->content_id = $content_id;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getWeight()
+    public function getWeight(): int
     {
         return $this->weight;
     }
 
     /**
-     * @param mixed $weight
+     * @param int $weight
      */
-    public function setWeight($weight)
+    public function setWeight(int $weight): void
     {
         $this->weight = $weight;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getParentId()
+    public function getParentId(): int
     {
         return $this->parent_id;
     }
 
     /**
-     * @param mixed $parent_id
+     * @param int $parent_id
      */
-    public function setParentId($parent_id)
+    public function setParentId(int $parent_id): void
     {
         $this->parent_id = $parent_id;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function isPublished()
+    public function isPublished(): bool
     {
         return $this->is_published;
     }
 
     /**
-     * @param mixed $is_published
+     * @param bool $is_published
      */
-    public function setIsPublished($is_published)
+    public function setIsPublished(bool $is_published): void
     {
         $this->is_published = $is_published;
     }
 
     /**
-     * @return mixed
+     * @return int|null
      */
-    public function getMenuId()
+    public function getMenuId(): ?int
     {
         return $this->menu_id;
     }
 
     /**
-     * @param mixed $menu_id
+     * @param int|null $menu_id
      */
-    public function setMenuId($menu_id)
+    public function setMenuId(?int $menu_id): void
     {
         $this->menu_id = $menu_id;
-    }
-
-    public function getChildrenIdsArr()
-    {
-        return $this->children_ids_arr;
-    }
-
-    /**
-     * Массив всех потомков
-     * @return array
-     */
-    public function getDescendantsIdsArr()
-    {
-        $children_ids_arr = $this->getChildrenIdsArr();
-        $descendants_ids_arr = $children_ids_arr;
-        foreach ($children_ids_arr as $children_site_menu_item_id) {
-            $children_site_menu_item_obj = self::factory($children_site_menu_item_id);
-
-            $descendants_ids_arr = array_merge(
-                $descendants_ids_arr,
-                $children_site_menu_item_obj->getDescendantsIdsArr()
-            );
-        }
-        return $descendants_ids_arr;
-    }
-
-    /**
-     * Массив идентификаторов предков снизу вверх
-     * @return array
-     * @throws \Exception
-     */
-    public function getAncestorsIdsArr()
-    {
-        $current_site_menu_item_obj = $this;
-        $ancestors_ids_arr = array();
-        $iteration = 0;
-
-        while ($parent_id = $current_site_menu_item_obj->getParentId()) {
-            if ($parent_id == $current_site_menu_item_obj->getId()) {
-                throw new \Exception('Пункт меню ' . $this->getId() . ' не может быть родительским по отношению к самому себе');
-            }
-
-            if ($iteration > 20) {
-                break;
-            }
-
-            $ancestors_ids_arr[] = $parent_id;
-            $current_site_menu_item_obj = self::factory($parent_id);
-
-            $iteration++;
-        }
-
-        return $ancestors_ids_arr;
-    }
-
-    public static function afterUpdate($item_id)
-    {
-        $item_obj = self::factory($item_id);
-
-        self::removeObjFromCacheById($item_id);
-        self::removeObjFromCacheById($item_obj->getParentId());
-    }
-
-    public function afterDelete()
-    {
-        $children_ids_arr = $this->getChildrenIdsArr();
-
-        foreach ($children_ids_arr as $children_site_menu_item_id) {
-            $children_site_menu_item_obj = self::factory($children_site_menu_item_id);
-            $children_site_menu_item_obj->delete();
-        }
-
-        self::removeObjFromCacheById($this->getId());
-
-        self::removeObjFromCacheById($this->getParentId());
     }
 }

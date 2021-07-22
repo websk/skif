@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif\SiteMenu;
 
+use Slim\App;
 use WebSK\SimpleRouter\SimpleRouter;
 
 class SiteMenuRoutes
@@ -25,5 +26,21 @@ class SiteMenuRoutes
             'saveItemAdminAction', 0);
         SimpleRouter::staticRoute('@^/admin/site_menu/(\d+)/item/delete/(\d+)$@i', SiteMenuController::class,
             'deleteItemAdminAction', 0);
+    }
+
+    /**
+     * @param App $app
+     */
+    public static function registerAdmin(App $app)
+    {
+
+    }
+
+    /**
+     * @param App $app
+     */
+    public static function register(App $app)
+    {
+
     }
 }

@@ -15,17 +15,12 @@ class PollQuestionRepository extends EntityRepository
      * @param int $poll_id
      * @return array
      */
-    public function findIdsByPollId(int $poll_id)
+    public function findIdsByPollId(int $poll_id): array
     {
-        $db_table_name = $this->getTableName();
-        $db_id_field_name = $this->getIdFieldName();
-
-        $query = 'SELECT ' . Sanitize::sanitizeSqlColumnName($db_id_field_name) .
-            ' FROM ' . Sanitize::sanitizeSqlColumnName($db_table_name) .
+        $query = 'SELECT ' . Sanitize::sanitizeSqlColumnName($this->getIdFieldName()) .
+            ' FROM ' . Sanitize::sanitizeSqlColumnName($this->getTableName()) .
             ' WHERE ' . Sanitize::sanitizeSqlColumnName(PollQuestion::_POLL_ID) . ' = ?';
 
-        $ids_arr = $this->db_service->readColumn($query, [$poll_id]);
-
-        return $ids_arr;
+        return $this->db_service->readColumn($query, [$poll_id]);
     }
 }

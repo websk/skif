@@ -1,23 +1,26 @@
 <?php
 /**
- * @var $parent_item_id
+ * @var int $parent_item_id
  */
 
-use WebSK\Skif\SiteMenu\SiteMenuItem;
-use WebSK\Skif\SiteMenu\SiteMenuUtils;
+use WebSK\Skif\SiteMenu\SiteMenuServiceProvider;
+use WebSK\Slim\Container;
 use WebSK\Utils\Url;
 
-$current_url_no_query = Url::getUriNoQueryString();
-$current_site_menu_item_id = SiteMenuUtils::getCurrentSiteMenuItemId();
+$container = Container::self();
+$site_menu_item_service = SiteMenuServiceProvider::getSiteMenuItemService($container);
 
-$parent_item_obj = SiteMenuItem::factory($parent_item_id);
-$children_ids_arr = $parent_item_obj->getChildrenIdsArr();
+$current_url_no_query = Url::getUriNoQueryString();
+$current_site_menu_item_id = $site_menu_item_service->getCurrentId();
+
+$parent_item_obj = $site_menu_item_service->getById($parent_item_id);
+$children_ids_arr = $site_menu_item_service->getChildrenIdsArr($parent_item_obj);
 
 if (!$children_ids_arr) {
     return '';
 }
 
-$descendants_ids_arr = $parent_item_obj->getDescendantsIdsArr();
+$descendants_ids_arr = $site_menu_item_service->getDescendantsIdsArr($parent_item_obj);
 if (!in_array($current_site_menu_item_id, $descendants_ids_arr)) {
     return '';
 }
@@ -25,7 +28,7 @@ if (!in_array($current_site_menu_item_id, $descendants_ids_arr)) {
 <ul>
     <?php
     foreach ($children_ids_arr as $children_site_menu_item_id) {
-        $children_site_menu_item_obj = SiteMenuItem::factory($children_site_menu_item_id);
+        $children_site_menu_item_obj = $site_menu_item_service->getById($children_site_menu_item_id);
 
         if (!$children_site_menu_item_obj->isPublished()) {
             continue;

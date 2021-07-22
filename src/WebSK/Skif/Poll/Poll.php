@@ -10,30 +10,23 @@ use WebSK\Entity\Entity;
  */
 class Poll extends Entity
 {
-
     const ENTITY_SERVICE_CONTAINER_ID = 'skif.poll_service';
-    const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.poll_repository';
     const DB_TABLE_NAME = 'poll';
 
     const _TITLE = 'title';
-    /** @var string */
-    protected $title = '';
+    protected string $title = '';
 
     const _IS_DEFAULT = 'is_default';
-    /** @var bool */
-    protected $is_default = false;
+    protected bool $is_default = false;
 
     const _IS_PUBLISHED = 'is_published';
-    /** @var bool */
-    protected $is_published = false;
+    protected bool $is_published = false;
 
     const _PUBLISHED_AT = 'published_at';
-    /** @var string */
-    protected $published_at;
+    protected string $published_at;
 
     const _UNPUBLISHED_AT = 'unpublished_at';
-    /** @var string */
-    protected $unpublished_at;
+    protected string $unpublished_at;
 
 
     /**

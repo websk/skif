@@ -1,14 +1,19 @@
 <?php
 /**
- * @var $site_menu_id
+ * @var int $site_menu_id
  */
 
 use WebSK\Skif\SiteMenu\SiteMenu;
+use WebSK\Skif\SiteMenu\SiteMenuServiceProvider;
+use WebSK\Slim\Container;
+
+$container = Container::self();
+$site_menu_service = SiteMenuServiceProvider::getSiteMenuService($container);
 
 if ($site_menu_id == 'new') {
     $site_menu_obj = new SiteMenu();
 } else {
-    $site_menu_obj = SiteMenu::factory($site_menu_id);
+    $site_menu_obj = $site_menu_service->getById($site_menu_id);
 }
 ?>
 <script type="text/javascript">

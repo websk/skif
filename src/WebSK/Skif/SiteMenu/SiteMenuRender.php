@@ -16,7 +16,7 @@ class SiteMenuRender
      * @param string $template
      * @return string
      */
-    public static function renderSiteMenu(int $site_menu_id, string $template = '')
+    public static function renderSiteMenu(int $site_menu_id, string $template = ''): string
     {
         if (!$template) {
             $template_file = 'site_menu_' . $site_menu_id . '.tpl.php';
@@ -44,7 +44,7 @@ class SiteMenuRender
      * @param string $template
      * @return string
      */
-    public static function renderSiteSubMenu(int $site_menu_id, int $parent_item_id, string $template = '')
+    public static function renderSiteSubMenu(int $site_menu_id, int $parent_item_id, string $template = ''): string
     {
         if (!$template) {
             $template = 'site_menu_' . $site_menu_id . '_sub.tpl.php';

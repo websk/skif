@@ -2,78 +2,50 @@
 
 namespace WebSK\Skif\SiteMenu;
 
-use WebSK\Model\ActiveRecord;
-use WebSK\Model\FactoryTrait;
-use WebSK\Model\InterfaceDelete;
-use WebSK\Model\InterfaceFactory;
-use WebSK\Model\InterfaceLoad;
-use WebSK\Model\InterfaceSave;
-use WebSK\Utils\Filters;
+use WebSK\Entity\Entity;
 
 /**
  * Class SiteMenu
  * @package WebSK\Skif\SiteMenu
  */
-class SiteMenu implements
-    InterfaceLoad,
-    InterfaceFactory,
-    InterfaceSave,
-    InterfaceDelete
+class SiteMenu extends Entity
 {
-    use ActiveRecord;
-    use FactoryTrait;
-
-    protected $id;
-    protected $name;
-    protected $url;
-
     const DB_TABLE_NAME = 'site_menu';
 
+    const _NAME = 'name';
+    protected string $name = '';
+
+    const _URL = 'url';
+    protected string $url = '';
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getId()
+    public function getName(): string
     {
-        return $this->id;
+        return $this->name;
     }
 
     /**
-     * @param mixed $id
+     * @param string $name
      */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getName()
-    {
-        return Filters::checkPlain($this->name);
-    }
-
-    /**
-     * @param mixed $name
-     */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
 
     /**
-     * @param mixed $url
+     * @param string $url
      */
-    public function setUrl($url)
+    public function setUrl(string $url): void
     {
         $this->url = $url;
     }

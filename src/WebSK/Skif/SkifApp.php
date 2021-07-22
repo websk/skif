@@ -34,6 +34,7 @@ use WebSK\Logger\LoggerServiceProvider;
 use WebSK\Skif\RequestHandlers\AdminHandler;
 use WebSK\Skif\RequestHandlers\ErrorHandler;
 use WebSK\Skif\RequestHandlers\NotFoundHandler;
+use WebSK\Skif\SiteMenu\SiteMenuServiceProvider;
 use WebSK\Slim\Facade;
 
 /**
@@ -66,6 +67,7 @@ class SkifApp extends App
         FormServiceProvider::register($container);
         RedirectServiceProvider::register($container);
         PollServiceProvider::register($container);
+        SiteMenuServiceProvider::register($container);
 
         $this->registerRoutes();
     }
@@ -89,6 +91,7 @@ class SkifApp extends App
             FormRoutes::registerAdmin($app);
             PollRoutes::registerAdmin($app);
             RedirectRoutes::registerAdmin($app);
+            SiteMenuRoutes::registerAdmin($app);
         })->add(new CurrentUserIsAdmin());
 
         CaptchaRoutes::register($this);
@@ -97,6 +100,7 @@ class SkifApp extends App
         CommentRoutes::register($this);
         FormRoutes::register($this);
         PollRoutes::register($this);
+        SiteMenuRoutes::register($this);
         //ContentRoutes::register($this);
 
         /** Use facade */

@@ -11,13 +11,16 @@
         </colgroup>
 <?php
 
-use WebSK\Skif\SiteMenu\SiteMenu;
-use WebSK\Skif\SiteMenu\SiteMenuUtils;
+use WebSK\Skif\SiteMenu\SiteMenuServiceProvider;
+use WebSK\Slim\Container;
 
-$site_menu_ids_arr = SiteMenuUtils::getSiteMenuIdsArr();
+$container = Container::self();
+$site_menu_service = SiteMenuServiceProvider::getSiteMenuService($container);
+
+$site_menu_ids_arr = $site_menu_service->getAllIdsArrByIdAsc();
 
 foreach ($site_menu_ids_arr as $site_menu_id) {
-    $site_menu_obj = SiteMenu::factory($site_menu_id);
+    $site_menu_obj = $site_menu_service->getById($site_menu_id);
     ?>
     <tr>
         <td><?php echo $site_menu_id; ?></td>

@@ -48,7 +48,7 @@ class SkifServiceProvider
      * @param ContainerInterface $container
      * @return DBService
      */
-    public static function getDBService(ContainerInterface $container)
+    public static function getDBService(ContainerInterface $container): DBService
     {
         return $container->get(SkifServiceProvider::SKIF_DB_SERVICE_CONTAINER_ID);
     }

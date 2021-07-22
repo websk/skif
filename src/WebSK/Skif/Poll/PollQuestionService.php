@@ -18,7 +18,7 @@ class PollQuestionService extends EntityService
      * @param int $poll_id
      * @return array
      */
-    public function getIdsArrByPollId(int $poll_id)
+    public function getIdsArrByPollId(int $poll_id): array
     {
         return $this->repository->findIdsByPollId($poll_id);
     }
@@ -27,7 +27,7 @@ class PollQuestionService extends EntityService
      * @param int $poll_id
      * @return int
      */
-    public function getSumVotesFromPollQuestionByPoll($poll_id)
+    public function getSumVotesFromPollQuestionByPoll($poll_id): int
     {
         $poll_question_ids_arr = $this->getIdsArrByPollId($poll_id);
 
@@ -46,7 +46,7 @@ class PollQuestionService extends EntityService
      * @param int $poll_id
      * @return int
      */
-    public function getMaxVotesFromPollQuestionByPoll($poll_id)
+    public function getMaxVotesFromPollQuestionByPoll($poll_id): int
     {
         $poll_question_ids_arr = $this->getIdsArrByPollId($poll_id);
 

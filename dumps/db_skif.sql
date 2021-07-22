@@ -156,3 +156,5 @@ ALTER TABLE form_field ADD CONSTRAINT FK_form_field_form FOREIGN KEY (form_id) R
 ALTER TABLE site_menu_item ADD CONSTRAINT FK_site_menu_item_site_menu FOREIGN KEY (menu_id) REFERENCES site_menu (id) /*  2j239j-23j-0f3-2f */;
 ALTER TABLE site_menu_item ADD CONSTRAINT FK_site_menu_item_content FOREIGN KEY (content_id) REFERENCES content (id) /* 38948hv483v34 */;
 ALTER TABLE comments ADD CONSTRAINT FK_comments_user_id FOREIGN KEY (user_id) REFERENCES users (id) /* v05j4v9j04v509 */;
+ALTER TABLE site_menu ADD COLUMN created_at_ts int NOT NULL DEFAULT 0 /* 0c9j0943j094jv*/;
+ALTER TABLE site_menu_item ADD COLUMN created_at_ts int NOT NULL DEFAULT 0 /* c-304ck-0kc-c-4kc */;
