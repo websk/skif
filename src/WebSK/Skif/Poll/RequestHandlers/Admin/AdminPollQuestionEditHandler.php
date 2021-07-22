@@ -2,9 +2,8 @@
 
 namespace WebSK\Skif\Poll\RequestHandlers\Admin;
 
-use Slim\Http\Request;
-use Slim\Http\Response;
-use Slim\Http\StatusCode;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
@@ -15,6 +14,7 @@ use WebSK\Skif\Poll\PollRoutes;
 use WebSK\Skif\Poll\PollServiceProvider;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Utils\HTTP;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -26,18 +26,18 @@ use WebSK\Views\PhpRender;
 class AdminPollQuestionEditHandler extends BaseHandler
 {
     /**
-     * @param Request $request
-     * @param Response $response
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
      * @param int $poll_question_id
      */
-    public function __invoke(Request $request, Response $response, int $poll_question_id)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $poll_question_id)
     {
         $poll_question_service = PollServiceProvider::getPollQuestionService($this->container);
 
         $poll_question_obj = $poll_question_service->getById($poll_question_id, false);
 
         if (!$poll_question_obj) {
-            return $response->withStatus(StatusCode::HTTP_NOT_FOUND);
+            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
         }
 
         $crud_form = CRUDServiceProvider::getCrud($this->container)->createForm(
@@ -64,7 +64,7 @@ class AdminPollQuestionEditHandler extends BaseHandler
         );
 
         $crud_form_response = $crud_form->processRequest($request, $response);
-        if ($crud_form_response instanceof Response) {
+        if ($crud_form_response instanceof ResponseInterface) {
             return $crud_form_response;
         }
 

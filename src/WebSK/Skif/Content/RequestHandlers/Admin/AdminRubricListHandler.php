@@ -3,9 +3,7 @@
 namespace WebSK\Skif\Content\RequestHandlers\Admin;
 
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
-use Slim\Http\Response;
-use Slim\Http\StatusCode;
+use Psr\Http\Message\ServerRequestInterface;
 use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Form\CRUDFormInvisibleRow;
 use WebSK\CRUD\Form\CRUDFormRow;
@@ -22,6 +20,7 @@ use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Content\Rubric;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Utils\HTTP;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -36,18 +35,18 @@ class AdminRubricListHandler extends BaseHandler
     const FILTER_NAME = 'content_type_name';
 
     /**
-     * @param Request $request
-     * @param Response $response
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
      * @param string $content_type
      * @return ResponseInterface
      */
-    public function __invoke(Request $request, Response $response, string $content_type)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, string $content_type)
     {
         $content_type_obj = ContentServiceProvider::getContentTypeService($this->container)
             ->getByType($content_type);
 
         if (!$content_type_obj) {
-            return $response->withStatus(StatusCode::HTTP_NOT_FOUND);
+            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
         }
 
         $new_rubric_obj = new Rubric();
@@ -92,7 +91,7 @@ class AdminRubricListHandler extends BaseHandler
         );
 
         $crud_form_response = $crud_table_obj->processRequest($request, $response);
-        if ($crud_form_response instanceof Response) {
+        if ($crud_form_response instanceof ResponseInterface) {
             return $crud_form_response;
         }
 

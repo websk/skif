@@ -2,9 +2,8 @@
 
 namespace WebSK\Skif\Form\RequestHandlers\Admin;
 
-use Slim\Http\Request;
-use Slim\Http\Response;
-use Slim\Http\StatusCode;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
@@ -17,6 +16,7 @@ use WebSK\Skif\Form\FormField;
 use WebSK\Skif\Form\FormServiceProvider;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Utils\HTTP;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\NavTabItemDTO;
@@ -29,17 +29,17 @@ use WebSK\Views\PhpRender;
 class AdminFormFieldEditHandler extends BaseHandler
 {
     /**
-     * @param Request $request
-     * @param Response $response
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
      * @param int $form_field_id
      */
-    public function __invoke(Request $request, Response $response, int $form_field_id)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $form_field_id)
     {
         $form_field_obj = FormServiceProvider::getFormFieldService($this->container)
             ->getById($form_field_id, false);
 
         if (!$form_field_obj) {
-            return $response->withStatus(StatusCode::HTTP_NOT_FOUND);
+            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
         }
 
         $crud_form = CRUDServiceProvider::getCrud($this->container)->createForm(
@@ -72,7 +72,7 @@ class AdminFormFieldEditHandler extends BaseHandler
         );
 
         $crud_form_response = $crud_form->processRequest($request, $response);
-        if ($crud_form_response instanceof Response) {
+        if ($crud_form_response instanceof ResponseInterface) {
             return $crud_form_response;
         }
 

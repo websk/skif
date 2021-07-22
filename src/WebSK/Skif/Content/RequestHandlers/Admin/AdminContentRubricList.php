@@ -3,9 +3,7 @@
 namespace WebSK\Skif\Content\RequestHandlers\Admin;
 
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
-use Slim\Http\Response;
-use Slim\Http\StatusCode;
+use Psr\Http\Message\ServerRequestInterface;
 use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Form\CRUDFormInvisibleRow;
 use WebSK\CRUD\Form\CRUDFormRow;
@@ -20,10 +18,10 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
 use WebSK\Skif\Content\Content;
-use WebSK\Skif\Content\ContentRubric;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Utils\HTTP;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -39,19 +37,19 @@ class AdminContentRubricList extends BaseHandler
     const FILTER_CONTENT_TYPE_ID = 'content_type_id';
 
     /**
-     * @param Request $request
-     * @param Response $response
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
      * @param string $content_type
      * @param int $content_rubric_id
      * @return ResponseInterface
      */
-    public function __invoke(Request $request, Response $response, string $content_type, int $content_rubric_id)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, string $content_type, int $content_rubric_id)
     {
         $content_type_obj = ContentServiceProvider::getContentTypeService($this->container)
             ->getByType($content_type);
 
         if (!$content_type_obj) {
-            return $response->withStatus(StatusCode::HTTP_NOT_FOUND);
+            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
         }
 
         $new_content_obj = new Content();
@@ -123,7 +121,7 @@ class AdminContentRubricList extends BaseHandler
         );
 
         $crud_form_response = $crud_table_obj->processRequest($request, $response);
-        if ($crud_form_response instanceof Response) {
+        if ($crud_form_response instanceof ResponseInterface) {
             return $crud_form_response;
         }
 

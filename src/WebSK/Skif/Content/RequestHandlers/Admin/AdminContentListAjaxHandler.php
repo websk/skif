@@ -3,8 +3,7 @@
 namespace WebSK\Skif\Content\RequestHandlers\Admin;
 
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Psr\Http\Message\ServerRequestInterface;
 use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Table\CRUDTable;
 use WebSK\CRUD\Table\CRUDTableColumn;
@@ -23,12 +22,12 @@ use WebSK\Slim\RequestHandlers\BaseHandler;
 class AdminContentListAjaxHandler extends BaseHandler
 {
     /**
-     * @param Request $request
-     * @param Response $response
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
      * @param string $content_type
      * @return ResponseInterface
      */
-    public function __invoke(Request $request, Response $response, string $content_type)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, string $content_type)
     {
         $content_type_service = ContentServiceProvider::getContentTypeService($this->container);
         $content_type_obj = $content_type_service->getByType($content_type);

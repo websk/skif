@@ -2,12 +2,12 @@
 
 namespace WebSK\Skif\Poll\RequestHandlers;
 
-use Slim\Http\Request;
-use Slim\Http\Response;
-use Slim\Http\StatusCode;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Skif\Poll\PollRoutes;
 use WebSK\Skif\Poll\PollServiceProvider;
 use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Utils\HTTP;
 use WebSK\Utils\Messages;
 
 /**
@@ -19,11 +19,11 @@ class PollVoteHandler extends BaseHandler
     const POLL_COOKIE_PREFIX = 'poll_access_';
 
     /**
-     * @param Request $request
-     * @param Response $response
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
      * @param int $poll_id
      */
-    public function __invoke(Request $request, Response $response, int $poll_id)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $poll_id)
     {
         $poll_question_id = $request->getParam('poll_question_id');
 
@@ -31,7 +31,7 @@ class PollVoteHandler extends BaseHandler
 
         $poll_obj = $poll_service->getById($poll_id, false);
         if (!$poll_obj) {
-            return $response->withStatus(StatusCode::HTTP_NOT_FOUND);
+            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
         }
 
         $poll_question_service = PollServiceProvider::getPollQuestionService($this->container);

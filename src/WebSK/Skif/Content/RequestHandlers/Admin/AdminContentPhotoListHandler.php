@@ -2,9 +2,8 @@
 
 namespace WebSK\Skif\Content\RequestHandlers\Admin;
 
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
-use Slim\Http\Response;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Views\PhpRender;
 
@@ -15,13 +14,13 @@ use WebSK\Views\PhpRender;
 class AdminContentPhotoListHandler extends BaseHandler
 {
     /**
-     * @param Request $request
-     * @param Response $response
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
      * @param string $content_type
      * @param int $content_id
      * @return ResponseInterface
      */
-    public function __invoke(Request $request, Response $response, string $content_type, int $content_id)
+    public function __invoke(RequestInterface $request, ResponseInterface $response, string $content_type, int $content_id)
     {
         return PhpRender::render(
             $response,

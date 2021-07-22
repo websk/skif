@@ -3,14 +3,13 @@
 namespace WebSK\Skif\Comment\RequestHandlers;
 
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
-use Slim\Http\Response;
-use Slim\Http\StatusCode;
+use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Auth\AuthServiceProvider;
 use WebSK\Captcha\Captcha;
 use WebSK\Skif\Comment\Comment;
 use WebSK\Skif\Comment\CommentServiceProvider;
 use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Utils\HTTP;
 use WebSK\Utils\Messages;
 use WebSK\Utils\Sanitize;
 
@@ -21,16 +20,16 @@ use WebSK\Utils\Sanitize;
 class CommentCreateHandler extends BaseHandler
 {
     /**
-     * @param Request $request
-     * @param Response $response
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
      * @return ResponseInterface
      */
-    public function __invoke(Request $request, Response $response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
         $url = $request->getParsedBodyParam('url');
 
         if (!$url) {
-            return $response->withStatus(StatusCode::HTTP_NOT_FOUND);
+            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
         }
 
         if ($request->getParsedBodyParam(Captcha::CAPTCHA_FIELD_NAME) !== null) {

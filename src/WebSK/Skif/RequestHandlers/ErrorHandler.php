@@ -3,12 +3,11 @@
 namespace WebSK\Skif\RequestHandlers;
 
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
-use Slim\Http\Response;
-use Slim\Http\StatusCode;
+use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Auth\Auth;
 use WebSK\Config\ConfWrapper;
 use WebSK\Skif\SkifPath;
+use WebSK\Utils\HTTP;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -20,14 +19,14 @@ use WebSK\Views\PhpRender;
 class ErrorHandler
 {
     /**
-     * @param Request $request
-     * @param Response $response
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
      * @param \Exception $exception
      * @return ResponseInterface
      */
-    public function __invoke(Request $request, Response $response, $exception)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $exception)
     {
-        $error_code = StatusCode::HTTP_INTERNAL_SERVER_ERROR;
+        $error_code = HTTP::STATUS_INTERNAL_SERVER_ERROR;
 
         $extra_message = 'Ошибка. 500 Internal Server Error';
 

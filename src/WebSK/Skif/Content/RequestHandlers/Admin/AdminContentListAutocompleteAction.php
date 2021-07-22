@@ -3,8 +3,7 @@
 namespace WebSK\Skif\Content\RequestHandlers\Admin;
 
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 
@@ -17,12 +16,12 @@ class AdminContentListAutocompleteAction extends BaseHandler
     const PARAM_TERM = 'term';
 
     /**
-     * @param Request $request
-     * @param Response $response
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
      * @param string $content_type
      * @return ResponseInterface
      */
-    public function __invoke(Request $request, Response $response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
         $term = $request->getParam(self::PARAM_TERM);
 

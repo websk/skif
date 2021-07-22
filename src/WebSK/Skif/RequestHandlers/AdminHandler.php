@@ -2,9 +2,9 @@
 
 namespace WebSK\Skif\RequestHandlers;
 
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Auth\Auth;
-use Slim\Http\Request;
-use Slim\Http\Response;
 use WebSK\Skif\SkifPath;
 use WebSK\Skif\SkifPhpRender;
 
@@ -15,10 +15,10 @@ use WebSK\Skif\SkifPhpRender;
 class AdminHandler
 {
     /**
-     * @param Request $request
-     * @param Response $response
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
      */
-    public function __invoke(Request $request, Response $response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
         if (!Auth::getCurrentUserId()) {
             return SkifPhpRender::render(

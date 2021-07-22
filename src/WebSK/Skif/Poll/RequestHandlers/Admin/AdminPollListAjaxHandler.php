@@ -3,8 +3,7 @@
 namespace WebSK\Skif\Poll\RequestHandlers\Admin;
 
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Psr\Http\Message\ServerRequestInterface;
 use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Table\CRUDTable;
 use WebSK\CRUD\Table\CRUDTableColumn;
@@ -23,11 +22,11 @@ class AdminPollListAjaxHandler extends BaseHandler
     const FILTER_TITLE = 'title';
 
     /**
-     * @param Request $request
-     * @param Response $response
-     * @return ResponseInterface|Response
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @return ResponseInterface
      */
-    public function __invoke(Request $request, Response $response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
         $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
             Poll::class,

@@ -4,15 +4,14 @@ namespace WebSK\Skif\Form\RequestHandlers;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
-use Slim\Http\Response;
-use Slim\Http\StatusCode;
+use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Auth\Auth;
 use WebSK\Captcha\Captcha;
 use WebSK\Config\ConfWrapper;
 use WebSK\Skif\Form\FormServiceProvider;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Utils\Filters;
+use WebSK\Utils\HTTP;
 use WebSK\Utils\Messages;
 use WebSK\Utils\Redirects;
 
@@ -23,17 +22,17 @@ use WebSK\Utils\Redirects;
 class FormSendHandler extends BaseHandler
 {
     /**
-     * @param Request $request
-     * @param Response $response
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
      * @return ResponseInterface
      */
-    public function __invoke(Request $request, Response $response, int $form_id)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $form_id)
     {
         $form_obj = FormServiceProvider::getFormService($this->container)
             ->getById($form_id, false);
 
         if (!$form_obj) {
-            return $response->withStatus(StatusCode::HTTP_FORBIDDEN);
+            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
         }
 
         $site_name = ConfWrapper::value('site_name');

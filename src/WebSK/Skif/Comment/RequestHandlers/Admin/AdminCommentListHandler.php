@@ -3,8 +3,7 @@
 namespace WebSK\Skif\Comment\RequestHandlers\Admin;
 
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Psr\Http\Message\ServerRequestInterface;
 use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
@@ -31,11 +30,11 @@ class AdminCommentListHandler extends BaseHandler
     const FILTER_NAME_PARENT_ID = 'parent_id';
 
     /**
-     * @param Request $request
-     * @param Response $response
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
      * @return ResponseInterface
      */
-    public function __invoke(Request $request, Response $response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
         $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
             Comment::class,
@@ -77,7 +76,7 @@ class AdminCommentListHandler extends BaseHandler
         );
 
         $crud_form_response = $crud_table_obj->processRequest($request, $response);
-        if ($crud_form_response instanceof Response) {
+        if ($crud_form_response instanceof ResponseInterface) {
             return $crud_form_response;
         }
 
