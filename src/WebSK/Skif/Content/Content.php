@@ -11,8 +11,6 @@ use WebSK\Utils\Filters;
  */
 class Content extends Entity
 {
-    const ENTITY_SERVICE_CONTAINER_ID = 'skif.content_service';
-    const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.content_repository';
     const DB_TABLE_NAME = 'content';
 
     const CONTENT_FILES_DIR = 'content';

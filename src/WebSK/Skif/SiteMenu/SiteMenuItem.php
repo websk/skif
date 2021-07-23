@@ -25,7 +25,7 @@ class SiteMenuItem extends Entity
     protected int $weight = 0;
 
     const _PARENT_ID = 'parent_id';
-    protected int $parent_id = 0;
+    protected ?int $parent_id = null;
 
     const _IS_PUBLISHED = 'is_published';
     protected bool $is_published = false;
@@ -98,17 +98,17 @@ class SiteMenuItem extends Entity
     }
 
     /**
-     * @return int
+     * @return null|int
      */
-    public function getParentId(): int
+    public function getParentId(): ?int
     {
         return $this->parent_id;
     }
 
     /**
-     * @param int $parent_id
+     * @param null|int $parent_id
      */
-    public function setParentId(int $parent_id): void
+    public function setParentId(?int $parent_id): void
     {
         $this->parent_id = $parent_id;
     }

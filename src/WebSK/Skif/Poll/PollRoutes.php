@@ -17,14 +17,6 @@ use WebSK\Utils\HTTP;
  */
 class PollRoutes
 {
-    const ROUTE_NAME_ADMIN_POLL_LIST = 'admin:poll:list';
-    const ROUTE_NAME_ADMIN_POLL_LIST_AJAX = 'admin:poll:list_ajax';
-    const ROUTE_NAME_ADMIN_POLL_EDIT = 'admin:poll:edit';
-    const ROUTE_NAME_ADMIN_POLL_QUESTION_EDIT = 'admin:poll_question:edit';
-
-    const ROUTE_NAME_POLL_VIEW = 'admin:poll:view';
-    const ROUTE_NAME_POLL_VOTE = 'admin:poll:vote';
-
     /**
      * @param App $app
      */
@@ -32,16 +24,16 @@ class PollRoutes
     {
         $app->group('/poll', function (App $app) {
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', AdminPollListHandler::class)
-                ->setName(self::ROUTE_NAME_ADMIN_POLL_LIST);
+                ->setName(AdminPollListHandler::class);
 
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/ajax', AdminPollListAjaxHandler::class)
-                ->setName(self::ROUTE_NAME_ADMIN_POLL_LIST_AJAX);
+                ->setName(AdminPollListAjaxHandler::class);
 
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/{poll_id:\d+}', AdminPollEditHandler::class)
-                ->setName(self::ROUTE_NAME_ADMIN_POLL_EDIT);
+                ->setName(AdminPollEditHandler::class);
 
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/poll_question/{poll_question_id:\d+}', AdminPollQuestionEditHandler::class)
-                ->setName(self::ROUTE_NAME_ADMIN_POLL_QUESTION_EDIT);
+                ->setName(AdminPollQuestionEditHandler::class);
         });
     }
 
@@ -52,10 +44,10 @@ class PollRoutes
     {
         $app->group('/poll', function (App $app) {
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/{poll_id:\d+}', PollViewHandler::class)
-                ->setName(self::ROUTE_NAME_POLL_VIEW);
+                ->setName(PollViewHandler::class);
 
             $app->post('/{poll_id:\d+}/vote', PollVoteHandler::class)
-                ->setName(self::ROUTE_NAME_POLL_VOTE);
+                ->setName(PollVoteHandler::class);
         });
     }
 }

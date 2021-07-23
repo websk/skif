@@ -2,7 +2,11 @@
 
 namespace WebSK\Skif\SiteMenu;
 
+use WebSK\Cache\CacheService;
+use WebSK\Entity\EntityRepository;
 use WebSK\Entity\EntityService;
+use WebSK\Entity\InterfaceEntity;
+use WebSK\Skif\Content\ContentService;
 use WebSK\Utils\Url;
 
 /**
@@ -14,6 +18,45 @@ class SiteMenuItemService extends EntityService
 {
     /** @var SiteMenuItemRepository */
     protected $repository;
+
+    protected ContentService $content_service;
+
+    /**
+     * SiteMenuItemService constructor.
+     * @param string $entity_class_name
+     * @param EntityRepository $repository
+     * @param CacheService $cache_service
+     * @param ContentService $content_service
+     */
+    public function __construct(
+        string $entity_class_name,
+        EntityRepository $repository,
+        CacheService $cache_service,
+        ContentService $content_service
+    ) {
+        $this->content_service = $content_service;
+
+        parent::__construct($entity_class_name, $repository, $cache_service);
+    }
+
+    /**
+     * @param InterfaceEntity|SiteMenuItem $entity_obj
+     */
+    public function beforeSave(InterfaceEntity $entity_obj)
+    {
+        $url = $entity_obj->getUrl();
+
+        if ($entity_obj->getContentId()) {
+            $content_obj = $this->content_service->getById($entity_obj->getContentId());
+            $url = $content_obj->getUrl();
+        }
+
+        if ($url) {
+            $entity_obj->setUrl('/' . ltrim($url, '/'));
+        }
+
+        parent::beforeSave($entity_obj);
+    }
 
     /**
      * @param int $site_menu_id

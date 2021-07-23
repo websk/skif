@@ -10,7 +10,6 @@ use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetReferenceAjax;
 use WebSK\Skif\Poll\Poll;
 use WebSK\Skif\Poll\PollQuestion;
-use WebSK\Skif\Poll\PollRoutes;
 use WebSK\Skif\Poll\PollServiceProvider;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
@@ -29,8 +28,10 @@ class AdminPollQuestionEditHandler extends BaseHandler
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @param int $poll_question_id
+     * @return ResponseInterface
+     * @throws \ReflectionException
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $poll_question_id)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $poll_question_id): ResponseInterface
     {
         $poll_question_service = PollServiceProvider::getPollQuestionService($this->container);
 
@@ -50,9 +51,9 @@ class AdminPollQuestionEditHandler extends BaseHandler
                         PollQuestion::_POLL_ID,
                         Poll::class,
                         Poll::_TITLE,
-                        $this->pathFor(PollRoutes::ROUTE_NAME_ADMIN_POLL_LIST_AJAX),
+                        $this->pathFor(AdminPollListAjaxHandler::class),
                         $this->pathFor(
-                            PollRoutes::ROUTE_NAME_ADMIN_POLL_EDIT,
+                            AdminPollEditHandler::class,
                             ['poll_id' => CRUDFormWidgetReferenceAjax::REFERENCED_ID_PLACEHOLDER]
                         )
                     )
@@ -69,7 +70,7 @@ class AdminPollQuestionEditHandler extends BaseHandler
         }
 
         $poll_service = PollServiceProvider::getPollService($this->container);
-        $poll_obj = $poll_service->getById($poll_question_obj->getPollId(), false);
+        $poll_obj = $poll_service->getById($poll_question_obj->getPollId());
 
         $content_html = $crud_form->html();
         $layout_dto = new LayoutDTO();
@@ -77,11 +78,10 @@ class AdminPollQuestionEditHandler extends BaseHandler
         $layout_dto->setContentHtml($content_html);
         $breadcrumbs_arr = [
             new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),
-            new BreadcrumbItemDTO('Опросы', $this->pathFor(PollRoutes::ROUTE_NAME_ADMIN_POLL_LIST)),
-            new BreadcrumbItemDTO($poll_obj->getTitle(), $this->pathFor(PollRoutes::ROUTE_NAME_ADMIN_POLL_EDIT, ['poll_id' => $poll_question_obj->getPollId()])),
+            new BreadcrumbItemDTO('Опросы', $this->pathFor(AdminPollListHandler::class)),
+            new BreadcrumbItemDTO($poll_obj->getTitle(), $this->pathFor(AdminPollEditHandler::class, ['poll_id' => $poll_question_obj->getPollId()])),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
-
 
         return PhpRender::renderLayout($response, SkifPath::getLayout(), $layout_dto);
     }

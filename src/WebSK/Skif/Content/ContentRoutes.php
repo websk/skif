@@ -43,7 +43,6 @@ class ContentRoutes
     const ROUTE_NAME_ADMIN_TEMPLATE_EDIT = 'admin:template:edit';
 
     const ROUTE_NAME_ADMIN_CONTENT_LIST = 'admin:content:list';
-    const ROUTE_NAME_ADMIN_CONTENT_LIST_AJAX = 'admin:content:list:ajax';
     const ROUTE_NAME_ADMIN_CONTENT_LIST_AUTOCOMPLETE = 'admin:content:list:autocomplete';
 
     const ROUTE_NAME_ADMIN_CONTENT_DELETE_IMAGE = 'admin:content:delete_image';
@@ -95,7 +94,7 @@ class ContentRoutes
                     ->setName(self::ROUTE_NAME_ADMIN_CONTENT_LIST);
 
                 $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/ajax', AdminContentListAjaxHandler::class)
-                    ->setName(self::ROUTE_NAME_ADMIN_CONTENT_LIST_AJAX);
+                    ->setName(AdminContentListAjaxHandler::class);
 
                 $app->group('/{content_id:\d+}', function (App $app) {
                     $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', AdminContentEditHandler::class)

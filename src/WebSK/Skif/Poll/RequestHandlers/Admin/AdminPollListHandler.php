@@ -18,7 +18,7 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
 use WebSK\Skif\Poll\Poll;
-use WebSK\Skif\Poll\PollRoutes;
+use WebSK\Skif\Poll\RequestHandlers\PollViewHandler;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
@@ -38,7 +38,7 @@ class AdminPollListHandler extends BaseHandler
      * @param ResponseInterface $response
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
             Poll::class,
@@ -60,7 +60,7 @@ class AdminPollListHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         Poll::_TITLE,
                         function (Poll $poll) {
-                            return $this->pathFor(PollRoutes::ROUTE_NAME_ADMIN_POLL_EDIT, ['poll_id' => $poll->getId()]);
+                            return $this->pathFor(AdminPollEditHandler::class, ['poll_id' => $poll->getId()]);
                         }
                     )
                 ),
@@ -82,7 +82,7 @@ class AdminPollListHandler extends BaseHandler
                     'Ссылка',
                     new CRUDTableWidgetHtml(
                         function (Poll $poll) {
-                            $poll_url = $this->pathFor(PollRoutes::ROUTE_NAME_POLL_VIEW, ['poll_id' => $poll->getId()]);
+                            $poll_url = $this->pathFor(PollViewHandler::class, ['poll_id' => $poll->getId()]);
                             return '<a href="' . $poll_url . '" target="_blank">' . $poll_url . '</a>';
                         }
                     )

@@ -158,3 +158,4 @@ ALTER TABLE site_menu_item ADD CONSTRAINT FK_site_menu_item_content FOREIGN KEY 
 ALTER TABLE comments ADD CONSTRAINT FK_comments_user_id FOREIGN KEY (user_id) REFERENCES users (id) /* v05j4v9j04v509 */;
 ALTER TABLE site_menu ADD COLUMN created_at_ts int NOT NULL DEFAULT 0 /* 0c9j0943j094jv*/;
 ALTER TABLE site_menu_item ADD COLUMN created_at_ts int NOT NULL DEFAULT 0 /* c-304ck-0kc-c-4kc */;
+ALTER TABLE site_menu_item CHANGE COLUMN parent_id parent_id int DEFAULT NULL /* vn03h403hb43h043bh */;

@@ -4,6 +4,7 @@ namespace WebSK\Skif\SiteMenu;
 
 use Psr\Container\ContainerInterface;
 use WebSK\Cache\CacheServiceProvider;
+use WebSK\Skif\Content\ContentService;
 use WebSK\Skif\SkifServiceProvider;
 
 /**
@@ -48,7 +49,8 @@ class SiteMenuServiceProvider
             return new SiteMenuItemService(
                 SiteMenuItem::class,
                 $container->get(SiteMenuItemRepository::class),
-                CacheServiceProvider::getCacheService($container)
+                CacheServiceProvider::getCacheService($container),
+                $container->get(ContentService::class)
             );
         };
 

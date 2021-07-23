@@ -21,10 +21,10 @@ class ContentServiceProvider
          * @param ContainerInterface $container
          * @return ContentService
          */
-        $container[Content::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[ContentService::class] = function (ContainerInterface $container) {
             return new ContentService(
                 Content::class,
-                $container[Content::ENTITY_REPOSITORY_CONTAINER_ID],
+                $container->get(ContentRepository::class),
                 CacheServiceProvider::getCacheService($container),
                 self::getContentTypeService($container),
                 self::getRubricService($container),
@@ -36,7 +36,7 @@ class ContentServiceProvider
          * @param ContainerInterface $container
          * @return ContentRepository
          */
-        $container[Content::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[ContentRepository::class] = function (ContainerInterface $container) {
             return new ContentRepository(
                 Content::class,
                 SkifServiceProvider::getDBService($container)
@@ -166,7 +166,7 @@ class ContentServiceProvider
      */
     public static function getContentService(ContainerInterface $container): ContentService
     {
-        return $container[Content::ENTITY_SERVICE_CONTAINER_ID];
+        return $container->get(ContentService::class);
     }
 
     /**

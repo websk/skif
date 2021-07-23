@@ -116,7 +116,6 @@ class SkifApp extends App
         ImageRoutes::routes();
         BlockRoutes::route();
         ContentRoutes::route();
-        SiteMenuRoutes::route();
 
         $route_based_crud_arr = $container['settings']['route_based_crud_arr'] ?? [];
         if ($route_based_crud_arr) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace WebSK\Skif\Poll\RequestHandlers\Admin;
+namespace WebSK\Skif\SiteMenu\RequestHandlers;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -10,16 +10,16 @@ use WebSK\CRUD\Table\CRUDTableColumn;
 use WebSK\CRUD\Table\Filters\CRUDTableFilterLikeInline;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetReferenceSelect;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
-use WebSK\Skif\Poll\Poll;
+use WebSK\Skif\SiteMenu\SiteMenu;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 
 /**
- * Class AdminPollListAjaxHandler
- * @package WebSK\Skif\Poll\RequestHandlers\Admin
+ * Class AdminSiteMenuListAjaxHandler
+ * @package WebSK\Skif\SiteMenu\RequestHandlers
  */
-class AdminPollListAjaxHandler extends BaseHandler
+class AdminSiteMenuListAjaxHandler extends BaseHandler
 {
-    const FILTER_TITLE = 'title';
+    const FILTER_SITE_MENU_NAME = 'site_menu_name';
 
     /**
      * @param ServerRequestInterface $request
@@ -29,21 +29,25 @@ class AdminPollListAjaxHandler extends BaseHandler
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
-            Poll::class,
+            SiteMenu::class,
             null,
             [
-                new CRUDTableColumn('ID', new CRUDTableWidgetText(Poll::_ID)),
-                new CRUDTableColumn('Заголовок', new CRUDTableWidgetText(Poll::_TITLE)),
+                new CRUDTableColumn('ID', new CRUDTableWidgetText(SiteMenu::_ID)),
+                new CRUDTableColumn('Название', new CRUDTableWidgetText(SiteMenu::_NAME)),
                 new CRUDTableColumn(
                     '',
-                    new CRUDTableWidgetReferenceSelect(Poll::_TITLE)
+                    new CRUDTableWidgetReferenceSelect(SiteMenu::_NAME)
                 ),
             ],
             [
-                new CRUDTableFilterLikeInline(self::FILTER_TITLE, '', Poll::_TITLE, 'Заголовок'),
+                new CRUDTableFilterLikeInline(
+                    self::FILTER_SITE_MENU_NAME,
+                    '', SiteMenu::_NAME,
+                    'Название'
+                ),
             ],
-            Poll::_CREATED_AT_TS . ' DESC',
-            'poll_list',
+            SiteMenu::_CREATED_AT_TS . ' DESC',
+            'site_menu_list',
             CRUDTable::FILTERS_POSITION_INLINE
         );
 

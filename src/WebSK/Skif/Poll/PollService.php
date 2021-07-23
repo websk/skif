@@ -28,7 +28,7 @@ class PollService extends EntityService
     /**
      * @return int|null
      */
-    public function getDefaultPollId()
+    public function getDefaultPollId(): ?int
     {
         $poll_ids_arr = $this->getAllIdsArrByIdAsc();
 

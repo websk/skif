@@ -22,8 +22,10 @@ class PollViewHandler extends BaseHandler
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @param int $poll_id
+     * @return ResponseInterface
+     * @throws \Exception
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $poll_id)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $poll_id): ResponseInterface
     {
         $poll_service = PollServiceProvider::getPollService($this->container);
 
@@ -51,7 +53,6 @@ class PollViewHandler extends BaseHandler
             new BreadcrumbItemDTO('Главная', '/'),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
-
 
         return PhpRender::renderLayout($response, ConfWrapper::value('layout.main'), $layout_dto);
     }

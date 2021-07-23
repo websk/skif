@@ -7,14 +7,15 @@
 
 use WebSK\Skif\Poll\Poll;
 use WebSK\Skif\Poll\PollQuestionService;
-use WebSK\Skif\Poll\PollRoutes;
 use WebSK\Skif\Poll\PollService;
+use WebSK\Skif\Poll\RequestHandlers\PollViewHandler;
+use WebSK\Skif\Poll\RequestHandlers\PollVoteHandler;
 use WebSK\Slim\Router;
 ?>
 
 <div><?php echo $poll_obj->getTitle(); ?></div>
 
-<form action="<?php echo Router::pathFor(PollRoutes::ROUTE_NAME_POLL_VOTE, ['poll_id' => $poll_obj->getId()]); ?>" method="post">
+<form action="<?php echo Router::pathFor(PollVoteHandler::class, ['poll_id' => $poll_obj->getId()]); ?>" method="post">
 
     <?php
     $poll_question_ids_arr = $poll_question_service->getIdsArrByPollId($poll_obj->getId());
@@ -38,7 +39,7 @@ use WebSK\Slim\Router;
                 <input type="submit" value="Голосовать" class="btn btn-default btn-sm">
             </div>
             <div class="col-md-6 text-right">
-                <a href="<?php echo Router::pathFor(PollRoutes::ROUTE_NAME_POLL_VIEW, ['poll_id' => $poll_obj->getId()]); ?>">Результаты</a>
+                <a href="<?php echo Router::pathFor(PollViewHandler::class, ['poll_id' => $poll_obj->getId()]); ?>">Результаты</a>
             </div>
         </div>
     </div>

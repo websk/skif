@@ -15,6 +15,8 @@ class ContentType extends Entity
     const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.content_type_repository';
     const DB_TABLE_NAME = 'content_types';
 
+    const CONTENT_TYPE_PAGE = 'page';
+
     const _NAME = 'name';
     /** @var string */
     protected $name;

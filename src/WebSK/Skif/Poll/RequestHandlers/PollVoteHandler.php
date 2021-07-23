@@ -4,7 +4,6 @@ namespace WebSK\Skif\Poll\RequestHandlers;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\Skif\Poll\PollRoutes;
 use WebSK\Skif\Poll\PollServiceProvider;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Utils\HTTP;
@@ -22,8 +21,10 @@ class PollVoteHandler extends BaseHandler
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @param int $poll_id
+     * @return ResponseInterface
+     * @throws \Exception
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $poll_id)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $poll_id): ResponseInterface
     {
         $poll_question_id = $request->getParam('poll_question_id');
 
@@ -38,7 +39,7 @@ class PollVoteHandler extends BaseHandler
 
         $cookie_key = self::POLL_COOKIE_PREFIX . $poll_id;
 
-        $redirect_url = $this->pathFor(PollRoutes::ROUTE_NAME_POLL_VIEW, ['poll_id' => $poll_id]);
+        $redirect_url = $this->pathFor(PollViewHandler::class, ['poll_id' => $poll_id]);
 
         if (isset($_COOKIE[$cookie_key]) && ($_COOKIE[$cookie_key] == 'no')) {
             Messages::setError('Вы уже проголосовали ранее!');

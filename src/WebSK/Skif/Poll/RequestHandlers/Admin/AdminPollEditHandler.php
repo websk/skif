@@ -17,7 +17,6 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
 use WebSK\Skif\Poll\Poll;
 use WebSK\Skif\Poll\PollQuestion;
-use WebSK\Skif\Poll\PollRoutes;
 use WebSK\Skif\Poll\PollServiceProvider;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
@@ -38,8 +37,10 @@ class AdminPollEditHandler extends BaseHandler
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @param int $poll_id
+     * @return ResponseInterface
+     * @throws \ReflectionException
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $poll_id)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $poll_id): ResponseInterface
     {
         $poll_service = PollServiceProvider::getPollService($this->container);
 
@@ -89,7 +90,7 @@ class AdminPollEditHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         PollQuestion::_TITLE,
                         function (PollQuestion $poll_question) {
-                            return $this->pathFor(PollRoutes::ROUTE_NAME_ADMIN_POLL_QUESTION_EDIT, ['poll_question_id' => $poll_question->getId()]);
+                            return $this->pathFor(AdminPollQuestionEditHandler::class, ['poll_question_id' => $poll_question->getId()]);
                         }
                     )
                 ),
@@ -122,10 +123,9 @@ class AdminPollEditHandler extends BaseHandler
         $layout_dto->setContentHtml($content_html);
         $breadcrumbs_arr = [
             new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),
-            new BreadcrumbItemDTO('Опросы', $this->pathFor(PollRoutes::ROUTE_NAME_ADMIN_POLL_LIST)),
+            new BreadcrumbItemDTO('Опросы', $this->pathFor(AdminPollListHandler::class)),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
-
 
         return PhpRender::renderLayout($response, SkifPath::getLayout(), $layout_dto);
     }
