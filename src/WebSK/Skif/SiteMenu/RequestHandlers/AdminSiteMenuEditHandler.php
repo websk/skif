@@ -15,6 +15,8 @@ use WebSK\CRUD\Table\Filters\CRUDTableFilterEqualInvisible;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
+use WebSK\CRUD\Table\Widgets\CRUDTableWidgetWeight;
+use WebSK\Logger\LoggerRender;
 use WebSK\Skif\Content\Content;
 use WebSK\Skif\Content\ContentType;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentEditHandler;
@@ -26,6 +28,7 @@ use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Utils\HTTP;
 use WebSK\Views\LayoutDTO;
+use WebSK\Views\NavTabItemDTO;
 use WebSK\Views\PhpRender;
 
 /**
@@ -114,6 +117,16 @@ class AdminSiteMenuEditHandler extends BaseHandler
             [
                 new CRUDTableColumn('ID', new CRUDTableWidgetText(SiteMenuItem::_ID)),
                 new CRUDTableColumn(
+                    '',
+                    new CRUDTableWidgetWeight([SiteMenuItem::_MENU_ID => SiteMenuItem::_MENU_ID])
+                ),
+                new CRUDTableColumn(
+                    'Вес',
+                    new CRUDTableWidgetText(
+                        SiteMenuItem::_WEIGHT
+                    )
+                ),
+                new CRUDTableColumn(
                     'Название',
                     new CRUDTableWidgetTextWithLink(
                         SiteMenuItem::_NAME,
@@ -131,7 +144,7 @@ class AdminSiteMenuEditHandler extends BaseHandler
             [
                 new CRUDTableFilterEqualInvisible(self::FILTER_NAME_MENU_ID, $site_menu_id),
             ],
-            SiteMenuItem::_WEIGHT . ' DESC'
+            SiteMenuItem::_WEIGHT
         );
 
         $crud_form_table_response = $crud_table_obj->processRequest($request, $response);
@@ -146,6 +159,19 @@ class AdminSiteMenuEditHandler extends BaseHandler
         $layout_dto->setTitle($site_menu_obj->getName());
         $layout_dto->setContentHtml($content_html);
         $layout_dto->setBreadcrumbsDtoArr($this->getBreadcrumbsDTOArr($site_menu_item_obj->getMenuId()));
+
+        $layout_dto->setNavTabsDtoArr(
+            [
+                new NavTabItemDTO(
+                    'Редактирование',
+                    $this->pathFor(
+                        AdminSiteMenuEditHandler::class,
+                        ['site_menu_id' => $site_menu_id]
+                    )
+                ),
+                new NavTabItemDTO('Журнал', LoggerRender::getLoggerLinkForEntityObj($site_menu_obj), '_blank'),
+            ]
+        );
 
         return PhpRender::renderLayout($response, SkifPath::getLayout(), $layout_dto);
     }

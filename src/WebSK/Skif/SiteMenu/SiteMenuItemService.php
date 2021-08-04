@@ -2,11 +2,14 @@
 
 namespace WebSK\Skif\SiteMenu;
 
+use WebSK\Auth\Auth;
 use WebSK\Cache\CacheService;
 use WebSK\Entity\EntityRepository;
-use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
+use WebSK\Entity\WeightService;
+use WebSK\Logger\Logger;
 use WebSK\Skif\Content\ContentService;
+use WebSK\Utils\FullObjectId;
 use WebSK\Utils\Url;
 
 /**
@@ -14,7 +17,7 @@ use WebSK\Utils\Url;
  * @method SiteMenuItem getById($entity_id, $exception_if_not_loaded = true)
  * @package WebSK\Skif\SiteMenu
  */
-class SiteMenuItemService extends EntityService
+class SiteMenuItemService extends WeightService
 {
     /** @var SiteMenuItemRepository */
     protected $repository;
@@ -55,15 +58,42 @@ class SiteMenuItemService extends EntityService
             $entity_obj->setUrl('/' . ltrim($url, '/'));
         }
 
+        $this->initWeight(
+            $entity_obj,
+            [
+                SiteMenuItem::_MENU_ID => $entity_obj->getMenuId()
+            ]
+        );
+
         parent::beforeSave($entity_obj);
     }
 
     /**
+     * @param InterfaceEntity|SiteMenuItem $entity_obj
+     */
+    public function afterSave(InterfaceEntity $entity_obj)
+    {
+        parent::afterSave($entity_obj);
+
+        Logger::logObjectEvent($entity_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
+    }
+
+    /**
+     * @param InterfaceEntity|SiteMenuItem $entity_obj
+     */
+    public function afterDelete(InterfaceEntity $entity_obj)
+    {
+        parent::afterDelete($entity_obj);
+
+        Logger::logObjectEvent($entity_obj, 'удаление', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
+    }
+
+    /**
      * @param int $site_menu_id
-     * @param int $parent_id
+     * @param null|int $parent_id
      * @return array
      */
-    public function getIdsArrBySiteMenuId(int $site_menu_id, int $parent_id = 0): array
+    public function getIdsArrBySiteMenuId(int $site_menu_id, ?int $parent_id = null): array
     {
         return $this->repository->findIdsArrBySiteMenuId($site_menu_id, $parent_id);
     }

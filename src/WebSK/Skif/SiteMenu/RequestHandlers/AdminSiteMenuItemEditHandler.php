@@ -9,6 +9,7 @@ use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetRadios;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetReferenceAjax;
+use WebSK\Logger\LoggerRender;
 use WebSK\Skif\Content\Content;
 use WebSK\Skif\Content\ContentType;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentEditHandler;
@@ -20,8 +21,8 @@ use WebSK\Skif\SiteMenu\SiteMenuService;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Utils\HTTP;
-use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
+use WebSK\Views\NavTabItemDTO;
 use WebSK\Views\PhpRender;
 
 /**
@@ -96,7 +97,6 @@ class AdminSiteMenuItemEditHandler extends BaseHandler
                     )
                 ),
                 new CRUDFormRow('Адрес страницы', new CRUDFormWidgetInput(SiteMenuItem::_URL)),
-                new CRUDFormRow('Вес', new CRUDFormWidgetInput(SiteMenuItem::_WEIGHT, false, false, true)),
                 new CRUDFormRow('Опубликовано', new CRUDFormWidgetRadios(SiteMenuItem::_IS_PUBLISHED, [false => 'Нет', true => 'Да'])),
             ]
         );
@@ -113,6 +113,19 @@ class AdminSiteMenuItemEditHandler extends BaseHandler
         $layout_dto->setTitle($site_menu_item_obj->getName());
         $layout_dto->setContentHtml($content_html);
         $layout_dto->setBreadcrumbsDtoArr($this->getBreadcrumbsDTOArr($site_menu_item_obj->getMenuId(), $site_menu_item_id));
+
+        $layout_dto->setNavTabsDtoArr(
+            [
+                new NavTabItemDTO(
+                    'Редактирование',
+                    $this->pathFor(
+                        AdminSiteMenuItemEditHandler::class,
+                        ['site_menu_item_id' => $site_menu_item_id]
+                    )
+                ),
+                new NavTabItemDTO('Журнал', LoggerRender::getLoggerLinkForEntityObj($site_menu_item_obj), '_blank'),
+            ]
+        );
 
         return PhpRender::renderLayout($response, SkifPath::getLayout(), $layout_dto);
     }

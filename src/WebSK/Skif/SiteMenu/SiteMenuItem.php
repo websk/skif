@@ -3,13 +3,17 @@
 namespace WebSK\Skif\SiteMenu;
 
 use WebSK\Entity\Entity;
+use WebSK\Entity\InterfaceWeight;
+use WebSK\Entity\WeightTrait;
 
 /**
  * Class SiteMenuItem
  * @package WebSK\Skif\SiteMenu
  */
-class SiteMenuItem extends Entity
+class SiteMenuItem extends Entity implements InterfaceWeight
 {
+    use WeightTrait;
+
     const DB_TABLE_NAME = 'site_menu_item';
 
     const _NAME = 'name';
@@ -22,7 +26,6 @@ class SiteMenuItem extends Entity
     protected ?int $content_id = null;
 
     const _WEIGHT = 'weight';
-    protected int $weight = 0;
 
     const _PARENT_ID = 'parent_id';
     protected ?int $parent_id = null;
@@ -79,22 +82,6 @@ class SiteMenuItem extends Entity
     public function setContentId(?int $content_id): void
     {
         $this->content_id = $content_id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getWeight(): int
-    {
-        return $this->weight;
-    }
-
-    /**
-     * @param int $weight
-     */
-    public function setWeight(int $weight): void
-    {
-        $this->weight = $weight;
     }
 
     /**

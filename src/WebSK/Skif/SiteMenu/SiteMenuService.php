@@ -2,8 +2,11 @@
 
 namespace WebSK\Skif\SiteMenu;
 
+use WebSK\Auth\Auth;
 use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
+use WebSK\Logger\Logger;
+use WebSK\Utils\FullObjectId;
 
 /**
  * Class SiteMenuService
@@ -23,5 +26,25 @@ class SiteMenuService extends EntityService
         }
 
         parent::beforeSave($entity_obj);
+    }
+
+    /**
+     * @param InterfaceEntity|SiteMenu $entity_obj
+     */
+    public function afterSave(InterfaceEntity $entity_obj)
+    {
+        parent::afterSave($entity_obj);
+
+        Logger::logObjectEvent($entity_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
+    }
+
+    /**
+     * @param InterfaceEntity|SiteMenu $entity_obj
+     */
+    public function afterDelete(InterfaceEntity $entity_obj)
+    {
+        parent::afterDelete($entity_obj);
+
+        Logger::logObjectEvent($entity_obj, 'удаление', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 }
