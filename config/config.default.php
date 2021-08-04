@@ -49,6 +49,7 @@ return [
             'main' => '/var/www/views/layouts/layout.main.tpl.php',
             'admin' => '/var/www/views/layouts/layout.adminLTE.tpl.php',
             'error' => '/var/www/views/layouts/layout.error.tpl.php',
+            'login' => '/var/www/views/layouts/layout.admin_login.tpl.php'
         ],
         'skif' => [
             'menu' => [

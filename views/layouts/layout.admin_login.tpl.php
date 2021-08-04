@@ -1,13 +1,15 @@
 <?php
 /**
- *
+ * @var LayoutDTO $layout_dto
  */
+
 
 use WebSK\Auth\AuthRoutes;
 use WebSK\Skif\SkifApp;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\Router;
 use WebSK\Utils\Messages;
+use WebSK\Views\LayoutDTO;
 
 ?>
 <!DOCTYPE html>
@@ -19,7 +21,7 @@ use WebSK\Utils\Messages;
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>СКИФ - Система управления сайтом</title>
+    <title><?php echo $layout_dto->getTitle() ?></title>
 
     <link href="<?php echo SkifPath::wrapUrlPath('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
 

@@ -6,6 +6,7 @@
 use WebSK\Auth\Auth;
 use WebSK\Auth\AuthRoutes;
 use WebSK\Auth\User\UserRoutes;
+use WebSK\Config\ConfWrapper;
 use WebSK\Image\ImageManager;
 use WebSK\Image\ImagePresets;
 use WebSK\Skif\SkifApp;
@@ -17,15 +18,9 @@ use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
 
-
-$user_id = Auth::getCurrentUserId();
 $user_obj = Auth::getCurrentUserObj();
 if (!$user_obj) {
-    echo PhpRender::renderLocalTemplate(
-        'layout.admin_login.tpl.php'
-    );
-
-    return;
+    return '';
 }
 
 if (!isset($layout_dto)) {
@@ -51,15 +46,11 @@ if (!isset($layout_dto)) {
     $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_dto_arr);
 }
 
-$user_obj = Auth::getCurrentUserObj();
-if (!$user_obj) {
-    return '';
-}
 $user_name = $user_obj->getName();
 $user_photo_path = ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(), ImagePresets::IMAGE_PRESET_200_auto);
 $user_email = $user_obj->getEmail();
 
-$user_edit_uri = Router::pathFor(UserRoutes::ROUTE_NAME_ADMIN_USER_EDIT, ['user_id' => $user_id]);
+$user_edit_uri = Router::pathFor(UserRoutes::ROUTE_NAME_ADMIN_USER_EDIT, ['user_id' => $user_obj->getId()]);
 $user_logout_url = Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['destination' => Router::pathFor(SkifApp::ROUTE_NAME_ADMIN)]);
 
 ?>
