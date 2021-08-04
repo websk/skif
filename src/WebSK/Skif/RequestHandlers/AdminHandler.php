@@ -26,7 +26,11 @@ class AdminHandler
             $layout_dto = new LayoutDTO();
             $layout_dto->setTitle('СКИФ - Система управления сайтом');
 
-            return PhpRender::renderLayout($response, ConfWrapper::value('layout.login'), $layout_dto);
+            return PhpRender::renderLayout(
+                $response,
+                ConfWrapper::value('layout.login', '/var/www/views/layouts/layout.admin_login.tpl.php'),
+                $layout_dto
+            );
         }
 
         return $response->withRedirect(SkifPath::getMainPage());
