@@ -7,6 +7,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
+use WebSK\CRUD\Table\CRUDTable;
 use WebSK\CRUD\Table\CRUDTableColumn;
 use WebSK\CRUD\Table\Filters\CRUDTableFilterEqualInline;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
@@ -78,7 +79,9 @@ class AdminSiteMenuListHandler extends BaseHandler
             [
                 new CRUDTableFilterEqualInline(self::FILTER_SITE_MENU_NAME, 'Название', SiteMenu::_NAME),
             ],
-            SiteMenu::_CREATED_AT_TS . ' DESC'
+            SiteMenu::_CREATED_AT_TS . ' DESC',
+            'site_menu_list',
+            CRUDTable::FILTERS_POSITION_INLINE
         );
 
         $crud_form_response = $crud_table_obj->processRequest($request, $response);

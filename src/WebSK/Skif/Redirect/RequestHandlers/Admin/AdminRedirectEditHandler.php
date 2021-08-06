@@ -8,14 +8,15 @@ use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetOptions;
+use WebSK\Logger\LoggerRender;
 use WebSK\Skif\Redirect\Redirect;
-use WebSK\Skif\Redirect\RedirectRoutes;
 use WebSK\Skif\Redirect\RedirectServiceProvider;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Utils\HTTP;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
+use WebSK\Views\NavTabItemDTO;
 use WebSK\Views\PhpRender;
 
 /**
@@ -29,7 +30,7 @@ class AdminRedirectEditHandler extends BaseHandler
      * @param ResponseInterface $response
      * @param int $redirect_id
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $redirect_id)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $redirect_id): ResponseInterface
     {
         $redirect_obj = RedirectServiceProvider::getRedirectService($this->container)
             ->getById($redirect_id, false);
@@ -61,11 +62,23 @@ class AdminRedirectEditHandler extends BaseHandler
         $layout_dto->setContentHtml($content_html);
         $breadcrumbs_arr = [
             new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),
-            new BreadcrumbItemDTO('Редиректы', $this->pathFor(RedirectRoutes::ROUTE_NAME_ADMIN_REDIRECT_LIST)),
+            new BreadcrumbItemDTO('Редиректы', $this->pathFor(AdminRedirectListHandler::class)),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 
+        $layout_dto->setNavTabsDtoArr(
+            [
+                new NavTabItemDTO(
+                    'Редактирование',
+                    $this->pathFor(
+                        self::class,
+                        ['redirect_id' => $redirect_id]
+                    )
+                ),
+                new NavTabItemDTO('Журнал', LoggerRender::getLoggerLinkForEntityObj($redirect_obj), '_blank'),
+            ]
+        );
+
         return PhpRender::renderLayout($response, SkifPath::getLayout(), $layout_dto);
     }
-
 }

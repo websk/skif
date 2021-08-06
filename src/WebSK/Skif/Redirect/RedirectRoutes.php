@@ -15,9 +15,6 @@ use WebSK\Utils\HTTP;
  */
 class RedirectRoutes
 {
-    const ROUTE_NAME_ADMIN_REDIRECT_LIST = 'admin:redirect:list';
-    const ROUTE_NAME_ADMIN_REDIRECT_EDIT = 'admin:redirect:edit';
-
 
     /**
      * @param App $app
@@ -34,10 +31,10 @@ class RedirectRoutes
     {
         $app->group('/redirect', function (App $app) {
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', AdminRedirectListHandler::class)
-                ->setName(self::ROUTE_NAME_ADMIN_REDIRECT_LIST);
+                ->setName(AdminRedirectListHandler::class);
 
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/{redirect_id:\d+}', AdminRedirectEditHandler::class)
-                ->setName(self::ROUTE_NAME_ADMIN_REDIRECT_EDIT);
+                ->setName(AdminRedirectEditHandler::class);
         });
     }
 }

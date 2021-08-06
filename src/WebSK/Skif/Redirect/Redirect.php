@@ -11,8 +11,6 @@ use WebSK\Utils\HTTP;
  */
 class Redirect extends Entity
 {
-    const ENTITY_SERVICE_CONTAINER_ID = 'skif.redirect_service';
-    const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.redirect_repository';
     const DB_TABLE_NAME = 'redirect_rewrites';
 
     const REDIRECT_KIND_STRING = 1;
@@ -24,20 +22,16 @@ class Redirect extends Entity
     ];
 
     const _SRC = 'src';
-    /** @var string */
-    protected $src;
+    protected string $src;
 
     const _DST = 'dst';
-    /** @var string */
-    protected $dst;
+    protected string $dst;
 
     const _CODE = 'code';
-    /** @var int */
-    protected $code = HTTP::STATUS_MOVED_PERMANENTLY;
+    protected int $code = HTTP::STATUS_MOVED_PERMANENTLY;
 
     const _KIND = 'kind';
-    /** @var int */
-    protected $kind = self::REDIRECT_KIND_STRING;
+    protected int $kind = self::REDIRECT_KIND_STRING;
 
     /**
      * @return string

@@ -2,8 +2,11 @@
 
 namespace WebSK\Skif\Redirect;
 
+use WebSK\Auth\Auth;
 use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
+use WebSK\Logger\Logger;
+use WebSK\Utils\FullObjectId;
 
 /**
  * Class RedirectService
@@ -24,7 +27,7 @@ class RedirectService extends EntityService
      * @param int $kind
      * @return array
      */
-    public function getIdsArrBySrcAndKind(string $src, int $kind)
+    public function getIdsArrBySrcAndKind(string $src, int $kind): array
     {
         return $this->repository->findIdsBySrcAndKind($src, $kind);
     }
@@ -32,7 +35,7 @@ class RedirectService extends EntityService
     /**
      * @return array
      */
-    public function getRegexpIdsArr()
+    public function getRegexpIdsArr(): array
     {
         $cache_key = self::REGEXP_IDS_CACHE_KEY;
 
@@ -59,6 +62,8 @@ class RedirectService extends EntityService
             $this->cache_service->delete($cache_key);
         }
 
+        Logger::logObjectEvent($entity_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
+
         parent::afterSave($entity_obj);
     }
 
@@ -71,6 +76,8 @@ class RedirectService extends EntityService
             $cache_key = self::REGEXP_IDS_CACHE_KEY;
             $this->cache_service->delete($cache_key);
         }
+
+        Logger::logObjectEvent($entity_obj, 'удаление', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
 
         parent::afterDelete($entity_obj);
     }

@@ -8,14 +8,14 @@ use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetOptions;
+use WebSK\CRUD\Table\CRUDTable;
 use WebSK\CRUD\Table\CRUDTableColumn;
-use WebSK\CRUD\Table\Filters\CRUDTableFilterEqualInline;
+use WebSK\CRUD\Table\Filters\CRUDTableFilterLikeInline;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
 use WebSK\Skif\Redirect\Redirect;
-use WebSK\Skif\Redirect\RedirectRoutes;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
@@ -57,7 +57,7 @@ class AdminRedirectListHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         Redirect::_SRC,
                         function (Redirect $redirect) {
-                            return $this->pathFor(RedirectRoutes::ROUTE_NAME_ADMIN_REDIRECT_EDIT, ['redirect_id' => $redirect->getId()]);
+                            return $this->pathFor(AdminRedirectEditHandler::class, ['redirect_id' => $redirect->getId()]);
                         }
                     )
                 ),
@@ -74,10 +74,12 @@ class AdminRedirectListHandler extends BaseHandler
                 new CRUDTableColumn('', new CRUDTableWidgetDelete())
             ],
             [
-                new CRUDTableFilterEqualInline(self::FILTER_SRC, 'Исходный URL', Redirect::_SRC),
-                new CRUDTableFilterEqualInline(self::FILTER_SRC, 'Назначение', Redirect::_DST),
+                new CRUDTableFilterLikeInline(self::FILTER_SRC, 'Исходный URL', Redirect::_SRC),
+                new CRUDTableFilterLikeInline(self::FILTER_DST, 'Назначение', Redirect::_DST),
             ],
-            Redirect::_CREATED_AT_TS . ' DESC'
+            Redirect::_CREATED_AT_TS . ' DESC',
+            'redirect_list',
+            CRUDTable::FILTERS_POSITION_INLINE
         );
 
         $crud_form_response = $crud_table_obj->processRequest($request, $response);

@@ -28,7 +28,7 @@ class RedirectHandler extends BaseHandler
      * @return string
      * @throws \Exception
      */
-    public function redirectAction()
+    public function redirectAction(): string
     {
         $uri = rawurldecode($_SERVER['REQUEST_URI']);
         $exact_uri = $uri;
@@ -47,7 +47,6 @@ class RedirectHandler extends BaseHandler
             header('Location: ' . Url::appendLeadingSlash($exact_redirect_obj->getDst()), true, intval($http_response_code));
             exit;
         }
-
 
         // Check for "regexp" redirect presence
 

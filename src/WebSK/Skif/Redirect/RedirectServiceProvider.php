@@ -21,10 +21,10 @@ class RedirectServiceProvider
          * @param ContainerInterface $container
          * @return RedirectService
          */
-        $container[Redirect::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[RedirectService::class] = function (ContainerInterface $container) {
             return new RedirectService(
                 Redirect::class,
-                $container[Redirect::ENTITY_REPOSITORY_CONTAINER_ID],
+                $container->get(RedirectRepository::class),
                 CacheServiceProvider::getCacheService($container)
             );
         };
@@ -33,7 +33,7 @@ class RedirectServiceProvider
          * @param ContainerInterface $container
          * @return RedirectRepository
          */
-        $container[Redirect::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[RedirectRepository::class] = function (ContainerInterface $container) {
             return new RedirectRepository(
                 Redirect::class,
                 SkifServiceProvider::getDBService($container)
@@ -47,6 +47,6 @@ class RedirectServiceProvider
      */
     public static function getRedirectService(ContainerInterface $container): RedirectService
     {
-        return $container[Redirect::ENTITY_SERVICE_CONTAINER_ID];
+        return $container->get(RedirectService::class);
     }
 }

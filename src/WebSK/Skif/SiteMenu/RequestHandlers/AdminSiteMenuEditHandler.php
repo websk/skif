@@ -165,7 +165,7 @@ class AdminSiteMenuEditHandler extends BaseHandler
                 new NavTabItemDTO(
                     'Редактирование',
                     $this->pathFor(
-                        AdminSiteMenuEditHandler::class,
+                        self::class,
                         ['site_menu_id' => $site_menu_id]
                     )
                 ),
