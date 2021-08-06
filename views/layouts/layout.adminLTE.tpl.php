@@ -258,7 +258,7 @@ $user_logout_url = Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['des
             <?php
             echo PhpRender::renderLocalTemplate(
                 '../admin_menu.tpl.php',
-                ['admin_menu_arr' => SkifPath::getMenuArr()]
+                ['admin_menu_arr' => ConfWrapper::value('skif.menu', [])]
             );
             ?>
             <!-- /.sidebar-menu -->

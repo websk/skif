@@ -3,9 +3,8 @@
 namespace WebSK\Skif;
 
 use Psr\Container\ContainerInterface;
-use WebSK\DB\DBConnectorMySQL;
 use WebSK\DB\DBService;
-use WebSK\DB\DBSettings;
+use WebSK\DB\DBServiceFactory;
 
 /**
  * Class SkifServiceProvider
@@ -14,7 +13,7 @@ use WebSK\DB\DBSettings;
 class SkifServiceProvider
 {
     const DUMP_FILE_PATH = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'dumps' . DIRECTORY_SEPARATOR . 'db_skif.sql';
-    public const SKIF_DB_SERVICE_CONTAINER_ID = 'skif.db_service';
+    public const DB_SERVICE_CONTAINER_ID = 'skif.db_service';
     public const DB_ID = 'db_skif';
 
     /**
@@ -26,21 +25,10 @@ class SkifServiceProvider
          * @param ContainerInterface $container
          * @return DBService
          */
-        $container[self::SKIF_DB_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[self::DB_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
             $db_config = $container['settings']['db'][self::DB_ID];
 
-            $db_connector = new DBConnectorMySQL(
-                $db_config['host'],
-                $db_config['db_name'],
-                $db_config['user'],
-                $db_config['password']
-            );
-
-            $db_settings = new DBSettings(
-                'mysql'
-            );
-
-            return new DBService($db_connector, $db_settings);
+            return DBServiceFactory::factoryMySQL($db_config);
         };
     }
 
@@ -50,6 +38,6 @@ class SkifServiceProvider
      */
     public static function getDBService(ContainerInterface $container): DBService
     {
-        return $container->get(SkifServiceProvider::SKIF_DB_SERVICE_CONTAINER_ID);
+        return $container->get(SkifServiceProvider::DB_SERVICE_CONTAINER_ID);
     }
 }

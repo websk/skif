@@ -5,7 +5,6 @@ namespace WebSK\Skif\Content;
 use WebSK\Config\ConfWrapper;
 use WebSK\Image\ImageConstants;
 use WebSK\Image\ImageController;
-use WebSK\Skif\BaseController;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentEditHandler;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\Container;
@@ -22,18 +21,13 @@ use WebSK\Views\PhpRender;
  * Class ContentController
  * @package WebSK\Skif\Content
  */
-class ContentController extends BaseController implements InterfaceSitemapController
+class ContentController implements InterfaceSitemapController
 {
-
-    /**
-     * @var string
-     */
-    protected $url_table = Content::DB_TABLE_NAME;
 
     /**
      * @return array
      */
-    public function getUrlsForSitemap()
+    public function getUrlsForSitemap(): array
     {
         $current_domain = ConfWrapper::value('site_domain');
 

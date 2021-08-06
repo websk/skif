@@ -22,7 +22,7 @@ class NotFoundHandler
      * @param ResponseInterface $response
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $error_code = HTTP::STATUS_NOT_FOUND;
 

@@ -20,7 +20,7 @@ class AdminHandler
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         if (!Auth::getCurrentUserId()) {
             $layout_dto = new LayoutDTO();
