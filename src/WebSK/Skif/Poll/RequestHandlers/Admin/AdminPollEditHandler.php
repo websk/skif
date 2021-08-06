@@ -15,6 +15,8 @@ use WebSK\CRUD\Table\Filters\CRUDTableFilterEqualInvisible;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
+use WebSK\CRUD\Table\Widgets\CRUDTableWidgetWeight;
+use WebSK\Logger\LoggerRender;
 use WebSK\Skif\Poll\Poll;
 use WebSK\Skif\Poll\PollQuestion;
 use WebSK\Skif\Poll\PollServiceProvider;
@@ -23,6 +25,7 @@ use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Utils\HTTP;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
+use WebSK\Views\NavTabItemDTO;
 use WebSK\Views\PhpRender;
 
 /**
@@ -79,12 +82,19 @@ class AdminPollEditHandler extends BaseHandler
                 $poll_question_obj,
                 [
                     new CRUDFormRow('Заголовок', new CRUDFormWidgetInput(PollQuestion::_TITLE)),
-                    new CRUDFormRow('Сортировка', new CRUDFormWidgetInput(PollQuestion::_WEIGHT)),
                     new CRUDFormInvisibleRow(new CRUDFormWidgetInput(PollQuestion::_POLL_ID))
                 ]
             ),
             [
                 new CRUDTableColumn('ID', new CRUDTableWidgetText(PollQuestion::_ID)),
+                new CRUDTableColumn(
+                    '',
+                    new CRUDTableWidgetWeight([PollQuestion::_POLL_ID => PollQuestion::_POLL_ID])
+                ),
+                new CRUDTableColumn(
+                    'Вес',
+                    new CRUDTableWidgetText(PollQuestion::_WEIGHT)
+                ),
                 new CRUDTableColumn(
                     'Заголовок',
                     new CRUDTableWidgetTextWithLink(
@@ -98,16 +108,12 @@ class AdminPollEditHandler extends BaseHandler
                     'Проголосовало',
                     new CRUDTableWidgetText(PollQuestion::_VOTES)
                 ),
-                new CRUDTableColumn(
-                    'Сортировка',
-                    new CRUDTableWidgetText(PollQuestion::_WEIGHT)
-                ),
                 new CRUDTableColumn('', new CRUDTableWidgetDelete())
             ],
             [
                 new CRUDTableFilterEqualInvisible(self::FILTER_NAME_POLL_ID, $poll_id),
             ],
-            PollQuestion::_WEIGHT . ' DESC'
+            PollQuestion::_WEIGHT
         );
 
         $crud_form_table_response = $crud_table_obj->processRequest($request, $response);
@@ -126,6 +132,19 @@ class AdminPollEditHandler extends BaseHandler
             new BreadcrumbItemDTO('Опросы', $this->pathFor(AdminPollListHandler::class)),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
+
+        $layout_dto->setNavTabsDtoArr(
+            [
+                new NavTabItemDTO(
+                    'Редактирование',
+                    $this->pathFor(
+                        self::class,
+                        ['poll_id' => $poll_id]
+                    )
+                ),
+                new NavTabItemDTO('Журнал', LoggerRender::getLoggerLinkForEntityObj($poll_obj), '_blank'),
+            ]
+        );
 
         return PhpRender::renderLayout($response, SkifPath::getLayout(), $layout_dto);
     }

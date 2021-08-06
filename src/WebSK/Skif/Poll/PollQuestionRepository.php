@@ -2,14 +2,14 @@
 
 namespace WebSK\Skif\Poll;
 
-use WebSK\Entity\EntityRepository;
+use WebSK\Entity\WeightRepository;
 use WebSK\Utils\Sanitize;
 
 /**
  * Class PollQuestionRepository
  * @package WebSK\Skif\Poll
  */
-class PollQuestionRepository extends EntityRepository
+class PollQuestionRepository extends WeightRepository
 {
     /**
      * @param int $poll_id

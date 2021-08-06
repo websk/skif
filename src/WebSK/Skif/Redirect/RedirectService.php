@@ -62,9 +62,9 @@ class RedirectService extends EntityService
             $this->cache_service->delete($cache_key);
         }
 
-        Logger::logObjectEvent($entity_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
-
         parent::afterSave($entity_obj);
+
+        Logger::logObjectEvent($entity_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 
     /**
@@ -77,8 +77,8 @@ class RedirectService extends EntityService
             $this->cache_service->delete($cache_key);
         }
 
-        Logger::logObjectEvent($entity_obj, 'удаление', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
-
         parent::afterDelete($entity_obj);
+
+        Logger::logObjectEvent($entity_obj, 'удаление', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 }

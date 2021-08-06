@@ -3,13 +3,17 @@
 namespace WebSK\Skif\Poll;
 
 use WebSK\Entity\Entity;
+use WebSK\Entity\InterfaceWeight;
+use WebSK\Entity\WeightTrait;
 
 /**
  * Class PollQuestion
  * @package WebSK\Skif\Poll
  */
-class PollQuestion extends Entity
+class PollQuestion extends Entity implements InterfaceWeight
 {
+    use WeightTrait;
+
     const DB_TABLE_NAME = 'poll_question';
 
     const _TITLE = 'title';
@@ -22,7 +26,6 @@ class PollQuestion extends Entity
     protected int $votes = 0;
 
     const _WEIGHT = 'weight';
-    protected int $weight = 0;
 
     /**
      * @return string
@@ -70,21 +73,5 @@ class PollQuestion extends Entity
     public function setVotes(int $votes): void
     {
         $this->votes = $votes;
-    }
-
-    /**
-     * @return int
-     */
-    public function getWeight(): int
-    {
-        return $this->weight;
-    }
-
-    /**
-     * @param int $weight
-     */
-    public function setWeight(int $weight): void
-    {
-        $this->weight = $weight;
     }
 }

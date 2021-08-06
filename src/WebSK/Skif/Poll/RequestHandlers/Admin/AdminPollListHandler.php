@@ -9,6 +9,7 @@ use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetDate;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetRadios;
+use WebSK\CRUD\Table\CRUDTable;
 use WebSK\CRUD\Table\CRUDTableColumn;
 use WebSK\CRUD\Table\Filters\CRUDTableFilterEqualInline;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
@@ -96,7 +97,9 @@ class AdminPollListHandler extends BaseHandler
             [
                 new CRUDTableFilterEqualInline(self::FILTER_TITLE, 'Заголовок', Poll::_TITLE),
             ],
-            Poll::_CREATED_AT_TS . ' DESC'
+            Poll::_CREATED_AT_TS . ' DESC',
+            'poll_list',
+            CRUDTable::FILTERS_POSITION_INLINE
         );
 
         $crud_form_response = $crud_table_obj->processRequest($request, $response);

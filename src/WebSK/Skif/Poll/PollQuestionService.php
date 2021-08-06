@@ -2,14 +2,18 @@
 
 namespace WebSK\Skif\Poll;
 
-use WebSK\Entity\EntityService;
+use WebSK\Auth\Auth;
+use WebSK\Entity\InterfaceEntity;
+use WebSK\Entity\WeightService;
+use WebSK\Logger\Logger;
+use WebSK\Utils\FullObjectId;
 
 /**
  * Class PollQuestionService
  * @method PollQuestion getById($entity_id, $exception_if_not_loaded = true)
  * @package WebSK\Skif\Poll
  */
-class PollQuestionService extends EntityService
+class PollQuestionService extends WeightService
 {
     /** @var PollQuestionRepository */
     protected $repository;
@@ -27,7 +31,7 @@ class PollQuestionService extends EntityService
      * @param int $poll_id
      * @return int
      */
-    public function getSumVotesFromPollQuestionByPoll($poll_id): int
+    public function getSumVotesFromPollQuestionByPoll(int $poll_id): int
     {
         $poll_question_ids_arr = $this->getIdsArrByPollId($poll_id);
 
@@ -46,7 +50,7 @@ class PollQuestionService extends EntityService
      * @param int $poll_id
      * @return int
      */
-    public function getMaxVotesFromPollQuestionByPoll($poll_id): int
+    public function getMaxVotesFromPollQuestionByPoll(int $poll_id): int
     {
         $poll_question_ids_arr = $this->getIdsArrByPollId($poll_id);
 
@@ -67,5 +71,40 @@ class PollQuestionService extends EntityService
         }
 
         return $max;
+    }
+
+    /**
+     * @param InterfaceEntity|PollQuestion $entity_obj
+     */
+    public function beforeSave(InterfaceEntity $entity_obj)
+    {
+        $this->initWeight(
+            $entity_obj,
+            [
+                PollQuestion::_POLL_ID => $entity_obj->getPollId()
+            ]
+        );
+
+        parent::beforeSave($entity_obj);
+    }
+
+    /**
+     * @param InterfaceEntity|PollQuestion $entity_obj
+     */
+    public function afterSave(InterfaceEntity $entity_obj)
+    {
+        parent::afterSave($entity_obj);
+
+        Logger::logObjectEvent($entity_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
+    }
+
+    /**
+     * @param InterfaceEntity|PollQuestion $entity_obj
+     */
+    public function afterDelete(InterfaceEntity $entity_obj)
+    {
+        parent::afterDelete($entity_obj);
+
+        Logger::logObjectEvent($entity_obj, 'удаление', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 }

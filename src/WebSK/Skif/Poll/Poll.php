@@ -10,7 +10,6 @@ use WebSK\Entity\Entity;
  */
 class Poll extends Entity
 {
-    const ENTITY_SERVICE_CONTAINER_ID = 'skif.poll_service';
     const DB_TABLE_NAME = 'poll';
 
     const _TITLE = 'title';

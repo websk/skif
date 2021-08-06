@@ -8,6 +8,7 @@ use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetReferenceAjax;
+use WebSK\Logger\LoggerRender;
 use WebSK\Skif\Poll\Poll;
 use WebSK\Skif\Poll\PollQuestion;
 use WebSK\Skif\Poll\PollServiceProvider;
@@ -16,6 +17,7 @@ use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Utils\HTTP;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
+use WebSK\Views\NavTabItemDTO;
 use WebSK\Views\PhpRender;
 
 /**
@@ -59,7 +61,6 @@ class AdminPollQuestionEditHandler extends BaseHandler
                     )
                 ),
                 new CRUDFormRow('Заголовок', new CRUDFormWidgetInput(PollQuestion::_TITLE)),
-                new CRUDFormRow('Сортировка', new CRUDFormWidgetInput(PollQuestion::_WEIGHT)),
                 new CRUDFormRow('Проголосовало', new CRUDFormWidgetInput(PollQuestion::_VOTES)),
             ]
         );
@@ -82,6 +83,19 @@ class AdminPollQuestionEditHandler extends BaseHandler
             new BreadcrumbItemDTO($poll_obj->getTitle(), $this->pathFor(AdminPollEditHandler::class, ['poll_id' => $poll_question_obj->getPollId()])),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
+
+        $layout_dto->setNavTabsDtoArr(
+            [
+                new NavTabItemDTO(
+                    'Редактирование',
+                    $this->pathFor(
+                        self::class,
+                        ['poll_question_id' => $poll_question_id]
+                    )
+                ),
+                new NavTabItemDTO('Журнал', LoggerRender::getLoggerLinkForEntityObj($poll_question_obj), '_blank'),
+            ]
+        );
 
         return PhpRender::renderLayout($response, SkifPath::getLayout(), $layout_dto);
     }
