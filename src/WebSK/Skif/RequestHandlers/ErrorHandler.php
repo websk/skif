@@ -21,10 +21,10 @@ class ErrorHandler
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
-     * @param \Exception $exception
+     * @param $exception
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, \Exception $exception): ResponseInterface
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $exception): ResponseInterface
     {
         $error_code = HTTP::STATUS_INTERNAL_SERVER_ERROR;
 
