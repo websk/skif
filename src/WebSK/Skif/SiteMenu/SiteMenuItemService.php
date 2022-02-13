@@ -19,6 +19,9 @@ use WebSK\Utils\Url;
  */
 class SiteMenuItemService extends WeightService
 {
+    const IDS_BY_SITE_MENU_ID_AND_PARENT_ID_CACHE_KEY = 'SiteMenuItemService::getIdsArrBySiteMenuId:%d:%d';
+    const IDS_BY_SITE_MENU_ID_AND_PARENT_ID_CACHE_TTL_SEC = 3600;
+
     /** @var SiteMenuItemRepository */
     protected $repository;
 
@@ -69,6 +72,18 @@ class SiteMenuItemService extends WeightService
     }
 
     /**
+     * @param SiteMenuItem|InterfaceEntity $entity_obj
+     * @return void
+     * @throws \Exception
+     */
+    public function removeFromCache(InterfaceEntity $entity_obj)
+    {
+        $this->cache_service->delete(self::IDS_BY_SITE_MENU_ID_AND_PARENT_ID_CACHE_KEY);
+
+        parent::removeFromCache($entity_obj);
+    }
+
+    /**
      * @param InterfaceEntity|SiteMenuItem $entity_obj
      */
     public function afterSave(InterfaceEntity $entity_obj)
@@ -95,7 +110,17 @@ class SiteMenuItemService extends WeightService
      */
     public function getIdsArrBySiteMenuId(int $site_menu_id, ?int $parent_id = null): array
     {
-        return $this->repository->findIdsArrBySiteMenuId($site_menu_id, $parent_id);
+        $cache_key = sprintf(self::IDS_BY_SITE_MENU_ID_AND_PARENT_ID_CACHE_KEY, $site_menu_id, $parent_id);
+        $cached = $this->cache_service->get($cache_key);
+        if ($cached !== false) {
+            return $cached;
+        }
+
+        $ids_arr = $this->repository->findIdsArrBySiteMenuId($site_menu_id, $parent_id);
+
+        $this->cache_service->set($cache_key, $ids_arr, self::IDS_BY_SITE_MENU_ID_AND_PARENT_ID_CACHE_TTL_SEC);
+
+        return $ids_arr;
     }
 
     /**

@@ -3630,16 +3630,16 @@
         },
         {
             "name": "websk/php-entity",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-entity.git",
-                "reference": "58bc839024baf3e560f79aef56dc6a3281f38f2f"
+                "reference": "b1c22b3c2829f75717a41597666f6108840db027"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-entity/zipball/58bc839024baf3e560f79aef56dc6a3281f38f2f",
-                "reference": "58bc839024baf3e560f79aef56dc6a3281f38f2f",
+                "url": "https://api.github.com/repos/websk/php-entity/zipball/b1c22b3c2829f75717a41597666f6108840db027",
+                "reference": "b1c22b3c2829f75717a41597666f6108840db027",
                 "shasum": ""
             },
             "require": {
@@ -3659,9 +3659,9 @@
             "description": "PHP Entity",
             "support": {
                 "issues": "https://github.com/websk/php-entity/issues",
-                "source": "https://github.com/websk/php-entity/tree/1.2.0"
+                "source": "https://github.com/websk/php-entity/tree/1.2.1"
             },
-            "time": "2022-02-13T12:12:44+00:00"
+            "time": "2022-02-13T14:20:53+00:00"
         },
         {
             "name": "websk/php-filemanager",

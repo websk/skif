@@ -40,6 +40,7 @@ class AdminSiteMenuEditHandler extends BaseHandler
     use AdminSiteMenuBreadcrumbsTrait;
 
     const FILTER_NAME_MENU_ID = 'menu_id';
+    const FILTER_NAME_SITE_MENU_ITEM_PARENT_ID = 'parent_id';
 
     /** @var SiteMenuService */
     protected SiteMenuService $site_menu_service;
@@ -143,6 +144,7 @@ class AdminSiteMenuEditHandler extends BaseHandler
             ],
             [
                 new CRUDTableFilterEqualInvisible(self::FILTER_NAME_MENU_ID, $site_menu_id),
+                new CRUDTableFilterEqualInvisible(self::FILTER_NAME_SITE_MENU_ITEM_PARENT_ID, null),
             ],
             SiteMenuItem::_WEIGHT
         );

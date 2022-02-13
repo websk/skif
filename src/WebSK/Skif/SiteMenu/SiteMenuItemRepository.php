@@ -25,6 +25,8 @@ class SiteMenuItemRepository extends WeightRepository
 
         if ($parent_id) {
             $query .= ' AND ' . Sanitize::sanitizeSqlColumnName(SiteMenuItem::_PARENT_ID) . '=?';
+        } else {
+            $query .= ' AND ' . Sanitize::sanitizeSqlColumnName(SiteMenuItem::_PARENT_ID) . ' IS NULL';
         }
 
         $query .= ' ORDER BY ' . Sanitize::sanitizeSqlColumnName(SiteMenuItem::_WEIGHT);
