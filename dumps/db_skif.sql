@@ -160,3 +160,4 @@ ALTER TABLE site_menu ADD COLUMN created_at_ts int NOT NULL DEFAULT 0 /* 0c9j094
 ALTER TABLE site_menu_item ADD COLUMN created_at_ts int NOT NULL DEFAULT 0 /* c-304ck-0kc-c-4kc */;
 ALTER TABLE site_menu_item CHANGE COLUMN parent_id parent_id int DEFAULT NULL /* vn03h403hb43h043bh */;
 UPDATE template SET layout_template_file = 'layout.adminLTE.tpl.php' WHERE layout_template_file = 'layout.admin.tpl.php' /* 3hcv3hf0834h20f8 */;
+UPDATE site_menu_item SET parent_id=NULL WHERE parent_id=0 /* n3h04h049h34g4 */;
