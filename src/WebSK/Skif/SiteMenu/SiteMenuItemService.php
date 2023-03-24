@@ -78,7 +78,8 @@ class SiteMenuItemService extends WeightService
      */
     public function removeFromCache(InterfaceEntity $entity_obj)
     {
-        $this->cache_service->delete(self::IDS_BY_SITE_MENU_ID_AND_PARENT_ID_CACHE_KEY);
+        $cache_key = sprintf(self::IDS_BY_SITE_MENU_ID_AND_PARENT_ID_CACHE_KEY, $entity_obj->getId(), $entity_obj->getParentId());
+        $this->cache_service->delete($cache_key);
 
         parent::removeFromCache($entity_obj);
     }
