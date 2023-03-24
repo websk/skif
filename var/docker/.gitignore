@@ -1,3 +1,4 @@
 nginx/sites/*.pem
 data/
 logs/
+.env
