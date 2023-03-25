@@ -9,7 +9,6 @@ use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetReferenceAjax;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetTextarea;
-use WebSK\Skif\Content\ContentRoutes;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Content\Rubric;
 use WebSK\Skif\Content\Template;
@@ -62,9 +61,9 @@ class AdminRubricEditHandler extends BaseHandler
                         Rubric::_TEMPLATE_ID,
                         Template::class,
                         Template::_TITLE,
-                        $this->pathFor(ContentRoutes::ROUTE_NAME_ADMIN_TEMPLATE_LIST_AJAX),
+                        $this->pathFor(AdminTemplateListAjaxHandler::class),
                         $this->pathFor(
-                            ContentRoutes::ROUTE_NAME_ADMIN_TEMPLATE_EDIT,
+                            AdminTemplateEditHandler::class,
                             ['template_id' => CRUDFormWidgetReferenceAjax::REFERENCED_ID_PLACEHOLDER]
                         )
                     )
@@ -84,8 +83,8 @@ class AdminRubricEditHandler extends BaseHandler
         $layout_dto->setContentHtml($content_html);
         $breadcrumbs_arr = [
             new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),
-            new BreadcrumbItemDTO($content_type_obj->getName(), '/admin/content/' . $content_type),
-            new BreadcrumbItemDTO('Рубрики', $this->pathFor(ContentRoutes::ROUTE_NAME_ADMIN_RUBRIC_LIST, ['content_type' => $content_type])),
+            new BreadcrumbItemDTO($content_type_obj->getName(), $this->pathFor(AdminContentTypeListHandler::class, ['content_type' => $content_type])),
+            new BreadcrumbItemDTO('Рубрики', $this->pathFor(AdminRubricListHandler::class, ['content_type' => $content_type])),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 

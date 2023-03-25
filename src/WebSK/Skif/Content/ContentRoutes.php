@@ -7,6 +7,7 @@ use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentDeleteImageAction;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentListAutocompleteAction;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentListHandler;
+use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentSaveHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentUploadImageAction;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminRubricEditHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminRubricListHandler;
@@ -32,40 +33,6 @@ use WebSK\Utils\HTTP;
  */
 class ContentRoutes
 {
-    const ROUTE_NAME_ADMIN_CONTENT_TYPE_LIST = 'admin:content_type:list';
-    const ROUTE_NAME_ADMIN_CONTENT_TYPE_EDIT = 'admin:content_type:edit';
-
-    const ROUTE_NAME_ADMIN_RUBRIC_LIST = 'admin:rubric:list';
-    const ROUTE_NAME_ADMIN_RUBRIC_EDIT = 'admin:rubric:edit';
-
-    const ROUTE_NAME_ADMIN_TEMPLATE_LIST = 'admin:template:list';
-    const ROUTE_NAME_ADMIN_TEMPLATE_LIST_AJAX = 'admin:template:list:ajax';
-    const ROUTE_NAME_ADMIN_TEMPLATE_EDIT = 'admin:template:edit';
-
-    const ROUTE_NAME_ADMIN_CONTENT_LIST = 'admin:content:list';
-    const ROUTE_NAME_ADMIN_CONTENT_LIST_AUTOCOMPLETE = 'admin:content:list:autocomplete';
-
-    const ROUTE_NAME_ADMIN_CONTENT_DELETE_IMAGE = 'admin:content:delete_image';
-    const ROUTE_NAME_ADMIN_CONTENT_UPLOAD_IMAGE = 'admin:content:upload_image';
-
-    const ROUTE_NAME_ADMIN_CONTENT_PHOTO_LIST = 'admin:content_photo:list';
-    const ROUTE_NAME_ADMIN_CONTENT_PHOTO_CREATE = 'admin:content_photo:create';
-    const ROUTE_NAME_CONTENT_PHOTO_DELETE = 'content_photo:delete';
-    const ROUTE_NAME_CONTENT_PHOTO_SET_DEFAULT = 'content_photo:set_default';
-
-    public static function route()
-    {
-        if (SimpleRouter::matchGroup('@/admin@')) {
-            SimpleRouter::staticRoute('@^/admin/content/(\w+)/new$@i', ContentController::class, 'newAdminAction',
-                0);
-            SimpleRouter::staticRoute('@^/admin/content/(\w+)/save/(\w+)$@i', ContentController::class, 'saveAdminAction',
-                0);
-            SimpleRouter::staticRoute('@^/admin/content/(\w+)/delete/(\w+)$@i', ContentController::class, 'deleteAction',
-                0);
-            SimpleRouter::staticRoute('@^/admin/content/(\w+)$@i', ContentController::class, 'listAdminAction', 0);
-        }
-    }
-
     /**
      * @param App $app
      */
@@ -90,8 +57,8 @@ class ContentRoutes
     {
         $app->group('/content', function (App $app) {
             $app->group('/{content_type:\w+}', function (App $app) {
-                $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/list', AdminContentListHandler::class)
-                    ->setName(self::ROUTE_NAME_ADMIN_CONTENT_LIST);
+                $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', AdminContentListHandler::class)
+                    ->setName(AdminContentListHandler::class);
 
                 $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/ajax', AdminContentListAjaxHandler::class)
                     ->setName(AdminContentListAjaxHandler::class);
@@ -100,56 +67,59 @@ class ContentRoutes
                     $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', AdminContentEditHandler::class)
                         ->setName(AdminContentEditHandler::class);
 
+                    $app->post('/save', AdminContentSaveHandler::class)
+                        ->setName(AdminContentSaveHandler::class);
+
                     $app->post('/content_photo/create', ContentPhotoCreateHandler::class)
-                        ->setName(self::ROUTE_NAME_ADMIN_CONTENT_PHOTO_CREATE);
+                        ->setName(ContentPhotoCreateHandler::class);
 
                     $app->get('/content_photo/list', AdminContentPhotoListHandler::class)
-                        ->setName(self::ROUTE_NAME_ADMIN_CONTENT_PHOTO_LIST);
+                        ->setName(AdminContentPhotoListHandler::class);
 
                     $app->post('/delete_image', AdminContentDeleteImageAction::class)
-                        ->setName(self::ROUTE_NAME_ADMIN_CONTENT_DELETE_IMAGE);
+                        ->setName(AdminContentDeleteImageAction::class);
 
                     $app->post('/upload_image', AdminContentUploadImageAction::class)
-                        ->setName(self::ROUTE_NAME_ADMIN_CONTENT_UPLOAD_IMAGE);
+                        ->setName(AdminContentUploadImageAction::class);
                 });
 
                 $app->group('/rubric', function (App $app) {
                     $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', AdminRubricListHandler::class)
-                        ->setName(self::ROUTE_NAME_ADMIN_RUBRIC_LIST);
+                        ->setName(AdminRubricListHandler::class);
 
                     $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/{rubric_id:\d+}', AdminRubricEditHandler::class)
-                        ->setName(self::ROUTE_NAME_ADMIN_RUBRIC_EDIT);
+                        ->setName(AdminRubricEditHandler::class);
                 });
             });
         });
 
         $app->group('/content_type', function (App $app) {
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', AdminContentTypeListHandler::class)
-                ->setName(self::ROUTE_NAME_ADMIN_CONTENT_TYPE_LIST);
+                ->setName(AdminContentTypeListHandler::class);
 
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/{content_type_id:\d+}', AdminContentTypeEditHandler::class)
-                ->setName(self::ROUTE_NAME_ADMIN_CONTENT_TYPE_EDIT);
+                ->setName(AdminContentTypeEditHandler::class);
         });
 
         $app->group('/template', function (App $app) {
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', AdminTemplateListHandler::class)
-                ->setName(self::ROUTE_NAME_ADMIN_TEMPLATE_LIST);
+                ->setName(AdminTemplateListHandler::class);
 
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/ajax', AdminTemplateListAjaxHandler::class)
-                ->setName(self::ROUTE_NAME_ADMIN_TEMPLATE_LIST_AJAX);
+                ->setName(AdminTemplateListAjaxHandler::class);
 
             $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/{template_id:\d+}', AdminTemplateEditHandler::class)
-                ->setName(self::ROUTE_NAME_ADMIN_TEMPLATE_EDIT);
+                ->setName(AdminTemplateEditHandler::class);
         });
 
         $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/content_autocomplete', AdminContentListAutocompleteAction::class)
-            ->setName(self::ROUTE_NAME_ADMIN_CONTENT_LIST_AUTOCOMPLETE);
+            ->setName(AdminContentListAutocompleteAction::class);
 
         $app->group('/content_photo/{content_photo_id:\d+}', function (App $app) {
             $app->post('/delete', ContentPhotoDeleteHandler::class)
-                ->setName(self::ROUTE_NAME_CONTENT_PHOTO_DELETE);
+                ->setName(ContentPhotoDeleteHandler::class);
             $app->post('/set_default', ContentPhotoSetDefaultHandler::class)
-                ->setName(self::ROUTE_NAME_CONTENT_PHOTO_SET_DEFAULT);
+                ->setName(ContentPhotoSetDefaultHandler::class);
         });
     }
 }

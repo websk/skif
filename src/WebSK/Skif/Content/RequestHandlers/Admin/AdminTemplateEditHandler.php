@@ -7,7 +7,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
-use WebSK\Skif\Content\ContentRoutes;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Content\Template;
 use WebSK\Skif\SkifPath;
@@ -61,7 +60,7 @@ class AdminTemplateEditHandler extends BaseHandler
         $layout_dto->setContentHtml($content_html);
         $breadcrumbs_arr = [
             new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),
-            new BreadcrumbItemDTO('Темы', $this->pathFor(ContentRoutes::ROUTE_NAME_ADMIN_TEMPLATE_LIST)),
+            new BreadcrumbItemDTO('Темы', $this->pathFor(AdminTemplateListHandler::class)),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 

@@ -15,7 +15,6 @@ use WebSK\CRUD\Table\Filters\CRUDTableFilterLikeInline;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
-use WebSK\Skif\Content\ContentRoutes;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Content\Rubric;
 use WebSK\Skif\SkifPath;
@@ -69,7 +68,7 @@ class AdminRubricListHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         Rubric::_NAME,
                         function (Rubric $rubric) use ($content_type) {
-                            return $this->pathFor(ContentRoutes::ROUTE_NAME_ADMIN_RUBRIC_EDIT, ['content_type' => $content_type, 'rubric_id' => $rubric->getId()]);
+                            return $this->pathFor(AdminRubricEditHandler::class, ['content_type' => $content_type, 'rubric_id' => $rubric->getId()]);
                         }
                     )
                 ),
@@ -102,7 +101,7 @@ class AdminRubricListHandler extends BaseHandler
         $layout_dto->setContentHtml($content_html);
         $breadcrumbs_arr = [
             new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),
-            new BreadcrumbItemDTO($content_type_obj->getName(), '/admin/content/' . $content_type),
+            new BreadcrumbItemDTO($content_type_obj->getName(), $this->pathFor(AdminContentTypeListHandler::class, ['content_type' => $content_type])),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 

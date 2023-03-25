@@ -13,7 +13,6 @@ use WebSK\CRUD\Table\Filters\CRUDTableFilterLikeInline;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
-use WebSK\Skif\Content\ContentRoutes;
 use WebSK\Skif\Content\Template;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
@@ -55,7 +54,7 @@ class AdminTemplateListHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         Template::_TITLE,
                         function (Template $template) {
-                            return $this->pathFor(ContentRoutes::ROUTE_NAME_ADMIN_TEMPLATE_EDIT, ['template_id' => $template->getId()]);
+                            return $this->pathFor(AdminTemplateEditHandler::class, ['template_id' => $template->getId()]);
                         }
                     )
                 ),

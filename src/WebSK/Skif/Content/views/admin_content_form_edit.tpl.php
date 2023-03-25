@@ -5,11 +5,12 @@
  */
 
 use WebSK\Skif\Content\Content;
-use WebSK\Skif\Content\ContentRoutes;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\CKEditor\CKEditor;
 use WebSK\Image\ImageManager;
 use WebSK\Logger\LoggerRender;
+use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentDeleteImageAction;
+use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentSaveHandler;
 use WebSK\Slim\Container;
 use WebSK\Slim\Router;
 use WebSK\Views\PhpRender;
@@ -65,7 +66,7 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
 </script>
 
 <form class="form-horizontal" id="content_edit_form"
-      action="/admin/content/<?php echo $content_type; ?>/save/<?php echo $content_id; ?>" enctype="multipart/form-data"
+      action="<?php echo Router::pathFor(AdminContentSaveHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>" enctype="multipart/form-data"
       method="post">
     <div role="tabpanel">
 
@@ -92,7 +93,7 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
 
                     <div class="col-md-10">
                         <input type="text" class="form-control" id="title" name="title"
-                               value="<?php echo $content_obj->getTitle(); ?>">
+                               value="<?php echo $content_obj->getTitle(); ?>" required>
                     </div>
                 </div>
 
@@ -304,7 +305,7 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
     $("#image_delete").click(function () {
         $.ajax({
             type: "POST",
-            url: "<?php echo Router::pathFor(ContentRoutes::ROUTE_NAME_ADMIN_CONTENT_DELETE_IMAGE, ['content_type' => $content_type, 'content_id' => $content_id]); ?>",
+            url: "<?php echo Router::pathFor(AdminContentDeleteImageAction::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>",
             success: function (data) {
                 $("#image_area").html("");
             }

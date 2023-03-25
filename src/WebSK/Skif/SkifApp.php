@@ -6,7 +6,6 @@ use WebSK\Auth\Middleware\CurrentUserIsAdmin;
 use WebSK\Auth\User\UserRoutes;
 use WebSK\Auth\User\UserServiceProvider;
 use WebSK\DB\DBWrapper;
-use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\Blocks\BlockRoutes;
 use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Skif\Comment\CommentServiceProvider;
@@ -101,7 +100,7 @@ class SkifApp extends App
         FormRoutes::register($this);
         PollRoutes::register($this);
         SiteMenuRoutes::register($this);
-        //ContentRoutes::register($this);
+        ContentRoutes::register($this);
 
         /** Use facade */
         Facade::setFacadeApplication($this);
@@ -115,14 +114,6 @@ class SkifApp extends App
 
         ImageRoutes::routes();
         BlockRoutes::route();
-        ContentRoutes::route();
-
-        $route_based_crud_arr = $container['settings']['route_based_crud_arr'] ?? [];
-        if ($route_based_crud_arr) {
-            foreach ($route_based_crud_arr as $base_url => $controller_class_name) {
-                SimpleRouter::routeBasedCrud($base_url, $controller_class_name);
-            }
-        }
 
         $container['errorHandler'] = function () {
             return new ErrorHandler();

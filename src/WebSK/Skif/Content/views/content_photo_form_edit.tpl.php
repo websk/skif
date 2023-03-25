@@ -4,7 +4,8 @@
  * @var $content_id
  */
 
-use WebSK\Skif\Content\ContentRoutes;
+use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentPhotoListHandler;
+use WebSK\Skif\Content\RequestHandlers\ContentPhotoCreateHandler;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\Router;
 
@@ -65,7 +66,7 @@ if ($content_id == 'new') {
 
     function ajaxUpdateImageList() {
         $.ajax({
-            url: '<?php echo Router::pathFor(ContentRoutes::ROUTE_NAME_ADMIN_CONTENT_PHOTO_LIST, ['content_type' => $content_type, 'content_id' => $content_id]); ?>',
+            url: '<?php echo Router::pathFor(AdminContentPhotoListHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>',
             success: function (html) {
                 $('#content_photos_list').html(html);
             }
@@ -75,7 +76,7 @@ if ($content_id == 'new') {
     $(function () {
         ajaxUpdateImageList();
 
-        var url = '<?php echo Router::pathFor(ContentRoutes::ROUTE_NAME_ADMIN_CONTENT_PHOTO_CREATE, ['content_type' => $content_type, 'content_id' => $content_id]); ?>';
+        var url = '<?php echo Router::pathFor(ContentPhotoCreateHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>';
 
         $('#upload_image').fileupload({
             url: url,

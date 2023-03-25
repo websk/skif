@@ -8,7 +8,6 @@ use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetReferenceAjax;
-use WebSK\Skif\Content\ContentRoutes;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Content\ContentType;
 use WebSK\Skif\Content\Template;
@@ -53,9 +52,9 @@ class AdminContentTypeEditHandler extends BaseHandler
                         ContentType::_TEMPLATE_ID,
                         Template::class,
                         Template::_TITLE,
-                        $this->pathFor(ContentRoutes::ROUTE_NAME_ADMIN_TEMPLATE_LIST_AJAX),
+                        $this->pathFor(AdminTemplateListAjaxHandler::class),
                         $this->pathFor(
-                            ContentRoutes::ROUTE_NAME_ADMIN_TEMPLATE_EDIT,
+                            AdminTemplateEditHandler::class,
                             ['template_id' => CRUDFormWidgetReferenceAjax::REFERENCED_ID_PLACEHOLDER]
                         )
                     )
@@ -75,7 +74,7 @@ class AdminContentTypeEditHandler extends BaseHandler
         $layout_dto->setContentHtml($content_html);
         $breadcrumbs_arr = [
             new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),
-            new BreadcrumbItemDTO('Типы контента', $this->pathFor(ContentRoutes::ROUTE_NAME_ADMIN_CONTENT_TYPE_LIST)),
+            new BreadcrumbItemDTO('Типы контента', $this->pathFor(AdminContentTypeListHandler::class)),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 

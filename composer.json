@@ -32,10 +32,5 @@
     "psr-4": {
       "": "src/"
     }
-  },
-  "config": {
-    "allow-plugins": {
-      "kylekatarnls/update-helper": true
-    }
   }
 }

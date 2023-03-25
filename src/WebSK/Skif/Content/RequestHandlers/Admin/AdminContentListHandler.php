@@ -18,7 +18,6 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
 use WebSK\Skif\Content\Content;
-use WebSK\Skif\Content\ContentRoutes;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
@@ -81,7 +80,7 @@ class AdminContentListHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         Content::_TITLE,
                         function (Content $content) use ($content_type) {
-                            return '/admin/content/' . $content_type . '/' . $content->getId();
+                            return $this->pathFor(AdminContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content->getId()]);
                         }
                     )
                 ),
@@ -125,9 +124,9 @@ class AdminContentListHandler extends BaseHandler
             return $crud_form_response;
         }
 
-        $content_html = '<a href="' . $this->pathFor(ContentRoutes::ROUTE_NAME_ADMIN_RUBRIC_LIST, ['content_type' => $content_type]) . '" class="btn btn-default">
-            <span class="glyphicon glyphicon-wrench"></span> Редактировать рубрики
-        </a>';
+        $content_html = '<p><a href="' . $this->pathFor(AdminRubricListHandler::class, ['content_type' => $content_type]) . '">
+            Редактировать рубрики
+        </a></p>';
 
         $content_html .= $crud_table_obj->html($request);
 

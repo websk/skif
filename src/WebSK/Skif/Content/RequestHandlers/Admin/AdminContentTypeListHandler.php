@@ -14,7 +14,6 @@ use WebSK\CRUD\Table\Filters\CRUDTableFilterLikeInline;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
-use WebSK\Skif\Content\ContentRoutes;
 use WebSK\Skif\Content\ContentType;
 use WebSK\Skif\Content\Template;
 use WebSK\Skif\SkifPath;
@@ -53,9 +52,9 @@ class AdminContentTypeListHandler extends BaseHandler
                             ContentType::_TEMPLATE_ID,
                             Template::class,
                             Template::_TITLE,
-                            $this->pathFor(ContentRoutes::ROUTE_NAME_ADMIN_TEMPLATE_LIST_AJAX),
+                            $this->pathFor(AdminTemplateListAjaxHandler::class),
                             $this->pathFor(
-                                ContentRoutes::ROUTE_NAME_ADMIN_TEMPLATE_EDIT,
+                                AdminTemplateEditHandler::class,
                                 ['template_id' => CRUDFormWidgetReferenceAjax::REFERENCED_ID_PLACEHOLDER]
                             )
                         )
@@ -69,7 +68,7 @@ class AdminContentTypeListHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         ContentType::_NAME,
                         function (ContentType $content_type) {
-                            return $this->pathFor(ContentRoutes::ROUTE_NAME_ADMIN_CONTENT_TYPE_EDIT, ['content_type_id' => $content_type->getId()]);
+                            return $this->pathFor(AdminContentTypeEditHandler::class, ['content_type_id' => $content_type->getId()]);
                         }
                     )
                 ),
