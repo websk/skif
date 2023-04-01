@@ -183,7 +183,7 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
 
                     <div class="col-md-10">
                         <input type="text" class="form-control" id="url" name="url"
-                               value="<?php echo $content_obj->getUrl(); ?>"<?php echo($content_obj->isPublished() ? ' disabled' : ''); ?>>
+                               value="<?php echo $content_obj->getUrl(); ?>"<?php echo($content_obj->isPublished() ? ' readonly="readonly"' : ''); ?>>
                     </div>
                 </div>
 

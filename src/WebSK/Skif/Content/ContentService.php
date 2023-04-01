@@ -254,14 +254,14 @@ class ContentService extends EntityService
      * @param Content $content_obj
      * @return string
      */
-    public function generateUrl(Content $content_obj): string
+    protected function generateUrl(Content $content_obj): string
     {
         if (!$content_obj->getTitle()) {
             return '';
         }
 
         if ($content_obj->isPublished()) {
-            return '';
+            throw new \Exception('Невозможно сгенерировать URL для опубликованного контента. Сначала распубликуйте материал.');
         }
 
         $title_for_url = Transliteration::transliteration($content_obj->getTitle());
