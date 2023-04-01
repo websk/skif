@@ -1,11 +1,11 @@
 <?php
 /**
- * @var $content_id
+ * @var int $content_id
  */
 
 use WebSK\Skif\Content\ContentServiceProvider;
-use WebSK\Skif\Content\ContentUtils;
 use WebSK\Image\ImageManager;
+use WebSK\Skif\ContentSanitize;
 use WebSK\Slim\Container;
 
 $content_service = ContentServiceProvider::getContentService(Container::self());
@@ -29,7 +29,7 @@ $content_obj = $content_service->getById($content_id);
             <?php
         }
         ?>
-        <div class="col-md-<?php echo $col; ?>"><?php echo ContentUtils::filterContent($content_obj->getAnnotation()) ?></div>
+        <div class="col-md-<?php echo $col; ?>"><?php echo ContentSanitize::sanitizeContent($content_obj->getAnnotation()) ?></div>
     </div>
 </div>
 

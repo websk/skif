@@ -24,16 +24,14 @@ class ContentRepository extends EntityRepository
             FROM ' . Sanitize::sanitizeSqlColumnName($db_table_name) . '
             WHERE ' . Sanitize::sanitizeSqlColumnName(Content::_URL) . ' = ?';
 
-        $id = $this->db_service->readField($query, [$url]);
-
-        return $id;
+        return $this->db_service->readField($query, [$url]);
     }
 
     /**
      * @param string $title
      * @return array
      */
-    public function findIdsByTitle(string $title)
+    public function findIdsByTitle(string $title): array
     {
         $db_table_name = $this->getTableName();
         $db_id_field_name = $this->getIdFieldName();
@@ -43,9 +41,7 @@ class ContentRepository extends EntityRepository
             WHERE " . Sanitize::sanitizeSqlColumnName(Content::_TITLE) . " LIKE ? " . "
             LIMIT 20";
 
-        $ids_arr = $this->db_service->readColumn($query, [$title . '%']);
-
-        return $ids_arr;
+        return $this->db_service->readColumn($query, [$title . '%']);
     }
 
     /**
@@ -54,7 +50,7 @@ class ContentRepository extends EntityRepository
      * @param int $page
      * @return array
      */
-    public function findIdsByContentTypeId(int $content_type_id, int $limit_to_page = 0, int $page = 1)
+    public function findIdsByContentTypeId(int $content_type_id, int $limit_to_page = 0, int $page = 1): array
     {
         $db_table_name = $this->getTableName();
         $db_id_field_name = $this->getIdFieldName();
@@ -80,7 +76,7 @@ class ContentRepository extends EntityRepository
      * @param int $page
      * @return array
      */
-    public function findPublishedIdsByContentTypeId(int $content_type_id, $limit_to_page = 0, $page = 1)
+    public function findPublishedIdsByContentTypeId(int $content_type_id, int $limit_to_page = 0, int $page = 1): array
     {
         $db_table_name = $this->getTableName();
         $db_id_field_name = $this->getIdFieldName();

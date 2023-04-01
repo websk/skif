@@ -155,8 +155,7 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
                             <div class="form-group" id="image_area">
                                 <a id="image"
                                    href="<?php echo ImageManager::getImgUrlByFileName($image_path) . '?d=' . time(); ?>">
-                                    <img src="<?php echo ImageManager::getImgUrlByPreset($image_path,'120_auto') . '?d=' . time(); ?>" class="img-responsive img-thumbnail"
-                                         border="0">
+                                    <img src="<?php echo ImageManager::getImgUrlByPreset($image_path,'120_auto') . '?d=' . time(); ?>" class="img-responsive img-thumbnail">
                                 </a>
                                 <a href="#" id="image_delete">Удалить</a>
                             </div>
@@ -297,7 +296,6 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" class="btn btn-primary" value="Сохранить изменения">
         </div>
-    </div>
     </div>
 </form>
 

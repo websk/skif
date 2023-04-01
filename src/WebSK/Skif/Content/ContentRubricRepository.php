@@ -18,7 +18,7 @@ class ContentRubricRepository extends EntityRepository
      * @param int $page
      * @return array
      */
-    public function findIdsByRubricId(int $rubric_id, int $limit_to_page = 0, int $page = 1)
+    public function findIdsByRubricId(int $rubric_id, int $limit_to_page = 0, int $page = 1): array
     {
         $db_table_name = $this->getTableName();
         $db_id_field_name = $this->getIdFieldName();
@@ -35,19 +35,17 @@ class ContentRubricRepository extends EntityRepository
             $query .= " LIMIT " . $start_record . ', ' . $limit_to_page;
         }
 
-        $ids_arr =  $this->db_service->readColumn(
+        return $this->db_service->readColumn(
             $query,
             $param_arr
         );
-
-        return $ids_arr;
     }
 
     /**
      * @param int $content_id
      * @return array
      */
-    public function findIdsByContentId(int $content_id)
+    public function findIdsByContentId(int $content_id): array
     {
         $db_table_name = $this->getTableName();
         $db_id_field_name = $this->getIdFieldName();
@@ -56,12 +54,10 @@ class ContentRubricRepository extends EntityRepository
             " FROM " . Sanitize::sanitizeSqlColumnName($db_table_name) .
             " WHERE " . Sanitize::sanitizeSqlColumnName(ContentRubric::_CONTENT_ID) . " = ?";
 
-        $ids_arr =  $this->db_service->readColumn(
+        return $this->db_service->readColumn(
             $query,
             [$content_id]
         );
-
-        return $ids_arr;
     }
 
     /**
@@ -70,7 +66,7 @@ class ContentRubricRepository extends EntityRepository
      * @param int $page
      * @return array
      */
-    public function findPublishedContentIdsArrByRubricId(int $rubric_id, int $limit_to_page = 0, int $page = 1)
+    public function findPublishedContentIdsArrByRubricId(int $rubric_id, int $limit_to_page = 0, int $page = 1): array
     {
         $date = date('Y-m-d');
 
@@ -91,8 +87,6 @@ class ContentRubricRepository extends EntityRepository
             $query .= " LIMIT " . $offset . ', ' . $limit_to_page;
         }
 
-        $ids_arr = $this->db_service->readColumn($query, [$rubric_id, $date, $date]);
-
-        return $ids_arr;
+        return $this->db_service->readColumn($query, [$rubric_id, $date, $date]);
     }
 }

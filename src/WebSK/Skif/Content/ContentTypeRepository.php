@@ -13,9 +13,9 @@ class ContentTypeRepository extends EntityRepository
 {
     /**
      * @param string $type
-     * @return false|string
+     * @return null|int
      */
-    public function findIdByType(string $type)
+    public function findIdByType(string $type): ?int
     {
         $db_table_name = $this->getTableName();
         $db_id_field_name = $this->getIdFieldName();
@@ -25,6 +25,10 @@ class ContentTypeRepository extends EntityRepository
             ' WHERE ' . Sanitize::sanitizeSqlColumnName(ContentType::_TYPE) . ' = ?';
 
         $id = $this->db_service->readField($query, [$type]);
+
+        if ($id === false) {
+            return null;
+        }
 
         return $id;
     }

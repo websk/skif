@@ -47,10 +47,10 @@ class ContentServiceProvider
          * @param ContainerInterface $container
          * @return ContentPhotoService
          */
-        $container[ContentPhoto::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[ContentPhotoService::class] = function (ContainerInterface $container) {
             return new ContentPhotoService(
                 ContentPhoto::class,
-                $container[ContentPhoto::ENTITY_REPOSITORY_CONTAINER_ID],
+                $container[ContentPhotoRepository::class],
                 CacheServiceProvider::getCacheService($container)
             );
         };
@@ -59,7 +59,7 @@ class ContentServiceProvider
          * @param ContainerInterface $container
          * @return ContentPhotoRepository
          */
-        $container[ContentPhoto::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[ContentPhotoRepository::class] = function (ContainerInterface $container) {
             return new ContentPhotoRepository(
                 ContentPhoto::class,
                 SkifServiceProvider::getDBService($container)
@@ -70,10 +70,10 @@ class ContentServiceProvider
          * @param ContainerInterface $container
          * @return ContentTypeService
          */
-        $container[ContentType::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[ContentTypeService::class] = function (ContainerInterface $container) {
             return new ContentTypeService(
                 ContentType::class,
-                $container[ContentType::ENTITY_REPOSITORY_CONTAINER_ID],
+                $container[ContentTypeRepository::class],
                 CacheServiceProvider::getCacheService($container)
             );
         };
@@ -82,7 +82,7 @@ class ContentServiceProvider
          * @param ContainerInterface $container
          * @return ContentTypeRepository
          */
-        $container[ContentType::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[ContentTypeRepository::class] = function (ContainerInterface $container) {
             return new ContentTypeRepository(
                 ContentType::class,
                 SkifServiceProvider::getDBService($container)
@@ -93,10 +93,10 @@ class ContentServiceProvider
          * @param ContainerInterface $container
          * @return TemplateService
          */
-        $container[Template::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[TemplateService::class] = function (ContainerInterface $container) {
             return new TemplateService(
                 Template::class,
-                $container[Template::ENTITY_REPOSITORY_CONTAINER_ID],
+                $container[TemplateRepository::class],
                 CacheServiceProvider::getCacheService($container)
             );
         };
@@ -105,7 +105,7 @@ class ContentServiceProvider
          * @param ContainerInterface $container
          * @return TemplateRepository
          */
-        $container[Template::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[TemplateRepository::class] = function (ContainerInterface $container) {
             return new TemplateRepository(
                 Template::class,
                 SkifServiceProvider::getDBService($container)
@@ -116,10 +116,10 @@ class ContentServiceProvider
          * @param ContainerInterface $container
          * @return RubricService
          */
-        $container[Rubric::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[RubricService::class] = function (ContainerInterface $container) {
             return new RubricService(
                 Rubric::class,
-                $container[Rubric::ENTITY_REPOSITORY_CONTAINER_ID],
+                $container[RubricRepository::class],
                 CacheServiceProvider::getCacheService($container),
                 self::getContentTypeService($container)
             );
@@ -129,7 +129,7 @@ class ContentServiceProvider
          * @param ContainerInterface $container
          * @return RubricRepository
          */
-        $container[Rubric::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[RubricRepository::class] = function (ContainerInterface $container) {
             return new RubricRepository(
                 Rubric::class,
                 SkifServiceProvider::getDBService($container)
@@ -140,10 +140,10 @@ class ContentServiceProvider
          * @param ContainerInterface $container
          * @return ContentRubricService
          */
-        $container[ContentRubric::ENTITY_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[ContentRubricService::class] = function (ContainerInterface $container) {
             return new ContentRubricService(
                 ContentRubric::class,
-                $container[ContentRubric::ENTITY_REPOSITORY_CONTAINER_ID],
+                $container[ContentRubricRepository::class],
                 CacheServiceProvider::getCacheService($container)
             );
         };
@@ -152,7 +152,7 @@ class ContentServiceProvider
          * @param ContainerInterface $container
          * @return ContentRubricRepository
          */
-        $container[ContentRubric::ENTITY_REPOSITORY_CONTAINER_ID] = function (ContainerInterface $container) {
+        $container[ContentRubricRepository::class] = function (ContainerInterface $container) {
             return new ContentRubricRepository(
                 ContentRubric::class,
                 SkifServiceProvider::getDBService($container)
@@ -175,7 +175,7 @@ class ContentServiceProvider
      */
     public static function getContentPhotoService(ContainerInterface $container): ContentPhotoService
     {
-        return $container[ContentPhoto::ENTITY_SERVICE_CONTAINER_ID];
+        return $container[ContentPhotoService::class];
     }
 
     /**
@@ -184,7 +184,7 @@ class ContentServiceProvider
      */
     public static function getContentTypeService(ContainerInterface $container): ContentTypeService
     {
-        return $container[ContentType::ENTITY_SERVICE_CONTAINER_ID];
+        return $container[ContentTypeService::class];
     }
 
     /**
@@ -193,7 +193,7 @@ class ContentServiceProvider
      */
     public static function getTemplateService(ContainerInterface $container): TemplateService
     {
-        return $container[Template::ENTITY_SERVICE_CONTAINER_ID];
+        return $container[TemplateService::class];
     }
 
     /**
@@ -202,7 +202,7 @@ class ContentServiceProvider
      */
     public static function getRubricService(ContainerInterface $container): RubricService
     {
-        return $container[Rubric::ENTITY_SERVICE_CONTAINER_ID];
+        return $container[RubricService::class];
     }
 
     /**
@@ -211,6 +211,6 @@ class ContentServiceProvider
      */
     public static function getContentRubricService(ContainerInterface $container): ContentRubricService
     {
-        return $container[ContentRubric::ENTITY_SERVICE_CONTAINER_ID];
+        return $container[ContentRubricService::class];
     }
 }

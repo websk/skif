@@ -14,9 +14,9 @@ class RubricRepository extends EntityRepository
 
     /**
      * @param string $url
-     * @return false|int
+     * @return null|int
      */
-    public function findIdByUrl(string $url)
+    public function findIdByUrl(string $url): ?int
     {
         $db_table_name = $this->getTableName();
         $db_id_field_name = $this->getIdFieldName();
@@ -27,6 +27,10 @@ class RubricRepository extends EntityRepository
 
         $id = $this->db_service->readField($query, [$url]);
 
+        if ($id === false) {
+            return null;
+        }
+
         return $id;
     }
 
@@ -34,7 +38,7 @@ class RubricRepository extends EntityRepository
      * @param int $content_type_id
      * @return array
      */
-    public function findIdsByContentTypeId(int $content_type_id)
+    public function findIdsByContentTypeId(int $content_type_id): array
     {
         $db_table_name = $this->getTableName();
         $db_id_field_name = $this->getIdFieldName();
@@ -43,11 +47,9 @@ class RubricRepository extends EntityRepository
             " FROM " . Sanitize::sanitizeSqlColumnName($db_table_name) .
             " WHERE " . Sanitize::sanitizeSqlColumnName(Rubric::_CONTENT_TYPE_ID) . " = ?";
 
-        $rubric_ids_arr =  $this->db_service->readColumn(
+        return $this->db_service->readColumn(
             $query,
             [$content_type_id]
         );
-
-        return $rubric_ids_arr;
     }
 }

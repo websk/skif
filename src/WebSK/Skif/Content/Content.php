@@ -3,7 +3,6 @@
 namespace WebSK\Skif\Content;
 
 use WebSK\Entity\Entity;
-use WebSK\Utils\Filters;
 
 /**
  * Class Content
@@ -16,67 +15,52 @@ class Content extends Entity
     const CONTENT_FILES_DIR = 'content';
 
     const _TITLE = 'title';
-    /** @var string */
-    protected $title = '';
+    protected string $title;
 
-    /** @var string */
-    protected $short_title = '';
+    const _SHORT_TITLE = 'short_title';
+    protected string $short_title = '';
 
     const _ANNOTATION = 'annotation';
-    /** @var string */
-    protected $annotation = '';
+    protected string $annotation = '';
 
     const _BODY = 'body';
-    /** @var string */
-    protected $body = '';
+    protected string $body = '';
 
     const _PUBLISHED_AT = 'published_at';
-    /** @var string|null */
-    protected $published_at;
+    protected ?string $published_at = null;
 
     const _UNPUBLISHED_AT = 'unpublished_at';
-    /** @var string|null */
-    protected $unpublished_at;
+    protected ?string $unpublished_at = null;
 
     const _IS_PUBLISHED = 'is_published';
-    /** @var bool */
-    protected $is_published = false;
+    protected bool $is_published = false;
 
     const _IMAGE = 'image';
-    /** @var string */
-    protected $image = '';
+    protected ?string $image = null;
 
     const _DESCRIPTION = 'description';
-    /** @var string */
-    protected $description = '';
+    protected string $description = '';
 
     const _KEYWORDS = 'keywords';
-    /** @var string */
-    protected $keywords = '';
+    protected string $keywords = '';
 
     const _URL = 'url';
-    /** @var string */
-    protected $url = '';
+    protected ?string $url = null;
 
     const _CONTENT_TYPE_ID = 'content_type_id';
-    /** @var null|int */
-    protected $content_type_id;
+    protected ?int $content_type_id = null;
 
     const _LAST_MODIFIED_AT = 'last_modified_at';
-    /** @var string|null */
-    protected $last_modified_at;
+    protected ?string $last_modified_at = null;
 
     const _REDIRECT_URL = 'redirect_url';
-    /** @var string */
-    protected $redirect_url = '';
+    protected ?string $redirect_url = null;
 
     const _TEMPLATE_ID = 'template_id';
-    /** @var null|int */
-    protected $template_id;
+    protected ?int $template_id = null;
 
     const _MAIN_RUBRIC_ID = 'main_rubric_id';
-    /** @var null|int */
-    protected $main_rubric_id;
+    protected ?int $main_rubric_id = null;
 
     /**
      * @return int|null
@@ -95,17 +79,17 @@ class Content extends Entity
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getImage()
+    public function getImage(): ?string
     {
         return $this->image;
     }
 
     /**
-     * @param string $image
+     * @param null|string $image
      */
-    public function setImage($image)
+    public function setImage(?string $image)
     {
         $this->image = $image;
     }
@@ -113,15 +97,15 @@ class Content extends Entity
     /**
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
-        return Filters::checkPlain($this->title);
+        return $this->title;
     }
 
     /**
      * @param string $title
      */
-    public function setTitle($title)
+    public function setTitle(string $title)
     {
         $this->title = $title;
     }
@@ -129,7 +113,7 @@ class Content extends Entity
     /**
      * @return string
      */
-    public function getShortTitle()
+    public function getShortTitle(): string
     {
         return $this->short_title;
     }
@@ -137,7 +121,7 @@ class Content extends Entity
     /**
      * @param string $short_title
      */
-    public function setShortTitle($short_title)
+    public function setShortTitle(string $short_title)
     {
         $this->short_title = $short_title;
     }
@@ -145,7 +129,7 @@ class Content extends Entity
     /**
      * @return string
      */
-    public function getAnnotation()
+    public function getAnnotation(): string
     {
         return $this->annotation;
     }
@@ -153,7 +137,7 @@ class Content extends Entity
     /**
      * @param string $annotation
      */
-    public function setAnnotation($annotation)
+    public function setAnnotation(string $annotation)
     {
         $this->annotation = $annotation;
     }
@@ -161,7 +145,7 @@ class Content extends Entity
     /**
      * @return string
      */
-    public function getBody()
+    public function getBody(): string
     {
         return $this->body;
     }
@@ -169,7 +153,7 @@ class Content extends Entity
     /**
      * @param string $body
      */
-    public function setBody($body)
+    public function setBody(string $body)
     {
         $this->body = $body;
     }
@@ -225,7 +209,7 @@ class Content extends Entity
     /**
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -233,7 +217,7 @@ class Content extends Entity
     /**
      * @param string $description
      */
-    public function setDescription($description)
+    public function setDescription(string $description)
     {
         $this->description = $description;
     }
@@ -241,7 +225,7 @@ class Content extends Entity
     /**
      * @return string
      */
-    public function getKeywords()
+    public function getKeywords(): string
     {
         return $this->keywords;
     }
@@ -249,23 +233,23 @@ class Content extends Entity
     /**
      * @param string $keywords
      */
-    public function setKeywords($keywords)
+    public function setKeywords(string $keywords)
     {
         $this->keywords = $keywords;
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getUrl()
+    public function getUrl(): ?string
     {
         return $this->url;
     }
 
     /**
-     * @param string $url
+     * @param null|string $url
      */
-    public function setUrl($url)
+    public function setUrl(?string $url)
     {
         $this->url = $url;
     }
@@ -287,17 +271,17 @@ class Content extends Entity
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getRedirectUrl()
+    public function getRedirectUrl(): ?string
     {
         return $this->redirect_url;
     }
 
     /**
-     * @param string $redirect_url
+     * @param null|string $redirect_url
      */
-    public function setRedirectUrl($redirect_url)
+    public function setRedirectUrl(?string $redirect_url)
     {
         $this->redirect_url = $redirect_url;
     }

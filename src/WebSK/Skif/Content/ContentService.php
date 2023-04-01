@@ -25,18 +25,13 @@ class ContentService extends EntityService
     protected $repository;
 
     /** @var array */
-    protected $ids_by_urls_cache = [];
+    protected array $ids_by_urls_cache = [];
 
-    /** @var ContentTypeService */
-    protected $content_type_service;
+    protected ContentTypeService $content_type_service;
 
-    /** @var RubricService */
-    protected $rubric_service;
+    protected RubricService $rubric_service;
 
-    /**
-     * @var ContentRubricService
-     */
-    protected $content_rubric_service;
+    protected ContentRubricService $content_rubric_service;
 
     /**
      * ContentService constructor.
@@ -140,7 +135,7 @@ class ContentService extends EntityService
      * @param array $param_rubrics_ids_arr
      * @return bool
      */
-    public function hasRubrics(Content $content_obj, array $param_rubrics_ids_arr)
+    public function hasRubrics(Content $content_obj, array $param_rubrics_ids_arr): bool
     {
         $rubrics_ids_arr = $this->content_rubric_service->getRubricIdsArrByContentId($content_obj->getId());
 
@@ -158,7 +153,7 @@ class ContentService extends EntityService
      * @param int $rubric_id
      * @return bool
      */
-    public function hasRubricId(Content $content_obj, int $rubric_id)
+    public function hasRubricId(Content $content_obj, int $rubric_id): bool
     {
         $rubrics_ids_arr = $this->content_rubric_service->getRubricIdsArrByContentId($content_obj->getId());
 
@@ -175,7 +170,7 @@ class ContentService extends EntityService
      * @param int $page
      * @return array
      */
-    public function getIdsArrByType(string $content_type, int $limit_to_page = 0, int $page = 1)
+    public function getIdsArrByType(string $content_type, int $limit_to_page = 0, int $page = 1): array
     {
         $content_type_obj = $this->content_type_service->getByType($content_type);
 
@@ -186,13 +181,11 @@ class ContentService extends EntityService
      * @param string $content_type
      * @return int
      */
-    public function getCountContentsByType(string $content_type)
+    public function getCountContentsByType(string $content_type): int
     {
         $contents_ids_arr = $this->getIdsArrByType($content_type);
 
-        $count_contents = count($contents_ids_arr);
-
-        return $count_contents;
+        return count($contents_ids_arr);
     }
 
     /**
@@ -201,7 +194,7 @@ class ContentService extends EntityService
      * @param int $page
      * @return array
      */
-    public function getPublishedIdsArrByType(string $content_type, int $limit_to_page = 0, int $page = 1)
+    public function getPublishedIdsArrByType(string $content_type, int $limit_to_page = 0, int $page = 1): array
     {
         $content_type_obj = $this->content_type_service->getByType($content_type);
 
@@ -212,20 +205,18 @@ class ContentService extends EntityService
      * @param string $content_type
      * @return int
      */
-    public function getCountPublishedContentsByType(string $content_type)
+    public function getCountPublishedContentsByType(string $content_type): int
     {
         $contents_ids_arr = $this->getPublishedIdsArrByType($content_type);
 
-        $count_contents = count($contents_ids_arr);
-
-        return $count_contents;
+        return count($contents_ids_arr);
     }
 
     /**
      * @param string $url
      * @return int
      */
-    public function getIdByUrl(string $url)
+    public function getIdByUrl(string $url): int
     {
         if (isset($this->ids_by_urls_cache[$url])) {
             return $this->ids_by_urls_cache[$url];
@@ -240,9 +231,9 @@ class ContentService extends EntityService
 
     /**
      * @param Content $content_obj
-     * @return int|mixed
+     * @return int
      */
-    public function getRelativeTemplateId(Content $content_obj)
+    public function getRelativeTemplateId(Content $content_obj): int
     {
         if ($content_obj->getTemplateId()) {
             return $content_obj->getTemplateId();
@@ -261,9 +252,9 @@ class ContentService extends EntityService
 
     /**
      * @param Content $content_obj
-     * @return bool|string
+     * @return string
      */
-    public function generateUrl(Content $content_obj)
+    public function generateUrl(Content $content_obj): string
     {
         if (!$content_obj->getTitle()) {
             return '';
@@ -272,7 +263,6 @@ class ContentService extends EntityService
         if ($content_obj->isPublished()) {
             return '';
         }
-
 
         $title_for_url = Transliteration::transliteration($content_obj->getTitle());
 
@@ -294,7 +284,7 @@ class ContentService extends EntityService
      * @param Content $content_obj
      * @return string
      */
-    public function getImagePath(Content $content_obj)
+    public function getImagePath(Content $content_obj): string
     {
         if (!$content_obj->getImage()) {
             return '';
@@ -303,7 +293,7 @@ class ContentService extends EntityService
         $content_type_id = $content_obj->getContentTypeId();
         $content_type_obj = $this->content_type_service->getById($content_type_id);
 
-        return 'content/' . $content_type_obj->getType() . '/' . $content_obj->getImage();
+        return Content::CONTENT_FILES_DIR . '/' . $content_type_obj->getType() . '/' . $content_obj->getImage();
     }
 
     /**
@@ -326,7 +316,7 @@ class ContentService extends EntityService
      * @param string $title
      * @return array
      */
-    public function getIdsArrByTitle(string $title)
+    public function getIdsArrByTitle(string $title): array
     {
         return $this->repository->findIdsByTitle($title);
     }

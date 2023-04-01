@@ -18,10 +18,8 @@ class ContentPhotoService extends EntityService
      * @param int $content_id
      * @return array|null
      */
-    public function getIdsArrByContentId(int $content_id)
+    public function getIdsArrByContentId(int $content_id): array
     {
-        $ids_arr = $this->repository->findIdsByContentId($content_id);
-
-        return $ids_arr;
+        return $this->repository->findIdsByContentId($content_id);
     }
 }

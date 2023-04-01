@@ -28,23 +28,12 @@ class ContentRubricService extends EntityService
     /**
      * @param InterfaceEntity|ContentRubric $entity_obj
      */
-    public function afterSave(InterfaceEntity $entity_obj)
+    public function removeFromCache(InterfaceEntity $entity_obj)
     {
         $cache_key = sprintf(self::CACHE_KEY_IDS_BY_CONTENT_ID, $entity_obj->getContentId());
         $this->cache_service->delete($cache_key);
 
-        parent::afterSave($entity_obj);
-    }
-
-    /**
-     * @param InterfaceEntity|ContentRubric $entity_obj
-     */
-    public function afterDelete(InterfaceEntity $entity_obj)
-    {
-        $cache_key = sprintf(self::CACHE_KEY_IDS_BY_CONTENT_ID, $entity_obj->getContentId());
-        $this->cache_service->delete($cache_key);
-
-        parent::afterDelete($entity_obj);
+        parent::removeFromCache($entity_obj);
     }
 
     /**
@@ -53,7 +42,7 @@ class ContentRubricService extends EntityService
      * @param int $page
      * @return array
      */
-    public function getIdsArrByRubricId(int $rubric_id, int $limit_to_page = 0, int $page = 1)
+    public function getIdsArrByRubricId(int $rubric_id, int $limit_to_page = 0, int $page = 1): array
     {
         return $this->repository->findIdsByRubricId($rubric_id, $limit_to_page, $page);
     }
@@ -76,7 +65,7 @@ class ContentRubricService extends EntityService
      * @param int $content_id
      * @return array
      */
-    public function getIdsArrByContentId(int $content_id)
+    public function getIdsArrByContentId(int $content_id): array
     {
         $cache_key = sprintf(self::CACHE_KEY_IDS_BY_CONTENT_ID, $content_id);
 
@@ -98,7 +87,7 @@ class ContentRubricService extends EntityService
      * @param int $content_id
      * @return array
      */
-    public function getRubricIdsArrByContentId(int $content_id)
+    public function getRubricIdsArrByContentId(int $content_id): array
     {
         $content_rubrics_ids_arr = $this->getIdsArrByContentId($content_id);
 
@@ -128,7 +117,7 @@ class ContentRubricService extends EntityService
      * @param int $page
      * @return array
      */
-    public function getContentIdsArrByRubricId(int $rubric_id, int $limit_to_page = 0, int $page = 1)
+    public function getContentIdsArrByRubricId(int $rubric_id, int $limit_to_page = 0, int $page = 1): array
     {
         $content_rubrics_ids_arr = $this->getIdsArrByRubricId($rubric_id, $limit_to_page, $page);
 
@@ -147,13 +136,11 @@ class ContentRubricService extends EntityService
      * @param int $rubric_id
      * @return int
      */
-    public function getCountContentsByRubricId(int $rubric_id)
+    public function getCountContentsByRubricId(int $rubric_id): int
     {
         $contents_ids_arr = $this->getContentIdsArrByRubricId($rubric_id);
 
-        $count_contents = count($contents_ids_arr);
-
-        return $count_contents;
+        return count($contents_ids_arr);
     }
 
     /**
@@ -162,7 +149,7 @@ class ContentRubricService extends EntityService
      * @param int $page
      * @return array
      */
-    public function getPublishedContentIdsArrByRubricId(int $rubric_id, int $limit_to_page = 0, int $page = 1)
+    public function getPublishedContentIdsArrByRubricId(int $rubric_id, int $limit_to_page = 0, int $page = 1): array
     {
         return $this->repository->findPublishedContentIdsArrByRubricId($rubric_id, $limit_to_page, $page);
     }
@@ -171,12 +158,10 @@ class ContentRubricService extends EntityService
      * @param int $rubric_id
      * @return int
      */
-    public function getCountPublishedContentsByRubricId(int $rubric_id)
+    public function getCountPublishedContentsByRubricId(int $rubric_id): int
     {
         $contents_ids_arr = $this->getPublishedContentIdsArrByRubricId($rubric_id);
 
-        $count_contents = count($contents_ids_arr);
-
-        return $count_contents;
+        return count($contents_ids_arr);
     }
 }

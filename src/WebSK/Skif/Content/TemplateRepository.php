@@ -13,9 +13,9 @@ class TemplateRepository extends EntityRepository
 {
     /**
      * @param string $name
-     * @return false|int
+     * @return null|int
      */
-    public function findIdByName(string $name)
+    public function findIdByName(string $name): ?int
     {
         $db_table_name = $this->getTableName();
         $db_id_field_name = $this->getIdFieldName();
@@ -25,6 +25,10 @@ class TemplateRepository extends EntityRepository
             ' WHERE ' . Sanitize::sanitizeSqlColumnName(Template::_NAME) . ' = ?';
 
         $id = $this->db_service->readField($query, [$name]);
+
+        if ($id === false) {
+            return null;
+        }
 
         return $id;
     }

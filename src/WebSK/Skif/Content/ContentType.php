@@ -10,28 +10,21 @@ use WebSK\Entity\Entity;
  */
 class ContentType extends Entity
 {
-
-    const ENTITY_SERVICE_CONTAINER_ID = 'skif.content_type_service';
-    const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.content_type_repository';
     const DB_TABLE_NAME = 'content_types';
 
     const CONTENT_TYPE_PAGE = 'page';
 
     const _NAME = 'name';
-    /** @var string */
-    protected $name;
+    protected string $name;
 
     const _TYPE = 'type';
-    /** @var string */
-    protected $type;
+    protected string $type;
 
     const _URL = 'url';
-    /** @var string */
-    protected $url;
+    protected string $url;
 
     const _TEMPLATE_ID = 'template_id';
-    /** @var int */
-    protected $template_id;
+    protected ?int $template_id = null;
 
     /**
      * @return string
@@ -82,17 +75,17 @@ class ContentType extends Entity
     }
 
     /**
-     * @return int
+     * @return null|int
      */
-    public function getTemplateId(): int
+    public function getTemplateId(): ?int
     {
         return $this->template_id;
     }
 
     /**
-     * @param int $template_id
+     * @param null|int $template_id
      */
-    public function setTemplateId(int $template_id): void
+    public function setTemplateId(?int $template_id): void
     {
         $this->template_id = $template_id;
     }

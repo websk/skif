@@ -14,12 +14,12 @@ class ContentComponents
 {
     /**
      * Блок последних материалов
-     * @param $content_type
+     * @param string $content_type
      * @param int $limit
      * @param string $template_file
      * @return string
      */
-    public static function renderLastContentsBlock($content_type, $limit = 10, $template_file = '')
+    public static function renderLastContentsBlock(string $content_type, int $limit = 10, string $template_file = ''): string
     {
         $content_service = ContentServiceProvider::getContentService(Container::self());
 
@@ -47,12 +47,12 @@ class ContentComponents
 
     /**
      * Блок последних материалов в рубрике
-     * @param $rubric_id
+     * @param int $rubric_id
      * @param int $limit
      * @param string $template_file
      * @return string
      */
-    public static function renderLastContentsBlockByRubricId($rubric_id, $limit = 10, $template_file = '')
+    public static function renderLastContentsBlockByRubricId(int $rubric_id, int $limit = 10, string $template_file = ''): string
     {
         $content_rubric_service = ContentServiceProvider::getContentRubricService(Container::self());
 
@@ -93,7 +93,7 @@ class ContentComponents
             );
         }
 
-        return PhpRender::renderTemplate($template_file, array('contents_ids_arr' => $contents_ids_arr));
+        return PhpRender::renderTemplate($template_file, ['contents_ids_arr' => $contents_ids_arr]);
     }
 
 }

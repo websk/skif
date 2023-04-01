@@ -48,7 +48,7 @@ class CKEditor
      * @param string $dir
      * @return string
      */
-    public static function createFullCKEditor(string $editor_name, string $text, int $height = 300, string $dir = '')
+    public static function createFullCKEditor(string $editor_name, string $text, int $height = 300, string $dir = ''): string
     {
         self::checkFilesDirectories($dir);
 
@@ -71,7 +71,7 @@ class CKEditor
      * @param string $dir
      * @return string
      */
-    public static function createBasicCKEditor(string $editor_name, string $text, int $height = 300, string $dir = '')
+    public static function createBasicCKEditor(string $editor_name, string $text, int $height = 300, string $dir = ''): string
     {
         self::checkFilesDirectories($dir);
 
@@ -94,7 +94,7 @@ class CKEditor
      * @param string $dir
      * @return string
      */
-    public static function createUserCKEditor(string $editor_name, string $text, int $height = 300, string $dir = '')
+    public static function createUserCKEditor(string $editor_name, string $text, int $height = 300, string $dir = ''): string
     {
         self::checkFilesDirectories($dir);
 

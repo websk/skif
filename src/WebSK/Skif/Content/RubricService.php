@@ -20,11 +20,9 @@ class RubricService extends EntityService
     /** @var RubricRepository */
     protected $repository;
 
-    /** @var ContentTypeService */
-    protected $content_type_service;
+    protected ContentTypeService $content_type_service;
 
-    /** @var array */
-    protected $ids_by_urls_cache = [];
+    protected array $ids_by_urls_cache = [];
 
     /**
      * RubricService constructor.
@@ -71,7 +69,7 @@ class RubricService extends EntityService
      * @param int $content_type_id
      * @return array
      */
-    public function getIdsArrByContentTypeId(int $content_type_id)
+    public function getIdsArrByContentTypeId(int $content_type_id): array
     {
         return $this->repository->findIdsByContentTypeId($content_type_id);
     }
@@ -80,7 +78,7 @@ class RubricService extends EntityService
      * @param Rubric $rubric_obj
      * @return string
      */
-    public function generateUrl(Rubric $rubric_obj)
+    public function generateUrl(Rubric $rubric_obj): string
     {
         if (!$rubric_obj->getName()) {
             return '';
@@ -101,9 +99,9 @@ class RubricService extends EntityService
 
     /**
      * @param Rubric $rubric_obj
-     * @return int
+     * @return null|int
      */
-    public function getRelativeTemplateId(Rubric $rubric_obj)
+    public function getRelativeTemplateId(Rubric $rubric_obj): ?int
     {
         if ($rubric_obj->getTemplateId()) {
             return $rubric_obj->getTemplateId();
@@ -116,9 +114,9 @@ class RubricService extends EntityService
 
     /**
      * @param string $url
-     * @return int
+     * @return null|int
      */
-    public function getIdByUrl(string $url)
+    public function getIdByUrl(string $url): ?int
     {
         if (isset($this->ids_by_urls_cache[$url])) {
             return $this->ids_by_urls_cache[$url];

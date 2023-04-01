@@ -10,17 +10,13 @@ use WebSK\Entity\Entity;
  */
 class ContentRubric extends Entity
 {
-    const ENTITY_SERVICE_CONTAINER_ID = 'skif.content_rubric_service';
-    const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.content_rubric_repository';
     const DB_TABLE_NAME = 'content_rubrics';
 
     const _CONTENT_ID = 'content_id';
-    /** @var int */
-    protected $content_id;
+    protected ?int $content_id = null;
 
     const _RUBRIC_ID = 'rubric_id';
-    /** @var int */
-    protected $rubric_id;
+    protected ?int $rubric_id = null;
 
     /**
      * @return int

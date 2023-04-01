@@ -14,7 +14,7 @@ class ContentUtils
     /**
      * @return int|null
      */
-    public static function getCurrentContentId()
+    public static function getCurrentContentId(): ?int
     {
         $container = Container::self();
 
@@ -39,7 +39,7 @@ class ContentUtils
     /**
      * @return int|null
      */
-    public static function getCurrentRubricId()
+    public static function getCurrentRubricId(): ?int
     {
         $current_url = Url::getUriNoQueryString();
 
@@ -56,32 +56,5 @@ class ContentUtils
         }
 
         return $rubric_id;
-    }
-
-
-    /**
-     * Фильтрация html тегов
-     * @param $content
-     * @return string
-     */
-    public static function filterContent($content)
-    {
-        $allowable_tags_arr = array(
-            '<p>',
-            '<b><strong><em><i>',
-            '<span>',
-            '<br>',
-            '<div>',
-            '<a>',
-            '<img>',
-            '<h1><h2><h3><h4>',
-            '<table><tr><td><tbody><thead><th>',
-            '<li><ul><ol>',
-            '<script>',
-            '<hr>',
-            '<form><input><iframe>'
-        );
-
-        return strip_tags($content, implode('', $allowable_tags_arr));
     }
 }

@@ -11,32 +11,27 @@ use WebSK\Views\ViewsPath;
  */
 class Template extends Entity
 {
-    const ENTITY_SERVICE_CONTAINER_ID = 'skif.template_service';
-    const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.template_repository';
     const DB_TABLE_NAME = 'template';
+
+    const LAYOUTS_FILES_DIR = 'layouts';
 
     const TEMPLATE_ID_MAIN = 1;
     const TEMPLATE_ID_ADMIN = 2;
 
     const _TITLE = 'title';
-    /** @var string */
-    protected $title = '';
+    protected string $title = '';
 
     const _NAME = 'name';
-    /** @var string */
-    protected $name = '';
+    protected string $name = '';
 
     const _CSS = 'css';
-    /** @var string */
-    protected $css = '';
+    protected string $css = '';
 
     const _IS_DEFAULT = 'is_default';
-    /** @var bool */
-    protected $is_default = false;
+    protected bool $is_default = false;
 
     const _LAYOUT_TEMPLATE_FILE = 'layout_template_file';
-    /** @var string  */
-    protected $layout_template_file = '';
+    protected string $layout_template_file = '';
 
     /**
      * @return string
@@ -105,8 +100,8 @@ class Template extends Entity
     /**
      * @return string
      */
-    public function getLayoutTemplateFilePath()
+    public function getLayoutTemplateFilePath(): string
     {
-        return ViewsPath::getSiteViewsPath() . '/layouts/' . $this->layout_template_file;
+        return ViewsPath::getSiteViewsPath() . '/' . self::LAYOUTS_FILES_DIR . '/' . $this->layout_template_file;
     }
 }

@@ -18,7 +18,7 @@ class ContentTypeService extends EntityService
      * @param string $type
      * @return ContentType|null
      */
-    public function getByType(string $type)
+    public function getByType(string $type): ?ContentType
     {
         $id = $this->repository->findIdByType($type);
 

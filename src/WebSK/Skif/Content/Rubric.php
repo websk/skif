@@ -11,29 +11,22 @@ use WebSK\Entity\Entity;
 class Rubric extends Entity
 {
 
-    const ENTITY_SERVICE_CONTAINER_ID = 'skif.rubric_service';
-    const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.rubric_repository';
     const DB_TABLE_NAME = 'rubrics';
 
     const _NAME = 'name';
-    /** @var string */
-    protected $name = '';
+    protected string $name = '';
 
     const _COMMENT = 'comment';
-    /** @var string */
-    protected $comment = '';
+    protected string $comment = '';
 
     const _CONTENT_TYPE_ID = 'content_type_id';
-    /** @var int */
-    protected $content_type_id;
+    protected ?int $content_type_id = null;
 
     const _TEMPLATE_ID = 'template_id';
-    /** @var int|null */
-    protected $template_id;
+    protected ?int $template_id = null;
 
     const _URL = 'url';
-    /** @var string */
-    protected $url = '';
+    protected string $url = '';
 
     /**
      * @return string

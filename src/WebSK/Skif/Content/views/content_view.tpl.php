@@ -1,11 +1,11 @@
 <?php
 /**
- * @var $content_id
+ * @var int $content_id
  */
 
 use WebSK\Skif\Content\ContentServiceProvider;
-use WebSK\Skif\Content\ContentUtils;
 use WebSK\Image\ImageManager;
+use WebSK\Skif\ContentSanitize;
 use WebSK\Slim\Container;
 
 $content_service = ContentServiceProvider::getContentService(Container::self());
@@ -31,4 +31,4 @@ if ($content_obj->getImage()) {
 }
 ?>
 
-<div><?php echo ContentUtils::filterContent($content) ?></div>
+<div><?php echo ContentSanitize::sanitizeContent($content) ?></div>

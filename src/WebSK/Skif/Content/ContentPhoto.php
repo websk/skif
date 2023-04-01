@@ -10,21 +10,16 @@ use WebSK\Entity\Entity;
  */
 class ContentPhoto extends Entity
 {
-    const ENTITY_SERVICE_CONTAINER_ID = 'skif.content_photo_service';
-    const ENTITY_REPOSITORY_CONTAINER_ID = 'skif.content_photo_repository';
     const DB_TABLE_NAME = 'content_photo';
 
     const _CONTENT_ID = 'content_id';
-    /** @var int */
-    protected $content_id;
+    protected ?int $content_id = null;
 
     const _PHOTO = 'photo';
-    /** @var string */
-    protected $photo;
+    protected ?string $photo = null;
 
     const _IS_DEFAULT = 'is_default';
-    /** @var bool */
-    protected $is_default = false;
+    protected bool $is_default = false;
 
     /**
      * @return int
@@ -77,10 +72,8 @@ class ContentPhoto extends Entity
     /**
      * @return string
      */
-    public function getPhotoPath()
+    public function getPhotoPath(): string
     {
-        $image_path = 'content/' . $this->getPhoto();
-
-        return $image_path;
+        return Content::CONTENT_FILES_DIR . '/' . $this->getPhoto();
     }
 }
