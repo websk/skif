@@ -161,9 +161,9 @@ ALTER TABLE site_menu_item ADD COLUMN created_at_ts int NOT NULL DEFAULT 0 /* c-
 ALTER TABLE site_menu_item CHANGE COLUMN parent_id parent_id int DEFAULT NULL /* vn03h403hb43h043bh */;
 UPDATE template SET layout_template_file = 'layout.adminLTE.tpl.php' WHERE layout_template_file = 'layout.admin.tpl.php' /* 3hcv3hf0834h20f8 */;
 UPDATE site_menu_item SET parent_id=NULL WHERE parent_id=0 /* n3h04h049h34g4 */;
-UPDATE content CHANGE COLUMN image image varchar(100) DEFAULT NULL /* 3c93h49uvgh439g */;
+ALTER TABLE content CHANGE COLUMN image image varchar(100) DEFAULT NULL /* 3c93h49uvgh439g */;
 UPDATE content SET image=NULL WHERE image='' /* c0ij3049gj034gf */;
-UPDATE content CHANGE COLUMN url url varchar(1000) DEFAULT NULL /* v0v34h0h4gh340g */;
+ALTER TABLE content CHANGE COLUMN url url varchar(1000) DEFAULT NULL /* v0v34h0h4gh340g */;
 UPDATE content SET url=NULL WHERE url='' /* 234ghv038h0834hv */;
-UPDATE content CHANGE COLUMN redirect_url redirect_url varchar(1000) DEFAULT NULL /* 3v0384h0vbh340bv */;
+ALTER TABLE content CHANGE COLUMN redirect_url redirect_url varchar(1000) DEFAULT NULL /* 3v0384h0vbh340bv */;
 UPDATE content SET redirect_url=NULL WHERE redirect_url='' /* 39v8h938h24vg983 */;
