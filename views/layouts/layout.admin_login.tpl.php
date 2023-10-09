@@ -33,8 +33,8 @@ use WebSK\Views\LayoutDTO;
     <script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap/js/bootstrap.min.js'); ?>"></script>
 
     <!-- AdminLTE -->
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/AdminLTE/css/AdminLTE.min.css'); ?>" rel="stylesheet" type="text/css">
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/AdminLTE/css/skin-blue.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/admin-lte/css/AdminLTE.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/admin-lte/css/skin-blue.min.css'); ?>" rel="stylesheet" type="text/css">
 
     <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css">
 

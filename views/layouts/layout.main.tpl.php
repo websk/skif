@@ -67,7 +67,7 @@ if (!isset($layout_dto)) {
 
     <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-validation/jquery.validate.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-validation/jquery.validate.js'); ?>"></script>
 
     <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/fancybox/jquery.fancybox.min.js"'); ?>"></script>
     <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/fancybox/jquery.fancybox.min.css'); ?>" rel="stylesheet" type="text/css">

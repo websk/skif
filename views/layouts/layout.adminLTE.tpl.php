@@ -82,8 +82,8 @@ $user_logout_url = Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['des
     <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/ionicons/ionicons.min.css'); ?>" rel="stylesheet" type="text/css">
 
     <!-- AdminLTE -->
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/AdminLTE/css/AdminLTE.min.css'); ?>" rel="stylesheet" type="text/css">
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/AdminLTE/css/skin-blue.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/admin-lte/css/AdminLTE.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/admin-lte/css/skin-blue.min.css'); ?>" rel="stylesheet" type="text/css">
 
     <!-- Font Awesome -->
     <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css">
@@ -91,7 +91,7 @@ $user_logout_url = Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['des
     <link href="<?php echo SkifPath::wrapAssetsVersion('/styles/skif.css'); ?>" rel="stylesheet" type="text/css">
 
     <!-- Jquery Validate -->
-    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-validation/jquery.validate.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-validation/jquery.validate.js'); ?>"></script>
 
     <!-- Fancybox -->
     <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/fancybox/jquery.fancybox.min.js"'); ?>></script>
@@ -333,7 +333,7 @@ $user_logout_url = Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['des
 
 <!-- AdminLTE App -->
 <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/metisMenu/metisMenu.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/AdminLTE/js/app.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/admin-lte/js/app.min.js'); ?>"></script>
 
 </body>
 </html>
