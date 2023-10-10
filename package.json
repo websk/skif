@@ -10,21 +10,22 @@
     "@fancyapps/fancybox": "3.5.7",
     "ace-builds": "1.2.8",
     "admin-lte": "2.3.5",
-    "blueimp-file-upload": "~9.11.2",
-    "bootstrap": "3.3.7",
+    "blueimp-file-upload": "10.7.0",
+    "bootstrap": "3.4.1",
     "ckeditor4": "4.22.1",
-    "eonasdan-bootstrap-datetimepicker": "4.17.47",
+    "eonasdan-bootstrap-datetimepicker": "4.17.49",
     "font-awesome": "4.7.0",
     "ionicons": "2.0.1",
     "jquery": "2.2.4",
     "jquery-ui": "1.13.2",
-    "jquery-validation": "1.14.0",
+    "jquery-validation": "1.20.0",
     "metismenu": "1.1.3",
+    "moment": "2.29.4",
     "respond.js": "1.4.2"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^8.1.0",
-    "webpack": "5.28.0",
+    "webpack": "5.88.2",
     "webpack-cli": "4.6.0"
   },
   "scripts": {
