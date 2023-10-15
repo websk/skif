@@ -231,9 +231,9 @@ class ContentService extends EntityService
 
     /**
      * @param Content $content_obj
-     * @return int
+     * @return int|null
      */
-    public function getRelativeTemplateId(Content $content_obj): int
+    public function getRelativeTemplateId(Content $content_obj): ?int
     {
         if ($content_obj->getTemplateId()) {
             return $content_obj->getTemplateId();
