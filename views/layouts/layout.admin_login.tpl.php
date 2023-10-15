@@ -23,7 +23,7 @@ use WebSK\Views\LayoutDTO;
 
     <title><?php echo $layout_dto->getTitle() ?></title>
 
-    <link href="<?php echo SkifPath::wrapUrlPath('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
 
     <!-- jQuery -->
     <script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery/jquery.min.js'); ?>"></script>

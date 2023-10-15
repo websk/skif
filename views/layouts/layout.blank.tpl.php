@@ -21,7 +21,7 @@ if (!isset($layout_dto)) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo $layout_dto->getTitle(); ?></title>
 
-    <link href="<?php echo SkifPath::wrapUrlPath('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
 </head>
 <body>
 <?php echo $layout_dto->getContentHtml() ?>

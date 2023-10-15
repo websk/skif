@@ -33,7 +33,7 @@ CKEDITOR.editorConfig = function (config) {
         + 'th(*);'
         + 'td(*);'
         + 'a(*)[!href, id, name, target];'
-        + 'img()[!src,alt,width,height];';
+        + 'img(*)[!src,alt,title,width,height]{*};';
 
     config.fillEmptyBlocks = false;
     config.entities = false;
