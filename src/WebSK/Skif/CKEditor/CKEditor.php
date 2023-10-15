@@ -12,8 +12,6 @@ use WebSK\Views\PhpRender;
  */
 class CKEditor
 {
-    const CKEDITOR_FULL = 'full';
-    const CKEDITOR_BASIC = 'basic';
 
     /**
      * @param string $dir
@@ -48,65 +46,19 @@ class CKEditor
      * @param string $dir
      * @return string
      */
-    public static function createFullCKEditor(string $editor_name, string $text, int $height = 300, string $dir = ''): string
+    public static function createCKEditor(string $editor_name, string $text, int $height = 300, string $dir = ''): string
     {
         self::checkFilesDirectories($dir);
 
-        return  PhpRender::renderTemplateForModuleNamespace(
+        return PhpRender::renderTemplateForModuleNamespace(
             'WebSK/Skif/CKEditor',
-            'full.tpl.php',
+            'ckeditor.tpl.php',
             [
                 'editor_name' => $editor_name,
                 'text' => $text,
                 'dir' => $dir,
                 'height' => $height
             ]
-        );
-    }
-
-    /**
-     * @param string $editor_name
-     * @param string $text
-     * @param int $height
-     * @param string $dir
-     * @return string
-     */
-    public static function createBasicCKEditor(string $editor_name, string $text, int $height = 300, string $dir = ''): string
-    {
-        self::checkFilesDirectories($dir);
-
-        return  PhpRender::renderTemplateForModuleNamespace(
-            'WebSK/Skif/CKEditor',
-            'basic.tpl.php',
-            array(
-                'editor_name' => $editor_name,
-                'text' => $text,
-                'dir' => $dir,
-                'height' => $height
-            )
-        );
-    }
-
-    /**
-     * @param string $editor_name
-     * @param string $text
-     * @param int $height
-     * @param string $dir
-     * @return string
-     */
-    public static function createUserCKEditor(string $editor_name, string $text, int $height = 300, string $dir = ''): string
-    {
-        self::checkFilesDirectories($dir);
-
-        return  PhpRender::renderTemplateForModuleNamespace(
-            'WebSK/Skif/CKEditor',
-            'user.tpl.php',
-            array(
-                'editor_name' => $editor_name,
-                'text' => $text,
-                'dir' => $dir,
-                'height' => $height
-            )
         );
     }
 }

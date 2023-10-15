@@ -102,7 +102,7 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
 
                     <div class="col-md-10">
                         <?php
-                        echo CKEditor::createBasicCKEditor('annotation', $content_obj->getAnnotation(), 150, Content::CONTENT_FILES_DIR);
+                        echo CKEditor::createCKEditor('annotation', $content_obj->getAnnotation(), 150, Content::CONTENT_FILES_DIR);
                         ?>
                     </div>
                 </div>
@@ -110,7 +110,7 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
                 <div class="form-group">
                     <div class="col-md-12">
                         <?php
-                        echo CKEditor::createFullCKEditor('body', $content_obj->getBody(), 500, Content::CONTENT_FILES_DIR);
+                        echo CKEditor::createCKEditor('body', $content_obj->getBody(), 500, Content::CONTENT_FILES_DIR);
                         ?>
                     </div>
                 </div>

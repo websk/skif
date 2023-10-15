@@ -1,5 +1,7 @@
 <?php
 
+use WebSK\Skif\SkifPath;
+
 return [
     'settings' => [
         'displayErrorDetails' => true,
@@ -93,6 +95,11 @@ return [
             'url_path' => '/admin',
             'main_page' => '/admin/content/page',
             'assets_version' => 1
+        ],
+        'ckeditor' => [
+            'styles' => [
+                SkifPath::wrapAssetsVersion('/styles/main.css'),
+            ]
         ],
         'log_path' => '/var/www/log',
         'tmp_path' => '/var/www/tmp',

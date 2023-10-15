@@ -1,9 +1,9 @@
 <?php
 /**
- * @var $editor_name
- * @var $text
- * @var $height
- * @var $dir
+ * @var string $editor_name
+ * @var string $text
+ * @var int $height
+ * @var string $dir
  */
 
 use WebSK\Config\ConfWrapper;
@@ -20,20 +20,22 @@ $filemanager_path = ConfWrapper::value('ckeditor.filemanager_path');
 if (empty($filemanager_path)) {
     $filemanager_path = SkifPath::wrapAssetsVersion('/libraries/filemanager/index.html');
 }
+
+$text = str_replace("&nbsp;","",$text);
 ?>
 <textarea id="<?php echo $editor_name ?>" name="<?php echo $editor_name ?>" rows="10"
           class="form-control"><?php echo $text ?></textarea>
 
 <script>
-    CKEDITOR.replace('<?php echo $editor_name ?>', {
+    editor = CKEDITOR.replace('<?php echo $editor_name ?>', {
         toolbar: [
-            { name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
-            { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-            { name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar' ] },
-            { name: 'document', items: [ 'Source' ] },
-            '/',
-            { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
-            { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' ] }
+            {name: 'clipboard', items: ['Cut', 'Copy', 'Paste', '-', 'RemoveFormat', '-', 'Undo', 'Redo', 'Find']},
+            {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']},
+            {name: 'styles', items: ['Format']},
+            {name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote']},
+            {name: 'links', items: ['Link', 'Unlink', 'Anchor']},
+            {name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar']},
+            {name: 'tools', items: ['Maximize', 'Source']},
         ],
         customConfig: '<?php echo SkifPath::wrapAssetsVersion('/scripts/ckeditor_config.js'); ?>',
         contentsCss: [<?php echo $contents_css; ?>],
@@ -41,4 +43,10 @@ if (empty($filemanager_path)) {
         filebrowserImageBrowseUrl: '<?php echo $filemanager_path; ?>' + <?php echo($dir ? "'?expandedFolder=images/" . $dir . "'" : "''") ?>,
         height: <?php echo $height ?>
     });
+
+    editor.on('paste', function (evt) {
+        evt.data.dataValue = evt.data.dataValue.replace(/&nbsp;/g, '');
+    }, null, null, 9);
 </script>
+
+

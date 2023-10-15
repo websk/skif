@@ -14,6 +14,7 @@
     "bootstrap": "3.4.1",
     "ckeditor4": "4.22.1",
     "eonasdan-bootstrap-datetimepicker": "4.17.49",
+    "flmngr": "^2.0.13",
     "font-awesome": "4.7.0",
     "ionicons": "2.0.1",
     "jquery": "2.2.4",
