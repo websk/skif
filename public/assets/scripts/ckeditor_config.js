@@ -25,7 +25,7 @@ CKEDITOR.editorConfig = function (config) {
     config.shiftEnterMode = CKEDITOR.ENTER_P;
     config.protectedSource.push(/<script[\s\S]*?script>/g); /* script tags */
 
-    config.allowedContent = 'h1 h2 h3 h4 h5 br b i u em ul ol li table td tr th hr pre;'
+    config.allowedContent = 'h1 h2 h3 h4 h5 br b i u em ul ol li tbody thead hr pre;'
         + 'div(*)[*]{*};'
         + 'p[*];'
         + 'table(*);'
