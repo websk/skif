@@ -17,7 +17,7 @@ class Rubric extends Entity
     protected string $name = '';
 
     const _COMMENT = 'comment';
-    protected string $comment = '';
+    protected ?string $comment = null;
 
     const _CONTENT_TYPE_ID = 'content_type_id';
     protected ?int $content_type_id = null;

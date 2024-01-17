@@ -8,6 +8,7 @@ use WebSK\CRUD\CRUDServiceProvider;
 use WebSK\CRUD\Form\CRUDFormInvisibleRow;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
+use WebSK\CRUD\Form\Widgets\CRUDFormWidgetReferenceAjax;
 use WebSK\CRUD\Table\CRUDTable;
 use WebSK\CRUD\Table\CRUDTableColumn;
 use WebSK\CRUD\Table\Filters\CRUDTableFilterEqualInvisible;
@@ -19,6 +20,7 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
 use WebSK\Skif\Content\Content;
 use WebSK\Skif\Content\ContentServiceProvider;
+use WebSK\Skif\Content\Rubric;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Utils\HTTP;
@@ -59,9 +61,8 @@ class AdminContentListHandler extends BaseHandler
         $rubric_for_options_arr = [];
         foreach ($rubric_ids_arr as $rubric_id) {
             $rubric_obj = $rubric_service->getById($rubric_id);
-            $rubric_for_options_arr[] = $rubric_obj->getName();
+            $rubric_for_options_arr[$rubric_id] = $rubric_obj->getName();
         }
-
 
         $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
             Content::class,
@@ -70,6 +71,19 @@ class AdminContentListHandler extends BaseHandler
                 $new_content_obj,
                 [
                     new CRUDFormRow('Заголовок', new CRUDFormWidgetInput(Content::_TITLE)),
+                    new CRUDFormRow(
+                        'Главная рубрика',
+                        new CRUDFormWidgetReferenceAjax(
+                            Content::_MAIN_RUBRIC_ID,
+                            Rubric::class,
+                            Rubric::_NAME,
+                            $this->pathFor(AdminRubricListAjaxHandler::class, ['content_type' => $content_type]),
+                            $this->pathFor(
+                                AdminRubricEditHandler::class,
+                                ['content_type' => $content_type, 'rubric_id' => CRUDFormWidgetReferenceAjax::REFERENCED_ID_PLACEHOLDER]
+                            )
+                        )
+                    ),
                     new CRUDFormInvisibleRow(new CRUDFormWidgetInput(Content::_CONTENT_TYPE_ID)),
                 ]
             ),

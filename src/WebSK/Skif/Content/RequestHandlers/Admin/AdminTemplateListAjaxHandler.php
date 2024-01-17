@@ -10,8 +10,8 @@ use WebSK\CRUD\Table\CRUDTableColumn;
 use WebSK\CRUD\Table\Filters\CRUDTableFilterLikeInline;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetReferenceSelect;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
+use WebSK\Skif\Content\Rubric;
 use WebSK\Skif\Content\Template;
-use WebSK\Skif\Form\Form;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 
 /**
@@ -30,7 +30,7 @@ class AdminTemplateListAjaxHandler extends BaseHandler
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
         $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
-            Form::class,
+            Rubric::class,
             null,
             [
                 new CRUDTableColumn('ID', new CRUDTableWidgetText(Template::_ID)),
@@ -44,7 +44,7 @@ class AdminTemplateListAjaxHandler extends BaseHandler
             [
                 new CRUDTableFilterLikeInline(self::FILTER_TITLE, '', Template::_TITLE, 'Название'),
             ],
-            Form::_CREATED_AT_TS . ' DESC',
+            Template::_CREATED_AT_TS . ' DESC',
             'template_list',
             CRUDTable::FILTERS_POSITION_INLINE
         );

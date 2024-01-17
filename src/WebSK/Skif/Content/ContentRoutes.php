@@ -10,6 +10,7 @@ use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentListHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentSaveHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentUploadImageAction;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminRubricEditHandler;
+use WebSK\Skif\Content\RequestHandlers\Admin\AdminRubricListAjaxHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminRubricListHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentEditHandler;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentListAjaxHandler;
@@ -86,6 +87,9 @@ class ContentRoutes
                 $app->group('/rubric', function (App $app) {
                     $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', AdminRubricListHandler::class)
                         ->setName(AdminRubricListHandler::class);
+
+                    $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/ajax', AdminRubricListAjaxHandler::class)
+                        ->setName(AdminRubricListAjaxHandler::class);
 
                     $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/{rubric_id:\d+}', AdminRubricEditHandler::class)
                         ->setName(AdminRubricEditHandler::class);

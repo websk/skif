@@ -16,6 +16,7 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
 use WebSK\Skif\Content\ContentServiceProvider;
+use WebSK\Skif\Content\ContentTypeService;
 use WebSK\Skif\Content\Rubric;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
@@ -33,6 +34,8 @@ class AdminRubricListHandler extends BaseHandler
     const FILTER_CONTENT_TYPE_ID = 'content_type_id';
     const FILTER_NAME = 'content_type_name';
 
+    protected ContentTypeService $content_type_service;
+
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
@@ -41,6 +44,8 @@ class AdminRubricListHandler extends BaseHandler
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, string $content_type)
     {
+        $this->content_type_service = ContentServiceProvider::getContentTypeService($this->container);
+
         $content_type_obj = ContentServiceProvider::getContentTypeService($this->container)
             ->getByType($content_type);
 
