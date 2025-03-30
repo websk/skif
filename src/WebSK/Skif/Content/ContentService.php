@@ -60,7 +60,7 @@ class ContentService extends EntityService
     /**
      * @param InterfaceEntity|Content $entity_obj
      */
-    public function afterDelete(InterfaceEntity $entity_obj)
+    public function afterDelete(InterfaceEntity $entity_obj): void
     {
         parent::afterDelete($entity_obj);
 
@@ -84,7 +84,7 @@ class ContentService extends EntityService
     /**
      * @param InterfaceEntity|Content $entity_obj
      */
-    public function beforeSave(InterfaceEntity $entity_obj)
+    public function beforeSave(InterfaceEntity $entity_obj): void
     {
         $current_time = date('Y-m-d H:i:s');
 
@@ -123,7 +123,7 @@ class ContentService extends EntityService
     /**
      * @param InterfaceEntity|Content $entity_obj
      */
-    public function afterSave(InterfaceEntity $entity_obj)
+    public function afterSave(InterfaceEntity $entity_obj): void
     {
         parent::afterSave($entity_obj);
 
@@ -299,7 +299,7 @@ class ContentService extends EntityService
     /**
      * @param Content $content_obj
      */
-    public function deleteImage(Content $content_obj)
+    public function deleteImage(Content $content_obj): void
     {
         if (!$content_obj->getImage()) {
             return;

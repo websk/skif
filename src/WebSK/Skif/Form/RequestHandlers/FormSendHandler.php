@@ -2,18 +2,20 @@
 
 namespace WebSK\Skif\Form\RequestHandlers;
 
+use Fig\Http\Message\StatusCodeInterface;
 use PHPMailer\PHPMailer\PHPMailer;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Auth\Auth;
 use WebSK\Captcha\Captcha;
 use WebSK\Config\ConfWrapper;
-use WebSK\Skif\Form\FormServiceProvider;
+use WebSK\Skif\Form\FormFieldService;
+use WebSK\Skif\Form\FormService;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Utils\Filters;
-use WebSK\Utils\HTTP;
 use WebSK\Utils\Messages;
 use WebSK\Utils\Redirects;
+use WebSK\Utils\Sanitize;
 
 /**
  * Class FormSendHandler
@@ -21,18 +23,22 @@ use WebSK\Utils\Redirects;
  */
 class FormSendHandler extends BaseHandler
 {
+    /** @Inject */
+    protected FormService $form_service;
+
+    /** @Inject */
+    protected FormFieldService $form_field_service;
+
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $form_id)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $form_id): ResponseInterface
     {
-        $form_obj = FormServiceProvider::getFormService($this->container)
-            ->getById($form_id, false);
-
+        $form_obj = $this->form_service->getById($form_id, false);
         if (!$form_obj) {
-            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
+            return $response->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
         }
 
         $site_name = ConfWrapper::value('site_name');
@@ -43,12 +49,10 @@ class FormSendHandler extends BaseHandler
 
         $message = 'E-mail: ' . $user_email . '<br>';
 
-        $form_field_service = FormServiceProvider::getFormFieldService($this->container);
-
-        $form_field_ids_arr = $form_field_service->getIdsArrByFormId($form_id);
+        $form_field_ids_arr = $this->form_field_service->getIdsArrByFormId($form_id);
 
         foreach ($form_field_ids_arr as $form_field_id) {
-            $form_field_obj = $form_field_service->getById($form_field_id);
+            $form_field_obj = $this->form_field_service->getById($form_field_id);
 
             $field_value = $request->getParam('field_' . $form_field_id);
 
@@ -97,7 +101,7 @@ class FormSendHandler extends BaseHandler
         $mail->isHTML(true);
         $mail->Subject = $title;
         $mail->Body = $message;
-        $mail->AltBody = Filters::checkPlain($message);
+        $mail->AltBody = Sanitize::sanitizeAttrValue($message);
         $mail->send();
 
         if ($response_mail_message) {
@@ -116,7 +120,7 @@ class FormSendHandler extends BaseHandler
         $mail->isHTML(true);
         $mail->Subject = "Благодарим Вас за отправленную информацию!";
         $mail->Body = $response_mail_message;
-        $mail->AltBody = Filters::checkPlain($response_mail_message);
+        $mail->AltBody = Sanitize::sanitizeAttrValue($response_mail_message);
         $mail->send();
 
         return $response->withRedirect($form_obj->getUrl());

@@ -2,9 +2,10 @@
 
 namespace WebSK\Skif\Form\RequestHandlers\Admin;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\CRUD;
 use WebSK\CRUD\Form\CRUDFormInvisibleRow;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
@@ -21,10 +22,9 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
 use WebSK\Logger\LoggerRender;
 use WebSK\Skif\Form\Form;
 use WebSK\Skif\Form\FormField;
-use WebSK\Skif\Form\FormServiceProvider;
+use WebSK\Skif\Form\FormService;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
-use WebSK\Utils\HTTP;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\NavTabItemDTO;
@@ -36,7 +36,13 @@ use WebSK\Views\PhpRender;
  */
 class AdminFormEditHandler extends BaseHandler
 {
-    const FILTER_NAME_FORM_ID = 'form_id';
+    const string FILTER_NAME_FORM_ID = 'form_id';
+
+    /** @Inject */
+    protected FormService $form_service;
+
+    /** @Inject */
+    protected CRUD $crud_service;
 
     /**
      * @param ServerRequestInterface $request
@@ -45,14 +51,13 @@ class AdminFormEditHandler extends BaseHandler
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $form_id)
     {
-        $form_obj = FormServiceProvider::getFormService($this->container)
-            ->getById($form_id, false);
+        $form_obj = $this->form_service->getById($form_id, false);
 
         if (!$form_obj) {
-            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
+            return $response->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
         }
 
-        $crud_form = CRUDServiceProvider::getCrud($this->container)->createForm(
+        $crud_form = $this->crud_service->createForm(
             'form_edit',
             $form_obj,
             [
@@ -76,9 +81,9 @@ class AdminFormEditHandler extends BaseHandler
         $new_form_field_obj = new FormField();
         $new_form_field_obj->setFormId($form_id);
 
-        $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
+        $crud_table_obj = $this->crud_service->createTable(
             FormField::class,
-            CRUDServiceProvider::getCrud($this->container)->createForm(
+            $this->crud_service->createForm(
                 'form_field_create',
                 $new_form_field_obj,
                 [
@@ -101,7 +106,7 @@ class AdminFormEditHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         FormField::_NAME,
                         function (FormField $form_field) {
-                            return $this->pathFor(AdminFormFieldEditHandler::class, ['form_field_id' => $form_field->getId()]);
+                            return $this->urlFor(AdminFormFieldEditHandler::class, ['form_field_id' => $form_field->getId()]);
                         }
                     )
                 ),
@@ -141,7 +146,7 @@ class AdminFormEditHandler extends BaseHandler
             [
                 new NavTabItemDTO(
                     'Редактирование',
-                    $this->pathFor(
+                    $this->urlFor(
                         AdminFormEditHandler::class,
                         ['form_id' => $form_id]
                     )
@@ -152,7 +157,7 @@ class AdminFormEditHandler extends BaseHandler
 
         $breadcrumbs_arr = [
             new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),
-            new BreadcrumbItemDTO('Формы', $this->pathFor(AdminFormListHandler::class)),
+            new BreadcrumbItemDTO('Формы', $this->urlFor(AdminFormListHandler::class)),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 

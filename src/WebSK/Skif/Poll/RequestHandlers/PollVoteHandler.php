@@ -2,11 +2,12 @@
 
 namespace WebSK\Skif\Poll\RequestHandlers;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\Skif\Poll\PollServiceProvider;
+use WebSK\Skif\Poll\PollQuestionService;
+use WebSK\Skif\Poll\PollService;
 use WebSK\Slim\RequestHandlers\BaseHandler;
-use WebSK\Utils\HTTP;
 use WebSK\Utils\Messages;
 
 /**
@@ -15,7 +16,13 @@ use WebSK\Utils\Messages;
  */
 class PollVoteHandler extends BaseHandler
 {
-    const POLL_COOKIE_PREFIX = 'poll_access_';
+    const string POLL_COOKIE_PREFIX = 'poll_access_';
+
+    /** @Inject */
+    protected PollService $poll_service;
+
+    /** @Inject */
+    protected PollQuestionService $poll_question_service;
 
     /**
      * @param ServerRequestInterface $request
@@ -28,18 +35,14 @@ class PollVoteHandler extends BaseHandler
     {
         $poll_question_id = $request->getParam('poll_question_id');
 
-        $poll_service = PollServiceProvider::getPollService($this->container);
-
-        $poll_obj = $poll_service->getById($poll_id, false);
+        $poll_obj = $this->poll_service->getById($poll_id, false);
         if (!$poll_obj) {
-            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
+            return $response->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
         }
-
-        $poll_question_service = PollServiceProvider::getPollQuestionService($this->container);
 
         $cookie_key = self::POLL_COOKIE_PREFIX . $poll_id;
 
-        $redirect_url = $this->pathFor(PollViewHandler::class, ['poll_id' => $poll_id]);
+        $redirect_url = $this->urlFor(PollViewHandler::class, ['poll_id' => $poll_id]);
 
         if (isset($_COOKIE[$cookie_key]) && ($_COOKIE[$cookie_key] == 'no')) {
             Messages::setError('Вы уже проголосовали ранее!');
@@ -47,12 +50,12 @@ class PollVoteHandler extends BaseHandler
         }
 
         if (!empty($poll_question_id)) {
-            $poll_question_obj = $poll_question_service->getById($poll_question_id);
+            $poll_question_obj = $this->poll_question_service->getById($poll_question_id);
 
             $votes = $poll_question_obj->getVotes() + 1;
             $poll_question_obj->setVotes($votes);
 
-            $poll_question_service->save($poll_question_obj);
+            $this->poll_question_service->save($poll_question_obj);
 
             setcookie($cookie_key, 'no', time() + 3600 * 24 * 365);
 

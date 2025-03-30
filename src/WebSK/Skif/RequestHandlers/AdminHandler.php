@@ -33,6 +33,6 @@ class AdminHandler
             );
         }
 
-        return $response->withRedirect(SkifPath::getMainPage());
+        return $response->withHeader('Location', SkifPath::getMainPage());
     }
 }

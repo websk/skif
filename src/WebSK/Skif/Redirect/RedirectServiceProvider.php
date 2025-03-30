@@ -15,30 +15,30 @@ class RedirectServiceProvider
     /**
      * @param ContainerInterface $container
      */
-    public static function register(ContainerInterface $container)
+    public static function register(ContainerInterface $container): void
     {
         /**
          * @param ContainerInterface $container
          * @return RedirectService
          */
-        $container[RedirectService::class] = function (ContainerInterface $container) {
+        $container->set(RedirectService::class, function (ContainerInterface $container) {
             return new RedirectService(
                 Redirect::class,
                 $container->get(RedirectRepository::class),
                 CacheServiceProvider::getCacheService($container)
             );
-        };
+        });
 
         /**
          * @param ContainerInterface $container
          * @return RedirectRepository
          */
-        $container[RedirectRepository::class] = function (ContainerInterface $container) {
+        $container->set(RedirectRepository::class, function (ContainerInterface $container) {
             return new RedirectRepository(
                 Redirect::class,
                 SkifServiceProvider::getDBService($container)
             );
-        };
+        });
     }
 
     /**

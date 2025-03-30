@@ -16,7 +16,7 @@ class CommentComponents
      * @param string $url
      * @return string
      */
-    public static function renderCommentsByUrl(string $url)
+    public static function renderCommentsByUrl(string $url): string
     {
         return PhpRender::renderTemplateInViewsDir(
             'block.tpl.php',

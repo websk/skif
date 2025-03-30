@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $content_type
+ * @var string $content_type
  * @var $content_id
  */
 
@@ -66,7 +66,7 @@ if ($content_id == 'new') {
 
     function ajaxUpdateImageList() {
         $.ajax({
-            url: '<?php echo Router::pathFor(AdminContentPhotoListHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>',
+            url: '<?php echo Router::urlFor(AdminContentPhotoListHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>',
             success: function (html) {
                 $('#content_photos_list').html(html);
             }
@@ -76,7 +76,7 @@ if ($content_id == 'new') {
     $(function () {
         ajaxUpdateImageList();
 
-        var url = '<?php echo Router::pathFor(ContentPhotoCreateHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>';
+        var url = '<?php echo Router::urlFor(ContentPhotoCreateHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>';
 
         $('#upload_image').fileupload({
             url: url,

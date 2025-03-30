@@ -18,23 +18,23 @@ use WebSK\Views\PhpRender;
  */
 class ControllerBlocks
 {
-    const COOKIE_CURRENT_TEMPLATE_ID = 'skif_blocks_current_template_id';
+    const string COOKIE_CURRENT_TEMPLATE_ID = 'skif_blocks_current_template_id';
 
     /**
      * URL страницы со списком блоков
      * @return string
      */
-    public static function getBlocksListUrl()
+    public static function getBlocksListUrl(): string
     {
         return '/admin/blocks';
     }
 
     /**
      * URL страницы выбора региона
-     * @param $block_id_str
+     * @param string $block_id_str
      * @return string
      */
-    public static function getRegionsListUrl($block_id_str)
+    public static function getRegionsListUrl(string $block_id_str): string
     {
         if (strpos($block_id_str, 'new') !== false) {
             return '/admin/blocks/edit/block_id/region';
@@ -47,7 +47,7 @@ class ControllerBlocks
      * Тема
      * @return string
      */
-    public static function getCurrentTemplateId()
+    public static function getCurrentTemplateId(): int
     {
         if (array_key_exists(self::COOKIE_CURRENT_TEMPLATE_ID, $_COOKIE)) {
             return $_COOKIE[self::COOKIE_CURRENT_TEMPLATE_ID];
@@ -56,13 +56,13 @@ class ControllerBlocks
         return 1;
     }
 
-    public static function setCurrentTemplateId($template_id)
+    public static function setCurrentTemplateId(int $template_id): void
     {
         $delta = null;
         setcookie(self::COOKIE_CURRENT_TEMPLATE_ID, $template_id, $delta, '/');
     }
 
-    public function changeTemplateAction($template_id)
+    public function changeTemplateAction(int  $template_id): void
     {
         self::setCurrentTemplateId($template_id);
 
@@ -72,10 +72,10 @@ class ControllerBlocks
     }
 
     /**
-     * @param $block_id
+     * @param int $block_id
      * @return Block
      */
-    public static function getBlockObj($block_id)
+    public static function getBlockObj(int $block_id): Block
     {
         if ($block_id == 'new') {
             return new Block();
@@ -86,10 +86,10 @@ class ControllerBlocks
 
     /**
      * Заголовок страницы редактирования блока
-     * @param $block_id
+     * @param int $block_id
      * @return string
      */
-    static public function getBlockEditorPageTitle($block_id): string
+    static public function getBlockEditorPageTitle(int $block_id): string
     {
         $block_obj = self::getBlockObj($block_id);
 
@@ -113,7 +113,7 @@ class ControllerBlocks
     /**
      * Вывод списка блоков
      */
-    public function listAction()
+    public function listAction(): void
     {
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
@@ -137,7 +137,7 @@ class ControllerBlocks
      * Действия с элементами списка блоков
      * @return string
      */
-    public static function blocksPageActions()
+    public static function blocksPageActions(): void
     {
         if (array_key_exists('a', $_GET) && ($_GET['a'] == 'disable')
             && array_key_exists('block_id', $_GET) && is_numeric($_GET['block_id'])
@@ -148,9 +148,9 @@ class ControllerBlocks
 
     /**
      * Отключение блока
-     * @param $block_id
+     * @param int $block_id
      */
-    public static function disableBlock($block_id)
+    public static function disableBlock(int $block_id): void
     {
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
@@ -182,9 +182,9 @@ class ControllerBlocks
 
     /**
      * Редактирование блока
-     * @param $block_id
+     * @param int $block_id
      */
-    public function editAction($block_id)
+    public function editAction(int $block_id)
     {
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
@@ -210,7 +210,7 @@ class ControllerBlocks
      * Действия над блоком
      * @param Block $block_id
      */
-    public static function actions($block_id)
+    public static function actions(int $block_id): void
     {
         $action = '';
 
@@ -241,9 +241,9 @@ class ControllerBlocks
 
     /**
      * Сохранение содержимого блока
-     * @param $block_id
+     * @param int $block_id
      */
-    public static function saveContent($block_id)
+    public static function saveContent(int $block_id): void
     {
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
@@ -290,7 +290,6 @@ class ControllerBlocks
             BlockUtils::clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId(), $block_obj->getTemplateId());
         }
 
-
         Messages::setMessage('Изменения сохранены');
 
         // Redirects
@@ -310,9 +309,9 @@ class ControllerBlocks
 
     /**
      * Выбор кеширования блока
-     * @param $block_id
+     * @param int $block_id
      */
-    public function cachingTabAction($block_id)
+    public function cachingTabAction(int $block_id): void
     {
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
@@ -334,7 +333,7 @@ class ControllerBlocks
         );
     }
 
-    public static function saveCaching($block_id)
+    public static function saveCaching(int $block_id): void
     {
         $block_obj = Block::factory($block_id);
 
@@ -348,9 +347,9 @@ class ControllerBlocks
 
     /**
      * Выбор расположения блока в регионе
-     * @param $block_id
+     * @param int $block_id
      */
-    public function placeInRegionTabAction($block_id)
+    public function placeInRegionTabAction(int $block_id): void
     {
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
@@ -384,10 +383,10 @@ class ControllerBlocks
 
     /**
      * Сохранение расположения блока в регионе
-     * @param $block_id
+     * @param int $block_id
      * @throws \Exception
      */
-    static public function moveBlock($block_id)
+    static public function moveBlock(int $block_id): void
     {
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
@@ -485,8 +484,9 @@ class ControllerBlocks
 
     /**
      * Выбор региона
+     * @param int $block_id
      */
-    public function chooseRegionTabAction($block_id)
+    public function chooseRegionTabAction(int $block_id): void
     {
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
@@ -512,9 +512,9 @@ class ControllerBlocks
 
     /**
      * Удаление блока
-     * @param $block_id
+     * @param int $block_id
      */
-    public function deleteTabAction($block_id)
+    public function deleteTabAction(int $block_id): void
     {
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
@@ -540,10 +540,10 @@ class ControllerBlocks
 
     /**
      * Удаление блока
-     * @param $block_id
+     * @param int $block_id
      * @throws \Exception
      */
-    public static function deleteBlock($block_id)
+    public static function deleteBlock(int $block_id): void
     {
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
@@ -562,7 +562,7 @@ class ControllerBlocks
     /**
      * Поиск блоков
      */
-    public function searchAction()
+    public function searchAction(): void
     {
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());

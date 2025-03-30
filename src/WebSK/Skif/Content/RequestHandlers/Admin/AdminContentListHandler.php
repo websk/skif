@@ -2,9 +2,10 @@
 
 namespace WebSK\Skif\Content\RequestHandlers\Admin;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\CRUD;
 use WebSK\CRUD\Form\CRUDFormInvisibleRow;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
@@ -19,11 +20,11 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
 use WebSK\Skif\Content\Content;
-use WebSK\Skif\Content\ContentServiceProvider;
+use WebSK\Skif\Content\ContentTypeService;
 use WebSK\Skif\Content\Rubric;
+use WebSK\Skif\Content\RubricService;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
-use WebSK\Utils\HTTP;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -34,9 +35,18 @@ use WebSK\Views\PhpRender;
  */
 class AdminContentListHandler extends BaseHandler
 {
-    const FILTER_TITLE = 'content_title';
-    const FILTER_RUBRICS = 'content_rubric_id';
-    const FILTER_CONTENT_TYPE_ID = 'content_type_id';
+    const string FILTER_TITLE = 'content_title';
+    const string FILTER_RUBRICS = 'content_rubric_id';
+    const string FILTER_CONTENT_TYPE_ID = 'content_type_id';
+
+    /** @Inject */
+    protected CRUD $crud_service;
+
+    /** @Inject */
+    protected ContentTypeService $content_type_service;
+
+    /** @Inject */
+    protected RubricService $rubric_service;
 
     /**
      * @param ServerRequestInterface $request
@@ -44,29 +54,27 @@ class AdminContentListHandler extends BaseHandler
      * @param string $content_type
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, string $content_type)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, string $content_type): ResponseInterface
     {
-        $content_type_obj = ContentServiceProvider::getContentTypeService($this->container)
-            ->getByType($content_type);
+        $content_type_obj = $this->content_type_service->getByType($content_type);
 
         if (!$content_type_obj) {
-            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
+            return $response->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
         }
 
         $new_content_obj = new Content();
         $new_content_obj->setContentTypeId($content_type_obj->getId());
 
-        $rubric_service = ContentServiceProvider::getRubricService($this->container);
-        $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->getId());
+        $rubric_ids_arr = $this->rubric_service->getIdsArrByContentTypeId($content_type_obj->getId());
         $rubric_for_options_arr = [];
         foreach ($rubric_ids_arr as $rubric_id) {
-            $rubric_obj = $rubric_service->getById($rubric_id);
+            $rubric_obj = $this->rubric_service->getById($rubric_id);
             $rubric_for_options_arr[$rubric_id] = $rubric_obj->getName();
         }
 
-        $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
+        $crud_table_obj = $this->crud_service->createTable(
             Content::class,
-            CRUDServiceProvider::getCrud($this->container)->createForm(
+            $this->crud_service->createForm(
                 'content_create',
                 $new_content_obj,
                 [
@@ -77,8 +85,8 @@ class AdminContentListHandler extends BaseHandler
                             Content::_MAIN_RUBRIC_ID,
                             Rubric::class,
                             Rubric::_NAME,
-                            $this->pathFor(AdminRubricListAjaxHandler::class, ['content_type' => $content_type]),
-                            $this->pathFor(
+                            $this->urlFor(AdminRubricListAjaxHandler::class, ['content_type' => $content_type]),
+                            $this->urlFor(
                                 AdminRubricEditHandler::class,
                                 ['content_type' => $content_type, 'rubric_id' => CRUDFormWidgetReferenceAjax::REFERENCED_ID_PLACEHOLDER]
                             )
@@ -94,7 +102,7 @@ class AdminContentListHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         Content::_TITLE,
                         function (Content $content) use ($content_type) {
-                            return $this->pathFor(AdminContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content->getId()]);
+                            return $this->urlFor(AdminContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content->getId()]);
                         }
                     )
                 ),
@@ -138,7 +146,7 @@ class AdminContentListHandler extends BaseHandler
             return $crud_form_response;
         }
 
-        $content_html = '<p><a href="' . $this->pathFor(AdminRubricListHandler::class, ['content_type' => $content_type]) . '">
+        $content_html = '<p><a href="' . $this->urlFor(AdminRubricListHandler::class, ['content_type' => $content_type]) . '">
             Редактировать рубрики
         </a></p>';
 

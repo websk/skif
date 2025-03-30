@@ -4,7 +4,7 @@ namespace WebSK\Skif\Content\RequestHandlers\Admin;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\CRUD;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
 use WebSK\CRUD\Table\CRUDTable;
@@ -26,7 +26,10 @@ use WebSK\Views\PhpRender;
  */
 class AdminTemplateListHandler extends BaseHandler
 {
-    const FILTER_TITLE = 'template_title';
+    const string FILTER_TITLE = 'template_title';
+
+    /** @Inject */
+    protected CRUD $crud_service;
 
     /**
      * @param ServerRequestInterface $request
@@ -35,9 +38,9 @@ class AdminTemplateListHandler extends BaseHandler
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
+        $crud_table_obj = $this->crud_service->createTable(
             Template::class,
-            CRUDServiceProvider::getCrud($this->container)->createForm(
+            $this->crud_service->createForm(
                 'form_create',
                 new Template(),
                 [
@@ -54,7 +57,7 @@ class AdminTemplateListHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         Template::_TITLE,
                         function (Template $template) {
-                            return $this->pathFor(AdminTemplateEditHandler::class, ['template_id' => $template->getId()]);
+                            return $this->urlFor(AdminTemplateEditHandler::class, ['template_id' => $template->getId()]);
                         }
                     )
                 ),

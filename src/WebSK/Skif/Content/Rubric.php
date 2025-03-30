@@ -11,21 +11,21 @@ use WebSK\Entity\Entity;
 class Rubric extends Entity
 {
 
-    const DB_TABLE_NAME = 'rubrics';
+    const string DB_TABLE_NAME = 'rubrics';
 
-    const _NAME = 'name';
+    const string _NAME = 'name';
     protected string $name = '';
 
-    const _COMMENT = 'comment';
+    const string _COMMENT = 'comment';
     protected ?string $comment = null;
 
-    const _CONTENT_TYPE_ID = 'content_type_id';
+    const string _CONTENT_TYPE_ID = 'content_type_id';
     protected ?int $content_type_id = null;
 
-    const _TEMPLATE_ID = 'template_id';
+    const string _TEMPLATE_ID = 'template_id';
     protected ?int $template_id = null;
 
-    const _URL = 'url';
+    const string _URL = 'url';
     protected string $url = '';
 
     /**

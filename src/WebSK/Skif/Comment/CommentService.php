@@ -19,12 +19,12 @@ use WebSK\Utils\Filters;
  */
 class CommentService extends EntityService
 {
-    const CONFIG_MESSAGE_TO_PAGE = 'comments.message_to_page';
-    const CONFIG_NO_ADD_COMMENTS_FOR_UNREGISTERED_USERS = 'comments.no_add_comments_for_unregistered_users';
-    const CONFIG_ENABLE_EMAIL_NOTIFICATION = 'comments.enable_email_notification';
-    const CONFIG_SEND_ANSWER_TO_EMAIL = 'comments.send_answer_to_email';
+    const string CONFIG_MESSAGE_TO_PAGE = 'comments.message_to_page';
+    const string CONFIG_NO_ADD_COMMENTS_FOR_UNREGISTERED_USERS = 'comments.no_add_comments_for_unregistered_users';
+    const string CONFIG_ENABLE_EMAIL_NOTIFICATION = 'comments.enable_email_notification';
+    const string CONFIG_SEND_ANSWER_TO_EMAIL = 'comments.send_answer_to_email';
 
-    const DEFAULT_MESSAGE_TO_PAGE = 20;
+    const int DEFAULT_MESSAGE_TO_PAGE = 20;
 
     /** @var CommentRepository */
     protected $repository;
@@ -92,7 +92,7 @@ class CommentService extends EntityService
     /**
      * @param InterfaceEntity|Comment $entity_obj
      */
-    public function beforeSave(InterfaceEntity $entity_obj)
+    public function beforeSave(InterfaceEntity $entity_obj): void
     {
         $entity_obj->setUserId(Auth::getCurrentUserId());
 
@@ -135,7 +135,7 @@ class CommentService extends EntityService
     /**
      * @param InterfaceEntity|Comment $entity_obj
      */
-    public function afterDelete(InterfaceEntity $entity_obj)
+    public function afterDelete(InterfaceEntity $entity_obj): void
     {
         $children_ids_arr = $this->getChildrenIdsArr($entity_obj->getId());
 
@@ -151,7 +151,7 @@ class CommentService extends EntityService
         $this->removeObjFromCacheById($entity_obj->getId());
     }
 
-    public function sendEmailNotificationForComment(Comment $comment_obj)
+    public function sendEmailNotificationForComment(Comment $comment_obj): void
     {
         if (!ConfWrapper::value(CommentService::CONFIG_ENABLE_EMAIL_NOTIFICATION))
         {

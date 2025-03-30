@@ -14,18 +14,18 @@ class PollQuestion extends Entity implements InterfaceWeight
 {
     use WeightTrait;
 
-    const DB_TABLE_NAME = 'poll_question';
+    const string DB_TABLE_NAME = 'poll_question';
 
-    const _TITLE = 'title';
+    const string _TITLE = 'title';
     protected string $title = '';
 
-    const _POLL_ID = 'poll_id';
+    const string _POLL_ID = 'poll_id';
     protected int $poll_id;
 
-    const _VOTES = 'votes';
+    const string _VOTES = 'votes';
     protected int $votes = 0;
 
-    const _WEIGHT = 'weight';
+    const string _WEIGHT = 'weight';
 
     /**
      * @return string

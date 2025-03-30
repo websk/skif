@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $block_id
+ * @var int $block_id
  */
 
 use WebSK\Skif\Blocks\ControllerBlocks;

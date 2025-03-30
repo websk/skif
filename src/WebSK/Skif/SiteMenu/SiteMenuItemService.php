@@ -19,8 +19,8 @@ use WebSK\Utils\Url;
  */
 class SiteMenuItemService extends WeightService
 {
-    const IDS_BY_SITE_MENU_ID_AND_PARENT_ID_CACHE_KEY = 'SiteMenuItemService::getIdsArrBySiteMenuId:%d:%d';
-    const IDS_BY_SITE_MENU_ID_AND_PARENT_ID_CACHE_TTL_SEC = 3600;
+    const string IDS_BY_SITE_MENU_ID_AND_PARENT_ID_CACHE_KEY = 'SiteMenuItemService::getIdsArrBySiteMenuId:%d:%d';
+    const int IDS_BY_SITE_MENU_ID_AND_PARENT_ID_CACHE_TTL_SEC = 3600;
 
     /** @var SiteMenuItemRepository */
     protected $repository;
@@ -48,7 +48,7 @@ class SiteMenuItemService extends WeightService
     /**
      * @param InterfaceEntity|SiteMenuItem $entity_obj
      */
-    public function beforeSave(InterfaceEntity $entity_obj)
+    public function beforeSave(InterfaceEntity $entity_obj): void
     {
         $url = $entity_obj->getUrl();
 
@@ -76,7 +76,7 @@ class SiteMenuItemService extends WeightService
      * @return void
      * @throws \Exception
      */
-    public function removeFromCache(InterfaceEntity $entity_obj)
+    public function removeFromCache(InterfaceEntity $entity_obj): void
     {
         $cache_key = sprintf(self::IDS_BY_SITE_MENU_ID_AND_PARENT_ID_CACHE_KEY, $entity_obj->getId(), $entity_obj->getParentId());
         $this->cache_service->delete($cache_key);
@@ -87,7 +87,7 @@ class SiteMenuItemService extends WeightService
     /**
      * @param InterfaceEntity|SiteMenuItem $entity_obj
      */
-    public function afterSave(InterfaceEntity $entity_obj)
+    public function afterSave(InterfaceEntity $entity_obj): void
     {
         parent::afterSave($entity_obj);
 
@@ -97,7 +97,7 @@ class SiteMenuItemService extends WeightService
     /**
      * @param InterfaceEntity|SiteMenuItem $entity_obj
      */
-    public function afterDelete(InterfaceEntity $entity_obj)
+    public function afterDelete(InterfaceEntity $entity_obj): void
     {
         parent::afterDelete($entity_obj);
 

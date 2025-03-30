@@ -10,27 +10,27 @@ use WebSK\Entity\Entity;
  */
 class Comment extends Entity
 {
-    const DB_TABLE_NAME = 'comments';
+    const string DB_TABLE_NAME = 'comments';
 
-    const _PARENT_ID = 'parent_id';
+    const string _PARENT_ID = 'parent_id';
     protected ?int $parent_id = null;
 
-    const _COMMENT = 'comment';
+    const string _COMMENT = 'comment';
     protected string $comment;
 
-    const _URL = 'url';
+    const string _URL = 'url';
     protected string $url;
 
-    const _USER_ID = 'user_id';
+    const string _USER_ID = 'user_id';
     protected ?int $user_id = null;
 
-    const _USER_NAME = 'user_name';
+    const string _USER_NAME = 'user_name';
     protected ?string $user_name = null;
 
-    const _USER_EMAIL = 'user_email';
+    const string _USER_EMAIL = 'user_email';
     protected ?string $user_email = null;
 
-    const _URL_MD5 = 'url_md5';
+    const string _URL_MD5 = 'url_md5';
     protected string $url_md5;
 
     /**
@@ -45,7 +45,7 @@ class Comment extends Entity
     /**
      * @param ?int $parent_id
      */
-    public function setParentId(?int $parent_id)
+    public function setParentId(?int $parent_id): void
     {
         $this->parent_id = $parent_id;
     }
@@ -62,7 +62,7 @@ class Comment extends Entity
     /**
      * @param string $url
      */
-    public function setUrl(string $url)
+    public function setUrl(string $url): void
     {
         $this->url = $url;
     }
@@ -78,7 +78,7 @@ class Comment extends Entity
     /**
      * @param string $url_md5
      */
-    public function setUrlMd5(string $url_md5)
+    public function setUrlMd5(string $url_md5): void
     {
         $this->url_md5 = $url_md5;
     }
@@ -95,7 +95,7 @@ class Comment extends Entity
     /**
      * @param int|null $user_id
      */
-    public function setUserId(?int $user_id)
+    public function setUserId(?int $user_id): void
     {
         $this->user_id = $user_id;
     }
@@ -111,7 +111,7 @@ class Comment extends Entity
     /**
      * @param null|string $user_name
      */
-    public function setUserName(?string $user_name)
+    public function setUserName(?string $user_name): void
     {
         $this->user_name = $user_name;
     }
@@ -127,7 +127,7 @@ class Comment extends Entity
     /**
      * @param null|string $user_email
      */
-    public function setUserEmail(?string $user_email)
+    public function setUserEmail(?string $user_email): void
     {
         $this->user_email = $user_email;
     }
@@ -144,7 +144,7 @@ class Comment extends Entity
     /**
      * @param string $comment
      */
-    public function setComment(string $comment)
+    public function setComment(string $comment): void
     {
         $this->comment = $comment;
     }

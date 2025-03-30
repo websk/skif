@@ -11,7 +11,7 @@ use WebSK\Slim\Router;
     $().ready(function() {
         $.ajax(
         {
-            url: "<?php echo Router::pathFor(CommentListHandler::class); ?>",
+            url: "<?php echo Router::urlFor(CommentListHandler::class); ?>",
             data: {
                 'url': '<?php echo $url ?>'
             },

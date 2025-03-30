@@ -76,7 +76,7 @@ class PollQuestionService extends WeightService
     /**
      * @param InterfaceEntity|PollQuestion $entity_obj
      */
-    public function beforeSave(InterfaceEntity $entity_obj)
+    public function beforeSave(InterfaceEntity $entity_obj): void
     {
         $this->initWeight(
             $entity_obj,
@@ -91,7 +91,7 @@ class PollQuestionService extends WeightService
     /**
      * @param InterfaceEntity|PollQuestion $entity_obj
      */
-    public function afterSave(InterfaceEntity $entity_obj)
+    public function afterSave(InterfaceEntity $entity_obj): void
     {
         parent::afterSave($entity_obj);
 
@@ -101,7 +101,7 @@ class PollQuestionService extends WeightService
     /**
      * @param InterfaceEntity|PollQuestion $entity_obj
      */
-    public function afterDelete(InterfaceEntity $entity_obj)
+    public function afterDelete(InterfaceEntity $entity_obj): void
     {
         parent::afterDelete($entity_obj);
 

@@ -31,19 +31,15 @@ class PageRegion implements
     use ActiveRecord;
     use FactoryTrait;
 
-    const DB_TABLE_NAME = 'page_regions';
+    const string DB_TABLE_NAME = 'page_regions';
 
-    /** @var int */
-    protected $id;
+    protected int $id;
 
-    /** @var string */
-    protected $name;
+    protected string $name;
 
-    /** @var int */
-    protected $template_id;
+    protected int $template_id;
 
-    /** @var string */
-    protected $title;
+    protected string $title;
 
     /**
      * @param int $id
@@ -137,9 +133,9 @@ class PageRegion implements
     }
 
     /**
-     * @param $page_region_id
+     * @param int $page_region_id
      */
-    public static function afterUpdate($page_region_id)
+    public static function afterUpdate($page_region_id): void
     {
         $page_region_obj = self::factory($page_region_id);
 
@@ -154,7 +150,7 @@ class PageRegion implements
         Logger::logObjectEvent($page_region_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 
-    public function afterDelete()
+    public function afterDelete(): void
     {
         $cache_key = PageRegionsUtils::getPageRegionIdByNameAndTemplateIdCacheKey(
             $this->getName(),

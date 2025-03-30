@@ -2,14 +2,15 @@
 
 namespace WebSK\Skif\Poll;
 
+use Fig\Http\Message\RequestMethodInterface;
 use Slim\App;
+use Slim\Interfaces\RouteCollectorProxyInterface;
 use WebSK\Skif\Poll\RequestHandlers\Admin\AdminPollEditHandler;
 use WebSK\Skif\Poll\RequestHandlers\Admin\AdminPollListAjaxHandler;
 use WebSK\Skif\Poll\RequestHandlers\Admin\AdminPollListHandler;
 use WebSK\Skif\Poll\RequestHandlers\Admin\AdminPollQuestionEditHandler;
 use WebSK\Skif\Poll\RequestHandlers\PollViewHandler;
 use WebSK\Skif\Poll\RequestHandlers\PollVoteHandler;
-use WebSK\Utils\HTTP;
 
 /**
  * Class PollRoutes
@@ -18,21 +19,21 @@ use WebSK\Utils\HTTP;
 class PollRoutes
 {
     /**
-     * @param App $app
+     * @param RouteCollectorProxyInterface $route_collector_proxy
      */
-    public static function registerAdmin(App $app)
+    public static function registerAdmin(RouteCollectorProxyInterface $route_collector_proxy): void
     {
-        $app->group('/poll', function (App $app) {
-            $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', AdminPollListHandler::class)
+        $route_collector_proxy->group('/poll', function (RouteCollectorProxyInterface $route_collector_proxy) {
+            $route_collector_proxy->map([RequestMethodInterface::METHOD_GET, RequestMethodInterface::METHOD_POST], '', AdminPollListHandler::class)
                 ->setName(AdminPollListHandler::class);
 
-            $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/ajax', AdminPollListAjaxHandler::class)
+            $route_collector_proxy->map([RequestMethodInterface::METHOD_GET, RequestMethodInterface::METHOD_POST], '/ajax', AdminPollListAjaxHandler::class)
                 ->setName(AdminPollListAjaxHandler::class);
 
-            $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/{poll_id:\d+}', AdminPollEditHandler::class)
+            $route_collector_proxy->map([RequestMethodInterface::METHOD_GET, RequestMethodInterface::METHOD_POST], '/{poll_id:\d+}', AdminPollEditHandler::class)
                 ->setName(AdminPollEditHandler::class);
 
-            $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/poll_question/{poll_question_id:\d+}', AdminPollQuestionEditHandler::class)
+            $route_collector_proxy->map([RequestMethodInterface::METHOD_GET, RequestMethodInterface::METHOD_POST], '/poll_question/{poll_question_id:\d+}', AdminPollQuestionEditHandler::class)
                 ->setName(AdminPollQuestionEditHandler::class);
         });
     }
@@ -40,13 +41,13 @@ class PollRoutes
     /**
      * @param App $app
      */
-    public static function register(App $app)
+    public static function register(App $app): void
     {
-        $app->group('/poll', function (App $app) {
-            $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/{poll_id:\d+}', PollViewHandler::class)
+        $app->group('/poll', function (RouteCollectorProxyInterface $route_collector_proxy) {
+            $route_collector_proxy->map([RequestMethodInterface::METHOD_GET, RequestMethodInterface::METHOD_POST], '/{poll_id:\d+}', PollViewHandler::class)
                 ->setName(PollViewHandler::class);
 
-            $app->post('/{poll_id:\d+}/vote', PollVoteHandler::class)
+            $route_collector_proxy->post('/{poll_id:\d+}/vote', PollVoteHandler::class)
                 ->setName(PollVoteHandler::class);
         });
     }

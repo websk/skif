@@ -2,9 +2,10 @@
 
 namespace WebSK\Skif\SiteMenu\RequestHandlers;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\CRUD;
 use WebSK\CRUD\Form\CRUDFormInvisibleRow;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
@@ -26,7 +27,6 @@ use WebSK\Skif\SiteMenu\SiteMenuItem;
 use WebSK\Skif\SiteMenu\SiteMenuService;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
-use WebSK\Utils\HTTP;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\NavTabItemDTO;
 use WebSK\Views\PhpRender;
@@ -39,30 +39,30 @@ class AdminSiteMenuEditHandler extends BaseHandler
 {
     use AdminSiteMenuBreadcrumbsTrait;
 
-    const FILTER_NAME_MENU_ID = 'menu_id';
-    const FILTER_NAME_SITE_MENU_ITEM_PARENT_ID = 'parent_id';
+    const string FILTER_NAME_MENU_ID = 'menu_id';
+    const string FILTER_NAME_SITE_MENU_ITEM_PARENT_ID = 'parent_id';
 
-    /** @var SiteMenuService */
+    /** @Inject */
     protected SiteMenuService $site_menu_service;
+
+    /** @Inject */
+    protected CRUD $crud_service;
 
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @param int $site_menu_id
      * @return ResponseInterface
-     * @throws \ReflectionException
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $site_menu_id): ResponseInterface
     {
-        $this->site_menu_service = $this->container->get(SiteMenuService::class);
-
         $site_menu_obj = $this->site_menu_service->getById($site_menu_id, false);
 
         if (!$site_menu_obj) {
-            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
+            return $response->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
         }
 
-        $crud_form = CRUDServiceProvider::getCrud($this->container)->createForm(
+        $crud_form = $this->crud_service->createForm(
             'site_menu_edit',
             $site_menu_obj,
             [
@@ -88,9 +88,9 @@ class AdminSiteMenuEditHandler extends BaseHandler
         $site_menu_item_obj = new SiteMenuItem();
         $site_menu_item_obj->setMenuId($site_menu_id);
 
-        $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
+        $crud_table_obj = $this->crud_service->createTable(
             SiteMenuItem::class,
-            CRUDServiceProvider::getCrud($this->container)->createForm(
+            $this->crud_service->createForm(
                 'site_menu_item_create',
                 $site_menu_item_obj,
                 [
@@ -101,8 +101,8 @@ class AdminSiteMenuEditHandler extends BaseHandler
                             SiteMenuItem::_CONTENT_ID,
                             Content::class,
                             Content::_TITLE,
-                            $this->pathFor(AdminContentListAjaxHandler::class, ['content_type' => ContentType::CONTENT_TYPE_PAGE]),
-                            $this->pathFor(
+                            $this->urlFor(AdminContentListAjaxHandler::class, ['content_type' => ContentType::CONTENT_TYPE_PAGE]),
+                            $this->urlFor(
                                 AdminContentEditHandler::class,
                                 [
                                     'content_type' => ContentType::CONTENT_TYPE_PAGE,
@@ -132,7 +132,7 @@ class AdminSiteMenuEditHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         SiteMenuItem::_NAME,
                         function (SiteMenuItem $site_menu_item) {
-                            return $this->pathFor(AdminSiteMenuItemEditHandler::class, ['site_menu_item_id' => $site_menu_item->getId()]);
+                            return $this->urlFor(AdminSiteMenuItemEditHandler::class, ['site_menu_item_id' => $site_menu_item->getId()]);
                         }
                     )
                 ),
@@ -166,7 +166,7 @@ class AdminSiteMenuEditHandler extends BaseHandler
             [
                 new NavTabItemDTO(
                     'Редактирование',
-                    $this->pathFor(
+                    $this->urlFor(
                         self::class,
                         ['site_menu_id' => $site_menu_id]
                     )

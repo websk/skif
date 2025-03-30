@@ -1,7 +1,7 @@
 <?php
 /**
- * @var $message
- * @var $block_ids_arr
+ * @var string $message
+ * @var array $block_ids_arr
  */
 
 use WebSK\Skif\Blocks\Block;

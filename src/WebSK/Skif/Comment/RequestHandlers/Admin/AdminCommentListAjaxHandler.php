@@ -5,7 +5,7 @@ namespace WebSK\Skif\Comment\RequestHandlers\Admin;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\CRUD;
 use WebSK\CRUD\Table\CRUDTable;
 use WebSK\CRUD\Table\CRUDTableColumn;
 use WebSK\CRUD\Table\Filters\CRUDTableFilterLikeInline;
@@ -20,7 +20,10 @@ use WebSK\Slim\RequestHandlers\BaseHandler;
  */
 class AdminCommentListAjaxHandler extends BaseHandler
 {
-    const FILTER_COMMENT = 'comment_23423';
+    const string FILTER_COMMENT = 'comment_23423';
+
+    /** @Inject */
+    protected CRUD $crud_service;
 
     /**
      * @param ServerRequestInterface $request
@@ -29,7 +32,7 @@ class AdminCommentListAjaxHandler extends BaseHandler
      */
     public function __invoke(RequestInterface $request, ResponseInterface $response)
     {
-        $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
+        $crud_table_obj = $this->crud_service->createTable(
             Comment::class,
             null,
             [

@@ -2,9 +2,10 @@
 
 namespace WebSK\Skif\Content\RequestHandlers\Admin;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\CRUD;
 use WebSK\CRUD\Form\CRUDFormInvisibleRow;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
@@ -15,12 +16,10 @@ use WebSK\CRUD\Table\Filters\CRUDTableFilterLikeInline;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
-use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Content\ContentTypeService;
 use WebSK\Skif\Content\Rubric;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
-use WebSK\Utils\HTTP;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -31,10 +30,14 @@ use WebSK\Views\PhpRender;
  */
 class AdminRubricListHandler extends BaseHandler
 {
-    const FILTER_CONTENT_TYPE_ID = 'content_type_id';
-    const FILTER_NAME = 'content_type_name';
+    const string FILTER_CONTENT_TYPE_ID = 'content_type_id';
+    const string FILTER_NAME = 'content_type_name';
 
+    /** @Inject */
     protected ContentTypeService $content_type_service;
+
+    /** @Inject */
+    protected CRUD $crud_service;
 
     /**
      * @param ServerRequestInterface $request
@@ -42,23 +45,19 @@ class AdminRubricListHandler extends BaseHandler
      * @param string $content_type
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, string $content_type)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, string $content_type): ResponseInterface
     {
-        $this->content_type_service = ContentServiceProvider::getContentTypeService($this->container);
-
-        $content_type_obj = ContentServiceProvider::getContentTypeService($this->container)
-            ->getByType($content_type);
-
+        $content_type_obj = $this->content_type_service->getByType($content_type);
         if (!$content_type_obj) {
-            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
+            return $response->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
         }
 
         $new_rubric_obj = new Rubric();
         $new_rubric_obj->setContentTypeId($content_type_obj->getId());
 
-        $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
+        $crud_table_obj = $this->crud_service->createTable(
             Rubric::class,
-            CRUDServiceProvider::getCrud($this->container)->createForm(
+            $this->crud_service->createForm(
                 'rubric_create',
                 $new_rubric_obj,
                 [
@@ -73,7 +72,7 @@ class AdminRubricListHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         Rubric::_NAME,
                         function (Rubric $rubric) use ($content_type) {
-                            return $this->pathFor(AdminRubricEditHandler::class, ['content_type' => $content_type, 'rubric_id' => $rubric->getId()]);
+                            return $this->urlFor(AdminRubricEditHandler::class, ['content_type' => $content_type, 'rubric_id' => $rubric->getId()]);
                         }
                     )
                 ),
@@ -106,7 +105,7 @@ class AdminRubricListHandler extends BaseHandler
         $layout_dto->setContentHtml($content_html);
         $breadcrumbs_arr = [
             new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),
-            new BreadcrumbItemDTO($content_type_obj->getName(), $this->pathFor(AdminContentTypeListHandler::class, ['content_type' => $content_type])),
+            new BreadcrumbItemDTO($content_type_obj->getName(), $this->urlFor(AdminContentTypeListHandler::class, ['content_type' => $content_type])),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 

@@ -14,26 +14,26 @@ class SiteMenuItem extends Entity implements InterfaceWeight
 {
     use WeightTrait;
 
-    const DB_TABLE_NAME = 'site_menu_item';
+    const string DB_TABLE_NAME = 'site_menu_item';
 
-    const _NAME = 'name';
+    const string _NAME = 'name';
     protected string $name = '';
 
-    const _URL = 'url';
+    const string _URL = 'url';
     protected string $url = '';
 
-    const _CONTENT_ID = 'content_id';
+    const string _CONTENT_ID = 'content_id';
     protected ?int $content_id = null;
 
-    const _WEIGHT = 'weight';
+    const string _WEIGHT = 'weight';
 
-    const _PARENT_ID = 'parent_id';
+    const string _PARENT_ID = 'parent_id';
     protected ?int $parent_id = null;
 
-    const _IS_PUBLISHED = 'is_published';
+    const string _IS_PUBLISHED = 'is_published';
     protected bool $is_published = false;
 
-    const _MENU_ID = 'menu_id';
+    const string _MENU_ID = 'menu_id';
     protected ?int $menu_id = null;
 
     /**

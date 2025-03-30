@@ -4,7 +4,7 @@ namespace WebSK\Skif\Redirect\RequestHandlers\Admin;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\CRUD;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetOptions;
@@ -28,19 +28,22 @@ use WebSK\Views\PhpRender;
  */
 class AdminRedirectListHandler extends BaseHandler
 {
-    const FILTER_SRC = 'redirect_src';
-    const FILTER_DST = 'redirect_dst';
+    const string FILTER_SRC = 'redirect_src';
+    const string FILTER_DST = 'redirect_dst';
+
+    /** @Inject */
+    protected CRUD $crud_service;
 
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
+        $crud_table_obj = $this->crud_service->createTable(
             Redirect::class,
-            CRUDServiceProvider::getCrud($this->container)->createForm(
+            $this->crud_service->createForm(
                 'redirect_create',
                 new Redirect(),
                 [
@@ -57,7 +60,7 @@ class AdminRedirectListHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         Redirect::_SRC,
                         function (Redirect $redirect) {
-                            return $this->pathFor(AdminRedirectEditHandler::class, ['redirect_id' => $redirect->getId()]);
+                            return $this->urlFor(AdminRedirectEditHandler::class, ['redirect_id' => $redirect->getId()]);
                         }
                     )
                 ),

@@ -10,7 +10,7 @@ use WebSK\SimpleRouter\SimpleRouter;
  */
 class BlockRoutes
 {
-    public static function route()
+    public static function route(): void
     {
         SimpleRouter::staticRoute('@^/admin/blocks$@i', ControllerBlocks::class, 'listAction', 0);
         SimpleRouter::staticRoute('@^/admin/blocks/list$@i', ControllerBlocks::class, 'listAction', 0);

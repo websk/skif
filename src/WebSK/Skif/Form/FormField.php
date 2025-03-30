@@ -10,39 +10,39 @@ use WebSK\Entity\Entity;
  */
 class FormField extends Entity
 {
-    const DB_TABLE_NAME = 'form_field';
+    const string DB_TABLE_NAME = 'form_field';
 
-    const FIELD_TYPE_STRING = 1;
-    const FIELD_TYPE_TEXTAREA = 2;
-    const FIELD_TYPE_COMMENT = 3;
-    const FIELD_TYPE_CHECKBOX = 4;
+    const int FIELD_TYPE_STRING = 1;
+    const int FIELD_TYPE_TEXTAREA = 2;
+    const int FIELD_TYPE_COMMENT = 3;
+    const int FIELD_TYPE_CHECKBOX = 4;
 
-    const FIELD_TYPES_ARR = [
+    const array FIELD_TYPES_ARR = [
         self::FIELD_TYPE_STRING => 'Строка',
         self::FIELD_TYPE_TEXTAREA => 'Текст',
         self::FIELD_TYPE_COMMENT => 'Комментарий',
         self::FIELD_TYPE_CHECKBOX => 'Галочка',
     ];
 
-    const _FORM_ID = 'form_id';
+    const string _FORM_ID = 'form_id';
     protected int $form_id;
 
-    const _NAME = 'name';
+    const string _NAME = 'name';
     protected string $name = '';
 
-    const _TYPE = 'type';
+    const string _TYPE = 'type';
     protected int $type = self::FIELD_TYPE_STRING;
 
-    const _REQUIRED = 'required';
+    const string _REQUIRED = 'required';
     protected bool $required = false;
 
-    const _WEIGHT = 'weight';
+    const string _WEIGHT = 'weight';
     protected int $weight = 0;
 
-    const _SIZE = 'size';
+    const string _SIZE = 'size';
     protected ?int $size = null;
 
-    const _COMMENT = 'comment';
+    const string _COMMENT = 'comment';
     protected string $comment = '';
 
     /**

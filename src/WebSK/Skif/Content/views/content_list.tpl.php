@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $content_type
+ * @var string $content_type
  */
 
 use WebSK\Skif\Content\ContentServiceProvider;

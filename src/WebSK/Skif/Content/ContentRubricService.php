@@ -12,7 +12,7 @@ use WebSK\Entity\InterfaceEntity;
  */
 class ContentRubricService extends EntityService
 {
-    const CACHE_KEY_IDS_BY_CONTENT_ID = '\ContentRubricService::getIdsArrByContentId:%d';
+    const string CACHE_KEY_IDS_BY_CONTENT_ID = '\ContentRubricService::getIdsArrByContentId:%d';
 
     /** @var ContentRubricRepository */
     protected $repository;
@@ -28,7 +28,7 @@ class ContentRubricService extends EntityService
     /**
      * @param InterfaceEntity|ContentRubric $entity_obj
      */
-    public function removeFromCache(InterfaceEntity $entity_obj)
+    public function removeFromCache(InterfaceEntity $entity_obj): void
     {
         $cache_key = sprintf(self::CACHE_KEY_IDS_BY_CONTENT_ID, $entity_obj->getContentId());
         $this->cache_service->delete($cache_key);

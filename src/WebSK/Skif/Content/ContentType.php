@@ -10,20 +10,20 @@ use WebSK\Entity\Entity;
  */
 class ContentType extends Entity
 {
-    const DB_TABLE_NAME = 'content_types';
+    const string DB_TABLE_NAME = 'content_types';
 
-    const CONTENT_TYPE_PAGE = 'page';
+    const string CONTENT_TYPE_PAGE = 'page';
 
-    const _NAME = 'name';
+    const string _NAME = 'name';
     protected string $name;
 
-    const _TYPE = 'type';
+    const string _TYPE = 'type';
     protected string $type;
 
-    const _URL = 'url';
+    const string _URL = 'url';
     protected string $url;
 
-    const _TEMPLATE_ID = 'template_id';
+    const string _TEMPLATE_ID = 'template_id';
     protected ?int $template_id = null;
 
     /**

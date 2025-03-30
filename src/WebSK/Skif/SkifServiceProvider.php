@@ -12,24 +12,29 @@ use WebSK\DB\DBServiceFactory;
  */
 class SkifServiceProvider
 {
-    const DUMP_FILE_PATH = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'dumps' . DIRECTORY_SEPARATOR . 'db_skif.sql';
-    public const DB_SERVICE_CONTAINER_ID = 'skif.db_service';
-    public const DB_ID = 'db_skif';
+    const string DUMP_FILE_PATH = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'dumps' . DIRECTORY_SEPARATOR . 'db_skif.sql';
+    public const string DB_SERVICE_CONTAINER_ID = 'skif.db_service';
+    public const string DB_ID = 'db_skif';
+
+    const string SETTINGS_CONTAINER_ID = 'settings';
+    const string PARAM_DB = 'db';
 
     /**
      * @param ContainerInterface $container
      */
-    public static function register(ContainerInterface $container)
+    public static function register(ContainerInterface $container): void
     {
         /**
          * @param ContainerInterface $container
          * @return DBService
          */
-        $container[self::DB_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
-            $db_config = $container['settings']['db'][self::DB_ID];
+        $container->set(self::DB_SERVICE_CONTAINER_ID, function (ContainerInterface $container) {
+            $db_config = $container->get(
+                self::SETTINGS_CONTAINER_ID . '.' . self::PARAM_DB . '.' . self::DB_ID
+            );
 
             return DBServiceFactory::factoryMySQL($db_config);
-        };
+        });
     }
 
     /**

@@ -15,7 +15,7 @@ use WebSK\Slim\Router;
 
 <div><?php echo $poll_obj->getTitle(); ?></div>
 
-<form action="<?php echo Router::pathFor(PollVoteHandler::class, ['poll_id' => $poll_obj->getId()]); ?>" method="post">
+<form action="<?php echo Router::urlFor(PollVoteHandler::class, ['poll_id' => $poll_obj->getId()]); ?>" method="post">
 
     <?php
     $poll_question_ids_arr = $poll_question_service->getIdsArrByPollId($poll_obj->getId());
@@ -39,7 +39,7 @@ use WebSK\Slim\Router;
                 <input type="submit" value="Голосовать" class="btn btn-default btn-sm">
             </div>
             <div class="col-md-6 text-right">
-                <a href="<?php echo Router::pathFor(PollViewHandler::class, ['poll_id' => $poll_obj->getId()]); ?>">Результаты</a>
+                <a href="<?php echo Router::urlFor(PollViewHandler::class, ['poll_id' => $poll_obj->getId()]); ?>">Результаты</a>
             </div>
         </div>
     </div>

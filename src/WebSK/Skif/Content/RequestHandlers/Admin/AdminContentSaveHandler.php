@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif\Content\RequestHandlers\Admin;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Config\ConfWrapper;
@@ -11,20 +12,21 @@ use WebSK\Skif\Content\Content;
 use WebSK\Skif\Content\ContentRubric;
 use WebSK\Skif\Content\ContentRubricService;
 use WebSK\Skif\Content\ContentService;
-use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Content\ContentType;
 use WebSK\Skif\Content\ContentTypeService;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Slim\Router;
-use WebSK\Utils\HTTP;
 use WebSK\Utils\Messages;
 
 class AdminContentSaveHandler extends BaseHandler
 {
+    /** @Inject */
     protected ContentTypeService $content_type_service;
 
+    /** @Inject */
     protected ContentService $content_service;
 
+    /** @Inject */
     protected ContentRubricService $content_rubric_service;
 
     /**
@@ -36,21 +38,18 @@ class AdminContentSaveHandler extends BaseHandler
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, string $content_type, int $content_id): ResponseInterface
     {
-        $this->content_type_service = ContentServiceProvider::getContentTypeService($this->container);
-        $this->content_service = ContentServiceProvider::getContentService($this->container);
-
         $content_type_obj = $this->content_type_service->getByType($content_type);
 
         if (!$content_type_obj) {
-            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
+            return $response->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
         }
 
         $content_obj = $this->content_service->getById($content_id, false);
         if (!$content_obj) {
-            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
+            return $response->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
         }
 
-        $redirect_url = Router::pathFor(AdminContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]);
+        $redirect_url = Router::urlFor(AdminContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]);
 
         $title = $request->getParam('title', '');
         if (!$title) {
@@ -138,7 +137,6 @@ class AdminContentSaveHandler extends BaseHandler
             return $main_rubric_id;
         }
 
-        $this->content_rubric_service = ContentServiceProvider::getContentRubricService($this->container);
         $this->content_rubric_service->deleteByContentId($content_obj->getId());
 
         foreach ($rubrics_arr as $rubric_id) {
@@ -161,7 +159,7 @@ class AdminContentSaveHandler extends BaseHandler
      * @return void
      * @throws \Exception
      */
-    protected function uploadImage(Content $content_obj, ContentType $content_type_obj)
+    protected function uploadImage(Content $content_obj, ContentType $content_type_obj): void
     {
         if (!array_key_exists('image_file', $_FILES) || empty($_FILES['image_file']['name'])) {
             return;

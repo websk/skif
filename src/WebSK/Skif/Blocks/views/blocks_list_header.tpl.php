@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $search_value
+ * @var string $search_value
  */
 
 use WebSK\Skif\Blocks\ControllerBlocks;

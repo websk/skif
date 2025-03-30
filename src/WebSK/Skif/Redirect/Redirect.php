@@ -2,8 +2,8 @@
 
 namespace WebSK\Skif\Redirect;
 
+use Fig\Http\Message\StatusCodeInterface;
 use WebSK\Entity\Entity;
-use WebSK\Utils\HTTP;
 
 /**
  * Class Redirect
@@ -11,26 +11,26 @@ use WebSK\Utils\HTTP;
  */
 class Redirect extends Entity
 {
-    const DB_TABLE_NAME = 'redirect_rewrites';
+    const string DB_TABLE_NAME = 'redirect_rewrites';
 
-    const REDIRECT_KIND_STRING = 1;
-    const REDIRECT_KIND_REGEXP = 2;
+    const int REDIRECT_KIND_STRING = 1;
+    const int REDIRECT_KIND_REGEXP = 2;
 
-    const REDIRECT_KINDS_ARR = [
+    const array REDIRECT_KINDS_ARR = [
         self::REDIRECT_KIND_STRING => 'строка',
         self::REDIRECT_KIND_REGEXP => 'регексп'
     ];
 
-    const _SRC = 'src';
+    const string _SRC = 'src';
     protected string $src;
 
-    const _DST = 'dst';
+    const string _DST = 'dst';
     protected string $dst;
 
-    const _CODE = 'code';
-    protected int $code = HTTP::STATUS_MOVED_PERMANENTLY;
+    const string _CODE = 'code';
+    protected int $code = StatusCodeInterface::STATUS_MOVED_PERMANENTLY;
 
-    const _KIND = 'kind';
+    const string _KIND = 'kind';
     protected int $kind = self::REDIRECT_KIND_STRING;
 
     /**

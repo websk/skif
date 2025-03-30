@@ -20,7 +20,7 @@ class AdminContentPhotoListHandler extends BaseHandler
      * @param int $content_id
      * @return ResponseInterface
      */
-    public function __invoke(RequestInterface $request, ResponseInterface $response, string $content_type, int $content_id)
+    public function __invoke(RequestInterface $request, ResponseInterface $response, string $content_type, int $content_id): ResponseInterface
     {
         return PhpRender::render(
             $response,

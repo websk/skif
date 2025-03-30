@@ -2,13 +2,14 @@
 
 namespace WebSK\Skif\Comment;
 
+use Fig\Http\Message\RequestMethodInterface;
 use Slim\App;
+use Slim\Interfaces\RouteCollectorProxyInterface;
 use WebSK\Skif\Comment\RequestHandlers\Admin\AdminCommentEditHandler;
 use WebSK\Skif\Comment\RequestHandlers\Admin\AdminCommentListAjaxHandler;
 use WebSK\Skif\Comment\RequestHandlers\Admin\AdminCommentListHandler;
 use WebSK\Skif\Comment\RequestHandlers\CommentCreateHandler;
 use WebSK\Skif\Comment\RequestHandlers\CommentListHandler;
-use WebSK\Utils\HTTP;
 
 /**
  * Class CommentRoutes
@@ -16,35 +17,35 @@ use WebSK\Utils\HTTP;
  */
 class CommentRoutes
 {
-    const NAMESPACE_DIR = 'WebSK' . DIRECTORY_SEPARATOR . 'Skif' . DIRECTORY_SEPARATOR . 'Comment';
+    const string NAMESPACE_DIR = 'WebSK' . DIRECTORY_SEPARATOR . 'Skif' . DIRECTORY_SEPARATOR . 'Comment';
 
     /**
      * @param App $app
      */
-    public static function register(App $app)
+    public static function register(App $app): void
     {
-        $app->group('/comments', function (App $app) {
-            $app->get('/list', CommentListHandler::class)
+        $app->group('/comments', function (RouteCollectorProxyInterface $route_collector_proxy) {
+            $route_collector_proxy->get('/list', CommentListHandler::class)
                 ->setName(CommentListHandler::class);
 
-            $app->post('/create', CommentCreateHandler::class)
+            $route_collector_proxy->post('/create', CommentCreateHandler::class)
                 ->setName(CommentCreateHandler::class);
         });
     }
 
     /**
-     * @param App $app
+     * @param RouteCollectorProxyInterface $route_collector_proxy
      */
-    public static function registerAdmin(App $app)
+    public static function registerAdmin(RouteCollectorProxyInterface $route_collector_proxy): void
     {
-        $app->group('/comments', function (App $app) {
-            $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '', AdminCommentListHandler::class)
+        $route_collector_proxy->group('/comments', function (RouteCollectorProxyInterface $route_collector_proxy) {
+            $route_collector_proxy->map([RequestMethodInterface::METHOD_GET, RequestMethodInterface::METHOD_POST], '', AdminCommentListHandler::class)
                 ->setName(AdminCommentListHandler::class);
 
-            $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/{comment_id:\d+}', AdminCommentEditHandler::class)
+            $route_collector_proxy->map([RequestMethodInterface::METHOD_GET, RequestMethodInterface::METHOD_POST], '/{comment_id:\d+}', AdminCommentEditHandler::class)
                 ->setName(AdminCommentEditHandler::class);
 
-            $app->map([HTTP::METHOD_GET, HTTP::METHOD_POST], '/ajax', AdminCommentListAjaxHandler::class)
+            $route_collector_proxy->map([RequestMethodInterface::METHOD_GET, RequestMethodInterface::METHOD_POST], '/ajax', AdminCommentListAjaxHandler::class)
                 ->setName(AdminCommentListAjaxHandler::class);
         });
     }

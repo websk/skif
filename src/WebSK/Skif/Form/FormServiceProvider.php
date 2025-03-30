@@ -15,53 +15,53 @@ class FormServiceProvider
     /**
      * @param ContainerInterface $container
      */
-    public static function register(ContainerInterface $container)
+    public static function register(ContainerInterface $container): void
     {
         /**
          * @param ContainerInterface $container
          * @return FormService
          */
-        $container[FormService::class] = function (ContainerInterface $container) {
+        $container->set(FormService::class, function (ContainerInterface $container) {
             return new FormService(
                 Form::class,
-                $container[FormRepository::class],
+                $container->get(FormRepository::class),
                 CacheServiceProvider::getCacheService($container)
             );
-        };
+        });
 
         /**
          * @param ContainerInterface $container
          * @return FormRepository
          */
-        $container[FormRepository::class] = function (ContainerInterface $container) {
+        $container->set(FormRepository::class, function (ContainerInterface $container) {
             return new FormRepository(
                 Form::class,
                 SkifServiceProvider::getDBService($container)
             );
-        };
+        });
 
         /**
          * @param ContainerInterface $container
          * @return FormFieldService
          */
-        $container[FormFieldService::class] = function (ContainerInterface $container) {
+        $container->set(FormFieldService::class, function (ContainerInterface $container) {
             return new FormFieldService(
                 FormField::class,
-                $container[FormFieldRepository::class],
+                $container->get(FormFieldRepository::class),
                 CacheServiceProvider::getCacheService($container)
             );
-        };
+        });
 
         /**
          * @param ContainerInterface $container
          * @return FormFieldRepository
          */
-        $container[FormFieldRepository::class] = function (ContainerInterface $container) {
+        $container->set(FormFieldRepository::class, function (ContainerInterface $container) {
             return new FormFieldRepository(
                 FormField::class,
                 SkifServiceProvider::getDBService($container)
             );
-        };
+        });
     }
 
     /**
@@ -70,7 +70,7 @@ class FormServiceProvider
      */
     public static function getFormService(ContainerInterface $container): FormService
     {
-        return $container[FormService::class];
+        return $container->get(FormService::class);
     }
 
     /**
@@ -79,6 +79,6 @@ class FormServiceProvider
      */
     public static function getFormFieldService(ContainerInterface $container): FormFieldService
     {
-        return $container[FormFieldService::class];
+        return $container->get(FormFieldService::class);
     }
 }

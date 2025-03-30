@@ -24,14 +24,16 @@ class SiteMenuItemRepository extends WeightRepository
             . ' WHERE ' . Sanitize::sanitizeSqlColumnName(SiteMenuItem::_MENU_ID) . '=?';
 
         if ($parent_id) {
+            $params_arr = [$site_menu_id, $parent_id];
             $query .= ' AND ' . Sanitize::sanitizeSqlColumnName(SiteMenuItem::_PARENT_ID) . '=?';
         } else {
             $query .= ' AND ' . Sanitize::sanitizeSqlColumnName(SiteMenuItem::_PARENT_ID) . ' IS NULL';
+            $params_arr = [$site_menu_id];
         }
 
         $query .= ' ORDER BY ' . Sanitize::sanitizeSqlColumnName(SiteMenuItem::_WEIGHT);
 
-        return $this->db_service->readColumn($query, [$site_menu_id, $parent_id]);
+        return $this->db_service->readColumn($query, $params_arr);
     }
 
     /**

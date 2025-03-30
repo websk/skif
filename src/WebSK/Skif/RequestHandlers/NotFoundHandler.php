@@ -2,11 +2,11 @@
 
 namespace WebSK\Skif\RequestHandlers;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Config\ConfWrapper;
 use WebSK\Skif\SkifPath;
-use WebSK\Utils\HTTP;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -24,7 +24,7 @@ class NotFoundHandler
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $error_code = HTTP::STATUS_NOT_FOUND;
+        $error_code = StatusCodeInterface::STATUS_NOT_FOUND;
 
         $extra_message = 'Страница не найдена';
         $message = 'Возможные причины: неправильно набран адрес, документ был удален, документ был переименован';

@@ -2,16 +2,15 @@
 
 namespace WebSK\Skif\Comment\RequestHandlers;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\Auth\AuthServiceProvider;
-use WebSK\Auth\User\UserServiceProvider;
+use WebSK\Auth\SessionService;
+use WebSK\Auth\User\UserService;
 use WebSK\Config\ConfWrapper;
 use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Skif\Comment\CommentService;
-use WebSK\Skif\Comment\CommentServiceProvider;
 use WebSK\Slim\RequestHandlers\BaseHandler;
-use WebSK\Utils\HTTP;
 use WebSK\Views\PhpRender;
 
 /**
@@ -21,28 +20,34 @@ use WebSK\Views\PhpRender;
 class CommentListHandler extends BaseHandler
 {
 
-    const PARAM_URL = 'url';
-    const PARAM_PAGE = 'page';
+    const string PARAM_URL = 'url';
+    const string PARAM_PAGE = 'page';
 
-    const DEFAULT_PAGE = 1;
+    const int DEFAULT_PAGE = 1;
+
+    /** @Inject */
+    protected CommentService $comment_service;
+
+    /** @Inject */
+    protected SessionService $session_service;
+
+    /** @Inject */
+    protected UserService $user_service;
 
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $url = $request->getParam(self::PARAM_URL);
 
         if (!$url) {
-            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
+            return $response->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
         }
 
-        $auth_service = AuthServiceProvider::getSessionService($this->container);
-        $user_service = UserServiceProvider::getUserService($this->container);
-
-        $current_user_obj = $auth_service->getCurrentUserObj();
+        $current_user_obj = $this->session_service->getCurrentUserObj();
 
         $content_html = PhpRender::renderTemplateForModuleNamespace(
             CommentRoutes::NAMESPACE_DIR,
@@ -56,8 +61,7 @@ class CommentListHandler extends BaseHandler
 
         $page = $request->getParam(self::PARAM_PAGE, self::DEFAULT_PAGE);
 
-        $comment_service = CommentServiceProvider::getCommentService($this->container);
-        $comments_ids_arr = $comment_service->getCommentsIdsArrByUrl($url, $page);
+        $comments_ids_arr = $this->comment_service->getCommentsIdsArrByUrl($url, $page);
 
         $content_html .= PhpRender::renderTemplateForModuleNamespace(
             CommentRoutes::NAMESPACE_DIR,
@@ -66,8 +70,8 @@ class CommentListHandler extends BaseHandler
                 'comments_ids_arr' => $comments_ids_arr,
                 'url' => $url,
                 'current_user_obj' => $current_user_obj,
-                'current_user_is_admin' => $current_user_obj ? $user_service->hasRoleAdminByUserId($current_user_obj->getId()) : false,
-                'comment_service' => $comment_service
+                'current_user_is_admin' => $current_user_obj ? $this->user_service->hasRoleAdminByUserId($current_user_obj->getId()) : false,
+                'comment_service' => $this->comment_service
             ]
         );
 
@@ -77,7 +81,7 @@ class CommentListHandler extends BaseHandler
             [
                 'url' => $url,
                 'page' => $page,
-                'count_comments' => $comment_service->getCountCommentsByUrl($url),
+                'count_comments' => $this->comment_service->getCountCommentsByUrl($url),
                 'message_to_page' => ConfWrapper::value(CommentService::CONFIG_MESSAGE_TO_PAGE, CommentService::DEFAULT_MESSAGE_TO_PAGE)
             ]
         );

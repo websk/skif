@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif\Blocks;
 
-use WebSK\Auth\User\UserServiceProvider;
+use WebSK\Auth\User\UserService;
 use WebSK\Config\ConfWrapper;
 use WebSK\Utils\Network;
 use WebSK\Utils\Filter;
@@ -38,7 +38,7 @@ class BlockUtils
         }
 
         $container = Container::self();
-        $user_service = UserServiceProvider::getUserService($container);
+        $user_service = $container->get(UserService::class);
 
         $user_obj = $user_service->getById($user_id, false);
         if (!$user_obj) {

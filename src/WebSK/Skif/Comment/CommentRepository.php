@@ -2,8 +2,8 @@
 
 namespace WebSK\Skif\Comment;
 
-use OLOG\Sanitize;
 use WebSK\Entity\EntityRepository;
+use WebSK\Utils\Sanitize;
 
 /**
  * Class CommentRepository

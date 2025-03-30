@@ -57,7 +57,7 @@ class ContentViewHandler extends BaseHandler
         $editor_nav_arr = [];
         if (Auth::currentUserIsAdmin()) {
             $editor_nav_arr = [
-                Router::pathFor(
+                Router::urlFor(
                     AdminContentEditHandler::class,
                     ['content_type' => $content_type, 'content_id' => $content_id]
                 ) => 'Редактировать'

@@ -10,27 +10,27 @@ use WebSK\Entity\Entity;
  */
 class Form extends Entity
 {
-    const DB_TABLE_NAME = 'form';
+    const string DB_TABLE_NAME = 'form';
 
-    const _TITLE = 'title';
+    const string _TITLE = 'title';
     protected string $title;
 
-    const _COMMENT = 'comment';
+    const string _COMMENT = 'comment';
     protected string $comment = '';
 
-    const _BUTTON_LABEL = 'button_label';
+    const string _BUTTON_LABEL = 'button_label';
     protected string $button_label = '';
 
-    const _EMAIL = 'email';
+    const string _EMAIL = 'email';
     protected string $email = '';
 
-    const _EMAIL_COPY = 'email_copy';
+    const string _EMAIL_COPY = 'email_copy';
     protected string $email_copy = '';
 
-    const _RESPONSE_MAIL_MESSAGE = 'response_mail_message';
+    const string _RESPONSE_MAIL_MESSAGE = 'response_mail_message';
     protected string $response_mail_message = '';
 
-    const _URL = 'url';
+    const string _URL = 'url';
     protected ?string $url = null;
 
     /**

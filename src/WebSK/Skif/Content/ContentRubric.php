@@ -10,12 +10,12 @@ use WebSK\Entity\Entity;
  */
 class ContentRubric extends Entity
 {
-    const DB_TABLE_NAME = 'content_rubrics';
+    const string DB_TABLE_NAME = 'content_rubrics';
 
-    const _CONTENT_ID = 'content_id';
+    const string _CONTENT_ID = 'content_id';
     protected ?int $content_id = null;
 
-    const _RUBRIC_ID = 'rubric_id';
+    const string _RUBRIC_ID = 'rubric_id';
     protected ?int $rubric_id = null;
 
     /**

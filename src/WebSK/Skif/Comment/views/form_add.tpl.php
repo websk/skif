@@ -15,14 +15,14 @@ if ($no_add_comments_for_unregistered_users) {
     ?>
     <div>
         Неавторизованные пользователи не могут оставлять комментарии.
-        Пожалуйста <a href="<?php echo Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGIN_FORM); ?>">войдит на сайт</a> или <a href="<?php echo Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_REGISTRATION_FORM); ?>">зарегистрируйтесь</a>.
+        Пожалуйста <a href="<?php echo Router::urlFor(AuthRoutes::ROUTE_NAME_AUTH_LOGIN_FORM); ?>">войдит на сайт</a> или <a href="<?php echo Router::urlFor(AuthRoutes::ROUTE_NAME_AUTH_REGISTRATION_FORM); ?>">зарегистрируйтесь</a>.
     </div>
 <?php
     return;
 }
 
 ?>
-<form method="post" action="<?php echo Router::pathFor(CommentCreateHandler::class); ?>" id="comment_form" class="form-horizontal">
+<form method="post" action="<?php echo Router::urlFor(CommentCreateHandler::class); ?>" id="comment_form" class="form-horizontal">
     <div class="form-group">
         <div class="col-md-12">
             <label for="comment">Сообщение</label>
@@ -48,7 +48,7 @@ if ($no_add_comments_for_unregistered_users) {
         ?>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <img src="<?php echo Router::pathFor(CaptchaRoutes::ROUTE_NAME_CAPTCHA_GENERATE); ?>" border="0" alt="Введите этот защитный код">
+                    <img src="<?php echo Router::urlFor(CaptchaRoutes::ROUTE_NAME_CAPTCHA_GENERATE); ?>" border="0" alt="Введите этот защитный код">
                     <input type="text" size="5" name="captcha" class="form-control">
                     <span class="help-block">Введите код, изображенный на картинке</span>
                 </div>

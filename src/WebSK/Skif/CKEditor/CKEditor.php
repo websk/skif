@@ -16,7 +16,7 @@ class CKEditor
     /**
      * @param string $dir
      */
-    protected static function checkFilesDirectories(string $dir)
+    protected static function checkFilesDirectories(string $dir): void
     {
         if (!$dir) {
             return;

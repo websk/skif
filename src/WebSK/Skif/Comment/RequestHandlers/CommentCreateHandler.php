@@ -2,14 +2,14 @@
 
 namespace WebSK\Skif\Comment\RequestHandlers;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\Auth\AuthServiceProvider;
+use WebSK\Auth\SessionService;
 use WebSK\Captcha\Captcha;
 use WebSK\Skif\Comment\Comment;
-use WebSK\Skif\Comment\CommentServiceProvider;
+use WebSK\Skif\Comment\CommentService;
 use WebSK\Slim\RequestHandlers\BaseHandler;
-use WebSK\Utils\HTTP;
 use WebSK\Utils\Messages;
 use WebSK\Utils\Sanitize;
 
@@ -19,17 +19,23 @@ use WebSK\Utils\Sanitize;
  */
 class CommentCreateHandler extends BaseHandler
 {
+    /** @Inject */
+    protected CommentService $comment_service;
+
+    /** @Inject */
+    protected SessionService $session_service;
+
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $url = $request->getParsedBodyParam('url');
 
         if (!$url) {
-            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
+            return $response->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
         }
 
         if ($request->getParsedBodyParam(Captcha::CAPTCHA_FIELD_NAME) !== null) {
@@ -45,9 +51,7 @@ class CommentCreateHandler extends BaseHandler
             return $response->withRedirect($url);
         }
 
-        $auth_service = AuthServiceProvider::getSessionService($this->container);
-
-        $current_user_obj = $auth_service->getCurrentUserObj();
+        $current_user_obj = $this->session_service->getCurrentUserObj();
 
         $user_name = '';
         $user_email = '';
@@ -64,8 +68,6 @@ class CommentCreateHandler extends BaseHandler
 
         $parent_id = $request->getParsedBodyParam('parent_id');
 
-        $comment_service = CommentServiceProvider::getCommentService($this->container);
-
         $comment_obj = new Comment();
         $comment_obj->setParentId($parent_id);
         $comment_obj->setUrl($url);
@@ -81,9 +83,9 @@ class CommentCreateHandler extends BaseHandler
         $comment = Sanitize::sanitizeTagContent($comment);
         $comment_obj->setComment($comment);
 
-        $comment_service->save($comment_obj);
+        $this->comment_service->save($comment_obj);
 
-        $comment_service->sendEmailNotificationForComment($comment_obj);
+        $this->comment_service->sendEmailNotificationForComment($comment_obj);
 
         Messages::setMessage('Ваше сообщение добавлено');
 

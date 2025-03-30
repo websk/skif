@@ -2,11 +2,11 @@
 
 namespace WebSK\Skif\Redirect\RequestHandlers;
 
+use Fig\Http\Message\StatusCodeInterface;
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\Redirect\Redirect;
 use WebSK\Skif\Redirect\RedirectServiceProvider;
 use WebSK\Slim\RequestHandlers\BaseHandler;
-use WebSK\Utils\HTTP;
 use WebSK\Utils\Url;
 
 /**
@@ -43,7 +43,7 @@ class RedirectHandler extends BaseHandler
             $exact_redirect_id = array_shift($exact_redirect_ids_arr);
             $exact_redirect_obj = $redirect_service->getById($exact_redirect_id);
 
-            $http_response_code = $exact_redirect_obj->getCode() ? $exact_redirect_obj->getCode() : HTTP::STATUS_MOVED_PERMANENTLY;
+            $http_response_code = $exact_redirect_obj->getCode() ? $exact_redirect_obj->getCode() : StatusCodeInterface::STATUS_MOVED_PERMANENTLY;
             header('Location: ' . Url::appendLeadingSlash($exact_redirect_obj->getDst()), true, intval($http_response_code));
             exit;
         }

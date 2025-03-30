@@ -4,7 +4,7 @@ namespace WebSK\Skif\Comment\RequestHandlers\Admin;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\CRUD;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetTextarea;
@@ -27,7 +27,10 @@ use WebSK\Views\PhpRender;
  */
 class AdminCommentListHandler extends BaseHandler
 {
-    const FILTER_NAME_PARENT_ID = 'parent_id';
+    const string FILTER_NAME_PARENT_ID = 'parent_id';
+
+    /** @Inject */
+    protected CRUD $crud_service;
 
     /**
      * @param ServerRequestInterface $request
@@ -36,9 +39,9 @@ class AdminCommentListHandler extends BaseHandler
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
+        $crud_table_obj = $this->crud_service->createTable(
             Comment::class,
-            CRUDServiceProvider::getCrud($this->container)->createForm(
+            $this->crud_service->createForm(
                 'comment_create_rand324324',
                 new Comment(),
                 [
@@ -53,7 +56,7 @@ class AdminCommentListHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         Comment::_COMMENT,
                         function (Comment $comment) {
-                            return $this->pathFor(AdminCommentEditHandler::class, ['comment_id' => $comment->getId()]);
+                            return $this->urlFor(AdminCommentEditHandler::class, ['comment_id' => $comment->getId()]);
                         }
                     )
                 ),

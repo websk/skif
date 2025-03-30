@@ -10,56 +10,56 @@ use WebSK\Entity\Entity;
  */
 class Content extends Entity
 {
-    const DB_TABLE_NAME = 'content';
+    const string DB_TABLE_NAME = 'content';
 
-    const CONTENT_FILES_DIR = 'content';
+    const string CONTENT_FILES_DIR = 'content';
 
-    const _TITLE = 'title';
+    const string _TITLE = 'title';
     protected string $title;
 
-    const _SHORT_TITLE = 'short_title';
+    const string _SHORT_TITLE = 'short_title';
     protected string $short_title = '';
 
-    const _ANNOTATION = 'annotation';
+    const string _ANNOTATION = 'annotation';
     protected string $annotation = '';
 
-    const _BODY = 'body';
+    const string _BODY = 'body';
     protected string $body = '';
 
-    const _PUBLISHED_AT = 'published_at';
+    const string _PUBLISHED_AT = 'published_at';
     protected ?string $published_at = null;
 
-    const _UNPUBLISHED_AT = 'unpublished_at';
+    const string _UNPUBLISHED_AT = 'unpublished_at';
     protected ?string $unpublished_at = null;
 
-    const _IS_PUBLISHED = 'is_published';
+    const string _IS_PUBLISHED = 'is_published';
     protected bool $is_published = false;
 
-    const _IMAGE = 'image';
+    const string _IMAGE = 'image';
     protected ?string $image = null;
 
-    const _DESCRIPTION = 'description';
+    const string _DESCRIPTION = 'description';
     protected string $description = '';
 
-    const _KEYWORDS = 'keywords';
+    const string _KEYWORDS = 'keywords';
     protected string $keywords = '';
 
-    const _URL = 'url';
+    const string _URL = 'url';
     protected ?string $url = null;
 
-    const _CONTENT_TYPE_ID = 'content_type_id';
+    const string _CONTENT_TYPE_ID = 'content_type_id';
     protected ?int $content_type_id = null;
 
-    const _LAST_MODIFIED_AT = 'last_modified_at';
+    const string _LAST_MODIFIED_AT = 'last_modified_at';
     protected ?string $last_modified_at = null;
 
-    const _REDIRECT_URL = 'redirect_url';
+    const string _REDIRECT_URL = 'redirect_url';
     protected ?string $redirect_url = null;
 
-    const _TEMPLATE_ID = 'template_id';
+    const string _TEMPLATE_ID = 'template_id';
     protected ?int $template_id = null;
 
-    const _MAIN_RUBRIC_ID = 'main_rubric_id';
+    const string _MAIN_RUBRIC_ID = 'main_rubric_id';
     protected ?int $main_rubric_id = null;
 
     /**
@@ -89,7 +89,7 @@ class Content extends Entity
     /**
      * @param null|string $image
      */
-    public function setImage(?string $image)
+    public function setImage(?string $image): void
     {
         $this->image = $image;
     }
@@ -105,7 +105,7 @@ class Content extends Entity
     /**
      * @param string $title
      */
-    public function setTitle(string $title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -121,7 +121,7 @@ class Content extends Entity
     /**
      * @param string $short_title
      */
-    public function setShortTitle(string $short_title)
+    public function setShortTitle(string $short_title): void
     {
         $this->short_title = $short_title;
     }
@@ -137,7 +137,7 @@ class Content extends Entity
     /**
      * @param string $annotation
      */
-    public function setAnnotation(string $annotation)
+    public function setAnnotation(string $annotation): void
     {
         $this->annotation = $annotation;
     }
@@ -153,7 +153,7 @@ class Content extends Entity
     /**
      * @param string $body
      */
-    public function setBody(string $body)
+    public function setBody(string $body): void
     {
         $this->body = $body;
     }
@@ -201,7 +201,7 @@ class Content extends Entity
     /**
      * @param bool $is_published
      */
-    public function setIsPublished(bool $is_published)
+    public function setIsPublished(bool $is_published): void
     {
         $this->is_published = $is_published;
     }
@@ -217,7 +217,7 @@ class Content extends Entity
     /**
      * @param string $description
      */
-    public function setDescription(string $description)
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
@@ -233,7 +233,7 @@ class Content extends Entity
     /**
      * @param string $keywords
      */
-    public function setKeywords(string $keywords)
+    public function setKeywords(string $keywords): void
     {
         $this->keywords = $keywords;
     }
@@ -249,7 +249,7 @@ class Content extends Entity
     /**
      * @param null|string $url
      */
-    public function setUrl(?string $url)
+    public function setUrl(?string $url): void
     {
         $this->url = $url;
     }
@@ -281,7 +281,7 @@ class Content extends Entity
     /**
      * @param null|string $redirect_url
      */
-    public function setRedirectUrl(?string $redirect_url)
+    public function setRedirectUrl(?string $redirect_url): void
     {
         $this->redirect_url = $redirect_url;
     }

@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $rubric_id
+ * @var int $rubric_id
  */
 
 use WebSK\Skif\Content\ContentServiceProvider;

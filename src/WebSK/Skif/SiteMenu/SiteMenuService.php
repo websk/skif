@@ -18,7 +18,7 @@ class SiteMenuService extends EntityService
     /**
      * @param InterfaceEntity|SiteMenu $entity_obj
      */
-    public function beforeSave(InterfaceEntity $entity_obj)
+    public function beforeSave(InterfaceEntity $entity_obj): void
     {
         $url = $entity_obj->getUrl();
         if ($url) {
@@ -31,7 +31,7 @@ class SiteMenuService extends EntityService
     /**
      * @param InterfaceEntity|SiteMenu $entity_obj
      */
-    public function afterSave(InterfaceEntity $entity_obj)
+    public function afterSave(InterfaceEntity $entity_obj): void
     {
         parent::afterSave($entity_obj);
 
@@ -41,7 +41,7 @@ class SiteMenuService extends EntityService
     /**
      * @param InterfaceEntity|SiteMenu $entity_obj
      */
-    public function afterDelete(InterfaceEntity $entity_obj)
+    public function afterDelete(InterfaceEntity $entity_obj): void
     {
         parent::afterDelete($entity_obj);
 

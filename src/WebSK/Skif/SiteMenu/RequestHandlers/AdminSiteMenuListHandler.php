@@ -60,7 +60,7 @@ class AdminSiteMenuListHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         SiteMenu::_NAME,
                         function (SiteMenu $site_menu) {
-                            return $this->pathFor(AdminSiteMenuEditHandler::class, ['site_menu_id' => $site_menu->getId()]);
+                            return $this->urlFor(AdminSiteMenuEditHandler::class, ['site_menu_id' => $site_menu->getId()]);
                         }
                     )
                 ),

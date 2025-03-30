@@ -4,7 +4,7 @@ namespace WebSK\Skif\Content\RequestHandlers\Admin;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\CRUD;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetReferenceAjax;
@@ -28,18 +28,21 @@ use WebSK\Views\PhpRender;
  */
 class AdminContentTypeListHandler extends BaseHandler
 {
-    const FILTER_NAME = 'content_type_name';
+    const string FILTER_NAME = 'content_type_name';
+
+    /** @Inject */
+    protected CRUD $crud_service;
 
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
+        $crud_table_obj = $this->crud_service->createTable(
             ContentType::class,
-            CRUDServiceProvider::getCrud($this->container)->createForm(
+            $this->crud_service->createForm(
                 'content_type_create',
                 new ContentType(),
                 [
@@ -52,8 +55,8 @@ class AdminContentTypeListHandler extends BaseHandler
                             ContentType::_TEMPLATE_ID,
                             Template::class,
                             Template::_TITLE,
-                            $this->pathFor(AdminTemplateListAjaxHandler::class),
-                            $this->pathFor(
+                            $this->urlFor(AdminTemplateListAjaxHandler::class),
+                            $this->urlFor(
                                 AdminTemplateEditHandler::class,
                                 ['template_id' => CRUDFormWidgetReferenceAjax::REFERENCED_ID_PLACEHOLDER]
                             )
@@ -68,7 +71,7 @@ class AdminContentTypeListHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         ContentType::_NAME,
                         function (ContentType $content_type) {
-                            return $this->pathFor(AdminContentTypeEditHandler::class, ['content_type_id' => $content_type->getId()]);
+                            return $this->urlFor(AdminContentTypeEditHandler::class, ['content_type_id' => $content_type->getId()]);
                         }
                     )
                 ),

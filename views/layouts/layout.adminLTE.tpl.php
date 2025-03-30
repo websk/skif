@@ -35,7 +35,7 @@ if (!isset($layout_dto)) {
     $layout_dto->setContentHtml($content);
 
     $breadcrumbs_dto_arr = [
-        new BreadcrumbItemDTO('Главная', Router::pathFor(SkifApp::ROUTE_NAME_ADMIN))
+        new BreadcrumbItemDTO('Главная', Router::urlFor(SkifApp::ROUTE_NAME_ADMIN))
     ];
 
     if (!empty($breadcrumbs_arr)) {
@@ -50,8 +50,8 @@ $user_name = $user_obj->getName();
 $user_photo_path = ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(), ImagePresets::IMAGE_PRESET_200_auto);
 $user_email = $user_obj->getEmail();
 
-$user_edit_uri = Router::pathFor(UserRoutes::ROUTE_NAME_ADMIN_USER_EDIT, ['user_id' => $user_obj->getId()]);
-$user_logout_url = Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['destination' => Router::pathFor(SkifApp::ROUTE_NAME_ADMIN)]);
+$user_edit_uri = Router::urlFor(UserRoutes::ROUTE_NAME_ADMIN_USER_EDIT, ['user_id' => $user_obj->getId()]);
+$user_logout_url = Router::urlFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['destination' => Router::urlFor(SkifApp::ROUTE_NAME_ADMIN)]);
 
 ?>
 <!DOCTYPE html>
@@ -123,7 +123,7 @@ $user_logout_url = Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['des
     <header class="main-header">
 
         <!-- Logo -->
-        <a href="<?php echo Router::pathFor(SkifApp::ROUTE_NAME_ADMIN); ?>" class="logo">
+        <a href="<?php echo Router::urlFor(SkifApp::ROUTE_NAME_ADMIN); ?>" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini">
                 <span class="logo-lg" title="Система управления сайтом СКИФ / websk.ru"><b>СК</b></span>

@@ -19,7 +19,7 @@ class PollService extends EntityService
     /**
      * @param Poll|InterfaceEntity $entity_obj
      */
-    public function beforeSave(InterfaceEntity $entity_obj)
+    public function beforeSave(InterfaceEntity $entity_obj): void
     {
         if (!$entity_obj->getPublishedAt()) {
             $entity_obj->setPublishedAt(date('Y-m-d H:i:s'));
@@ -31,7 +31,7 @@ class PollService extends EntityService
     /**
      * @param InterfaceEntity|Poll $entity_obj
      */
-    public function afterSave(InterfaceEntity $entity_obj)
+    public function afterSave(InterfaceEntity $entity_obj): void
     {
         parent::afterSave($entity_obj);
 
@@ -41,7 +41,7 @@ class PollService extends EntityService
     /**
      * @param InterfaceEntity|Poll $entity_obj
      */
-    public function afterDelete(InterfaceEntity $entity_obj)
+    public function afterDelete(InterfaceEntity $entity_obj): void
     {
         parent::afterDelete($entity_obj);
 

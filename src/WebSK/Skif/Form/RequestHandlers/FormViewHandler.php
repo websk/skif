@@ -42,8 +42,8 @@ class FormViewHandler extends BaseHandler
             [
                 'form_obj' => $form_obj,
                 'form_field_service' => $form_field_service,
-                'form_send_url' => $this->pathFor(FormSendHandler::class, ['form_id' => $form_id]),
-                'captcha_url' => $this->pathFor(CaptchaRoutes::ROUTE_NAME_CAPTCHA_GENERATE),
+                'form_send_url' => $this->urlFor(FormSendHandler::class, ['form_id' => $form_id]),
+                'captcha_url' => $this->urlFor(CaptchaRoutes::ROUTE_NAME_CAPTCHA_GENERATE),
                 'current_user_obj' => Auth::getCurrentUserObj()
             ]
         );

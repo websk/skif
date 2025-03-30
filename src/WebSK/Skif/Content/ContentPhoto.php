@@ -10,15 +10,15 @@ use WebSK\Entity\Entity;
  */
 class ContentPhoto extends Entity
 {
-    const DB_TABLE_NAME = 'content_photo';
+    const string DB_TABLE_NAME = 'content_photo';
 
-    const _CONTENT_ID = 'content_id';
+    const string _CONTENT_ID = 'content_id';
     protected ?int $content_id = null;
 
-    const _PHOTO = 'photo';
+    const string _PHOTO = 'photo';
     protected ?string $photo = null;
 
-    const _IS_DEFAULT = 'is_default';
+    const string _IS_DEFAULT = 'is_default';
     protected bool $is_default = false;
 
     /**

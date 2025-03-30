@@ -29,18 +29,18 @@ class Block implements
     use ActiveRecord;
     use FactoryTrait;
 
-    const DB_TABLE_NAME = 'blocks';
+    const string DB_TABLE_NAME = 'blocks';
 
-    const BLOCK_REGION_NONE = null;
+    const null BLOCK_REGION_NONE = null;
 
-    const BLOCK_NO_CACHE = -1;
-    const BLOCK_CACHE_PER_USER = 2;
-    const BLOCK_CACHE_PER_PAGE = 4;
-    const BLOCK_CACHE_GLOBAL = 8;
+    const int BLOCK_NO_CACHE = -1;
+    const int BLOCK_CACHE_PER_USER = 2;
+    const int BLOCK_CACHE_PER_PAGE = 4;
+    const int BLOCK_CACHE_GLOBAL = 8;
 
-    const BLOCK_FORMAT_TYPE_PLAIN = 3;
-    const BLOCK_FORMAT_TYPE_HTML = 4;
-    const BLOCK_FORMAT_TYPE_PHP = 5;
+    const int BLOCK_FORMAT_TYPE_PLAIN = 3;
+    const int BLOCK_FORMAT_TYPE_HTML = 4;
+    const int BLOCK_FORMAT_TYPE_PHP = 5;
 
     protected ?int $id = null;
 
@@ -118,7 +118,7 @@ class Block implements
     /**
      * @param int $weight
      */
-    public function setWeight(int $weight)
+    public function setWeight(int $weight): void
     {
         $this->weight = $weight;
     }
@@ -134,7 +134,7 @@ class Block implements
     /**
      * @param string $title
      */
-    public function setTitle(string $title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -151,7 +151,7 @@ class Block implements
     /**
      * @param string $body
      */
-    public function setBody(string $body)
+    public function setBody(string $body): void
     {
         $this->body = $body;
     }
@@ -168,7 +168,7 @@ class Block implements
     /**
      * @param int $format
      */
-    public function setFormat(int $format)
+    public function setFormat(int $format): void
     {
         $this->format = $format;
     }
@@ -185,7 +185,7 @@ class Block implements
     /**
      * @param string $pages
      */
-    public function setPages(string $pages)
+    public function setPages(string $pages): void
     {
         $this->pages = $pages;
     }
@@ -201,7 +201,7 @@ class Block implements
     /**
      * @param null|int $template_id
      */
-    public function setTemplateId(?int $template_id)
+    public function setTemplateId(?int $template_id): void
     {
         $this->template_id = $template_id;
     }
@@ -218,7 +218,7 @@ class Block implements
     /**
      * @param int $cache
      */
-    public function setCache(int $cache)
+    public function setCache(int $cache): void
     {
         $this->cache = $cache;
     }
@@ -263,7 +263,7 @@ class Block implements
         return $output;
     }
 
-    public function deleteBlocksRoles()
+    public function deleteBlocksRoles(): void
     {
         $block_role_ids_arr = $this->getBlockRoleIdsArr();
 
@@ -277,7 +277,7 @@ class Block implements
     /**
      * @param $id
      */
-    public static function afterUpdate($id)
+    public static function afterUpdate($id): void
     {
         $block_obj = self::factory($id);
 
@@ -286,7 +286,7 @@ class Block implements
         Logger::logObjectEvent($block_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 
-    public function afterDelete()
+    public function afterDelete(): void
     {
         $this->deleteBlocksRoles();
 

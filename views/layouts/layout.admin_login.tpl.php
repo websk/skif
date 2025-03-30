@@ -56,7 +56,7 @@ use WebSK\Views\LayoutDTO;
                     echo Messages::renderMessages();
                     ?>
 
-                    <form action="<?php echo Router::pathFor(AuthRoutes::ROUTE_NAME_AUTH_LOGIN); ?>" method="post">
+                    <form action="<?php echo Router::urlFor(AuthRoutes::ROUTE_NAME_AUTH_LOGIN); ?>" method="post">
                         <div class="form-group">
                             <label class="sr-only">Email</label>
                             <div class="input-group">
@@ -76,7 +76,7 @@ use WebSK\Views\LayoutDTO;
                                     <input name="save_auth" type="checkbox" value="Запомнить меня">Запомнить меня
                                 </label>
                             </div>
-                            <input type="hidden" name="destination" value="<?php echo Router::pathFor(SkifApp::ROUTE_NAME_ADMIN); ?>">
+                            <input type="hidden" name="destination" value="<?php echo Router::urlFor(SkifApp::ROUTE_NAME_ADMIN); ?>">
                             <input type="submit" value="Войти" class="btn btn-lg btn-primary btn-block">
                     </form>
                 </div>

@@ -4,7 +4,7 @@ namespace WebSK\Skif\SiteMenu\RequestHandlers;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\CRUD;
 use WebSK\CRUD\Table\CRUDTable;
 use WebSK\CRUD\Table\CRUDTableColumn;
 use WebSK\CRUD\Table\Filters\CRUDTableFilterLikeInline;
@@ -19,7 +19,10 @@ use WebSK\Slim\RequestHandlers\BaseHandler;
  */
 class AdminSiteMenuListAjaxHandler extends BaseHandler
 {
-    const FILTER_SITE_MENU_NAME = 'site_menu_name';
+    const string FILTER_SITE_MENU_NAME = 'site_menu_name';
+
+    /** @Inject */
+    protected CRUD $crud_service;
 
     /**
      * @param ServerRequestInterface $request
@@ -28,7 +31,7 @@ class AdminSiteMenuListAjaxHandler extends BaseHandler
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
+        $crud_table_obj = $this->crud_service->createTable(
             SiteMenu::class,
             null,
             [

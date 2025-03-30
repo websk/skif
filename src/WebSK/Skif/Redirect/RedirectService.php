@@ -15,8 +15,8 @@ use WebSK\Utils\FullObjectId;
  */
 class RedirectService extends EntityService
 {
-    const REGEXP_IDS_CACHE_KEY = 'regexp_redirect_std_obj_arr';
-    const REGEXP_IDS_CACHE_SEC = 3600;
+    const string REGEXP_IDS_CACHE_KEY = 'regexp_redirect_std_obj_arr';
+    const int REGEXP_IDS_CACHE_SEC = 3600;
 
 
     /** @var RedirectRepository */
@@ -55,7 +55,7 @@ class RedirectService extends EntityService
     /**
      * @param Redirect|InterfaceEntity $entity_obj
      */
-    public function afterSave(InterfaceEntity $entity_obj)
+    public function afterSave(InterfaceEntity $entity_obj): void
     {
         if ($entity_obj->getKind() == Redirect::REDIRECT_KIND_REGEXP) {
             $cache_key = self::REGEXP_IDS_CACHE_KEY;
@@ -70,7 +70,7 @@ class RedirectService extends EntityService
     /**
      * @param Redirect|InterfaceEntity $entity_obj
      */
-    public function afterDelete(InterfaceEntity $entity_obj)
+    public function afterDelete(InterfaceEntity $entity_obj): void
     {
         if ($entity_obj->getKind() == Redirect::REDIRECT_KIND_REGEXP) {
             $cache_key = self::REGEXP_IDS_CACHE_KEY;

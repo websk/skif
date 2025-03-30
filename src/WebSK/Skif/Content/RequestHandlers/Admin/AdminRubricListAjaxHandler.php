@@ -2,28 +2,31 @@
 
 namespace WebSK\Skif\Content\RequestHandlers\Admin;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\CRUD;
 use WebSK\CRUD\Table\CRUDTable;
 use WebSK\CRUD\Table\CRUDTableColumn;
 use WebSK\CRUD\Table\Filters\CRUDTableFilterEqualInvisible;
 use WebSK\CRUD\Table\Filters\CRUDTableFilterLikeInline;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetReferenceSelect;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
-use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Content\ContentTypeService;
 use WebSK\Skif\Content\Rubric;
 use WebSK\Slim\RequestHandlers\BaseHandler;
-use WebSK\Utils\HTTP;
 
 class AdminRubricListAjaxHandler extends BaseHandler
 {
 
-    const FILTER_CONTENT_TYPE_ID = 'content_type_id';
-    const FILTER_NAME = 'name';
+    const string FILTER_CONTENT_TYPE_ID = 'content_type_id';
+    const string FILTER_NAME = 'name';
 
+    /** @Inject */
     protected ContentTypeService $content_type_service;
+
+    /** @Inject */
+    protected CRUD $crud_service;
 
     /**
      * @param ServerRequestInterface $request
@@ -31,17 +34,14 @@ class AdminRubricListAjaxHandler extends BaseHandler
      * @param string $content_type
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, string $content_type)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, string $content_type): ResponseInterface
     {
-        $this->content_type_service = ContentServiceProvider::getContentTypeService($this->container);
-
         $content_type_obj = $this->content_type_service->getByType($content_type);
-
         if (!$content_type_obj) {
-            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
+            return $response->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
         }
 
-        $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
+        $crud_table_obj = $this->crud_service->createTable(
             Rubric::class,
             null,
             [

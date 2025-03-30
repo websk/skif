@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $content_id
+ * @var int $content_id
  */
 
 use WebSK\Image\ImageManager;

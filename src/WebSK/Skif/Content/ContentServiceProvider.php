@@ -15,149 +15,149 @@ class ContentServiceProvider
     /**
      * @param ContainerInterface $container
      */
-    public static function register(ContainerInterface $container)
+    public static function register(ContainerInterface $container): void
     {
         /**
          * @param ContainerInterface $container
          * @return ContentService
          */
-        $container[ContentService::class] = function (ContainerInterface $container) {
+        $container->set(ContentService::class, function (ContainerInterface $container) {
             return new ContentService(
                 Content::class,
                 $container->get(ContentRepository::class),
                 CacheServiceProvider::getCacheService($container),
-                self::getContentTypeService($container),
-                self::getRubricService($container),
-                self::getContentRubricService($container)
+                $container->get(ContentTypeService::class),
+                $container->get(RubricService::class),
+                $container->get(ContentRubricService::class),
             );
-        };
+        });
 
         /**
          * @param ContainerInterface $container
          * @return ContentRepository
          */
-        $container[ContentRepository::class] = function (ContainerInterface $container) {
+        $container->set(ContentRepository::class, function (ContainerInterface $container) {
             return new ContentRepository(
                 Content::class,
                 SkifServiceProvider::getDBService($container)
             );
-        };
+        });
 
         /**
          * @param ContainerInterface $container
          * @return ContentPhotoService
          */
-        $container[ContentPhotoService::class] = function (ContainerInterface $container) {
+        $container->set(ContentPhotoService::class, function (ContainerInterface $container) {
             return new ContentPhotoService(
                 ContentPhoto::class,
-                $container[ContentPhotoRepository::class],
+                $container->get(ContentPhotoRepository::class),
                 CacheServiceProvider::getCacheService($container)
             );
-        };
+        });
 
         /**
          * @param ContainerInterface $container
          * @return ContentPhotoRepository
          */
-        $container[ContentPhotoRepository::class] = function (ContainerInterface $container) {
+        $container->set(ContentPhotoRepository::class, function (ContainerInterface $container) {
             return new ContentPhotoRepository(
                 ContentPhoto::class,
                 SkifServiceProvider::getDBService($container)
             );
-        };
+        });
 
         /**
          * @param ContainerInterface $container
          * @return ContentTypeService
          */
-        $container[ContentTypeService::class] = function (ContainerInterface $container) {
+        $container->set(ContentTypeService::class, function (ContainerInterface $container) {
             return new ContentTypeService(
                 ContentType::class,
-                $container[ContentTypeRepository::class],
+                $container->get(ContentTypeRepository::class),
                 CacheServiceProvider::getCacheService($container)
             );
-        };
+        });
 
         /**
          * @param ContainerInterface $container
          * @return ContentTypeRepository
          */
-        $container[ContentTypeRepository::class] = function (ContainerInterface $container) {
+        $container->set(ContentTypeRepository::class, function (ContainerInterface $container) {
             return new ContentTypeRepository(
                 ContentType::class,
                 SkifServiceProvider::getDBService($container)
             );
-        };
+        });
 
         /**
          * @param ContainerInterface $container
          * @return TemplateService
          */
-        $container[TemplateService::class] = function (ContainerInterface $container) {
+        $container->set(TemplateService::class, function (ContainerInterface $container) {
             return new TemplateService(
                 Template::class,
-                $container[TemplateRepository::class],
+                $container->get(TemplateRepository::class),
                 CacheServiceProvider::getCacheService($container)
             );
-        };
+        });
 
         /**
          * @param ContainerInterface $container
          * @return TemplateRepository
          */
-        $container[TemplateRepository::class] = function (ContainerInterface $container) {
+        $container->set(TemplateRepository::class, function (ContainerInterface $container) {
             return new TemplateRepository(
                 Template::class,
                 SkifServiceProvider::getDBService($container)
             );
-        };
+        });
 
         /**
          * @param ContainerInterface $container
          * @return RubricService
          */
-        $container[RubricService::class] = function (ContainerInterface $container) {
+        $container->set(RubricService::class, function (ContainerInterface $container) {
             return new RubricService(
                 Rubric::class,
-                $container[RubricRepository::class],
+                $container->get(RubricRepository::class),
                 CacheServiceProvider::getCacheService($container),
-                self::getContentTypeService($container)
+                $container->get(ContentTypeService::class)
             );
-        };
+        });
 
         /**
          * @param ContainerInterface $container
          * @return RubricRepository
          */
-        $container[RubricRepository::class] = function (ContainerInterface $container) {
+        $container->set(RubricRepository::class, function (ContainerInterface $container) {
             return new RubricRepository(
                 Rubric::class,
                 SkifServiceProvider::getDBService($container)
             );
-        };
+        });
 
         /**
          * @param ContainerInterface $container
          * @return ContentRubricService
          */
-        $container[ContentRubricService::class] = function (ContainerInterface $container) {
+        $container->set(ContentRubricService::class, function (ContainerInterface $container) {
             return new ContentRubricService(
                 ContentRubric::class,
-                $container[ContentRubricRepository::class],
+                $container->get(ContentRubricRepository::class),
                 CacheServiceProvider::getCacheService($container)
             );
-        };
+        });
 
         /**
          * @param ContainerInterface $container
          * @return ContentRubricRepository
          */
-        $container[ContentRubricRepository::class] = function (ContainerInterface $container) {
+        $container->set(ContentRubricRepository::class, function (ContainerInterface $container) {
             return new ContentRubricRepository(
                 ContentRubric::class,
                 SkifServiceProvider::getDBService($container)
             );
-        };
+        });
     }
 
     /**
@@ -175,7 +175,7 @@ class ContentServiceProvider
      */
     public static function getContentPhotoService(ContainerInterface $container): ContentPhotoService
     {
-        return $container[ContentPhotoService::class];
+        return $container->get(ContentPhotoService::class);
     }
 
     /**
@@ -184,7 +184,7 @@ class ContentServiceProvider
      */
     public static function getContentTypeService(ContainerInterface $container): ContentTypeService
     {
-        return $container[ContentTypeService::class];
+        return $container->get(ContentTypeService::class);
     }
 
     /**
@@ -193,7 +193,7 @@ class ContentServiceProvider
      */
     public static function getTemplateService(ContainerInterface $container): TemplateService
     {
-        return $container[TemplateService::class];
+        return $container->get(TemplateService::class);
     }
 
     /**
@@ -202,7 +202,7 @@ class ContentServiceProvider
      */
     public static function getRubricService(ContainerInterface $container): RubricService
     {
-        return $container[RubricService::class];
+        return $container->get(RubricService::class);
     }
 
     /**
@@ -211,6 +211,6 @@ class ContentServiceProvider
      */
     public static function getContentRubricService(ContainerInterface $container): ContentRubricService
     {
-        return $container[ContentRubricService::class];
+        return $container->get(ContentRubricService::class);
     }
 }

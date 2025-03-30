@@ -2,10 +2,11 @@
 
 namespace WebSK\Skif\Comment\RequestHandlers\Admin;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\CRUD;
 use WebSK\CRUD\Form\CRUDFormInvisibleRow;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
@@ -19,10 +20,9 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
 use WebSK\Skif\Comment\Comment;
-use WebSK\Skif\Comment\CommentServiceProvider;
+use WebSK\Skif\Comment\CommentService;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
-use WebSK\Utils\HTTP;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -33,24 +33,30 @@ use WebSK\Views\PhpRender;
  */
 class AdminCommentEditHandler extends BaseHandler
 {
-    const FILTER_NAME_PARENT_ID = 'parent_id';
-    const PARAM_DESTINATION = 'destination';
+    const string FILTER_NAME_PARENT_ID = 'parent_id';
+    const string PARAM_DESTINATION = 'destination';
+
+    /** @Inject */
+    protected CommentService $comment_service;
+
+    /** @Inject */
+    protected CRUD $crud_service;
+
 
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @param int $comment_id
      */
-    public function __invoke(RequestInterface $request, ResponseInterface $response, int $comment_id)
+    public function __invoke(RequestInterface $request, ResponseInterface $response, int $comment_id): ResponseInterface
     {
-        $comment_obj = CommentServiceProvider::getCommentService($this->container)
-            ->getById($comment_id, false);
+        $comment_obj = $this->comment_service->getById($comment_id, false);
 
         if (!$comment_obj) {
-            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
+            return $response->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
         }
 
-        $destination = $this->pathFor(
+        $destination = $this->urlFor(
             AdminCommentEditHandler::class,
             ['comment_id' => $comment_id]
         );
@@ -58,7 +64,7 @@ class AdminCommentEditHandler extends BaseHandler
             $destination = $request->getParam(self::PARAM_DESTINATION);
         }
 
-        $crud_form = CRUDServiceProvider::getCrud($this->container)->createForm(
+        $crud_form = $this->crud_service->createForm(
             'comment_edit_rand234234',
             $comment_obj,
             [
@@ -68,8 +74,8 @@ class AdminCommentEditHandler extends BaseHandler
                         Comment::_PARENT_ID,
                         Comment::class,
                         Comment::_COMMENT,
-                        $this->pathFor(AdminCommentListAjaxHandler::class),
-                        $this->pathFor(
+                        $this->urlFor(AdminCommentListAjaxHandler::class),
+                        $this->urlFor(
                             AdminCommentEditHandler::class,
                             ['comment_id' => CRUDFormWidgetReferenceAjax::REFERENCED_ID_PLACEHOLDER]
                         )
@@ -110,9 +116,9 @@ class AdminCommentEditHandler extends BaseHandler
         $new_comment_obj->setUrl($comment_obj->getUrl());
         $new_comment_obj->setParentId($comment_id);
 
-        $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
+        $crud_table_obj = $this->crud_service->createTable(
             Comment::class,
-            CRUDServiceProvider::getCrud($this->container)->createForm(
+            $this->crud_service->createForm(
                 'comment_create_rand45654',
                 $new_comment_obj,
                 [
@@ -128,7 +134,7 @@ class AdminCommentEditHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         Comment::_COMMENT,
                         function (Comment $comment) {
-                            return $this->pathFor(AdminCommentEditHandler::class, ['comment_id' => $comment->getId()]);
+                            return $this->urlFor(AdminCommentEditHandler::class, ['comment_id' => $comment->getId()]);
                         }
                     )
                 ),
@@ -162,7 +168,7 @@ class AdminCommentEditHandler extends BaseHandler
         $layout_dto->setContentHtml($content_html);
         $breadcrumbs_arr = [
             new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),
-            new BreadcrumbItemDTO('Комментарии', $this->pathFor(AdminCommentListHandler::class)),
+            new BreadcrumbItemDTO('Комментарии', $this->urlFor(AdminCommentListHandler::class)),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 

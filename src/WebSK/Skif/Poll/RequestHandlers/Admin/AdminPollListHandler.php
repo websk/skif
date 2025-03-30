@@ -4,7 +4,7 @@ namespace WebSK\Skif\Poll\RequestHandlers\Admin;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\CRUD;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetDate;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
@@ -32,7 +32,10 @@ use WebSK\Views\PhpRender;
  */
 class AdminPollListHandler extends BaseHandler
 {
-    const FILTER_TITLE = 'poll_title';
+    const string FILTER_TITLE = 'poll_title';
+
+    /** @Inject */
+    protected CRUD $crud_service;
 
     /**
      * @param ServerRequestInterface $request
@@ -41,9 +44,9 @@ class AdminPollListHandler extends BaseHandler
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
+        $crud_table_obj = $this->crud_service->createTable(
             Poll::class,
-            CRUDServiceProvider::getCrud($this->container)->createForm(
+            $this->crud_service->createForm(
                 'poll_create',
                 new Poll(),
                 [
@@ -61,7 +64,7 @@ class AdminPollListHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         Poll::_TITLE,
                         function (Poll $poll) {
-                            return $this->pathFor(AdminPollEditHandler::class, ['poll_id' => $poll->getId()]);
+                            return $this->urlFor(AdminPollEditHandler::class, ['poll_id' => $poll->getId()]);
                         }
                     )
                 ),
@@ -83,7 +86,7 @@ class AdminPollListHandler extends BaseHandler
                     'Ссылка',
                     new CRUDTableWidgetHtml(
                         function (Poll $poll) {
-                            $poll_url = $this->pathFor(PollViewHandler::class, ['poll_id' => $poll->getId()]);
+                            $poll_url = $this->urlFor(PollViewHandler::class, ['poll_id' => $poll->getId()]);
                             return '<a href="' . $poll_url . '" target="_blank">' . $poll_url . '</a>';
                         }
                     )

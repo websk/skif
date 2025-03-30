@@ -2,9 +2,10 @@
 
 namespace WebSK\Skif\SiteMenu\RequestHandlers;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\CRUD;
 use WebSK\CRUD\Form\CRUDFormInvisibleRow;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
@@ -27,7 +28,6 @@ use WebSK\Skif\SiteMenu\SiteMenuItemService;
 use WebSK\Skif\SiteMenu\SiteMenuService;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
-use WebSK\Utils\HTTP;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\NavTabItemDTO;
 use WebSK\Views\PhpRender;
@@ -40,14 +40,17 @@ class AdminSiteMenuItemEditHandler extends BaseHandler
 {
     use AdminSiteMenuBreadcrumbsTrait;
 
-    const FILTER_NAME_MENU_ID = 'menu_id';
-    const FILTER_NAME_SITE_MENU_ITEM_PARENT_ID = 'parent_id';
+    const string FILTER_NAME_MENU_ID = 'menu_id';
+    const string FILTER_NAME_SITE_MENU_ITEM_PARENT_ID = 'parent_id';
 
     /** @var SiteMenuService */
     protected SiteMenuService $site_menu_service;
 
     /** @var SiteMenuItemService */
     protected SiteMenuItemService $site_menu_item_service;
+
+    /** @Inject */
+    protected CRUD $crud_service;
 
     /**
      * @param ServerRequestInterface $request
@@ -65,10 +68,10 @@ class AdminSiteMenuItemEditHandler extends BaseHandler
         $site_menu_item_obj = $this->site_menu_item_service->getById($site_menu_item_id, false);
 
         if (!$site_menu_item_obj) {
-            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
+            return $response->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
         }
 
-        $crud_form = CRUDServiceProvider::getCrud($this->container)->createForm(
+        $crud_form = $this->crud_service->createForm(
             'site_menu_item_edit',
             $site_menu_item_obj,
             [
@@ -79,8 +82,8 @@ class AdminSiteMenuItemEditHandler extends BaseHandler
                         SiteMenuItem::_MENU_ID,
                         SiteMenu::class,
                         SiteMenu::_NAME,
-                        $this->pathFor(AdminSiteMenuListAjaxHandler::class),
-                        $this->pathFor(AdminSiteMenuEditHandler::class, ['site_menu_id' => CRUDFormWidgetReferenceAjax::REFERENCED_ID_PLACEHOLDER])
+                        $this->urlFor(AdminSiteMenuListAjaxHandler::class),
+                        $this->urlFor(AdminSiteMenuEditHandler::class, ['site_menu_id' => CRUDFormWidgetReferenceAjax::REFERENCED_ID_PLACEHOLDER])
                     )
                 ),
                 new CRUDFormRow(
@@ -89,8 +92,8 @@ class AdminSiteMenuItemEditHandler extends BaseHandler
                         SiteMenuItem::_PARENT_ID,
                         SiteMenuItem::class,
                         SiteMenuItem::_NAME,
-                        $this->pathFor(AdminSiteMenuItemListAjaxHandler::class),
-                        $this->pathFor(AdminSiteMenuItemEditHandler::class, ['site_menu_item_id' => CRUDFormWidgetReferenceAjax::REFERENCED_ID_PLACEHOLDER])
+                        $this->urlFor(AdminSiteMenuItemListAjaxHandler::class),
+                        $this->urlFor(AdminSiteMenuItemEditHandler::class, ['site_menu_item_id' => CRUDFormWidgetReferenceAjax::REFERENCED_ID_PLACEHOLDER])
                     )
                 ),
                 new CRUDFormRow(
@@ -99,8 +102,8 @@ class AdminSiteMenuItemEditHandler extends BaseHandler
                         SiteMenuItem::_CONTENT_ID,
                         Content::class,
                         Content::_TITLE,
-                        $this->pathFor(AdminContentListAjaxHandler::class, ['content_type' => ContentType::CONTENT_TYPE_PAGE]),
-                        $this->pathFor(
+                        $this->urlFor(AdminContentListAjaxHandler::class, ['content_type' => ContentType::CONTENT_TYPE_PAGE]),
+                        $this->urlFor(
                             AdminContentEditHandler::class,
                             [
                                 'content_type' => ContentType::CONTENT_TYPE_PAGE,
@@ -124,9 +127,9 @@ class AdminSiteMenuItemEditHandler extends BaseHandler
         $children_site_menu_item_obj->setMenuId($site_menu_item_obj->getMenuId());
         $children_site_menu_item_obj->setParentId($site_menu_item_id);
 
-        $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
+        $crud_table_obj = $this->crud_service->createTable(
             SiteMenuItem::class,
-            CRUDServiceProvider::getCrud($this->container)->createForm(
+            $this->crud_service->createForm(
                 'site_menu_item_create',
                 $children_site_menu_item_obj,
                 [
@@ -137,8 +140,8 @@ class AdminSiteMenuItemEditHandler extends BaseHandler
                             SiteMenuItem::_CONTENT_ID,
                             Content::class,
                             Content::_TITLE,
-                            $this->pathFor(AdminContentListAjaxHandler::class, ['content_type' => ContentType::CONTENT_TYPE_PAGE]),
-                            $this->pathFor(
+                            $this->urlFor(AdminContentListAjaxHandler::class, ['content_type' => ContentType::CONTENT_TYPE_PAGE]),
+                            $this->urlFor(
                                 AdminContentEditHandler::class,
                                 [
                                     'content_type' => ContentType::CONTENT_TYPE_PAGE,
@@ -169,7 +172,7 @@ class AdminSiteMenuItemEditHandler extends BaseHandler
                     new CRUDTableWidgetTextWithLink(
                         SiteMenuItem::_NAME,
                         function (SiteMenuItem $site_menu_item) {
-                            return $this->pathFor(AdminSiteMenuItemEditHandler::class, ['site_menu_item_id' => $site_menu_item->getId()]);
+                            return $this->urlFor(AdminSiteMenuItemEditHandler::class, ['site_menu_item_id' => $site_menu_item->getId()]);
                         }
                     )
                 ),
@@ -203,7 +206,7 @@ class AdminSiteMenuItemEditHandler extends BaseHandler
             [
                 new NavTabItemDTO(
                     'Редактирование',
-                    $this->pathFor(
+                    $this->urlFor(
                         self::class,
                         ['site_menu_item_id' => $site_menu_item_id]
                     )

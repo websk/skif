@@ -45,7 +45,7 @@ class RubricService extends EntityService
     /**
      * @param Rubric|InterfaceEntity $entity_obj
      */
-    public function beforeSave(InterfaceEntity $entity_obj)
+    public function beforeSave(InterfaceEntity $entity_obj): void
     {
         $url = $entity_obj->getUrl();
 

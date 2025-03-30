@@ -66,7 +66,7 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
 </script>
 
 <form class="form-horizontal" id="content_edit_form"
-      action="<?php echo Router::pathFor(AdminContentSaveHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>" enctype="multipart/form-data"
+      action="<?php echo Router::urlFor(AdminContentSaveHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>" enctype="multipart/form-data"
       method="post">
     <div role="tabpanel">
 
@@ -303,7 +303,7 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
     $("#image_delete").click(function () {
         $.ajax({
             type: "POST",
-            url: "<?php echo Router::pathFor(AdminContentDeleteImageAction::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>",
+            url: "<?php echo Router::urlFor(AdminContentDeleteImageAction::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>",
             success: function (data) {
                 $("#image_area").html("");
             }

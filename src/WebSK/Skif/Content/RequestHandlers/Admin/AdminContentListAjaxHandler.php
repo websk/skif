@@ -4,7 +4,7 @@ namespace WebSK\Skif\Content\RequestHandlers\Admin;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\CRUD;
 use WebSK\CRUD\Table\CRUDTable;
 use WebSK\CRUD\Table\CRUDTableColumn;
 use WebSK\CRUD\Table\Filters\CRUDTableFilterEqualInvisible;
@@ -12,7 +12,7 @@ use WebSK\CRUD\Table\Filters\CRUDTableFilterLikeInline;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetReferenceSelect;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\Skif\Content\Content;
-use WebSK\Skif\Content\ContentServiceProvider;
+use WebSK\Skif\Content\ContentTypeService;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 
 /**
@@ -21,18 +21,23 @@ use WebSK\Slim\RequestHandlers\BaseHandler;
  */
 class AdminContentListAjaxHandler extends BaseHandler
 {
+    /** @Inject */
+    protected ContentTypeService $content_type_service;
+
+    /** @Inject */
+    protected CRUD $crud_service;
+
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @param string $content_type
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, string $content_type)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, string $content_type): ResponseInterface
     {
-        $content_type_service = ContentServiceProvider::getContentTypeService($this->container);
-        $content_type_obj = $content_type_service->getByType($content_type);
+        $content_type_obj = $this->content_type_service->getByType($content_type);
 
-        $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
+        $crud_table_obj = $this->crud_service->createTable(
             Content::class,
             null,
             [

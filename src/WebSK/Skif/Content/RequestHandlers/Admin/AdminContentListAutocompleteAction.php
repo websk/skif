@@ -4,7 +4,8 @@ namespace WebSK\Skif\Content\RequestHandlers\Admin;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\Skif\Content\ContentServiceProvider;
+use WebSK\Skif\Content\ContentService;
+use WebSK\Skif\Content\ContentTypeService;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 
 /**
@@ -13,28 +14,30 @@ use WebSK\Slim\RequestHandlers\BaseHandler;
  */
 class AdminContentListAutocompleteAction extends BaseHandler
 {
-    const PARAM_TERM = 'term';
+    const string PARAM_TERM = 'term';
+
+    /** @Inject */
+    protected ContentTypeService $content_type_service;
+
+    /** @Inject */
+    protected ContentService $content_service;
 
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
-     * @param string $content_type
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $term = $request->getParam(self::PARAM_TERM);
 
-        $content_service = ContentServiceProvider::getContentService($this->container);
-        $content_type_service = ContentServiceProvider::getContentTypeService($this->container);
-
-        $content_ids_arr = $content_service->getIdsArrByTitle($term);
+        $content_ids_arr = $this->content_service->getIdsArrByTitle($term);
 
         $output_arr = [];
         foreach ($content_ids_arr as $content_id) {
-            $content_obj = $content_service->getById($content_id);
+            $content_obj = $this->content_service->getById($content_id);
 
-            $content_type_obj = $content_type_service->getById($content_obj->getContentTypeId());
+            $content_type_obj = $this->content_type_service->getById($content_obj->getContentTypeId());
 
             $output_arr[] = [
                 'id' => $content_id,

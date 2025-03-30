@@ -4,7 +4,7 @@ namespace WebSK\Skif\Content\RequestHandlers\Admin;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\CRUD;
 use WebSK\CRUD\Table\CRUDTable;
 use WebSK\CRUD\Table\CRUDTableColumn;
 use WebSK\CRUD\Table\Filters\CRUDTableFilterLikeInline;
@@ -20,7 +20,10 @@ use WebSK\Slim\RequestHandlers\BaseHandler;
  */
 class AdminTemplateListAjaxHandler extends BaseHandler
 {
-    const FILTER_TITLE = 'template_title';
+    const string FILTER_TITLE = 'template_title';
+
+    /** @Inject */
+    protected CRUD $crud_service;
 
     /**
      * @param ServerRequestInterface $request
@@ -29,7 +32,7 @@ class AdminTemplateListAjaxHandler extends BaseHandler
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
+        $crud_table_obj = $this->crud_service->createTable(
             Rubric::class,
             null,
             [

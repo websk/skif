@@ -2,12 +2,13 @@
 
 namespace WebSK\Skif\Poll\RequestHandlers;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Config\ConfWrapper;
-use WebSK\Skif\Poll\PollServiceProvider;
+use WebSK\Skif\Poll\PollQuestionService;
+use WebSK\Skif\Poll\PollService;
 use WebSK\Slim\RequestHandlers\BaseHandler;
-use WebSK\Utils\HTTP;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -18,6 +19,12 @@ use WebSK\Views\PhpRender;
  */
 class PollViewHandler extends BaseHandler
 {
+    /** @Inject */
+    protected PollService $poll_service;
+
+    /** @Inject */
+    protected PollQuestionService $poll_question_service;
+
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
@@ -27,22 +34,18 @@ class PollViewHandler extends BaseHandler
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $poll_id): ResponseInterface
     {
-        $poll_service = PollServiceProvider::getPollService($this->container);
-
-        $poll_obj = $poll_service->getById($poll_id, false);
+        $poll_obj = $this->poll_service->getById($poll_id, false);
 
         if (!$poll_obj) {
-            return $response->withStatus(HTTP::STATUS_NOT_FOUND);
+            return $response->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
         }
-
-        $poll_question_service = PollServiceProvider::getPollQuestionService($this->container);
 
         $content_html = PhpRender::renderTemplateForModuleNamespace(
             'WebSK/Skif/Poll',
             'view.tpl.php',
             [
                 'poll_id' => $poll_id,
-                'poll_question_service' => $poll_question_service
+                'poll_question_service' => $this->poll_question_service
             ]
         );
 

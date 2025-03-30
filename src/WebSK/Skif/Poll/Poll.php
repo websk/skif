@@ -10,21 +10,21 @@ use WebSK\Entity\Entity;
  */
 class Poll extends Entity
 {
-    const DB_TABLE_NAME = 'poll';
+    const string DB_TABLE_NAME = 'poll';
 
-    const _TITLE = 'title';
+    const string _TITLE = 'title';
     protected string $title = '';
 
-    const _IS_DEFAULT = 'is_default';
+    const string _IS_DEFAULT = 'is_default';
     protected bool $is_default = false;
 
-    const _IS_PUBLISHED = 'is_published';
+    const string _IS_PUBLISHED = 'is_published';
     protected bool $is_published = false;
 
-    const _PUBLISHED_AT = 'published_at';
+    const string _PUBLISHED_AT = 'published_at';
     protected string $published_at;
 
-    const _UNPUBLISHED_AT = 'unpublished_at';
+    const string _UNPUBLISHED_AT = 'unpublished_at';
     protected string $unpublished_at;
 
 

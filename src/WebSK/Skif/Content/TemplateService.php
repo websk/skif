@@ -62,7 +62,7 @@ class TemplateService extends EntityService
     /**
      * @param Template|InterfaceEntity $entity_obj
      */
-    public function removeFromCache(InterfaceEntity $entity_obj)
+    public function removeFromCache(InterfaceEntity $entity_obj): void
     {
         $cache_key = $this->getTemplateIdByNameCacheKey($entity_obj->getName());
         $this->cache_service->delete($cache_key);

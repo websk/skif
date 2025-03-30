@@ -27,16 +27,13 @@ class BlockRole implements
     use ActiveRecord;
     use FactoryTrait;
 
-    const DB_TABLE_NAME = 'blocks_roles';
+    const string DB_TABLE_NAME = 'blocks_roles';
 
-    /** @var int */
-    protected $id;
+    protected int $id;
 
-    /** @var int */
-    protected $block_id;
+    protected int $block_id;
 
-    /** @var int */
-    protected $role_id;
+    protected int $role_id;
 
     /**
      * @return int
@@ -79,9 +76,9 @@ class BlockRole implements
     }
 
     /**
-     * @param $id
+     * @param int $id
      */
-    public static function afterUpdate($id)
+    public static function afterUpdate(int $id): void
     {
         $block_role_obj = self::factory($id);
 
@@ -90,7 +87,7 @@ class BlockRole implements
         Logger::logObjectEvent($block_role_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 
-    public function afterDelete()
+    public function afterDelete(): void
     {
         self::removeObjFromCacheById($this->getId());
         Logger::logObjectEvent($this, 'удаление', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));

@@ -11,26 +11,26 @@ use WebSK\Views\ViewsPath;
  */
 class Template extends Entity
 {
-    const DB_TABLE_NAME = 'template';
+    const string DB_TABLE_NAME = 'template';
 
-    const LAYOUTS_FILES_DIR = 'layouts';
+    const string LAYOUTS_FILES_DIR = 'layouts';
 
-    const TEMPLATE_ID_MAIN = 1;
-    const TEMPLATE_ID_ADMIN = 2;
+    const int TEMPLATE_ID_MAIN = 1;
+    const int TEMPLATE_ID_ADMIN = 2;
 
-    const _TITLE = 'title';
+    const string _TITLE = 'title';
     protected string $title = '';
 
-    const _NAME = 'name';
+    const string _NAME = 'name';
     protected string $name = '';
 
-    const _CSS = 'css';
+    const string _CSS = 'css';
     protected string $css = '';
 
-    const _IS_DEFAULT = 'is_default';
+    const string _IS_DEFAULT = 'is_default';
     protected bool $is_default = false;
 
-    const _LAYOUT_TEMPLATE_FILE = 'layout_template_file';
+    const string _LAYOUT_TEMPLATE_FILE = 'layout_template_file';
     protected string $layout_template_file = '';
 
     /**

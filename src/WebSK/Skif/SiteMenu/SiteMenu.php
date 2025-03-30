@@ -10,12 +10,12 @@ use WebSK\Entity\Entity;
  */
 class SiteMenu extends Entity
 {
-    const DB_TABLE_NAME = 'site_menu';
+    const string DB_TABLE_NAME = 'site_menu';
 
-    const _NAME = 'name';
+    const string _NAME = 'name';
     protected string $name = '';
 
-    const _URL = 'url';
+    const string _URL = 'url';
     protected string $url = '';
 
     /**
