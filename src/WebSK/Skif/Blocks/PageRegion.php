@@ -33,7 +33,7 @@ class PageRegion implements
 
     const string DB_TABLE_NAME = 'page_regions';
 
-    protected int $id;
+    protected ?int $id = null;
 
     protected string $name;
 
@@ -59,7 +59,6 @@ class PageRegion implements
     {
         if ($id_to_load == Block::BLOCK_REGION_NONE) {
             $obj = new PageRegion();
-            $obj->id = $id_to_load;
             $obj->setName('disabled');
             $obj->setTitle('Отключенные блоки');
 
@@ -133,11 +132,11 @@ class PageRegion implements
     }
 
     /**
-     * @param int $page_region_id
+     * @param int $id
      */
-    public static function afterUpdate($page_region_id): void
+    public static function afterUpdate(int $id): void
     {
-        $page_region_obj = self::factory($page_region_id);
+        $page_region_obj = self::factory($id);
 
         $cache_key = PageRegionsUtils::getPageRegionIdByNameAndTemplateIdCacheKey(
             $page_region_obj->getName(),
@@ -145,7 +144,7 @@ class PageRegion implements
         );
         CacheWrapper::delete($cache_key);
 
-        self::removeObjFromCacheById($page_region_id);
+        self::removeObjFromCacheById($id);
 
         Logger::logObjectEvent($page_region_obj, 'изменение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }

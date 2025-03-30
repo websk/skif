@@ -31,7 +31,7 @@ class Comment extends Entity
     protected ?string $user_email = null;
 
     const string _URL_MD5 = 'url_md5';
-    protected string $url_md5;
+    protected ?string $url_md5 = null;
 
     /**
      * Parent ID

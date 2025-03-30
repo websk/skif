@@ -45,8 +45,8 @@ class AdminCommentListHandler extends BaseHandler
                 'comment_create_rand324324',
                 new Comment(),
                 [
-                    new CRUDFormRow('Комментарий', new CRUDFormWidgetTextarea(Comment::_COMMENT)),
-                    new CRUDFormRow('Адрес страницы', new CRUDFormWidgetInput(Comment::_URL))
+                    new CRUDFormRow('Комментарий', new CRUDFormWidgetTextarea(Comment::_COMMENT, true)),
+                    new CRUDFormRow('Адрес страницы', new CRUDFormWidgetInput(Comment::_URL, false, true))
                 ]
             ),
             [

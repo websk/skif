@@ -4,7 +4,7 @@ namespace WebSK\Skif\SiteMenu\RequestHandlers;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\CRUD;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
 use WebSK\CRUD\Table\CRUDTable;
@@ -27,7 +27,10 @@ use WebSK\Views\PhpRender;
  */
 class AdminSiteMenuListHandler extends BaseHandler
 {
-    const FILTER_SITE_MENU_NAME = 'site_menu_name';
+    const string FILTER_SITE_MENU_NAME = 'site_menu_name';
+
+    /** @Inject */
+    protected CRUD $crud_service;
 
     /**
      * @param ServerRequestInterface $request
@@ -36,9 +39,9 @@ class AdminSiteMenuListHandler extends BaseHandler
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $crud_table_obj = CRUDServiceProvider::getCrud($this->container)->createTable(
+        $crud_table_obj = $this->crud_service->createTable(
             SiteMenu::class,
-            CRUDServiceProvider::getCrud($this->container)->createForm(
+            $this->crud_service->createForm(
                 'site_menu_create',
                 new SiteMenu(),
                 [

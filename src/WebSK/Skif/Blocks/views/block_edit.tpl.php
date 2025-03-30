@@ -3,7 +3,7 @@
  * @var int $block_id
  */
 
-use WebSK\Auth\User\UserRoleService;
+use WebSK\Auth\User\RoleService;
 use WebSK\Skif\Blocks\BlockUtils;
 use WebSK\Skif\Blocks\ControllerBlocks;
 use WebSK\Slim\Container;
@@ -77,7 +77,7 @@ $items = [];
                             $block_role_ids_arr = $block_obj->getRoleIdsArr();
 
                             $container = Container::self();
-                            $role_service = $container->get(UserRoleService::class);
+                            $role_service = $container->get(RoleService::class);
 
                             $roles_ids_arr = $role_service->getAllIdsArrByIdAsc();
 
