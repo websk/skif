@@ -5,6 +5,8 @@ namespace WebSK\Skif\RequestHandlers;
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Handlers\ErrorHandler;
+use Throwable;
 use WebSK\Config\ConfWrapper;
 use WebSK\Skif\SkifPath;
 use WebSK\Views\BreadcrumbItemDTO;
@@ -15,15 +17,35 @@ use WebSK\Views\PhpRender;
  * Class NotFoundHandler
  * @package WebSK\Skif\RequestHandlers
  */
-class NotFoundHandler
+class NotFoundHandler extends ErrorHandler
 {
+
     /**
      * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
+     * @param Throwable $exception
+     * @param bool $displayErrorDetails
+     * @param bool $logErrors
+     * @param bool $logErrorDetails
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
-    {
+    public function __invoke(
+        ServerRequestInterface $request,
+        Throwable $exception,
+        bool $displayErrorDetails,
+        bool $logErrors,
+        bool $logErrorDetails
+    ): ResponseInterface {
+        $this->displayErrorDetails = $displayErrorDetails;
+        $this->logErrors = $logErrors;
+        $this->logErrorDetails = $logErrorDetails;
+        $this->request = $request;
+        $this->exception = $exception;
+        $this->method = $request->getMethod();
+        $this->statusCode = $this->determineStatusCode();
+        if ($this->contentType === null) {
+            $this->contentType = $this->determineContentType($request);
+        }
+
         $error_code = StatusCodeInterface::STATUS_NOT_FOUND;
 
         $extra_message = 'Страница не найдена';
@@ -42,6 +64,7 @@ class NotFoundHandler
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 
+        $response = $this->responseFactory->createResponse($this->statusCode);
         $response = $response->withStatus($error_code);
 
         return PhpRender::renderLayout($response, ConfWrapper::value('layout.error'), $layout_dto);

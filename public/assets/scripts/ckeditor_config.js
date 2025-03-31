@@ -45,6 +45,8 @@ CKEDITOR.editorConfig = function (config) {
     };
 
     config.linkDefaultProtocol = 'https://';
+
+    config.versionCheck = false;
 };
 
 CKEDITOR.on('dialogDefinition', (ev) => {

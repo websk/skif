@@ -21,6 +21,14 @@ use Slim\Handlers\ErrorHandler;
 class SkifErrorHandler extends ErrorHandler
 {
 
+    /**
+     * @param ServerRequestInterface $request
+     * @param Throwable $exception
+     * @param bool $displayErrorDetails
+     * @param bool $logErrors
+     * @param bool $logErrorDetails
+     * @return ResponseInterface
+     */
     public function __invoke(
         ServerRequestInterface $request,
         Throwable $exception,
@@ -66,7 +74,6 @@ class SkifErrorHandler extends ErrorHandler
             new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
-
 
         $response = $this->responseFactory->createResponse($this->statusCode);
         $response = $response->withStatus($error_code);

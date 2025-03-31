@@ -97,5 +97,12 @@ docker compose exec php-fpm php vendor/bin/websk_db_migration.php migrations:mig
 docker compose exec php-fpm php vendor/bin/websk_auth_create_user.php auth:create_user
 ```
 
+* Install static
+
+```shell
+npm install
+npm run build
+```
+
 * open `https://skif.devbox/admin`
 * login as created user

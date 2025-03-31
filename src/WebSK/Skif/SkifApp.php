@@ -3,6 +3,7 @@
 namespace WebSK\Skif;
 
 use Psr\Container\ContainerInterface;
+use Slim\Exception\HttpNotFoundException;
 use Slim\Interfaces\InvocationStrategyInterface;
 use Slim\Interfaces\RouteCollectorProxyInterface;
 use Slim\Interfaces\RouteParserInterface;
@@ -84,10 +85,7 @@ class SkifApp extends App
 
         $error_middleware = $this->addErrorMiddleware($container->get('settings.displayErrorDetails'), true, true);
         $error_middleware->setDefaultErrorHandler(SkifErrorHandler::class);
-
-        $container->set('notFoundHandler', function () {
-            return new NotFoundHandler();
-        });
+        $error_middleware->setErrorHandler(HttpNotFoundException::class, NotFoundHandler::class);
     }
 
     /**
