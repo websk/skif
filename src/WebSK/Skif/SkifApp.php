@@ -26,7 +26,7 @@ use WebSK\Skif\Poll\PollRoutes;
 use WebSK\Skif\Poll\PollServiceProvider;
 use WebSK\Skif\Redirect\RedirectRoutes;
 use WebSK\Skif\Redirect\RedirectServiceProvider;
-use WebSK\Skif\RequestHandlers\ErrorHandler;
+use WebSK\Skif\RequestHandlers\SkifErrorHandler;
 use WebSK\Skif\RequestHandlers\NotFoundHandler;
 use WebSK\Skif\SiteMenu\SiteMenuRoutes;
 use WebSK\Auth\AuthRoutes;
@@ -82,8 +82,8 @@ class SkifApp extends App
 
         $this->registerRoutes();
 
-        $error_middleware = $this->addErrorMiddleware(true, true, true);
-        $error_middleware->setDefaultErrorHandler(ErrorHandler::class);
+        $error_middleware = $this->addErrorMiddleware($container->get('settings.displayErrorDetails'), true, true);
+        $error_middleware->setDefaultErrorHandler(SkifErrorHandler::class);
 
         $container->set('notFoundHandler', function () {
             return new NotFoundHandler();

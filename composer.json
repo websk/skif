@@ -14,7 +14,7 @@
     "websk/php-captcha": "2.3.*",
     "websk/php-config": "2.0.*",
     "websk/php-db": "2.1.*",
-    "websk/php-imagemanager": "2.1.*",
+    "websk/php-imagemanager": "2.2.*",
     "websk/php-keyvalue": "2.1.*",
     "websk/php-logger": "2.1.*",
     "websk/php-model": "2.1.*",

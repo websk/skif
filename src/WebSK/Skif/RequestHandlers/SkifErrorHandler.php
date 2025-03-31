@@ -5,27 +5,44 @@ namespace WebSK\Skif\RequestHandlers;
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Throwable;
 use WebSK\Auth\Auth;
 use WebSK\Config\ConfWrapper;
 use WebSK\Skif\SkifPath;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
+use Slim\Handlers\ErrorHandler;
 
 /**
  * Class ErrorHandler
  * @package WebSK\Skif\RequestHandlers
  */
-class ErrorHandler
+class SkifErrorHandler extends ErrorHandler
 {
-    /**
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @param $exception
-     * @return ResponseInterface
-     */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $exception): ResponseInterface
-    {
+
+    public function __invoke(
+        ServerRequestInterface $request,
+        Throwable $exception,
+        bool $displayErrorDetails,
+        bool $logErrors,
+        bool $logErrorDetails
+    ): ResponseInterface {
+        $this->displayErrorDetails = $displayErrorDetails;
+        $this->logErrors = $logErrors;
+        $this->logErrorDetails = $logErrorDetails;
+        $this->request = $request;
+        $this->exception = $exception;
+        $this->method = $request->getMethod();
+        $this->statusCode = $this->determineStatusCode();
+        if ($this->contentType === null) {
+            $this->contentType = $this->determineContentType($request);
+        }
+
+        if ($logErrors) {
+            $this->writeToErrorLog();
+        }
+
         $error_code = StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR;
 
         $extra_message = 'Ошибка. 500 Internal Server Error';
@@ -51,8 +68,10 @@ class ErrorHandler
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 
 
+        $response = $this->responseFactory->createResponse($this->statusCode);
         $response = $response->withStatus($error_code);
 
         return PhpRender::renderLayout($response, ConfWrapper::value('layout.error'), $layout_dto);
     }
+
 }

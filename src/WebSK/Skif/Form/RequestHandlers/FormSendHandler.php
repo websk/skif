@@ -123,6 +123,6 @@ class FormSendHandler extends BaseHandler
         $mail->AltBody = Sanitize::sanitizeAttrValue($response_mail_message);
         $mail->send();
 
-        return $response->withRedirect($form_obj->getUrl());
+        return $response->withHeader('Location', $form_obj->getUrl());
     }
 }
