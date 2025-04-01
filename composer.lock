@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.342.16",
+            "version": "3.342.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "c7db59f47523f66205b4c429a69b6baf947d3f78"
+                "reference": "110ca44672e59ec3255c693e9e761001f2706b53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c7db59f47523f66205b4c429a69b6baf947d3f78",
-                "reference": "c7db59f47523f66205b4c429a69b6baf947d3f78",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/110ca44672e59ec3255c693e9e761001f2706b53",
+                "reference": "110ca44672e59ec3255c693e9e761001f2706b53",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.342.16"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.342.17"
             },
-            "time": "2025-03-28T18:09:10+00:00"
+            "time": "2025-03-31T18:16:40+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -4027,16 +4027,16 @@
         },
         {
             "name": "websk/php-auth",
-            "version": "2.4.1",
+            "version": "2.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-auth.git",
-                "reference": "0addc62bb1dfdc1269ac39e0f4910377efad62af"
+                "reference": "09c8327bed8faac2c586d02503083a663203e629"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-auth/zipball/0addc62bb1dfdc1269ac39e0f4910377efad62af",
-                "reference": "0addc62bb1dfdc1269ac39e0f4910377efad62af",
+                "url": "https://api.github.com/repos/websk/php-auth/zipball/09c8327bed8faac2c586d02503083a663203e629",
+                "reference": "09c8327bed8faac2c586d02503083a663203e629",
                 "shasum": ""
             },
             "require": {
@@ -4069,9 +4069,9 @@
             "description": "Authorization and user management",
             "support": {
                 "issues": "https://github.com/websk/php-auth/issues",
-                "source": "https://github.com/websk/php-auth/tree/2.4.1"
+                "source": "https://github.com/websk/php-auth/tree/2.4.2"
             },
-            "time": "2025-03-29T16:33:40+00:00"
+            "time": "2025-04-01T05:00:42+00:00"
         },
         {
             "name": "websk/php-cache",
@@ -4439,16 +4439,16 @@
         },
         {
             "name": "websk/php-logger",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-logger.git",
-                "reference": "688c31157ddfd4e2b806e9d6ecef95ba04790890"
+                "reference": "b4836e0545ed1a584bdf006fe7018f8c753c3fcf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-logger/zipball/688c31157ddfd4e2b806e9d6ecef95ba04790890",
-                "reference": "688c31157ddfd4e2b806e9d6ecef95ba04790890",
+                "url": "https://api.github.com/repos/websk/php-logger/zipball/b4836e0545ed1a584bdf006fe7018f8c753c3fcf",
+                "reference": "b4836e0545ed1a584bdf006fe7018f8c753c3fcf",
                 "shasum": ""
             },
             "require": {
@@ -4473,9 +4473,9 @@
             "description": "Entity Logger",
             "support": {
                 "issues": "https://github.com/websk/php-logger/issues",
-                "source": "https://github.com/websk/php-logger/tree/2.1.0"
+                "source": "https://github.com/websk/php-logger/tree/2.1.1"
             },
-            "time": "2025-03-26T06:17:19+00:00"
+            "time": "2025-04-01T05:54:09+00:00"
         },
         {
             "name": "websk/php-model",

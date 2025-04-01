@@ -10,6 +10,7 @@ use WebSK\Skif\Content\ContentPhoto;
 use WebSK\Skif\Content\ContentPhotoService;
 use WebSK\Skif\Content\ContentService;
 use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Slim\Response;
 
 /**
  * Class ContentPhotoCreateHandler
@@ -48,6 +49,6 @@ class ContentPhotoCreateHandler extends BaseHandler
         $content_photo_obj->setPhoto($file_name);
         $this->content_photo_service->save($content_photo_obj);
 
-        return $response->withJson($json_arr);
+        return Response::responseWithJson($response, $json_arr);
     }
 }

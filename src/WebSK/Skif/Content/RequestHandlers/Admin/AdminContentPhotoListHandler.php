@@ -4,6 +4,7 @@ namespace WebSK\Skif\Content\RequestHandlers\Admin;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use WebSK\Skif\Content\ContentPhotoService;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Views\PhpRender;
 
@@ -13,6 +14,9 @@ use WebSK\Views\PhpRender;
  */
 class AdminContentPhotoListHandler extends BaseHandler
 {
+    /** @Inject */
+    protected ContentPhotoService $content_photo_service;
+
     /**
      * @param RequestInterface $request
      * @param ResponseInterface $response
@@ -25,7 +29,10 @@ class AdminContentPhotoListHandler extends BaseHandler
         return PhpRender::render(
             $response,
             __DIR__ . '/../../views/content_photo_form_edit_photo_list.tpl.php',
-            ['content_id' => $content_id]
+            [
+                'content_id' => $content_id,
+                'content_photo_service' => $this->content_photo_service
+            ]
         );
     }
 }

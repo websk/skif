@@ -2,32 +2,28 @@
 /**
  * @var int $content_id
  * @var string $content_type
+ * @var ContentService $content_service
+ * @var ContentTypeService $content_type_service
+ * @var RubricService $rubric_service
+ * @var TemplateService $template_service
  */
 
 use WebSK\Skif\Content\Content;
-use WebSK\Skif\Content\ContentServiceProvider;
+use WebSK\Skif\Content\ContentService;
 use WebSK\Skif\CKEditor\CKEditor;
 use WebSK\Image\ImageManager;
 use WebSK\Logger\LoggerRender;
+use WebSK\Skif\Content\ContentTypeService;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentDeleteImageAction;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentSaveHandler;
-use WebSK\Slim\Container;
+use WebSK\Skif\Content\RubricService;
+use WebSK\Skif\Content\TemplateService;
 use WebSK\Slim\Router;
 use WebSK\Views\PhpRender;
 
-$container = Container::self();
-
-$content_type_service = ContentServiceProvider::getContentTypeService($container);
 $content_type_obj = $content_type_service->getByType($content_type);
-$content_service = ContentServiceProvider::getContentService($container);
 
-if ($content_id == 'new') {
-    $content_obj = new Content();
-} else {
-    $content_obj = $content_service->getById($content_id);
-}
-
-$rubric_service = ContentServiceProvider::getRubricService($container);
+$content_obj = $content_service->getById($content_id);
 
 $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->getId());
 ?>
@@ -120,8 +116,6 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
 
                     <div class="col-md-10">
                         <?php
-                        $template_service = ContentServiceProvider::getTemplateService(Container::self());
-
                         $templates_ids_arr = $template_service->getAllIdsArrByIdAsc();
                         ?>
                         <select id="template_id" name="template_id" class="form-control">
@@ -282,7 +276,11 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
                         <div class="panel-body">
                             <?php echo PhpRender::renderLocalTemplate(
                                 'content_photo_form_edit.tpl.php',
-                                ['content_type' => $content_type, 'content_id' => $content_id]
+                                [
+                                    'content_type' => $content_type,
+                                    'content_id' => $content_id,
+                                    'content_service' => $content_service
+                                ]
                             )
                             ?>
                         </div>

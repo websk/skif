@@ -9,6 +9,7 @@ use WebSK\Image\ImageConstants;
 use WebSK\Image\ImageController;
 use WebSK\Skif\Content\ContentService;
 use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Slim\Response;
 
 /**
  * Class AdminContentUploadImageAction
@@ -46,6 +47,6 @@ class AdminContentUploadImageAction extends BaseHandler
 
         $data = 'OK';
 
-        return $response->withJson($data);
+        return Response::responseWithJson($response, $data);
     }
 }

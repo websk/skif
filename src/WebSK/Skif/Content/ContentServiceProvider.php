@@ -171,15 +171,6 @@ class ContentServiceProvider
 
     /**
      * @param ContainerInterface $container
-     * @return ContentPhotoService
-     */
-    public static function getContentPhotoService(ContainerInterface $container): ContentPhotoService
-    {
-        return $container->get(ContentPhotoService::class);
-    }
-
-    /**
-     * @param ContainerInterface $container
      * @return ContentTypeService
      */
     public static function getContentTypeService(ContainerInterface $container): ContentTypeService

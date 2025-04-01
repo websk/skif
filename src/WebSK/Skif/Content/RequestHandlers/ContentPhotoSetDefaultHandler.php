@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Skif\Content\ContentPhotoService;
 use WebSK\Skif\Content\ContentService;
 use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Slim\Response;
 
 /**
  * Class ContentPhotoSetDefaultHandler
@@ -49,6 +50,6 @@ class ContentPhotoSetDefaultHandler extends BaseHandler
 
         $json_arr['status'] = 'success';
 
-        return $response->withJson($json_arr);
+        return Response::responseWithJson($response, $json_arr);
     }
 }

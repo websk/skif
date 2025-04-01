@@ -1,19 +1,17 @@
 <?php
 /**
  * @var string $content_type
- * @var $content_id
+ * @var int $content_id
+ * @var ContentService $content_service
  */
 
+use WebSK\Skif\Content\ContentService;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentPhotoListHandler;
 use WebSK\Skif\Content\RequestHandlers\ContentPhotoCreateHandler;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\Router;
 
-if ($content_id == 'new') {
-    echo 'Чтобы появилась возможность добавлять фотографии, создайте сначала материал';
-    return;
-}
-
+$content_obj = $content_service->getById($content_id);
 
 ?>
 <div id="content_photos_list"></div>

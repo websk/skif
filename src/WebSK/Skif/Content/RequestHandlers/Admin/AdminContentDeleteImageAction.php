@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Skif\Content\ContentService;
 use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Slim\Response;
 
 /**
  * Class AdminContentDeleteImageAction
@@ -35,6 +36,6 @@ class AdminContentDeleteImageAction extends BaseHandler
 
         $data = 'OK';
 
-        return $response->withJson($data);
+        return Response::responseWithJson($response, $data);
     }
 }

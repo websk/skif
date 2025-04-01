@@ -7,6 +7,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Skif\Content\ContentService;
 use WebSK\Skif\Content\ContentTypeService;
 use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Slim\Response;
 
 /**
  * Class AdminContentListAutocompleteAction
@@ -48,6 +49,6 @@ class AdminContentListAutocompleteAction extends BaseHandler
             ];
         }
 
-        return $response->withJson($output_arr);
+        return Response::responseWithJson($response, $output_arr);
     }
 }
