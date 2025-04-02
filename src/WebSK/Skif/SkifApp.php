@@ -14,6 +14,7 @@ use WebSK\Auth\User\UserServiceProvider;
 use WebSK\Cache\CacheWrapper;
 use WebSK\DB\DBWrapper;
 use WebSK\Skif\Blocks\BlockRoutes;
+use WebSK\Skif\Blocks\BlockServiceProvider;
 use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Skif\Comment\CommentServiceProvider;
 use WebSK\Skif\Content\ContentRoutes;
@@ -68,6 +69,7 @@ class SkifApp extends App
         KeyValueServiceProvider::register($container);
         LoggerServiceProvider::register($container);
         ContentServiceProvider::register($container);
+        BlockServiceProvider::register($container);
         CommentServiceProvider::register($container);
         FormServiceProvider::register($container);
         RedirectServiceProvider::register($container);
@@ -110,6 +112,7 @@ class SkifApp extends App
             UserRoutes::registerAdmin($route_collector_proxy);
             LoggerRoutes::registerAdmin($route_collector_proxy);
             ContentRoutes::registerAdmin($route_collector_proxy);
+            BlockRoutes::registerAdmin($route_collector_proxy);
             CommentRoutes::registerAdmin($route_collector_proxy);
             FormRoutes::registerAdmin($route_collector_proxy);
             PollRoutes::registerAdmin($route_collector_proxy);

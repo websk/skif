@@ -3,6 +3,7 @@
  * @var string $search_value
  */
 
+use WebSK\Skif\Blocks\BlockUtils;
 use WebSK\Skif\Blocks\ControllerBlocks;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Slim\Container;
@@ -11,7 +12,7 @@ if (!isset($search_value)) {
     $search_value = '';
 }
 
-$current_template_id = ControllerBlocks::getCurrentTemplateId();
+$current_template_id = BlockUtils::getCurrentTemplateId();
 ?>
 
 <script type="text/javascript">

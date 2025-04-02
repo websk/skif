@@ -16,6 +16,8 @@ use WebSK\DB\DBWrapper;
  */
 class BlockUtils
 {
+    public const string COOKIE_CURRENT_TEMPLATE_ID = 'skif_blocks_current_template_id';
+
     /**
      * Видимость блока для пользователя
      * @param int|null $block_id
@@ -148,7 +150,7 @@ class BlockUtils
         $block_content = $block_obj->getBody();
 
         if ($block_obj->getFormat() == Block::BLOCK_FORMAT_TYPE_PHP) {
-            $block_content = $block_obj->evalContentPHPBlock();
+            $block_content = self::evalContentPHPBlock($block_obj);
         }
 
         if ($cache_enabled) {
@@ -157,6 +159,21 @@ class BlockUtils
         }
 
         return $block_content;
+    }
+
+    /**
+     * Выполняет PHP код в блоке и возвращает результат
+     * @param Block $block_obj
+     * @return string
+     */
+    public static function evalContentPHPBlock(Block $block_obj): string
+    {
+        ob_start();
+        print eval('?>'. $block_obj->getBody());
+        $output = ob_get_contents();
+        ob_end_clean();
+
+        return $output;
     }
 
     /**
@@ -256,7 +273,7 @@ class BlockUtils
     {
         $cache_key = 'template_id_' . $template_id . '_block_ids_arr_by_page_region_id_';
 
-        if ($page_region_id == Block::BLOCK_REGION_NONE) {
+        if ($page_region_id == PageRegion::BLOCK_REGION_NONE) {
             return $cache_key . '_disabled';
         }
 
@@ -288,5 +305,24 @@ class BlockUtils
             Block::BLOCK_CACHE_PER_PAGE => 'кэшировать для каждого урла',
             Block::BLOCK_CACHE_GLOBAL => 'кэшировать глобально'
         );
+    }
+
+    /**
+     * Тема
+     * @return string
+     */
+    public static function getCurrentTemplateId(): int
+    {
+        if (array_key_exists(self::COOKIE_CURRENT_TEMPLATE_ID, $_COOKIE)) {
+            return $_COOKIE[self::COOKIE_CURRENT_TEMPLATE_ID];
+        }
+
+        return 1;
+    }
+
+    public static function setCurrentTemplateId(int $template_id): void
+    {
+        $delta = null;
+        setcookie(BlockUtils::COOKIE_CURRENT_TEMPLATE_ID, $template_id, $delta, '/');
     }
 }

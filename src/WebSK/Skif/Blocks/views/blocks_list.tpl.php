@@ -11,7 +11,7 @@ echo PhpRender::renderLocalTemplate(
     'blocks_list_header.tpl.php'
 );
 
-$current_template_id = ControllerBlocks::getCurrentTemplateId();
+$current_template_id = BlockUtils::getCurrentTemplateId();
 
 $region_ids_arr = PageRegionsUtils::getPageRegionIdsArrByTemplateId($current_template_id);
 
@@ -40,7 +40,7 @@ $region_ids_arr = PageRegionsUtils::getPageRegionIdsArrByTemplateId($current_tem
             echo '<tr>';
             echo '<td style="max-width: 30px">' . $block_obj->getId() . '</td>';
             echo '<td><a href="' . $block_obj->getEditorUrl() . '">' . $block_obj->getTitle() . '</td>';
-            if ($page_region_id != Block::BLOCK_REGION_NONE) {
+            if ($page_region_id != PageRegion::BLOCK_REGION_NONE) {
                 ?>
                 <td align="right">
                     <a href="<?php echo $block_obj->getEditorUrl(); ?>" title="Редактировать"

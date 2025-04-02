@@ -18,7 +18,6 @@ use WebSK\Views\PhpRender;
  */
 class ControllerBlocks
 {
-    const string COOKIE_CURRENT_TEMPLATE_ID = 'skif_blocks_current_template_id';
 
     /**
      * URL страницы со списком блоков
@@ -43,28 +42,9 @@ class ControllerBlocks
         }
     }
 
-    /**
-     * Тема
-     * @return string
-     */
-    public static function getCurrentTemplateId(): int
-    {
-        if (array_key_exists(self::COOKIE_CURRENT_TEMPLATE_ID, $_COOKIE)) {
-            return $_COOKIE[self::COOKIE_CURRENT_TEMPLATE_ID];
-        }
-
-        return 1;
-    }
-
-    public static function setCurrentTemplateId(int $template_id): void
-    {
-        $delta = null;
-        setcookie(self::COOKIE_CURRENT_TEMPLATE_ID, $template_id, $delta, '/');
-    }
-
     public function changeTemplateAction(int  $template_id): void
     {
-        self::setCurrentTemplateId($template_id);
+        BlockUtils::setCurrentTemplateId($template_id);
 
         Messages::setMessage('Тема изменена');
 
@@ -157,7 +137,7 @@ class ControllerBlocks
 
         $block_obj = Block::factory($block_id);
 
-        if ($block_obj->getPageRegionId() == Block::BLOCK_REGION_NONE) {
+        if ($block_obj->getPageRegionId() == PageRegion::BLOCK_REGION_NONE) {
             return;
         }
 
@@ -167,11 +147,11 @@ class ControllerBlocks
         $restore_url = $block_obj->getEditorUrl();
         $restore_url .= '/position?_action=move_block&target_region=' . $prev_region . '&target_weight=' . $prev_weight;
 
-        $block_obj->setPageRegionId(Block::BLOCK_REGION_NONE);
+        $block_obj->setPageRegionId(PageRegion::BLOCK_REGION_NONE);
         $block_obj->save();
 
         BlockUtils::clearBlockIdsArrByPageRegionIdCache($prev_region, $block_obj->getTemplateId());
-        BlockUtils::clearBlockIdsArrByPageRegionIdCache(Block::BLOCK_REGION_NONE, $block_obj->getTemplateId());
+        BlockUtils::clearBlockIdsArrByPageRegionIdCache(PageRegion::BLOCK_REGION_NONE, $block_obj->getTemplateId());
 
         Logger::logObjectEvent($block_obj, 'отключение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
 
@@ -184,7 +164,7 @@ class ControllerBlocks
      * Редактирование блока
      * @param int $block_id
      */
-    public function editAction(int $block_id)
+    public function editAction(int $block_id): void
     {
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
@@ -208,7 +188,7 @@ class ControllerBlocks
 
     /**
      * Действия над блоком
-     * @param Block $block_id
+     * @param int $block_id
      */
     public static function actions(int $block_id): void
     {
@@ -235,76 +215,8 @@ class ControllerBlocks
         }
 
         if ($action == 'save_content') {
-            self::saveContent($block_id);
+            //self::saveContent($block_id);
         }
-    }
-
-    /**
-     * Сохранение содержимого блока
-     * @param int $block_id
-     */
-    public static function saveContent(int $block_id): void
-    {
-        // Проверка прав доступа
-        Exits::exit403If(!Auth::currentUserIsAdmin());
-
-        $block_obj = self::getBlockObj($block_id);
-
-        $title = array_key_exists('title', $_POST) ? $_POST['title'] : '';
-        $block_obj->setTitle($title);
-
-        $body = array_key_exists('body', $_POST) ? $_POST['body'] : '';
-        $block_obj->setBody($body);
-
-        $format = array_key_exists('format', $_POST) ? $_POST['format'] : 3;
-        $block_obj->setFormat($format);
-
-        $pages = array_key_exists('pages', $_POST) ? $_POST['pages'] : '+ ^';
-        $block_obj->setPages($pages);
-
-        $is_new = !$block_obj->getId();
-
-        if ($is_new) {
-            $template_id = self::getCurrentTemplateId();
-
-            $block_obj->setTemplateId($template_id);
-        }
-
-        $block_obj->save();
-
-
-        // Roles
-        $block_obj->deleteBlocksRoles();
-
-        if (array_key_exists('roles', $_REQUEST)) {
-            foreach ($_REQUEST['roles'] as $role_id) {
-                $block_role_obj = new \WebSK\Skif\Blocks\BlockRole();
-                $block_role_obj->setRoleId($role_id);
-                $block_role_obj->setBlockId($block_obj->getId());
-                $block_role_obj->save();
-            }
-        }
-
-        // Clear cache
-        if ($is_new) {
-            BlockUtils::clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId(), $block_obj->getTemplateId());
-        }
-
-        Messages::setMessage('Изменения сохранены');
-
-        // Redirects
-        if (array_key_exists('_redirect_to_on_success', $_REQUEST) && $_REQUEST['_redirect_to_on_success'] != '') {
-            $redirect_to_on_success = $_REQUEST['_redirect_to_on_success'];
-
-            // block_id
-            if (strpos($redirect_to_on_success, 'block_id') !== false) {
-                $redirect_to_on_success = str_replace('block_id', $block_obj->getId(), $redirect_to_on_success);
-            }
-
-            Redirects::redirect($redirect_to_on_success);
-        }
-
-        Redirects::redirect($block_obj->getEditorUrl());
     }
 
     /**
@@ -572,7 +484,7 @@ class ControllerBlocks
         $blocks_ids_arr = array();
         $search_value = $_POST["search"];
 
-        $template_id = self::getCurrentTemplateId();
+        $template_id = BlockUtils::getCurrentTemplateId();
 
         if ((mb_strlen($_POST["search"]) > 3)) {
             $blocks_ids_arr = DBWrapper::readColumn(

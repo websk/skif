@@ -39,7 +39,7 @@ class FormRoutes
     }
 
     /**
-     * @param App $app
+     * @param RouteCollectorProxyInterface $route_collector_proxy
      */
     public static function registerAdmin(RouteCollectorProxyInterface $route_collector_proxy): void
     {

@@ -4,18 +4,27 @@
  */
 
 use WebSK\Auth\User\RoleService;
+use WebSK\Skif\Blocks\BlockRoleService;
+use WebSK\Skif\Blocks\BlockService;
 use WebSK\Skif\Blocks\BlockUtils;
 use WebSK\Skif\Blocks\ControllerBlocks;
 use WebSK\Slim\Container;
 use WebSK\Skif\SkifPath;
 use WebSK\Views\PhpRender;
 
-$block_obj = ControllerBlocks::getBlockObj($block_id);
+$container = Container::self();
+
+$role_service = $container->get(RoleService::class);
+$block_service = $container->get(BlockService::class);
+$block_role_service = $container->get(BlockRoleService::class);
+
+$block_obj = $block_service->getBlockObj($block_id);
 
 echo PhpRender::renderLocalTemplate(
     'block_edit_menu.tpl.php',
     array('block_id' => $block_id)
 );
+
 
 $items = [];
 ?>
@@ -74,10 +83,7 @@ $items = [];
                 <div class="form-group">
                         <span id="roles">
                             <?php
-                            $block_role_ids_arr = $block_obj->getRoleIdsArr();
-
-                            $container = Container::self();
-                            $role_service = $container->get(RoleService::class);
+                            $block_role_ids_arr = $block_role_service->getRoleIdsByBlockId($block_id);
 
                             $roles_ids_arr = $role_service->getAllIdsArrByIdAsc();
 

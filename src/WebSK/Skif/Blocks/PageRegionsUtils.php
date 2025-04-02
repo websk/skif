@@ -140,7 +140,7 @@ class PageRegionsUtils
             $page_region_ids_arr = DBWrapper::readColumn($query, [$template_id]);
         }
 
-        $page_region_ids_arr[] = Block::BLOCK_REGION_NONE;
+        $page_region_ids_arr[] = PageRegion::BLOCK_REGION_NONE;
 
         $static_page_region_ids_arr[$template_id] = $page_region_ids_arr;
 
