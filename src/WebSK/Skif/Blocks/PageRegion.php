@@ -2,11 +2,7 @@
 
 namespace WebSK\Skif\Blocks;
 
-use WebSK\Auth\Auth;
 use WebSK\Entity\Entity;
-use WebSK\Model\ActiveRecordHelper;
-use WebSK\Model\Factory;
-use WebSK\Utils\Assert;
 
 /**
  * Class PageRegion
@@ -19,32 +15,14 @@ class PageRegion extends Entity
 
     public const null BLOCK_REGION_NONE = null;
 
+    const string _NAME = 'name';
     protected string $name;
 
+    const string _TEMPLATE_ID = 'template_id';
     protected int $template_id;
 
+    const string _TITLE = 'title';
     protected string $title;
-
-
-    public static function factory(?int $id_to_load, bool $exception_if_not_loaded = true)
-    {
-        if ($id_to_load == self::BLOCK_REGION_NONE) {
-            $obj = new PageRegion();
-            $obj->setName('disabled');
-            $obj->setTitle('Отключенные блоки');
-
-            return $obj;
-        }
-
-        $class_name = self::getMyGlobalizedClassName();
-        $obj = Factory::createAndLoadObject($class_name, $id_to_load);
-
-        if ($exception_if_not_loaded) {
-            Assert::assert($obj);
-        }
-
-        return $obj;
-    }
 
     /**
      * @return string

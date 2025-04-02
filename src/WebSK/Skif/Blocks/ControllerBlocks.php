@@ -6,6 +6,7 @@ use WebSK\Auth\Auth;
 use WebSK\DB\DBWrapper;
 use WebSK\Logger\Logger;
 use WebSK\Skif\SkifPath;
+use WebSK\Slim\Container;
 use WebSK\Utils\FullObjectId;
 use WebSK\Utils\Messages;
 use WebSK\Utils\Exits;
@@ -61,7 +62,10 @@ class ControllerBlocks
             return new Block();
         }
 
-        return Block::factory($block_id);
+        $container = Container::self();
+        $block_service = $container->get(BlockService::class);
+
+        return $block_service->getById($block_id);
     }
 
     /**
@@ -77,7 +81,10 @@ class ControllerBlocks
             return 'Создание блока';
         }
 
-        $page_region_obj = PageRegion::factory($block_obj->getPageRegionId());
+        $container = Container::self();
+        $page_region_service = $container->get(PageRegionService::class);
+
+        $page_region_obj = $page_region_service->getById($block_obj->getPageRegionId());
         $region_for_title = $page_region_obj->getTitle();
 
         $page_title = $block_obj->getTitle();
@@ -310,17 +317,20 @@ class ControllerBlocks
             return;
         }
 
-        $block_obj = Block::factory($block_id);
+        $container = Container::self();
+        $block_service = $container->get(BlockService::class);
+
+        $block_obj = $block_service->getById($block_id);
 
         $source_region = $block_obj->getPageRegionId();
         $block_obj->setPageRegionId($target_region_id);
 
         Logger::logObjectEvent($block_obj, 'перемещение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
 
-        $blocks_ids_arr = BlockUtils::getBlockIdsArrByPageRegionId($target_region_id, $block_obj->getTemplateId());
+        $blocks_ids_arr = $block_service->getBlockIdsArrByPageRegionId($target_region_id, $block_obj->getTemplateId());
 
         /** @var Block[] $arranged_blocks */
-        $arranged_blocks = array();
+        $arranged_blocks = [];
 
         $block_inserted = false;
 
@@ -333,7 +343,7 @@ class ControllerBlocks
         $last_weight = -1;
 
         foreach ($blocks_ids_arr as $other_block_id) {
-            $other_block_obj = Block::factory($other_block_id);
+            $other_block_obj = $block_service->getById($other_block_id);
 
             if ($other_block_obj->getId() != $block_obj->getId()) {
                 // if not our block - copy it to arranged blocks
@@ -379,7 +389,7 @@ class ControllerBlocks
             $weight = $i + 1;
 
             $other_block_obj->setWeight($weight);
-            $other_block_obj->save();
+            $block_service->save($other_block_obj);
         }
 
 

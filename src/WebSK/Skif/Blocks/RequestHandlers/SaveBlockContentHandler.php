@@ -6,6 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Skif\Blocks\BlockRole;
 use WebSK\Skif\Blocks\BlockRoleService;
+use WebSK\Skif\Blocks\BlockRoutes;
 use WebSK\Skif\Blocks\BlockService;
 use WebSK\Skif\Blocks\BlockUtils;
 use WebSK\Slim\RequestHandlers\BaseHandler;
@@ -84,6 +85,6 @@ class SaveBlockContentHandler extends BaseHandler
             return $response->withHeader('Location', $redirect_to_on_success);
         }
 
-        return $response->withHeader('Location', $block_obj->getEditorUrl());
+        return $response->withHeader('Location', BlockRoutes::getEditorUrl($block_id));
     }
 }

@@ -4,12 +4,16 @@
  * @var ?int $target_region
  */
 
-use WebSK\Skif\Blocks\Block;
-use WebSK\Skif\Blocks\BlockUtils;
+use WebSK\Skif\Blocks\BlockService;
 use WebSK\Skif\Blocks\ControllerBlocks;
-use WebSK\Skif\Blocks\PageRegion;
+use WebSK\Skif\Blocks\PageRegionService;
+use WebSK\Slim\Container;
 use WebSK\Utils\Url;
 use WebSK\Views\PhpRender;
+
+$container = Container::self();
+$page_region_service = $container->get(PageRegionService::class);
+$block_service = $container->get(BlockService::class);
 
 $block_obj = ControllerBlocks::getBlockObj($block_id);
 
@@ -23,7 +27,7 @@ if (!$block_obj->isLoaded()) {
     return;
 }
 
-$page_region_obj = PageRegion::factory($target_region);
+$page_region_obj = $page_region_service->getById($target_region);
 
 ?>
 
@@ -37,10 +41,10 @@ $page_region_obj = PageRegion::factory($target_region);
                 <td><a href="<?php echo Url::getUriNoQueryString() . '?_action=move_block&target_region=' . $target_region . '&target_weight=FIRST'; ?>">начало региона</a></td>
             </tr>
             <?php
-            $blocks_ids_arr = BlockUtils::getBlockIdsArrByPageRegionId($target_region, $block_obj->getTemplateId());
+            $blocks_ids_arr = $block_service->getBlockIdsArrByPageRegionId($target_region, $block_obj->getTemplateId());
 
             foreach ($blocks_ids_arr as $other_block_id) {
-                $other_block_obj = Block::factory($other_block_id);
+                $other_block_obj = $block_service->getById($other_block_id);
 
                 $tr_class = '';
                 if ($other_block_obj->getId() == $block_obj->getId()) {

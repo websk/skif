@@ -3,6 +3,7 @@
  * @var int $block_id
  */
 
+use WebSK\Skif\Blocks\BlockRoutes;
 use WebSK\Skif\Blocks\BlockUtils;
 use WebSK\Skif\Blocks\ControllerBlocks;
 use WebSK\Views\PhpRender;
@@ -21,7 +22,7 @@ if (!$block_obj->isLoaded()) {
 
 $cache_contexts_arr = BlockUtils::getCachesArr();
 ?>
-<form role="form" action="<?php echo $block_obj->getEditorUrl(); ?>/caching" method="post">
+<form role="form" action="<?php echo BlockRoutes::getEditorUrl($block_id); ?>/caching" method="post">
     <input type="hidden" value="save_caching" name="_action" id="_action" />
     <div class="form-group">
         <label for="cache">Контекст кэширования</label>

@@ -23,33 +23,30 @@ class Block extends Entity
     const int BLOCK_FORMAT_TYPE_HTML = 4;
     const int BLOCK_FORMAT_TYPE_PHP = 5;
 
+    const string _TEMPLATE_ID = 'template_id';
     protected ?int $template_id = Template::TEMPLATE_ID_MAIN;
 
+    const string _WEIGHT = 'weight';
     protected int $weight = 1;
 
+    const string _PAGE_REGION_ID = 'page_region_id';
     protected ?int $page_region_id = PageRegion::BLOCK_REGION_NONE;
 
+    const string _PAGES = 'pages';
     protected string $pages = '+ ^';
 
+    const string _TITLE = 'title';
     protected string $title = '';
 
+    const string_CACHE = 'cache';
     protected int $cache = self::BLOCK_CACHE_GLOBAL;
 
+    const string _BODY = 'body';
     protected string $body = '';
 
+    const string _FORMAT = 'format';
     protected int $format = self::BLOCK_FORMAT_TYPE_PLAIN;
 
-    /**
-     * @return string
-     */
-    public function getEditorUrl(): string
-    {
-        if (!$this->getId()) {
-            return '/admin/blocks/edit/new';
-        }
-
-        return '/admin/blocks/edit/' . $this->getId();
-    }
 
     /**
      * Был ли загружен блок

@@ -8,6 +8,9 @@ use WebSK\Entity\InterfaceEntity;
 use WebSK\Logger\Logger;
 use WebSK\Utils\FullObjectId;
 
+/**
+ * @method BlockRole getById($entity_id, $exception_if_not_loaded = true)
+ */
 class BlockRoleService extends EntityService
 {
     /** @var BlockRoleRepository */

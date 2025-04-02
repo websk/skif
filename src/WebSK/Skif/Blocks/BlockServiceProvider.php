@@ -3,6 +3,7 @@
 namespace WebSK\Skif\Blocks;
 
 use Psr\Container\ContainerInterface;
+use WebSK\Auth\User\UserService;
 use WebSK\Cache\CacheServiceProvider;
 use WebSK\Skif\SkifServiceProvider;
 
@@ -24,6 +25,7 @@ class BlockServiceProvider
                 $container->get(BlockRepository::class),
                 CacheServiceProvider::getCacheService($container),
                 $container->get(BlockRoleService::class),
+                $container->get(UserService::class)
             );
         });
 
@@ -61,10 +63,6 @@ class BlockServiceProvider
             );
         });
 
-        /**
-         * @param ContainerInterface $container
-         * @return PageRegionService
-         */
         $container->set(PageRegionService::class, function (ContainerInterface $container) {
             return new PageRegionService(
                 PageRegion::class,
@@ -73,10 +71,6 @@ class BlockServiceProvider
             );
         });
 
-        /**
-         * @param ContainerInterface $container
-         * @return PageRegionRepository
-         */
         $container->set(PageRegionRepository::class, function (ContainerInterface $container) {
             return new PageRegionRepository(
                 PageRegion::class,

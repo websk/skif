@@ -1,19 +1,23 @@
 <?php
 
-use WebSK\Skif\Blocks\Block;
+use WebSK\Skif\Blocks\BlockService;
 use WebSK\Skif\Blocks\BlockUtils;
-use WebSK\Skif\Blocks\ControllerBlocks;
 use WebSK\Skif\Blocks\PageRegion;
-use WebSK\Skif\Blocks\PageRegionsUtils;
+use WebSK\Skif\Blocks\PageRegionService;
+use WebSK\Slim\Container;
 use WebSK\Views\PhpRender;
 
 echo PhpRender::renderLocalTemplate(
     'blocks_list_header.tpl.php'
 );
 
+$container = Container::self();
+$page_region_service = $container->get(PageRegionService::class);
+$block_service = $container->get(BlockService::class);
+
 $current_template_id = BlockUtils::getCurrentTemplateId();
 
-$region_ids_arr = PageRegionsUtils::getPageRegionIdsArrByTemplateId($current_template_id);
+$region_ids_arr = $page_region_service->getPageRegionIdsArrByTemplateId($current_template_id);
 
 ?>
 <table class="table table-striped table-hover">
@@ -26,16 +30,16 @@ $region_ids_arr = PageRegionsUtils::getPageRegionIdsArrByTemplateId($current_tem
 
     <?php
     foreach ($region_ids_arr as $page_region_id) {
-        $page_region_obj = PageRegion::factory($page_region_id);
+        $page_region_obj = $page_region_service->getById($page_region_id);
 
-        $blocks_ids_arr = BlockUtils::getBlockIdsArrByPageRegionId($page_region_id, $current_template_id);
+        $blocks_ids_arr = $block_service->getBlockIdsArrByPageRegionId($page_region_id, $current_template_id);
         ?>
         <tr>
             <th colspan="3"><?php echo $page_region_obj->getTitle(); ?></th>
         </tr>
         <?php
         foreach ($blocks_ids_arr as $block_id) {
-            $block_obj = Block::factory($block_id);
+            $block_obj = $block_service->getById($block_id);
 
             echo '<tr>';
             echo '<td style="max-width: 30px">' . $block_obj->getId() . '</td>';

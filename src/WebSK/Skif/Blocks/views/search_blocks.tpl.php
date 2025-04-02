@@ -6,7 +6,12 @@
 
 use WebSK\Skif\Blocks\Block;
 use WebSK\Skif\Blocks\PageRegion;
+use WebSK\Skif\Blocks\PageRegionService;
+use WebSK\Slim\Container;
 use WebSK\Views\PhpRender;
+
+$container = Container::self();
+$page_region_service = $container->get(PageRegionService::class);
 
 $search_value = $_POST['search'];
 
@@ -26,7 +31,7 @@ echo PhpRender::renderLocalTemplate(
 foreach ($block_ids_arr as $block_id) {
     $block_obj = Block::factory($block_id);
 
-    $page_region_obj = PageRegion::factory($block_obj->getPageRegionId());
+    $page_region_obj = $page_region_service->getById($block_obj->getPageRegionId());
 
     echo '<tr>';
     echo '<td>' . $block_obj->getId() . '</td>';

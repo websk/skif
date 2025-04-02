@@ -3,6 +3,7 @@
  * @var int $block_id
  */
 
+use WebSK\Skif\Blocks\BlockRoutes;
 use WebSK\Skif\Blocks\ControllerBlocks;
 use WebSK\Logger\LoggerRender;
 use WebSK\Utils\Url;
@@ -10,12 +11,14 @@ use WebSK\Utils\Url;
 $block_obj = ControllerBlocks::getBlockObj($block_id);
 $current_url_no_query = Url::getUriNoQueryString();
 
+$block_edit_url = BlockRoutes::getEditorUrl($block_id);
+
 $menu_arr = array(
-    array('link' => $block_obj->getEditorUrl(), 'name' => 'Содержимое и видимость'),
-    array('link' => $block_obj->getEditorUrl() . '/position', 'name' => 'Позиция'),
-    array('link' => $block_obj->getEditorUrl() . '/region', 'name' => 'Регион'),
-    array('link' => $block_obj->getEditorUrl() . '/caching', 'name' => 'Кэширование'),
-    array('link' => $block_obj->getEditorUrl() . '/delete', 'name' => 'Удаление блока'),
+    array('link' => $block_edit_url, 'name' => 'Содержимое и видимость'),
+    array('link' => $block_edit_url . '/position', 'name' => 'Позиция'),
+    array('link' => $block_edit_url . '/region', 'name' => 'Регион'),
+    array('link' => $block_edit_url . '/caching', 'name' => 'Кэширование'),
+    array('link' => $block_edit_url . '/delete', 'name' => 'Удаление блока'),
     array(
         'link' => LoggerRender::getLoggerLinkForEntityObj($block_obj),
         'name' => 'Журнал <sup><span class="glyphicon glyphicon-new-window"></span></sup>', 'target' => '_blank'

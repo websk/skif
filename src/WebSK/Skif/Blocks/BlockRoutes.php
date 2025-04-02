@@ -42,4 +42,17 @@ class BlockRoutes
 
         });
     }
+
+    /**
+     * @param int|null $block_id
+     * @return string
+     */
+    public static function getEditorUrl(?int $block_id): string
+    {
+        if (!$block_id) {
+            return '/admin/blocks/edit/new';
+        }
+
+        return '/admin/blocks/edit/' . $block_id;
+    }
 }

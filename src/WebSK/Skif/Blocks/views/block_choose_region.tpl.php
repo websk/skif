@@ -3,10 +3,14 @@
  * @var int $block_id
  */
 
+use WebSK\Skif\Blocks\BlockRoutes;
 use WebSK\Skif\Blocks\ControllerBlocks;
-use WebSK\Skif\Blocks\PageRegion;
-use WebSK\Skif\Blocks\PageRegionsUtils;
+use WebSK\Skif\Blocks\PageRegionService;
+use WebSK\Slim\Container;
 use WebSK\Views\PhpRender;
+
+$container = Container::self();
+$page_region_service = $container->get(PageRegionService::class);
 
 $block_obj = ControllerBlocks::getBlockObj($block_id);
 
@@ -25,10 +29,10 @@ if (!$block_obj->isLoaded()) {
 
 <table class="table table-condensed">
     <?php
-    $region_ids_arr = PageRegionsUtils::getPageRegionIdsArrByTemplateId($block_obj->getTemplateId());
+    $region_ids_arr = $page_region_service->getPageRegionIdsArrByTemplateId($block_obj->getTemplateId());
 
     foreach ($region_ids_arr as $page_region_id) {
-        $page_region_obj = PageRegion::factory($page_region_id);
+        $page_region_obj = $page_region_service->getById($page_region_id);
 
         $tr_class = '';
 
@@ -37,7 +41,7 @@ if (!$block_obj->isLoaded()) {
         }
 
         echo '<tr ' . $tr_class . '>';
-        echo '<td><a href="' . $block_obj->getEditorUrl() . '/position?target_region=' . $page_region_id . '">' . $page_region_obj->getTitle() .'</a></td>';
+        echo '<td><a href="' . BlockRoutes::getEditorUrl($block_id) . '/position?target_region=' . $page_region_id . '">' . $page_region_obj->getTitle() .'</a></td>';
         echo '</tr>';
     }
     ?>

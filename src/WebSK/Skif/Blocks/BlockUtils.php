@@ -2,13 +2,9 @@
 
 namespace WebSK\Skif\Blocks;
 
-use WebSK\Auth\User\UserService;
 use WebSK\Config\ConfWrapper;
 use WebSK\Utils\Network;
-use WebSK\Utils\Filter;
-use WebSK\Slim\Container;
 use WebSK\Cache\CacheWrapper;
-use WebSK\DB\DBWrapper;
 
 /**
  * Class BlockUtils
@@ -16,110 +12,6 @@ use WebSK\DB\DBWrapper;
  */
 class BlockUtils
 {
-    public const string COOKIE_CURRENT_TEMPLATE_ID = 'skif_blocks_current_template_id';
-
-    /**
-     * Видимость блока для пользователя
-     * @param int|null $block_id
-     * @param int|null $user_id
-     * @return bool
-     */
-    public static function blockIsVisibleByUserId(int $block_id, ?int $user_id): bool
-    {
-        $block_obj = Block::factory($block_id);
-
-        // Проверяем блок на видимость для ролей
-        $block_role_ids_arr = $block_obj->getRoleIdsArr();
-
-        if (!$block_role_ids_arr) {
-            return true; // виден всем
-        }
-
-        if (!$user_id) {
-            return false;
-        }
-
-        $container = Container::self();
-        $user_service = $container->get(UserService::class);
-
-        $user_obj = $user_service->getById($user_id, false);
-        if (!$user_obj) {
-            return false;
-        }
-
-        foreach ($block_role_ids_arr as $role_id) {
-            if (in_array($role_id, $user_service->getRoleIdsArrByUserId($user_id))) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Видимость блока на странице
-     * @param int $block_id
-     * @param string $page_url
-     * @return bool
-     */
-    public static function blockIsVisibleOnPage(int $block_id, string $page_url): bool
-    {
-        $block_obj = Block::factory($block_id);
-
-        if ($block_obj->getPages()) {
-            return self::checkBlockComplexVisibility($block_id, $page_url);
-        }
-
-        return false;
-    }
-
-    /**
-     * @param int $block_id
-     * @param string $real_path
-     * @return bool
-     */
-    protected static function checkBlockComplexVisibility(int $block_id, string $real_path = ''): bool
-    {
-        $block_obj = Block::factory($block_id);
-        $pages = $block_obj->getPages();
-
-        // parse pages
-
-        $pages = str_replace("\r", "\n", $pages);
-        $pages = str_replace("\n\n", "\n", $pages);
-
-        $pages_arr = explode("\n", $pages);
-
-        if (count($pages_arr) == 0) {
-            return false;
-        }
-
-        // check pages
-
-        $visible = false;
-
-        foreach ($pages_arr as $page_filter_str) {
-            $page_filter_str = trim($page_filter_str);
-
-            if (strlen($page_filter_str) > 2) {
-                // convert filter string to object
-                $filter_obj = new Filter($page_filter_str);
-
-                if ($filter_obj->matchesPage($real_path)) {
-                    if ($filter_obj->is_positive) {
-                        $visible = true;
-                    }
-
-                    if ($filter_obj->is_negative) {
-                        $visible = false;
-                    }
-                }
-
-            }
-        }
-
-        return $visible;
-    }
 
     /**
      * Содержимое блока
@@ -178,7 +70,7 @@ class BlockUtils
 
     /**
      * @param int $block_id
-     * @return string
+     * @return ?string
      */
     protected static function getBlockContentCacheKey(int $block_id): ?string
     {
@@ -198,60 +90,6 @@ class BlockUtils
         }
 
         return implode(':', $cid_parts);
-    }
-
-
-    /**
-     * Массив Block Id в теме
-     * @param int $template_id
-     * @return array
-     */
-    public static function getBlockIdsArrByTemplateId(int $template_id): array
-    {
-        $blocks_ids_arr = DBWrapper::readColumn(
-            "SELECT id FROM " . Block::DB_TABLE_NAME . " WHERE template_id = ? ORDER BY page_region_id, weight, title",
-            array($template_id)
-        );
-
-        return $blocks_ids_arr;
-    }
-
-    /**
-     * Массив Block Id в регионе
-     * @param null|int $page_region_id
-     * @param int $template_id
-     * @return array
-     */
-    public static function getBlockIdsArrByPageRegionId(?int $page_region_id, int $template_id): array
-    {
-        $cache_key = self::getBlockIdsArrByPageRegionIdCacheKey($page_region_id, $template_id);
-
-        $blocks_ids_arr = CacheWrapper::get($cache_key);
-        if ($blocks_ids_arr !== false) {
-            return $blocks_ids_arr;
-        }
-
-        $params_arr = [];
-
-        $query = "SELECT id FROM " . Block::DB_TABLE_NAME . " WHERE ";
-        if ($page_region_id) {
-            $query .= " page_region_id = ? ";
-            $params_arr[] = $page_region_id;
-        } else {
-            $query .= " page_region_id is NULL ";
-        }
-
-        $query .= " AND template_id=? ORDER BY weight, title";
-        $params_arr[] = $template_id;
-
-        $blocks_ids_arr = DBWrapper::readColumn(
-            $query,
-            $params_arr
-        );
-
-        CacheWrapper::set($cache_key, $blocks_ids_arr, 1800);
-
-        return $blocks_ids_arr;
     }
 
     /**
