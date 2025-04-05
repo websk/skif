@@ -1,6 +1,6 @@
 <?php
 
-namespace WebSK\Skif\Blocks\RequestHandlers;
+namespace WebSK\Skif\Blocks\RequestHandlers\Admin;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -12,7 +12,7 @@ use WebSK\Skif\Blocks\BlockUtils;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Utils\Messages;
 
-class SaveBlockContentHandler extends BaseHandler
+class BlockSaveContentHandler extends BaseHandler
 {
 
     /** @Inject */
@@ -68,7 +68,7 @@ class SaveBlockContentHandler extends BaseHandler
 
         // Clear cache
         if ($is_new) {
-            BlockUtils::clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId(), $block_obj->getTemplateId());
+            $this->block_service->clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId(), $block_obj->getTemplateId());
         }
 
         Messages::setMessage('Изменения сохранены');

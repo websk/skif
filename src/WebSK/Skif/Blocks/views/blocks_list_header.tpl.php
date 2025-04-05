@@ -4,7 +4,6 @@
  */
 
 use WebSK\Skif\Blocks\BlockUtils;
-use WebSK\Skif\Blocks\ControllerBlocks;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Slim\Container;
 

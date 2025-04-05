@@ -10,6 +10,11 @@ use WebSK\Skif\SkifServiceProvider;
 class BlockServiceProvider
 {
 
+    const string SETTINGS_CONTAINER_ID = 'settings';
+    const string PARAM_CACHE = 'cache';
+
+    const string PARAM_EXPIRE = 'expire';
+
     /**
      * @param ContainerInterface $container
      */
@@ -25,7 +30,8 @@ class BlockServiceProvider
                 $container->get(BlockRepository::class),
                 CacheServiceProvider::getCacheService($container),
                 $container->get(BlockRoleService::class),
-                $container->get(UserService::class)
+                $container->get(UserService::class),
+                $container->get(self::SETTINGS_CONTAINER_ID . '.' . self::PARAM_CACHE . '.' . self::PARAM_EXPIRE)
             );
         });
 

@@ -28,8 +28,19 @@ class PageRegionsUtils
 
         $container = Container::self();
 
+        /**
+         * @var TemplateService $template_service
+         */
         $template_service = $container->get(TemplateService::class);
+
+        /**
+         * @var BlockService $block_service
+         */
         $block_service = $container->get(BlockService::class);
+
+        /**
+         * @var PageRegionService $page_region_service
+         */
         $page_region_service = $container->get(PageRegionService::class);
 
         $template_id = $template_service->getIdByName($template_name);
@@ -40,9 +51,10 @@ class PageRegionsUtils
         foreach ($blocks_ids_arr as $block_id) {
             $output .= PhpRender::renderTemplateInViewsDir(
                 'block.tpl.php',
-                array(
-                    'block_id' => $block_id
-                )
+                [
+                    'block_id' => $block_id,
+                    'block_service' => $block_service
+                ]
             );
         }
 

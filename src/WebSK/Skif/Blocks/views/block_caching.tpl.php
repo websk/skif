@@ -1,18 +1,23 @@
 <?php
 /**
  * @var int $block_id
+ * @var BlockService $block_service
  */
 
-use WebSK\Skif\Blocks\BlockRoutes;
-use WebSK\Skif\Blocks\BlockUtils;
-use WebSK\Skif\Blocks\ControllerBlocks;
+use WebSK\Skif\Blocks\Block;
+use WebSK\Skif\Blocks\BlockService;
+use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockSaveCachingHandler;
+use WebSK\Slim\Router;
 use WebSK\Views\PhpRender;
 
-$block_obj = ControllerBlocks::getBlockObj($block_id);
+$block_obj = $block_service->getById($block_id);
 
 echo PhpRender::renderLocalTemplate(
     'block_edit_menu.tpl.php',
-    array('block_id' => $block_id)
+    [
+        'block_id' => $block_id,
+        'block_service' => $this->block_service
+    ]
 );
 
 if (!$block_obj->isLoaded()) {
@@ -20,10 +25,9 @@ if (!$block_obj->isLoaded()) {
     return;
 }
 
-$cache_contexts_arr = BlockUtils::getCachesArr();
+$cache_contexts_arr = Block::BLOCK_CACHES_ARRAY;
 ?>
-<form role="form" action="<?php echo BlockRoutes::getEditorUrl($block_id); ?>/caching" method="post">
-    <input type="hidden" value="save_caching" name="_action" id="_action" />
+<form role="form" action="<?php echo Router::urlFor(BlockSaveCachingHandler::class, ['block_id' => $block_id]); ?>" method="post">
     <div class="form-group">
         <label for="cache">Контекст кэширования</label>
         <select class="form-control" name="cache" id="cache">

@@ -52,146 +52,6 @@ class ControllerBlocks
         Redirects::redirect(\WebSK\Skif\Blocks\ControllerBlocks::getBlocksListUrl());
     }
 
-    /**
-     * @param int $block_id
-     * @return Block
-     */
-    public static function getBlockObj(int $block_id): Block
-    {
-        if ($block_id == 'new') {
-            return new Block();
-        }
-
-        $container = Container::self();
-        $block_service = $container->get(BlockService::class);
-
-        return $block_service->getById($block_id);
-    }
-
-    /**
-     * Заголовок страницы редактирования блока
-     * @param int $block_id
-     * @return string
-     */
-    static public function getBlockEditorPageTitle(int $block_id): string
-    {
-        $block_obj = self::getBlockObj($block_id);
-
-        if (!$block_obj->isLoaded()) {
-            return 'Создание блока';
-        }
-
-        $container = Container::self();
-        $page_region_service = $container->get(PageRegionService::class);
-
-        $page_region_obj = $page_region_service->getById($block_obj->getPageRegionId());
-        $region_for_title = $page_region_obj->getTitle();
-
-        $page_title = $block_obj->getTitle();
-        if ($page_title == '') {
-            $page_title = $region_for_title . '. ' . $block_obj->getId();
-        }
-
-        $page_title .= '. ' . $region_for_title;
-
-        return $page_title;
-    }
-
-    /**
-     * Вывод списка блоков
-     */
-    public function listAction(): void
-    {
-        // Проверка прав доступа
-        Exits::exit403If(!Auth::currentUserIsAdmin());
-
-        self::blocksPageActions();
-
-        $html = PhpRender::renderTemplateInViewsDir(
-            'blocks_list.tpl.php'
-        );
-
-        echo PhpRender::renderTemplate(
-            SkifPath::getLayout(),
-            array(
-                'title' => 'Блоки',
-                'content' => $html,
-            )
-        );
-    }
-
-    /**
-     * Действия с элементами списка блоков
-     * @return string
-     */
-    public static function blocksPageActions(): void
-    {
-        if (array_key_exists('a', $_GET) && ($_GET['a'] == 'disable')
-            && array_key_exists('block_id', $_GET) && is_numeric($_GET['block_id'])
-        ) {
-            self::disableBlock($_GET['block_id']);
-        }
-    }
-
-    /**
-     * Отключение блока
-     * @param int $block_id
-     */
-    public static function disableBlock(int $block_id): void
-    {
-        // Проверка прав доступа
-        Exits::exit403If(!Auth::currentUserIsAdmin());
-
-        $block_obj = Block::factory($block_id);
-
-        if ($block_obj->getPageRegionId() == PageRegion::BLOCK_REGION_NONE) {
-            return;
-        }
-
-        $prev_region = $block_obj->getPageRegionId();
-        $prev_weight = $block_obj->getWeight();
-
-        $restore_url = $block_obj->getEditorUrl();
-        $restore_url .= '/position?_action=move_block&target_region=' . $prev_region . '&target_weight=' . $prev_weight;
-
-        $block_obj->setPageRegionId(PageRegion::BLOCK_REGION_NONE);
-        $block_obj->save();
-
-        BlockUtils::clearBlockIdsArrByPageRegionIdCache($prev_region, $block_obj->getTemplateId());
-        BlockUtils::clearBlockIdsArrByPageRegionIdCache(PageRegion::BLOCK_REGION_NONE, $block_obj->getTemplateId());
-
-        Logger::logObjectEvent($block_obj, 'отключение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
-
-        Messages::setWarning('Блок &laquo;' . $block_obj->getTitle() . '&raquo; был выключен. <a href="' . $restore_url . '">Отменить</a>');
-
-        Redirects::redirect(self::getBlocksListUrl());
-    }
-
-    /**
-     * Редактирование блока
-     * @param int $block_id
-     */
-    public function editAction(int $block_id): void
-    {
-        // Проверка прав доступа
-        Exits::exit403If(!Auth::currentUserIsAdmin());
-
-        self::actions($block_id);
-
-        $html = PhpRender::renderTemplateInViewsDir(
-            'block_edit.tpl.php',
-            array('block_id' => $block_id)
-        );
-
-        echo PhpRender::renderTemplate(
-            SkifPath::getLayout(),
-            array(
-                'title' => self::getBlockEditorPageTitle($block_id),
-                'content' => $html,
-                'breadcrumbs_arr' => array('Блоки' => self::getBlocksListUrl())
-            )
-        );
-    }
 
     /**
      * Действия над блоком
@@ -216,52 +76,6 @@ class ControllerBlocks
         if ($action == 'move_block') {
             self::moveBlock($block_id);
         }
-
-        if ($action == 'save_caching') {
-            self::saveCaching($block_id);
-        }
-
-        if ($action == 'save_content') {
-            //self::saveContent($block_id);
-        }
-    }
-
-    /**
-     * Выбор кеширования блока
-     * @param int $block_id
-     */
-    public function cachingTabAction(int $block_id): void
-    {
-        // Проверка прав доступа
-        Exits::exit403If(!Auth::currentUserIsAdmin());
-
-        self::actions($block_id);
-
-        $html = PhpRender::renderTemplateInViewsDir(
-            'block_caching.tpl.php',
-            array('block_id' => $block_id)
-        );
-
-        echo PhpRender::renderTemplate(
-            SkifPath::getLayout(),
-            array(
-                'title' => self::getBlockEditorPageTitle($block_id),
-                'content' => $html,
-                'breadcrumbs_arr' => array('Блоки' => self::getBlocksListUrl())
-            )
-        );
-    }
-
-    public static function saveCaching(int $block_id): void
-    {
-        $block_obj = Block::factory($block_id);
-
-        $block_obj->setCache($_POST['cache']);
-        $block_obj->save();
-
-        Messages::setMessage('Изменения сохранены');
-
-        Redirects::redirect($block_obj->getEditorUrl() . '/caching');
     }
 
     /**
@@ -273,7 +87,7 @@ class ControllerBlocks
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
 
-        $block_obj = self::getBlockObj($block_id);
+        $block_obj = BlockUtils::getBlockObj($block_id);
 
         self::actions($block_id);
 
@@ -394,9 +208,9 @@ class ControllerBlocks
 
 
         if ($source_region != $block_obj->getPageRegionId()) {
-            BlockUtils::clearBlockIdsArrByPageRegionIdCache($source_region, $block_obj->getTemplateId());
+            $block_service->clearBlockIdsArrByPageRegionIdCache($source_region, $block_obj->getTemplateId());
         }
-        BlockUtils::clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId(), $block_obj->getTemplateId());
+        $block_service->clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId(), $block_obj->getTemplateId());
 
 
         Messages::setMessage('Блок &laquo;' . $block_obj->getTitle() . '&raquo; перемещен');
@@ -470,7 +284,11 @@ class ControllerBlocks
         // Проверка прав доступа
         Exits::exit403If(!Auth::currentUserIsAdmin());
 
-        $block_obj = Block::factory($block_id);
+        $container = Container::self();
+
+        $block_service = $container->get(BlockService::class);
+
+        $block_obj = $block_service->getById($block_id);
 
         $block_name = $block_obj->getTitle();
 

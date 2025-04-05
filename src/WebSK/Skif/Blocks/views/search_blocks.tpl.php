@@ -4,14 +4,14 @@
  * @var array $block_ids_arr
  */
 
-use WebSK\Skif\Blocks\Block;
-use WebSK\Skif\Blocks\PageRegion;
+use WebSK\Skif\Blocks\BlockService;
 use WebSK\Skif\Blocks\PageRegionService;
 use WebSK\Slim\Container;
 use WebSK\Views\PhpRender;
 
 $container = Container::self();
 $page_region_service = $container->get(PageRegionService::class);
+$block_service = $container->get(BlockService::class);
 
 $search_value = $_POST['search'];
 
@@ -29,7 +29,7 @@ echo PhpRender::renderLocalTemplate(
 
 <?php
 foreach ($block_ids_arr as $block_id) {
-    $block_obj = Block::factory($block_id);
+    $block_obj = $block_service->getById($block_id);
 
     $page_region_obj = $page_region_service->getById($block_obj->getPageRegionId());
 

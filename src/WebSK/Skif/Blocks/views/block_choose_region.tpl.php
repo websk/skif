@@ -4,7 +4,7 @@
  */
 
 use WebSK\Skif\Blocks\BlockRoutes;
-use WebSK\Skif\Blocks\ControllerBlocks;
+use WebSK\Skif\Blocks\BlockUtils;
 use WebSK\Skif\Blocks\PageRegionService;
 use WebSK\Slim\Container;
 use WebSK\Views\PhpRender;
@@ -12,11 +12,14 @@ use WebSK\Views\PhpRender;
 $container = Container::self();
 $page_region_service = $container->get(PageRegionService::class);
 
-$block_obj = ControllerBlocks::getBlockObj($block_id);
+$block_obj = BlockUtils::getBlockObj($block_id);
 
 echo PhpRender::renderLocalTemplate(
     'block_edit_menu.tpl.php',
-    array('block_id' => $block_id)
+    [
+        'block_id' => $block_id,
+        'block_service' => $this->block_service
+    ]
 );
 
 if (!$block_obj->isLoaded()) {

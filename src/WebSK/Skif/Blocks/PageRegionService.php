@@ -62,7 +62,7 @@ class PageRegionService extends EntityService
      * @param int $template_id
      * @return string
      */
-    public function getPageRegionIdByNameAndTemplateIdCacheKey(string $name, int $template_id): string
+    protected function getPageRegionIdByNameAndTemplateIdCacheKey(string $name, int $template_id): string
     {
         return 'page_region_id_by_name_' . $name . '_and_template_id' . $template_id;
     }

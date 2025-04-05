@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d1b900975e109b3cc7ae24cb9fb74b1",
+    "content-hash": "e5c1b0fcc086b36c657dff9e49a336c1",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.342.17",
+            "version": "3.342.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "110ca44672e59ec3255c693e9e761001f2706b53"
+                "reference": "f4d501414c553ddeea2efc9c77f72e58bd899823"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/110ca44672e59ec3255c693e9e761001f2706b53",
-                "reference": "110ca44672e59ec3255c693e9e761001f2706b53",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f4d501414c553ddeea2efc9c77f72e58bd899823",
+                "reference": "f4d501414c553ddeea2efc9c77f72e58bd899823",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.342.17"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.342.21"
             },
-            "time": "2025-03-31T18:16:40+00:00"
+            "time": "2025-04-04T18:20:53+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -4476,40 +4476,6 @@
                 "source": "https://github.com/websk/php-logger/tree/2.1.1"
             },
             "time": "2025-04-01T05:54:09+00:00"
-        },
-        {
-            "name": "websk/php-model",
-            "version": "2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/websk/php-model.git",
-                "reference": "2cdeab7f6c13b099ae80a35bc8f6758ab9b052f5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-model/zipball/2cdeab7f6c13b099ae80a35bc8f6758ab9b052f5",
-                "reference": "2cdeab7f6c13b099ae80a35bc8f6758ab9b052f5",
-                "shasum": ""
-            },
-            "require": {
-                "ext-pdo": "*",
-                "php": "^8.3",
-                "websk/php-cache": "2.2.*",
-                "websk/php-db": "2.1.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "description": "PHP Model factory",
-            "support": {
-                "issues": "https://github.com/websk/php-model/issues",
-                "source": "https://github.com/websk/php-model/tree/2.1.0"
-            },
-            "time": "2025-03-26T06:47:24+00:00"
         },
         {
             "name": "websk/php-simple-router",

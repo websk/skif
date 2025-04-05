@@ -8,6 +8,7 @@ return [
         'cache' => [
             'engine' => \WebSK\Cache\Engines\Memcached::class,
             'cache_key_prefix' => 'skif',
+            'expire' => 60,
             'servers' => [
                 [
                     'host' => 'localhost',

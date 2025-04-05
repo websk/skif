@@ -1,14 +1,15 @@
 <?php
 /**
  * @var int $block_id
+ * @var BlockService $block_service
  */
 
 use WebSK\Skif\Blocks\BlockRoutes;
-use WebSK\Skif\Blocks\ControllerBlocks;
+use WebSK\Skif\Blocks\BlockService;
 use WebSK\Logger\LoggerRender;
 use WebSK\Utils\Url;
 
-$block_obj = ControllerBlocks::getBlockObj($block_id);
+$block_obj = $block_service->getById($block_id);
 $current_url_no_query = Url::getUriNoQueryString();
 
 $block_edit_url = BlockRoutes::getEditorUrl($block_id);

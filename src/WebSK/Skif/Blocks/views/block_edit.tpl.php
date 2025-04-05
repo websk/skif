@@ -1,22 +1,20 @@
 <?php
 /**
  * @var int $block_id
+ * @var BlockService $block_service
+ * @var BlockRoleService $block_role_service
+ * @var RoleService $role_service
  */
 
 use WebSK\Auth\User\RoleService;
+use WebSK\Skif\Blocks\Block;
 use WebSK\Skif\Blocks\BlockRoleService;
 use WebSK\Skif\Blocks\BlockService;
-use WebSK\Skif\Blocks\BlockUtils;
 use WebSK\Skif\Blocks\ControllerBlocks;
-use WebSK\Slim\Container;
+use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockEditHandler;
 use WebSK\Skif\SkifPath;
+use WebSK\Slim\Router;
 use WebSK\Views\PhpRender;
-
-$container = Container::self();
-
-$role_service = $container->get(RoleService::class);
-$block_service = $container->get(BlockService::class);
-$block_role_service = $container->get(BlockRoleService::class);
 
 $block_obj = $block_service->getBlockObj($block_id);
 
@@ -28,7 +26,7 @@ echo PhpRender::renderLocalTemplate(
 
 $items = [];
 ?>
-<form role="form" action="<?php echo $block_obj->getEditorUrl(); ?>" method="post" id="edit_form">
+<form role="form" action="<?php echo Router::urlFor(BlockEditHandler::class, ['block_id' => $block_id]); ?>" method="post" id="edit_form">
     <input type="hidden" value="save_content" name="_action" id="_action"/>
     <input type="hidden" value="" name="_redirect_to_on_success" id="_redirect_to_on_success"/>
 
@@ -56,7 +54,7 @@ $items = [];
         <label>Формат ввода</label>
         <select class="form-control" name="format" id="format">
             <?php
-            $formats_arr = BlockUtils::getFormatsArr();
+            $formats_arr = Block::BLOCK_FORMATS_ARRAY;
 
             $current_format = $block_obj->getFormat();
             if (!$block_obj->isLoaded()) {

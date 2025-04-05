@@ -17,7 +17,6 @@
     "websk/php-imagemanager": "2.2.*",
     "websk/php-keyvalue": "2.1.*",
     "websk/php-logger": "2.1.*",
-    "websk/php-model": "2.1.*",
     "websk/php-utils": "2.1.*",
     "websk/php-entity": "2.2.*",
     "websk/php-crud": "2.3.*",

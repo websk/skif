@@ -1,19 +1,21 @@
 <?php
+/**
+ * @var BlockService $block_service
+ * @var PageRegionService $page_region_service
+ */
 
 use WebSK\Skif\Blocks\BlockService;
 use WebSK\Skif\Blocks\BlockUtils;
 use WebSK\Skif\Blocks\PageRegion;
 use WebSK\Skif\Blocks\PageRegionService;
-use WebSK\Slim\Container;
+use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockDisableHandler;
+use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockEditHandler;
+use WebSK\Slim\Router;
 use WebSK\Views\PhpRender;
 
 echo PhpRender::renderLocalTemplate(
     'blocks_list_header.tpl.php'
 );
-
-$container = Container::self();
-$page_region_service = $container->get(PageRegionService::class);
-$block_service = $container->get(BlockService::class);
 
 $current_template_id = BlockUtils::getCurrentTemplateId();
 
@@ -43,15 +45,15 @@ $region_ids_arr = $page_region_service->getPageRegionIdsArrByTemplateId($current
 
             echo '<tr>';
             echo '<td style="max-width: 30px">' . $block_obj->getId() . '</td>';
-            echo '<td><a href="' . $block_obj->getEditorUrl() . '">' . $block_obj->getTitle() . '</td>';
+            echo '<td><a href="' . Router::urlFor(BlockEditHandler::class, ['block_id' => $block_id]) . '">' . $block_obj->getTitle() . '</td>';
             if ($page_region_id != PageRegion::BLOCK_REGION_NONE) {
                 ?>
                 <td align="right">
-                    <a href="<?php echo $block_obj->getEditorUrl(); ?>" title="Редактировать"
+                    <a href="<?php echo Router::urlFor(BlockEditHandler::class, ['block_id' => $block_id]); ?>" title="Редактировать"
                        class="btn btn-default btn-sm">
                         <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
                     </a>
-                    <a href="/admin/blocks?a=disable&amp;block_id=<?php echo $block_obj->getId(); ?>"
+                    <a href="<?php echo Router::urlFor(BlockDisableHandler::class, ['block_id' => $block_id]); ?>"
                        title="Отключить" class="btn btn-default btn-sm">
                         <span class="fa fa-power-off fa-lg text-muted fa-fw"></span>
                     </a>

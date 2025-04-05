@@ -19,9 +19,22 @@ class Block extends Entity
     const int BLOCK_CACHE_PER_PAGE = 4;
     const int BLOCK_CACHE_GLOBAL = 8;
 
+    const array BLOCK_CACHES_ARRAY = [
+        Block::BLOCK_NO_CACHE => 'не кэшировать',
+        Block::BLOCK_CACHE_PER_USER => 'кэшировать для каждого пользователя',
+        Block::BLOCK_CACHE_PER_PAGE => 'кэшировать для каждого урла',
+        Block::BLOCK_CACHE_GLOBAL => 'кэшировать глобально'
+    ];
+
     const int BLOCK_FORMAT_TYPE_PLAIN = 3;
     const int BLOCK_FORMAT_TYPE_HTML = 4;
     const int BLOCK_FORMAT_TYPE_PHP = 5;
+
+    const array BLOCK_FORMATS_ARRAY = [
+        Block::BLOCK_FORMAT_TYPE_PLAIN => 'Текст',
+        Block::BLOCK_FORMAT_TYPE_HTML => 'HTML',
+        Block::BLOCK_FORMAT_TYPE_PHP => 'PHP code'
+    ];
 
     const string _TEMPLATE_ID = 'template_id';
     protected ?int $template_id = Template::TEMPLATE_ID_MAIN;

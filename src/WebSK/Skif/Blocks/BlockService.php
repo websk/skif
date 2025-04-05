@@ -11,6 +11,7 @@ use WebSK\Entity\InterfaceEntity;
 use WebSK\Logger\Logger;
 use WebSK\Utils\Filter;
 use WebSK\Utils\FullObjectId;
+use WebSK\Utils\Network;
 use WebSK\Utils\Url;
 
 /**
@@ -27,15 +28,19 @@ class BlockService extends EntityService
     /** @var BlockRepository */
     protected $repository;
 
+    protected int $cache_ttl_seconds;
+
     public function __construct(
         string $entity_class_name,
         EntityRepository $repository,
         CacheService $cache_service,
         BlockRoleService $block_role_service,
-        UserService $user_service
+        UserService $user_service,
+        int $cache_ttl_seconds = 60
     ) {
         $this->block_role_service = $block_role_service;
         $this->user_service = $user_service;
+        $this->cache_ttl_seconds = $cache_ttl_seconds;
 
         parent::__construct($entity_class_name, $repository, $cache_service);
     }
@@ -101,7 +106,7 @@ class BlockService extends EntityService
      * @return array
      * @throws \Exception
      */
-    protected function getVisibleBlocksIdsArrByRegionId(
+    public function getVisibleBlocksIdsArrByRegionId(
         int $page_region_id,
         int $template_id,
         string $page_url = ''
@@ -250,8 +255,8 @@ class BlockService extends EntityService
     {
         $this->deleteBlocksRolesByBlockId($entity_obj->getId());
 
-        BlockUtils::clearBlockIdsArrByPageRegionIdCache($entity_obj->getPageRegionId(), $entity_obj->getTemplateId());
-        BlockUtils::clearBlockIdsArrByPageRegionIdCache(PageRegion::BLOCK_REGION_NONE, $entity_obj->getTemplateId());
+        $this->clearBlockIdsArrByPageRegionIdCache($entity_obj->getPageRegionId(), $entity_obj->getTemplateId());
+        $this->clearBlockIdsArrByPageRegionIdCache(PageRegion::BLOCK_REGION_NONE, $entity_obj->getTemplateId());
 
         Logger::logObjectEvent($entity_obj, 'удаление', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
 
@@ -270,4 +275,92 @@ class BlockService extends EntityService
 
         return $this->getById($block_id);
     }
+
+    /**
+     * Содержимое блока
+     * @param int $block_id
+     * @return string
+     */
+    public function getContentByBlockId(int $block_id): string
+    {
+        $block_obj = $this->getById($block_id);
+
+        $cache_enabled = true;
+
+        if ($block_obj->getCache() == Block::BLOCK_NO_CACHE) {
+            $cache_enabled = false;
+        }
+
+        $cache_key = $this->getBlockContentCacheKey($block_obj);
+
+        if ($cache_enabled) {
+            $cached_content = $this->cache_service->get($cache_key);
+
+            if ($cached_content !== false) {
+                return $cached_content;
+            }
+        }
+
+        $block_content = $block_obj->getBody();
+
+        if ($block_obj->getFormat() == Block::BLOCK_FORMAT_TYPE_PHP) {
+            $block_content = self::evalContentPHPBlock($block_obj);
+        }
+
+        if ($cache_enabled) {
+            $this->cache_service->set($cache_key, $block_content, $this->cache_ttl_seconds);
+        }
+
+        return $block_content;
+    }
+
+    /**
+     * @param Block $block_obj
+     * @return ?string
+     */
+    protected function getBlockContentCacheKey(Block $block_obj): ?string
+    {
+        $cid_parts = ['block_content'];
+        $cid_parts[] = $block_obj->getId();
+
+        // Кешируем блоки по-полному URL $_SERVER['REQUEST_URI'], в т.ч. с $_GET параметрами.
+        // Т.к. содержимое блока может различаться в зависимости от $_GET параметров.
+        if ($block_obj->getCache() == Block::BLOCK_CACHE_PER_PAGE) {
+            $cid_parts[] = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        }
+
+        if ($block_obj->getCache() == Block::BLOCK_CACHE_PER_USER) {
+            $cid_parts[] = Network::getClientIpXff();
+        }
+
+        return implode(':', $cid_parts);
+    }
+
+    /**
+     * Выполняет PHP код в блоке и возвращает результат
+     * @param Block $block_obj
+     * @return string
+     */
+    protected function evalContentPHPBlock(Block $block_obj): string
+    {
+        ob_start();
+        print eval('?>'. $block_obj->getBody());
+        $output = ob_get_contents();
+        ob_end_clean();
+
+        return $output;
+    }
+
+    /**
+     * @param null|int $page_region_id
+     * @param int $template_id
+     * @return bool
+     */
+    public function clearBlockIdsArrByPageRegionIdCache(?int $page_region_id, int $template_id): bool
+    {
+        $cache_key = self::getBlockIdsArrByPageRegionIdCacheKey($page_region_id, $template_id);
+
+        return $this->cache_service->delete($cache_key);
+    }
+
 }
