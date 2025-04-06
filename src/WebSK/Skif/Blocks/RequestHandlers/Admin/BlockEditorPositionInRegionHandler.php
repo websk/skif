@@ -33,7 +33,7 @@ class BlockEditorPositionInRegionHandler extends BaseHandler
             return $response->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
         }
 
-        $target_region_id = $request->getParam('target_region', null) ?: $block_obj->getPageRegionId();
+        $target_region_id = $request->getParam('target_region') ?: $block_obj->getPageRegionId();
 
         $content_html = PhpRender::renderTemplateInViewsDir(
             'block_position_in_region.tpl.php',

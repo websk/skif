@@ -167,3 +167,4 @@ ALTER TABLE content CHANGE COLUMN url url varchar(1000) DEFAULT NULL /* v0v34h0h
 UPDATE content SET url=NULL WHERE url='' /* 234ghv038h0834hv */;
 ALTER TABLE content CHANGE COLUMN redirect_url redirect_url varchar(1000) DEFAULT NULL /* 3v0384h0vbh340bv */;
 UPDATE content SET redirect_url=NULL WHERE redirect_url='' /* 39v8h938h24vg983 */;
+ALTER TABLE blocks ADD COLUMN created_at_ts int NOT NULL DEFAULT 0 /* cn9384h9082ghf4 */;

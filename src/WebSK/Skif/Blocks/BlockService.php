@@ -450,18 +450,4 @@ class BlockService extends EntityService
         Logger::logObjectEvent($block_obj, 'отключение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }
 
-    /**
-     * @param string $search_value
-     * @param int $template_id
-     * @param int $limit
-     * @return array
-     */
-    public function getIdsArrByPartBody(string $search_value, int $template_id, int $limit = 100): array
-    {
-        if ((mb_strlen($search_value) < 3)) {
-            return [];
-        }
-
-        return $this->repository->findIdsArrByPartBody($search_value, $template_id, $limit);
-    }
 }

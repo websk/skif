@@ -38,11 +38,10 @@ echo PhpRender::renderLocalTemplate(
         }
 
         echo '<tr ' . $tr_class . '>';
-        echo '<td><a href="' . Router::urlFor(
-                BlockEditorPositionInRegionHandler::class,
-                ['block_id' => $block_id],
-                ['target_region' => $page_region_id]
-            ) . '">' . $page_region_obj->getTitle() .'</a></td>';
+        echo '<td><a href="'
+            . Router::urlFor(BlockEditorPositionInRegionHandler::class, ['block_id' => $block_id]) . '?target_region=' . $page_region_id . '">'
+            . $page_region_obj->getTitle()
+            .'</a></td>';
         echo '</tr>';
     }
     ?>

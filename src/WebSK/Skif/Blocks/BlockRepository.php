@@ -54,28 +54,4 @@ class BlockRepository extends EntityRepository
         );
     }
 
-    /**
-     * @param string $search_value
-     * @param int $template_id
-     * @param int $limit
-     * @return array
-     */
-    public function findIdsArrByPartBody(string $search_value, int $template_id, int $limit): array
-    {
-        if ((mb_strlen($search_value) < 3)) {
-            return [];
-        }
-
-        return $this->db_service->readColumn(
-            "SELECT " . Sanitize::sanitizeSqlColumnName($this->getIdFieldName())
-            . " FROM " . Sanitize::sanitizeSqlColumnName($this->getTableName())
-            . " WHERE " . Sanitize::sanitizeSqlColumnName(Block::_BODY) . " LIKE ?"
-            . " AND " . Sanitize::sanitizeSqlColumnName(Block::_TEMPLATE_ID) . " = ?"
-            . " LIMIT " . $limit,
-            [
-                "%" . Sanitize::sanitizeAttrValue($search_value) . "%",
-                $template_id
-            ]
-        );
-    }
 }

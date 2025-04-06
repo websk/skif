@@ -32,7 +32,7 @@ class BlockChangePositionInRegionHandler extends BaseHandler
         }
 
         $target_weight = $request->getParam('target_weight');
-        $target_region_id = $request->getParam('target_region') ?: null;
+        $target_region_id = $request->getParam('target_region');
 
         if ($target_weight == '') {
             return $response;
@@ -42,6 +42,6 @@ class BlockChangePositionInRegionHandler extends BaseHandler
 
         Messages::setMessage('Блок &laquo;' . $block_obj->getTitle() . '&raquo; перемещен');
 
-        return $response->withHeader('Location', BlockEditorPositionInRegionHandler::class);
+        return $response->withHeader('Location', $this->urlFor(BlockEditorPositionInRegionHandler::class, ['block_id' => $block_id]));
     }
 }
