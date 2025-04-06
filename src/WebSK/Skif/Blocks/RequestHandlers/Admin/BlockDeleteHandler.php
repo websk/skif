@@ -5,13 +5,11 @@ namespace WebSK\Skif\Blocks\RequestHandlers\Admin;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Skif\Blocks\BlockService;
-use WebSK\Skif\Blocks\PageRegion;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Utils\Messages;
 
-class BlockDisableHandler extends BaseHandler
+class BlockDeleteHandler extends BaseHandler
 {
-
     /** @Inject */
     protected BlockService $block_service;
 
@@ -25,22 +23,11 @@ class BlockDisableHandler extends BaseHandler
     {
         $block_obj = $this->block_service->getById($block_id);
 
-        if ($block_obj->getPageRegionId() == PageRegion::BLOCK_REGION_NONE) {
-            return $response;
-        }
+        $block_name = $block_obj->getTitle();
 
-        $prev_page_region_id = $block_obj->getPageRegionId();
-        $prev_weight = $block_obj->getWeight();
+        $this->block_service->delete($block_obj);
 
-        $restore_url = $this->urlFor(
-            BlockChangePositionInRegionHandler::class,
-            ['block_id' => $block_id],
-            ['target_region' => $prev_page_region_id, 'target_weight' => $prev_weight]
-        );
-
-        $this->block_service->disableBlock($block_obj);
-
-        Messages::setWarning('Блок &laquo;' . $block_obj->getTitle() . '&raquo; был выключен. <a href="' . $restore_url . '">Отменить</a>');
+        Messages::setMessage('Блок &laquo;' . $block_name . '&raquo; удален');
 
         return $response->withHeader('Location', $this->urlFor(BlockListHandler::class));
     }

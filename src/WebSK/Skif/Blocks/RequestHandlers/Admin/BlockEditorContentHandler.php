@@ -2,21 +2,27 @@
 
 namespace WebSK\Skif\Blocks\RequestHandlers\Admin;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\Skif\Blocks\BlockService;
+use WebSK\Auth\User\RoleService;
+use WebSK\Skif\Blocks\BlockRoleService;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
 
-class BlockEditCachingHandler extends BaseHandler
+class BlockEditorContentHandler extends BaseHandler
 {
     use BlockEditorPageTitleTrait;
 
     /** @Inject */
-    protected BlockService $block_service;
+    protected BlockRoleService $block_role_service;
+
+    /** @Inject */
+    protected RoleService $role_service;
+
 
     /**
      * @param ServerRequestInterface $request
@@ -26,11 +32,19 @@ class BlockEditCachingHandler extends BaseHandler
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $block_id): ResponseInterface
     {
+        $block_obj = $this->block_service->getById($block_id, false);
+
+        if (!$block_obj) {
+            return $response->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
+        }
+
         $content_html = PhpRender::renderTemplateInViewsDir(
-            'block_caching.tpl.php',
+            'block_edit.tpl.php',
             [
                 'block_id' => $block_id,
-                'block_service' => $this->block_service
+                'block_service' => $this->block_service,
+                'block_role_service' => $this->block_role_service,
+                'role_service' => $this->role_service
             ]
         );
 
@@ -46,4 +60,5 @@ class BlockEditCachingHandler extends BaseHandler
 
         return PhpRender::renderLayout($response, SkifPath::getLayout(), $layout_dto);
     }
+
 }

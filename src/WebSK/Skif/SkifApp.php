@@ -134,6 +134,5 @@ class SkifApp extends App
         RedirectRoutes::registerSimpleRoute($this);
 
         ImageRoutes::routes();
-        BlockRoutes::route();
     }
 }

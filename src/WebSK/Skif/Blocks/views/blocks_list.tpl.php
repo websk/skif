@@ -1,23 +1,28 @@
 <?php
 /**
+ * @var int $current_template_id
  * @var BlockService $block_service
  * @var PageRegionService $page_region_service
+ * @var TemplateService $template_service
  */
 
 use WebSK\Skif\Blocks\BlockService;
-use WebSK\Skif\Blocks\BlockUtils;
 use WebSK\Skif\Blocks\PageRegion;
 use WebSK\Skif\Blocks\PageRegionService;
 use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockDisableHandler;
-use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockEditHandler;
+use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockEditorContentHandler;
+use WebSK\Skif\Content\TemplateService;
 use WebSK\Slim\Router;
 use WebSK\Views\PhpRender;
 
 echo PhpRender::renderLocalTemplate(
-    'blocks_list_header.tpl.php'
+    'blocks_list_header.tpl.php',
+    [
+        'current_template_id' => $current_template_id,
+        'search_value' => '',
+        'template_service' => $template_service
+    ]
 );
-
-$current_template_id = BlockUtils::getCurrentTemplateId();
 
 $region_ids_arr = $page_region_service->getPageRegionIdsArrByTemplateId($current_template_id);
 
@@ -45,11 +50,11 @@ $region_ids_arr = $page_region_service->getPageRegionIdsArrByTemplateId($current
 
             echo '<tr>';
             echo '<td style="max-width: 30px">' . $block_obj->getId() . '</td>';
-            echo '<td><a href="' . Router::urlFor(BlockEditHandler::class, ['block_id' => $block_id]) . '">' . $block_obj->getTitle() . '</td>';
+            echo '<td><a href="' . Router::urlFor(BlockEditorContentHandler::class, ['block_id' => $block_id]) . '">' . $block_obj->getTitle() . '</td>';
             if ($page_region_id != PageRegion::BLOCK_REGION_NONE) {
                 ?>
                 <td align="right">
-                    <a href="<?php echo Router::urlFor(BlockEditHandler::class, ['block_id' => $block_id]); ?>" title="Редактировать"
+                    <a href="<?php echo Router::urlFor(BlockEditorContentHandler::class, ['block_id' => $block_id]); ?>" title="Редактировать"
                        class="btn btn-default btn-sm">
                         <span class="fa fa-edit fa-lg text-warning fa-fw"></span>
                     </a>

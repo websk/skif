@@ -2,29 +2,19 @@
 
 namespace WebSK\Skif\Blocks\RequestHandlers\Admin;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\Auth\User\RoleService;
-use WebSK\Skif\Blocks\BlockRoleService;
-use WebSK\Skif\Blocks\BlockService;
+use WebSK\Skif\Blocks\PageRegionService;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
 
-class BlockEditHandler extends BaseHandler
+class BlockEditorChooseRegionHandler extends BaseHandler
 {
     use BlockEditorPageTitleTrait;
-
-    /** @Inject */
-    protected BlockService $block_service;
-
-    /** @Inject */
-    protected BlockRoleService $block_role_service;
-
-    /** @Inject */
-    protected RoleService $role_service;
 
 
     /**
@@ -35,13 +25,18 @@ class BlockEditHandler extends BaseHandler
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $block_id): ResponseInterface
     {
+        $block_obj = $this->block_service->getById($block_id, false);
+
+        if (!$block_obj) {
+            return $response->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
+        }
+
         $content_html = PhpRender::renderTemplateInViewsDir(
-            'block_edit.tpl.php',
+            'block_choose_region.tpl.php',
             [
                 'block_id' => $block_id,
                 'block_service' => $this->block_service,
-                'block_role_service' => $this->block_role_service,
-                'role_service' => $this->role_service
+                'page_region_service' => $this->page_region_service
             ]
         );
 

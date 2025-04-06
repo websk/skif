@@ -28,6 +28,6 @@ class BlockSaveCachingHandler extends BaseHandler
 
         Messages::setMessage('Изменения сохранены');
 
-        return $response->withHeader('Location', BlockEditCachingHandler::class);
+        return $response->withHeader('Location', BlockEditorCachingHandler::class);
     }
 }

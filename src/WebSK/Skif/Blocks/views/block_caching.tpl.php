@@ -20,11 +20,6 @@ echo PhpRender::renderLocalTemplate(
     ]
 );
 
-if (!$block_obj->isLoaded()) {
-    echo '<div class="alert alert-warning">Во время создания блока вкладка недоступна.</div>';
-    return;
-}
-
 $cache_contexts_arr = Block::BLOCK_CACHES_ARRAY;
 ?>
 <form role="form" action="<?php echo Router::urlFor(BlockSaveCachingHandler::class, ['block_id' => $block_id]); ?>" method="post">

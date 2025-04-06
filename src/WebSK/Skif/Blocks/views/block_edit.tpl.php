@@ -10,24 +10,25 @@ use WebSK\Auth\User\RoleService;
 use WebSK\Skif\Blocks\Block;
 use WebSK\Skif\Blocks\BlockRoleService;
 use WebSK\Skif\Blocks\BlockService;
-use WebSK\Skif\Blocks\ControllerBlocks;
-use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockEditHandler;
+use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockEditorChooseRegionHandler;
+use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockSaveContentHandler;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\Router;
 use WebSK\Views\PhpRender;
 
-$block_obj = $block_service->getBlockObj($block_id);
+$block_obj = $block_service->getById($block_id);
 
 echo PhpRender::renderLocalTemplate(
     'block_edit_menu.tpl.php',
-    array('block_id' => $block_id)
+    [
+        'block_id' => $block_id,
+        'block_service' => $this->block_service
+    ]
 );
-
 
 $items = [];
 ?>
-<form role="form" action="<?php echo Router::urlFor(BlockEditHandler::class, ['block_id' => $block_id]); ?>" method="post" id="edit_form">
-    <input type="hidden" value="save_content" name="_action" id="_action"/>
+<form role="form" action="<?php echo Router::urlFor(BlockSaveContentHandler::class, ['block_id' => $block_id]); ?>" method="post" id="edit_form">
     <input type="hidden" value="" name="_redirect_to_on_success" id="_redirect_to_on_success"/>
 
     <div class="form-group">
@@ -37,7 +38,7 @@ $items = [];
         <p class="help-block">Описание выводится в админке блоков.</p>
     </div>
 
-    <style type="text/css" media="screen">
+    <style media="screen">
         #editor {
             height: 500px;
             font-size: 100%;
@@ -173,7 +174,7 @@ $items = [];
 
     $('#regions-btn-js').on('click', function () {
         $('#body').val(editor.getValue());
-        $('#_redirect_to_on_success').val('<?php echo ControllerBlocks::getRegionsListUrl($block_id); ?>');
+        $('#_redirect_to_on_success').val('<?php echo Router::urlFor(BlockEditorChooseRegionHandler::class, ['block_id' => $block_id]); ?>');
 
         form.submit();
     });

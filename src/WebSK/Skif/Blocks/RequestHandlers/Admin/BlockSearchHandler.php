@@ -5,15 +5,17 @@ namespace WebSK\Skif\Blocks\RequestHandlers\Admin;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Skif\Blocks\BlockService;
+use WebSK\Skif\Blocks\BlockUtils;
 use WebSK\Skif\Blocks\PageRegionService;
 use WebSK\Skif\Content\TemplateService;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Utils\Messages;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
 
-class BlockListHandler extends BaseHandler
+class BlockSearchHandler extends BaseHandler
 {
     use CurrentTemplateIdTrait;
 
@@ -33,10 +35,25 @@ class BlockListHandler extends BaseHandler
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
+
+        $search_value = $_GET["search"] ?? '';
+
+        $template_id = $this->getCurrentTemplateId();
+
+        if ((mb_strlen($search_value) > 3)) {
+            $blocks_ids_arr = $this->block_service->getIdsArrByPartBody($search_value, $template_id);
+
+            if (count($blocks_ids_arr) == 0) {
+                Messages::SetWarning('Ничего не найдено');
+            }
+        } else {
+            Messages::SetWarning('Слишком короткий запрос');
+        }
+
         $content_html = PhpRender::renderTemplateInViewsDir(
-            'blocks_list.tpl.php',
+            'search_blocks.tpl.php',
             [
-                'current_template_id' => $this->getCurrentTemplateId(),
+                'block_ids_arr' => $blocks_ids_arr ?? [],
                 'block_service' => $this->block_service,
                 'page_region_service' => $this->page_region_service,
                 'template_service' => $this->template_service
@@ -44,11 +61,12 @@ class BlockListHandler extends BaseHandler
         );
 
         $layout_dto = new LayoutDTO();
-        $layout_dto->setTitle('Блоки');
+        $layout_dto->setTitle('Поиск блоков');
         $layout_dto->setContentHtml($content_html);
 
         $breadcrumbs_arr = [
             new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),
+            new BreadcrumbItemDTO('Блоки', $this->urlFor(BlockListHandler::class)),
         ];
         $layout_dto->setBreadcrumbsDtoArr($breadcrumbs_arr);
 

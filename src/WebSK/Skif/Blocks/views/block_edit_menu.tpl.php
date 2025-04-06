@@ -4,27 +4,30 @@
  * @var BlockService $block_service
  */
 
-use WebSK\Skif\Blocks\BlockRoutes;
 use WebSK\Skif\Blocks\BlockService;
 use WebSK\Logger\LoggerRender;
+use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockEditorCachingHandler;
+use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockEditorChooseRegionHandler;
+use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockEditorContentHandler;
+use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockEditorDeleteHandler;
+use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockEditorPositionInRegionHandler;
+use WebSK\Slim\Router;
 use WebSK\Utils\Url;
 
 $block_obj = $block_service->getById($block_id);
 $current_url_no_query = Url::getUriNoQueryString();
 
-$block_edit_url = BlockRoutes::getEditorUrl($block_id);
-
-$menu_arr = array(
-    array('link' => $block_edit_url, 'name' => 'Содержимое и видимость'),
-    array('link' => $block_edit_url . '/position', 'name' => 'Позиция'),
-    array('link' => $block_edit_url . '/region', 'name' => 'Регион'),
-    array('link' => $block_edit_url . '/caching', 'name' => 'Кэширование'),
-    array('link' => $block_edit_url . '/delete', 'name' => 'Удаление блока'),
-    array(
+$menu_arr = [
+    ['link' => Router::urlFor(BlockEditorContentHandler::class, ['block_id' => $block_id]), 'name' => 'Содержимое и видимость'],
+    ['link' => Router::urlFor(BlockEditorPositionInRegionHandler::class, ['block_id' => $block_id]), 'name' => 'Позиция'],
+    ['link' => Router::urlFor(BlockEditorChooseRegionHandler::class, ['block_id' => $block_id]), 'name' => 'Регион'],
+    ['link' => Router::urlFor(BlockEditorCachingHandler::class, ['block_id' => $block_id]), 'name' => 'Кэширование'],
+    ['link' => Router::urlFor(BlockEditorDeleteHandler::class, ['block_id' => $block_id]), 'name' => 'Удаление блока'],
+    [
         'link' => LoggerRender::getLoggerLinkForEntityObj($block_obj),
         'name' => 'Журнал <sup><span class="glyphicon glyphicon-new-window"></span></sup>', 'target' => '_blank'
-    ),
-);
+    ],
+];
 ?>
 <div class="tabs">
     <ul class="nav nav-tabs">

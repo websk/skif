@@ -75,7 +75,7 @@ class BlockService extends EntityService
             return $blocks_ids_arr;
         }
 
-        $blocks_ids_arr = $this->repository->findBlockIdsArrByPageRegionId($page_region_id, $template_id);
+        $blocks_ids_arr = $this->repository->findIdsArrByPageRegionId($page_region_id, $template_id);
 
         $this->cache_service->set($cache_key, $blocks_ids_arr, 1800);
 
@@ -173,7 +173,7 @@ class BlockService extends EntityService
 
     public function getBlockIdsArrByTemplateId(int $template_id): array
     {
-        return $this->repository->findBlockIdsArrByTemplateId($template_id);
+        return $this->repository->findIdsArrByTemplateId($template_id);
     }
 
     /**
@@ -264,19 +264,6 @@ class BlockService extends EntityService
     }
 
     /**
-     * @param int $block_id
-     * @return Block|InterfaceEntity
-     */
-    public function getBlockObj(int $block_id): Block
-    {
-        if ($block_id == 'new') {
-            return new Block();
-        }
-
-        return $this->getById($block_id);
-    }
-
-    /**
      * Содержимое блока
      * @param int $block_id
      * @return string
@@ -363,4 +350,118 @@ class BlockService extends EntityService
         return $this->cache_service->delete($cache_key);
     }
 
+    /**
+     * @param Block $block_obj
+     * @return void
+     */
+    public function changePositionInRegion(Block $block_obj, $target_weight, $target_region_id): void
+    {
+        $source_region = $block_obj->getPageRegionId();
+        $block_obj->setPageRegionId($target_region_id);
+
+        Logger::logObjectEvent($block_obj, 'перемещение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
+
+        $blocks_ids_arr = $this->getBlockIdsArrByPageRegionId($target_region_id, $block_obj->getTemplateId());
+
+        /** @var Block[] $arranged_blocks */
+        $arranged_blocks = [];
+
+        $block_inserted = false;
+
+        if ($target_weight == Block::BLOCK_WEIGHT_FIRST_IN_REGION) {
+            $arranged_blocks[] = $block_obj;
+            $block_inserted = true;
+        }
+
+        // copy all blocks except our one - it will is inserted specially
+        $last_weight = -1;
+
+        foreach ($blocks_ids_arr as $other_block_id) {
+            $other_block_obj = $this->getById($other_block_id);
+
+            if ($other_block_obj->getId() != $block_obj->getId()) {
+                // if not our block - copy it to arranged blocks
+                $arranged_blocks[] = $other_block_obj;
+            }
+
+            if ($other_block_obj->getWeight() == $target_weight) { // place our block after the block with target weight
+                if (!$block_inserted) {
+                    $arranged_blocks[] = $block_obj;
+                    $block_inserted = true;
+                }
+            }
+
+            if (($target_weight > $last_weight) && ($target_weight < $other_block_obj->getWeight())) {
+                // блока с запрошенным весом нет, но есть дырка между блоками: у текущего блока вес больше запрошенного, а у предыдущего - меньше
+                // такое может быть, если блок какой-то перемещался без перебалансировки весов - например, "отключался" со страницы списка блоков
+                // это сработает только если блоки отсортированы по весу, так что обязательно нужно сортировать
+                if (!$block_inserted) {
+                    $arranged_blocks[] = $block_obj;
+                    $block_inserted = true;
+                }
+            }
+
+            $last_weight = $other_block_obj->getWeight();
+        }
+
+        // проверяем, что блок удалось вставить (просто защита)
+        $block_found = false;
+        foreach ($arranged_blocks as $other_block_obj) {
+            if (
+                ($other_block_obj->getId() == $block_obj->getId())
+                && ($other_block_obj->getPageRegionId() == $target_region_id)
+            ) {
+                $block_found = true;
+            }
+        }
+
+        if (!$block_found) {
+            throw new \Exception('block insertion failed');
+        }
+
+        foreach ($arranged_blocks as $i => $other_block_obj) {
+            $weight = $i + 1;
+
+            $other_block_obj->setWeight($weight);
+            $this->save($other_block_obj);
+        }
+
+        if ($source_region != $block_obj->getPageRegionId()) {
+            $this->clearBlockIdsArrByPageRegionIdCache($source_region, $block_obj->getTemplateId());
+        }
+        $this->clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId(), $block_obj->getTemplateId());
+    }
+
+    /**
+     * @param Block $block_obj
+     * @return void
+     * @throws \Exception
+     */
+    public function disableBlock(Block $block_obj): void
+    {
+        $prev_page_region_id = $block_obj->getPageRegionId();
+
+        $block_obj->setPageRegionId(PageRegion::BLOCK_REGION_NONE);
+        $this->save($block_obj);
+
+        $this->clearBlockIdsArrByPageRegionIdCache($prev_page_region_id, $block_obj->getTemplateId());
+        $this->clearBlockIdsArrByPageRegionIdCache(PageRegion::BLOCK_REGION_NONE, $block_obj->getTemplateId());
+
+        Logger::logObjectEvent($block_obj, 'отключение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
+    }
+
+    /**
+     * @param string $search_value
+     * @param int $template_id
+     * @param int $limit
+     * @return array
+     */
+    public function getIdsArrByPartBody(string $search_value, int $template_id, int $limit = 100): array
+    {
+        if ((mb_strlen($search_value) < 3)) {
+            return [];
+        }
+
+        return $this->repository->findIdsArrByPartBody($search_value, $template_id, $limit);
+    }
 }

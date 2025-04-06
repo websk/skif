@@ -2,11 +2,13 @@
 
 namespace WebSK\Skif\Blocks\RequestHandlers\Admin;
 
-use WebSK\Skif\Blocks\BlockUtils;
+use WebSK\Skif\Blocks\BlockService;
 use WebSK\Skif\Blocks\PageRegionService;
 
 trait BlockEditorPageTitleTrait
 {
+    /** @Inject */
+    protected BlockService $block_service;
 
     /** @Inject */
     protected PageRegionService $page_region_service;
@@ -18,7 +20,7 @@ trait BlockEditorPageTitleTrait
      */
     public function getBlockEditorPageTitle(int $block_id): string
     {
-        $block_obj = BlockUtils::getBlockObj($block_id);
+        $block_obj = $this->block_service->getById($block_id);
 
         if (!$block_obj->isLoaded()) {
             return 'Создание блока';

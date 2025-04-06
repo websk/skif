@@ -6,14 +6,13 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Skif\Blocks\BlockRole;
 use WebSK\Skif\Blocks\BlockRoleService;
-use WebSK\Skif\Blocks\BlockRoutes;
 use WebSK\Skif\Blocks\BlockService;
-use WebSK\Skif\Blocks\BlockUtils;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Utils\Messages;
 
 class BlockSaveContentHandler extends BaseHandler
 {
+    use CurrentTemplateIdTrait;
 
     /** @Inject */
     protected BlockService $block_service;
@@ -47,7 +46,7 @@ class BlockSaveContentHandler extends BaseHandler
         $is_new = !$block_obj->getId();
 
         if ($is_new) {
-            $template_id = BlockUtils::getCurrentTemplateId();
+            $template_id = $this->getCurrentTemplateId();
 
             $block_obj->setTemplateId($template_id);
         }
@@ -85,6 +84,6 @@ class BlockSaveContentHandler extends BaseHandler
             return $response->withHeader('Location', $redirect_to_on_success);
         }
 
-        return $response->withHeader('Location', BlockRoutes::getEditorUrl($block_id));
+        return $response->withHeader('Location', $this->urlFor(BlockEditorContentHandler::class, ['block_id' => $block_id]));
     }
 }

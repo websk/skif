@@ -36,6 +36,8 @@ class Block extends Entity
         Block::BLOCK_FORMAT_TYPE_PHP => 'PHP code'
     ];
 
+    const string BLOCK_WEIGHT_FIRST_IN_REGION = 'FIRST';
+
     const string _TEMPLATE_ID = 'template_id';
     protected ?int $template_id = Template::TEMPLATE_ID_MAIN;
 

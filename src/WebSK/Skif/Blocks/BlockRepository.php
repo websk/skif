@@ -13,7 +13,7 @@ class BlockRepository extends EntityRepository
      * @param int $template_id
      * @return array
      */
-    public function findBlockIdsArrByPageRegionId(?int $page_region_id, int $template_id): array
+    public function findIdsArrByPageRegionId(?int $page_region_id, int $template_id): array
     {
         $params_arr = [];
 
@@ -41,18 +41,41 @@ class BlockRepository extends EntityRepository
      * @param int $template_id
      * @return array
      */
-    public function findBlockIdsArrByTemplateId(int $template_id): array
+    public function findIdsArrByTemplateId(int $template_id): array
     {
-        $blocks_ids_arr = $this->db_service->readColumn(
+        return $this->db_service->readColumn(
             "SELECT " . Sanitize::sanitizeSqlColumnName($this->getIdFieldName())
             . " FROM " . Sanitize::sanitizeSqlColumnName($this->getTableName())
             . " WHERE " . Sanitize::sanitizeSqlColumnName(Block::_TEMPLATE_ID) . " = ? "
             . " ORDER BY " . Sanitize::sanitizeSqlColumnName(Block::_PAGE_REGION_ID)
             . ", " . Sanitize::sanitizeSqlColumnName(Block::_WEIGHT)
             . ", " . Sanitize::sanitizeSqlColumnName(Block::_TITLE),
-            array($template_id)
+            [$template_id]
         );
+    }
 
-        return $blocks_ids_arr;
+    /**
+     * @param string $search_value
+     * @param int $template_id
+     * @param int $limit
+     * @return array
+     */
+    public function findIdsArrByPartBody(string $search_value, int $template_id, int $limit): array
+    {
+        if ((mb_strlen($search_value) < 3)) {
+            return [];
+        }
+
+        return $this->db_service->readColumn(
+            "SELECT " . Sanitize::sanitizeSqlColumnName($this->getIdFieldName())
+            . " FROM " . Sanitize::sanitizeSqlColumnName($this->getTableName())
+            . " WHERE " . Sanitize::sanitizeSqlColumnName(Block::_BODY) . " LIKE ?"
+            . " AND " . Sanitize::sanitizeSqlColumnName(Block::_TEMPLATE_ID) . " = ?"
+            . " LIMIT " . $limit,
+            [
+                "%" . Sanitize::sanitizeAttrValue($search_value) . "%",
+                $template_id
+            ]
+        );
     }
 }

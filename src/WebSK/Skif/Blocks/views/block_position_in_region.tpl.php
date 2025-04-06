@@ -1,21 +1,20 @@
 <?php
 /**
  * @var int $block_id
- * @var ?int $target_region
+ * @var int $target_region
+ * @var BlockService $block_service
+ * @var PageRegionService $page_region_service
  */
 
+use WebSK\Skif\Blocks\Block;
 use WebSK\Skif\Blocks\BlockService;
-use WebSK\Skif\Blocks\BlockUtils;
 use WebSK\Skif\Blocks\PageRegionService;
-use WebSK\Slim\Container;
-use WebSK\Utils\Url;
+use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockChangePositionInRegionHandler;
+use WebSK\Slim\Router;
 use WebSK\Views\PhpRender;
 
-$container = Container::self();
-$page_region_service = $container->get(PageRegionService::class);
-$block_service = $container->get(BlockService::class);
 
-$block_obj = BlockUtils::getBlockObj($block_id);
+$block_obj = $block_service->getById($block_id);
 
 echo PhpRender::renderLocalTemplate(
     'block_edit_menu.tpl.php',
@@ -25,23 +24,27 @@ echo PhpRender::renderLocalTemplate(
     ]
 );
 
-if (!$block_obj->isLoaded()) {
-    echo '<div class="alert alert-warning">Во время создания блока вкладка недоступна.</div>';
-    return;
-}
-
 $page_region_obj = $page_region_service->getById($target_region);
 
 ?>
 
 <div class="tab-pane in active" id="place_in_region">
     <div>
-        <p>Выберите, после какого блока нужно поставить блок в регионе &laquo;<?= $page_region_obj->getTitle() ?>&raquo;</p>
+        <p>Выберите, после какого блока нужно поставить блок в регионе
+            &laquo;<?php echo $page_region_obj->getTitle() ?>&raquo;</p>
         <table class="table table-condensed">
             <tr>
                 <td>---</td>
                 <td>---</td>
-                <td><a href="<?php echo Url::getUriNoQueryString() . '?_action=move_block&target_region=' . $target_region . '&target_weight=FIRST'; ?>">начало региона</a></td>
+                <td>
+                    <a href="<?php echo Router::urlFor(
+                        BlockChangePositionInRegionHandler::class,
+                        ['block_id' => $block_id],
+                        ['target_region' => $target_region, 'target_weight' => Block::BLOCK_WEIGHT_FIRST_IN_REGION]
+                    ); ?>">
+                        начало региона
+                    </a>
+                </td>
             </tr>
             <?php
             $blocks_ids_arr = $block_service->getBlockIdsArrByPageRegionId($target_region, $block_obj->getTemplateId());
@@ -54,8 +57,11 @@ $page_region_obj = $page_region_service->getById($target_region);
                     $tr_class = ' class="active" ';
                 }
 
-                $move_block_url = Url::getUriNoQueryString() .
-                    '?_action=move_block&target_region=' . $target_region . '&target_weight=' . $other_block_obj->getWeight();
+                $move_block_url = Router::urlFor(
+                    BlockChangePositionInRegionHandler::class,
+                    ['block_id' => $block_id],
+                    ['target_region' => $target_region, 'target_weight' => $other_block_obj->getWeight()]
+                );
 
                 echo '<tr ' . $tr_class . '>';
                 echo '<td>' . $other_block_obj->getWeight() . '</td>';
