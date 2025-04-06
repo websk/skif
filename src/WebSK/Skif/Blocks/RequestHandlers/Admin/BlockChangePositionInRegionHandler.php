@@ -31,8 +31,8 @@ class BlockChangePositionInRegionHandler extends BaseHandler
             return $response->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
         }
 
-        $target_weight = $_REQUEST['target_weight'];
-        $target_region_id = $_REQUEST['target_region'] ?: null;
+        $target_weight = $request->getParam('target_weight');
+        $target_region_id = $request->getParam('target_region') ?: null;
 
         if ($target_weight == '') {
             return $response;

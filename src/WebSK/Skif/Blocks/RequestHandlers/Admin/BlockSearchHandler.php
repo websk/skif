@@ -5,7 +5,6 @@ namespace WebSK\Skif\Blocks\RequestHandlers\Admin;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Skif\Blocks\BlockService;
-use WebSK\Skif\Blocks\BlockUtils;
 use WebSK\Skif\Blocks\PageRegionService;
 use WebSK\Skif\Content\TemplateService;
 use WebSK\Skif\SkifPath;
@@ -36,7 +35,7 @@ class BlockSearchHandler extends BaseHandler
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
 
-        $search_value = $_GET["search"] ?? '';
+        $search_value = $request->getParam('search', '');
 
         $template_id = $this->getCurrentTemplateId();
 

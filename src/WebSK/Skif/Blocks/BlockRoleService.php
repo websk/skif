@@ -35,7 +35,7 @@ class BlockRoleService extends EntityService
     {
         $block_role_ids_arr = $this->getIdsByBlockId($block_id);
 
-        $role_ids_arr = array();
+        $role_ids_arr = [];
 
         foreach ($block_role_ids_arr as $block_role_id) {
             $block_role_obj = $this->getById($block_role_id);

@@ -31,16 +31,16 @@ class BlockSaveContentHandler extends BaseHandler
 
         $block_obj = $this->block_service->getById($block_id);
 
-        $title = array_key_exists('title', $_POST) ? $_POST['title'] : '';
+        $title = $request->getParam('title', '');
         $block_obj->setTitle($title);
 
-        $body = array_key_exists('body', $_POST) ? $_POST['body'] : '';
+        $body = $request->getParam('body','');
         $block_obj->setBody($body);
 
-        $format = array_key_exists('format', $_POST) ? $_POST['format'] : 3;
+        $format = $request->getParam('format', 3);
         $block_obj->setFormat($format);
 
-        $pages = array_key_exists('pages', $_POST) ? $_POST['pages'] : '+ ^';
+        $pages = $request->getParam('pages', '+ ^');
         $block_obj->setPages($pages);
 
         $is_new = !$block_obj->getId();
@@ -56,27 +56,24 @@ class BlockSaveContentHandler extends BaseHandler
         // Roles
         $this->block_service->deleteBlocksRolesByBlockId($block_id);
 
-        if (array_key_exists('roles', $_REQUEST)) {
-            foreach ($_REQUEST['roles'] as $role_id) {
-                $block_role_obj = new BlockRole();
-                $block_role_obj->setRoleId($role_id);
-                $block_role_obj->setBlockId($block_obj->getId());
-                $this->block_role_service->save($block_role_obj);
-            }
+        $roles_ids_arr = $request->getParam('roles', []);
+        foreach ($roles_ids_arr as $role_id) {
+            $block_role_obj = new BlockRole();
+            $block_role_obj->setRoleId($role_id);
+            $block_role_obj->setBlockId($block_obj->getId());
+            $this->block_role_service->save($block_role_obj);
         }
 
         // Clear cache
         if ($is_new) {
-            $this->block_service->clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId(), $block_obj->getTemplateId());
+            $this->block_service->clearIdsArrByPageRegionIdCache($block_obj->getPageRegionId(), $block_obj->getTemplateId());
         }
 
         Messages::setMessage('Изменения сохранены');
 
         // Redirects
-        if (array_key_exists('_redirect_to_on_success', $_REQUEST) && $_REQUEST['_redirect_to_on_success'] != '') {
-            $redirect_to_on_success = $_REQUEST['_redirect_to_on_success'];
-
-            // block_id
+        $redirect_to_on_success = $request->getParam('_redirect_to_on_success', '');
+        if ($redirect_to_on_success) {
             if (strpos($redirect_to_on_success, 'block_id') !== false) {
                 $redirect_to_on_success = str_replace('block_id', $block_obj->getId(), $redirect_to_on_success);
             }

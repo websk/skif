@@ -47,7 +47,7 @@ $page_region_obj = $page_region_service->getById($target_region);
                 </td>
             </tr>
             <?php
-            $blocks_ids_arr = $block_service->getBlockIdsArrByPageRegionId($target_region, $block_obj->getTemplateId());
+            $blocks_ids_arr = $block_service->getIdsArrByPageRegionId($target_region, $block_obj->getTemplateId());
 
             foreach ($blocks_ids_arr as $other_block_id) {
                 $other_block_obj = $block_service->getById($other_block_id);

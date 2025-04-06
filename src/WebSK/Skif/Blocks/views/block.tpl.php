@@ -6,7 +6,7 @@
 
 use WebSK\Skif\Blocks\BlockService;
 
-$block_content = $block_service->getContentByBlockId($block_id);
+$block_content = $block_service->getContentById($block_id);
 if ($block_content == '') {
     return;
 }

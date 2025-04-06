@@ -66,9 +66,9 @@ class BlockService extends EntityService
      * @param int $template_id
      * @return array
      */
-    public function getBlockIdsArrByPageRegionId(?int $page_region_id, int $template_id): array
+    public function getIdsArrByPageRegionId(?int $page_region_id, int $template_id): array
     {
-        $cache_key = $this->getBlockIdsArrByPageRegionIdCacheKey($page_region_id, $template_id);
+        $cache_key = $this->getIdsArrByPageRegionIdCacheKey($page_region_id, $template_id);
 
         $blocks_ids_arr = $this->cache_service->get($cache_key);
         if ($blocks_ids_arr !== false) {
@@ -87,7 +87,7 @@ class BlockService extends EntityService
      * @param int $template_id
      * @return string
      */
-    protected function getBlockIdsArrByPageRegionIdCacheKey(?int $page_region_id, int $template_id): string
+    protected function getIdsArrByPageRegionIdCacheKey(?int $page_region_id, int $template_id): string
     {
         $cache_key = 'template_id_' . $template_id . '_block_ids_arr_by_page_region_id_';
 
@@ -117,7 +117,7 @@ class BlockService extends EntityService
             $page_url = Url::getUriNoQueryString();
         }
 
-        $blocks_ids_arr = $this->getBlockIdsArrByPageRegionId($page_region_id, $template_id);
+        $blocks_ids_arr = $this->getIdsArrByPageRegionId($page_region_id, $template_id);
 
         $visible_blocks_ids_arr = [];
 
@@ -171,7 +171,7 @@ class BlockService extends EntityService
         return false;
     }
 
-    public function getBlockIdsArrByTemplateId(int $template_id): array
+    public function getIdsArrByTemplateId(int $template_id): array
     {
         return $this->repository->findIdsArrByTemplateId($template_id);
     }
@@ -255,8 +255,8 @@ class BlockService extends EntityService
     {
         $this->deleteBlocksRolesByBlockId($entity_obj->getId());
 
-        $this->clearBlockIdsArrByPageRegionIdCache($entity_obj->getPageRegionId(), $entity_obj->getTemplateId());
-        $this->clearBlockIdsArrByPageRegionIdCache(PageRegion::BLOCK_REGION_NONE, $entity_obj->getTemplateId());
+        $this->clearIdsArrByPageRegionIdCache($entity_obj->getPageRegionId(), $entity_obj->getTemplateId());
+        $this->clearIdsArrByPageRegionIdCache(PageRegion::BLOCK_REGION_NONE, $entity_obj->getTemplateId());
 
         Logger::logObjectEvent($entity_obj, 'удаление', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
 
@@ -268,7 +268,7 @@ class BlockService extends EntityService
      * @param int $block_id
      * @return string
      */
-    public function getContentByBlockId(int $block_id): string
+    public function getContentById(int $block_id): string
     {
         $block_obj = $this->getById($block_id);
 
@@ -343,9 +343,9 @@ class BlockService extends EntityService
      * @param int $template_id
      * @return bool
      */
-    public function clearBlockIdsArrByPageRegionIdCache(?int $page_region_id, int $template_id): bool
+    public function clearIdsArrByPageRegionIdCache(?int $page_region_id, int $template_id): bool
     {
-        $cache_key = self::getBlockIdsArrByPageRegionIdCacheKey($page_region_id, $template_id);
+        $cache_key = self::getIdsArrByPageRegionIdCacheKey($page_region_id, $template_id);
 
         return $this->cache_service->delete($cache_key);
     }
@@ -361,7 +361,7 @@ class BlockService extends EntityService
 
         Logger::logObjectEvent($block_obj, 'перемещение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
 
-        $blocks_ids_arr = $this->getBlockIdsArrByPageRegionId($target_region_id, $block_obj->getTemplateId());
+        $blocks_ids_arr = $this->getIdsArrByPageRegionId($target_region_id, $block_obj->getTemplateId());
 
         /** @var Block[] $arranged_blocks */
         $arranged_blocks = [];
@@ -427,9 +427,9 @@ class BlockService extends EntityService
         }
 
         if ($source_region != $block_obj->getPageRegionId()) {
-            $this->clearBlockIdsArrByPageRegionIdCache($source_region, $block_obj->getTemplateId());
+            $this->clearIdsArrByPageRegionIdCache($source_region, $block_obj->getTemplateId());
         }
-        $this->clearBlockIdsArrByPageRegionIdCache($block_obj->getPageRegionId(), $block_obj->getTemplateId());
+        $this->clearIdsArrByPageRegionIdCache($block_obj->getPageRegionId(), $block_obj->getTemplateId());
     }
 
     /**
@@ -444,8 +444,8 @@ class BlockService extends EntityService
         $block_obj->setPageRegionId(PageRegion::BLOCK_REGION_NONE);
         $this->save($block_obj);
 
-        $this->clearBlockIdsArrByPageRegionIdCache($prev_page_region_id, $block_obj->getTemplateId());
-        $this->clearBlockIdsArrByPageRegionIdCache(PageRegion::BLOCK_REGION_NONE, $block_obj->getTemplateId());
+        $this->clearIdsArrByPageRegionIdCache($prev_page_region_id, $block_obj->getTemplateId());
+        $this->clearIdsArrByPageRegionIdCache(PageRegion::BLOCK_REGION_NONE, $block_obj->getTemplateId());
 
         Logger::logObjectEvent($block_obj, 'отключение', FullObjectId::getFullObjectId(Auth::getCurrentUserObj()));
     }

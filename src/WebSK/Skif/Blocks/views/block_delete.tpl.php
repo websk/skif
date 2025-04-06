@@ -27,7 +27,6 @@ echo PhpRender::renderLocalTemplate(
         <p class="alert alert-info">Если Вы хотите <b>отключить блок</b> - поместите его в регион <a href="<?php echo Router::urlFor(BlockEditorChooseRegionHandler::class, ['block_id' => $block_id]); ?>">Выключенные блоки</a></p>
 
         <form role="form" action="<?php echo Router::urlFor(BlockDeleteHandler::class, ['block_id' => $block_id]); ?>" method="post">
-            <input type="hidden" value="delete_block" name="_action" id="_action" />
             <div class="form-group">
                 <input class="btn btn-danger" type="submit" name="yt0" value="Удалить блок" />
             </div>

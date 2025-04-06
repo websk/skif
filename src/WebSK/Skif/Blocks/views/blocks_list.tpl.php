@@ -24,7 +24,7 @@ echo PhpRender::renderLocalTemplate(
     ]
 );
 
-$region_ids_arr = $page_region_service->getPageRegionIdsArrByTemplateId($current_template_id);
+$region_ids_arr = $page_region_service->getIdsArrByTemplateId($current_template_id);
 
 ?>
 <table class="table table-striped table-hover">
@@ -39,7 +39,7 @@ $region_ids_arr = $page_region_service->getPageRegionIdsArrByTemplateId($current
     foreach ($region_ids_arr as $page_region_id) {
         $page_region_obj = $page_region_service->getById($page_region_id);
 
-        $blocks_ids_arr = $block_service->getBlockIdsArrByPageRegionId($page_region_id, $current_template_id);
+        $blocks_ids_arr = $block_service->getIdsArrByPageRegionId($page_region_id, $current_template_id);
         ?>
         <tr>
             <th colspan="3"><?php echo $page_region_obj->getTitle(); ?></th>

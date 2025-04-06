@@ -5,7 +5,6 @@ namespace WebSK\Skif\Blocks\RequestHandlers\Admin;
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WebSK\Skif\Blocks\PageRegionService;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;

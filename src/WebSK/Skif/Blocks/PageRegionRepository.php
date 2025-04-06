@@ -13,7 +13,7 @@ class PageRegionRepository extends EntityRepository
      * @return bool|false|mixed
      * @throws \Exception
      */
-    public function findPageRegionIdByNameAndTemplateId(string $name, int $template_id): int
+    public function findIdByNameAndTemplateId(string $name, int $template_id): int
     {
         $query = "SELECT " . Sanitize::sanitizeSqlColumnName($this->getIdFieldName())
             . " FROM " . Sanitize::sanitizeSqlColumnName($this->getTableName())
@@ -28,7 +28,7 @@ class PageRegionRepository extends EntityRepository
      * @param int $template_id
      * @return array
      */
-    public function findPageRegionIdsArrByTemplateId(int $template_id): array
+    public function findIdsArrByTemplateId(int $template_id): array
     {
         $query = "SELECT " . Sanitize::sanitizeSqlColumnName($this->getIdFieldName())
             . " FROM " . Sanitize::sanitizeSqlColumnName($this->getTableName())

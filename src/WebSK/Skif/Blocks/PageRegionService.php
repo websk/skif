@@ -41,16 +41,16 @@ class PageRegionService extends EntityService
      * @return bool|false|mixed
      * @throws \Exception
      */
-    public function getPageRegionIdByNameAndTemplateId(string $name, int $template_id): int
+    public function getIdByNameAndTemplateId(string $name, int $template_id): int
     {
-        $cache_key = self::getPageRegionIdByNameAndTemplateIdCacheKey($name, $template_id);
+        $cache_key = self::getIdByNameAndTemplateIdCacheKey($name, $template_id);
 
         $cache = $this->cache_service->get($cache_key);
         if ($cache !== false) {
             return (int)$cache;
         }
 
-        $page_region_id = $this->repository->findPageRegionIdByNameAndTemplateId($name, $template_id);
+        $page_region_id = $this->repository->findIdByNameAndTemplateId($name, $template_id);
 
         $this->cache_service->set($cache_key, $page_region_id, 3600);
 
@@ -62,7 +62,7 @@ class PageRegionService extends EntityService
      * @param int $template_id
      * @return string
      */
-    protected function getPageRegionIdByNameAndTemplateIdCacheKey(string $name, int $template_id): string
+    protected function getIdByNameAndTemplateIdCacheKey(string $name, int $template_id): string
     {
         return 'page_region_id_by_name_' . $name . '_and_template_id' . $template_id;
     }
@@ -72,14 +72,14 @@ class PageRegionService extends EntityService
      * @param int $template_id
      * @return array
      */
-    public function getPageRegionIdsArrByTemplateId(int $template_id): array
+    public function getIdsArrByTemplateId(int $template_id): array
     {
         static $static_page_region_ids_arr = [];
 
         $page_region_ids_arr = [];
 
         if (!array_key_exists($template_id, $static_page_region_ids_arr)) {
-            $page_region_ids_arr = $this->repository->findPageRegionIdsArrByTemplateId($template_id);
+            $page_region_ids_arr = $this->repository->findIdsArrByTemplateId($template_id);
         }
 
         $page_region_ids_arr[] = PageRegion::BLOCK_REGION_NONE;
@@ -94,7 +94,7 @@ class PageRegionService extends EntityService
      */
     public function afterSave(InterfaceEntity $entity_obj): void
     {
-        $cache_key = $this->getPageRegionIdByNameAndTemplateIdCacheKey(
+        $cache_key = $this->getIdByNameAndTemplateIdCacheKey(
             $entity_obj->getName(),
             $entity_obj->getTemplateId()
         );
@@ -110,7 +110,7 @@ class PageRegionService extends EntityService
      */
     public function afterDelete(InterfaceEntity $entity_obj): void
     {
-        $cache_key = $this->getPageRegionIdByNameAndTemplateIdCacheKey(
+        $cache_key = $this->getIdByNameAndTemplateIdCacheKey(
             $entity_obj->getName(),
             $entity_obj->getTemplateId()
         );

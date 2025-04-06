@@ -44,7 +44,7 @@ class PageRegionsUtils
         $page_region_service = $container->get(PageRegionService::class);
 
         $template_id = $template_service->getIdByName($template_name);
-        $page_region_id = $page_region_service->getPageRegionIdByNameAndTemplateId($page_region_name, $template_id);
+        $page_region_id = $page_region_service->getIdByNameAndTemplateId($page_region_name, $template_id);
 
         $blocks_ids_arr = $block_service->getVisibleBlocksIdsArrByRegionId($page_region_id, $template_id, $page_url);
 

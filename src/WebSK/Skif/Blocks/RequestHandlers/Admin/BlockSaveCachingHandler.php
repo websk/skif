@@ -23,7 +23,7 @@ class BlockSaveCachingHandler extends BaseHandler
     {
         $block_obj = $this->block_service->getById($block_id);
 
-        $block_obj->setCache($_POST['cache']);
+        $block_obj->setCache($request->getParam('cache'));
         $this->block_service->save($block_obj);
 
         Messages::setMessage('Изменения сохранены');

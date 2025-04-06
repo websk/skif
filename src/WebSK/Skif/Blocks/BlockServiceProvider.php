@@ -20,10 +20,6 @@ class BlockServiceProvider
      */
     public static function register(ContainerInterface $container): void
     {
-        /**
-         * @param ContainerInterface $container
-         * @return BlockService
-         */
         $container->set(BlockService::class, function (ContainerInterface $container) {
             return new BlockService(
                 Block::class,
@@ -35,10 +31,6 @@ class BlockServiceProvider
             );
         });
 
-        /**
-         * @param ContainerInterface $container
-         * @return BlockRepository
-         */
         $container->set(BlockRepository::class, function (ContainerInterface $container) {
             return new BlockRepository(
                 Block::class,
@@ -46,10 +38,6 @@ class BlockServiceProvider
             );
         });
 
-        /**
-         * @param ContainerInterface $container
-         * @return BlockRoleService
-         */
         $container->set(BlockRoleService::class, function (ContainerInterface $container) {
             return new BlockRoleService(
                 BlockRole::class,
@@ -58,10 +46,6 @@ class BlockServiceProvider
             );
         });
 
-        /**
-         * @param ContainerInterface $container
-         * @return BlockRoleRepository
-         */
         $container->set(BlockRoleRepository::class, function (ContainerInterface $container) {
             return new BlockRoleRepository(
                 BlockRole::class,

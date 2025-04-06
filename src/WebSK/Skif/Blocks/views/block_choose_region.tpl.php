@@ -26,7 +26,7 @@ echo PhpRender::renderLocalTemplate(
 
 <table class="table table-condensed">
     <?php
-    $region_ids_arr = $page_region_service->getPageRegionIdsArrByTemplateId($block_obj->getTemplateId());
+    $region_ids_arr = $page_region_service->getIdsArrByTemplateId($block_obj->getTemplateId());
 
     foreach ($region_ids_arr as $page_region_id) {
         $page_region_obj = $page_region_service->getById($page_region_id);
