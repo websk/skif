@@ -20,7 +20,7 @@ echo PhpRender::renderLocalTemplate(
     'block_edit_menu.tpl.php',
     [
         'block_id' => $block_id,
-        'block_service' => $this->block_service
+        'block_service' => $block_service
     ]
 );
 
