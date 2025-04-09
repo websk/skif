@@ -62,16 +62,6 @@ class Block extends Entity
     const string _FORMAT = 'format';
     protected int $format = self::BLOCK_FORMAT_TYPE_PLAIN;
 
-
-    /**
-     * Был ли загружен блок
-     * @return bool
-     */
-    public function isLoaded(): bool
-    {
-        return !empty($this->id);
-    }
-
     /**
      * ID блока
      * @return null|int

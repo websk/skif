@@ -82,8 +82,6 @@ class PageRegionService extends EntityService
             $page_region_ids_arr = $this->repository->findIdsArrByTemplateId($template_id);
         }
 
-        $page_region_ids_arr[] = PageRegion::BLOCK_REGION_NONE;
-
         $static_page_region_ids_arr[$template_id] = $page_region_ids_arr;
 
         return $page_region_ids_arr;

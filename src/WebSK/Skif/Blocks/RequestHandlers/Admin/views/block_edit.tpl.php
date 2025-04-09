@@ -10,7 +10,6 @@ use WebSK\Auth\User\RoleService;
 use WebSK\Skif\Blocks\Block;
 use WebSK\Skif\Blocks\BlockRoleService;
 use WebSK\Skif\Blocks\BlockService;
-use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockEditorChooseRegionHandler;
 use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockSaveContentHandler;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\Router;
@@ -58,9 +57,6 @@ $items = [];
             $formats_arr = Block::BLOCK_FORMATS_ARRAY;
 
             $current_format = $block_obj->getFormat();
-            if (!$block_obj->isLoaded()) {
-                $current_format = 1;
-            }
 
             foreach ($formats_arr as $format_id => $format_name) {
                 ?>
@@ -144,8 +140,6 @@ $items = [];
 
     <div class="form-group">
         <input class="btn btn-primary" type="submit" id="save-btn-js" value="Сохранить"/>
-        &nbsp;&nbsp;<button class="btn btn-default" id="regions-btn-js" type="button">Сохранить и выбрать регион
-        </button>
     </div>
 </form>
 
@@ -168,13 +162,6 @@ $items = [];
     $('#save-btn-js').on('click', function () {
         $('#body').val(editor.getValue());
         $('#_redirect_to_on_success').val('');
-
-        form.submit();
-    });
-
-    $('#regions-btn-js').on('click', function () {
-        $('#body').val(editor.getValue());
-        $('#_redirect_to_on_success').val('<?php echo Router::urlFor(BlockEditorChooseRegionHandler::class, ['block_id' => $block_id]); ?>');
 
         form.submit();
     });

@@ -22,19 +22,13 @@ trait BlockEditorPageTitleTrait
     {
         $block_obj = $this->block_service->getById($block_id);
 
-        if (!$block_obj->isLoaded()) {
-            return 'Создание блока';
-        }
-
         $page_region_obj = $this->page_region_service->getById($block_obj->getPageRegionId());
         $region_for_title = $page_region_obj->getTitle();
 
-        $page_title = $block_obj->getTitle();
+        $page_title = 'Блоки. ' . $block_obj->getTitle() . ' / ' . $region_for_title;
         if ($page_title == '') {
-            $page_title = $region_for_title . '. ' . $block_obj->getId();
+            $page_title = '. ' . $block_obj->getId();
         }
-
-        $page_title .= '. ' . $region_for_title;
 
         return $page_title;
     }
