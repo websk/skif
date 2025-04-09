@@ -1,6 +1,6 @@
 <?php
 
-namespace WebSK\Skif;
+namespace WebSK\Skif\Content;
 
 class ContentSanitize
 {

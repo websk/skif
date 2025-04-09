@@ -10,12 +10,12 @@ use WebSK\Slim\Request;
  */
 class Pager
 {
-    const PAGE_SIZE_DEFAULT_VALUE = 30;
-    const PAGE_SIZE_MAX_VALUE = 10000;
+    const int PAGE_SIZE_DEFAULT_VALUE = 30;
+    const int PAGE_SIZE_MAX_VALUE = 10000;
 
-    const PARAM_PAGE_SIZE = 'page_size';
-    const PARAM_PAGE_OFFSET = 'page_offset';
-    const PARAM_PAGE_NUMBER = 'page_number';
+    const string PARAM_PAGE_SIZE = 'page_size';
+    const string PARAM_PAGE_OFFSET = 'page_offset';
+    const string PARAM_PAGE_NUMBER = 'page_number';
 
     /**
      * @return int

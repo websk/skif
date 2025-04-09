@@ -3,9 +3,9 @@
  * @var int $content_id
  */
 
-use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Image\ImageManager;
-use WebSK\Skif\ContentSanitize;
+use WebSK\Skif\Content\ContentSanitize;
+use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Slim\Container;
 
 $content_service = ContentServiceProvider::getContentService(Container::self());

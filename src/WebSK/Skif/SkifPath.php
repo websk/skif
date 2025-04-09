@@ -12,7 +12,7 @@ use WebSK\Utils\Url;
  */
 class SkifPath
 {
-    const ASSETS_DIR_NAME = 'assets';
+    const string ASSETS_DIR_NAME = 'assets';
 
     /**
      * @param $resource

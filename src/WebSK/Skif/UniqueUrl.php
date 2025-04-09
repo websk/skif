@@ -14,7 +14,7 @@ use WebSK\Skif\Form\Form;
  */
 class UniqueUrl
 {
-    const FIELD_URL = 'url';
+    const string FIELD_URL = 'url';
 
     /**
      * @param string $url Url to check uniqueness
