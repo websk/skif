@@ -4,7 +4,7 @@ use WebSK\Skif\SkifPath;
 
 return [
     'settings' => [
-        'displayErrorDetails' => true,
+        'displayErrorDetails' => false,
         'cache' => [
             'engine' => \WebSK\Cache\Engines\Memcached::class,
             'cache_key_prefix' => 'skif',

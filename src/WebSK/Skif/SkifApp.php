@@ -85,7 +85,8 @@ class SkifApp extends App
 
         $this->registerRoutes();
 
-        $error_middleware = $this->addErrorMiddleware($container->get('settings.displayErrorDetails'), true, true);
+        $display_error_details = $container->get('settings.displayErrorDetails');
+        $error_middleware = $this->addErrorMiddleware($display_error_details, true, true);
         $error_middleware->setDefaultErrorHandler(SkifErrorHandler::class);
         $error_middleware->setErrorHandler(HttpNotFoundException::class, NotFoundHandler::class);
     }

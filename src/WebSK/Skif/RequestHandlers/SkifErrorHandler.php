@@ -6,7 +6,6 @@ use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
-use WebSK\Auth\Auth;
 use WebSK\Config\ConfWrapper;
 use WebSK\Skif\SkifPath;
 use WebSK\Views\BreadcrumbItemDTO;
@@ -56,7 +55,7 @@ class SkifErrorHandler extends ErrorHandler
         $extra_message = 'Ошибка. 500 Internal Server Error';
 
         $message = 'Что-то пошло не так';
-        if (Auth::currentUserIsAdmin()) {
+        if ($displayErrorDetails) {
             $message = $exception->getMessage();
         }
 

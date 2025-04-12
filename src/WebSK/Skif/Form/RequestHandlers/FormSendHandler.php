@@ -98,7 +98,6 @@ class FormSendHandler extends BaseHandler
         if ($form_obj->getEmailCopy()) {
             $mail->addAddress($form_obj->getEmailCopy());
         }
-        $mail->isHTML(true);
         $mail->Subject = $title;
         $mail->Body = $message;
         $mail->AltBody = Sanitize::sanitizeAttrValue($message);
@@ -117,7 +116,6 @@ class FormSendHandler extends BaseHandler
         $mail->setFrom($form_email, $site_name);
         $mail->addReplyTo($form_email);
         $mail->addAddress($user_email);
-        $mail->isHTML(true);
         $mail->Subject = "Благодарим Вас за отправленную информацию!";
         $mail->Body = $response_mail_message;
         $mail->AltBody = Sanitize::sanitizeAttrValue($response_mail_message);

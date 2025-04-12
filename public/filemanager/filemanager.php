@@ -1,14 +1,13 @@
 <?php
 
+use Jgut\Slim\PHPDI\Configuration;
+use Jgut\Slim\PHPDI\ContainerBuilder;
+use Psr\Http\Message\ServerRequestInterface;
+use Slim\Factory\ServerRequestCreatorFactory;
 use WebSK\Auth\Auth;
-use WebSK\Config\ConfWrapper;
-use WebSK\DB\DBWrapper;
 use WebSK\Skif\SkifApp;
-use WebSK\Skif\SkifServiceProvider;
-use WebSK\Slim\Facade;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
-require_once __DIR__ . '/events.php';
 
 // fix display non-latin chars correctly
 // https://github.com/servocoder/RichFilemanager/issues/7
@@ -20,17 +19,19 @@ if(!ini_get('date.timezone')) {
     date_default_timezone_set('GMT');
 }
 
-$config = require_once realpath(__DIR__ . '/../../config/config.php');
-ConfWrapper::setConfig($config['settings']);
+$config_path = realpath(__DIR__ . '/../../config/config.php');
+$config = require_once $config_path;
 
-$app = new SkifApp($config);
-Facade::setFacadeApplication($app);
+$configuration = new Configuration();
+$configuration->setDefinitions([$config]);
+$configuration->setUseAnnotations(true);
 
-$container = $app->getContainer();
+$container = ContainerBuilder::build($configuration);
+$container->set(ServerRequestInterface::class, function () {
+    return ServerRequestCreatorFactory::create()->createServerRequestFromGlobals();
+});
 
-/** Set DBWrapper db service */
-DBWrapper::setDbService(SkifServiceProvider::getDBService($container));
-
+$app = new SkifApp($container);
 
 // This function is called for every server connection. It must return true.
 //
@@ -96,7 +97,7 @@ function fm_has_write_permission($filepath)
     return false;
 }
 
-$config = [
+$fm_config = [
     /**
      * Configure Logger class
      */
@@ -127,7 +128,7 @@ $config = [
          * - absolute path in case `serverRoot` set to "false", e.g. "/var/www/html/filemanager/userfiles/"
          * - relative path in case `serverRoot` set to "true", e.g. "/filemanager/userfiles/"
          */
-        "fileRoot" => ConfWrapper::value('files_data_path'),
+        "fileRoot" => $container->get('settings.files_data_path'),
         /**
          * The maximum allowed root folder total size (in Bytes). If set to "false", no size limitations applied.
          */
@@ -306,7 +307,7 @@ $config = [
              * Default value "true".
              * Generate thumbnails using PHP to increase performance on listing directory.
              */
-            "enabled" => true,
+            "enabled" => false,
             /**
              * Default value "true".
              * If set to "false", it will generate thumbnail each time the image is requested. Decreased performance.
@@ -341,19 +342,19 @@ $config = [
     "mkdir_mode" => 0755,
 ];
 
-$app = new \RFM\Application();
+$fm_app = new \RFM\Application();
 
 // uncomment to use events
 //$app->registerEventsListeners();
 
-$local = new \RFM\Repository\Local\Storage($config);
+$local = new \RFM\Repository\Local\Storage($fm_config);
 
 // example to setup files root folder
 //$local->setRoot('userfiles', true, true);
 
-$app->setStorage($local);
+$fm_app->setStorage($local);
 
 // set application API
-$app->api = new RFM\Api\LocalApi();
+$fm_app->api = new RFM\Api\LocalApi();
 
-$app->run();
+$fm_app->run();

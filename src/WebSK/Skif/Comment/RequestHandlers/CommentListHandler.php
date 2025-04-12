@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Auth\SessionService;
 use WebSK\Auth\User\UserService;
 use WebSK\Config\ConfWrapper;
+use WebSK\CRUD\CRUD;
 use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Skif\Comment\CommentService;
 use WebSK\Slim\RequestHandlers\BaseHandler;
@@ -33,6 +34,9 @@ class CommentListHandler extends BaseHandler
 
     /** @Inject */
     protected UserService $user_service;
+
+    /** @Inject */
+    protected CRUD $crud_service;
 
     /**
      * @param ServerRequestInterface $request
@@ -71,7 +75,8 @@ class CommentListHandler extends BaseHandler
                 'url' => $url,
                 'current_user_obj' => $current_user_obj,
                 'current_user_is_admin' => $current_user_obj ? $this->user_service->hasRoleAdminByUserId($current_user_obj->getId()) : false,
-                'comment_service' => $this->comment_service
+                'comment_service' => $this->comment_service,
+                'crud_service' => $this->crud_service
             ]
         );
 

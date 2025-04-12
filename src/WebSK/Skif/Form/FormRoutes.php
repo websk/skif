@@ -6,6 +6,7 @@ use Fig\Http\Message\RequestMethodInterface;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface;
 use WebSK\SimpleRouter\SimpleRouter;
+use WebSK\Skif\Form\Middleware\FormViewMiddleware;
 use WebSK\Skif\Form\RequestHandlers\Admin\AdminFormEditHandler;
 use WebSK\Skif\Form\RequestHandlers\Admin\AdminFormFieldEditHandler;
 use WebSK\Skif\Form\RequestHandlers\Admin\AdminFormListAjaxHandler;
@@ -24,6 +25,11 @@ class FormRoutes
      */
     public static function register(App $app): void
     {
+        /*
+        $app->get('/{form_url}', FormViewHandler::class)
+            ->setName(FormViewHandler::class)->add(new FormViewMiddleware($app->getContainer()->get(FormService::class)));
+        */
+
         $app->group('/form', function (RouteCollectorProxyInterface $route_collector_proxy) {
             $route_collector_proxy->post('/{form_id:\d+}/send', FormSendHandler::class)
                 ->setName(FormSendHandler::class);

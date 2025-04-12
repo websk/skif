@@ -5,10 +5,11 @@
  * @var null|User $current_user_obj
  * @var bool $current_user_is_admin
  * @var CommentService $comment_service
+ * @var CRUD $crud_service
  */
 
 use WebSK\Auth\User\User;
-use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\CRUD;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
 use WebSK\Skif\Comment\CommentService;
 use WebSK\Skif\Comment\RequestHandlers\Admin\AdminCommentEditHandler;
@@ -56,9 +57,6 @@ use WebSK\Slim\Router;
     </script>
 <?php
 
-$container = Container::self();
-$crud = CRUDServiceProvider::getCrud($container);
-
 foreach ($comments_ids_arr as $comment_id) {
     $comment_obj = $comment_service->getById($comment_id);
     ?>
@@ -81,7 +79,7 @@ foreach ($comments_ids_arr as $comment_id) {
                             $url . '#comments',
                             Router::urlFor(AdminCommentListHandler::class)
                         )
-                )->html($comment_obj, $crud);
+                )->html($comment_obj, $crud_service);
 
                 echo '</div>';
             }
