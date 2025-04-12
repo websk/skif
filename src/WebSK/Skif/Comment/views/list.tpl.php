@@ -16,7 +16,6 @@ use WebSK\Skif\Comment\RequestHandlers\Admin\AdminCommentEditHandler;
 use WebSK\Skif\Comment\RequestHandlers\Admin\AdminCommentListHandler;
 use WebSK\Skif\Comment\RequestHandlers\CommentCreateHandler;
 use WebSK\Skif\Comment\RequestHandlers\CommentListHandler;
-use WebSK\Slim\Container;
 use WebSK\Slim\Router;
 
 ?>
@@ -124,7 +123,7 @@ foreach ($comments_ids_arr as $comment_id) {
                         $url . '#comments',
                         Router::urlFor(AdminCommentListHandler::class)
                     )
-            )->html($children_comment_obj, $crud);
+            )->html($children_comment_obj, $crud_service);
 
             echo '</div>';
         }

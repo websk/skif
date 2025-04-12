@@ -298,7 +298,7 @@ $user_logout_url = Router::urlFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['dest
                                 <?php
                                 foreach ($layout_dto->getNavTabsDtoArr() as $nav_tab_item_dto) {
                                     ?>
-                                    <li role="presentation" <?php echo (strpos($current_url_no_query, $nav_tab_item_dto->getUrl()) !== false ? ' class="active"' : '') ?>>
+                                    <li role="presentation" <?php echo (str_contains($current_url_no_query, $nav_tab_item_dto->getUrl()) ? ' class="active"' : '') ?>>
                                         <a href="<?php echo $nav_tab_item_dto->getUrl(); ?>"<?php echo $nav_tab_item_dto->getTarget() ? 'target="' . $nav_tab_item_dto->getTarget() . '"' : ''; ?>><?php echo $nav_tab_item_dto->getName(); ?></a>
                                     </li>
                                     <?php

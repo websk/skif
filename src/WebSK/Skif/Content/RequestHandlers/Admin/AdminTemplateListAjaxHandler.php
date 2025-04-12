@@ -30,7 +30,7 @@ class AdminTemplateListAjaxHandler extends BaseHandler
      * @param ResponseInterface $response
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $crud_table_obj = $this->crud_service->createTable(
             Rubric::class,

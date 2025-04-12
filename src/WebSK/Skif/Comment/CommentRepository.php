@@ -43,7 +43,7 @@ class CommentRepository extends EntityRepository
             ' WHERE ' . Sanitize::sanitizeSqlColumnName(Comment::_URL_MD5) . ' = ?' .
             ' AND ' . Sanitize::sanitizeSqlColumnName(Comment::_PARENT_ID) . ' IS NULL' .
             ' ORDER BY ' . Sanitize::sanitizeSqlColumnName(Comment::_ID) . ' DESC' .
-            ' LIMIT ' . intval($page_size) . ' OFFSET ' . intval($offset);
+            ' LIMIT ' . $page_size . ' OFFSET ' . $offset;
 
         return $this->db_service->readColumn($query, [md5($url)]);
     }

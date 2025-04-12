@@ -23,7 +23,7 @@ $current_url_no_query = Url::getUriNoQueryString();
             continue;
         }
         ?>
-        <li <?php echo (strpos($current_url_no_query, $site_menu_item_obj->getUrl()) !== false ? ' class="active"' : '') ?>><a href="<?php echo $site_menu_item_obj->getUrl();?>"><?php echo $site_menu_item_obj->getName(); ?></a></li>
+        <li <?php echo (str_contains($current_url_no_query, $site_menu_item_obj->getUrl()) ? ' class="active"' : '') ?>><a href="<?php echo $site_menu_item_obj->getUrl();?>"><?php echo $site_menu_item_obj->getName(); ?></a></li>
     <?php
     }
     ?>

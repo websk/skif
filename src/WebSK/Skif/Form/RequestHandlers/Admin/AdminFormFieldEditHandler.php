@@ -43,7 +43,7 @@ class AdminFormFieldEditHandler extends BaseHandler
      * @param ResponseInterface $response
      * @param int $form_field_id
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $form_field_id)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $form_field_id): ResponseInterface
     {
         $form_field_obj = $this->form_field_service->getById($form_field_id, false);
         if (!$form_field_obj) {

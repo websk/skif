@@ -26,9 +26,7 @@ class RedirectRepository extends EntityRepository
             ' AND ' . Sanitize::sanitizeSqlColumnName(Redirect::_KIND) . ' = ?' .
             ' ORDER BY ' . Sanitize::sanitizeSqlColumnName($db_id_field_name);
 
-        $ids_arr = $this->db_service->readColumn($query, [$src, $kind]);
-
-        return $ids_arr;
+        return $this->db_service->readColumn($query, [$src, $kind]);
     }
 
     /**

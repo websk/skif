@@ -6,7 +6,6 @@ use Fig\Http\Message\RequestMethodInterface;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface;
 use WebSK\SimpleRouter\SimpleRouter;
-use WebSK\Skif\Form\Middleware\FormViewMiddleware;
 use WebSK\Skif\Form\RequestHandlers\Admin\AdminFormEditHandler;
 use WebSK\Skif\Form\RequestHandlers\Admin\AdminFormFieldEditHandler;
 use WebSK\Skif\Form\RequestHandlers\Admin\AdminFormListAjaxHandler;

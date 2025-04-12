@@ -10,7 +10,7 @@ use WebSK\Config\ConfWrapper;
 use WebSK\Entity\EntityRepository;
 use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
-use WebSK\Utils\Filters;
+use WebSK\Utils\Sanitize;
 
 /**
  * Class CommentService
@@ -180,10 +180,9 @@ class CommentService extends EntityService
         $mail->setFrom($site_email, $site_name);
         $mail->addReplyTo($site_email);
         $mail->addAddress($site_email);
-        $mail->isHTML(true);
         $mail->Subject = $subject;
         $mail->Body = $mail_message;
-        $mail->AltBody = Filters::checkPlain($mail_message);
+        $mail->AltBody = Sanitize::sanitizeAttrValue($mail_message);
         $mail->send();
 
         if ($comment_obj->getParentId()) {
@@ -206,10 +205,9 @@ class CommentService extends EntityService
                     $mail->setFrom($site_email, $site_name);
                     $mail->addReplyTo($site_email);
                     $mail->addAddress($parent_comment_user_email);
-                    $mail->isHTML(true);
                     $mail->Subject = $subject;
                     $mail->Body = $mail_message;
-                    $mail->AltBody = Filters::checkPlain($mail_message);
+                    $mail->AltBody = Sanitize::sanitizeAttrValue($mail_message);
                     $mail->send();
                 }
             }

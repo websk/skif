@@ -53,7 +53,7 @@ class Block extends Entity
     const string _TITLE = 'title';
     protected string $title = '';
 
-    const string_CACHE = 'cache';
+    const string _CACHE = 'cache';
     protected int $cache = self::BLOCK_CACHE_GLOBAL;
 
     const string _BODY = 'body';

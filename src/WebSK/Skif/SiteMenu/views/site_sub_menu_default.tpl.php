@@ -34,7 +34,7 @@ if (!in_array($current_site_menu_item_id, $descendants_ids_arr)) {
             continue;
         }
 
-        $class = strpos($current_url_no_query, $children_site_menu_item_obj->getUrl()) !== false ? ' class="active"' : '';
+        $class = str_contains($current_url_no_query, $children_site_menu_item_obj->getUrl()) ? ' class="active"' : '';
         ?>
         <li<?php echo $class; ?>>
             <a href="<?php echo $children_site_menu_item_obj->getUrl(); ?>"><?php echo $children_site_menu_item_obj->getName(); ?></a>

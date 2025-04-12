@@ -15,7 +15,7 @@ class ContentRepository extends EntityRepository
      * @param string $url
      * @return false|int
      */
-    public function findIdByUrl(string $url)
+    public function findIdByUrl(string $url): false|int
     {
         $db_table_name = $this->getTableName();
         $db_id_field_name = $this->getIdFieldName();

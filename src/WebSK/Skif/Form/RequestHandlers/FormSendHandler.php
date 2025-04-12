@@ -88,7 +88,7 @@ class FormSendHandler extends BaseHandler
         $form_email = $form_obj->getEmail();
         $response_mail_message = nl2br($form_obj->getResponseMailMessage());
 
-        $form_email = $form_email ? $form_email : $site_email;
+        $form_email = $form_email ?: $site_email;
 
         $mail = new PHPMailer;
         $mail->CharSet = "utf-8";

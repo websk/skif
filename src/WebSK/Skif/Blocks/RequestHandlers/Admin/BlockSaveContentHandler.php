@@ -74,7 +74,7 @@ class BlockSaveContentHandler extends BaseHandler
         // Redirects
         $redirect_to_on_success = $request->getParam('_redirect_to_on_success', '');
         if ($redirect_to_on_success) {
-            if (strpos($redirect_to_on_success, 'block_id') !== false) {
+            if (str_contains($redirect_to_on_success, 'block_id')) {
                 $redirect_to_on_success = str_replace('block_id', $block_obj->getId(), $redirect_to_on_success);
             }
 

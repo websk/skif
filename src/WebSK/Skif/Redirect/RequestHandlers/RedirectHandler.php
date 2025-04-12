@@ -43,8 +43,8 @@ class RedirectHandler extends BaseHandler
             $exact_redirect_id = array_shift($exact_redirect_ids_arr);
             $exact_redirect_obj = $redirect_service->getById($exact_redirect_id);
 
-            $http_response_code = $exact_redirect_obj->getCode() ? $exact_redirect_obj->getCode() : StatusCodeInterface::STATUS_MOVED_PERMANENTLY;
-            header('Location: ' . Url::appendLeadingSlash($exact_redirect_obj->getDst()), true, intval($http_response_code));
+            $http_response_code = $exact_redirect_obj->getCode() ?: StatusCodeInterface::STATUS_MOVED_PERMANENTLY;
+            header('Location: ' . Url::appendLeadingSlash($exact_redirect_obj->getDst()), true, $http_response_code);
             exit;
         }
 
@@ -64,7 +64,7 @@ class RedirectHandler extends BaseHandler
                 }
 
                 if ($regexp_redirect_obj->getCode()) {
-                    header('Location: ' . Url::appendLeadingSlash($dst), true, intval($regexp_redirect_obj->getCode()));
+                    header('Location: ' . Url::appendLeadingSlash($dst), true, $regexp_redirect_obj->getCode());
                     exit;
                 }
             }

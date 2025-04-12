@@ -48,7 +48,7 @@ use WebSK\Views\LayoutDTO;
         <div class="col-md-4 col-md-offset-4">
             <div class="login-panel panel panel-default">
                 <div class="panel-heading">
-                    <div><img src="<?php echo SkifPath::wrapAssetsVersion('images/admin/skif_small_logo.png'); ?>" alt="СКИФ" border="0" height="39" title="Система управления сайтом СКИФ / websk.ru"></div>
+                    <div><img src="<?php echo SkifPath::wrapAssetsVersion('images/admin/skif_small_logo.png'); ?>" alt="СКИФ" height="39" title="Система управления сайтом СКИФ / websk.ru"></div>
                     <h3 class="panel-title">Вход в систему управления</h3>
                 </div>
                 <div class="panel-body">

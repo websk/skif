@@ -50,7 +50,7 @@ class ContentRubricService extends EntityService
     /**
      * @param int $content_id
      */
-    public function deleteByContentId(int $content_id)
+    public function deleteByContentId(int $content_id): void
     {
         $content_rubrics_ids_arr = $this->getIdsArrByContentId($content_id);
 

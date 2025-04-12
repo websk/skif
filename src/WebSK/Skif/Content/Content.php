@@ -289,7 +289,7 @@ class Content extends Entity
     /**
      * @return false|int
      */
-    public function getUnixTime()
+    public function getUnixTime(): false|int
     {
         return strtotime($this->getPublishedAt());
     }

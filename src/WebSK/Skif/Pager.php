@@ -89,7 +89,7 @@ class Pager
         $url = str_replace('&p=' . $current_page, '', $url);
         $url = str_replace('&amp;p=' . $current_page, '', $url);
 
-        if (strpos($url, '?') === false) {
+        if (!str_contains($url, '?')) {
             $url .= '?p=';
         } else {
             $url .= '&amp;p=';

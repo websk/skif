@@ -1,10 +1,11 @@
 <?php
 /**
- * @var \WebSK\Views\NavTabItemDTO[] $nav_tabs_dto_arr
+ * @var NavTabItemDTO[] $nav_tabs_dto_arr
  */
 
 use WebSK\Auth\Auth;
 use WebSK\Utils\Url;
+use WebSK\Views\NavTabItemDTO;
 
 if (empty($nav_tabs_dto_arr)) {
     return;
@@ -22,7 +23,7 @@ $current_url_no_query = Url::getUriNoQueryString();
         <?php
         foreach ($nav_tabs_dto_arr as $nav_tab_item_dto) {
             ?>
-            <li role="presentation" <?php echo (strpos($current_url_no_query, $nav_tab_item_dto->getUrl()) !== false ? ' class="active"' : '') ?>>
+            <li role="presentation" <?php echo (str_contains($current_url_no_query, $nav_tab_item_dto->getUrl()) ? ' class="active"' : '') ?>>
                 <a href="<?php echo $nav_tab_item_dto->getUrl(); ?>"<?php echo $nav_tab_item_dto->getTarget() ? 'target="' . $nav_tab_item_dto->getTarget() . '"' : ''; ?>><?php echo $nav_tab_item_dto->getName(); ?></a>
             </li>
             <?php

@@ -34,8 +34,7 @@ class FormViewMiddleware
         $form_id = $this->form_service->getIdByUrl($form_url);
 
         if (!$form_id) {
-            $response = new Response();
-            return $response;
+            return new Response();
         }
 
         return $handler->handle($request);
