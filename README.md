@@ -26,6 +26,13 @@ php vendor\bin\websk_db_migration.php migrations:migration_handle
 php bin\websk_auth_create_user.php auth:create_user
 ```
 
+## Install static
+
+```shell
+npm install
+npm run build
+```
+
 ## Demo
 
 * Установить mkcert, https://github.com/FiloSottile/mkcert
@@ -55,7 +62,7 @@ mkcert skif.devbox`
 cp config/config.example.php config/config.php
 ```
 
-* Заходим в директорию с docker-compose:
+* Заходим в директорию с docker compose:
 
 ```shell
 cd var/docker
@@ -95,13 +102,6 @@ docker compose exec php-fpm php vendor/bin/websk_db_migration.php migrations:mig
 
 ```shell
 docker compose exec php-fpm php vendor/bin/websk_auth_create_user.php auth:create_user
-```
-
-* Install static
-
-```shell
-npm install
-npm run build
 ```
 
 * open `https://skif.devbox/admin`
