@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.342.21",
+            "version": "3.342.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "f4d501414c553ddeea2efc9c77f72e58bd899823"
+                "reference": "4c18299000c34ab4903100fe68721d6f26c7cdf2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f4d501414c553ddeea2efc9c77f72e58bd899823",
-                "reference": "f4d501414c553ddeea2efc9c77f72e58bd899823",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/4c18299000c34ab4903100fe68721d6f26c7cdf2",
+                "reference": "4c18299000c34ab4903100fe68721d6f26c7cdf2",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.342.21"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.342.27"
             },
-            "time": "2025-04-04T18:20:53+00:00"
+            "time": "2025-04-14T18:08:09+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -4027,16 +4027,16 @@
         },
         {
             "name": "websk/php-auth",
-            "version": "2.4.2",
+            "version": "2.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-auth.git",
-                "reference": "09c8327bed8faac2c586d02503083a663203e629"
+                "reference": "6eed654df4de903a4f337250d1fe06910e09bd1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-auth/zipball/09c8327bed8faac2c586d02503083a663203e629",
-                "reference": "09c8327bed8faac2c586d02503083a663203e629",
+                "url": "https://api.github.com/repos/websk/php-auth/zipball/6eed654df4de903a4f337250d1fe06910e09bd1f",
+                "reference": "6eed654df4de903a4f337250d1fe06910e09bd1f",
                 "shasum": ""
             },
             "require": {
@@ -4069,9 +4069,9 @@
             "description": "Authorization and user management",
             "support": {
                 "issues": "https://github.com/websk/php-auth/issues",
-                "source": "https://github.com/websk/php-auth/tree/2.4.2"
+                "source": "https://github.com/websk/php-auth/tree/2.4.3"
             },
-            "time": "2025-04-01T05:00:42+00:00"
+            "time": "2025-04-16T12:03:58+00:00"
         },
         {
             "name": "websk/php-cache",
