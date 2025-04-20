@@ -126,5 +126,14 @@ return [
             'no_add_comments_for_unregistered_users' => false,
             'enable_email_notification' => true
         ],
+        'storages' => [
+            'files' => [
+                'adapter' => 'local',
+                'root_path' => '/var/www/public/files',
+                'url_path' => '/files',
+                'allowed_extensions' => ['gif', 'jpeg', 'jpg', 'png', 'pdf', 'csv'],
+                'allowed_types' => ['image/gif', 'image/jpeg', 'image/jpg', 'image/pjpeg', 'image/x-png', 'image/png', 'application/pdf', 'application/x-pdf', 'text/csv'],
+            ]
+        ],
     ],
 ];

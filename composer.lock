@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.342.27",
+            "version": "3.342.30",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "4c18299000c34ab4903100fe68721d6f26c7cdf2"
+                "reference": "eaa4f64784fdf8e66b511df18de43c43fbeb4f63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/4c18299000c34ab4903100fe68721d6f26c7cdf2",
-                "reference": "4c18299000c34ab4903100fe68721d6f26c7cdf2",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/eaa4f64784fdf8e66b511df18de43c43fbeb4f63",
+                "reference": "eaa4f64784fdf8e66b511df18de43c43fbeb4f63",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.342.27"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.342.30"
             },
-            "time": "2025-04-14T18:08:09+00:00"
+            "time": "2025-04-18T18:05:51+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -4027,16 +4027,16 @@
         },
         {
             "name": "websk/php-auth",
-            "version": "2.4.3",
+            "version": "2.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-auth.git",
-                "reference": "6eed654df4de903a4f337250d1fe06910e09bd1f"
+                "reference": "b64cc296e378e4b49c76cbad1bce5893818f179b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-auth/zipball/6eed654df4de903a4f337250d1fe06910e09bd1f",
-                "reference": "6eed654df4de903a4f337250d1fe06910e09bd1f",
+                "url": "https://api.github.com/repos/websk/php-auth/zipball/b64cc296e378e4b49c76cbad1bce5893818f179b",
+                "reference": "b64cc296e378e4b49c76cbad1bce5893818f179b",
                 "shasum": ""
             },
             "require": {
@@ -4069,9 +4069,9 @@
             "description": "Authorization and user management",
             "support": {
                 "issues": "https://github.com/websk/php-auth/issues",
-                "source": "https://github.com/websk/php-auth/tree/2.4.3"
+                "source": "https://github.com/websk/php-auth/tree/2.4.4"
             },
-            "time": "2025-04-16T12:03:58+00:00"
+            "time": "2025-04-20T15:52:40+00:00"
         },
         {
             "name": "websk/php-cache",
@@ -4326,16 +4326,16 @@
         },
         {
             "name": "websk/php-filemanager",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-filemanager.git",
-                "reference": "787dc7cd23bb7bec4bb791dfe31849bb2abf36db"
+                "reference": "954de855346128280a5fc6b1343bf20de11baace"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-filemanager/zipball/787dc7cd23bb7bec4bb791dfe31849bb2abf36db",
-                "reference": "787dc7cd23bb7bec4bb791dfe31849bb2abf36db",
+                "url": "https://api.github.com/repos/websk/php-filemanager/zipball/954de855346128280a5fc6b1343bf20de11baace",
+                "reference": "954de855346128280a5fc6b1343bf20de11baace",
                 "shasum": ""
             },
             "require": {
@@ -4355,9 +4355,9 @@
             "notification-url": "https://packagist.org/downloads/",
             "support": {
                 "issues": "https://github.com/websk/php-filemanager/issues",
-                "source": "https://github.com/websk/php-filemanager/tree/2.0.1"
+                "source": "https://github.com/websk/php-filemanager/tree/2.0.2"
             },
-            "time": "2025-02-09T10:04:35+00:00"
+            "time": "2025-04-20T03:14:12+00:00"
         },
         {
             "name": "websk/php-imagemanager",

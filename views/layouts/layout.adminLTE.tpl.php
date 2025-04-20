@@ -6,6 +6,7 @@
 use WebSK\Auth\Auth;
 use WebSK\Auth\AuthRoutes;
 use WebSK\Auth\User\UserRoutes;
+use WebSK\Auth\User\UserService;
 use WebSK\Config\ConfWrapper;
 use WebSK\Image\ImageManager;
 use WebSK\Image\ImagePresets;
@@ -47,7 +48,10 @@ if (!isset($layout_dto)) {
 }
 
 $user_name = $user_obj->getName();
-$user_photo_path = ImageManager::getImgUrlByPreset($user_obj->getPhotoPath(), ImagePresets::IMAGE_PRESET_200_auto);
+$user_photo_path = ImageManager::getImgUrlByPreset(
+    UserService::PHOTO_DIR . DIRECTORY_SEPARATOR . $user_obj->getPhoto(),
+    ImagePresets::IMAGE_PRESET_200_auto
+);
 $user_email = $user_obj->getEmail();
 
 $user_edit_uri = Router::urlFor(UserRoutes::ROUTE_NAME_ADMIN_USER_EDIT, ['user_id' => $user_obj->getId()]);
@@ -67,46 +71,61 @@ $user_logout_url = Router::urlFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['dest
 
     <!-- jQuery -->
     <script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery/jquery.min.js'); ?>"></script>
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-ui/themes/base/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-ui/themes/base/jquery-ui.min.css'); ?>"
+          rel="stylesheet" type="text/css">
     <script type="text/javascript"
             src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-ui/jquery-ui.min.js'); ?>"></script>
 
     <!-- Bootstrap -->
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>"
+          rel="stylesheet" type="text/css">
     <script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap/js/bootstrap.min.js'); ?>"></script>
 
     <!-- MetisMenu CSS -->
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/metisMenu/metisMenu.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/metisMenu/metisMenu.min.css'); ?>" rel="stylesheet"
+          type="text/css">
 
     <!-- Ionicons -->
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/ionicons/ionicons.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/ionicons/ionicons.min.css'); ?>" rel="stylesheet"
+          type="text/css">
 
     <!-- AdminLTE -->
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/admin-lte/css/AdminLTE.min.css'); ?>" rel="stylesheet" type="text/css">
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/admin-lte/css/skin-blue.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/admin-lte/css/AdminLTE.min.css'); ?>"
+          rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/admin-lte/css/skin-blue.min.css'); ?>"
+          rel="stylesheet" type="text/css">
 
     <!-- Font Awesome -->
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/font-awesome/css/font-awesome.min.css'); ?>"
+          rel="stylesheet" type="text/css">
 
     <link href="<?php echo SkifPath::wrapAssetsVersion('/styles/skif.css'); ?>" rel="stylesheet" type="text/css">
 
     <!-- Jquery Validate -->
-    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-validation/jquery.validate.js'); ?>"></script>
+    <script type="text/javascript"
+            src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-validation/jquery.validate.js'); ?>"></script>
 
     <!-- Fancybox -->
-    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/fancybox/jquery.fancybox.min.js"'); ?>></script>
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/fancybox/jquery.fancybox.min.css'); ?>" rel="stylesheet" type="text/css">
+    <script type="text/javascript"
+            src="<?php echo SkifPath::wrapAssetsVersion('/libraries/fancybox/jquery.fancybox.min.js"'); ?>></script>
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/fancybox/jquery.fancybox.min.css'); ?>"
+    rel="stylesheet" type="text/css">
 
     <!-- Moment -->
-    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/moment/moment.min.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/moment/moment.ru.min.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); ?>"></script>
+    <script type="text/javascript"
+            src="<?php echo SkifPath::wrapAssetsVersion('/libraries/moment/moment.min.js'); ?>"></script>
+    <script type="text/javascript"
+            src="<?php echo SkifPath::wrapAssetsVersion('/libraries/moment/moment.ru.min.js'); ?>"></script>
+    <script type="text/javascript"
+            src="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); ?>"></script>
 
     <!-- Bootstrap datetimepicker -->
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>"
+          rel="stylesheet" type="text/css">
 
     <!-- CKEditor -->
-    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/ckeditor/ckeditor.js'); ?>"></script>
+    <script type="text/javascript"
+            src="<?php echo SkifPath::wrapAssetsVersion('/libraries/ckeditor/ckeditor.js'); ?>"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -151,7 +170,7 @@ $user_logout_url = Router::urlFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['dest
                             if ($user_obj->getPhoto()) {
                                 ?>
                                 <img src="<?php echo $user_photo_path ?>" class="user-image" alt="User Image">
-                            <?php
+                                <?php
                             } else {
                                 ?>
                                 <svg viewBox="0 0 50 50" width="25px" height="25px" style="display: block;"
@@ -162,7 +181,7 @@ $user_logout_url = Router::urlFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['dest
                                     <path fill="#ffffff"
                                           d="M29.933,35.528c-0.146-1.612-0.09-2.737-0.09-4.21c0.73-0.383,2.038-2.825,2.259-4.888c0.574-0.047,1.479-0.607,1.744-2.818  c0.143-1.187-0.425-1.855-0.771-2.065c0.934-2.809,2.874-11.499-3.588-12.397c-0.665-1.168-2.368-1.759-4.581-1.759  c-8.854,0.163-9.922,6.686-7.981,14.156c-0.345,0.21-0.913,0.878-0.771,2.065c0.266,2.211,1.17,2.771,1.744,2.818  c0.22,2.062,1.58,4.505,2.312,4.888c0,1.473,0.055,2.598-0.091,4.21c-1.261,3.39-7.737,3.655-11.473,6.924  c3.906,3.933,10.236,6.746,16.916,6.746s14.532-5.274,15.839-6.713C37.688,39.186,31.197,38.93,29.933,35.528z"/>
                                 </svg>
-                            <?php
+                                <?php
                             }
                             ?>
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
@@ -175,7 +194,7 @@ $user_logout_url = Router::urlFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['dest
                                 if ($user_obj->getPhoto()) {
                                     ?>
                                     <img src="<?php echo $user_photo_path ?>" class="img-circle" alt="User Image">
-                                <?php
+                                    <?php
                                 } else {
                                     ?>
                                     <svg viewBox="0 0 50 50" width="90px" height="90px"
@@ -186,7 +205,7 @@ $user_logout_url = Router::urlFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['dest
                                         <path fill="#ffffff"
                                               d="M29.933,35.528c-0.146-1.612-0.09-2.737-0.09-4.21c0.73-0.383,2.038-2.825,2.259-4.888c0.574-0.047,1.479-0.607,1.744-2.818  c0.143-1.187-0.425-1.855-0.771-2.065c0.934-2.809,2.874-11.499-3.588-12.397c-0.665-1.168-2.368-1.759-4.581-1.759  c-8.854,0.163-9.922,6.686-7.981,14.156c-0.345,0.21-0.913,0.878-0.771,2.065c0.266,2.211,1.17,2.771,1.744,2.818  c0.22,2.062,1.58,4.505,2.312,4.888c0,1.473,0.055,2.598-0.091,4.21c-1.261,3.39-7.737,3.655-11.473,6.924  c3.906,3.933,10.236,6.746,16.916,6.746s14.532-5.274,15.839-6.713C37.688,39.186,31.197,38.93,29.933,35.528z"/>
                                     </svg>
-                                <?php
+                                    <?php
                                 }
                                 ?>
                                 <p><?= $user_name ?></p>
@@ -195,7 +214,8 @@ $user_logout_url = Router::urlFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['dest
                             <li class="user-body">
                                 <div class="row">
                                     <div class="col-xs-12 text-center">
-                                        <a href="/" target="_blank"><span class="glyphicon glyphicon-new-window"></span> Перейти на сайт</a>
+                                        <a href="/" target="_blank"><span class="glyphicon glyphicon-new-window"></span>
+                                            Перейти на сайт</a>
                                     </div>
                                 </div>
                             </li>
@@ -203,7 +223,8 @@ $user_logout_url = Router::urlFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['dest
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="<?php echo $user_edit_uri ?>" class="btn btn-default btn-flat">Мой профиль</a>
+                                    <a href="<?php echo $user_edit_uri ?>" class="btn btn-default btn-flat">Мой
+                                        профиль</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="<?php echo $user_logout_url ?>"
@@ -230,7 +251,7 @@ $user_logout_url = Router::urlFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['dest
                     if ($user_obj->getPhoto()) {
                         ?>
                         <img src="<?php echo $user_photo_path ?>" class="img-circle" alt="User Image">
-                    <?php
+                        <?php
                     } else {
                         ?>
                         <svg viewBox="0 0 50 50" width="45px" height="45px" style="display: block;"
@@ -241,7 +262,7 @@ $user_logout_url = Router::urlFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['dest
                             <path fill="#b8c7ce"
                                   d="M29.933,35.528c-0.146-1.612-0.09-2.737-0.09-4.21c0.73-0.383,2.038-2.825,2.259-4.888c0.574-0.047,1.479-0.607,1.744-2.818  c0.143-1.187-0.425-1.855-0.771-2.065c0.934-2.809,2.874-11.499-3.588-12.397c-0.665-1.168-2.368-1.759-4.581-1.759  c-8.854,0.163-9.922,6.686-7.981,14.156c-0.345,0.21-0.913,0.878-0.771,2.065c0.266,2.211,1.17,2.771,1.744,2.818  c0.22,2.062,1.58,4.505,2.312,4.888c0,1.473,0.055,2.598-0.091,4.21c-1.261,3.39-7.737,3.655-11.473,6.924  c3.906,3.933,10.236,6.746,16.916,6.746s14.532-5.274,15.839-6.713C37.688,39.186,31.197,38.93,29.933,35.528z"/>
                         </svg>
-                    <?php
+                        <?php
                     }
                     ?>
                 </div>
@@ -298,7 +319,7 @@ $user_logout_url = Router::urlFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['dest
                                 <?php
                                 foreach ($layout_dto->getNavTabsDtoArr() as $nav_tab_item_dto) {
                                     ?>
-                                    <li role="presentation" <?php echo (str_contains($current_url_no_query, $nav_tab_item_dto->getUrl()) ? ' class="active"' : '') ?>>
+                                    <li role="presentation" <?php echo(str_contains($current_url_no_query, $nav_tab_item_dto->getUrl()) ? ' class="active"' : '') ?>>
                                         <a href="<?php echo $nav_tab_item_dto->getUrl(); ?>"<?php echo $nav_tab_item_dto->getTarget() ? 'target="' . $nav_tab_item_dto->getTarget() . '"' : ''; ?>><?php echo $nav_tab_item_dto->getName(); ?></a>
                                     </li>
                                     <?php
@@ -307,7 +328,7 @@ $user_logout_url = Router::urlFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['dest
                             </ul>
                         </div>
                         <p></p>
-                    <?php
+                        <?php
                     }
                     ?>
 
@@ -326,14 +347,17 @@ $user_logout_url = Router::urlFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['dest
         <div class="pull-right hidden-xs">
             <b>Version</b> 4.4.0
         </div>
-        <strong>Copyright &copy; <?php echo '2004 - ' . date('Y'). '. <a href="https://websk.ru" target="_blank">WebSK.RU</a>'?>
+        <strong>Copyright
+            &copy; <?php echo '2004 - ' . date('Y') . '. <a href="https://websk.ru" target="_blank">WebSK.RU</a>' ?>
     </footer>
 </div>
 <!-- ./wrapper -->
 
 <!-- AdminLTE App -->
-<script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/metisMenu/metisMenu.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/admin-lte/js/app.min.js'); ?>"></script>
+<script type="text/javascript"
+        src="<?php echo SkifPath::wrapAssetsVersion('/libraries/metisMenu/metisMenu.min.js'); ?>"></script>
+<script type="text/javascript"
+        src="<?php echo SkifPath::wrapAssetsVersion('/libraries/admin-lte/js/app.min.js'); ?>"></script>
 
 </body>
 </html>
