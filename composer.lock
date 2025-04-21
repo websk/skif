@@ -4027,16 +4027,16 @@
         },
         {
             "name": "websk/php-auth",
-            "version": "2.4.4",
+            "version": "2.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/websk/php-auth.git",
-                "reference": "b64cc296e378e4b49c76cbad1bce5893818f179b"
+                "reference": "378bfd0933dab22572ad1ca307ec826c48f86969"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/websk/php-auth/zipball/b64cc296e378e4b49c76cbad1bce5893818f179b",
-                "reference": "b64cc296e378e4b49c76cbad1bce5893818f179b",
+                "url": "https://api.github.com/repos/websk/php-auth/zipball/378bfd0933dab22572ad1ca307ec826c48f86969",
+                "reference": "378bfd0933dab22572ad1ca307ec826c48f86969",
                 "shasum": ""
             },
             "require": {
@@ -4069,9 +4069,9 @@
             "description": "Authorization and user management",
             "support": {
                 "issues": "https://github.com/websk/php-auth/issues",
-                "source": "https://github.com/websk/php-auth/tree/2.4.4"
+                "source": "https://github.com/websk/php-auth/tree/2.4.5"
             },
-            "time": "2025-04-20T15:52:40+00:00"
+            "time": "2025-04-21T16:44:54+00:00"
         },
         {
             "name": "websk/php-cache",
