@@ -5,6 +5,7 @@ use Jgut\Slim\PHPDI\ContainerBuilder;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Factory\ServerRequestCreatorFactory;
 use WebSK\Auth\Auth;
+use WebSK\Config\ConfWrapper;
 use WebSK\Skif\SkifApp;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
@@ -30,6 +31,8 @@ $container = ContainerBuilder::build($configuration);
 $container->set(ServerRequestInterface::class, function () {
     return ServerRequestCreatorFactory::create()->createServerRequestFromGlobals();
 });
+
+ConfWrapper::setConfig($config['settings']);
 
 $app = new SkifApp($container);
 
