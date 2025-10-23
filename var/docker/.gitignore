@@ -1,4 +1,4 @@
-nginx/sites/*.pem
+nginx/ssl/*.pem
 data/
 logs/
 tmp/
