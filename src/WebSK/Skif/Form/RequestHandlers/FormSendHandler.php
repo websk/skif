@@ -113,7 +113,7 @@ class FormSendHandler extends BaseHandler
 
         $mail = new PHPMailer;
         $mail->CharSet = "utf-8";
-        $mail->setFrom($form_email, $site_name);
+        $mail->setFrom($site_email, $site_name);
         $mail->addReplyTo($form_email);
         $mail->addAddress($user_email);
         $mail->Subject = "Благодарим Вас за отправленную информацию!";

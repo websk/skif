@@ -23,7 +23,7 @@
     "websk/php-slim": "2.3.*",
     "websk/php-view": "2.3.*",
     "websk/php-simple-router": "2.1.*",
-    "phpmailer/phpmailer": "6.5.0.0",
+    "phpmailer/phpmailer": "7.0.1",
     "servocoder/richfilemanager-php": "^1.2"
   },
   "autoload": {
