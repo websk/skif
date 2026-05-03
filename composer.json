@@ -24,7 +24,7 @@
     "websk/php-view": "2.3.*",
     "websk/php-simple-router": "2.1.*",
     "phpmailer/phpmailer": "7.0.1",
-    "servocoder/richfilemanager-php": "^1.2"
+    "hkvstore/richfilemanager-php": "2.3.2"
   },
   "autoload": {
     "psr-4": {
