@@ -8,8 +8,10 @@ use WebSK\CRUD\CRUD;
 use WebSK\CRUD\Form\CRUDFormRow;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
 use WebSK\CRUD\Form\Widgets\CRUDFormWidgetTextarea;
+use WebSK\CRUD\Table\CRUDTable;
 use WebSK\CRUD\Table\CRUDTableColumn;
 use WebSK\CRUD\Table\Filters\CRUDTableFilterEqualInvisible;
+use WebSK\CRUD\Table\Filters\CRUDTableFilterLikeInline;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetDelete;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
@@ -74,8 +76,11 @@ class AdminCommentListHandler extends BaseHandler
             ],
             [
                 new CRUDTableFilterEqualInvisible(self::FILTER_NAME_PARENT_ID, null),
+                new CRUDTableFilterLikeInline(Comment::_COMMENT, 'Комментарий', Comment::_COMMENT),
             ],
-            Comment::_CREATED_AT_TS . ' DESC'
+            Comment::_CREATED_AT_TS . ' DESC',
+            'comment_list',
+            CRUDTable::FILTERS_POSITION_INLINE
         );
 
         $crud_form_response = $crud_table_obj->processRequest($request, $response);
