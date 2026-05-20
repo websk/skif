@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif\Blocks\RequestHandlers\Admin;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Skif\Blocks\BlockService;
@@ -43,6 +44,6 @@ class BlockDisableHandler extends BaseHandler
         Messages::setWarning('Блок &laquo;' . $block_obj->getTitle() . '&raquo; был выключен. <a href="' . $restore_url . '">Отменить</a>');
 
         return $response->withHeader('Location', $this->urlFor(BlockListHandler::class))
-            ->withStatus(307);
+            ->withStatus(StatusCodeInterface::STATUS_TEMPORARY_REDIRECT);
     }
 }

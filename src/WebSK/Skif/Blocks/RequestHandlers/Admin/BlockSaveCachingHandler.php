@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif\Blocks\RequestHandlers\Admin;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Skif\Blocks\BlockService;
@@ -29,6 +30,6 @@ class BlockSaveCachingHandler extends BaseHandler
         Messages::setMessage('Изменения сохранены');
 
         return $response->withHeader('Location', $this->urlFor(BlockEditorCachingHandler::class, ['block_id' => $block_id]))
-            ->withStatus(307);
+            ->withStatus(StatusCodeInterface::STATUS_TEMPORARY_REDIRECT);
     }
 }

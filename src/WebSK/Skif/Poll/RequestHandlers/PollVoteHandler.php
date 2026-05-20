@@ -47,7 +47,7 @@ class PollVoteHandler extends BaseHandler
         if (isset($_COOKIE[$cookie_key]) && ($_COOKIE[$cookie_key] == 'no')) {
             Messages::setError('Вы уже проголосовали ранее!');
             return $response->withHeader('Location', $redirect_url)
-                ->withStatus(307);
+                ->withStatus(StatusCodeInterface::STATUS_TEMPORARY_REDIRECT);
         }
 
         if (!empty($poll_question_id)) {
@@ -66,6 +66,6 @@ class PollVoteHandler extends BaseHandler
         }
 
         return $response->withHeader('Location', $redirect_url)
-            ->withStatus(307);
+            ->withStatus(StatusCodeInterface::STATUS_TEMPORARY_REDIRECT);
     }
 }

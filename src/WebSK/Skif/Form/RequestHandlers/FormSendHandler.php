@@ -122,6 +122,6 @@ class FormSendHandler extends BaseHandler
         $mail->send();
 
         return $response->withHeader('Location', $form_obj->getUrl())
-            ->withStatus(307);
+            ->withStatus(StatusCodeInterface::STATUS_TEMPORARY_REDIRECT);
     }
 }
