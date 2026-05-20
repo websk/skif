@@ -42,6 +42,8 @@ class BlockChangePositionInRegionHandler extends BaseHandler
 
         Messages::setMessage('Блок &laquo;' . $block_obj->getTitle() . '&raquo; перемещен');
 
-        return $response->withHeader('Location', $this->urlFor(BlockEditorPositionInRegionHandler::class, ['block_id' => $block_id]));
+        return $response->withHeader('Location', $this->urlFor(BlockEditorPositionInRegionHandler::class, ['block_id' => $block_id]))
+            ->withStatus(307);
+
     }
 }

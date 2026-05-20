@@ -28,6 +28,7 @@ class BlockSaveCachingHandler extends BaseHandler
 
         Messages::setMessage('Изменения сохранены');
 
-        return $response->withHeader('Location', $this->urlFor(BlockEditorCachingHandler::class, ['block_id' => $block_id]));
+        return $response->withHeader('Location', $this->urlFor(BlockEditorCachingHandler::class, ['block_id' => $block_id]))
+            ->withStatus(307);
     }
 }

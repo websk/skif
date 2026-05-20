@@ -42,6 +42,7 @@ class BlockDisableHandler extends BaseHandler
 
         Messages::setWarning('Блок &laquo;' . $block_obj->getTitle() . '&raquo; был выключен. <a href="' . $restore_url . '">Отменить</a>');
 
-        return $response->withHeader('Location', $this->urlFor(BlockListHandler::class));
+        return $response->withHeader('Location', $this->urlFor(BlockListHandler::class))
+            ->withStatus(307);
     }
 }

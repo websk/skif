@@ -54,7 +54,8 @@ class AdminContentSaveHandler extends BaseHandler
         $title = $request->getParam('title', '');
         if (!$title) {
             Messages::setError('Отсутствует заголовок');
-            return $response->withHeader('Location', $redirect_url);
+            return $response->withHeader('Location', $redirect_url)
+                ->withStatus(307);
         }
 
         $annotation = $request->getParam('annotation', '');
@@ -98,7 +99,8 @@ class AdminContentSaveHandler extends BaseHandler
                 $this->content_service->save($content_obj);
 
                 Messages::setError('Не указана главная рубрика');
-                return $response->withHeader('Location', $redirect_url);
+                return $response->withHeader('Location', $redirect_url)
+                    ->withStatus(307);
             }
         }
         $content_obj->setMainRubricId($main_rubric_id);
@@ -109,7 +111,8 @@ class AdminContentSaveHandler extends BaseHandler
 
         Messages::setMessage('Изменения сохранены');
 
-        return $response->withHeader('Location', $redirect_url);
+        return $response->withHeader('Location', $redirect_url)
+            ->withStatus(307);
     }
 
     /**

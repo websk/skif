@@ -34,6 +34,7 @@ class AdminHandler
             );
         }
 
-        return $response->withHeader('Location', SkifPath::getMainPage());
+        return $response->withHeader('Location', SkifPath::getMainPage())
+            ->withStatus(307);
     }
 }

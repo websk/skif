@@ -40,7 +40,8 @@ class CommentCreateHandler extends BaseHandler
 
         if ($request->getParsedBodyParam(Captcha::CAPTCHA_FIELD_NAME) !== null) {
             if (!Captcha::checkWithMessage()) {
-                return $response->withHeader('Location', $url);
+                return $response->withHeader('Location', $url)
+                    ->withStatus(307);
             }
         }
 
@@ -48,7 +49,8 @@ class CommentCreateHandler extends BaseHandler
 
         if (!$comment) {
             Messages::setError('Не указано сообщение');
-            return $response->withHeader('Location', $url);
+            return $response->withHeader('Location', $url)
+                ->withStatus(307);
         }
 
         $current_user_obj = $this->session_service->getCurrentUserObj();
@@ -60,7 +62,8 @@ class CommentCreateHandler extends BaseHandler
             $user_name = $request->getParsedBodyParam('user_name');
             if (!$user_name) {
                 Messages::setError('Не указано имя');
-                return $response->withHeader('Location', $url);
+                return $response->withHeader('Location', $url)
+                    ->withStatus(307);
             }
 
             $user_email = $request->getParsedBodyParam('user_email');
@@ -89,6 +92,7 @@ class CommentCreateHandler extends BaseHandler
 
         Messages::setMessage('Ваше сообщение добавлено');
 
-        return $response->withHeader('Location', $url . '#comments');
+        return $response->withHeader('Location', $url . '#comments')
+            ->withStatus(307);
     }
 }

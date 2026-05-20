@@ -78,9 +78,11 @@ class BlockSaveContentHandler extends BaseHandler
                 $redirect_to_on_success = str_replace('block_id', $block_obj->getId(), $redirect_to_on_success);
             }
 
-            return $response->withHeader('Location', $redirect_to_on_success);
+            return $response->withHeader('Location', $redirect_to_on_success)
+                ->withStatus(307);
         }
 
-        return $response->withHeader('Location', $this->urlFor(BlockEditorContentHandler::class, ['block_id' => $block_id]));
+        return $response->withHeader('Location', $this->urlFor(BlockEditorContentHandler::class, ['block_id' => $block_id]))
+            ->withStatus(307);
     }
 }
