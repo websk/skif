@@ -7,12 +7,6 @@ use WebSK\Utils\Sanitize;
 
 class PageRegionRepository extends EntityRepository
 {
-    /**
-     * @param string $name
-     * @param int $template_id
-     * @return bool|false|mixed
-     * @throws \Exception
-     */
     public function findIdByNameAndTemplateId(string $name, int $template_id): int
     {
         $query = "SELECT " . Sanitize::sanitizeSqlColumnName($this->getIdFieldName())
@@ -26,7 +20,7 @@ class PageRegionRepository extends EntityRepository
     /**
      * Массив PageRegionId для темы
      * @param int $template_id
-     * @return array
+     * @return list<int>
      */
     public function findIdsArrByTemplateId(int $template_id): array
     {

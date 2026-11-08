@@ -52,12 +52,12 @@ class NotFoundHandler extends ErrorHandler
         $message = 'Возможные причины: неправильно набран адрес, документ был удален, документ был переименован';
 
         $content_html = '<div class="alert alert-warning" role="alert">';
-        $content_html .= '<h4><span class="glyphicon glyphicon-exclamation-sign"></span> ' . $extra_message . '</h4>';
+        $content_html .= '<h4><span class="fa fa-exclamation-triangle"></span> ' . $extra_message . '</h4>';
         $content_html .= '<div style="white-space: pre-wrap; font-size: larger">' . $message . '</div>';
         $content_html .= '</div>';
 
         $layout_dto = new LayoutDTO();
-        $layout_dto->setTitle($error_code);
+        $layout_dto->setTitle((string)$error_code);
         $layout_dto->setContentHtml($content_html);
         $breadcrumbs_arr = [
             new BreadcrumbItemDTO('Главная', SkifPath::getMainPage()),

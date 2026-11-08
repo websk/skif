@@ -18,7 +18,7 @@ class RedirectRoutes
 {
 
     /**
-     * @param App $app
+     * @param App<\DI\Container> $app
      */
     public static function registerSimpleRoute(App $app): void
     {
@@ -26,7 +26,7 @@ class RedirectRoutes
     }
 
     /**
-     * @param RouteCollectorProxyInterface $route_collector_proxy
+     * @param RouteCollectorProxyInterface<\DI\Container> $route_collector_proxy
      */
     public static function registerAdmin(RouteCollectorProxyInterface $route_collector_proxy): void
     {

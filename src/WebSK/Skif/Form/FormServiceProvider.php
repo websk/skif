@@ -12,56 +12,54 @@ use WebSK\Skif\SkifServiceProvider;
  */
 class FormServiceProvider
 {
-    /**
-     * @param ContainerInterface $container
-     */
-    public static function register(ContainerInterface $container): void
+    /** @param ContainerInterface&\ArrayAccess<string, mixed> $container */
+    public static function register(ContainerInterface&\ArrayAccess $container): void
     {
         /**
          * @param ContainerInterface $container
          * @return FormService
          */
-        $container->set(FormService::class, function (ContainerInterface $container) {
+        $container[FormService::class] = function (ContainerInterface $container) {
             return new FormService(
                 Form::class,
                 $container->get(FormRepository::class),
                 CacheServiceProvider::getCacheService($container)
             );
-        });
+        };
 
         /**
          * @param ContainerInterface $container
          * @return FormRepository
          */
-        $container->set(FormRepository::class, function (ContainerInterface $container) {
+        $container[FormRepository::class] = function (ContainerInterface $container) {
             return new FormRepository(
                 Form::class,
                 SkifServiceProvider::getDBService($container)
             );
-        });
+        };
 
         /**
          * @param ContainerInterface $container
          * @return FormFieldService
          */
-        $container->set(FormFieldService::class, function (ContainerInterface $container) {
+        $container[FormFieldService::class] = function (ContainerInterface $container) {
             return new FormFieldService(
                 FormField::class,
                 $container->get(FormFieldRepository::class),
                 CacheServiceProvider::getCacheService($container)
             );
-        });
+        };
 
         /**
          * @param ContainerInterface $container
          * @return FormFieldRepository
          */
-        $container->set(FormFieldRepository::class, function (ContainerInterface $container) {
+        $container[FormFieldRepository::class] = function (ContainerInterface $container) {
             return new FormFieldRepository(
                 FormField::class,
                 SkifServiceProvider::getDBService($container)
             );
-        });
+        };
     }
 
     /**

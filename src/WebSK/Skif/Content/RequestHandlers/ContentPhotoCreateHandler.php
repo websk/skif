@@ -9,7 +9,7 @@ use WebSK\Image\ImageController;
 use WebSK\Skif\Content\ContentPhoto;
 use WebSK\Skif\Content\ContentPhotoService;
 use WebSK\Skif\Content\ContentService;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Slim\Response;
 
 /**
@@ -18,10 +18,10 @@ use WebSK\Slim\Response;
  */
 class ContentPhotoCreateHandler extends BaseHandler
 {
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected ContentService $content_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected ContentPhotoService $content_photo_service;
 
     /**

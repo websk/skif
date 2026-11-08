@@ -12,7 +12,7 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetReferenceSelect;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\Skif\Content\Rubric;
 use WebSK\Skif\Content\Template;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 
 /**
  * Class AdminTemplateListAjaxHandler
@@ -22,7 +22,7 @@ class AdminTemplateListAjaxHandler extends BaseHandler
 {
     const string FILTER_TITLE = 'template_title';
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CRUD $crud_service;
 
     /**

@@ -1,7 +1,5 @@
 <?php
 
-use WebSK\Skif\SkifPath;
-
 return [
     'settings' => [
         'displayErrorDetails' => false,
@@ -93,20 +91,19 @@ return [
                 ]
             ],
             'layout' => '/var/www/views/layouts/layout.adminLTE.tpl.php',
-            'url_path' => '/admin',
+            'url_path' => '/',
             'main_page' => '/admin/content/page',
             'assets_version' => 1
         ],
-        'ckeditor' => [
-            'styles' => [
-                SkifPath::wrapAssetsVersion('/styles/main.css'),
-            ]
+        'rich_text_editor' => [
+            'styles' => [],
+            'filemanager_path' => null,
         ],
         'log_path' => '/var/www/log',
         'tmp_path' => '/var/www/tmp',
-        'static_data_path' => '/var/wwww/public/static',
+        'static_data_path' => '/var/www/public/static',
         'files_data_path' => '/var/www/public/files',
-        'site_domain' => 'http://skif.devbox',
+        'site_domain' => 'https://skif.devbox',
         'site_full_path' => '/var/www',
         'assets_url_path' => '/assets',
         'site_name' => 'Скиф',

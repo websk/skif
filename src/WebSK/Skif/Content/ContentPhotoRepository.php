@@ -13,9 +13,9 @@ class ContentPhotoRepository extends EntityRepository
 {
     /**
      * @param int $content_id
-     * @return array|null
+     * @return list<int>
      */
-    public function findIdsByContentId(int $content_id): ?array
+    public function findIdsByContentId(int $content_id): array
     {
         $db_table_name = $this->getTableName();
         $db_id_field_name = $this->getIdFieldName();

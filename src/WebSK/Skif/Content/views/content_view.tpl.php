@@ -7,6 +7,7 @@ use WebSK\Image\ImageManager;
 use WebSK\Skif\Content\ContentSanitize;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Slim\Container;
+use WebSK\Utils\Sanitize;
 
 $content_service = ContentServiceProvider::getContentService(Container::self());
 
@@ -23,12 +24,12 @@ if (!$content) {
 
 if ($content_obj->getImage()) {
     ?>
-    <p>
-        <img src="<?php echo ImageManager::getImgUrlByPreset($content_service->getImagePath($content_obj), '400_auto'); ?>"
-            alt="<?php echo $content_obj->getTitle(); ?>" title="<?php echo $content_obj->getTitle(); ?>" class="img-responsive">
-    </p>
+    <div class="mb-3">
+        <img src="<?php echo Sanitize::sanitizeAttrValue(ImageManager::getImgUrlByPreset($content_service->getImagePath($content_obj), '400_auto')); ?>"
+            alt="<?php echo Sanitize::sanitizeAttrValue($content_obj->getTitle()); ?>" class="img-fluid rounded shadow-sm">
+    </div>
 <?php
 }
 ?>
 
-<div><?php echo ContentSanitize::sanitizeContent($content) ?></div>
+<div class="content-body"><?php echo ContentSanitize::sanitizeContent($content) ?></div>

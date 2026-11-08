@@ -21,10 +21,7 @@ use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockSaveContentHandler;
 class BlockRoutes
 {
 
-    /**
-     * @param
-     * RouteCollectorProxyInterface $route_collector_proxy
-     */
+    /** @param RouteCollectorProxyInterface<\DI\Container> $route_collector_proxy */
     public static function registerAdmin(RouteCollectorProxyInterface $route_collector_proxy): void
     {
         $route_collector_proxy->group('/blocks', function (RouteCollectorProxyInterface $route_collector_proxy) {

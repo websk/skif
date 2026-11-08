@@ -12,33 +12,31 @@ use WebSK\Skif\SkifServiceProvider;
  */
 class RedirectServiceProvider
 {
-    /**
-     * @param ContainerInterface $container
-     */
-    public static function register(ContainerInterface $container): void
+    /** @param ContainerInterface&\ArrayAccess<string, mixed> $container */
+    public static function register(ContainerInterface&\ArrayAccess $container): void
     {
         /**
          * @param ContainerInterface $container
          * @return RedirectService
          */
-        $container->set(RedirectService::class, function (ContainerInterface $container) {
+        $container[RedirectService::class] = function (ContainerInterface $container) {
             return new RedirectService(
                 Redirect::class,
                 $container->get(RedirectRepository::class),
                 CacheServiceProvider::getCacheService($container)
             );
-        });
+        };
 
         /**
          * @param ContainerInterface $container
          * @return RedirectRepository
          */
-        $container->set(RedirectRepository::class, function (ContainerInterface $container) {
+        $container[RedirectRepository::class] = function (ContainerInterface $container) {
             return new RedirectRepository(
                 Redirect::class,
                 SkifServiceProvider::getDBService($container)
             );
-        });
+        };
     }
 
     /**

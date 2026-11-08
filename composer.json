@@ -1,39 +1,91 @@
 {
   "name": "websk/skif",
   "description": "Skif Admin",
+  "license": "MIT",
   "homepage": "https://websk.ru/",
   "require": {
-    "php": "^8.3",
+    "php": "8.5.*",
+    "ext-fileinfo": "*",
+    "ext-gd": "*",
+    "ext-json": "*",
     "ext-mbstring": "*",
     "ext-pdo": "*",
-    "ext-json": "*",
-    "slim/slim": "4.14.*",
+    "ext-pdo_mysql": "*",
+    "ext-session": "*",
+    "ext-xmlwriter": "*",
+    "slim/slim": "4.15.*",
     "slim/php-view": "3.4.*",
-    "websk/php-auth": "2.4.*",
-    "websk/php-cache": "2.2.*",
-    "websk/php-captcha": "2.3.*",
-    "websk/php-config": "2.0.*",
-    "websk/php-db": "2.1.*",
-    "websk/php-imagemanager": "2.2.*",
-    "websk/php-keyvalue": "2.1.*",
-    "websk/php-logger": "2.1.*",
-    "websk/php-utils": "2.1.*",
-    "websk/php-entity": "2.2.*",
-    "websk/php-crud": "2.3.*",
-    "websk/php-slim": "2.3.*",
-    "websk/php-view": "2.3.*",
-    "websk/php-simple-router": "2.1.*",
-    "phpmailer/phpmailer": "7.0.1",
-    "hkvstore/richfilemanager-php": "2.3.2"
+    "websk/php-auth": "4.0.*",
+    "websk/php-cache": "3.0.*",
+    "websk/php-captcha": "3.0.*",
+    "websk/php-config": "2.2.*",
+    "websk/php-db": "3.0.*",
+    "websk/php-imagemanager": "3.0.*",
+    "websk/php-keyvalue": "4.0.*",
+    "websk/php-logger": "4.0.*",
+    "websk/php-utils": "3.0.*",
+    "websk/php-entity": "3.0.*",
+    "websk/php-crud": "4.0.*",
+    "websk/php-slim": "2.4.*",
+    "websk/php-view": "3.1.*",
+    "websk/php-simple-router": "3.0.*",
+    "phpmailer/phpmailer": "^7.1",
+    "hkvstore/richfilemanager-php": "^2.4"
   },
   "autoload": {
     "psr-4": {
-      "": "src/"
+      "WebSK\\Skif\\": "src/WebSK/Skif/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "WebSK\\Skif\\Tests\\": "tests/"
+    }
+  },
+  "archive": {
+    "exclude": [
+      "/.ai",
+      "/.idea",
+      "/.DS_Store",
+      "**/.DS_Store",
+      "/playwright-report",
+      "/test-results",
+      "/phpunit.cache",
+      "/.phpunit.cache",
+      "/config/config.php",
+      "/node_modules",
+      "/public/files",
+      "/var/cache",
+      "/var/docker/.env",
+      "/var/docker/data",
+      "/var/docker/logs",
+      "/var/docker/nginx/ssl",
+      "/var/docker/nginx/rootCA.pem",
+      "/var/docker/nginx/rootCA-key.pem",
+      "/var/docker/tmp",
+      "/vendor"
+    ]
+  },
   "config": {
+    "platform": {
+      "php": "8.5.12"
+    },
     "allow-plugins": {
       "kylekatarnls/update-helper": true
     }
+  },
+  "scripts": {
+    "lint": "find src public config tests -type f -name '*.php' -print0 | xargs -0 -n1 php -l",
+    "phpstan": "phpstan analyse --no-progress --memory-limit=1G --debug",
+    "test": "phpunit --configuration phpunit.xml",
+    "check": [
+      "@lint",
+      "@phpstan",
+      "@test"
+    ]
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^2.3",
+    "phpunit/phpunit": "^12.5"
   }
 }

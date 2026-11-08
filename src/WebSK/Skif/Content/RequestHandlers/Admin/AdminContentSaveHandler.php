@@ -14,19 +14,19 @@ use WebSK\Skif\Content\ContentRubricService;
 use WebSK\Skif\Content\ContentService;
 use WebSK\Skif\Content\ContentType;
 use WebSK\Skif\Content\ContentTypeService;
-use WebSK\Slim\RequestHandlers\BaseHandler;
-use WebSK\Slim\Router;
+use WebSK\Skif\RequestHandlers\BaseHandler;
+use WebSK\Skif\Router;
 use WebSK\Utils\Messages;
 
 class AdminContentSaveHandler extends BaseHandler
 {
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected ContentTypeService $content_type_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected ContentService $content_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected ContentRubricService $content_rubric_service;
 
     /**
@@ -51,23 +51,23 @@ class AdminContentSaveHandler extends BaseHandler
 
         $redirect_url = Router::urlFor(AdminContentEditHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]);
 
-        $title = $request->getParam('title', '');
+        $title = \WebSK\CRUD\RequestParams::parsedBody($request, 'title', '');
         if (!$title) {
             Messages::setError('Отсутствует заголовок');
             return $response->withHeader('Location', $redirect_url)
                 ->withStatus(StatusCodeInterface::STATUS_TEMPORARY_REDIRECT);
         }
 
-        $annotation = $request->getParam('annotation', '');
-        $body = $request->getParam('body', '');
-        $url = $request->getParam('url', '');
-        $published_at = $request->getParam('published_at') ?: null;
-        $created_at = $request->getParam('created_at') ?: null;
-        $unpublished_at = $request->getParam('unpublished_at') ?: null;
-        $is_published = $request->getParam('is_published', false);
-        $description = $request->getParam('description', '');
-        $keywords = $request->getParam('keywords', '');
-        $template_id = $request->getParam('template_id') ?: null;
+        $annotation = \WebSK\CRUD\RequestParams::parsedBody($request, 'annotation', '');
+        $body = \WebSK\CRUD\RequestParams::parsedBody($request, 'body', '');
+        $url = \WebSK\CRUD\RequestParams::parsedBody($request, 'url', '');
+        $published_at = \WebSK\CRUD\RequestParams::parsedBody($request, 'published_at') ?: null;
+        $created_at = \WebSK\CRUD\RequestParams::parsedBody($request, 'created_at') ?: null;
+        $unpublished_at = \WebSK\CRUD\RequestParams::parsedBody($request, 'unpublished_at') ?: null;
+        $is_published = \WebSK\CRUD\RequestParams::parsedBody($request, 'is_published', false);
+        $description = \WebSK\CRUD\RequestParams::parsedBody($request, 'description', '');
+        $keywords = \WebSK\CRUD\RequestParams::parsedBody($request, 'keywords', '');
+        $template_id = \WebSK\CRUD\RequestParams::parsedBody($request, 'template_id') ?: null;
 
         $content_obj->setTitle($title);
         $content_obj->setAnnotation($annotation);
@@ -123,8 +123,8 @@ class AdminContentSaveHandler extends BaseHandler
      */
     protected function saveRubrics(ServerRequestInterface $request, ContentType $content_type_obj, Content $content_obj): ?int
     {
-        $main_rubric_id = $request->getParam('main_rubric') ?: null;
-        $rubrics_arr = $request->getParam('rubrics_arr', []) ?: [];
+        $main_rubric_id = \WebSK\CRUD\RequestParams::parsedBody($request, 'main_rubric') ?: null;
+        $rubrics_arr = \WebSK\CRUD\RequestParams::parsedBody($request, 'rubrics_arr', []) ?: [];
 
         $require_main_rubric = ConfWrapper::value('content.' . $content_type_obj->getType() . '.require_main_rubric');
 

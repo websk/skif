@@ -261,7 +261,7 @@
 }
 
 .dropzone .upload-item .preview .loading-spinner span {
-    background-image: url(../../../images/wait30trans.gif);
+    background-image: none;
     display: block;
     width: 30px;
     height: 30px;

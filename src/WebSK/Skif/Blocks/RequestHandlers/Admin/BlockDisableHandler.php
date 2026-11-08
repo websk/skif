@@ -7,13 +7,13 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Skif\Blocks\BlockService;
 use WebSK\Skif\Blocks\PageRegion;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Utils\Messages;
 
 class BlockDisableHandler extends BaseHandler
 {
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected BlockService $block_service;
 
     /**

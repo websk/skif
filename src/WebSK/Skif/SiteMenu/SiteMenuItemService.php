@@ -4,17 +4,16 @@ namespace WebSK\Skif\SiteMenu;
 
 use WebSK\Auth\Auth;
 use WebSK\Cache\CacheService;
-use WebSK\Entity\EntityRepository;
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Entity\WeightService;
-use WebSK\Logger\Logger;
+use WebSK\Skif\Logger;
 use WebSK\Skif\Content\ContentService;
 use WebSK\Utils\FullObjectId;
 use WebSK\Utils\Url;
 
 /**
  * Class SiteMenuItemService
- * @method SiteMenuItem getById($entity_id, $exception_if_not_loaded = true)
+ * @method ($exception_if_not_loaded is true ? SiteMenuItem : SiteMenuItem|null) getById(?int $entity_id, bool $exception_if_not_loaded = true)
  * @package WebSK\Skif\SiteMenu
  */
 class SiteMenuItemService extends WeightService
@@ -23,20 +22,20 @@ class SiteMenuItemService extends WeightService
     const int IDS_BY_SITE_MENU_ID_AND_PARENT_ID_CACHE_TTL_SEC = 3600;
 
     /** @var SiteMenuItemRepository */
-    protected $repository;
+    protected \WebSK\Entity\EntityRepository $repository;
 
     protected ContentService $content_service;
 
     /**
      * SiteMenuItemService constructor.
      * @param string $entity_class_name
-     * @param EntityRepository $repository
+     * @param SiteMenuItemRepository $repository
      * @param CacheService $cache_service
      * @param ContentService $content_service
      */
     public function __construct(
         string $entity_class_name,
-        EntityRepository $repository,
+        SiteMenuItemRepository $repository,
         CacheService $cache_service,
         ContentService $content_service
     ) {
@@ -50,6 +49,10 @@ class SiteMenuItemService extends WeightService
      */
     public function beforeSave(InterfaceEntity $entity_obj): void
     {
+        if (!$entity_obj instanceof SiteMenuItem) {
+            throw new \InvalidArgumentException('SiteMenuItemService can save only SiteMenuItem entities');
+        }
+
         $url = $entity_obj->getUrl();
 
         if ($entity_obj->getContentId()) {
@@ -78,6 +81,10 @@ class SiteMenuItemService extends WeightService
      */
     public function removeFromCache(InterfaceEntity $entity_obj): void
     {
+        if (!$entity_obj instanceof SiteMenuItem) {
+            throw new \InvalidArgumentException('SiteMenuItemService accepts only SiteMenuItem entities');
+        }
+
         $cache_key = sprintf(self::IDS_BY_SITE_MENU_ID_AND_PARENT_ID_CACHE_KEY, $entity_obj->getId(), $entity_obj->getParentId());
         $this->cache_service->delete($cache_key);
 
@@ -107,7 +114,7 @@ class SiteMenuItemService extends WeightService
     /**
      * @param int $site_menu_id
      * @param null|int $parent_id
-     * @return array
+     * @return list<int>
      */
     public function getIdsArrBySiteMenuId(int $site_menu_id, ?int $parent_id = null): array
     {
@@ -145,7 +152,7 @@ class SiteMenuItemService extends WeightService
 
     /**
      * @param SiteMenuItem $site_menu_item_obj
-     * @return array
+     * @return list<int>
      */
     public function getChildrenIdsArr(SiteMenuItem $site_menu_item_obj): array
     {
@@ -154,7 +161,7 @@ class SiteMenuItemService extends WeightService
 
     /**
      * Массив всех потомков
-     * @return array
+     * @return list<int>
      */
     public function getDescendantsIdsArr(SiteMenuItem $site_menu_item_obj): array
     {
@@ -174,7 +181,7 @@ class SiteMenuItemService extends WeightService
     /**
      * Массив идентификаторов предков снизу вверх
      * @param SiteMenuItem $site_menu_item_obj
-     * @return array
+     * @return list<int>
      */
     public function getAncestorsIdsArr(SiteMenuItem $site_menu_item_obj): array
     {

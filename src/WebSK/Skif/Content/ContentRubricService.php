@@ -7,7 +7,7 @@ use WebSK\Entity\InterfaceEntity;
 
 /**
  * Class ContentRubricService
- * @method ContentRubric getById($entity_id, $exception_if_not_loaded = true)
+ * @method ($exception_if_not_loaded is true ? ContentRubric : ContentRubric|null) getById(?int $entity_id, bool $exception_if_not_loaded = true)
  * @package WebSK\Skif\Content
  */
 class ContentRubricService extends EntityService
@@ -15,7 +15,7 @@ class ContentRubricService extends EntityService
     const string CACHE_KEY_IDS_BY_CONTENT_ID = '\ContentRubricService::getIdsArrByContentId:%d';
 
     /** @var ContentRubricRepository */
-    protected $repository;
+    protected \WebSK\Entity\EntityRepository $repository;
 
     /**
      * @return int
@@ -30,6 +30,10 @@ class ContentRubricService extends EntityService
      */
     public function removeFromCache(InterfaceEntity $entity_obj): void
     {
+        if (!$entity_obj instanceof ContentRubric) {
+            throw new \InvalidArgumentException('ContentRubricService accepts only ContentRubric entities');
+        }
+
         $cache_key = sprintf(self::CACHE_KEY_IDS_BY_CONTENT_ID, $entity_obj->getContentId());
         $this->cache_service->delete($cache_key);
 
@@ -40,7 +44,7 @@ class ContentRubricService extends EntityService
      * @param int $rubric_id
      * @param int $limit_to_page
      * @param int $page
-     * @return array
+     * @return list<int>
      */
     public function getIdsArrByRubricId(int $rubric_id, int $limit_to_page = 0, int $page = 1): array
     {
@@ -63,7 +67,7 @@ class ContentRubricService extends EntityService
 
     /**
      * @param int $content_id
-     * @return array
+     * @return list<int>
      */
     public function getIdsArrByContentId(int $content_id): array
     {
@@ -85,7 +89,7 @@ class ContentRubricService extends EntityService
 
     /**
      * @param int $content_id
-     * @return array
+     * @return list<int>
      */
     public function getRubricIdsArrByContentId(int $content_id): array
     {
@@ -115,7 +119,7 @@ class ContentRubricService extends EntityService
      * @param int $rubric_id
      * @param int $limit_to_page
      * @param int $page
-     * @return array
+     * @return list<int>
      */
     public function getContentIdsArrByRubricId(int $rubric_id, int $limit_to_page = 0, int $page = 1): array
     {
@@ -147,7 +151,7 @@ class ContentRubricService extends EntityService
      * @param int $rubric_id
      * @param int $limit_to_page
      * @param int $page
-     * @return array
+     * @return list<int>
      */
     public function getPublishedContentIdsArrByRubricId(int $rubric_id, int $limit_to_page = 0, int $page = 1): array
     {

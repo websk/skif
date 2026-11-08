@@ -10,8 +10,9 @@ use WebSK\Skif\Blocks\Block;
 use WebSK\Skif\Blocks\BlockService;
 use WebSK\Skif\Blocks\PageRegionService;
 use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockChangePositionInRegionHandler;
-use WebSK\Slim\Router;
+use WebSK\Skif\Router;
 use WebSK\Views\PhpRender;
+use WebSK\Utils\Sanitize;
 
 
 $block_obj = $block_service->getById($block_id);
@@ -28,11 +29,12 @@ $page_region_obj = $page_region_service->getById($target_region);
 
 ?>
 
-<div class="tab-pane in active" id="place_in_region">
+<div class="tab-pane show active" id="place_in_region">
     <div>
         <p>Выберите, после какого блока нужно поставить блок в регионе
-            &laquo;<?php echo $page_region_obj->getTitle() ?>&raquo;</p>
-        <table class="table table-condensed">
+            &laquo;<?php echo Sanitize::sanitizeTagContent($page_region_obj->getTitle()); ?>&raquo;</p>
+        <div class="table-responsive">
+        <table class="table table-sm table-hover align-middle mb-0">
             <tr>
                 <td>---</td>
                 <td>---</td>
@@ -54,7 +56,7 @@ $page_region_obj = $page_region_service->getById($target_region);
 
                 $tr_class = '';
                 if ($other_block_obj->getId() == $block_obj->getId()) {
-                    $tr_class = ' class="active" ';
+                    $tr_class = ' class="table-active" ';
                 }
 
                 $move_block_url = Router::urlFor(
@@ -71,5 +73,6 @@ $page_region_obj = $page_region_service->getById($target_region);
             }
             ?>
         </table>
+        </div>
     </div>
 </div>

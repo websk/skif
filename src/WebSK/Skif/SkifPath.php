@@ -15,10 +15,9 @@ class SkifPath
     const string ASSETS_DIR_NAME = 'assets';
 
     /**
-     * @param $resource
-     * @return string
+     * @param string $resource
      */
-    public static function wrapUrlPath($resource): string
+    public static function wrapUrlPath(string $resource): string
     {
         $url_path = ConfWrapper::value('skif.url_path');
 
@@ -26,10 +25,9 @@ class SkifPath
     }
 
     /**
-     * @param $resource
-     * @return string
+     * @param string $resource
      */
-    public static function wrapAssetsVersion($resource): string
+    public static function wrapAssetsVersion(string $resource): string
     {
         $assets_version = ConfWrapper::value('skif.assets_version', 1);
 

@@ -24,7 +24,7 @@ use WebSK\Skif\Content\ContentTypeService;
 use WebSK\Skif\Content\Rubric;
 use WebSK\Skif\Content\RubricService;
 use WebSK\Skif\SkifPath;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -39,13 +39,13 @@ class AdminContentListHandler extends BaseHandler
     const string FILTER_RUBRICS = 'content_rubric_id';
     const string FILTER_CONTENT_TYPE_ID = 'content_type_id';
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CRUD $crud_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected ContentTypeService $content_type_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected RubricService $rubric_service;
 
     /**
@@ -124,7 +124,10 @@ class AdminContentListHandler extends BaseHandler
                 new CRUDTableColumn('', new CRUDTableWidgetDelete())
             ],
             [
-                new CRUDTableFilterEqualInvisible(self::FILTER_CONTENT_TYPE_ID, $content_type_obj->getId()),
+                new CRUDTableFilterEqualInvisible(
+                    self::FILTER_CONTENT_TYPE_ID,
+                    \WebSK\Skif\EntityId::toString($content_type_obj)
+                ),
                 new CRUDTableFilterLikeInline(self::FILTER_TITLE, 'Заголовок', Content::_TITLE),
                 new CRUDTableFilterEqualOptionsInline(
                     self::FILTER_RUBRICS,
@@ -132,7 +135,7 @@ class AdminContentListHandler extends BaseHandler
                     Content::_MAIN_RUBRIC_ID,
                     $rubric_for_options_arr,
                     false,
-                    false,
+                    '',
                     false
                 ),
             ],

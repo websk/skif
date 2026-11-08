@@ -19,7 +19,7 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
 use WebSK\Skif\Content\ContentTypeService;
 use WebSK\Skif\Content\Rubric;
 use WebSK\Skif\SkifPath;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -33,10 +33,10 @@ class AdminRubricListHandler extends BaseHandler
     const string FILTER_CONTENT_TYPE_ID = 'content_type_id';
     const string FILTER_NAME = 'content_type_name';
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected ContentTypeService $content_type_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CRUD $crud_service;
 
     /**
@@ -85,7 +85,10 @@ class AdminRubricListHandler extends BaseHandler
                 new CRUDTableColumn('', new CRUDTableWidgetDelete())
             ],
             [
-                new CRUDTableFilterEqualInvisible(self::FILTER_CONTENT_TYPE_ID, $content_type_obj->getId()),
+                new CRUDTableFilterEqualInvisible(
+                    self::FILTER_CONTENT_TYPE_ID,
+                    \WebSK\Skif\EntityId::toString($content_type_obj)
+                ),
                 new CRUDTableFilterLikeInline(self::FILTER_NAME, 'Название', Rubric::_NAME),
             ],
             Rubric::_CREATED_AT_TS . ' DESC',

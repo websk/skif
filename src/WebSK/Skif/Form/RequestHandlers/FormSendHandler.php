@@ -11,7 +11,7 @@ use WebSK\Captcha\Captcha;
 use WebSK\Config\ConfWrapper;
 use WebSK\Skif\Form\FormFieldService;
 use WebSK\Skif\Form\FormService;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Utils\Filters;
 use WebSK\Utils\Messages;
 use WebSK\Utils\Redirects;
@@ -23,10 +23,10 @@ use WebSK\Utils\Sanitize;
  */
 class FormSendHandler extends BaseHandler
 {
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected FormService $form_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected FormFieldService $form_field_service;
 
     /**
@@ -45,7 +45,7 @@ class FormSendHandler extends BaseHandler
         $site_email = ConfWrapper::value('site_email');
         $site_domain = ConfWrapper::value('site_domain');
 
-        $user_email = $request->getParam('email');
+        $user_email = \WebSK\CRUD\RequestParams::parsedBody($request, 'email');
 
         $message = 'E-mail: ' . $user_email . '<br>';
 
@@ -54,7 +54,7 @@ class FormSendHandler extends BaseHandler
         foreach ($form_field_ids_arr as $form_field_id) {
             $form_field_obj = $this->form_field_service->getById($form_field_id);
 
-            $field_value = $request->getParam('field_' . $form_field_id);
+            $field_value = \WebSK\CRUD\RequestParams::parsedBody($request, 'field_' . $form_field_id);
 
             $name = $form_field_obj->getName();
 
@@ -69,7 +69,7 @@ class FormSendHandler extends BaseHandler
         $current_user_id = Auth::getCurrentUserId();
 
         if (!$current_user_id) {
-            if (!Captcha::checkWithMessage()) {
+            if (!Captcha::checkWithMessage($request)) {
                 Redirects::redirect($form_obj->getUrl());
             }
         }

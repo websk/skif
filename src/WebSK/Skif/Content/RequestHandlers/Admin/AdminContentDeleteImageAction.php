@@ -6,7 +6,7 @@ use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Skif\Content\ContentService;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Slim\Response;
 
 /**
@@ -15,7 +15,7 @@ use WebSK\Slim\Response;
  */
 class AdminContentDeleteImageAction extends BaseHandler
 {
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected ContentService $content_service;
 
     /**

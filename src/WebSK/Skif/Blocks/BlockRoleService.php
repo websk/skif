@@ -5,21 +5,21 @@ namespace WebSK\Skif\Blocks;
 use WebSK\Auth\Auth;
 use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
-use WebSK\Logger\Logger;
+use WebSK\Skif\Logger;
 use WebSK\Utils\FullObjectId;
 
 /**
- * @method BlockRole getById($entity_id, $exception_if_not_loaded = true)
+ * @method ($exception_if_not_loaded is true ? BlockRole : BlockRole|null) getById(?int $entity_id, bool $exception_if_not_loaded = true)
  */
 class BlockRoleService extends EntityService
 {
     /** @var BlockRoleRepository */
-    protected $repository;
+    protected \WebSK\Entity\EntityRepository $repository;
 
 
     /**
      * @param int $block_id
-     * @return array
+     * @return list<int>
      */
     public function getIdsByBlockId(int $block_id): array
     {
@@ -31,6 +31,7 @@ class BlockRoleService extends EntityService
      * @return array
      * @throws \Exception
      */
+    /** @return list<int> */
     public function getRoleIdsByBlockId(int $block_id): array
     {
         $block_role_ids_arr = $this->getIdsByBlockId($block_id);

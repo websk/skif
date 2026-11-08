@@ -9,7 +9,7 @@ class BlockRoleRepository extends EntityRepository
 {
     /**
      * @param int $block_id
-     * @return array
+     * @return list<int>
      * @throws \Exception
      */
     public function findIdsByBlockId(int $block_id): array

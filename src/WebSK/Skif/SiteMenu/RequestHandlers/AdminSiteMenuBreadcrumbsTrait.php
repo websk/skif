@@ -12,7 +12,7 @@ use WebSK\Views\BreadcrumbItemDTO;
 trait AdminSiteMenuBreadcrumbsTrait
 {
     /**
-     * @return array
+     * @return list<BreadcrumbItemDTO>
      */
     protected function getBreadcrumbsDTOArr(int $site_menu_id, ?int $site_menu_item_id = null): array
     {

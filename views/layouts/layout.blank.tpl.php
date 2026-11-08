@@ -1,11 +1,11 @@
 <?php
 /**
- * @var $title
- * @var $content
+ * @var string $title
+ * @var string $content
  * @var LayoutDTO $layout_dto
  */
-
 use WebSK\Skif\SkifPath;
+use WebSK\Utils\Sanitize;
 use WebSK\Views\LayoutDTO;
 
 if (!isset($layout_dto)) {
@@ -14,16 +14,22 @@ if (!isset($layout_dto)) {
     $layout_dto->setContentHtml($content);
 }
 ?>
-
-<html>
+<!doctype html>
+<html lang="ru" data-lte-color-mode="off">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo $layout_dto->getTitle(); ?></title>
-
+    <title><?php echo Sanitize::sanitizeTagContent($layout_dto->getTitle()); ?></title>
     <link href="<?php echo SkifPath::wrapAssetsVersion('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/admin-lte/css/AdminLTE.min.css'); ?>" rel="stylesheet">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/styles/skif.css'); ?>" rel="stylesheet">
 </head>
-<body>
-<?php echo $layout_dto->getContentHtml() ?>
+<body class="bg-body-tertiary">
+<main class="container py-4">
+    <?php echo $layout_dto->getContentHtml(); ?>
+</main>
+<script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
+<script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/admin-lte/js/adminlte.min.js'); ?>"></script>
 </body>
 </html>

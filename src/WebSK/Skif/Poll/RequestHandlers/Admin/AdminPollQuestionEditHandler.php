@@ -15,7 +15,7 @@ use WebSK\Skif\Poll\PollQuestion;
 use WebSK\Skif\Poll\PollQuestionService;
 use WebSK\Skif\Poll\PollService;
 use WebSK\Skif\SkifPath;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\NavTabItemDTO;
@@ -27,13 +27,13 @@ use WebSK\Views\PhpRender;
  */
 class AdminPollQuestionEditHandler extends BaseHandler
 {
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected PollService $poll_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected PollQuestionService $poll_question_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CRUD $crud_service;
 
     /**

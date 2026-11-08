@@ -12,7 +12,8 @@ use WebSK\Skif\Blocks\BlockRoleService;
 use WebSK\Skif\Blocks\BlockService;
 use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockSaveContentHandler;
 use WebSK\Skif\SkifPath;
-use WebSK\Slim\Router;
+use WebSK\Skif\Router;
+use WebSK\Utils\Sanitize;
 use WebSK\Views\PhpRender;
 
 $block_obj = $block_service->getById($block_id);
@@ -30,11 +31,11 @@ $items = [];
 <form role="form" action="<?php echo Router::urlFor(BlockSaveContentHandler::class, ['block_id' => $block_id]); ?>" method="post" id="edit_form">
     <input type="hidden" value="" name="_redirect_to_on_success" id="_redirect_to_on_success"/>
 
-    <div class="form-group">
-        <label>Название</label>
-        <input class="form-control" type="text" value="<?php echo $block_obj->getTitle(); ?>" name="title" id="title"/>
+    <div class="mb-3">
+        <label for="title" class="form-label">Название</label>
+        <input class="form-control" type="text" value="<?php echo Sanitize::sanitizeAttrValue($block_obj->getTitle()); ?>" name="title" id="title"/>
 
-        <p class="help-block">Описание выводится в админке блоков.</p>
+        <p class="form-text">Описание выводится в админке блоков.</p>
     </div>
 
     <style media="screen">
@@ -44,15 +45,15 @@ $items = [];
         }
     </style>
 
-    <div class="form-group">
-        <label>Текст блока</label>
+    <div class="mb-3">
+        <label for="editor" class="form-label">Текст блока</label>
         <div id="editor"></div>
         <input type="hidden" value="" name="body" id="body"/>
     </div>
 
-    <div class="form-group">
-        <label>Формат ввода</label>
-        <select class="form-control" name="format" id="format">
+    <div class="mb-3">
+        <label for="format" class="form-label">Формат ввода</label>
+        <select class="form-select" name="format" id="format">
             <?php
             $formats_arr = Block::BLOCK_FORMATS_ARRAY;
 
@@ -69,13 +70,13 @@ $items = [];
         </select>
     </div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <a data-toggle="collapse" href="#visibility_roles_panel">Видимость для ролей</a>
+    <div class="card mb-3">
+        <div class="card-header">
+            <a data-bs-toggle="collapse" href="#visibility_roles_panel">Видимость для ролей</a>
         </div>
-        <div id="visibility_roles_panel" class="panel-collapse collapse">
-            <div class="panel-body">
-                <div class="form-group">
+        <div id="visibility_roles_panel" class="collapse">
+            <div class="card-body">
+                <div class="mb-3">
                         <span id="roles">
                             <?php
                             $block_role_ids_arr = $block_role_service->getRoleIdsByBlockId($block_id);
@@ -85,13 +86,12 @@ $items = [];
                             foreach ($roles_ids_arr as $role_id) {
                                 $role_obj = $role_service->getById($role_id);
                                 ?>
-                                <div class="checkbox">
-                                    <label>
-                                        <input value="<?php echo $role_id; ?>" type="checkbox"
+                                <?php $role_input_id = 'role-' . $role_id; ?>
+                                <div class="form-check">
+                                    <input id="<?php echo $role_input_id; ?>" class="form-check-input" value="<?php echo $role_id; ?>" type="checkbox"
                                                name="roles[]"<?php echo(in_array($role_id,
                                             $block_role_ids_arr) ? 'checked' : ''); ?>>
-                                        <?php echo $role_obj->getName(); ?>
-                                    </label>
+                                    <label class="form-check-label" for="<?php echo $role_input_id; ?>"><?php echo Sanitize::sanitizeTagContent($role_obj->getName()); ?></label>
                                 </div>
                                 <?php
                             }
@@ -126,19 +126,19 @@ $items = [];
         </div>
     </div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">Видимость для страниц</div>
-        <div class="panel-body">
-            <div class="form-group">
-                <label>Набор включающих и исключающих фильтров. <a data-toggle="modal"
+    <div class="card mb-3">
+        <div class="card-header">Видимость для страниц</div>
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="pages" class="form-label">Набор включающих и исключающих фильтров. <a data-bs-toggle="modal"
                                                                    href="#format3docs">Справка</a></label>
                 <textarea class="form-control" rows="10" name="pages"
-                          id="pages"><?php echo $block_obj->getPages(); ?></textarea>
+                          id="pages"><?php echo Sanitize::sanitizeTagContent($block_obj->getPages()); ?></textarea>
             </div>
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <input class="btn btn-primary" type="submit" id="save-btn-js" value="Сохранить"/>
     </div>
 </form>

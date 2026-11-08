@@ -6,13 +6,13 @@ use WebSK\Entity\EntityService;
 
 /**
  * Class ContentTypeService
- * @method ContentType getById($entity_id, $exception_if_not_loaded = true)
+ * @method ($exception_if_not_loaded is true ? ContentType : ContentType|null) getById(?int $entity_id, bool $exception_if_not_loaded = true)
  * @package WebSK\Skif\Content
  */
 class ContentTypeService extends EntityService
 {
     /** @var ContentTypeRepository */
-    protected $repository;
+    protected \WebSK\Entity\EntityRepository $repository;
 
     /**
      * @param string $type

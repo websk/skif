@@ -14,7 +14,7 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetReferenceSelect;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\Skif\Content\ContentTypeService;
 use WebSK\Skif\Content\Rubric;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 
 class AdminRubricListAjaxHandler extends BaseHandler
 {
@@ -22,10 +22,10 @@ class AdminRubricListAjaxHandler extends BaseHandler
     const string FILTER_CONTENT_TYPE_ID = 'content_type_id';
     const string FILTER_NAME = 'name';
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected ContentTypeService $content_type_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CRUD $crud_service;
 
     /**
@@ -53,7 +53,10 @@ class AdminRubricListAjaxHandler extends BaseHandler
                 ),
             ],
             [
-                new CRUDTableFilterEqualInvisible(self::FILTER_CONTENT_TYPE_ID, $content_type_obj->getId()),
+                new CRUDTableFilterEqualInvisible(
+                    self::FILTER_CONTENT_TYPE_ID,
+                    \WebSK\Skif\EntityId::toString($content_type_obj)
+                ),
                 new CRUDTableFilterLikeInline(self::FILTER_NAME, '', Rubric::_NAME, 'Название'),
             ],
             Rubric::_CREATED_AT_TS . ' DESC',

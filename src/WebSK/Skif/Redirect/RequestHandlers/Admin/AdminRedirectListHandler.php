@@ -17,7 +17,7 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTextWithLink;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
 use WebSK\Skif\Redirect\Redirect;
 use WebSK\Skif\SkifPath;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -31,7 +31,7 @@ class AdminRedirectListHandler extends BaseHandler
     const string FILTER_SRC = 'redirect_src';
     const string FILTER_DST = 'redirect_dst';
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CRUD $crud_service;
 
     /**

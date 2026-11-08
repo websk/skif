@@ -11,7 +11,7 @@ class BlockRepository extends EntityRepository
      * Массив Block Id в регионе
      * @param null|int $page_region_id
      * @param int $template_id
-     * @return array
+     * @return list<int>
      */
     public function findIdsArrByPageRegionId(?int $page_region_id, int $template_id): array
     {
@@ -39,7 +39,7 @@ class BlockRepository extends EntityRepository
     /**
      * Массив Block Id в теме
      * @param int $template_id
-     * @return array
+     * @return list<int>
      */
     public function findIdsArrByTemplateId(int $template_id): array
     {

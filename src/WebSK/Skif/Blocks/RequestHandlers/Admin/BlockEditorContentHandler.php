@@ -8,7 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Auth\User\RoleService;
 use WebSK\Skif\Blocks\BlockRoleService;
 use WebSK\Skif\SkifPath;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -17,10 +17,10 @@ class BlockEditorContentHandler extends BaseHandler
 {
     use BlockEditorPageTitleTrait;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected BlockRoleService $block_role_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected RoleService $role_service;
 
 

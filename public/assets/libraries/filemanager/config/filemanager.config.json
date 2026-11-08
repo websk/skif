@@ -1,5 +1,5 @@
 {
-    "_comment": "IMPORTANT : go to the wiki page to know about options configuration https://github.com/servocoder/RichFilemanager/wiki/Configuration-options",
+    "_comment": "Skif runtime configuration for RichFileManager 3.2.0",
     "options": {
         "theme": "default",
         "showTitleAttr": false,
@@ -93,79 +93,43 @@
             "lazyLoad": true,
             "showThumbs": true,
             "thumbMaxWidth": 100,
-            "extensions": [
-                "jpg",
-                "jpe",
-                "jpeg",
-                "gif",
-                "png",
-                "svg"
-            ]
+            "extensions": ["jpg", "jpe", "jpeg", "gif", "png", "svg"]
         },
         "video": {
             "enabled": true,
-            "extensions": [
-                "ogv",
-                "mp4",
-                "webm",
-                "m4v"
-            ],
+            "extensions": ["ogv", "mp4", "webm", "m4v"],
             "playerWidth": 400,
             "playerHeight": 222
         },
         "audio": {
             "enabled": true,
-            "extensions": [
-                "ogg",
-                "mp3",
-                "wav"
-            ]
+            "extensions": ["ogg", "mp3", "wav"]
         },
         "iframe": {
             "enabled": false,
-            "extensions": [
-                "htm",
-                "html"
-            ],
+            "extensions": ["htm", "html"],
             "readerWidth": "95%",
             "readerHeight": "600"
         },
         "opendoc": {
             "enabled": true,
-            "extensions": [
-                "pdf",
-                "odt",
-                "odp",
-                "ods"
-            ],
+            "extensions": ["pdf", "odt", "odp", "ods"],
             "readerWidth": "640",
             "readerHeight": "480"
         },
         "google": {
             "enabled": true,
-            "extensions": [
-                "doc",
-                "docx",
-                "xls",
-                "xlsx",
-                "ppt",
-                "pptx"
-            ],
+            "extensions": ["doc", "docx", "xls", "xlsx", "ppt", "pptx"],
             "readerWidth": "640",
             "readerHeight": "480"
         },
         "codeMirrorRenderer": {
             "enabled": false,
-            "extensions": [
-                "txt",
-                "csv"
-            ]
+            "extensions": ["txt", "csv"]
         },
         "markdownRenderer": {
             "enabled": false,
-            "extensions": [
-                "md"
-            ]
+            "extensions": ["md"]
         }
     },
     "editor": {
@@ -175,22 +139,17 @@
         "lineWrapping": true,
         "codeHighlight": true,
         "matchBrackets": true,
-        "extensions": [
-            "html",
-            "txt",
-            "csv",
-            "md"
-        ]
+        "extensions": ["html", "txt", "csv", "md"]
     },
     "customScrollbar": {
-    	"enabled": false,
-    	"theme": "inset-2-dark",
-    	"button": true
+        "enabled": false,
+        "theme": "inset-2-dark",
+        "button": true
     },
     "extras": {
         "extra_js": [],
         "extra_js_async": true
     },
-    "url": "https://github.com/servocoder/RichFilemanager",
-    "version": "2.7.6"
+    "url": "https://github.com/hkvstore/RichFilemanager",
+    "version": "3.2.0"
 }

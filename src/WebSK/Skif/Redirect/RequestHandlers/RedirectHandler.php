@@ -6,7 +6,7 @@ use Fig\Http\Message\StatusCodeInterface;
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\Redirect\Redirect;
 use WebSK\Skif\Redirect\RedirectServiceProvider;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Utils\Url;
 
 /**

@@ -12,56 +12,54 @@ use WebSK\Skif\SkifServiceProvider;
  */
 class PollServiceProvider
 {
-    /**
-     * @param ContainerInterface $container
-     */
-    public static function register(ContainerInterface $container): void
+    /** @param ContainerInterface&\ArrayAccess<string, mixed> $container */
+    public static function register(ContainerInterface&\ArrayAccess $container): void
     {
         /**
          * @param ContainerInterface $container
          * @return PollService
          */
-        $container->set(PollService::class, function (ContainerInterface $container) {
+        $container[PollService::class] = function (ContainerInterface $container) {
             return new PollService(
                 Poll::class,
                 $container->get(PollRepository::class),
                 CacheServiceProvider::getCacheService($container)
             );
-        });
+        };
 
         /**
          * @param ContainerInterface $container
          * @return PollRepository
          */
-        $container->set(PollRepository::class, function (ContainerInterface $container) {
+        $container[PollRepository::class] = function (ContainerInterface $container) {
             return new PollRepository(
                 Poll::class,
                 SkifServiceProvider::getDBService($container)
             );
-        });
+        };
 
         /**
          * @param ContainerInterface $container
          * @return PollQuestionService
          */
-        $container->set(PollQuestionService::class, function (ContainerInterface $container) {
+        $container[PollQuestionService::class] = function (ContainerInterface $container) {
             return new PollQuestionService(
                 PollQuestion::class,
                 $container->get(PollQuestionRepository::class),
                 CacheServiceProvider::getCacheService($container)
             );
-        });
+        };
 
         /**
          * @param ContainerInterface $container
          * @return PollQuestionRepository
          */
-        $container->set(PollQuestionRepository::class, function (ContainerInterface $container) {
+        $container[PollQuestionRepository::class] = function (ContainerInterface $container) {
             return new PollQuestionRepository(
                 PollQuestion::class,
                 SkifServiceProvider::getDBService($container)
             );
-        });
+        };
     }
 
     /**

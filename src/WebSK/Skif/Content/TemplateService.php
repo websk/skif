@@ -8,13 +8,13 @@ use WebSK\Views\ViewsPath;
 
 /**
  * Class TemplateService
- * @method Template getById($entity_id, $exception_if_not_loaded = true)
+ * @method ($exception_if_not_loaded is true ? Template : Template|null) getById(?int $entity_id, bool $exception_if_not_loaded = true)
  * @package WebSK\Skif\Content
  */
 class TemplateService extends EntityService
 {
     /** @var TemplateRepository */
-    protected $repository;
+    protected \WebSK\Entity\EntityRepository $repository;
 
     /**
      * @param string $name
@@ -64,6 +64,10 @@ class TemplateService extends EntityService
      */
     public function removeFromCache(InterfaceEntity $entity_obj): void
     {
+        if (!$entity_obj instanceof Template) {
+            throw new \InvalidArgumentException('TemplateService accepts only Template entities');
+        }
+
         $cache_key = $this->getTemplateIdByNameCacheKey($entity_obj->getName());
         $this->cache_service->delete($cache_key);
 

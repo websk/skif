@@ -9,11 +9,12 @@ use WebSK\Auth\AuthRoutes;
 use WebSK\Auth\User\User;
 use WebSK\Captcha\CaptchaRoutes;
 use WebSK\Skif\Comment\RequestHandlers\CommentCreateHandler;
-use WebSK\Slim\Router;
+use WebSK\Skif\Router;
+use WebSK\Utils\Sanitize;
 
 if ($no_add_comments_for_unregistered_users) {
     ?>
-    <div>
+    <div class="alert alert-info" role="status">
         Неавторизованные пользователи не могут оставлять комментарии.
         Пожалуйста <a href="<?php echo Router::urlFor(AuthRoutes::ROUTE_NAME_AUTH_LOGIN_FORM); ?>">войдит на сайт</a> или <a href="<?php echo Router::urlFor(AuthRoutes::ROUTE_NAME_AUTH_REGISTRATION_FORM); ?>">зарегистрируйтесь</a>.
     </div>
@@ -22,47 +23,40 @@ if ($no_add_comments_for_unregistered_users) {
 }
 
 ?>
-<form method="post" action="<?php echo Router::urlFor(CommentCreateHandler::class); ?>" id="comment_form" class="form-horizontal">
-    <div class="form-group">
-        <div class="col-md-12">
-            <label for="comment">Сообщение</label>
+<form method="post" action="<?php echo Router::urlFor(CommentCreateHandler::class); ?>" id="comment_form" class="card card-primary card-outline mb-3">
+    <div class="card-body">
+        <div class="mb-3">
+            <label for="comment" class="form-label">Сообщение</label>
             <textarea name="comment" id="comment" class="form-control" required></textarea>
         </div>
-    </div>
-    <?php
-    if (!$current_user_obj) {
-        ?>
-        <div class="form-group">
-            <label class="col-md-2">Имя</label>
-            <div class="col-md-10">
-                <input type="text" size="45" name="user_name" value="" class="form-control" required>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-2">E-mail</label>
-            <div class="col-md-10">
-                <input type="text" size="45" name="user_mail" value="" class="form-control">
-            </div>
-        </div>
         <?php
-        ?>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <img src="<?php echo Router::urlFor(CaptchaRoutes::ROUTE_NAME_CAPTCHA_GENERATE); ?>" border="0" alt="Введите этот защитный код">
-                    <input type="text" size="5" name="captcha" class="form-control">
-                    <span class="help-block">Введите код, изображенный на картинке</span>
+        if (!$current_user_obj) {
+            ?>
+            <div class="row mb-3">
+                <label for="comment-user-name" class="col-md-2 col-form-label">Имя</label>
+                <div class="col-md-10">
+                    <input id="comment-user-name" type="text" name="user_name" class="form-control" autocomplete="name" required>
                 </div>
             </div>
-        <?php
+            <div class="row mb-3">
+                <label for="comment-user-email" class="col-md-2 col-form-label">E-mail</label>
+                <div class="col-md-10">
+                    <input id="comment-user-email" type="email" name="user_mail" class="form-control" autocomplete="email">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="offset-md-2 col-md-10">
+                    <img src="<?php echo Router::urlFor(CaptchaRoutes::ROUTE_NAME_CAPTCHA_GENERATE); ?>" alt="Защитный код" class="d-block mb-2">
+                    <label for="comment-captcha" class="form-label">Введите код, изображённый на картинке</label>
+                    <input id="comment-captcha" type="text" name="captcha" class="form-control" autocomplete="off" required>
+                </div>
+            </div>
+            <?php
+        }
         ?>
-    <?php
-    }
-    ?>
-    <div class="form-group">
-        <div class="col-md-12">
-            <input type="hidden" name="url" value="<?php echo $url ?>">
-            <input type="submit" value="Отправить сообщение" class="btn btn-primary">
-        </div>
+    </div>
+    <div class="card-footer bg-transparent">
+        <input type="hidden" name="url" value="<?php echo Sanitize::sanitizeAttrValue($url); ?>">
+        <input type="submit" value="Отправить сообщение" class="btn btn-primary">
     </div>
 </form>
-<p></p>

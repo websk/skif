@@ -14,7 +14,7 @@ use WebSK\Skif\SiteMenu\RequestHandlers\AdminSiteMenuListHandler;
 class SiteMenuRoutes
 {
     /**
-     * @param RouteCollectorProxyInterface $route_collector_proxy
+     * @param RouteCollectorProxyInterface<\DI\Container> $route_collector_proxy
      */
     public static function registerAdmin(RouteCollectorProxyInterface $route_collector_proxy): void
     {
@@ -37,7 +37,7 @@ class SiteMenuRoutes
     }
 
     /**
-     * @param App $app
+     * @param App<\DI\Container> $app
      */
     public static function register(App $app): void
     {

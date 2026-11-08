@@ -11,7 +11,7 @@ use WebSK\Config\ConfWrapper;
 use WebSK\CRUD\CRUD;
 use WebSK\Skif\Comment\CommentRoutes;
 use WebSK\Skif\Comment\CommentService;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Views\PhpRender;
 
 /**
@@ -26,16 +26,16 @@ class CommentListHandler extends BaseHandler
 
     const int DEFAULT_PAGE = 1;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CommentService $comment_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected SessionService $session_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected UserService $user_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CRUD $crud_service;
 
     /**
@@ -45,7 +45,7 @@ class CommentListHandler extends BaseHandler
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $url = $request->getParam(self::PARAM_URL);
+        $url = \WebSK\CRUD\RequestParams::query($request, self::PARAM_URL);
 
         if (!$url) {
             return $response->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
@@ -63,7 +63,7 @@ class CommentListHandler extends BaseHandler
             ]
         );
 
-        $page = $request->getParam(self::PARAM_PAGE, self::DEFAULT_PAGE);
+        $page = \WebSK\CRUD\RequestParams::query($request, self::PARAM_PAGE, self::DEFAULT_PAGE);
 
         $comments_ids_arr = $this->comment_service->getCommentsIdsArrByUrl($url, $page);
 

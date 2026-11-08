@@ -11,7 +11,7 @@ use WebSK\CRUD\Table\Filters\CRUDTableFilterLikeInline;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetReferenceSelect;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\Skif\SiteMenu\SiteMenu;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 
 /**
  * Class AdminSiteMenuListAjaxHandler
@@ -21,7 +21,7 @@ class AdminSiteMenuListAjaxHandler extends BaseHandler
 {
     const string FILTER_SITE_MENU_NAME = 'site_menu_name';
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CRUD $crud_service;
 
     /**

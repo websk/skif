@@ -14,7 +14,7 @@ use WebSK\Utils\Sanitize;
 
 /**
  * Class CommentService
- * @method Comment getById($entity_id, $exception_if_not_loaded = true)
+ * @method ($exception_if_not_loaded is true ? Comment : Comment|null) getById(?int $entity_id, bool $exception_if_not_loaded = true)
  * @package WebSK\Skif\Comment
  */
 class CommentService extends EntityService
@@ -27,7 +27,7 @@ class CommentService extends EntityService
     const int DEFAULT_MESSAGE_TO_PAGE = 20;
 
     /** @var CommentRepository */
-    protected $repository;
+    protected \WebSK\Entity\EntityRepository $repository;
 
     protected UserService $user_service;
 
@@ -59,7 +59,7 @@ class CommentService extends EntityService
 
     /**
      * @param int $id
-     * @return array
+     * @return list<int>
      */
     public function getChildrenIdsArr(int $id): array
     {
@@ -68,9 +68,8 @@ class CommentService extends EntityService
 
     /**
      * @param string $url
-     * @param int $parent_id
      * @param int $page
-     * @return array
+     * @return list<int>
      */
     public function getCommentsIdsArrByUrl(string $url, int $page = 1): array
     {
@@ -94,6 +93,10 @@ class CommentService extends EntityService
      */
     public function beforeSave(InterfaceEntity $entity_obj): void
     {
+        if (!$entity_obj instanceof Comment) {
+            throw new \InvalidArgumentException('CommentService can save only Comment entities');
+        }
+
         $entity_obj->setUserId(Auth::getCurrentUserId());
 
         $url = $entity_obj->getUrl();
@@ -137,6 +140,10 @@ class CommentService extends EntityService
      */
     public function afterDelete(InterfaceEntity $entity_obj): void
     {
+        if (!$entity_obj instanceof Comment) {
+            throw new \InvalidArgumentException('CommentService can delete only Comment entities');
+        }
+
         $children_ids_arr = $this->getChildrenIdsArr($entity_obj->getId());
 
         foreach ($children_ids_arr as $children_comment_id) {

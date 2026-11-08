@@ -4,7 +4,7 @@
  */
 
 use WebSK\Skif\Comment\RequestHandlers\CommentListHandler;
-use WebSK\Slim\Router;
+use WebSK\Skif\Router;
 
 ?>
 <script type="text/javascript">

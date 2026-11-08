@@ -1,6 +1,10 @@
 .idea/
 node_modules/
+/playwright-report/
+/test-results/
 /config/config.php
 /public/files
 /vendor
+/var/cache/phpstan/
+/var/cache/phpunit/
 .ai

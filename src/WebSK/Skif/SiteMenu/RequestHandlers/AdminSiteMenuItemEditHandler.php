@@ -27,7 +27,7 @@ use WebSK\Skif\SiteMenu\SiteMenuItem;
 use WebSK\Skif\SiteMenu\SiteMenuItemService;
 use WebSK\Skif\SiteMenu\SiteMenuService;
 use WebSK\Skif\SkifPath;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\NavTabItemDTO;
 use WebSK\Views\PhpRender;
@@ -43,13 +43,11 @@ class AdminSiteMenuItemEditHandler extends BaseHandler
     const string FILTER_NAME_MENU_ID = 'menu_id';
     const string FILTER_NAME_SITE_MENU_ITEM_PARENT_ID = 'parent_id';
 
-    /** @var SiteMenuService */
     protected SiteMenuService $site_menu_service;
 
-    /** @var SiteMenuItemService */
     protected SiteMenuItemService $site_menu_item_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CRUD $crud_service;
 
     /**
@@ -183,8 +181,14 @@ class AdminSiteMenuItemEditHandler extends BaseHandler
                 new CRUDTableColumn('', new CRUDTableWidgetDelete())
             ],
             [
-                new CRUDTableFilterEqualInvisible(self::FILTER_NAME_MENU_ID, $site_menu_item_obj->getMenuId()),
-                new CRUDTableFilterEqualInvisible(self::FILTER_NAME_SITE_MENU_ITEM_PARENT_ID, $site_menu_item_id),
+                new CRUDTableFilterEqualInvisible(
+                    self::FILTER_NAME_MENU_ID,
+                    (string)$site_menu_item_obj->getMenuId()
+                ),
+                new CRUDTableFilterEqualInvisible(
+                    self::FILTER_NAME_SITE_MENU_ITEM_PARENT_ID,
+                    (string)$site_menu_item_id
+                ),
             ],
             SiteMenuItem::_WEIGHT
         );

@@ -36,7 +36,7 @@ class RubricRepository extends EntityRepository
 
     /**
      * @param int $content_type_id
-     * @return array
+     * @return list<int>
      */
     public function findIdsByContentTypeId(int $content_type_id): array
     {

@@ -10,7 +10,7 @@
 
 use WebSK\Skif\Content\Content;
 use WebSK\Skif\Content\ContentService;
-use WebSK\Skif\CKEditor\CKEditor;
+use WebSK\Skif\RichTextEditor\RichTextEditor;
 use WebSK\Image\ImageManager;
 use WebSK\Logger\LoggerRender;
 use WebSK\Skif\Content\ContentTypeService;
@@ -18,7 +18,8 @@ use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentDeleteImageAction;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentSaveHandler;
 use WebSK\Skif\Content\RubricService;
 use WebSK\Skif\Content\TemplateService;
-use WebSK\Slim\Router;
+use WebSK\Skif\Router;
+use WebSK\Utils\Sanitize;
 use WebSK\Views\PhpRender;
 
 $content_type_obj = $content_type_service->getByType($content_type);
@@ -26,28 +27,10 @@ $content_type_obj = $content_type_service->getByType($content_type);
 $content_obj = $content_service->getById($content_id);
 
 $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->getId());
+$published_at = $content_obj->getPublishedAt();
+$unpublished_at = $content_obj->getUnpublishedAt();
 ?>
-<script type="text/javascript">
-    $(function () {
-        $('#created_at').datetimepicker({
-            locale: 'ru',
-            format: 'YYYY-MM-DD HH:mm:ss'
-        });
-        $('#published_at').datetimepicker({
-            locale: 'ru',
-            format: 'YYYY-MM-DD'
-        });
-        $('#unpublished_at').datetimepicker({
-            locale: 'ru',
-            format: 'YYYY-MM-DD'
-        });
-    });
-
-    $('#contentTab a').click(function (e) {
-        e.preventDefault();
-        $(this).tab('show');
-    });
-
+<script>
     $().ready(function () {
         $("#content_edit_form").validate({
             ignore: ":hidden",
@@ -61,70 +44,67 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
     })
 </script>
 
-<form class="form-horizontal" id="content_edit_form"
+<form class="" id="content_edit_form"
       action="<?php echo Router::urlFor(AdminContentSaveHandler::class, ['content_type' => $content_type, 'content_id' => $content_id]); ?>" enctype="multipart/form-data"
       method="post">
     <div role="tabpanel">
 
         <ul id="contentTab" class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#content" id="content-tab" role="tab" data-toggle="tab"
-                                                      aria-controls="content">Контент</a></li>
-            <li role="presentation"><a href="#publish" role="tab" id="publish-tab" data-toggle="tab"
-                                       aria-controls="publish">Настройки публикации</a></li>
-            <li role="presentation"><a href="#rubrics" role="tab" id="rubrics-tab" data-toggle="tab"
-                                       aria-controls="rubrics">Рубрики</a></li>
-            <li role="presentation"><a href="#seo" role="tab" id="seo-tab" data-toggle="tab" aria-controls="seo">SEO</a></li>
-            <li role="presentation"><a href="#photo" role="tab" id="photo-tab" data-toggle="tab" aria-controls="photo">Фото</a></li>
-            <li role="presentation"><a href="<?php echo $content_obj->getUrl(); ?>" role="tab" target="_blank">Просмотр&nbsp;<sup><span
-                                class="glyphicon glyphicon-new-window"></span></sup></a></li>
-            <li role="presentation"><a href="<?php echo LoggerRender::getLoggerLinkForEntityObj($content_obj); ?>"
-                                       target="_blank">Журнал&nbsp;<sup><span
-                                class="glyphicon glyphicon-new-window"></span></sup></a></li>
+            <li class="nav-item" role="presentation"><button class="nav-link active" id="content-tab" type="button" role="tab" data-bs-toggle="tab" data-bs-target="#content" aria-controls="content" aria-selected="true">Контент</button></li>
+            <li class="nav-item" role="presentation"><button class="nav-link" id="publish-tab" type="button" role="tab" data-bs-toggle="tab" data-bs-target="#publish" aria-controls="publish" aria-selected="false">Настройки публикации</button></li>
+            <li class="nav-item" role="presentation"><button class="nav-link" id="rubrics-tab" type="button" role="tab" data-bs-toggle="tab" data-bs-target="#rubrics" aria-controls="rubrics" aria-selected="false">Рубрики</button></li>
+            <li class="nav-item" role="presentation"><button class="nav-link" id="seo-tab" type="button" role="tab" data-bs-toggle="tab" data-bs-target="#seo" aria-controls="seo" aria-selected="false">SEO</button></li>
+            <li class="nav-item" role="presentation"><button class="nav-link" id="photo-tab" type="button" role="tab" data-bs-toggle="tab" data-bs-target="#photo" aria-controls="photo" aria-selected="false">Фото</button></li>
+            <li class="nav-item"><a class="nav-link" href="<?php echo Sanitize::sanitizeAttrValue($content_obj->getUrl()); ?>" target="_blank" rel="noopener">Просмотр&nbsp;<sup><span
+                                class="fa fa-external-link"></span></sup></a></li>
+            <li class="nav-item"><a class="nav-link" href="<?php echo LoggerRender::getLoggerLinkForEntityObj($content_obj); ?>"
+                                       target="_blank" rel="noopener">Журнал&nbsp;<sup><span
+                                class="fa fa-external-link"></span></sup></a></li>
         </ul>
         <p></p>
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="content">
-                <div class="form-group">
-                    <label for="title" class="col-md-2 control-label">Заголовок</label>
+        <div class="tab-content pt-3">
+            <div role="tabpanel" class="tab-pane fade show active" id="content" aria-labelledby="content-tab" tabindex="0">
+                <div class="row mb-3">
+                    <label for="title" class="col-md-2 col-form-label">Заголовок</label>
 
                     <div class="col-md-10">
                         <input type="text" class="form-control" id="title" name="title"
-                               value="<?php echo $content_obj->getTitle(); ?>" required>
+                               value="<?php echo Sanitize::sanitizeAttrValue($content_obj->getTitle()); ?>" required>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="annotation" class="col-md-2 control-label">Анонс</label>
+                <div class="row mb-3">
+                    <label for="annotation" class="col-md-2 col-form-label">Анонс</label>
 
                     <div class="col-md-10">
                         <?php
-                        echo CKEditor::createCKEditor('annotation', $content_obj->getAnnotation(), 150, Content::CONTENT_FILES_DIR);
+                        echo RichTextEditor::create('annotation', $content_obj->getAnnotation(), 150, Content::CONTENT_FILES_DIR);
                         ?>
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="row mb-3">
                     <div class="col-md-12">
                         <?php
-                        echo CKEditor::createCKEditor('body', $content_obj->getBody(), 500, Content::CONTENT_FILES_DIR);
+                        echo RichTextEditor::create('body', $content_obj->getBody(), 500, Content::CONTENT_FILES_DIR);
                         ?>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="template_id" class="col-md-2 control-label">Шаблон</label>
+                <div class="row mb-3">
+                    <label for="template_id" class="col-md-2 col-form-label">Шаблон</label>
 
                     <div class="col-md-10">
                         <?php
                         $templates_ids_arr = $template_service->getAllIdsArrByIdAsc();
                         ?>
-                        <select id="template_id" name="template_id" class="form-control">
+                        <select id="template_id" name="template_id" class="form-select">
                             <option value="">Шаблон по-умолчанию</option>
                             <?php
                             foreach ($templates_ids_arr as $template_id) {
                                 $template_obj = $template_service->getById($template_id);
                                 ?>
-                                <option value="<?php echo $template_id; ?>"<?php echo(($content_obj->getTemplateId() == $template_id) ? ' selected' : ''); ?>><?php echo $template_obj->getTitle(); ?></option>
+                                <option value="<?php echo $template_id; ?>"<?php echo(($content_obj->getTemplateId() == $template_id) ? ' selected' : ''); ?>><?php echo Sanitize::sanitizeTagContent($template_obj->getTitle()); ?></option>
                                 <?php
                             }
                             ?>
@@ -132,8 +112,8 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="image_file" class="col-md-2 control-label">Изображение</label>
+                <div class="row mb-3">
+                    <label for="image_file" class="col-md-2 col-form-label">Изображение</label>
                     <div class="col-md-10">
                         <?php
                         if ($content_obj->getImage()) {
@@ -142,108 +122,107 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
                             ?>
                             <script type="text/javascript">
                                 $(document).ready(function () {
-                                    $("a#image").fancybox({});
+                                GLightbox({selector: '[data-glightbox]'});
                                 });
                             </script>
 
-                            <div class="form-group" id="image_area">
-                                <a id="image"
+                            <div class="mb-3" id="image_area">
+                                <a id="image" data-glightbox
                                    href="<?php echo ImageManager::getImgUrlByFileName($image_path) . '?d=' . time(); ?>">
-                                    <img src="<?php echo ImageManager::getImgUrlByPreset($image_path,'120_auto') . '?d=' . time(); ?>" class="img-responsive img-thumbnail">
+                                    <img src="<?php echo ImageManager::getImgUrlByPreset($image_path,'120_auto') . '?d=' . time(); ?>" class="img-fluid img-thumbnail">
                                 </a>
                                 <a href="#" id="image_delete">Удалить</a>
                             </div>
                             <?php
                         }
                         ?>
-                        <input type="file" name="image_file" id="image_file">
+                        <input class="form-control" type="file" name="image_file" id="image_file" accept="image/*">
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="publish">
-                <div class="form-group">
-                    <label for="created_at" class="col-md-2 control-label">Дата создания</label>
+            <div role="tabpanel" class="tab-pane fade" id="publish" aria-labelledby="publish-tab" tabindex="0">
+                <div class="row mb-3">
+                    <label for="created_at" class="col-md-2 col-form-label">Дата создания</label>
 
                     <div class="col-md-10">
                         <div class="input-group">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            <input type="text" class="form-control" id="created_at" name="created_at"
-                                   value="<?php echo($content_obj->getId() ? date('Y-m-d H:i:s', $content_obj->getCreatedAtTs()) : date('Y-m-d H:i:s')); ?>">
+                            <span class="input-group-text"><span class="fa fa-calendar"></span></span>
+                            <input type="datetime-local" class="form-control" id="created_at" name="created_at"
+                                   step="1"
+                                   value="<?php echo($content_obj->getId() ? date('Y-m-d\TH:i:s', $content_obj->getCreatedAtTs()) : date('Y-m-d\TH:i:s')); ?>">
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="url" class="col-md-2 control-label">Адрес материала, URL</label>
+                <div class="row mb-3">
+                    <label for="url" class="col-md-2 col-form-label">Адрес материала, URL</label>
 
                     <div class="col-md-10">
                         <input type="text" class="form-control" id="url" name="url"
-                               value="<?php echo $content_obj->getUrl(); ?>"<?php echo($content_obj->isPublished() ? ' readonly="readonly"' : ''); ?>>
+                               value="<?php echo Sanitize::sanitizeAttrValue($content_obj->getUrl()); ?>"<?php echo($content_obj->isPublished() ? ' readonly' : ''); ?>>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="published_at" class="col-md-2 control-label">Показывать с</label>
+                <div class="row mb-3">
+                    <label for="published_at" class="col-md-2 col-form-label">Показывать с</label>
 
                     <div class="col-md-10">
                         <div class="input-group">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            <input type="text" class="form-control" id="published_at" name="published_at"
-                                   value="<?php echo $content_obj->getPublishedAt(); ?>">
+                            <span class="input-group-text"><span class="fa fa-calendar"></span></span>
+                            <input type="date" class="form-control" id="published_at" name="published_at"
+                                   value="<?php echo $published_at ? substr($published_at, 0, 10) : ''; ?>">
                         </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="unpublished_at" class="col-md-2 control-label">Показывать по</label>
+                <div class="row mb-3">
+                    <label for="unpublished_at" class="col-md-2 col-form-label">Показывать по</label>
 
                     <div class="col-md-10">
                         <div class="input-group">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            <input type="text" class="form-control" id="unpublished_at" name="unpublished_at"
-                                   value="<?php echo $content_obj->getUnpublishedAt(); ?>">
+                            <span class="input-group-text"><span class="fa fa-calendar"></span></span>
+                            <input type="date" class="form-control" id="unpublished_at" name="unpublished_at"
+                                   value="<?php echo $unpublished_at ? substr($unpublished_at, 0, 10) : ''; ?>">
                         </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox"
+                <div class="row mb-3">
+                    <div class="offset-md-2 col-md-10">
+                        <div class="form-check">
+                            <input class="form-check-input" id="is_published" type="checkbox"
                                        name="is_published"<?php echo($content_obj->isPublished() ? ' checked' : ''); ?>
                                        value="1">
-                                Опубликовано
-                            </label>
+                            <label class="form-check-label" for="is_published">Опубликовано</label>
                         </div>
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="rubrics">
-                <div class="form-group">
-                    <label for="rubrics_arr" class="col-md-2 control-label">Рубрики</label>
+            <div role="tabpanel" class="tab-pane fade" id="rubrics" aria-labelledby="rubrics-tab" tabindex="0">
+                <div class="row mb-3">
+                    <label for="rubrics_arr" class="col-md-2 col-form-label">Рубрики</label>
                     <div class="col-md-10">
-                        <select id="rubrics_arr" name="rubrics_arr[]" multiple="multiple" class="form-control">
+                        <select id="rubrics_arr" name="rubrics_arr[]" multiple class="form-select">
                             <?php
                             foreach ($rubric_ids_arr as $rubric_id) {
                                 $rubric_obj = $rubric_service->getById($rubric_id);
                                 ?>
-                                <option value="<?php echo $rubric_obj->getId(); ?>"<?php echo (($content_obj->getId() && $content_service->hasRubricId($content_obj, $rubric_id)) ? ' selected' : ''); ?>><?php echo $rubric_obj->getName(); ?></option>
+                                <option value="<?php echo $rubric_obj->getId(); ?>"<?php echo (($content_obj->getId() && $content_service->hasRubricId($content_obj, $rubric_id)) ? ' selected' : ''); ?>><?php echo Sanitize::sanitizeTagContent($rubric_obj->getName()); ?></option>
                                 <?php
                             }
                             ?>
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="main_rubric" class="col-md-2 control-label">Главная рубрика</label>
+                <div class="row mb-3">
+                    <label for="main_rubric" class="col-md-2 col-form-label">Главная рубрика</label>
                     <div class="col-md-10">
-                        <select id="main_rubric" name="main_rubric" class="form-control">
+                        <select id="main_rubric" name="main_rubric" class="form-select">
                             <option value=""></option>
                             <?php
                             foreach ($rubric_ids_arr as $rubric_id) {
                                 $rubric_obj = $rubric_service->getById($rubric_id);
                                 ?>
-                                <option value="<?php echo $rubric_obj->getId(); ?>"<?php echo($rubric_id == $content_obj->getMainRubricId() ? ' selected' : ''); ?>><?php echo $rubric_obj->getName(); ?></option>
+                                <option value="<?php echo $rubric_obj->getId(); ?>"<?php echo($rubric_id == $content_obj->getMainRubricId() ? ' selected' : ''); ?>><?php echo Sanitize::sanitizeTagContent($rubric_obj->getName()); ?></option>
                                 <?php
                             }
                             ?>
@@ -251,29 +230,29 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="seo">
-                <div class="form-group">
-                    <label for="description" class="col-md-2 control-label">Описание</label>
+            <div role="tabpanel" class="tab-pane fade" id="seo" aria-labelledby="seo-tab" tabindex="0">
+                <div class="row mb-3">
+                    <label for="description" class="col-md-2 col-form-label">Описание</label>
 
                     <div class="col-md-10">
                         <input type="text" class="form-control" id="description" name="description"
-                               value="<?php echo $content_obj->getDescription(); ?>">
+                               value="<?php echo Sanitize::sanitizeAttrValue($content_obj->getDescription()); ?>">
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="keywords" class="col-md-2 control-label">Ключевые слова</label>
+                <div class="row mb-3">
+                    <label for="keywords" class="col-md-2 col-form-label">Ключевые слова</label>
 
                     <div class="col-md-10">
                         <input type="text" class="form-control" id="keywords" name="keywords"
-                               value="<?php echo $content_obj->getKeywords(); ?>">
+                               value="<?php echo Sanitize::sanitizeAttrValue($content_obj->getKeywords()); ?>">
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="photo">
-                <div class="col-md-offset-1 col-md-11">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
+            <div role="tabpanel" class="tab-pane fade" id="photo" aria-labelledby="photo-tab" tabindex="0">
+                <div class="offset-md-1 col-md-11">
+                    <div class="card">
+                        <div class="card-body">
                             <?php echo PhpRender::renderLocalTemplate(
                                 'content_photo_form_edit.tpl.php',
                                 [
@@ -290,8 +269,8 @@ $rubric_ids_arr = $rubric_service->getIdsArrByContentTypeId($content_type_obj->g
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
+    <div class="row mb-3">
+        <div class="offset-md-2 col-md-10">
             <input type="submit" class="btn btn-primary" value="Сохранить изменения">
         </div>
     </div>

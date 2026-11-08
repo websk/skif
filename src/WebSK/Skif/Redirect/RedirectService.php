@@ -5,12 +5,12 @@ namespace WebSK\Skif\Redirect;
 use WebSK\Auth\Auth;
 use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
-use WebSK\Logger\Logger;
+use WebSK\Skif\Logger;
 use WebSK\Utils\FullObjectId;
 
 /**
  * Class RedirectService
- * @method Redirect getById($entity_id, $exception_if_not_loaded = true)
+ * @method ($exception_if_not_loaded is true ? Redirect : Redirect|null) getById(?int $entity_id, bool $exception_if_not_loaded = true)
  * @package WebSK\Skif\Redirect
  */
 class RedirectService extends EntityService
@@ -20,12 +20,12 @@ class RedirectService extends EntityService
 
 
     /** @var RedirectRepository */
-    protected $repository;
+    protected \WebSK\Entity\EntityRepository $repository;
 
     /**
      * @param string $src
      * @param int $kind
-     * @return array
+     * @return list<int>
      */
     public function getIdsArrBySrcAndKind(string $src, int $kind): array
     {
@@ -33,7 +33,7 @@ class RedirectService extends EntityService
     }
 
     /**
-     * @return array
+     * @return list<int>
      */
     public function getRegexpIdsArr(): array
     {
@@ -57,6 +57,10 @@ class RedirectService extends EntityService
      */
     public function afterSave(InterfaceEntity $entity_obj): void
     {
+        if (!$entity_obj instanceof Redirect) {
+            throw new \InvalidArgumentException('RedirectService can save only Redirect entities');
+        }
+
         if ($entity_obj->getKind() == Redirect::REDIRECT_KIND_REGEXP) {
             $cache_key = self::REGEXP_IDS_CACHE_KEY;
             $this->cache_service->delete($cache_key);
@@ -72,6 +76,10 @@ class RedirectService extends EntityService
      */
     public function afterDelete(InterfaceEntity $entity_obj): void
     {
+        if (!$entity_obj instanceof Redirect) {
+            throw new \InvalidArgumentException('RedirectService can delete only Redirect entities');
+        }
+
         if ($entity_obj->getKind() == Redirect::REDIRECT_KIND_REGEXP) {
             $cache_key = self::REGEXP_IDS_CACHE_KEY;
             $this->cache_service->delete($cache_key);

@@ -14,7 +14,7 @@ class RedirectRepository extends EntityRepository
     /**
      * @param string $src
      * @param int $kind
-     * @return array
+     * @return list<int>
      */
     public function findIdsBySrcAndKind(string $src, int $kind): array
     {
@@ -31,7 +31,7 @@ class RedirectRepository extends EntityRepository
 
     /**
      * @param int $kind
-     * @return array
+     * @return list<int>
      */
     public function findIdsByKind(int $kind): array
     {

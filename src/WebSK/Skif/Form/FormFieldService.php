@@ -5,22 +5,22 @@ namespace WebSK\Skif\Form;
 use WebSK\Auth\Auth;
 use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
-use WebSK\Logger\Logger;
+use WebSK\Skif\Logger;
 use WebSK\Utils\FullObjectId;
 
 /**
  * Class FormFieldService
- * @method FormField getById($entity_id, $exception_if_not_loaded = true)
+ * @method ($exception_if_not_loaded is true ? FormField : FormField|null) getById(?int $entity_id, bool $exception_if_not_loaded = true)
  * @package WebSK\Skif\Form
  */
 class FormFieldService extends EntityService
 {
     /** @var FormFieldRepository */
-    protected $repository;
+    protected \WebSK\Entity\EntityRepository $repository;
 
     /**
      * @param int $form_id
-     * @return array
+     * @return list<int>
      */
     public function getIdsArrByFormId(int $form_id): array
     {

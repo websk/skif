@@ -1,37 +1,41 @@
 {
   "name": "websk_skif",
-  "engineStrict": true,
+  "private": true,
+  "type": "module",
   "engines": {
-    "node": ">=14.17.0 <14.18",
-    "npm": ">=7.12.0 <7.13"
+    "node": ">=24 <25",
+    "npm": ">=11 <12"
   },
-  "version": "2.0.0",
   "dependencies": {
-    "@fancyapps/fancybox": "3.5.7",
-    "ace-builds": "1.2.8",
-    "admin-lte": "2.3.5",
-    "blueimp-file-upload": "10.7.0",
-    "bootstrap": "3.4.1",
-    "ckeditor4": "4.22.1",
-    "eonasdan-bootstrap-datetimepicker": "4.17.49",
-    "flmngr": "^2.0.13",
-    "font-awesome": "4.7.0",
-    "ionicons": "2.0.1",
-    "jquery": "2.2.4",
-    "jquery-ui": "1.13.2",
-    "jquery-validation": "1.20.0",
-    "metismenu": "1.1.3",
-    "moment": "2.29.4",
-    "respond.js": "1.4.2"
-  },
-  "devDependencies": {
-    "copy-webpack-plugin": "^8.1.0",
-    "webpack": "5.98.0",
-    "webpack-cli": "4.6.0"
+    "@fortawesome/fontawesome-free": "7.3.1",
+    "@hkvstore/rich-filemanager": "3.2.0",
+    "ace-builds": "1.45.0",
+    "admin-lte": "4.10.0",
+    "blueimp-file-upload": "10.32.0",
+    "bootstrap": "5.3.8",
+    "glightbox": "3.3.1",
+    "jodit": "4.18.4",
+    "jquery": "3.7.1",
+    "jquery-ui": "1.14.2",
+    "jquery-validation": "1.22.1",
+    "medium-editor": "5.23.3",
+    "tokenize2": "https://github.com/dragonofmercy/Tokenize2/archive/refs/tags/1.3.5.tar.gz"
   },
   "scripts": {
-    "build": "webpack"
+    "build": "node scripts/build-assets.mjs",
+    "lint:js": "eslint eslint.config.js playwright.config.mjs tests/browser public/assets/scripts resources/frontend scripts",
+    "check:contracts": "node scripts/check-frontend-contracts.mjs",
+    "check:assets": "node scripts/build-assets.mjs --check",
+    "check": "npm run lint:js && npm run check:contracts && npm run check:assets",
+    "test:e2e": "playwright test",
+    "test:e2e:install": "playwright install chromium",
+    "audit:production": "npm audit --omit=dev --audit-level=moderate",
+    "audit:high": "npm audit --audit-level=high"
   },
   "author": "support@websk.ru",
-  "license": "WebSK"
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "eslint": "10.13.0"
+  }
 }

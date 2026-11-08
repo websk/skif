@@ -5,12 +5,12 @@ namespace WebSK\Skif\SiteMenu;
 use WebSK\Auth\Auth;
 use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
-use WebSK\Logger\Logger;
+use WebSK\Skif\Logger;
 use WebSK\Utils\FullObjectId;
 
 /**
  * Class SiteMenuService
- * @method SiteMenu getById($entity_id, $exception_if_not_loaded = true)
+ * @method ($exception_if_not_loaded is true ? SiteMenu : SiteMenu|null) getById(?int $entity_id, bool $exception_if_not_loaded = true)
  * @package WebSK\Skif\SiteMenu
  */
 class SiteMenuService extends EntityService
@@ -20,6 +20,10 @@ class SiteMenuService extends EntityService
      */
     public function beforeSave(InterfaceEntity $entity_obj): void
     {
+        if (!$entity_obj instanceof SiteMenu) {
+            throw new \InvalidArgumentException('SiteMenuService can save only SiteMenu entities');
+        }
+
         $url = $entity_obj->getUrl();
         if ($url) {
             $entity_obj->setUrl('/' . ltrim($url, '/'));

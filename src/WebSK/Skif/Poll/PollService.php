@@ -5,12 +5,12 @@ namespace WebSK\Skif\Poll;
 use WebSK\Auth\Auth;
 use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
-use WebSK\Logger\Logger;
+use WebSK\Skif\Logger;
 use WebSK\Utils\FullObjectId;
 
 /**
  * Class PollService
- * @method Poll getById($entity_id, $exception_if_not_loaded = true)
+ * @method ($exception_if_not_loaded is true ? Poll : Poll|null) getById(?int $entity_id, bool $exception_if_not_loaded = true)
  * @package WebSK\Skif\Poll
  */
 class PollService extends EntityService
@@ -21,6 +21,10 @@ class PollService extends EntityService
      */
     public function beforeSave(InterfaceEntity $entity_obj): void
     {
+        if (!$entity_obj instanceof Poll) {
+            throw new \InvalidArgumentException('PollService can save only Poll entities');
+        }
+
         if (!$entity_obj->getPublishedAt()) {
             $entity_obj->setPublishedAt(date('Y-m-d H:i:s'));
         }

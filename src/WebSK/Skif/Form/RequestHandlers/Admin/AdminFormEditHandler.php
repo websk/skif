@@ -24,7 +24,7 @@ use WebSK\Skif\Form\Form;
 use WebSK\Skif\Form\FormField;
 use WebSK\Skif\Form\FormService;
 use WebSK\Skif\SkifPath;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\NavTabItemDTO;
@@ -38,10 +38,10 @@ class AdminFormEditHandler extends BaseHandler
 {
     const string FILTER_NAME_FORM_ID = 'form_id';
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected FormService $form_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CRUD $crud_service;
 
     /**
@@ -125,7 +125,7 @@ class AdminFormEditHandler extends BaseHandler
                 new CRUDTableColumn('', new CRUDTableWidgetDelete())
             ],
             [
-                new CRUDTableFilterEqualInvisible(self::FILTER_NAME_FORM_ID, $form_id),
+                new CRUDTableFilterEqualInvisible(self::FILTER_NAME_FORM_ID, (string)$form_id),
             ],
             FormField::_WEIGHT . ' DESC'
         );

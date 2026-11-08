@@ -7,7 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Image\ImageManager;
 use WebSK\Skif\Content\ContentPhotoService;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Slim\Response;
 
 /**
@@ -17,7 +17,7 @@ use WebSK\Slim\Response;
 class ContentPhotoDeleteHandler extends BaseHandler
 {
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected ContentPhotoService $content_photo_service;
 
     /**

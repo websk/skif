@@ -13,7 +13,7 @@ class CommentRepository extends EntityRepository
 {
     /**
      * @param int $parent_id
-     * @return array
+     * @return list<int>
      */
     public function findIdsByParentId(int $parent_id): array
     {
@@ -31,7 +31,7 @@ class CommentRepository extends EntityRepository
      * @param string $url
      * @param int $offset
      * @param int $page_size
-     * @return array
+     * @return list<int>
      */
     public function findIdsByUrl(string $url, int $offset = 0, int $page_size = 20): array
     {

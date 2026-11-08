@@ -4,6 +4,7 @@
  */
 
 use WebSK\Auth\Auth;
+use WebSK\Utils\Sanitize;
 use WebSK\Utils\Url;
 use WebSK\Views\NavTabItemDTO;
 
@@ -17,18 +18,19 @@ if (!Auth::currentUserIsAdmin()) {
 
 $current_url_no_query = Url::getUriNoQueryString();
 ?>
-<div>
-    <ul class="nav nav-tabs">
-        <li role="presentation"><a href="/admin"><i class="fa fa-wrench"></i></a></li>
+<nav class="mb-3" aria-label="Действия редактора">
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item"><a class="nav-link" href="/admin" aria-label="Администрирование"><i class="fa fa-wrench" aria-hidden="true"></i></a></li>
         <?php
         foreach ($nav_tabs_dto_arr as $nav_tab_item_dto) {
             ?>
-            <li role="presentation" <?php echo (str_contains($current_url_no_query, $nav_tab_item_dto->getUrl()) ? ' class="active"' : '') ?>>
-                <a href="<?php echo $nav_tab_item_dto->getUrl(); ?>"<?php echo $nav_tab_item_dto->getTarget() ? 'target="' . $nav_tab_item_dto->getTarget() . '"' : ''; ?>><?php echo $nav_tab_item_dto->getName(); ?></a>
+            <?php $is_active = str_contains($current_url_no_query, $nav_tab_item_dto->getUrl()); ?>
+            <li class="nav-item">
+                <a class="nav-link<?php echo $is_active ? ' active' : ''; ?>" href="<?php echo Sanitize::sanitizeAttrValue($nav_tab_item_dto->getUrl()); ?>"<?php echo $nav_tab_item_dto->getTarget() ? ' target="' . Sanitize::sanitizeAttrValue($nav_tab_item_dto->getTarget()) . '" rel="noopener"' : ''; ?><?php echo $is_active ? ' aria-current="page"' : ''; ?>><?php echo Sanitize::sanitizeTagContent($nav_tab_item_dto->getName()); ?></a>
             </li>
             <?php
         }
         ?>
     </ul>
-</div>
+</nav>
 

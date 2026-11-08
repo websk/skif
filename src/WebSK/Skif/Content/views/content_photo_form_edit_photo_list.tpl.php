@@ -6,6 +6,7 @@
 
 use WebSK\Image\ImageManager;
 use WebSK\Skif\Content\ContentPhotoService;
+use WebSK\Utils\Sanitize;
 
 $content_photo_ids_arr = $content_photo_service->getIdsArrByContentId($content_id);
 
@@ -20,26 +21,26 @@ foreach ($content_photo_ids_arr as $content_photo_id) {
         $image_default_add_class = ' text-danger';
     }
     ?>
-    <div style="margin-bottom: 10px">
-        <a data-fancybox="gallery"
-           href="<?php echo ImageManager::getImgUrlByFileName($content_photo_obj->getPhotoPath()) ?>"
-           class="grouped_elements">
-            <img src="<?php echo ImageManager::getImgUrlByPreset($content_photo_obj->getPhotoPath(),
-                '160_auto') ?>" class="img-responsive img-thumbnail">
+    <div class="mb-3">
+        <a data-gallery="content-photos" data-glightbox
+           href="<?php echo Sanitize::sanitizeAttrValue(ImageManager::getImgUrlByFileName($content_photo_obj->getPhotoPath())); ?>"
+           class="content-photo-lightbox">
+            <img src="<?php echo Sanitize::sanitizeAttrValue(ImageManager::getImgUrlByPreset($content_photo_obj->getPhotoPath(),
+                '160_auto')); ?>" alt="" class="img-fluid img-thumbnail">
         </a><br>
-        <a class="image_delete" data-content-photo-id="<?php echo $content_photo_id; ?>" title="Удалить фотографию">Удалить</a>
-        / <a class="image_default<?php echo $image_default_add_class; ?>"
+        <button type="button" class="btn btn-link image_delete p-0" data-content-photo-id="<?php echo $content_photo_id; ?>" title="Удалить фотографию">Удалить</button>
+        / <button type="button" class="btn btn-link image_default p-0<?php echo $image_default_add_class; ?>"
              data-content-photo-id="<?php echo $content_photo_id; ?>"
-             title="Использовать фотографию по-умолчанию">По умолчанию</a>
+             title="Использовать фотографию по умолчанию">По умолчанию</button>
     </div>
     <?php
 }
 ?>
 <script>
-    $("a.image_delete").click(function () {
+    $(".image_delete").on('click', function () {
         ajaxDeleteImage($(this).data('content-photo-id'));
     });
-    $("a.image_default").click(function () {
+    $(".image_default").on('click', function () {
         ajaxSetDefaultImage($(this).data('content-photo-id'));
     });
 </script>

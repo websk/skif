@@ -8,7 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Config\ConfWrapper;
 use WebSK\Skif\Poll\PollQuestionService;
 use WebSK\Skif\Poll\PollService;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -19,10 +19,10 @@ use WebSK\Views\PhpRender;
  */
 class PollViewHandler extends BaseHandler
 {
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected PollService $poll_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected PollQuestionService $poll_question_service;
 
     /**

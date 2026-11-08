@@ -19,7 +19,7 @@ use WebSK\Skif\Poll\RequestHandlers\PollVoteHandler;
 class PollRoutes
 {
     /**
-     * @param RouteCollectorProxyInterface $route_collector_proxy
+     * @param RouteCollectorProxyInterface<\DI\Container> $route_collector_proxy
      */
     public static function registerAdmin(RouteCollectorProxyInterface $route_collector_proxy): void
     {
@@ -39,7 +39,7 @@ class PollRoutes
     }
 
     /**
-     * @param App $app
+     * @param App<\DI\Container> $app
      */
     public static function register(App $app): void
     {

@@ -15,12 +15,10 @@ class BlockServiceProvider
 
     const string PARAM_EXPIRE = 'expire';
 
-    /**
-     * @param ContainerInterface $container
-     */
-    public static function register(ContainerInterface $container): void
+    /** @param ContainerInterface&\ArrayAccess<string, mixed> $container */
+    public static function register(ContainerInterface&\ArrayAccess $container): void
     {
-        $container->set(BlockService::class, function (ContainerInterface $container) {
+        $container[BlockService::class] = function (ContainerInterface $container) {
             return new BlockService(
                 Block::class,
                 $container->get(BlockRepository::class),
@@ -29,43 +27,43 @@ class BlockServiceProvider
                 $container->get(UserService::class),
                 $container->get(self::SETTINGS_CONTAINER_ID . '.' . self::PARAM_CACHE . '.' . self::PARAM_EXPIRE)
             );
-        });
+        };
 
-        $container->set(BlockRepository::class, function (ContainerInterface $container) {
+        $container[BlockRepository::class] = function (ContainerInterface $container) {
             return new BlockRepository(
                 Block::class,
                 SkifServiceProvider::getDBService($container)
             );
-        });
+        };
 
-        $container->set(BlockRoleService::class, function (ContainerInterface $container) {
+        $container[BlockRoleService::class] = function (ContainerInterface $container) {
             return new BlockRoleService(
                 BlockRole::class,
                 $container->get(BlockRoleRepository::class),
                 CacheServiceProvider::getCacheService($container)
             );
-        });
+        };
 
-        $container->set(BlockRoleRepository::class, function (ContainerInterface $container) {
+        $container[BlockRoleRepository::class] = function (ContainerInterface $container) {
             return new BlockRoleRepository(
                 BlockRole::class,
                 SkifServiceProvider::getDBService($container)
             );
-        });
+        };
 
-        $container->set(PageRegionService::class, function (ContainerInterface $container) {
+        $container[PageRegionService::class] = function (ContainerInterface $container) {
             return new PageRegionService(
                 PageRegion::class,
                 $container->get(PageRegionRepository::class),
                 CacheServiceProvider::getCacheService($container)
             );
-        });
+        };
 
-        $container->set(PageRegionRepository::class, function (ContainerInterface $container) {
+        $container[PageRegionRepository::class] = function (ContainerInterface $container) {
             return new PageRegionRepository(
                 PageRegion::class,
                 SkifServiceProvider::getDBService($container)
             );
-        });
+        };
     }
 }

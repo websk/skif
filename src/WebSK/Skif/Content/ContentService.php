@@ -8,7 +8,7 @@ use WebSK\Entity\EntityRepository;
 use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Image\ImageManager;
-use WebSK\Logger\Logger;
+use WebSK\Skif\Logger;
 use WebSK\Skif\UniqueUrl;
 use WebSK\Utils\Assert;
 use WebSK\Utils\FullObjectId;
@@ -16,15 +16,16 @@ use WebSK\Utils\Transliteration;
 
 /**
  * Class ContentService
- * @method Content getById($entity_id, $exception_if_not_loaded = true)
+ * @method ($exception_if_not_loaded is true ? Content : Content|null) getById(?int $entity_id, bool $exception_if_not_loaded = true)
  * @package WebSK\Skif\Content
  */
 class ContentService extends EntityService
 {
     /** @var ContentRepository */
-    protected $repository;
+    protected \WebSK\Entity\EntityRepository $repository;
 
     /** @var array */
+    /** @var array<string, int|null> */
     protected array $ids_by_urls_cache = [];
 
     protected ContentTypeService $content_type_service;
@@ -74,6 +75,10 @@ class ContentService extends EntityService
      */
     public function canDelete(InterfaceEntity $entity_obj, string &$message): bool
     {
+        if (!$entity_obj instanceof Content) {
+            throw new \InvalidArgumentException('ContentService can delete only Content entities');
+        }
+
         $this->content_rubric_service->deleteByContentId($entity_obj->getId());
 
         $this->deleteImage($entity_obj);
@@ -86,6 +91,10 @@ class ContentService extends EntityService
      */
     public function beforeSave(InterfaceEntity $entity_obj): void
     {
+        if (!$entity_obj instanceof Content) {
+            throw new \InvalidArgumentException('ContentService can save only Content entities');
+        }
+
         $current_time = date('Y-m-d H:i:s');
 
         $entity_obj->setLastModifiedAt($current_time);
@@ -132,7 +141,7 @@ class ContentService extends EntityService
 
     /**
      * @param Content $content_obj
-     * @param array $param_rubrics_ids_arr
+     * @param list<int> $param_rubrics_ids_arr
      * @return bool
      */
     public function hasRubrics(Content $content_obj, array $param_rubrics_ids_arr): bool
@@ -168,7 +177,7 @@ class ContentService extends EntityService
      * @param string $content_type
      * @param int $limit_to_page
      * @param int $page
-     * @return array
+     * @return list<int>
      */
     public function getIdsArrByType(string $content_type, int $limit_to_page = 0, int $page = 1): array
     {
@@ -192,7 +201,7 @@ class ContentService extends EntityService
      * @param string $content_type
      * @param int $limit_to_page
      * @param int $page
-     * @return array
+     * @return list<int>
      */
     public function getPublishedIdsArrByType(string $content_type, int $limit_to_page = 0, int $page = 1): array
     {
@@ -314,7 +323,7 @@ class ContentService extends EntityService
 
     /**
      * @param string $title
-     * @return array
+     * @return list<int>
      */
     public function getIdsArrByTitle(string $title): array
     {

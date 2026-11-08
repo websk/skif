@@ -22,7 +22,7 @@ use WebSK\Skif\Poll\Poll;
 use WebSK\Skif\Poll\PollQuestion;
 use WebSK\Skif\Poll\PollService;
 use WebSK\Skif\SkifPath;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\NavTabItemDTO;
@@ -36,10 +36,10 @@ class AdminPollEditHandler extends BaseHandler
 {
     const string FILTER_NAME_POLL_ID = 'poll_id';
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected PollService $poll_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CRUD $crud_service;
 
     /**
@@ -115,7 +115,7 @@ class AdminPollEditHandler extends BaseHandler
                 new CRUDTableColumn('', new CRUDTableWidgetDelete())
             ],
             [
-                new CRUDTableFilterEqualInvisible(self::FILTER_NAME_POLL_ID, $poll_id),
+                new CRUDTableFilterEqualInvisible(self::FILTER_NAME_POLL_ID, (string)$poll_id),
             ],
             PollQuestion::_WEIGHT
         );

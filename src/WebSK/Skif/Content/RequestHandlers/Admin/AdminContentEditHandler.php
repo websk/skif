@@ -10,23 +10,23 @@ use WebSK\Skif\Content\ContentTypeService;
 use WebSK\Skif\Content\RubricService;
 use WebSK\Skif\Content\TemplateService;
 use WebSK\Skif\SkifPath;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
 
 class AdminContentEditHandler extends BaseHandler
 {
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected ContentTypeService $content_type_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected ContentService $content_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected RubricService $rubric_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected TemplateService $template_service;
 
     /**

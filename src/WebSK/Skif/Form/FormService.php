@@ -5,7 +5,7 @@ namespace WebSK\Skif\Form;
 use WebSK\Auth\Auth;
 use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
-use WebSK\Logger\Logger;
+use WebSK\Skif\Logger;
 use WebSK\Skif\UniqueUrl;
 use WebSK\Utils\Assert;
 use WebSK\Utils\FullObjectId;
@@ -13,15 +13,16 @@ use WebSK\Utils\Transliteration;
 
 /**
  * Class FormService
- * @method Form getById($entity_id, $exception_if_not_loaded = true)
+ * @method ($exception_if_not_loaded is true ? Form : Form|null) getById(?int $entity_id, bool $exception_if_not_loaded = true)
  * @package WebSK\Skif\Form
  */
 class FormService extends EntityService
 {
 
     /** @var FormRepository */
-    protected $repository;
+    protected \WebSK\Entity\EntityRepository $repository;
 
+    /** @var array<string, int|null> */
     protected array $ids_by_urls_cache = [];
 
     /**
@@ -46,6 +47,10 @@ class FormService extends EntityService
      */
     public function beforeSave(InterfaceEntity $entity_obj): void
     {
+        if (!$entity_obj instanceof Form) {
+            throw new \InvalidArgumentException('FormService can save only Form entities');
+        }
+
         if ($entity_obj->getUrl()) {
             $url = '/' . ltrim($entity_obj->getUrl(), '/');
 

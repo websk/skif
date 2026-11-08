@@ -2,6 +2,7 @@
 
 namespace WebSK\Skif;
 
+use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Slim\Request;
 
 /**
@@ -22,7 +23,8 @@ class Pager
      */
     public static function getPageOffset(): int
     {
-        $page_offset = (int)Request::getParam(self::PARAM_PAGE_OFFSET, 0);
+        $query_params = self::getQueryParams();
+        $page_offset = (int)($query_params[self::PARAM_PAGE_OFFSET] ?? 0);
 
         if ($page_offset < 0) {
             $page_offset = 0;
@@ -36,7 +38,8 @@ class Pager
      */
     public static function getPageNumber(): int
     {
-        $page_number = (int)Request::getParam(self::PARAM_PAGE_NUMBER, 1);
+        $query_params = self::getQueryParams();
+        $page_number = (int)($query_params[self::PARAM_PAGE_NUMBER] ?? 1);
 
         if ($page_number < 1) {
             return 1;
@@ -51,7 +54,8 @@ class Pager
      */
     public static function getPageSize(int $default_page_size = self::PAGE_SIZE_DEFAULT_VALUE): int
     {
-        $page_size = (int)Request::getParam(self::PARAM_PAGE_SIZE, $default_page_size);
+        $query_params = self::getQueryParams();
+        $page_size = (int)($query_params[self::PARAM_PAGE_SIZE] ?? $default_page_size);
 
         if ($page_size < 1) {
             return $default_page_size;
@@ -73,6 +77,17 @@ class Pager
         $page_size = self::getPageSize();
 
         return $start - $page_size;
+    }
+
+    /** @return array<string, mixed> */
+    private static function getQueryParams(): array
+    {
+        $request = Request::self();
+        if (!$request instanceof ServerRequestInterface) {
+            throw new \UnexpectedValueException('Request facade did not resolve a PSR-7 server request');
+        }
+
+        return $request->getQueryParams();
     }
 
     /**
@@ -105,13 +120,13 @@ class Pager
             return '';
         }
 
-        $html = '<ul class="pagination pagination-sm">';
+        $html = '<nav aria-label="Навигация по страницам"><ul class="pagination pagination-sm mb-0">';
 
         for ($i = 1; $i <= $all; $i++) {
-            $html .= '<li ' . ($i == $current_page ? 'class="active"' : '') . '><a href="' . $url . $i . '">' . $i . '</a></li>';
+            $html .= '<li class="page-item' . ($i == $current_page ? ' active' : '') . '"><a class="page-link" href="' . $url . $i . '"' . ($i == $current_page ? ' aria-current="page"' : '') . '>' . $i . '</a></li>';
         }
 
-        $html .= '</ul>';
+        $html .= '</ul></nav>';
 
         return $html;
     }

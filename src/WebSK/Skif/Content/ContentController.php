@@ -15,7 +15,7 @@ class ContentController implements InterfaceSitemapController
 {
 
     /**
-     * @return array
+     * @return list<array{url: string}>
      */
     public function getUrlsForSitemap(): array
     {

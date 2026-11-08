@@ -11,7 +11,7 @@ use WebSK\CRUD\Table\Filters\CRUDTableFilterLikeInline;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetReferenceSelect;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\Skif\Form\Form;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 
 /**
  * Class AdminFormListAjaxHandler
@@ -21,7 +21,7 @@ class AdminFormListAjaxHandler extends BaseHandler
 {
     const string FILTER_TITLE = 'title';
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CRUD $crud_service;
 
     /**

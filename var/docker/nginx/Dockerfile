@@ -12,9 +12,6 @@ RUN apk update \
     && apk add --no-cache curl \
     && apk add --no-cache ca-certificates
 
-ADD rootCA.pem /usr/local/share/ca-certificates/rootCA.pem
-RUN update-ca-certificates
-
 RUN set -x ; \
     addgroup -g 82 -S www-data ; \
     adduser -u 82 -D -S -G www-data www-data && exit 0 ; exit 1

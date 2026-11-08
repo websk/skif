@@ -5,22 +5,22 @@ namespace WebSK\Skif\Poll;
 use WebSK\Auth\Auth;
 use WebSK\Entity\InterfaceEntity;
 use WebSK\Entity\WeightService;
-use WebSK\Logger\Logger;
+use WebSK\Skif\Logger;
 use WebSK\Utils\FullObjectId;
 
 /**
  * Class PollQuestionService
- * @method PollQuestion getById($entity_id, $exception_if_not_loaded = true)
+ * @method ($exception_if_not_loaded is true ? PollQuestion : PollQuestion|null) getById(?int $entity_id, bool $exception_if_not_loaded = true)
  * @package WebSK\Skif\Poll
  */
 class PollQuestionService extends WeightService
 {
     /** @var PollQuestionRepository */
-    protected $repository;
+    protected \WebSK\Entity\EntityRepository $repository;
 
     /**
      * @param int $poll_id
-     * @return array
+     * @return list<int>
      */
     public function getIdsArrByPollId(int $poll_id): array
     {
@@ -78,6 +78,10 @@ class PollQuestionService extends WeightService
      */
     public function beforeSave(InterfaceEntity $entity_obj): void
     {
+        if (!$entity_obj instanceof PollQuestion) {
+            throw new \InvalidArgumentException('PollQuestionService can save only PollQuestion entities');
+        }
+
         $this->initWeight(
             $entity_obj,
             [

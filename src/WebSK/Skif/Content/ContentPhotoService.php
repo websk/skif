@@ -6,17 +6,17 @@ use WebSK\Entity\EntityService;
 
 /**
  * Class ContentPhotoService
- * @method ContentPhoto getById($entity_id, $exception_if_not_loaded = true)
+ * @method ($exception_if_not_loaded is true ? ContentPhoto : ContentPhoto|null) getById(?int $entity_id, bool $exception_if_not_loaded = true)
  * @package WebSK\Skif\Content
  */
 class ContentPhotoService extends EntityService
 {
     /** @var ContentPhotoRepository */
-    protected $repository;
+    protected \WebSK\Entity\EntityRepository $repository;
 
     /**
      * @param int $content_id
-     * @return array|null
+     * @return list<int>
      */
     public function getIdsArrByContentId(int $content_id): array
     {

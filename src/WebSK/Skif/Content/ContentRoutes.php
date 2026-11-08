@@ -36,14 +36,7 @@ use WebSK\Skif\Content\RequestHandlers\ContentInRubricListHandler;
 class ContentRoutes
 {
     /**
-     * @param App $app
-     */
-    public static function register(App $app)
-    {
-    }
-
-    /**
-     * @param App $app
+     * @param App<\DI\Container> $app
      */
     public static function registerSimpleRoute(App $app): void
     {
@@ -53,7 +46,7 @@ class ContentRoutes
     }
 
     /**
-     * @param RouteCollectorProxyInterface $route_collector_proxy
+     * @param RouteCollectorProxyInterface<\DI\Container> $route_collector_proxy
      */
     public static function registerAdmin(RouteCollectorProxyInterface $route_collector_proxy): void
     {

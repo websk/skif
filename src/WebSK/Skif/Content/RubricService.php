@@ -12,16 +12,17 @@ use WebSK\Utils\Transliteration;
 
 /**
  * Class RubricService
- * @method Rubric getById($entity_id, $exception_if_not_loaded = true)
+ * @method ($exception_if_not_loaded is true ? Rubric : Rubric|null) getById(?int $entity_id, bool $exception_if_not_loaded = true)
  * @package WebSK\Skif\Content
  */
 class RubricService extends EntityService
 {
     /** @var RubricRepository */
-    protected $repository;
+    protected \WebSK\Entity\EntityRepository $repository;
 
     protected ContentTypeService $content_type_service;
 
+    /** @var array<string, int|null> */
     protected array $ids_by_urls_cache = [];
 
     /**
@@ -47,6 +48,10 @@ class RubricService extends EntityService
      */
     public function beforeSave(InterfaceEntity $entity_obj): void
     {
+        if (!$entity_obj instanceof Rubric) {
+            throw new \InvalidArgumentException('RubricService can save only Rubric entities');
+        }
+
         $url = $entity_obj->getUrl();
 
         if ($url) {
@@ -67,7 +72,7 @@ class RubricService extends EntityService
 
     /**
      * @param int $content_type_id
-     * @return array
+     * @return list<int>
      */
     public function getIdsArrByContentTypeId(int $content_type_id): array
     {

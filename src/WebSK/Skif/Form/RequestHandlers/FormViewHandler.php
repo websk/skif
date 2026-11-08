@@ -11,7 +11,7 @@ use WebSK\Config\ConfWrapper;
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\Form\FormService;
 use WebSK\Skif\Form\FormServiceProvider;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Url;
 use WebSK\Views\LayoutDTO;
@@ -23,7 +23,7 @@ use WebSK\Views\PhpRender;
  */
 class FormViewHandler extends BaseHandler
 {
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected FormService $form_service;
 
     /**
@@ -69,7 +69,7 @@ class FormViewHandler extends BaseHandler
     }
 
 
-    public function viewAction()
+    public function viewAction(): ?string
     {
         $form_service = FormServiceProvider::getFormService($this->container);
 
@@ -106,5 +106,7 @@ class FormViewHandler extends BaseHandler
                 'content' => $content,
             )
         );
+
+        return null;
     }
 }

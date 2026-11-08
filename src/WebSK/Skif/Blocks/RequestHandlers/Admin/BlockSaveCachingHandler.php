@@ -6,12 +6,12 @@ use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Skif\Blocks\BlockService;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Utils\Messages;
 
 class BlockSaveCachingHandler extends BaseHandler
 {
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected BlockService $block_service;
 
     /**
@@ -24,7 +24,7 @@ class BlockSaveCachingHandler extends BaseHandler
     {
         $block_obj = $this->block_service->getById($block_id);
 
-        $block_obj->setCache($request->getParam('cache'));
+        $block_obj->setCache(\WebSK\CRUD\RequestParams::parsedBody($request, 'cache'));
         $this->block_service->save($block_obj);
 
         Messages::setMessage('Изменения сохранены');

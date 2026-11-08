@@ -19,22 +19,20 @@ class SkifServiceProvider
     const string SETTINGS_CONTAINER_ID = 'settings';
     const string PARAM_DB = 'db';
 
-    /**
-     * @param ContainerInterface $container
-     */
-    public static function register(ContainerInterface $container): void
+    /** @param ContainerInterface&\ArrayAccess<string, mixed> $container */
+    public static function register(ContainerInterface&\ArrayAccess $container): void
     {
         /**
          * @param ContainerInterface $container
          * @return DBService
          */
-        $container->set(self::DB_SERVICE_CONTAINER_ID, function (ContainerInterface $container) {
+        $container[self::DB_SERVICE_CONTAINER_ID] = function (ContainerInterface $container) {
             $db_config = $container->get(
                 self::SETTINGS_CONTAINER_ID . '.' . self::PARAM_DB . '.' . self::DB_ID
             );
 
             return DBServiceFactory::factoryMySQL($db_config);
-        });
+        };
     }
 
     /**

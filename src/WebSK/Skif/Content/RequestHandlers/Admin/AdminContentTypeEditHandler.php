@@ -13,7 +13,7 @@ use WebSK\Skif\Content\ContentType;
 use WebSK\Skif\Content\ContentTypeService;
 use WebSK\Skif\Content\Template;
 use WebSK\Skif\SkifPath;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -24,10 +24,10 @@ use WebSK\Views\PhpRender;
  */
 class AdminContentTypeEditHandler extends BaseHandler
 {
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected ContentTypeService $content_type_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CRUD $crud_service;
 
     /**

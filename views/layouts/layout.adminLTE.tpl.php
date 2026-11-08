@@ -14,6 +14,7 @@ use WebSK\Skif\SkifApp;
 use WebSK\Skif\SkifPath;
 use WebSK\Slim\Router;
 use WebSK\Utils\Messages;
+use WebSK\Utils\Sanitize;
 use WebSK\Utils\Url;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
@@ -30,7 +31,6 @@ if (!isset($layout_dto)) {
      * @var string $content
      * @var array $breadcrumbs_arr
      */
-
     $layout_dto = new LayoutDTO();
     $layout_dto->setTitle($title);
     $layout_dto->setContentHtml($content);
@@ -38,7 +38,6 @@ if (!isset($layout_dto)) {
     $breadcrumbs_dto_arr = [
         new BreadcrumbItemDTO('Главная', Router::urlFor(SkifApp::ROUTE_NAME_ADMIN))
     ];
-
     if (!empty($breadcrumbs_arr)) {
         foreach ($breadcrumbs_arr as $breadcrumb_title => $breadcrumb_link) {
             $breadcrumbs_dto_arr[] = new BreadcrumbItemDTO($breadcrumb_title, $breadcrumb_link);
@@ -53,311 +52,175 @@ $user_photo_path = ImageManager::getImgUrlByPreset(
     ImagePresets::IMAGE_PRESET_200_auto
 );
 $user_email = $user_obj->getEmail();
-
 $user_edit_uri = Router::urlFor(UserRoutes::ROUTE_NAME_ADMIN_USER_EDIT, ['user_id' => $user_obj->getId()]);
-$user_logout_url = Router::urlFor(AuthRoutes::ROUTE_NAME_AUTH_LOGOUT, [], ['destination' => Router::urlFor(SkifApp::ROUTE_NAME_ADMIN)]);
-
+$user_logout_url = Router::urlFor(
+    AuthRoutes::ROUTE_NAME_AUTH_LOGOUT,
+    [],
+    ['destination' => Router::urlFor(SkifApp::ROUTE_NAME_ADMIN)]
+);
+$content_html = $layout_dto->getContentHtml();
+$needs_rich_text_editor = str_contains($content_html, 'data-skif-rich-text-editor');
+$needs_glightbox = str_contains($content_html, 'data-glightbox') || str_contains($content_html, 'GLightbox(');
 ?>
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="ru" data-lte-color-mode="off">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-
-    <title>СКИФ. <?php echo $layout_dto->getTitle() ?></title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>СКИФ. <?php echo Sanitize::sanitizeTagContent($layout_dto->getTitle()); ?></title>
     <link href="<?php echo SkifPath::wrapAssetsVersion('/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon">
 
-    <!-- jQuery -->
     <script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery/jquery.min.js'); ?>"></script>
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-ui/themes/base/jquery-ui.min.css'); ?>"
-          rel="stylesheet" type="text/css">
-    <script type="text/javascript"
-            src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-ui/jquery-ui.min.js'); ?>"></script>
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-ui/themes/base/jquery-ui.min.css'); ?>" rel="stylesheet">
+    <script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-ui/jquery-ui.min.js'); ?>"></script>
 
-    <!-- Bootstrap -->
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>"
-          rel="stylesheet" type="text/css">
-    <script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap/js/bootstrap.min.js'); ?>"></script>
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/admin-lte/css/AdminLTE.min.css'); ?>" rel="stylesheet">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/crud/crud.css'); ?>" rel="stylesheet">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/font-awesome/css/all.min.css'); ?>" rel="stylesheet">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/font-awesome/css/v4-shims.min.css'); ?>" rel="stylesheet">
+    <link href="<?php echo SkifPath::wrapAssetsVersion('/styles/skif.css'); ?>" rel="stylesheet">
 
-    <!-- MetisMenu CSS -->
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/metisMenu/metisMenu.min.css'); ?>" rel="stylesheet"
-          type="text/css">
-
-    <!-- Ionicons -->
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/ionicons/ionicons.min.css'); ?>" rel="stylesheet"
-          type="text/css">
-
-    <!-- AdminLTE -->
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/admin-lte/css/AdminLTE.min.css'); ?>"
-          rel="stylesheet" type="text/css">
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/admin-lte/css/skin-blue.min.css'); ?>"
-          rel="stylesheet" type="text/css">
-
-    <!-- Font Awesome -->
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/font-awesome/css/font-awesome.min.css'); ?>"
-          rel="stylesheet" type="text/css">
-
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/styles/skif.css'); ?>" rel="stylesheet" type="text/css">
-
-    <!-- Jquery Validate -->
-    <script type="text/javascript"
-            src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-validation/jquery.validate.js'); ?>"></script>
-
-    <!-- Fancybox -->
-    <script type="text/javascript"
-            src="<?php echo SkifPath::wrapAssetsVersion('/libraries/fancybox/jquery.fancybox.min.js"'); ?>></script>
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/fancybox/jquery.fancybox.min.css'); ?>"
-    rel="stylesheet" type="text/css">
-
-    <!-- Moment -->
-    <script type="text/javascript"
-            src="<?php echo SkifPath::wrapAssetsVersion('/libraries/moment/moment.min.js'); ?>"></script>
-    <script type="text/javascript"
-            src="<?php echo SkifPath::wrapAssetsVersion('/libraries/moment/moment.ru.min.js'); ?>"></script>
-    <script type="text/javascript"
-            src="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); ?>"></script>
-
-    <!-- Bootstrap datetimepicker -->
-    <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>"
-          rel="stylesheet" type="text/css">
-
-    <!-- CKEditor -->
-    <script type="text/javascript"
-            src="<?php echo SkifPath::wrapAssetsVersion('/libraries/ckeditor/ckeditor.js'); ?>"></script>
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/html5shiv/html5shiv.min.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo SkifPath::wrapAssetsVersion('/libraries/respond.js/respond.min.js'); ?>"></script>
-    <![endif]-->
+    <script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jquery-validation/jquery.validate.js'); ?>"></script>
+    <?php if ($needs_glightbox) { ?>
+        <script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/glightbox/glightbox.min.js'); ?>"></script>
+        <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/glightbox/glightbox.min.css'); ?>" rel="stylesheet">
+    <?php } ?>
+    <?php if ($needs_rich_text_editor) { ?>
+        <script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/jodit/jodit.min.js'); ?>"></script>
+        <link href="<?php echo SkifPath::wrapAssetsVersion('/libraries/jodit/jodit.min.css'); ?>" rel="stylesheet">
+        <script src="<?php echo SkifPath::wrapAssetsVersion('/scripts/rich-text-editor.js'); ?>"></script>
+    <?php } ?>
 </head>
-<body class="hold-transition skin-blue sidebar-mini ">
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+<a class="skip-link" href="#main-content">Перейти к содержимому</a>
+<div class="app-wrapper">
+    <nav class="app-header navbar navbar-expand bg-body border-bottom shadow-sm">
+        <div class="container-fluid">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <button class="nav-link border-0 bg-transparent" data-lte-toggle="sidebar" type="button" aria-label="Открыть меню">
+                        <i class="fa fa-bars" aria-hidden="true"></i>
+                    </button>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown user-menu">
+                    <button type="button" class="nav-link dropdown-toggle border-0 bg-transparent" data-bs-toggle="dropdown" aria-expanded="false">
+                        <?php if ($user_obj->getPhoto()) { ?>
+                            <img src="<?php echo Sanitize::sanitizeAttrValue($user_photo_path); ?>" class="user-image rounded-circle shadow" alt="">
+                        <?php } else { ?>
+                            <i class="fa fa-user-circle fa-lg me-1" aria-hidden="true"></i>
+                        <?php } ?>
+                        <span class="d-none d-md-inline"><?php echo Sanitize::sanitizeTagContent($user_name); ?></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                        <li class="user-header text-bg-primary">
+                            <?php if ($user_obj->getPhoto()) { ?>
+                                <img src="<?php echo Sanitize::sanitizeAttrValue($user_photo_path); ?>" class="rounded-circle shadow" alt="">
+                            <?php } else { ?>
+                                <i class="fa fa-user-circle fa-5x" aria-hidden="true"></i>
+                            <?php } ?>
+                            <p><?php echo Sanitize::sanitizeTagContent($user_name); ?><small><?php echo Sanitize::sanitizeTagContent($user_email); ?></small></p>
+                        </li>
+                        <li class="user-body text-center">
+                            <a href="/" target="_blank" rel="noopener">
+                                <i class="fa fa-external-link" aria-hidden="true"></i> Перейти на сайт
+                            </a>
+                        </li>
+                        <li class="user-footer">
+                            <a href="<?php echo Sanitize::sanitizeAttrValue($user_edit_uri); ?>" class="btn btn-outline-secondary">Мой профиль</a>
+                            <a href="<?php echo Sanitize::sanitizeAttrValue($user_logout_url); ?>" class="btn btn-outline-danger float-end">Выход</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-<div class="wrapper">
-
-    <!-- Main Header -->
-    <header class="main-header">
-
-        <!-- Logo -->
-        <a href="<?php echo Router::urlFor(SkifApp::ROUTE_NAME_ADMIN); ?>" class="logo">
-            <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini">
-                <span class="logo-lg" title="Система управления сайтом СКИФ / websk.ru"><b>СК</b></span>
-            </span>
-            <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg">
-                <span class="logo-lg" title="Система управления сайтом СКИФ / websk.ru"><b>СКИФ</b></span>
-            </span>
-        </a>
-
-        <!-- Header Navbar -->
-        <nav class="navbar navbar-static-top" role="navigation">
-            <!-- Sidebar toggle button-->
-            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                <span class="sr-only">Toggle navigation</span>
+    <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+        <div class="sidebar-brand">
+            <a href="<?php echo Router::urlFor(SkifApp::ROUTE_NAME_ADMIN); ?>" class="brand-link"
+               aria-label="СКИФ" title="Система управления сайтом СКИФ / websk.ru">
+                <img src="<?php echo SkifPath::wrapAssetsVersion('images/admin/skif_small_logo_adminlte.png'); ?>"
+                     alt="СКИФ" class="brand-image">
             </a>
-            <!-- Navbar Right Menu -->
-            <div class="navbar-custom-menu">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown user user-menu">
-                        <!-- Menu Toggle Button -->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <!-- The user image in the navbar-->
-                            <?php
-                            if ($user_obj->getPhoto()) {
-                                ?>
-                                <img src="<?php echo $user_photo_path ?>" class="user-image" alt="User Image">
-                                <?php
-                            } else {
-                                ?>
-                                <svg viewBox="0 0 50 50" width="25px" height="25px" style="display: block;"
-                                     class="user-image">
-                                    <circle cx="25" cy="25" fill="none" r="24" stroke="#ffffff"
-                                            stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>
-                                    <rect fill="none" height="50" width="50"/>
-                                    <path fill="#ffffff"
-                                          d="M29.933,35.528c-0.146-1.612-0.09-2.737-0.09-4.21c0.73-0.383,2.038-2.825,2.259-4.888c0.574-0.047,1.479-0.607,1.744-2.818  c0.143-1.187-0.425-1.855-0.771-2.065c0.934-2.809,2.874-11.499-3.588-12.397c-0.665-1.168-2.368-1.759-4.581-1.759  c-8.854,0.163-9.922,6.686-7.981,14.156c-0.345,0.21-0.913,0.878-0.771,2.065c0.266,2.211,1.17,2.771,1.744,2.818  c0.22,2.062,1.58,4.505,2.312,4.888c0,1.473,0.055,2.598-0.091,4.21c-1.261,3.39-7.737,3.655-11.473,6.924  c3.906,3.933,10.236,6.746,16.916,6.746s14.532-5.274,15.839-6.713C37.688,39.186,31.197,38.93,29.933,35.528z"/>
-                                </svg>
-                                <?php
-                            }
-                            ?>
-                            <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                            <span class="hidden-xs"><?php echo $user_name; ?></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <!-- The user image in the menu -->
-                            <li class="user-header">
-                                <?php
-                                if ($user_obj->getPhoto()) {
-                                    ?>
-                                    <img src="<?php echo $user_photo_path ?>" class="img-circle" alt="User Image">
-                                    <?php
-                                } else {
-                                    ?>
-                                    <svg viewBox="0 0 50 50" width="90px" height="90px"
-                                         style="display: block;margin: auto;">
-                                        <circle cx="25" cy="25" fill="none" r="24" stroke="#ffffff"
-                                                stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>
-                                        <rect fill="none" height="50" width="50"/>
-                                        <path fill="#ffffff"
-                                              d="M29.933,35.528c-0.146-1.612-0.09-2.737-0.09-4.21c0.73-0.383,2.038-2.825,2.259-4.888c0.574-0.047,1.479-0.607,1.744-2.818  c0.143-1.187-0.425-1.855-0.771-2.065c0.934-2.809,2.874-11.499-3.588-12.397c-0.665-1.168-2.368-1.759-4.581-1.759  c-8.854,0.163-9.922,6.686-7.981,14.156c-0.345,0.21-0.913,0.878-0.771,2.065c0.266,2.211,1.17,2.771,1.744,2.818  c0.22,2.062,1.58,4.505,2.312,4.888c0,1.473,0.055,2.598-0.091,4.21c-1.261,3.39-7.737,3.655-11.473,6.924  c3.906,3.933,10.236,6.746,16.916,6.746s14.532-5.274,15.839-6.713C37.688,39.186,31.197,38.93,29.933,35.528z"/>
-                                    </svg>
-                                    <?php
-                                }
-                                ?>
-                                <p><?= $user_name ?></p>
-                            </li>
-
-                            <li class="user-body">
-                                <div class="row">
-                                    <div class="col-xs-12 text-center">
-                                        <a href="/" target="_blank"><span class="glyphicon glyphicon-new-window"></span>
-                                            Перейти на сайт</a>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <!-- Menu Footer-->
-                            <li class="user-footer">
-                                <div class="pull-left">
-                                    <a href="<?php echo $user_edit_uri ?>" class="btn btn-default btn-flat">Мой
-                                        профиль</a>
-                                </div>
-                                <div class="pull-right">
-                                    <a href="<?php echo $user_logout_url ?>"
-                                       class="btn btn-default btn-flat">Выход</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+        </div>
+        <div class="sidebar-search">
+            <label for="admin-sidebar-search" class="visually-hidden">Поиск по меню</label>
+            <input id="admin-sidebar-search" class="form-control" type="search"
+                   placeholder="Поиск по меню…" autocomplete="off"
+                   aria-controls="admin-sidebar-menu" data-lte-toggle="sidebar-search">
+            <div class="small text-body-secondary mt-2 px-2" data-lte-search-empty hidden>
+                Ничего не найдено
             </div>
-        </nav>
-
-    </header>
-    <!-- Left side column. contains the logo and sidebar -->
-    <aside class="main-sidebar">
-
-        <!-- sidebar: style can be found in sidebar.less -->
-        <section class="sidebar">
-
-            <!-- Sidebar user panel (optional) -->
-            <div class="user-panel">
-                <div class="pull-left image">
-                    <?php
-                    if ($user_obj->getPhoto()) {
-                        ?>
-                        <img src="<?php echo $user_photo_path ?>" class="img-circle" alt="User Image">
-                        <?php
-                    } else {
-                        ?>
-                        <svg viewBox="0 0 50 50" width="45px" height="45px" style="display: block;"
-                             class="user-ico">
-                            <circle cx="25" cy="25" fill="none" r="24" stroke="#b8c7ce" stroke-linecap="round"
-                                    stroke-miterlimit="10" stroke-width="2"/>
-                            <rect fill="none" height="50" width="50"/>
-                            <path fill="#b8c7ce"
-                                  d="M29.933,35.528c-0.146-1.612-0.09-2.737-0.09-4.21c0.73-0.383,2.038-2.825,2.259-4.888c0.574-0.047,1.479-0.607,1.744-2.818  c0.143-1.187-0.425-1.855-0.771-2.065c0.934-2.809,2.874-11.499-3.588-12.397c-0.665-1.168-2.368-1.759-4.581-1.759  c-8.854,0.163-9.922,6.686-7.981,14.156c-0.345,0.21-0.913,0.878-0.771,2.065c0.266,2.211,1.17,2.771,1.744,2.818  c0.22,2.062,1.58,4.505,2.312,4.888c0,1.473,0.055,2.598-0.091,4.21c-1.261,3.39-7.737,3.655-11.473,6.924  c3.906,3.933,10.236,6.746,16.916,6.746s14.532-5.274,15.839-6.713C37.688,39.186,31.197,38.93,29.933,35.528z"/>
-                        </svg>
-                        <?php
-                    }
-                    ?>
-                </div>
-                <div class="pull-left info">
-                    <p><a href="<?php echo $user_edit_uri ?>"><?= $user_email ?></a></p>
-                    <!-- Status -->
-                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-                </div>
-            </div>
-            <?php
-            ?>
-
-            <!-- Sidebar Menu -->
-            <?php
-            echo PhpRender::renderLocalTemplate(
-                '../admin_menu.tpl.php',
-                ['admin_menu_arr' => ConfWrapper::value('skif.menu', [])]
-            );
-            ?>
-            <!-- /.sidebar-menu -->
-        </section>
-        <!-- /.sidebar -->
+        </div>
+        <div class="sidebar-wrapper">
+            <nav class="mt-2" aria-label="Административное меню">
+                <?php
+                echo PhpRender::renderLocalTemplate(
+                    '../admin_menu.tpl.php',
+                    ['admin_menu_arr' => ConfWrapper::value('skif.menu', [])]
+                );
+                ?>
+            </nav>
+        </div>
     </aside>
 
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                <?php echo $layout_dto->getTitle() ?>
-            </h1>
-            <?php
-            echo PhpRender::renderLocalTemplate(
-                '../breadcrumbs.tpl.php',
-                ['breadcrumbs_dto_arr' => $layout_dto->getBreadcrumbsDtoArr()]
-            );
-            ?>
-        </section>
-
-        <!-- Main content -->
-        <section class="content">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <?php
-                    echo Messages::renderMessages();
-                    ?>
-
-                    <?php
-                    if ($layout_dto->getNavTabsDtoArr()) {
-                        $current_url_no_query = Url::getUriNoQueryString();
-                        ?>
-                        <div>
-                            <ul class="nav nav-tabs">
-                                <?php
-                                foreach ($layout_dto->getNavTabsDtoArr() as $nav_tab_item_dto) {
-                                    ?>
-                                    <li role="presentation" <?php echo(str_contains($current_url_no_query, $nav_tab_item_dto->getUrl()) ? ' class="active"' : '') ?>>
-                                        <a href="<?php echo $nav_tab_item_dto->getUrl(); ?>"<?php echo $nav_tab_item_dto->getTarget() ? 'target="' . $nav_tab_item_dto->getTarget() . '"' : ''; ?>><?php echo $nav_tab_item_dto->getName(); ?></a>
-                                    </li>
-                                    <?php
-                                }
-                                ?>
-                            </ul>
-                        </div>
-                        <p></p>
-                        <?php
-                    }
-                    ?>
-
-                    <?php
-                    echo $layout_dto->getContentHtml();
-                    ?>
+    <main class="app-main" id="main-content" tabindex="-1">
+        <div class="app-content-header">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-sm-6"><h1 class="mb-0 fs-3"><?php echo Sanitize::sanitizeTagContent($layout_dto->getTitle()); ?></h1></div>
+                    <div class="col-sm-6">
+                        <nav class="d-flex justify-content-sm-end" aria-label="Хлебные крошки">
+                            <?php
+                            echo PhpRender::renderLocalTemplate(
+                                '../breadcrumbs.tpl.php',
+                                ['breadcrumbs_dto_arr' => $layout_dto->getBreadcrumbsDtoArr()]
+                            );
+                            ?>
+                        </nav>
+                    </div>
                 </div>
             </div>
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-
-    <!-- Main Footer -->
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 4.4.0
         </div>
-        <strong>Copyright
-            &copy; <?php echo '2004 - ' . date('Y') . '. <a href="https://websk.ru" target="_blank">WebSK.RU</a>' ?>
+        <div class="app-content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline shadow-sm">
+                    <div class="card-body">
+                        <?php echo Messages::renderMessages(); ?>
+                        <?php if ($layout_dto->getNavTabsDtoArr()) { ?>
+                            <?php $current_url_no_query = Url::getUriNoQueryString(); ?>
+                            <ul class="nav nav-tabs mb-3">
+                                <?php foreach ($layout_dto->getNavTabsDtoArr() as $nav_tab_item_dto) { ?>
+                                    <?php $is_active = str_contains($current_url_no_query, $nav_tab_item_dto->getUrl()); ?>
+                                    <li class="nav-item">
+                                        <a class="nav-link<?php echo $is_active ? ' active' : ''; ?>"
+                                           href="<?php echo Sanitize::sanitizeAttrValue($nav_tab_item_dto->getUrl()); ?>"
+                                           <?php echo $nav_tab_item_dto->getTarget() ? 'target="' . Sanitize::sanitizeAttrValue($nav_tab_item_dto->getTarget()) . '" rel="noopener"' : ''; ?>
+                                           <?php echo $is_active ? 'aria-current="page"' : ''; ?>><?php echo Sanitize::sanitizeTagContent($nav_tab_item_dto->getName()); ?></a>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                        <?php } ?>
+                        <?php echo $content_html; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="app-footer">
+        <div class="float-end d-none d-sm-inline"><b>AdminLTE</b> 4.10.0</div>
+        <strong>Copyright &copy; <?php echo '2004 - ' . date('Y'); ?>.
+            <a href="https://websk.ru" target="_blank" rel="noopener" class="text-decoration-none">WebSK.RU</a>
+        </strong>
     </footer>
 </div>
-<!-- ./wrapper -->
 
-<!-- AdminLTE App -->
-<script type="text/javascript"
-        src="<?php echo SkifPath::wrapAssetsVersion('/libraries/metisMenu/metisMenu.min.js'); ?>"></script>
-<script type="text/javascript"
-        src="<?php echo SkifPath::wrapAssetsVersion('/libraries/admin-lte/js/app.min.js'); ?>"></script>
-
+<script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
+<script src="<?php echo SkifPath::wrapAssetsVersion('/libraries/admin-lte/js/adminlte.min.js'); ?>"></script>
+<script src="<?php echo SkifPath::wrapAssetsVersion('/scripts/admin-ui.js'); ?>"></script>
 </body>
 </html>

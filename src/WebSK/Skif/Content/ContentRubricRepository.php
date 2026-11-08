@@ -16,7 +16,7 @@ class ContentRubricRepository extends EntityRepository
      * @param int $rubric_id
      * @param int $limit_to_page
      * @param int $page
-     * @return array
+     * @return list<int>
      */
     public function findIdsByRubricId(int $rubric_id, int $limit_to_page = 0, int $page = 1): array
     {
@@ -43,7 +43,7 @@ class ContentRubricRepository extends EntityRepository
 
     /**
      * @param int $content_id
-     * @return array
+     * @return list<int>
      */
     public function findIdsByContentId(int $content_id): array
     {
@@ -64,7 +64,7 @@ class ContentRubricRepository extends EntityRepository
      * @param int $rubric_id
      * @param int $limit_to_page
      * @param int $page
-     * @return array
+     * @return list<int>
      */
     public function findPublishedContentIdsArrByRubricId(int $rubric_id, int $limit_to_page = 0, int $page = 1): array
     {

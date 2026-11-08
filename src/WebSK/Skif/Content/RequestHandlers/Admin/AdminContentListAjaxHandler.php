@@ -13,7 +13,7 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetReferenceSelect;
 use WebSK\CRUD\Table\Widgets\CRUDTableWidgetText;
 use WebSK\Skif\Content\Content;
 use WebSK\Skif\Content\ContentTypeService;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 
 /**
  * Class AdminContentListAjaxHandler
@@ -21,10 +21,10 @@ use WebSK\Slim\RequestHandlers\BaseHandler;
  */
 class AdminContentListAjaxHandler extends BaseHandler
 {
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected ContentTypeService $content_type_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CRUD $crud_service;
 
     /**
@@ -52,7 +52,10 @@ class AdminContentListAjaxHandler extends BaseHandler
             ],
             [
                 new CRUDTableFilterLikeInline('content_name', '', Content::_TITLE, 'Название'),
-                new CRUDTableFilterEqualInvisible('content_type_id', $content_type_obj->getId()),
+                new CRUDTableFilterEqualInvisible(
+                    'content_type_id',
+                    \WebSK\Skif\EntityId::toString($content_type_obj)
+                ),
             ],
             Content::_TITLE,
             'content_list_rand324932',

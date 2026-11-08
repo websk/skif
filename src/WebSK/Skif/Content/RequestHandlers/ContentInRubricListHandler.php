@@ -4,7 +4,7 @@ namespace WebSK\Skif\Content\RequestHandlers;
 
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\Content\ContentServiceProvider;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Utils\Url;
 use WebSK\Views\PhpRender;
 use WebSK\Views\ViewsPath;
@@ -15,7 +15,7 @@ use WebSK\Views\ViewsPath;
  */
 class ContentInRubricListHandler extends BaseHandler
 {
-    public function listAction()
+    public function listAction(): ?string
     {
         $rubric_service = ContentServiceProvider::getRubricService($this->container);
 
@@ -62,5 +62,7 @@ class ContentInRubricListHandler extends BaseHandler
                 'description' => ''
             )
         );
+
+        return null;
     }
 }

@@ -7,7 +7,7 @@
 use WebSK\Skif\Blocks\Block;
 use WebSK\Skif\Blocks\BlockService;
 use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockSaveCachingHandler;
-use WebSK\Slim\Router;
+use WebSK\Skif\Router;
 use WebSK\Views\PhpRender;
 
 $block_obj = $block_service->getById($block_id);
@@ -23,9 +23,9 @@ echo PhpRender::renderLocalTemplate(
 $cache_contexts_arr = Block::BLOCK_CACHES_ARRAY;
 ?>
 <form role="form" action="<?php echo Router::urlFor(BlockSaveCachingHandler::class, ['block_id' => $block_id]); ?>" method="post">
-    <div class="form-group">
-        <label for="cache">Контекст кэширования</label>
-        <select class="form-control" name="cache" id="cache">
+    <div class="mb-3">
+        <label for="cache" class="form-label">Контекст кэширования</label>
+        <select class="form-select" name="cache" id="cache">
             <?php
             foreach ($cache_contexts_arr as $cache_id => $cache_name) {
                 ?>
@@ -37,7 +37,7 @@ $cache_contexts_arr = Block::BLOCK_CACHES_ARRAY;
             ?>
         </select>
     </div>
-    <div class="form-group">
+    <div class="mb-3">
         <input class="btn btn-primary" type="submit" name="yt0" value="Сохранить" />
     </div>
 </form>

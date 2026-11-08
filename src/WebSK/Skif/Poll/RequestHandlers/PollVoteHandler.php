@@ -7,7 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Skif\Poll\PollQuestionService;
 use WebSK\Skif\Poll\PollService;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Utils\Messages;
 
 /**
@@ -18,10 +18,10 @@ class PollVoteHandler extends BaseHandler
 {
     const string POLL_COOKIE_PREFIX = 'poll_access_';
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected PollService $poll_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected PollQuestionService $poll_question_service;
 
     /**
@@ -33,7 +33,7 @@ class PollVoteHandler extends BaseHandler
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $poll_id): ResponseInterface
     {
-        $poll_question_id = $request->getParam('poll_question_id');
+        $poll_question_id = \WebSK\CRUD\RequestParams::parsedBody($request, 'poll_question_id');
 
         $poll_obj = $this->poll_service->getById($poll_id, false);
         if (!$poll_obj) {

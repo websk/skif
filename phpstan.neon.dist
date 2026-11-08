@@ -1,0 +1,9 @@
+parameters:
+    level: 6
+    phpVersion: 80512
+    paths:
+        - src
+        - tests
+    tmpDir: var/cache/phpstan
+    parallel:
+        maximumNumberOfProcesses: 1

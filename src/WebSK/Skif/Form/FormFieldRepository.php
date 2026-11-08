@@ -13,7 +13,7 @@ class FormFieldRepository extends EntityRepository
 {
     /**
      * @param int $form_id
-     * @return array
+     * @return list<int>
      */
     public function findIdsByFormId(int $form_id): array
     {

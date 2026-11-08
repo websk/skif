@@ -21,7 +21,7 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
 use WebSK\Skif\Poll\Poll;
 use WebSK\Skif\Poll\RequestHandlers\PollViewHandler;
 use WebSK\Skif\SkifPath;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -34,7 +34,7 @@ class AdminPollListHandler extends BaseHandler
 {
     const string FILTER_TITLE = 'poll_title';
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CRUD $crud_service;
 
     /**

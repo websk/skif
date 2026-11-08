@@ -8,7 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Image\ImageConstants;
 use WebSK\Image\ImageController;
 use WebSK\Skif\Content\ContentService;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Slim\Response;
 
 /**
@@ -17,7 +17,7 @@ use WebSK\Slim\Response;
  */
 class AdminContentUploadImageAction extends BaseHandler
 {
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected ContentService $content_service;
 
     /**

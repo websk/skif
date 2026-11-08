@@ -6,8 +6,8 @@ use WebSK\Auth\Auth;
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\Content\ContentServiceProvider;
 use WebSK\Skif\Content\RequestHandlers\Admin\AdminContentEditHandler;
-use WebSK\Slim\RequestHandlers\BaseHandler;
-use WebSK\Slim\Router;
+use WebSK\Skif\RequestHandlers\BaseHandler;
+use WebSK\Skif\Router;
 use WebSK\Utils\Exits;
 use WebSK\Utils\Url;
 use WebSK\Views\PhpRender;
@@ -20,7 +20,7 @@ use WebSK\Views\ViewsPath;
 class ContentViewHandler extends BaseHandler
 {
 
-    public function viewAction()
+    public function viewAction(): ?string
     {
         $content_service = ContentServiceProvider::getContentService($this->container);
 
@@ -33,10 +33,6 @@ class ContentViewHandler extends BaseHandler
         }
 
         $content_obj = $content_service->getById($content_id);
-        if (!$content_obj) {
-            Exits::exit404();
-        }
-
         if (!$content_obj->isPublished()) {
             Exits::exit404If(!Auth::currentUserIsAdmin());
         }
@@ -124,5 +120,7 @@ class ContentViewHandler extends BaseHandler
                 'breadcrumbs_arr' => $breadcrumbs_arr
             ]
         );
+
+        return null;
     }
 }

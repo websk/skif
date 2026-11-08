@@ -13,7 +13,7 @@ class PollQuestionRepository extends WeightRepository
 {
     /**
      * @param int $poll_id
-     * @return array
+     * @return list<int>
      */
     public function findIdsByPollId(int $poll_id): array
     {

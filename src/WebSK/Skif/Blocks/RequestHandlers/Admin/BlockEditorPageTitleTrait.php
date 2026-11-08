@@ -7,10 +7,10 @@ use WebSK\Skif\Blocks\PageRegionService;
 
 trait BlockEditorPageTitleTrait
 {
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected BlockService $block_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected PageRegionService $page_region_service;
 
     /**
@@ -26,9 +26,6 @@ trait BlockEditorPageTitleTrait
         $region_for_title = $page_region_obj->getTitle();
 
         $page_title = 'Блоки. ' . $block_obj->getTitle() . ' / ' . $region_for_title;
-        if ($page_title == '') {
-            $page_title = '. ' . $block_obj->getId();
-        }
 
         return $page_title;
     }

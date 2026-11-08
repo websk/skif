@@ -11,6 +11,7 @@ use WebSK\Auth\User\User;
 use WebSK\Skif\Form\Form;
 use WebSK\Skif\Form\FormField;
 use WebSK\Skif\Form\FormFieldService;
+use WebSK\Utils\Sanitize;
 
 $form_id = $form_obj->getId();
 
@@ -22,28 +23,29 @@ if ($form_obj->getComment()) {
 
 $form_field_ids_arr = $form_field_service->getIdsArrByFormId($form_id);
 ?>
-<form method="post" action="<?php echo $form_send_url; ?>" class="form-horizontal">
+<form method="post" action="<?php echo Sanitize::sanitizeAttrValue($form_send_url); ?>">
     <?php
     foreach ($form_field_ids_arr as $form_field_id) {
         $form_field_obj = $form_field_service->getById($form_field_id);
 
         $field_size = $form_field_obj->getSize() ?: 20;
 
+        $field_id = 'field_' . $form_field_id;
         $field_html = '';
         if ($form_field_obj->getType() == FormField::FIELD_TYPE_STRING) {
-            $field_html = '<input type=text name="field_' . $form_field_id . '" maxlength="' . $field_size . '" value="" size="' . $field_size . '" class="form-control"' . ($form_field_obj->isRequired() ? ' required' : '') . '>';
+            $field_html = '<input type="text" id="' . $field_id . '" name="' . $field_id . '" maxlength="' . $field_size . '" class="form-control"' . ($form_field_obj->isRequired() ? ' required' : '') . '>';
         } elseif ($form_field_obj->getType() == FormField::FIELD_TYPE_TEXTAREA) {
-            $field_html = '<textarea name="field_' . $form_field_id . '" cols="50" rows="' . $field_size . '" class="form-control"' . ($form_field_obj->isRequired() ? ' required' : '') . '></textarea>';
+            $field_html = '<textarea id="' . $field_id . '" name="' . $field_id . '" rows="' . $field_size . '" class="form-control"' . ($form_field_obj->isRequired() ? ' required' : '') . '></textarea>';
         }
         ?>
-        <div class="form-group">
-            <label class="col-md-3 control-label"><?php echo $form_field_obj->getName(); ?></label>
+        <div class="row mb-3">
+            <label for="<?php echo $field_id; ?>" class="col-md-3 col-form-label"><?php echo Sanitize::sanitizeTagContent($form_field_obj->getName()); ?></label>
             <div class="col-md-9">
                 <?php echo $field_html; ?>
                 <?php
                 if ($form_field_obj->getComment()) {
                     ?>
-                <span class="help-block"><?php echo $form_field_obj->getComment(); ?></span>
+                <div class="form-text"><?php echo Sanitize::sanitizeTagContent($form_field_obj->getComment()); ?></div>
                 <?php
                 }
                 ?>
@@ -53,27 +55,27 @@ $form_field_ids_arr = $form_field_service->getIdsArrByFormId($form_id);
     }
 
     if ($current_user_obj) {
-        echo '<input type="hidden" name="email" value="' . $current_user_obj->getEmail() . '">';
+        echo '<input type="hidden" name="email" value="' . Sanitize::sanitizeAttrValue($current_user_obj->getEmail()) . '">';
     } else {
         ?>
-        <div class="form-group">
-            <label class="col-md-3">Ваш E-mail *</label>
-            <div class="col-md-9"><input type="text" name="email" value="" class="form-control"></div>
+        <div class="row mb-3">
+            <label for="form-email" class="col-md-3 col-form-label">Ваш E-mail *</label>
+            <div class="col-md-9"><input id="form-email" type="email" name="email" class="form-control" autocomplete="email" required></div>
         </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-3 col-md-9">
-                <img src="<?php echo $captcha_url; ?>" alt="Введите этот защитный код">
-                <input type="text" size="5" name="captcha" class="form-control">
-                <span class="help-block">Введите код, изображенный на картинке</span>
+        <div class="row mb-3">
+            <div class="offset-md-3 col-md-9">
+                <img src="<?php echo Sanitize::sanitizeAttrValue($captcha_url); ?>" alt="Защитный код" class="d-block mb-2">
+                <label for="form-captcha" class="form-label">Введите код, изображённый на картинке</label>
+                <input id="form-captcha" type="text" name="captcha" class="form-control" autocomplete="off" required>
             </div>
         </div>
     <?php
     }
     ?>
-    <div class="form-group">
-        <div class="col-md-offset-3 col-md-9">
-            <button class="btn btn-primary"><?php echo $form_obj->getButtonLabel() ?: 'Отправить'  ?></button>
+    <div class="row mb-3">
+        <div class="offset-md-3 col-md-9">
+            <button type="submit" class="btn btn-primary"><?php echo Sanitize::sanitizeTagContent($form_obj->getButtonLabel() ?: 'Отправить'); ?></button>
         </div>
     </div>
 </form>

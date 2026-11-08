@@ -17,7 +17,7 @@ use WebSK\Skif\Form\FormField;
 use WebSK\Skif\Form\FormFieldService;
 use WebSK\Skif\Form\FormService;
 use WebSK\Skif\SkifPath;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\NavTabItemDTO;
@@ -29,13 +29,13 @@ use WebSK\Views\PhpRender;
  */
 class AdminFormFieldEditHandler extends BaseHandler
 {
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected FormService $form_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected FormFieldService $form_field_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CRUD $crud_service;
 
     /**

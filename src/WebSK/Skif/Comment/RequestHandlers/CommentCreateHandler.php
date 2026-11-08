@@ -9,7 +9,7 @@ use WebSK\Auth\SessionService;
 use WebSK\Captcha\Captcha;
 use WebSK\Skif\Comment\Comment;
 use WebSK\Skif\Comment\CommentService;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Utils\Messages;
 use WebSK\Utils\Sanitize;
 
@@ -19,10 +19,10 @@ use WebSK\Utils\Sanitize;
  */
 class CommentCreateHandler extends BaseHandler
 {
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CommentService $comment_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected SessionService $session_service;
 
     /**
@@ -32,20 +32,20 @@ class CommentCreateHandler extends BaseHandler
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $url = $request->getParsedBodyParam('url');
+        $url = \WebSK\CRUD\RequestParams::parsedBody($request, 'url');
 
         if (!$url) {
             return $response->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
         }
 
-        if ($request->getParsedBodyParam(Captcha::CAPTCHA_FIELD_NAME) !== null) {
-            if (!Captcha::checkWithMessage()) {
+        if (\WebSK\CRUD\RequestParams::parsedBody($request, Captcha::CAPTCHA_FIELD_NAME) !== null) {
+            if (!Captcha::checkWithMessage($request)) {
                 return $response->withHeader('Location', $url)
                     ->withStatus(StatusCodeInterface::STATUS_TEMPORARY_REDIRECT);
             }
         }
 
-        $comment = $request->getParsedBodyParam('comment');
+        $comment = \WebSK\CRUD\RequestParams::parsedBody($request, 'comment');
 
         if (!$comment) {
             Messages::setError('Не указано сообщение');
@@ -59,17 +59,17 @@ class CommentCreateHandler extends BaseHandler
         $user_email = '';
 
         if (!$current_user_obj) {
-            $user_name = $request->getParsedBodyParam('user_name');
+            $user_name = \WebSK\CRUD\RequestParams::parsedBody($request, 'user_name');
             if (!$user_name) {
                 Messages::setError('Не указано имя');
                 return $response->withHeader('Location', $url)
                     ->withStatus(StatusCodeInterface::STATUS_TEMPORARY_REDIRECT);
             }
 
-            $user_email = $request->getParsedBodyParam('user_email');
+            $user_email = \WebSK\CRUD\RequestParams::parsedBody($request, 'user_email');
         }
 
-        $parent_id = $request->getParsedBodyParam('parent_id');
+        $parent_id = \WebSK\CRUD\RequestParams::parsedBody($request, 'parent_id');
 
         $comment_obj = new Comment();
         $comment_obj->setParentId($parent_id);

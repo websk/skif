@@ -23,7 +23,8 @@ use WebSK\Skif\Blocks\PageRegion;
 use WebSK\Skif\Blocks\PageRegionService;
 use WebSK\Skif\Content\TemplateService;
 use WebSK\Skif\SkifPath;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
+use WebSK\Utils\Sanitize;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -38,16 +39,16 @@ class BlockListHandler extends BaseHandler
 
     const string FILTER_REGION = 'block_region';
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected BlockService $block_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected PageRegionService $page_region_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected TemplateService $template_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CRUD $crud_service;
 
     /**
@@ -67,9 +68,11 @@ class BlockListHandler extends BaseHandler
         foreach ($templates_ids_arr as $id) {
             $template_obj = $this->template_service->getById($id);
 
-            $class_active = ($template_id == $id) ? 'class="active"' : '';
-
-            $templates_for_options_arr[] = '<li role="presentation" ' . $class_active . '><a href="' . $this->urlFor(BlockListHandler::class, ['template_id' => $id]) . '">' . $template_obj->getTitle() . '</a></li>';
+            $is_active = $template_id == $id;
+            $templates_for_options_arr[] = '<li class="nav-item" role="presentation"><a class="nav-link'
+                . ($is_active ? ' active' : '') . '"' . ($is_active ? ' aria-current="page"' : '')
+                . ' href="' . $this->urlFor(BlockListHandler::class, ['template_id' => $id]) . '">'
+                . Sanitize::sanitizeTagContent($template_obj->getTitle()) . '</a></li>';
         }
 
         $content_html = '<ul class="nav nav-tabs">';
@@ -131,7 +134,7 @@ class BlockListHandler extends BaseHandler
                                 return '';
                             }
 
-                            return '<a href="' . $this->urlFor(BlockDisableHandler::class, ['block_id' => $block->getId()]) . '" title="Отключить" class="btn btn-default btn-sm">'
+                            return '<a href="' . $this->urlFor(BlockDisableHandler::class, ['block_id' => $block->getId()]) . '" title="Отключить" class="btn btn-outline-secondary btn-sm">'
                                 . '<span class="fa fa-power-off fa-lg text-muted fa-fw"></span>'
                                 . '</a>';
                         }
@@ -140,7 +143,7 @@ class BlockListHandler extends BaseHandler
                 new CRUDTableColumn('', new CRUDTableWidgetDelete())
             ],
             [
-                new CRUDTableFilterEqualInvisible(Block::_TEMPLATE_ID, $template_id),
+                new CRUDTableFilterEqualInvisible(Block::_TEMPLATE_ID, (string)$template_id),
                 new CRUDTableFilterLikeInline(self::FILTER_TITLE, 'Название', Block::_TITLE),
                 new CRUDTableFilterLikeInline(self::FILTER_BODY, 'Содержимое', Block::_BODY),
                 new CRUDTableFilterEqualOptionsInline(
@@ -149,7 +152,7 @@ class BlockListHandler extends BaseHandler
                     Block::_PAGE_REGION_ID,
                     $page_region_for_options_arr,
                     false,
-                    false,
+                    '',
                     true
                 ),
             ],

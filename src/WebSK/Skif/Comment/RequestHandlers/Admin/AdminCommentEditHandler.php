@@ -3,7 +3,6 @@
 namespace WebSK\Skif\Comment\RequestHandlers\Admin;
 
 use Fig\Http\Message\StatusCodeInterface;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WebSK\CRUD\CRUD;
@@ -22,7 +21,7 @@ use WebSK\CRUD\Table\Widgets\CRUDTableWidgetTimestamp;
 use WebSK\Skif\Comment\Comment;
 use WebSK\Skif\Comment\CommentService;
 use WebSK\Skif\SkifPath;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -36,10 +35,10 @@ class AdminCommentEditHandler extends BaseHandler
     const string FILTER_NAME_PARENT_ID = 'parent_id';
     const string PARAM_DESTINATION = 'destination';
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CommentService $comment_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CRUD $crud_service;
 
 
@@ -48,7 +47,7 @@ class AdminCommentEditHandler extends BaseHandler
      * @param ResponseInterface $response
      * @param int $comment_id
      */
-    public function __invoke(RequestInterface $request, ResponseInterface $response, int $comment_id): ResponseInterface
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, int $comment_id): ResponseInterface
     {
         $comment_obj = $this->comment_service->getById($comment_id, false);
 
@@ -60,8 +59,8 @@ class AdminCommentEditHandler extends BaseHandler
             AdminCommentEditHandler::class,
             ['comment_id' => $comment_id]
         );
-        if ($request->getParam(self::PARAM_DESTINATION)) {
-            $destination = $request->getParam(self::PARAM_DESTINATION);
+        if (\WebSK\CRUD\RequestParams::query($request, self::PARAM_DESTINATION)) {
+            $destination = \WebSK\CRUD\RequestParams::query($request, self::PARAM_DESTINATION);
         }
 
         $crud_form = $this->crud_service->createForm(
@@ -151,7 +150,7 @@ class AdminCommentEditHandler extends BaseHandler
                 new CRUDTableColumn('', new CRUDTableWidgetDelete())
             ],
             [
-                new CRUDTableFilterEqualInvisible(self::FILTER_NAME_PARENT_ID, $comment_id),
+                new CRUDTableFilterEqualInvisible(self::FILTER_NAME_PARENT_ID, (string)$comment_id),
             ]
         );
 

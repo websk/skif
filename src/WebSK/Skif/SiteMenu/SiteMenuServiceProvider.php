@@ -13,57 +13,55 @@ use WebSK\Skif\SkifServiceProvider;
  */
 class SiteMenuServiceProvider
 {
-    /**
-     * @param ContainerInterface $container
-     */
-    public static function register(ContainerInterface $container): void
+    /** @param ContainerInterface&\ArrayAccess<string, mixed> $container */
+    public static function register(ContainerInterface&\ArrayAccess $container): void
     {
         /**
          * @param ContainerInterface $container
          * @return SiteMenuService
          */
-        $container->set(SiteMenuService::class, function (ContainerInterface $container) {
+        $container[SiteMenuService::class] = function (ContainerInterface $container) {
             return new SiteMenuService(
                 SiteMenu::class,
                 $container->get(SiteMenuRepository::class),
                 CacheServiceProvider::getCacheService($container)
             );
-        });
+        };
 
         /**
          * @param ContainerInterface $container
          * @return SiteMenuRepository
          */
-        $container->set(SiteMenuRepository::class, function (ContainerInterface $container) {
+        $container[SiteMenuRepository::class] = function (ContainerInterface $container) {
             return new SiteMenuRepository(
                 SiteMenu::class,
                 SkifServiceProvider::getDBService($container)
             );
-        });
+        };
 
         /**
          * @param ContainerInterface $container
          * @return SiteMenuItemService
          */
-        $container->set(SiteMenuItemService::class, function (ContainerInterface $container) {
+        $container[SiteMenuItemService::class] = function (ContainerInterface $container) {
             return new SiteMenuItemService(
                 SiteMenuItem::class,
                 $container->get(SiteMenuItemRepository::class),
                 CacheServiceProvider::getCacheService($container),
                 $container->get(ContentService::class)
             );
-        });
+        };
 
         /**
          * @param ContainerInterface $container
          * @return SiteMenuItemRepository
          */
-        $container->set(SiteMenuItemRepository::class, function (ContainerInterface $container) {
+        $container[SiteMenuItemRepository::class] = function (ContainerInterface $container) {
             return new SiteMenuItemRepository(
                 SiteMenuItem::class,
                 SkifServiceProvider::getDBService($container)
             );
-        });
+        };
     }
 
     /**

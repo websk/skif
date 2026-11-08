@@ -20,7 +20,7 @@ class CommentRoutes
     const string NAMESPACE_DIR = 'WebSK' . DIRECTORY_SEPARATOR . 'Skif' . DIRECTORY_SEPARATOR . 'Comment';
 
     /**
-     * @param App $app
+     * @param App<\DI\Container> $app
      */
     public static function register(App $app): void
     {
@@ -34,7 +34,7 @@ class CommentRoutes
     }
 
     /**
-     * @param RouteCollectorProxyInterface $route_collector_proxy
+     * @param RouteCollectorProxyInterface<\DI\Container> $route_collector_proxy
      */
     public static function registerAdmin(RouteCollectorProxyInterface $route_collector_proxy): void
     {

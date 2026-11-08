@@ -8,7 +8,7 @@
 use WebSK\Skif\Blocks\BlockService;
 use WebSK\Skif\Blocks\PageRegionService;
 use WebSK\Skif\Blocks\RequestHandlers\Admin\BlockEditorPositionInRegionHandler;
-use WebSK\Slim\Router;
+use WebSK\Skif\Router;
 use WebSK\Views\PhpRender;
 
 $block_obj = $block_service->getById($block_id);
@@ -24,7 +24,8 @@ echo PhpRender::renderLocalTemplate(
 
 <p>Выберите регион, в котором нужно вывести блок:</p>
 
-<table class="table table-condensed">
+<div class="table-responsive">
+<table class="table table-sm table-hover align-middle mb-0">
     <?php
     $region_ids_arr = $page_region_service->getIdsArrByTemplateId($block_obj->getTemplateId());
 
@@ -34,7 +35,7 @@ echo PhpRender::renderLocalTemplate(
         $tr_class = '';
 
         if ($page_region_id == $block_obj->getPageRegionId()) {
-            $tr_class = ' class="active" ';
+            $tr_class = ' class="table-active" ';
         }
 
         echo '<tr ' . $tr_class . '>';
@@ -46,3 +47,4 @@ echo PhpRender::renderLocalTemplate(
     }
     ?>
 </table>
+</div>

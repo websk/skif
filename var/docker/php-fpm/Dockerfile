@@ -1,157 +1,133 @@
-#
-#--------------------------------------------------------------------------
-# Image Setup
-#--------------------------------------------------------------------------
-#
-# To edit the 'php-fpm' base Image, visit its repository on Github
-#    https://github.com/Laradock/php-fpm
-#
-# To change its version, see the available Tags on the Docker Hub:
-#    https://hub.docker.com/r/laradock/php-fpm/tags/
-#
-# Note: Base Image name format {image-tag}-{php-version}
-#
+FROM composer:2 AS composer
 
-FROM laradock/php-fpm:latest-8.3
+FROM golang:1.25-bookworm AS mhsendmail-builder
 
-# always run apt update when start and after add new source list, then clean up at end.
-RUN set -xe; \
-    apt-get update -yqq && \
-    pecl channel-update pecl.php.net && \
-    apt-get install -yqq \
-      apt-utils \
-      #
-      #--------------------------------------------------------------------------
-      # Mandatory Software's Installation
-      #--------------------------------------------------------------------------
-      #
-      # Mandatory Software's such as ("mcrypt", "pdo_mysql", "libssl-dev", ....)
-      # are installed on the base image 'laradock/php-fpm' image. If you want
-      # to add more Software's or remove existing one, you need to edit the
-      # base image (https://github.com/Laradock/php-fpm).
-      #
-      # next lines are here becase there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
-      libzip-dev zip unzip && \
-      docker-php-ext-configure zip; \
-      # Install the zip extension
-      docker-php-ext-install zip && \
-      php -m | grep -q 'zip'
+ARG MHSENDMAIL_VERSION=v0.2.0
 
-###########################################################################
-# Composer:
-###########################################################################
+WORKDIR /build
 
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN set -eux; \
+    git clone --depth 1 --branch "${MHSENDMAIL_VERSION}" https://github.com/mailhog/mhsendmail.git; \
+    cd mhsendmail; \
+    go mod init github.com/mailhog/mhsendmail; \
+    go get github.com/ogier/pflag@v0.0.1; \
+    CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /usr/local/bin/mhsendmail .
 
-#
-#--------------------------------------------------------------------------
-# Optional Software's Installation
-#--------------------------------------------------------------------------
-#
-# Optional Software's will only be installed if you set them to `true`
-# in the `docker-compose.yml` before the build.
-# Example:
-#   - INSTALL_ZIP_ARCHIVE=true
-#
-
-#####################################
-# xDebug:
-#####################################
+FROM php:8.5.12-fpm-bookworm
 
 ARG INSTALL_XDEBUG=false
-RUN if [ ${INSTALL_XDEBUG} = true ]; then \
-    # Install the xdebug extension
-    pecl install xdebug && \
-    docker-php-ext-enable xdebug \
-;fi
-
-# Copy xdebug configuration for remote debugging
-COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
-
-#####################################
-# ZipArchive:
-#####################################
-
 ARG INSTALL_ZIP_ARCHIVE=false
-RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
-    # Install the zip extension
-    docker-php-ext-install zip \
-;fi
-
-#####################################
-# PHP Memcached:
-#####################################
-
-RUN curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/v3.1.5.tar.gz" \
-        && mkdir -p memcached \
-        && tar -C memcached -zxvf /tmp/memcached.tar.gz --strip 1 \
-        && ( \
-            cd memcached \
-            && phpize \
-            && ./configure \
-            && make -j$(nproc) \
-            && make install \
-        ) \
-        && rm -r memcached \
-        && rm /tmp/memcached.tar.gz \
-        && docker-php-ext-enable memcached
-
-#####################################
-# Mysqli:
-#####################################
-
-RUN docker-php-ext-install mysqli
-
-#####################################
-# Human Language and Character Encoding Support:
-#####################################
-
+ARG INSTALL_MEMCACHED=false
 ARG INSTALL_INTL=false
-RUN if [ ${INSTALL_INTL} = true ]; then \
-    # Install intl and requirements
-    apt-get update -yqq && \
-    apt-get install -y zlib1g-dev libicu-dev g++ && \
-    docker-php-ext-configure intl && \
-    docker-php-ext-install intl \
-;fi
-
-#####################################
-# pcntl extention:
-#####################################
-
 ARG INSTALL_PCNTL=false
-RUN docker-php-ext-install pcntl
 
-#####################################
-# Mailhog:
-#####################################
-RUN apt-get install wget -y && \
-    wget https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 && \
-    chmod +x mhsendmail_linux_amd64 && \
-    mv mhsendmail_linux_amd64 /usr/local/bin/mhsendmail
+ARG XDEBUG_VERSION=3.5.3
+ARG MEMCACHED_VERSION=3.4.0
+ARG MEMCACHED_SHA256=10b98a0fdc3ce9ab823db59e8935f068de87e374728871a1efacdadd8c7807d1
+ARG PHP_BUILD_JOBS=2
 
-#####################################
-# Check PHP version:
-#####################################
+COPY --from=composer /usr/bin/composer /usr/local/bin/composer
+COPY --from=mhsendmail-builder /usr/local/bin/mhsendmail /usr/local/bin/mhsendmail
 
-RUN php -v | head -n 1 | grep -q "PHP 8.3."
+RUN set -eux; \
+    saved_apt_mark="$(apt-mark showmanual)"; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
+        $PHPIZE_DEPS \
+        ca-certificates \
+        libfreetype6-dev \
+        libicu-dev \
+        libjpeg62-turbo-dev \
+        libmemcached-dev \
+        libpng-dev \
+        libssl-dev \
+        libwebp-dev \
+        libzip-dev \
+        unzip \
+        zip \
+        zlib1g-dev; \
+    docker-php-ext-configure gd \
+        --with-freetype \
+        --with-jpeg \
+        --with-webp; \
+    docker-php-ext-install -j"${PHP_BUILD_JOBS}" \
+        exif \
+        gd \
+        mysqli \
+        pdo_mysql; \
+    if [ "${INSTALL_ZIP_ARCHIVE}" = "true" ]; then \
+        docker-php-ext-install -j"${PHP_BUILD_JOBS}" zip; \
+    fi; \
+    if [ "${INSTALL_INTL}" = "true" ]; then \
+        docker-php-ext-install -j"${PHP_BUILD_JOBS}" intl; \
+    fi; \
+    if [ "${INSTALL_PCNTL}" = "true" ]; then \
+        docker-php-ext-install -j"${PHP_BUILD_JOBS}" pcntl; \
+    fi; \
+    if [ "${INSTALL_MEMCACHED}" = "true" ]; then \
+        cd /tmp; \
+        curl -fsSLo php-memcached.tar.gz \
+            "https://github.com/php-memcached-dev/php-memcached/archive/refs/tags/v${MEMCACHED_VERSION}.tar.gz"; \
+        echo "${MEMCACHED_SHA256}  php-memcached.tar.gz" | sha256sum -c -; \
+        tar -xzf php-memcached.tar.gz; \
+        cd "php-memcached-${MEMCACHED_VERSION}"; \
+        phpize; \
+        PKG_CONFIG_PATH="/usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)/pkgconfig" \
+            ./configure \
+                --with-php-config=/usr/local/bin/php-config \
+                --with-libmemcached-dir=yes \
+                --with-zlib-dir=/usr \
+                --disable-memcached-igbinary \
+                --disable-memcached-msgpack \
+                --disable-memcached-json \
+                --disable-memcached-protocol \
+                --enable-memcached-sasl \
+                --enable-memcached-session; \
+        make -j"${PHP_BUILD_JOBS}"; \
+        make install; \
+        docker-php-ext-enable memcached; \
+        cd /; \
+        rm -rf /tmp/php-memcached*; \
+    fi; \
+    if [ "${INSTALL_XDEBUG}" = "true" ]; then \
+        pecl install "xdebug-${XDEBUG_VERSION}"; \
+        docker-php-ext-enable xdebug; \
+    fi; \
+    rm -rf /tmp/pear; \
+    apt-mark auto '.*' > /dev/null; \
+    apt-mark manual ${saved_apt_mark}; \
+    apt-mark auto $PHPIZE_DEPS > /dev/null; \
+    apt-mark manual ca-certificates unzip zip; \
+    find "$(php -r 'echo ini_get("extension_dir");')" -type f -name '*.so' -exec ldd '{}' ';' \
+        | awk '/=>/ { print $(NF - 1) }' \
+        | sort -u \
+        | xargs -r readlink -e \
+        | xargs -r dpkg-query --search \
+        | cut -d: -f1 \
+        | sort -u \
+        | xargs -r apt-mark manual; \
+    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+    rm -rf /var/lib/apt/lists/*; \
+    php -r 'exit(PHP_VERSION_ID === 80512 ? 0 : 1);'; \
+    for extension in curl exif gd mbstring mysqli pdo_mysql; do \
+        php -m | grep -Fqx "${extension}"; \
+    done; \
+    if [ "${INSTALL_ZIP_ARCHIVE}" = "true" ]; then php -m | grep -Fqx zip; fi; \
+    if [ "${INSTALL_INTL}" = "true" ]; then php -m | grep -Fqx intl; fi; \
+    if [ "${INSTALL_PCNTL}" = "true" ]; then php -m | grep -Fqx pcntl; fi; \
+    if [ "${INSTALL_MEMCACHED}" = "true" ]; then php -m | grep -Fqx memcached; fi; \
+    if [ "${INSTALL_XDEBUG}" = "true" ]; then php -m | grep -Fqx xdebug; fi; \
+    composer --version; \
+    test -x /usr/local/bin/mhsendmail
 
-#
-#--------------------------------------------------------------------------
-# Final Touch
-#--------------------------------------------------------------------------
-#
-
-ADD ./php.ini /usr/local/etc/php/conf.d
-ADD ./phpfpm.pool.conf /usr/local/etc/php-fpm.d/
-
-#RUN rm -r /var/lib/apt/lists/*
+COPY ./php.ini /usr/local/etc/php/conf.d/zz-app.ini
+COPY ./xdebug.ini /usr/local/etc/php/conf.d/zz-xdebug.ini
+COPY ./phpfpm.pool.conf /usr/local/etc/php-fpm.d/zz-app.conf
 
 RUN usermod -u 1000 www-data
 
 WORKDIR /var/www
 
-CMD ["php-fpm"]
-
 EXPOSE 9000
+
+CMD ["php-fpm"]

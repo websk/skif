@@ -8,7 +8,7 @@ use WebSK\Cache\CacheService;
 use WebSK\Entity\EntityRepository;
 use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
-use WebSK\Logger\Logger;
+use WebSK\Skif\Logger;
 use WebSK\Utils\Filter;
 use WebSK\Utils\FullObjectId;
 use WebSK\Utils\Network;
@@ -16,7 +16,7 @@ use WebSK\Utils\Url;
 
 /**
  * Class BlockService
- * @method Block getById($entity_id, $exception_if_not_loaded = true)
+ * @method ($exception_if_not_loaded is true ? Block : Block|null) getById(?int $entity_id, bool $exception_if_not_loaded = true)
  * @package WebSK\Skif\Blocks
  */
 class BlockService extends EntityService
@@ -26,7 +26,7 @@ class BlockService extends EntityService
     protected UserService $user_service;
 
     /** @var BlockRepository */
-    protected $repository;
+    protected \WebSK\Entity\EntityRepository $repository;
 
     protected int $cache_ttl_seconds;
 
@@ -64,7 +64,7 @@ class BlockService extends EntityService
      * Массив Block Id в регионе
      * @param null|int $page_region_id
      * @param int $template_id
-     * @return array
+     * @return list<int>
      */
     public function getIdsArrByPageRegionId(?int $page_region_id, int $template_id): array
     {
@@ -103,7 +103,7 @@ class BlockService extends EntityService
      * @param int $page_region_id
      * @param int $template_id
      * @param string $page_url
-     * @return array
+     * @return list<int>
      * @throws \Exception
      */
     public function getVisibleBlocksIdsArrByRegionId(
@@ -140,7 +140,7 @@ class BlockService extends EntityService
 
     /**
      * Видимость блока для пользователя
-     * @param int|null $block_id
+     * @param int $block_id
      * @param int|null $user_id
      * @return bool
      */
@@ -171,6 +171,7 @@ class BlockService extends EntityService
         return false;
     }
 
+    /** @return list<int> */
     public function getIdsArrByTemplateId(int $template_id): array
     {
         return $this->repository->findIdsArrByTemplateId($template_id);
@@ -206,10 +207,6 @@ class BlockService extends EntityService
         $pages = str_replace("\n\n", "\n", $pages);
 
         $pages_arr = explode("\n", $pages);
-
-        if (count($pages_arr) == 0) {
-            return false;
-        }
 
         // check pages
 
@@ -253,6 +250,10 @@ class BlockService extends EntityService
      */
     public function afterDelete(InterfaceEntity $entity_obj): void
     {
+        if (!$entity_obj instanceof Block) {
+            throw new \InvalidArgumentException('BlockService can delete only Block entities');
+        }
+
         $this->deleteBlocksRolesByBlockId($entity_obj->getId());
 
         $this->clearIdsArrByPageRegionIdCache($entity_obj->getPageRegionId(), $entity_obj->getTemplateId());
@@ -354,8 +355,11 @@ class BlockService extends EntityService
      * @param Block $block_obj
      * @return void
      */
-    public function changePositionInRegion(Block $block_obj, $target_weight, $target_region_id): void
+    public function changePositionInRegion(Block $block_obj, int|string $target_weight, int $target_region_id): void
     {
+        $insert_first = $target_weight === Block::BLOCK_WEIGHT_FIRST_IN_REGION;
+        $target_weight_number = is_int($target_weight) ? $target_weight : 0;
+
         $source_region = $block_obj->getPageRegionId();
         $block_obj->setPageRegionId($target_region_id);
 
@@ -368,7 +372,7 @@ class BlockService extends EntityService
 
         $block_inserted = false;
 
-        if ($target_weight == Block::BLOCK_WEIGHT_FIRST_IN_REGION) {
+        if ($insert_first) {
             $arranged_blocks[] = $block_obj;
             $block_inserted = true;
         }
@@ -384,14 +388,14 @@ class BlockService extends EntityService
                 $arranged_blocks[] = $other_block_obj;
             }
 
-            if ($other_block_obj->getWeight() == $target_weight) { // place our block after the block with target weight
+            if ($other_block_obj->getWeight() === $target_weight_number) { // place our block after the block with target weight
                 if (!$block_inserted) {
                     $arranged_blocks[] = $block_obj;
                     $block_inserted = true;
                 }
             }
 
-            if (($target_weight > $last_weight) && ($target_weight < $other_block_obj->getWeight())) {
+            if (($target_weight_number > $last_weight) && ($target_weight_number < $other_block_obj->getWeight())) {
                 // блока с запрошенным весом нет, но есть дырка между блоками: у текущего блока вес больше запрошенного, а у предыдущего - меньше
                 // такое может быть, если блок какой-то перемещался без перебалансировки весов - например, "отключался" со страницы списка блоков
                 // это сработает только если блоки отсортированы по весу, так что обязательно нужно сортировать

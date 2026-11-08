@@ -5,7 +5,7 @@ namespace WebSK\Skif\Content\RequestHandlers;
 use WebSK\Config\ConfWrapper;
 use WebSK\SimpleRouter\SimpleRouter;
 use WebSK\Skif\Content\ContentServiceProvider;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Views\PhpRender;
 use WebSK\Views\ViewsPath;
 
@@ -15,7 +15,7 @@ use WebSK\Views\ViewsPath;
  */
 class ContentListHandler extends BaseHandler
 {
-    public function listAction(string $content_type)
+    public function listAction(string $content_type): ?string
     {
         if (!ConfWrapper::value('content.' . $content_type)) {
             return SimpleRouter::CONTINUE_ROUTING;
@@ -53,5 +53,7 @@ class ContentListHandler extends BaseHandler
                 'description' => ''
             )
         );
+
+        return null;
     }
 }

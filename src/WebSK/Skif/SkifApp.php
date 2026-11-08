@@ -2,7 +2,7 @@
 
 namespace WebSK\Skif;
 
-use Psr\Container\ContainerInterface;
+use DI\Container;
 use Slim\Exception\HttpNotFoundException;
 use Slim\Interfaces\InvocationStrategyInterface;
 use Slim\Interfaces\RouteCollectorProxyInterface;
@@ -34,6 +34,7 @@ use WebSK\Skif\SiteMenu\SiteMenuRoutes;
 use WebSK\Auth\AuthRoutes;
 use Slim\App;
 use WebSK\CRUD\CRUDServiceProvider;
+use WebSK\CRUD\MutableContainerAdapter;
 use WebSK\Captcha\CaptchaRoutes;
 use WebSK\KeyValue\KeyValueRoutes;
 use WebSK\KeyValue\KeyValueServiceProvider;
@@ -47,54 +48,57 @@ use WebSK\Slim\Facade;
  * Class SkifApp
  * @package WebSK\Skif
  */
+/** @extends App<Container> */
 class SkifApp extends App
 {
     const string ROUTE_NAME_ADMIN = 'admin:main';
 
     /**
      * SkifApp constructor.
-     * @param ContainerInterface $container
+     * @param Container $container
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(Container $container)
     {
         parent::__construct(new ResponseFactory(), $container);
 
         $this->registerRouterSettings($container);
 
-        CacheServiceProvider::register($container);
-        SkifServiceProvider::register($container);
-        UserServiceProvider::register($container);
-        AuthServiceProvider::register($container);
-        CRUDServiceProvider::register($container);
-        KeyValueServiceProvider::register($container);
-        LoggerServiceProvider::register($container);
-        ContentServiceProvider::register($container);
-        BlockServiceProvider::register($container);
-        CommentServiceProvider::register($container);
-        FormServiceProvider::register($container);
-        RedirectServiceProvider::register($container);
-        PollServiceProvider::register($container);
-        SiteMenuServiceProvider::register($container);
+        $mutable_container = new MutableContainerAdapter($container);
+
+        CacheServiceProvider::register($mutable_container);
+        SkifServiceProvider::register($mutable_container);
+        UserServiceProvider::register($mutable_container);
+        AuthServiceProvider::register($mutable_container);
+        CRUDServiceProvider::register($mutable_container);
+        KeyValueServiceProvider::register($mutable_container);
+        LoggerServiceProvider::register($mutable_container);
+        ContentServiceProvider::register($mutable_container);
+        BlockServiceProvider::register($mutable_container);
+        CommentServiceProvider::register($mutable_container);
+        FormServiceProvider::register($mutable_container);
+        RedirectServiceProvider::register($mutable_container);
+        PollServiceProvider::register($mutable_container);
+        SiteMenuServiceProvider::register($mutable_container);
 
         /** Set DBWrapper db service */
-        DBWrapper::setDbService(SkifServiceProvider::getDBService($container));
+        DBWrapper::setDbService(SkifServiceProvider::getDBService($mutable_container));
 
-        CacheWrapper::setContainer($container);
+        CacheWrapper::setContainer($mutable_container);
 
         Facade::setFacadeApplication($this);
 
         $this->registerRoutes();
 
-        $display_error_details = $container->get('settings.displayErrorDetails');
+        $display_error_details = $mutable_container->get('settings.displayErrorDetails');
         $error_middleware = $this->addErrorMiddleware($display_error_details, true, true);
         $error_middleware->setDefaultErrorHandler(SkifErrorHandler::class);
         $error_middleware->setErrorHandler(HttpNotFoundException::class, NotFoundHandler::class);
     }
 
     /**
-     * @param ContainerInterface $container
+     * @param Container $container
      */
-    protected function registerRouterSettings(ContainerInterface $container): void
+    protected function registerRouterSettings(Container $container): void
     {
         $route_collector = $this->getRouteCollector();
         $route_collector->setDefaultInvocationStrategy($container->get(InvocationStrategyInterface::class));
@@ -107,6 +111,7 @@ class SkifApp extends App
     {
         $this->get('/admin', AdminHandler::class)
             ->setName(self::ROUTE_NAME_ADMIN);
+        $this->get('/admin/', AdminHandler::class);
 
         $this->group('/admin', function (RouteCollectorProxyInterface $route_collector_proxy) {
             KeyValueRoutes::registerAdmin($route_collector_proxy);
@@ -128,8 +133,6 @@ class SkifApp extends App
         FormRoutes::register($this);
         PollRoutes::register($this);
         SiteMenuRoutes::register($this);
-        ContentRoutes::register($this);
-
         ContentRoutes::registerSimpleRoute($this);
         FormRoutes::registerSimpleRoute($this);
         RedirectRoutes::registerSimpleRoute($this);

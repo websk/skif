@@ -25,7 +25,7 @@ $config = require_once $config_path;
 
 $configuration = new Configuration();
 $configuration->setDefinitions([$config]);
-$configuration->setUseAnnotations(true);
+$configuration->setUseAttributes(true);
 
 $container = ContainerBuilder::build($configuration);
 $container->set(ServerRequestInterface::class, function () {

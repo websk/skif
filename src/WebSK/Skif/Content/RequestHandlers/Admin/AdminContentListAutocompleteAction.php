@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Skif\Content\ContentService;
 use WebSK\Skif\Content\ContentTypeService;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Slim\Response;
 
 /**
@@ -17,10 +17,10 @@ class AdminContentListAutocompleteAction extends BaseHandler
 {
     const string PARAM_TERM = 'term';
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected ContentTypeService $content_type_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected ContentService $content_service;
 
     /**
@@ -30,7 +30,7 @@ class AdminContentListAutocompleteAction extends BaseHandler
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $term = $request->getParam(self::PARAM_TERM);
+        $term = \WebSK\CRUD\RequestParams::query($request, self::PARAM_TERM);
 
         $content_ids_arr = $this->content_service->getIdsArrByTitle($term);
 

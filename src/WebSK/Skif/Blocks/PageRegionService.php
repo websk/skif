@@ -6,7 +6,7 @@ use WebSK\Auth\Auth;
 use WebSK\Cache\CacheWrapper;
 use WebSK\Entity\EntityService;
 use WebSK\Entity\InterfaceEntity;
-use WebSK\Logger\Logger;
+use WebSK\Skif\Logger;
 use WebSK\Utils\FullObjectId;
 
 
@@ -14,12 +14,12 @@ class PageRegionService extends EntityService
 {
 
     /** @var PageRegionRepository */
-    protected $repository;
+    protected \WebSK\Entity\EntityRepository $repository;
 
     /**
      * @param int|null $entity_id
      * @param bool $exception_if_not_loaded
-     * @return PageRegion|InterfaceEntity|null
+     * @return PageRegion|null
      * @throws \Exception
      */
     public function getById(?int $entity_id, bool $exception_if_not_loaded = true): ?PageRegion
@@ -32,15 +32,14 @@ class PageRegionService extends EntityService
             return $obj;
         }
 
-        return parent::getById($entity_id, $exception_if_not_loaded);
+        $page_region = parent::getById($entity_id, $exception_if_not_loaded);
+        if ($page_region !== null && !$page_region instanceof PageRegion) {
+            throw new \UnexpectedValueException('PageRegionService returned an incompatible entity');
+        }
+
+        return $page_region;
     }
 
-    /**
-     * @param string $name
-     * @param int $template_id
-     * @return bool|false|mixed
-     * @throws \Exception
-     */
     public function getIdByNameAndTemplateId(string $name, int $template_id): int
     {
         $cache_key = self::getIdByNameAndTemplateIdCacheKey($name, $template_id);
@@ -70,7 +69,7 @@ class PageRegionService extends EntityService
     /**
      * Массив PageRegionId для темы
      * @param int $template_id
-     * @return array
+     * @return list<int>
      */
     public function getIdsArrByTemplateId(int $template_id): array
     {
@@ -92,6 +91,10 @@ class PageRegionService extends EntityService
      */
     public function afterSave(InterfaceEntity $entity_obj): void
     {
+        if (!$entity_obj instanceof PageRegion) {
+            throw new \InvalidArgumentException('PageRegionService can save only PageRegion entities');
+        }
+
         $cache_key = $this->getIdByNameAndTemplateIdCacheKey(
             $entity_obj->getName(),
             $entity_obj->getTemplateId()
@@ -108,6 +111,10 @@ class PageRegionService extends EntityService
      */
     public function afterDelete(InterfaceEntity $entity_obj): void
     {
+        if (!$entity_obj instanceof PageRegion) {
+            throw new \InvalidArgumentException('PageRegionService can delete only PageRegion entities');
+        }
+
         $cache_key = $this->getIdByNameAndTemplateIdCacheKey(
             $entity_obj->getName(),
             $entity_obj->getTemplateId()

@@ -15,7 +15,7 @@ class SiteMenuItemRepository extends WeightRepository
     /**
      * @param int $site_menu_id
      * @param null|int $parent_id
-     * @return array
+     * @return list<int>
      */
     public function findIdsArrBySiteMenuId(int $site_menu_id, ?int $parent_id = null): array
     {

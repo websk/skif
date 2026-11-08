@@ -1,6 +1,6 @@
 <?php
 /**
- * @var array $comments_ids_arr
+ * @var list<int> $comments_ids_arr
  * @var string $url
  * @var null|User $current_user_obj
  * @var bool $current_user_is_admin
@@ -16,7 +16,7 @@ use WebSK\Skif\Comment\RequestHandlers\Admin\AdminCommentEditHandler;
 use WebSK\Skif\Comment\RequestHandlers\Admin\AdminCommentListHandler;
 use WebSK\Skif\Comment\RequestHandlers\CommentCreateHandler;
 use WebSK\Skif\Comment\RequestHandlers\CommentListHandler;
-use WebSK\Slim\Router;
+use WebSK\Skif\Router;
 
 ?>
     <script type="text/javascript">
@@ -24,12 +24,12 @@ use WebSK\Slim\Router;
         if ($current_user_obj) {
         ?>
         $().ready(function () {
-            $('.add_answer').bind('click', function () {
+            $('.add_answer').on('click', function () {
                 $(this).before('<form method="post" action="<?php echo Router::urlFor(CommentCreateHandler::class); ?>" id="comment_form_answer">'
-                    + '<div class="form-group"><textarea name="comment" class="form-control"></textarea></div>'
+                    + '<div class="mb-3"><textarea name="comment" class="form-control"></textarea></div>'
                     + '<input type="hidden" name="url" value="<?php echo $url ?>">'
                     + '<input type="hidden" name="parent_id" value="' + $(this).attr('href').substring(8) + '">'
-                    + '<div class="form-group"><input type="submit" value="Отправить сообщение" class="btn btn-default btn-sm"></div>'
+                    + '<div class="mb-3"><input type="submit" value="Отправить сообщение" class="btn btn-outline-secondary btn-sm"></div>'
                     + '</form>'
                 );
                 $(this).remove();
@@ -38,7 +38,7 @@ use WebSK\Slim\Router;
         <?php
         }
         ?>
-        $('#comment_pager li').bind('click', function () {
+        $('#comment_pager li').on('click', function () {
             $.ajax(
                 {
                     url: "<?php echo Router::urlFor(CommentListHandler::class); ?>",
@@ -59,22 +59,22 @@ use WebSK\Slim\Router;
 foreach ($comments_ids_arr as $comment_id) {
     $comment_obj = $comment_service->getById($comment_id);
     ?>
-    <div class="panel panel-default comment">
-        <div class="panel-heading">
+    <article class="card card-secondary card-outline comment mb-3">
+        <div class="card-body">
             <?php echo nl2br($comment_obj->getComment()); ?>
 
             <?php
             if ($current_user_is_admin) {
-                echo '<div class="pull-right">';
+                echo '<div class="float-end">';
 
                 echo '<a href="'
                     . Router::urlFor(AdminCommentEditHandler::class, ['comment_id' => $comment_id], ['destination' => $url . '#comments'])
-                    . '" class="btn btn-default btn-sm"><span class="fa fa-edit fa-lg text-warning fa-fw"></span></a>';
+                    . '" class="btn btn-outline-secondary btn-sm"><span class="fa fa-edit fa-lg text-warning fa-fw"></span></a>';
 
                 echo (
                         new CRUDTableWidgetDelete(
                             '',
-                            'btn btn-default btn-sm',
+                            'btn btn-outline-secondary btn-sm',
                             $url . '#comments',
                             Router::urlFor(AdminCommentListHandler::class)
                         )
@@ -84,7 +84,7 @@ foreach ($comments_ids_arr as $comment_id) {
             }
             ?>
 
-            <div class="text-muted">
+            <div class="text-body-secondary mt-2">
                 <small><?php echo $comment_service->getUserName($comment_obj) ?>, <?= date('d.m.Y', $comment_obj->getCreatedAtTs()) ?>
                     <?php
                     if ($current_user_is_admin && $comment_service->getUserEmail($comment_obj)) {
@@ -98,7 +98,7 @@ foreach ($comments_ids_arr as $comment_id) {
         $children_comments_ids_arr = $comment_service->getChildrenIdsArr($comment_obj->getId());
 
         if ($children_comments_ids_arr) {
-            echo '<div class="panel-body">';
+            echo '<div class="card-footer bg-body-tertiary">';
         }
 
         foreach ($children_comments_ids_arr as $children_comment_id) {
@@ -110,16 +110,16 @@ foreach ($comments_ids_arr as $comment_id) {
                 continue;
             }
 
-            echo '<div class="pull-right">';
+            echo '<div class="float-end">';
 
             echo '<a href="'
                 . Router::urlFor(AdminCommentEditHandler::class, ['comment_id' => $children_comment_id], ['destination' => $url . '#comments'])
-                . '" class="btn btn-default btn-sm"><span class="fa fa-edit fa-lg text-warning fa-fw"></span></a>';
+                . '" class="btn btn-outline-secondary btn-sm"><span class="fa fa-edit fa-lg text-warning fa-fw"></span></a>';
 
             echo (
                     new CRUDTableWidgetDelete(
                         '',
-                        'btn btn-default btn-sm',
+                        'btn btn-outline-secondary btn-sm',
                         $url . '#comments',
                         Router::urlFor(AdminCommentListHandler::class)
                     )
@@ -134,12 +134,12 @@ foreach ($comments_ids_arr as $comment_id) {
 
         if ($current_user_is_admin || ($current_user_obj && ($comment_obj->getUserId() == $current_user_obj->getId()))) {
             ?>
-            <div class="text-left" style="margin: 5px">
-                <a href="#comment<?php echo $comment_obj->getId(); ?>" class="btn btn-default btn-sm add_answer">Ответить</a>
+            <div class="card-footer bg-transparent">
+                <a href="#comment<?php echo $comment_obj->getId(); ?>" class="btn btn-outline-secondary btn-sm add_answer">Ответить</a>
             </div>
             <?php
         }
         ?>
-    </div>
+    </article>
     <?php
 }

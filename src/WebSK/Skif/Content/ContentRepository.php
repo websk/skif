@@ -29,7 +29,7 @@ class ContentRepository extends EntityRepository
 
     /**
      * @param string $title
-     * @return array
+     * @return list<int>
      */
     public function findIdsByTitle(string $title): array
     {
@@ -48,7 +48,7 @@ class ContentRepository extends EntityRepository
      * @param int $content_type_id
      * @param int $limit_to_page
      * @param int $page
-     * @return array
+     * @return list<int>
      */
     public function findIdsByContentTypeId(int $content_type_id, int $limit_to_page = 0, int $page = 1): array
     {
@@ -74,7 +74,7 @@ class ContentRepository extends EntityRepository
      * @param int $content_type_id
      * @param int $limit_to_page
      * @param int $page
-     * @return array
+     * @return list<int>
      */
     public function findPublishedIdsByContentTypeId(int $content_type_id, int $limit_to_page = 0, int $page = 1): array
     {

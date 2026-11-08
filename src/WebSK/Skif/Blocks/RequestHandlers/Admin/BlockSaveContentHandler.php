@@ -8,17 +8,17 @@ use Psr\Http\Message\ServerRequestInterface;
 use WebSK\Skif\Blocks\BlockRole;
 use WebSK\Skif\Blocks\BlockRoleService;
 use WebSK\Skif\Blocks\BlockService;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Utils\Messages;
 
 class BlockSaveContentHandler extends BaseHandler
 {
     use CurrentTemplateIdTrait;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected BlockService $block_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected BlockRoleService $block_role_service;
 
     /**
@@ -32,16 +32,16 @@ class BlockSaveContentHandler extends BaseHandler
 
         $block_obj = $this->block_service->getById($block_id);
 
-        $title = $request->getParam('title', '');
+        $title = \WebSK\CRUD\RequestParams::parsedBody($request, 'title', '');
         $block_obj->setTitle($title);
 
-        $body = $request->getParam('body','');
+        $body = \WebSK\CRUD\RequestParams::parsedBody($request, 'body','');
         $block_obj->setBody($body);
 
-        $format = $request->getParam('format', 3);
+        $format = \WebSK\CRUD\RequestParams::parsedBody($request, 'format', 3);
         $block_obj->setFormat($format);
 
-        $pages = $request->getParam('pages', '+ ^');
+        $pages = \WebSK\CRUD\RequestParams::parsedBody($request, 'pages', '+ ^');
         $block_obj->setPages($pages);
 
         $is_new = !$block_obj->getId();
@@ -57,7 +57,7 @@ class BlockSaveContentHandler extends BaseHandler
         // Roles
         $this->block_service->deleteBlocksRolesByBlockId($block_id);
 
-        $roles_ids_arr = $request->getParam('roles', []);
+        $roles_ids_arr = \WebSK\CRUD\RequestParams::parsedBody($request, 'roles', []);
         foreach ($roles_ids_arr as $role_id) {
             $block_role_obj = new BlockRole();
             $block_role_obj->setRoleId($role_id);
@@ -73,10 +73,14 @@ class BlockSaveContentHandler extends BaseHandler
         Messages::setMessage('Изменения сохранены');
 
         // Redirects
-        $redirect_to_on_success = $request->getParam('_redirect_to_on_success', '');
+        $redirect_to_on_success = \WebSK\CRUD\RequestParams::parsedBody($request, '_redirect_to_on_success', '');
         if ($redirect_to_on_success) {
             if (str_contains($redirect_to_on_success, 'block_id')) {
-                $redirect_to_on_success = str_replace('block_id', $block_obj->getId(), $redirect_to_on_success);
+                $saved_block_id = $block_obj->getId();
+                if ($saved_block_id === null) {
+                    throw new \UnexpectedValueException('Saved block has no ID');
+                }
+                $redirect_to_on_success = str_replace('block_id', (string)$saved_block_id, $redirect_to_on_success);
             }
 
             return $response->withHeader('Location', $redirect_to_on_success)

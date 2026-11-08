@@ -11,7 +11,7 @@
 
 /* global define, require */
 
-(function(factory) {
+(function (factory) {
   'use strict';
   if (typeof define === 'function' && define.amd) {
     // Register as an anonymous AMD module:
@@ -23,7 +23,7 @@
     // Browser globals:
     factory(window.jQuery);
   }
-})(function($) {
+})(function ($) {
   'use strict';
 
   // Append to the default processQueue:
@@ -57,7 +57,7 @@
             */
 
       // Function returning the current number of files,
-      // has to be overriden for maxNumberOfFiles validation:
+      // has to be overridden for maxNumberOfFiles validation:
       getNumberOfFiles: $.noop,
 
       // Error and info messages:
@@ -70,7 +70,7 @@
     },
 
     processActions: {
-      validate: function(data, options) {
+      validate: function (data, options) {
         if (options.disabled) {
           return data;
         }

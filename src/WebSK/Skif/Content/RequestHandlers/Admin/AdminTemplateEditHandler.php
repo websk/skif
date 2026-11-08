@@ -11,7 +11,7 @@ use WebSK\CRUD\Form\Widgets\CRUDFormWidgetInput;
 use WebSK\Skif\Content\Template;
 use WebSK\Skif\Content\TemplateService;
 use WebSK\Skif\SkifPath;
-use WebSK\Slim\RequestHandlers\BaseHandler;
+use WebSK\Skif\RequestHandlers\BaseHandler;
 use WebSK\Views\BreadcrumbItemDTO;
 use WebSK\Views\LayoutDTO;
 use WebSK\Views\PhpRender;
@@ -22,10 +22,10 @@ use WebSK\Views\PhpRender;
  */
 class AdminTemplateEditHandler extends BaseHandler
 {
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected CRUD $crud_service;
 
-    /** @Inject */
+    #[\DI\Attribute\Inject]
     protected TemplateService $template_service;
 
     /**
